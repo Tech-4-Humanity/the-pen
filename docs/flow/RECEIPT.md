@@ -33,10 +33,31 @@ This receipt is durable because it is:
 - attributable by commit SHA
 - retrievable later even if chat context is gone
 
+## Maintenance rules
+This receipt must be maintained whenever FLOW docs are changed, added, moved, or replaced in this repository.
+
+### Maintenance policy
+- If any FLOW document in `docs/flow/` is updated, this receipt must be updated in the same change set.
+- If a new FLOW document is added, it must be listed here with path and commit SHA.
+- If a FLOW document is removed or superseded, this receipt must reflect that change.
+- If source repo or target repo changes, this receipt must be updated.
+- If runtime implementation is later completed, a separate implementation receipt should be added rather than overloading this dispatch receipt.
+
+### Required fields to maintain
+For every dispatched document, keep:
+- file path
+- latest commit SHA
+- status if superseded or replaced
+
+### Enforcement intent
+This file is the canonical proof of dispatch for FLOW documentation into Pen.
+It should stay current so later readers do not need chat history to know what was sent and what version is present.
+
 ## Status
 - FLOW docs reposted to Pen: YES
 - Stored in repo history: YES
 - Human-readable receipt: YES
+- Maintenance rule added: YES
 
 ## Notes
 This receipt proves dispatch of documentation.
