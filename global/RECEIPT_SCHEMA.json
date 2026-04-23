@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "required": [
+    "request_id",
+    "status",
+    "repo",
+    "commit_sha",
+    "files",
+    "timestamp_utc"
+  ],
+  "properties": {
+    "request_id": { "type": "string" },
+    "status": { "type": "string", "enum": ["REAL", "PARTIAL", "FAILED"] },
+    "repo": { "type": "string" },
+    "commit_sha": { "type": "string" },
+    "files": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "actor": { "type": "string" },
+    "execution_path": { "type": "string" },
+    "timestamp_utc": { "type": "string" }
+  }
+}
