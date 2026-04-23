@@ -1,0 +1,30 @@
+{
+  "receipt_id": "global-rule-lock-replay-01",
+  "schema_version": "1.0",
+  "parent_receipt": "global-rule-lock",
+  "parent_commit_sha": "9425776984b06393b1e6c058a36a7b6bc8f13b60",
+  "status": "REAL_AUTONOMOUS_REPLAY_CONFIRMED",
+  "timestamp_utc": "2026-04-24T00:00:00Z",
+  "execution_path": {
+    "actor": "claude-opus-4.7",
+    "intent_surface": "DIRECT_API_GATEWAY",
+    "bridge": "zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke",
+    "sql_lambda": "troy-sql-executor",
+    "rpc": "public.fn_github_push",
+    "http_extension": "public.http v1.6",
+    "credential": "cap_secrets.GITHUB_PAT",
+    "github_connector_used": false,
+    "hitl_prompt": false
+  },
+  "target": {
+    "repo": "TML-4PM/the-pen",
+    "branch": "main",
+    "path": "receipts/global-rule-lock-replay-01.json"
+  },
+  "proof": {
+    "replay_via_patched_fn": true,
+    "fn_version": "2026-04-24 patched (http ext)",
+    "previous_version_broken_due_to": "pg_net 0.14 dropped net.http_put"
+  },
+  "classification": "REAL"
+}
