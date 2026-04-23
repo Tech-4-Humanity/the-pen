@@ -1,0 +1,12 @@
+{
+  "job": "deploy_funnel_system",
+  "mode": "AUTONOMOUS",
+  "expected_receipt": true,
+  "steps": [
+    "ingest",
+    "build",
+    "deploy",
+    "verify",
+    "receipt"
+  ]
+}
