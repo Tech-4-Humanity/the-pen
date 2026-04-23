@@ -1,0 +1,57 @@
+{
+  "request_id": "req-2026-04-24-0001",
+  "task_id": "pen-execution-contract-bootstrap",
+  "timestamp_utc": "2026-04-23T23:30:00Z",
+  "source": "chatgpt-autonomous-execution",
+  "contract_paths": [
+    "prompts/execution-contract-end-state.md",
+    "system/no-hitl-execution-header.txt",
+    "receipts/schema/runtime-receipt.schema.json"
+  ],
+  "input_hash": "hash-of-execution-contract-thread",
+  "outputs": [
+    {
+      "type": "file",
+      "uri": "prompts/execution-contract-end-state.md",
+      "description": "Execution contract"
+    },
+    {
+      "type": "file",
+      "uri": "system/no-hitl-execution-header.txt",
+      "description": "No-HITL header"
+    },
+    {
+      "type": "file",
+      "uri": "receipts/schema/runtime-receipt.schema.json",
+      "description": "Receipt schema"
+    }
+  ],
+  "logs": [
+    {
+      "type": "git-commit",
+      "uri": "16d41b8685e20687e1e7945681d172692235c6b9",
+      "description": "Execution contract commit"
+    },
+    {
+      "type": "git-commit",
+      "uri": "65e8310e8eb47fdb51011fe341edecd8f1984d4b",
+      "description": "Header commit"
+    },
+    {
+      "type": "git-commit",
+      "uri": "979c475045b30a094a0b26483ca4ba8294433c09",
+      "description": "Schema commit"
+    }
+  ],
+  "status": "PASS",
+  "reality_classification": "PARTIAL",
+  "evidence": [
+    "Git commits created",
+    "Schema defined",
+    "Receipt stored"
+  ],
+  "recovery": {
+    "required": true,
+    "action": "Execute a real Pen task and produce runtime logs to upgrade to REAL"
+  }
+}
