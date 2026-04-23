@@ -1,0 +1,25 @@
+{
+  "request_id": "global-rule-bootstrap-connector",
+  "status": "PARTIAL",
+  "reality_ledger_state": "PARTIAL_NON_AUTONOMOUS",
+  "repo": "TML-4PM/the-pen",
+  "commit_sha": "c887c4846fb5dc770df7a6bb4b3bf3c079fcfb9e",
+  "files": [
+    "global/GLOBAL_RULE.md"
+  ],
+  "actor": "ChatGPT via GitHub connector",
+  "execution_path": "api_tool GitHub connector create_file",
+  "policy_result": "GLOBAL_RULE document created, but write path bypassed the newly defined MCP-only rule",
+  "required_next_execution_path": "ANY ACTOR -> MCP BRIDGE -> troy-code-pusher -> GitHub PAT -> RECEIPT",
+  "next_required_files": [
+    "global/ACTOR_COMPLIANCE.md",
+    "global/MCP_EXECUTION_CONTRACT.md",
+    "global/RECEIPT_SCHEMA.json",
+    "global/actor_prompts/chatgpt.md",
+    "global/actor_prompts/claude.md",
+    "global/actor_prompts/perplexity.md",
+    "global/actor_prompts/grok.md",
+    "global/actor_prompts/gemini.md"
+  ],
+  "timestamp_utc": "2026-04-24T00:00:00Z"
+}
