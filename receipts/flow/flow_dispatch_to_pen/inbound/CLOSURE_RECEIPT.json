@@ -1,0 +1,14 @@
+{
+  "receipt_type": "closure",
+  "direction": "inbound",
+  "system": "FLOW",
+  "job_key": "flow_dispatch_to_pen",
+  "sender": "Pen",
+  "receiver": "Receipt Registry",
+  "status": "PENDING",
+  "closed": false,
+  "closed_at_utc": null,
+  "closure_proof": [],
+  "notes": "Pen records completion proof here.",
+  "search_tags": ["FLOW", "closure", "inbound", "pen", "pending"]
+}
