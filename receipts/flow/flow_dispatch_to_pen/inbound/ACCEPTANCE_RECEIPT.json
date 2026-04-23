@@ -1,0 +1,17 @@
+{
+  "receipt_type": "acceptance",
+  "direction": "inbound",
+  "system": "FLOW",
+  "job_key": "flow_dispatch_to_pen",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "Pen",
+  "receiver": "Receipt Registry",
+  "status": "PENDING",
+  "accepted": false,
+  "accepted_at_utc": null,
+  "accepted_by": null,
+  "documents_reviewed": [],
+  "notes": "Pen writes back here when the FLOW job is accepted or picked up.",
+  "search_tags": ["FLOW", "acceptance", "inbound", "pen", "pending"]
+}
