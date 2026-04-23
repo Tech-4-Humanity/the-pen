@@ -1,0 +1,15 @@
+{
+  "receipt_type": "runtime",
+  "direction": "inbound",
+  "system": "FLOW",
+  "job_key": "flow_dispatch_to_pen",
+  "sender": "Pen",
+  "receiver": "Receipt Registry",
+  "status": "PENDING",
+  "ran": false,
+  "runs": [],
+  "evidence": [],
+  "errors": [],
+  "notes": "Pen records runtime execution proof here.",
+  "search_tags": ["FLOW", "runtime", "inbound", "pen", "pending"]
+}
