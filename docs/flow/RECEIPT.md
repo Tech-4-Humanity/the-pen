@@ -2,6 +2,12 @@
 
 This file is the permanent receipt that FLOW documentation was dispatched into `TML-4PM/the-pen`.
 
+## Canonical records
+- Human-readable: `docs/flow/RECEIPT.md`
+- Machine-readable: `docs/flow/RECEIPT.json`
+
+The JSON file is the canonical processable record for automation, search, and repeatability.
+
 ## Target repository
 - `TML-4PM/the-pen`
 
@@ -50,13 +56,14 @@ For every dispatched document, keep:
 - status if superseded or replaced
 
 ### Enforcement intent
-This file is the canonical proof of dispatch for FLOW documentation into Pen.
-It should stay current so later readers do not need chat history to know what was sent and what version is present.
+This file is the canonical human-readable proof of dispatch for FLOW documentation into Pen.
+The JSON file is the canonical machine-readable proof.
 
 ## Status
 - FLOW docs reposted to Pen: YES
 - Stored in repo history: YES
 - Human-readable receipt: YES
+- Machine-readable receipt: YES
 - Maintenance rule added: YES
 
 ## Notes
