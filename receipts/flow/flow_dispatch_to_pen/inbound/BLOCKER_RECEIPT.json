@@ -1,0 +1,14 @@
+{
+  "receipt_type": "blocker",
+  "direction": "inbound",
+  "system": "FLOW",
+  "job_key": "flow_dispatch_to_pen",
+  "sender": "Pen",
+  "receiver": "Receipt Registry",
+  "status": "PENDING",
+  "blocked": false,
+  "blockers": [],
+  "resolution_required": [],
+  "notes": "Pen records blockers here if the job cannot complete.",
+  "search_tags": ["FLOW", "blocker", "inbound", "pen", "pending"]
+}
