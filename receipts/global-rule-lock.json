@@ -1,0 +1,44 @@
+{
+  "receipt_id": "global-rule-lock",
+  "schema_version": "1.0",
+  "status": "REAL_AUTONOMOUS",
+  "transition": {
+    "from": "PARTIAL_NON_AUTONOMOUS",
+    "to": "REAL_AUTONOMOUS"
+  },
+  "timestamp_utc": "2026-04-24T00:00:00Z",
+  "execution_path": {
+    "actor": "troy-terminal+claude-opus-4.7",
+    "intent_surface": "DIRECT_API_GATEWAY",
+    "bridge": "zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke",
+    "function": "troy-code-pusher",
+    "credential": "GITHUB_PAT",
+    "github_connector_used": false,
+    "hitl_prompt": false,
+    "direct_github_access": false
+  },
+  "target": {
+    "repo": "TML-4PM/the-pen",
+    "branch": "main",
+    "path": "receipts/global-rule-lock.json"
+  },
+  "enforcement": {
+    "global_rule": "global/GLOBAL_RULE.md",
+    "contract": "global/MCP_EXECUTION_CONTRACT.md",
+    "actor_compliance": "global/ACTOR_COMPLIANCE.md",
+    "schema": "global/RECEIPT_SCHEMA.json",
+    "global_rule_sha": "7ebab644cee1f7581a4cad19a3a65d739b6492f0"
+  },
+  "proof": {
+    "function_callable": true,
+    "mcp_invoke": true,
+    "pat_auth": true,
+    "write_path": "DIRECT_API_GATEWAY -> troy-code-pusher -> GITHUB_PAT -> REPO"
+  },
+  "system_state": {
+    "architecture_level": 41,
+    "wave_target": 20,
+    "type": "GLOBAL_ENFORCEMENT_LOCK"
+  },
+  "classification": "REAL"
+}
