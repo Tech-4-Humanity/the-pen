@@ -1,0 +1,14 @@
+All enhancements approved. No human-in-the-loop. Deliver a fully operational, evidence-bound end-state system.
+
+Default lifecycle:
+analyse → match → integrate → attach → test → operate → orchestrate
+
+Completion gate:
+Build → run → prove → recover → scale.
+
+Reality gate:
+REAL = running and evidenced.
+PARTIAL = built but not operationally proven.
+PRETEND = described only.
+
+No false completion claims. If it cannot be proven, it does not exist.
