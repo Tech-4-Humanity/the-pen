@@ -1,0 +1,61 @@
+{
+  "receipt_type": "flow_dispatch_receipt",
+  "target_repository": "TML-4PM/the-pen",
+  "source_repository": "TML-4PM/mcp-command-centre",
+  "receipt_path": "docs/flow/RECEIPT.md",
+  "machine_receipt_path": "docs/flow/RECEIPT.json",
+  "status": "ACTIVE",
+  "search_tags": [
+    "FLOW",
+    "receipt",
+    "dispatch",
+    "the-pen",
+    "docs/flow",
+    "processable",
+    "repeatable"
+  ],
+  "documents": [
+    {
+      "name": "README",
+      "path": "docs/flow/README.md",
+      "commit_sha": "1582403804f3ddaa852b4f4b77e9c9d6a137cc1f",
+      "status": "ACTIVE"
+    },
+    {
+      "name": "FLOW_IMPLEMENTATION",
+      "path": "docs/flow/FLOW_IMPLEMENTATION.md",
+      "commit_sha": "09932e192345e53567883fa7117aaa1fe7235141",
+      "status": "ACTIVE"
+    },
+    {
+      "name": "FLOW_AUTONOMY_PROFILES",
+      "path": "docs/flow/FLOW_AUTONOMY_PROFILES.md",
+      "commit_sha": "849fd4751be48256f5196bee7c4512df10a5e108",
+      "status": "ACTIVE"
+    },
+    {
+      "name": "RECEIPT",
+      "path": "docs/flow/RECEIPT.md",
+      "commit_sha": "61007c39bacfcd04cb356406b477e3534668e867",
+      "status": "ACTIVE"
+    }
+  ],
+  "maintenance_rules": {
+    "update_receipt_on_doc_change": true,
+    "update_receipt_on_doc_add": true,
+    "update_receipt_on_doc_remove": true,
+    "keep_latest_commit_sha": true,
+    "maintain_search_tags": true,
+    "write_same_change_set": true,
+    "create_separate_runtime_receipt": true
+  },
+  "repeatable_process": {
+    "step_1": "write or update FLOW docs in target repo",
+    "step_2": "update RECEIPT.md human-readable summary",
+    "step_3": "update RECEIPT.json machine-readable record",
+    "step_4": "record latest commit SHAs for all tracked docs",
+    "step_5": "preserve ACTIVE or SUPERSEDED status per document"
+  },
+  "notes": "This proves documentation dispatch and makes the receipt searchable and processable. It does not prove runtime implementation or deployment.",
+  "version": "1.0"
+}
