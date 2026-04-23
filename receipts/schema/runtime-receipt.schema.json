@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TML-4PM/the-pen/receipts/schema/runtime-receipt.schema.json",
+  "title": "The Pen Runtime Receipt",
+  "type": "object",
+  "required": [
+    "request_id",
+    "task_id",
+    "timestamp_utc",
+    "source",
+    "contract_paths",
+    "input_hash",
+    "outputs",
+    "logs",
+    "status",
+    "reality_classification",
+    "evidence",
+    "recovery"
+  ],
+  "properties": {
+    "request_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "source": { "type": "string" },
+    "contract_paths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "input_hash": { "type": "string" },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "uri"],
+        "properties": {
+          "type": { "type": "string" },
+          "uri": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "logs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "uri"],
+        "properties": {
+          "type": { "type": "string" },
+          "uri": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "status": { "type": "string", "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "reality_classification": { "type": "string", "enum": ["REAL", "PARTIAL", "PRETEND"] },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "recovery": {
+      "type": "object",
+      "required": ["required", "action"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "action": { "type": "string" }
+      }
+    }
+  }
+}
