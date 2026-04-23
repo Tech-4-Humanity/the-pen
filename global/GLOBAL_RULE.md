@@ -1,12 +1,27 @@
 # GLOBAL_RULE.md
 ## Tech 4 Humanity — Autonomous Execution Doctrine (GitHub Control Layer)
 
+**Version**: 2.0 (2026-04-24 — path corrected to match runtime)
+**Status**: ACTIVE — ENFORCED — PERMANENT
+
+---
+
+## DOCUMENT HIERARCHY (read in order)
+
+1. **GLOBAL_RULE.md** — this file. The immutable law.
+2. **MCP_EXECUTION_CONTRACT.md** — the payload envelope and call shape.
+3. **ENFORCEMENT_LIVE.md** — the verified working runtime + troubleshooting.
+4. **ACTOR_COMPLIANCE.md** — behaviour standard for AI actors.
+5. **RECEIPT_SCHEMA.json** — the receipt format.
+
+If any doc disagrees with ENFORCEMENT_LIVE.md, ENFORCEMENT_LIVE wins — it is tied to runtime evidence. Raise a PR to the losing doc.
+
 ---
 
 ## GLOBAL RULE (NON-NEGOTIABLE)
 
-All AI-generated actions are **intent only**.  
-All execution occurs via **MCP Bridge using controlled functions**.  
+All AI-generated actions are **intent only**.
+All execution occurs via **MCP Bridge using controlled functions**.
 Direct system access is **forbidden**.
 
 ---
@@ -20,10 +35,11 @@ This includes:
 - Perplexity
 - Grok
 - Claude
+- Gemini
 - Scripts
 - Local machines
-- Connectors
-- UI actions
+- UI "Create file" buttons
+- GitHub connectors (ChatGPT / Claude / Perplexity / Grok / Gemini)
 
 ---
 
@@ -34,18 +50,23 @@ All repository operations MUST follow:
 ```text
 ANY ACTOR
     ↓
-MCP BRIDGE
+MCP Bridge (https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke)
     ↓
-troy-intent-normalizer (optional)
+troy-sql-executor   [controlled function]
     ↓
-troy-code-pusher
+public.fn_github_push(repo, path, content, message, branch)   [plpgsql, SECURITY DEFINER]
     ↓
-GitHub (PAT Auth)
+public.http(PUT) via http extension v1.6   [reads cap_secrets.GITHUB_PAT server-side]
     ↓
-RECEIPT (Git + Supabase)
+GitHub API
+    ↓
+RECEIPT (Git commit + Supabase t4h_canonical_changes entry)
 ```
 
-No alternative paths exist.
+No alternative paths exist. See `ENFORCEMENT_LIVE.md` for call examples and error modes.
+
+### Historical note
+Earlier drafts of this rule named `troy-code-pusher` as the controlled function. That was incorrect — `troy-code-pusher` is a Lambda **code updater**, not a GitHub file writer. The registry now flags this. Do not re-introduce that path.
 
 ---
 
@@ -55,18 +76,21 @@ All actors MUST emit, or be normalized to:
 
 ```json
 {
-  "action": "invoke_function",
-  "function_name": "troy-code-pusher",
+  "fn": "troy-sql-executor",
   "payload": {
-    "repo": "TML-4PM/the-pen",
-    "branch": "main",
-    "files": [],
-    "commit_message": "auto: execution"
+    "sql": "SELECT public.fn_github_push('TML-4PM/<repo>', '<path>', '<content>', '<commit message>', '<branch>') AS result;"
   }
 }
 ```
 
-Invalid payloads are rejected.
+POSTed to the bridge URL above with header `x-api-key: <bridge key from cap_secrets>`.
+
+`<content>` is the raw file text (no base64 needed — `fn_github_push` base64-encodes internally).
+`<branch>` defaults to `main` if omitted.
+
+Returns `{success, status, path, content_sha, commit_sha, html_url}` as jsonb.
+
+Invalid payloads (bad SQL, missing token, unauthorised repo) are rejected by the function.
 
 ---
 
@@ -74,33 +98,35 @@ Invalid payloads are rejected.
 
 The following are permanently disallowed:
 
-- GitHub UI “Create File”
-- OAuth-based GitHub Apps in interactive write mode
-- ChatGPT GitHub connector direct writes
-- Perplexity GitHub connector direct writes
-- Grok integrations with direct write access
-- Claude direct GitHub write connectors
-- Any direct REST API calls from AI tools to GitHub
+- GitHub UI "Create File" / "Edit File" actions by AI actors
+- OAuth-based GitHub Apps in interactive write mode by AI actors
+- ChatGPT / Claude / Perplexity / Grok / Gemini GitHub connectors for writes
+- Direct REST calls from AI tools to `api.github.com`
+- `git push` from a local machine driven by an AI actor
+
+Human use of the GitHub UI is not governed by this rule, but is still discouraged for anything tracked in the registry.
 
 ---
 
 ## 5. ENFORCEMENT LAYER
 
-Inside MCP Bridge:
+Inside MCP Bridge (pseudocode):
 
 ```javascript
-if (request.destination === "github" && request.source !== "troy-code-pusher") {
+if (request.destination === "github" && request.controlled_fn !== "fn_github_push") {
   throw new Error("BLOCKED: Direct GitHub access is not permitted");
 }
 ```
+
+The real enforcement is structural: the only path through the bridge that reaches GitHub is via `troy-sql-executor` → `fn_github_push`. No other Lambda in the registry has GitHub write capability.
 
 ---
 
 ## 6. CREDENTIAL ISOLATION
 
 GitHub PATs are stored ONLY in:
-- AWS Secrets Manager; or
-- Supabase secure vault.
+- `public.cap_secrets` (Postgres) — read server-side by `fn_github_push`
+- AWS Secrets Manager (fallback)
 
 PATs must NEVER be exposed to:
 - browser sessions
@@ -109,6 +135,9 @@ PATs must NEVER be exposed to:
 - AI tool sessions
 - logs
 - prompt context
+- client-side payloads
+
+Both `GITHUB_PAT` and `GITHUB_TOKEN` in `cap_secrets` are write-capable (rotated 2026-04-17, exp 2027-04-17).
 
 ---
 
@@ -116,37 +145,11 @@ PATs must NEVER be exposed to:
 
 Every execution MUST produce both:
 
-### Git Receipt
+### Git receipt
+Located under `/receipts/` following the format in `RECEIPT_SCHEMA.json`. For job-flow work, follow the two-way structure in `receipts/README.md` (outbound + inbound).
 
-```text
-/receipts/<request_id>.json
-```
-
-Example:
-
-```json
-{
-  "request_id": "pen-deploy-001",
-  "status": "SUCCESS",
-  "repo": "TML-4PM/the-pen",
-  "commit_sha": "<sha>",
-  "files": ["pen.json"],
-  "timestamp": "2026-04-24T00:00:00Z"
-}
-```
-
-### Supabase Log
-
-Table: `t4h_execution_log`
-
-Required fields:
-- request_id
-- actor
-- repo
-- commit_sha
-- status: REAL / PARTIAL / FAILED
-- files
-- timestamp
+### Supabase canonical change entry
+Table: `public.t4h_canonical_changes`. Required fields per the table schema. Inserting triggers Telegram broadcast via `trg_auto_broadcast_change` → `fn_broadcast_canonical_change`.
 
 No receipt means the action is not done.
 
@@ -156,36 +159,22 @@ No receipt means the action is not done.
 
 All AI systems:
 - MUST NOT call GitHub directly
-- MUST emit MCP-compatible payloads
+- MUST emit MCP-compatible payloads (see §3)
 - ARE treated as stateless intent generators
 - MUST NOT hold GitHub credentials
-- MUST NOT bypass `troy-code-pusher`
+- MUST NOT bypass `fn_github_push` for writes
+
+See `ACTOR_COMPLIANCE.md` for the full behaviour standard.
 
 ---
 
-## 9. NORMALIZATION LAYER
-
-All malformed, natural-language, or partial actor inputs pass through:
-
-```text
-troy-intent-normalizer → troy-code-pusher
-```
-
-This ensures:
-- consistent payload shape
-- rejection of unsafe routes
-- reproducible execution
-- receipt binding
-
----
-
-## 10. KILL SWITCH
+## 9. KILL SWITCH
 
 If ANY of the following occur:
-- GitHub confirmation prompt appears
-- manual approval is required
-- unknown execution path is detected
-- direct GitHub write attempt is detected
+- GitHub confirmation prompt appears in an AI session
+- manual approval is required for a GitHub write
+- an unknown execution path is detected
+- a direct GitHub write attempt is detected
 
 Then:
 
@@ -195,8 +184,8 @@ System state = PARTIAL / NON-AUTONOMOUS
 
 Immediate actions:
 1. Block execution.
-2. Log violation.
-3. Route back to MCP pathway.
+2. Log violation to `t4h_canonical_changes` with `change_type='BLOCKER'`, `severity='HIGH'`.
+3. Route back to the canonical MCP path (§2).
 4. Require a runtime receipt before claiming completion.
 
 ---
@@ -214,7 +203,7 @@ Immediate actions:
 - One audit system
 - Infinite AI actors
 - Zero connector inconsistency
-- Fully autonomous GitHub operations when the MCP layer is available
+- Fully autonomous GitHub operations via the MCP layer
 
 ---
 
@@ -229,6 +218,7 @@ Direct system access is forbidden.
 
 ---
 
-## STATUS
+## CHANGE LOG
 
-**ACTIVE — ENFORCED — PERMANENT**
+- **2026-04-24 v2.0** — Execution path corrected from `troy-code-pusher` (never worked for GitHub writes) to `troy-sql-executor → fn_github_push()`. Evidence: commit `9425776984b06393b1e6c058a36a7b6bc8f13b60` (first REAL_AUTONOMOUS write via corrected path). Added explicit doc hierarchy + credential exp dates.
+- **2026-04-23 v1.0** — Initial doctrine drafted via chat-native connector writes (the event that motivated this rule).
