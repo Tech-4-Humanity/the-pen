@@ -1,0 +1,33 @@
+{
+  "receipt_type": "dispatch",
+  "direction": "outbound",
+  "system": "FLOW",
+  "job_key": "flow_dispatch_to_pen",
+  "source_repository": "TML-4PM/mcp-command-centre",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "ChatGPT",
+  "receiver": "Pen",
+  "status": "ACTIVE",
+  "documents": [
+    "docs/flow/README.md",
+    "docs/flow/FLOW_IMPLEMENTATION.md",
+    "docs/flow/FLOW_AUTONOMY_PROFILES.md"
+  ],
+  "commits": [
+    "1582403804f3ddaa852b4f4b77e9c9d6a137cc1f",
+    "09932e192345e53567883fa7117aaa1fe7235141",
+    "849fd4751be48256f5196bee7c4512df10a5e108"
+  ],
+  "evidence": [
+    "docs/flow/RECEIPT.md",
+    "docs/flow/RECEIPT.json"
+  ],
+  "created_at_utc": "2026-04-23T21:33:23Z",
+  "updated_at_utc": "2026-04-24T00:00:00Z",
+  "search_tags": [
+    "FLOW",
+    "dispatch",
+    "outbound",
+    "pen"
+  ]
+}
