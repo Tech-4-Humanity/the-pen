@@ -1,0 +1,16 @@
+{
+  "receipt_type": "implementation",
+  "direction": "inbound",
+  "system": "FLOW",
+  "job_key": "flow_dispatch_to_pen",
+  "sender": "Pen",
+  "receiver": "Receipt Registry",
+  "status": "PENDING",
+  "implemented": false,
+  "implemented_at_utc": null,
+  "commits": [],
+  "files_created": [],
+  "files_updated": [],
+  "notes": "Pen records implementation outputs here.",
+  "search_tags": ["FLOW", "implementation", "inbound", "pen", "pending"]
+}
