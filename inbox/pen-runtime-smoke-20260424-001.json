@@ -1,0 +1,31 @@
+{
+  "fn": "enqueue_job",
+  "action": "system.smoke.test",
+  "idempotency_key": "pen-runtime-smoke-20260424-001",
+  "payload": {
+    "checks": [
+      {
+        "name": "inbox_picked_up",
+        "expected": "action runs"
+      },
+      {
+        "name": "worker_executes",
+        "expected": "bridge call happens"
+      },
+      {
+        "name": "receipt_written",
+        "expected": "receipts/runtime/pen-runtime-smoke-20260424-001.receipt.json exists"
+      },
+      {
+        "name": "audit_row_written",
+        "expected": "audit.log row exists"
+      }
+    ]
+  },
+  "priority": 1,
+  "meta": {
+    "actor": "troy",
+    "source": "claude",
+    "ts": "2026-04-24T07:35:00Z"
+  }
+}
