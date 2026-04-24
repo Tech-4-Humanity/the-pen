@@ -1,0 +1,37 @@
+{
+  "request_id": "req-20260424-4872",
+  "task_id": "auto-push-task",
+  "timestamp_utc": "2026-04-24T00:24:18.952Z",
+  "source": "github-actions-worker",
+  "contract_paths": [
+    "prompts/execution-contract-end-state.md",
+    "system/no-hitl-execution-header.txt",
+    "receipts/schema/runtime-receipt.schema.json"
+  ],
+  "input_hash": "e1217a19744ef675fe7733e563760871eedb24dd6b173517e539b40e15e9bd50",
+  "outputs": [
+    {
+      "type": "file",
+      "uri": "outputs/runtime/2026-04-24/auto-push-task.txt",
+      "description": "Task output"
+    }
+  ],
+  "logs": [
+    {
+      "type": "stdout",
+      "uri": "outputs/runtime/2026-04-24/auto-push-task.txt",
+      "description": "Worker log output"
+    }
+  ],
+  "status": "PASS",
+  "reality_classification": "REAL",
+  "evidence": [
+    "GitHub Actions executed",
+    "Output file written",
+    "Receipt written"
+  ],
+  "recovery": {
+    "required": false,
+    "action": "none"
+  }
+}
