@@ -25,7 +25,8 @@ function zipBuffer(filePath) {
 }
 
 async function upsertLambda(fn) {
-  const code = zipBuffer(path.resolve(process.cwd(), 'registry/domain-control-system', fn.file));
+  // cwd() in CI is already registry/domain-control-system (per workflow working-directory)
+  const code = zipBuffer(path.resolve(process.cwd(), fn.file));
   try {
     await lambda.send(new UpdateFunctionCodeCommand({
       FunctionName: fn.name,
