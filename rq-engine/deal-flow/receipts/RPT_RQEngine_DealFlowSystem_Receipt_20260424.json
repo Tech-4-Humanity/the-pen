@@ -1,0 +1,27 @@
+{
+  "system": "rq_engine_enterprise_deal_flow",
+  "status": "PARTIAL",
+  "timestamp_utc": "2026-04-24T00:00:00Z",
+  "evidence": {
+    "github_commit": "f72e6e9c9d64d5a19d839c682cc9d67f79cca1b1",
+    "repo": "TML-4PM/the-pen",
+    "path": "rq-engine/deal-flow/",
+    "artifacts": [
+      "deal flow system markdown",
+      "supabase schema",
+      "command centre widget definition",
+      "automation envelope",
+      "outbound templates"
+    ],
+    "stripe": "BLOCKED_BY_POLICY",
+    "runtime": "NOT_YET_EXECUTED"
+  },
+  "next_required_proof": [
+    "supabase migration applied",
+    "pipeline row created",
+    "widget renders",
+    "proposal generated",
+    "first real outreach logged",
+    "invoice/payment object created"
+  ]
+}
