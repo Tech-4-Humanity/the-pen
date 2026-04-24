@@ -1,0 +1,36 @@
+{
+  "job_id": "dra_recovery_and_build_20260424",
+  "created_utc": "2026-04-24T00:00:00Z",
+  "owner": "Troy Latter / Tech 4 Humanity",
+  "status": "READY_FOR_BRIDGE_EXECUTION",
+  "source_thread": "Pasted text(147).txt",
+  "intent": "Recover, consolidate, and operationalise the Drug Resilience Atlas across Notion, GitHub, Supabase, and atlas web surfaces.",
+  "hard_truth": "The prior thread stalled because it repeatedly asked for confirmation and claimed MCP power without executing. This job converts that stalled work into concrete repository-backed execution instructions.",
+  "known_sources": {
+    "uploaded_files_referenced_in_thread": ["DRA initial.pdf", "Drug Resilience Atlas V1B.pdf", "Untitled document (6).pdf"],
+    "site": "https://atlas-aus-pulse.lovable.app",
+    "repo": "https://github.com/TML-4PM/atlas-aus-pulse",
+    "expected_notion_database": "DRA - Master Index",
+    "expected_empty_repo": "drug-resilience-atlas"
+  },
+  "search_terms": ["Drug Resilience Atlas", "Drug Resilience Index", "Drug Map", "Drug Mapping", "Drug Relationship", "Drug Relationship Association", "DRA", "neurodivers", "neurodiverg", "ADHD", "autism", "dyslexia", "psychoactive", "harm reduction", "cognitive debt", "dopamine", "serotonin", "GABA", "endorphins"],
+  "canonical_substances_v1": ["Cannabis", "MDMA", "Methamphetamine", "Cocaine", "Opiates", "Alcohol", "Nicotine"],
+  "canonical_population_lenses_v1": ["ADHD", "Autism", "Dyslexia", "Indigenous populations", "Elderly", "Neurotypical baseline"],
+  "core_model": {
+    "premise": "Substances can temporarily fill or simulate missing regulatory states in dopamine, serotonin, GABA, endorphin, stress, sensory, or executive-function systems, but rebound/crash risk differs by neurotype and lived context.",
+    "dimensions": ["primary_neurochemical_pathway", "felt_deficit_or_state_sought", "in_use_effect", "crash_or_rebound_effect", "neurotype_specific_landing_pattern", "functional_gain", "functional_harm", "dependency_risk", "cognitive_load", "executive_function_effect", "emotional_volatility", "harm_reduction_notes", "evidence_status"],
+    "must_bind_to": ["Reality Ledger REAL/PARTIAL/PRETEND", "source evidence", "research expansion/testing loop", "Command Centre visibility"]
+  },
+  "execution_tasks": [
+    {"id":"DRA-001","name":"Search all available stores","actions":["Search GitHub org TML-4PM for all DRA terms across repos and issues.","Search atlas-aus-pulse repo for drug/neuro/resilience terms.","Search drug-resilience-atlas repo if present.","Search Supabase public schema for tables/columns/content matching DRA terms.","Search Notion for page/database names and properties matching DRA terms.","Search local Mac/Google Drive only through authorised MCP endpoint or Mac worker, never by assuming direct chat access."],"output":"dra_discovery_report.md + dra_source_inventory.json"},
+    {"id":"DRA-002","name":"Build canonical data model","actions":["Create Supabase tables for substances, populations, neurochemical pathways, impact observations, source evidence, hypotheses, theory tests, and ledger entries.","Use archive-only update pattern; no destructive deletes.","Include RLS policies and indexes for queryability."],"output":"supabase/migrations/20260424_dra_core.sql"},
+    {"id":"DRA-003","name":"Seed V1 substance matrix","actions":["Seed Cannabis, MDMA, Methamphetamine, Cocaine, Opiates, Alcohol, Nicotine.","Seed ADHD, Autism, Dyslexia, Indigenous populations, Elderly, Neurotypical baseline.","Create at least one impact observation per substance x population lens from V1B/initial PDFs where evidence exists; mark uncertain entries PARTIAL rather than invented."],"output":"supabase/seeds/dra_seed_v1.json"},
+    {"id":"DRA-004","name":"Populate Notion DRA Master Index","actions":["Find DRA - Master Index database.","Populate existing blank substance pages with canonical profile, neurodiversity impact table, harm-reduction notes, and evidence links.","Create missing pages if absent.","Write backlink to GitHub receipt and Supabase row ids."],"output":"notion/dra_notion_update_receipt.json"},
+    {"id":"DRA-005","name":"Wire atlas web surface","actions":["Add searchable DRA content layer to atlas-aus-pulse or separate DRA route.","Expose filters by substance, neurotype, neurochemical pathway, evidence status, and hypothesis status.","Include disclaimer: research and harm-reduction information, not medical advice."],"output":"web/dra_routes_and_components"},
+    {"id":"DRA-006","name":"Create research expansion loop","actions":["Add hypothesis table for testing theories as research expands.","Add source ingestion queue for papers, chat notes, Notion pages, PDFs, web links, and practitioner observations.","Add review states: NEW, TRIAGED, EVIDENCE_BOUND, NEEDS_REVIEW, PUBLISHED, RETIRED.","Add contradiction handling: conflicting claims preserved with separate evidence, not overwritten."],"output":"dra_research_loop_spec.md"},
+    {"id":"DRA-007","name":"Proof and receipts","actions":["Write machine receipt JSON and human receipt MD.","Classify current state honestly as PARTIAL until Notion/Supabase/web writes are executed and proven.","After execution, update status to REAL only with evidence URLs, commit SHAs, table row counts, and smoke-test output."],"output":"receipts/dra_recovery_and_build_20260424.md"}
+  ],
+  "supabase_minimum_tables": ["dra_sources", "dra_substances", "dra_populations", "dra_neurochemical_pathways", "dra_observations", "dra_hypotheses", "dra_hypothesis_tests", "dra_ingestion_queue", "dra_reality_ledger"],
+  "completion_gates": ["Discovery report committed", "Supabase migration committed and executable", "Seed data committed", "Notion page update receipt written", "Web route/component pack committed", "Reality Ledger entries written", "Smoke test proves queryable substance x population matrix"],
+  "classification": "PARTIAL_UNTIL_EXECUTED_AND_PROVEN"
+}
