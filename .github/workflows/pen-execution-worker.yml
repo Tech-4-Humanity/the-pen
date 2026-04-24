@@ -1,0 +1,80 @@
+name: Pen Execution Worker
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: Task ID to execute
+        required: true
+        default: pen-smoke-task
+      mode:
+        description: Execution mode
+        required: true
+        default: dry_run
+        type: choice
+        options:
+          - dry_run
+          - execute
+  push:
+    paths:
+      - 'tasks/**'
+      - 'system/**'
+      - 'prompts/**'
+      - 'scripts/**'
+      - '.github/workflows/pen-execution-worker.yml'
+
+permissions:
+  contents: write
+  issues: write
+
+env:
+  RECEIPT_DIR: receipts/runtime
+  OUTPUT_DIR: outputs/runtime
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Execute Pen task
+        id: pen_execute
+        run: |
+          node scripts/pen-executor.mjs "${{ github.event.inputs.task_id || 'auto-push-task' }}" "${{ github.event.inputs.mode || 'dry_run' }}"
+
+      - name: Commit runtime artefacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add receipts outputs || true
+          if git diff --cached --quiet; then
+            echo "No runtime artefacts to commit"
+          else
+            git commit -m "Add Pen runtime execution receipt"
+            git push
+          fi
+
+      - name: Add issue receipt comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const latestPath = fs.existsSync('receipts/runtime/latest.json') ? 'receipts/runtime/latest.json' : null;
+            const body = latestPath
+              ? `Pen Execution Worker completed.\n\nLatest receipt: ${latestPath}\n\nStatus: ${JSON.parse(fs.readFileSync(latestPath,'utf8')).status}\nReality: ${JSON.parse(fs.readFileSync(latestPath,'utf8')).reality_classification}`
+              : 'Pen Execution Worker ran but no latest receipt was found.';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 5,
+              body
+            });
