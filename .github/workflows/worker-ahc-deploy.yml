@@ -1,0 +1,96 @@
+name: Worker — AHC First Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run — build only, no deploy'
+        required: false
+        default: 'false'
+  push:
+    paths:
+      - 'workers/ahc-deploy/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout the-pen
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Checkout AHC source
+        uses: actions/checkout@v4
+        with:
+          repository: TML-4PM/augmented-humanity-coach
+          token: ${{ secrets.GH_PAT }}
+          path: ahc-src
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ahc-src/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ahc-src
+
+      - name: Build
+        run: npm run build
+        working-directory: ahc-src
+        env:
+          NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+      - name: Assert dist exists
+        run: |
+          if [ ! -d ahc-src/dist ]; then
+            echo "ERROR: dist/ not created"
+            exit 1
+          fi
+          echo "Build OK — $(find ahc-src/dist -type f | wc -l) files"
+
+      - name: Install Vercel CLI
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: npm install -g vercel@latest
+
+      - name: Deploy to Vercel
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        id: deploy
+        run: |
+          cd ahc-src
+          DEPLOY_URL=$(vercel deploy --prod \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope=${{ secrets.VERCEL_TEAM_ID }} \
+            --yes 2>&1 | tail -1)
+          echo "deploy_url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          echo "Deployed: $DEPLOY_URL"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_AHC }}
+
+      - name: Health check
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          sleep 15
+          DEPLOY_URL="${{ steps.deploy.outputs.deploy_url }}"
+          if [ -n "$DEPLOY_URL" ]; then
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$DEPLOY_URL")
+            echo "Health check $DEPLOY_URL: HTTP $STATUS"
+            echo "health_status=$STATUS" >> $GITHUB_ENV
+          fi
+
+      - name: Write receipt
+        run: node scripts/pen-executor.mjs ahc-deploy-$(date +%Y%m%d) ${{ github.event.inputs.dry_run == 'true' && 'dry_run' || 'live' }}
+
+      - name: Commit receipt
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'receipt: AHC deploy worker run'
+          file_pattern: 'receipts/**'
