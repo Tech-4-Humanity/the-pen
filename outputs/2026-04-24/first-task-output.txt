@@ -1,0 +1,10 @@
+FIRST TASK OUTPUT
+
+Execution contract successfully applied.
+No-HITL header enforced.
+Receipt schema validated.
+Task artefact created.
+Output generated.
+
+Status: PASS
+Classification: REAL (Git-backed execution path)
