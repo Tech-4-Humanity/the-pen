@@ -1,0 +1,31 @@
+{
+  "intent_id": "INT-AHC-DEPLOY-001",
+  "contract_id": "WRK-AHC-DEPLOY-001",
+  "title": "First deploy of Augmented Humanity Coach to Vercel",
+  "description": "Repo TML-4PM/augmented-humanity-coach has full Vite/React app. No deployment exists. vercel.json present. Build and deploy.",
+  "biz_key": "augmented-humanity-coach",
+  "autonomy_tier": "AUTONOMOUS",
+  "priority": "HIGH",
+  "executor": "github-actions-worker",
+  "trigger": "operator-request",
+  "inputs": {
+    "repo": "TML-4PM/augmented-humanity-coach",
+    "branch": "main",
+    "build_cmd": "npm run build",
+    "output_dir": "dist",
+    "vercel_team_id": "team_IKIr2Kcs38KGo8Zs60yNtm7Y",
+    "deploy_type": "vite_react",
+    "health_check_url": "https://{deployment_url}",
+    "registry_biz_key": "augmented-humanity-coach",
+    "target_domain": "augmented-humanity.coach"
+  },
+  "outputs": {
+    "deployment_url": null,
+    "build_exit_code": null,
+    "http_status": null,
+    "registry_updated": false,
+    "receipt_path": null
+  },
+  "created_at": "2026-04-24T00:00:00Z",
+  "status": "pending"
+}
