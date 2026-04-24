@@ -1,0 +1,15 @@
+{
+  "fn": "sql_query",
+  "action": "db.query",
+  "idempotency_key": "get-work-register-constraints-001",
+  "payload": {
+    "sql": "SELECT conname, pg_get_constraintdef(oid) FROM pg_constraint WHERE conrelid = 'public.work_register'::regclass AND contype = 'c' ORDER BY conname;"
+  },
+  "priority": 5,
+  "meta": {
+    "actor": "troy",
+    "source": "perplexity",
+    "ts": "2026-04-24T07:17:00Z",
+    "purpose": "get all check constraints on work_register to fix enqueue.js defaults in one shot"
+  }
+}
