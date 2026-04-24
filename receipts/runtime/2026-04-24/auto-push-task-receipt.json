@@ -1,14 +1,14 @@
 {
-  "request_id": "req-20260424-45",
+  "request_id": "req-20260424-9365",
   "task_id": "auto-push-task",
-  "timestamp_utc": "2026-04-24T01:35:09.691Z",
+  "timestamp_utc": "2026-04-24T01:36:10.531Z",
   "source": "github-actions-worker",
   "contract_paths": [
     "prompts/execution-contract-end-state.md",
     "system/no-hitl-execution-header.txt",
     "receipts/schema/runtime-receipt.schema.json"
   ],
-  "input_hash": "0fe38188f9f0f3e4beb65ed7f524774be8f904ba2360d05b073cd6a15f5f1263",
+  "input_hash": "65e32ce70847c34f2aa7753b0373d3dae3375ff35b1a43d7a28e47b036e23667",
   "outputs": [
     {
       "type": "file",
