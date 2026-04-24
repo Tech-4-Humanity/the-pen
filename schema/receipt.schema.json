@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "T4H Runtime Receipt",
+  "type": "object",
+  "required": [
+    "request_id",
+    "idempotency_key",
+    "status",
+    "reality_classification",
+    "evidence",
+    "at"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "PARTIAL"
+      ]
+    },
+    "reality_classification": {
+      "type": "string",
+      "enum": [
+        "REAL",
+        "PARTIAL",
+        "PRETEND"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "audit_row_verified": {
+      "type": "boolean"
+    },
+    "queue_state_verified": {
+      "type": "boolean"
+    },
+    "error": {
+      "type": "string"
+    },
+    "rollback": {
+      "type": "string"
+    }
+  }
+}
