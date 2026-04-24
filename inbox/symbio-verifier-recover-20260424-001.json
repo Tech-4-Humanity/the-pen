@@ -1,0 +1,46 @@
+{
+  "fn": "enqueue_job",
+  "action": "symbio_verifier.recover_stale_jobs",
+  "idempotency_key": "symbio-verifier-recover-20260424-001",
+  "priority": 10,
+  "payload": {
+    "scope": "only four stale SYNAPSE jobs currently routed to symbio-verifier",
+    "job_ids": [
+      "527c8330-857b-4ca3-a76e-a8032d2ec3db",
+      "ce9f271b-180d-4e02-885f-5f1648e90fd8",
+      "95e2c029-7245-4f66-b2d4-ca90753fc545",
+      "18264029-21fe-483a-bddb-430386e8fa66"
+    ],
+    "constraints": {
+      "do_not_touch_site_repair_archive": true,
+      "do_not_touch_archived_jobs": true,
+      "do_not_delete_anything": true,
+      "preserve_proof_ref": true,
+      "write_audit_events": true
+    },
+    "expected_updates": {
+      "claim": {
+        "last_heartbeat": "now",
+        "stale_flag": false,
+        "blocked_reason": null
+      },
+      "terminal": "close only when proof is written; otherwise set blocked_reason with exact failure"
+    },
+    "audit_required": [
+      "symbio_verifier_recovery_started",
+      "symbio_verifier_job_claimed",
+      "symbio_verifier_job_completed_or_blocked"
+    ],
+    "receipt_path": "receipts/runtime/symbio-verifier-recover-20260424-001/result.json",
+    "definition_of_done": [
+      "all four listed job_ids have stale_flag=false or blocked_reason populated",
+      "each listed job_id has a non-sweeper audit event after recovery start",
+      "receipt JSON records before and after row state"
+    ]
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "github_connector",
+    "ts": "2026-04-24T19:20:00+10:00"
+  }
+}
