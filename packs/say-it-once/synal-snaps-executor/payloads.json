@@ -1,0 +1,20 @@
+{
+  "decision": "Start Project Atlas, lean budget",
+  "snaps": [
+    {
+      "snap_type": "HR_WORKFORCE_ACTION",
+      "worker": "HR_AGENT",
+      "payload": "No hiring, redeploy staff"
+    },
+    {
+      "snap_type": "FINANCE_BUDGET_CONTROL",
+      "worker": "FINANCE_AGENT",
+      "payload": "Set budget cap"
+    },
+    {
+      "snap_type": "IT_KANBAN_SETUP",
+      "worker": "IT_AGENT",
+      "payload": "Create board + tasks"
+    }
+  ]
+}
