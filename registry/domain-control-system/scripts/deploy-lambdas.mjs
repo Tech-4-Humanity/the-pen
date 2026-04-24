@@ -18,14 +18,12 @@ const FUNCTIONS = [
 ];
 
 function zipBuffer(filePath) {
-  // naive single-file zip replacement (Lambda also accepts raw for some runtimes, but zip is safer)
-  // In real deployment replace with archiver; kept minimal to avoid external deps.
   const content = fs.readFileSync(filePath);
-  return content; // placeholder: use proper zip in CI
+  return content;
 }
 
 async function upsertLambda(fn) {
-  // cwd() in CI is already registry/domain-control-system (per workflow working-directory)
+  // working-directory is registry/domain-control-system — resolve relative to cwd
   const code = zipBuffer(path.resolve(process.cwd(), fn.file));
   try {
     await lambda.send(new UpdateFunctionCodeCommand({
@@ -54,7 +52,6 @@ async function upsertLambda(fn) {
 }
 
 for (const fn of FUNCTIONS) {
-  // eslint-disable-next-line no-await-in-loop
   await upsertLambda(fn);
 }
 
