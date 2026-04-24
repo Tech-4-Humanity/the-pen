@@ -1,0 +1,20 @@
+{
+  "fn": "enqueue_job",
+  "action": "deploy.project",
+  "idempotency_key": "deploy-project-test-mcp-deploy-001",
+  "payload": {
+    "tool": "deploy_project",
+    "name": "test-mcp-deploy",
+    "repo": "TML-4PM/symbio-dev-control-plane",
+    "branch": "main",
+    "env": {},
+    "allowWrite": true,
+    "dryRun": false
+  },
+  "priority": 5,
+  "meta": {
+    "actor": "troy",
+    "source": "chatgpt",
+    "ts": "2026-04-24T03:20:00Z"
+  }
+}
