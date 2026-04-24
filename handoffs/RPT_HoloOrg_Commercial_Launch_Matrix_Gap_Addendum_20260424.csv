@@ -1,0 +1,40 @@
+section,item,value,notes
+Dashboard,Report,RPT_HoloOrg_Commercial_Launch_Matrix_Gap_Addendum_20260424,Holo-Org commercial launch matrix and gap addendum
+Dashboard,Core split,HoloOrg Patterns = open/free architecture; Holo-Org Commercial = paid platform/deployment/governance/transformation/managed ops,Use this as source of truth for website pricing and placement
+Dashboard,Immediate priority,Fix product routing and publish pricing source of truth,Broken product modal undermines trust
+Commercial Matrix,Open Patterns,Free reference architecture / pattern language,Lead magnet; not primary paid product
+Commercial Matrix,Role Analyzer,Free to $5k diagnostic,Wedge product into paid pilot or workforce redesign
+Commercial Matrix,Starter Agent Pack,$29-$499,Residential/small entry offer
+Commercial Matrix,Small Team Pack,$149-$1.5k/mo,Assisted self-serve for small business
+Commercial Matrix,100-Agent Org Pilot,$15k-$75k setup + $2.5k-$15k/mo,4-8 week implementation package
+Commercial Matrix,1000-Agent Org Transformation,$150k-$750k setup + $20k-$100k/mo,3-6 month enterprise/divisional transformation
+Commercial Matrix,10000-Agent Holarchy,$750k-$5M+ setup + $100k-$500k+/mo,12-18 month enterprise/government program
+Commercial Matrix,ConsentX Governance,$500-$15k/mo,Premium regulated-use attach module
+Commercial Matrix,LifeGraph Provenance,$500-$20k/mo,Audit/lineage/provenance module
+Commercial Matrix,MyNeuralSignal Interface,Custom,BCI/assistive/high-trust module
+BYO Variants,BYO LLM,$9-$79 residential; $99-$499 small; $2k-$8k mid; custom enterprise,Customer pays model costs; Holo-Org charges orchestration/governance/support
+BYO Variants,BYO Cloud,Custom,Customer cloud/VPC/sovereign hosting
+BYO Variants,BYO Data,Custom,Customer data lake/vector store/database
+BYO Variants,BYO Automation Stack,$99-custom,n8n/Make/Zapier/MCP/customer workflow engine
+Site Placement,Homepage,Lead with governed AI workforce not random products,Show Patterns + Diagnostics + Pilots + Transformation
+Site Placement,Pricing,Four tiers plus scale ladder,Start small / build team / 100-agent pilot / 1000-agent transformation / 10000-agent holarchy
+Site Placement,Product Catalog,Separate packs agents patterns platform services governance add-ons,Avoid one mystery drawer
+Site Placement,Enterprise Page,Humans in command + consent + audit + escalation + deployment patterns,Do not sell 10000-agent program like SaaS
+Evidence Hierarchy,Strong,Uploaded zip/csv + screenshot + README + deploy artifacts,Use as current working evidence
+Evidence Hierarchy,Medium,Drive folder structure and internal docs,Directional unless opened/read
+Evidence Hierarchy,Low,website-audit folder currently shallow,Do not overweight
+Gap Addendum,Gap 41,Open architecture vs paid product boundary unresolved,Must split public/free patterns from paid commercial platform
+Gap Addendum,Gap 42,Pattern catalogue implies 100/1000/10000-agent packages,Add implementation scale ladder
+Gap Addendum,Gap 43,Humans-in-command principle must be priced,Approval gates governance audit and escalation are billable
+Gap Addendum,Gap 44,ConsentX LifeGraph MyNeuralSignal are dependencies/modules,Price as attach modules
+Gap Addendum,Gap 45,Deployment claims need Reality Ledger classification,Do not publish unverified claims
+Gap Addendum,Gap 46,CC BY 4.0 license creates free/paid boundary issue,Keep implementation/runtime/governance paid
+Gap Addendum,Gap 47,Four-tier pricing needs scale ladder underneath,Customer size plus agent count/maturity
+Gap Addendum,Gap 48,10000-agent holarchy is transformation not SaaS,Proposal/procurement route only
+Gap Addendum,Gap 49,Industry complexity multipliers needed,Regulated sectors price higher
+Gap Addendum,Gap 50,Need Business/Technical/Governance buyer routes,Different value propositions and CTAs
+Gap Addendum,Gap 51,SQL/Lambda/Supabase evidence exists but raw SQL not readable via connector,Use artifact existence only until readable
+Simulation,Conservative monthly equivalent,$33k-$107k,Depends on setup/services and one 10x deal timing
+Simulation,Stronger monthly equivalent,$114k-$340k,Requires partner/channel and fixed funnel
+Blockers,Keys required,Stripe production private env production deploys destructive writes,No HITL otherwise
+Blockers,Fix now,Broken product modal and dead CTA routes,Highest launch trust issue
