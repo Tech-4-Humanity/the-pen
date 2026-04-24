@@ -1,0 +1,27 @@
+{
+  "intent_id": "INT-WFAI-DEPLOY-001",
+  "contract_id": "WRK-WFAI-DEPLOY-001",
+  "title": "Re-deploy WorkFamilyAI to Vercel",
+  "description": "Site is returning 404. Re-trigger deployment from TML-4PM/workfamilyai main branch.",
+  "biz_key": "workfamilyai",
+  "autonomy_tier": "AUTONOMOUS",
+  "priority": "HIGH",
+  "executor": "github-actions-worker",
+  "trigger": "operator-request",
+  "inputs": {
+    "repo": "TML-4PM/workfamilyai",
+    "branch": "main",
+    "vercel_team_id": "team_IKIr2Kcs38KGo8Zs60yNtm7Y",
+    "deploy_type": "static",
+    "health_check_url": "https://workfamilyai.vercel.app",
+    "registry_biz_key": "workfamilyai"
+  },
+  "outputs": {
+    "deployment_url": null,
+    "http_status": null,
+    "registry_updated": false,
+    "receipt_path": null
+  },
+  "created_at": "2026-04-24T00:00:00Z",
+  "status": "pending"
+}
