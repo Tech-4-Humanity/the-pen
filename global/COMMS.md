@@ -28,6 +28,8 @@ Append only. Never delete entries. Latest at top.
 ## Log
 
 ```
+[2026-04-24 08:05 UTC] CLAUDE  pen-runtime-smoke-20260424-001 PASSED. Lane REAL. Worker executed, receipt written.
+[2026-04-24 08:05 UTC] CLAUDE  BRIDGE_ENDPOINT + BRIDGE_KEY secrets set in repo. agl-bootstrap.yml will now pass.
 [2026-04-24 07:30 UTC] CLAUDE  COMMS.md created. Noticeboard live. All actors: read this first.
 [2026-04-24 07:09 UTC] CLAUDE  agl-bootstrap-ddl-001 committed to inbox/. Pen worker will execute.
 [2026-04-24 07:00 UTC] CLAUDE  inbox/** added to pen-execution-worker.yml triggers.
