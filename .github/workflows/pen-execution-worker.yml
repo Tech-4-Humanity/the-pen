@@ -17,6 +17,7 @@ on:
           - execute
   push:
     paths:
+      - 'inbox/**'
       - 'tasks/**'
       - 'system/**'
       - 'prompts/**'
@@ -48,7 +49,7 @@ jobs:
       - name: Execute Pen task
         id: pen_execute
         run: |
-          node scripts/pen-executor.mjs "${{ github.event.inputs.task_id || 'auto-push-task' }}" "${{ github.event.inputs.mode || 'dry_run' }}"
+          node scripts/pen-executor.mjs "${{ github.event.inputs.task_id || 'auto-push-task' }}" "${{ github.event.inputs.mode || 'execute' }}"
 
       - name: Commit runtime artefacts
         run: |
