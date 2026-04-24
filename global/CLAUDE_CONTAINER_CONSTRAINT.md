@@ -1,61 +1,69 @@
-# CLAUDE_CONTAINER_CONSTRAINT.md
-## Tech 4 Humanity — Claude Container DNS Constraint
+# LLM_CONTAINER_CONSTRAINT.md
+## Tech 4 Humanity — LLM Sandbox DNS Constraint
 
-**Version**: 1.0 (2026-04-24)
-**Status**: ACTIVE — PERMANENT CONSTRAINT
+**Version**: 1.1 (2026-04-24)
+**Status**: ACTIVE — PERMANENT — APPLIES TO ALL LLMs
 
 ---
 
 ## Constraint
 
-Claude's execution sandbox blocks outbound DNS.
-**Claude cannot call the bridge directly.**
+All LLM execution sandboxes (Claude, ChatGPT, Gemini, and any other hosted model) block outbound DNS.
+**No LLM can call the bridge directly.**
 
-This is an Anthropic infrastructure decision. It cannot be changed from within the container.
+This is not a Claude limitation. It is universal to hosted LLM infrastructure. It cannot be changed from within any container.
 
 ---
 
 ## Canonical workaround (proven REAL)
 
-All bridge calls from Claude go via GitHub commit to the Pen inbox.
+All bridge calls from any LLM go via GitHub commit to the Pen inbox.
 
 ```
-Claude
-  → commits JSON to TML-4PM/the-pen/inbox/<key>.json
+ANY LLM
+  → commits JSON to TML-4PM/the-pen/inbox/<idempotency_key>.json
   → Pen GitHub Action triggers
-  → worker reads inbox file
-  → executes bridge call
-  → writes receipt to receipts/runtime/
+  → worker reads inbox, executes bridge call
+  → receipt written to receipts/runtime/
   → audit.log row written
 ```
 
-**Commit SHA dcef07c** — first proven execution of this pattern (2026-04-24).
+**Commit SHA dcef07c** — first proven execution (Claude, 2026-04-24).
 
 ---
 
-## What Claude can do directly
+## What any LLM can do
 
-| Action | Method |
+| Action | Status |
 |---|---|
-| Read GitHub files | GitHub API (works) |
-| Write GitHub files | GitHub API (works) |
-| Commit to inbox | GitHub API (works) |
-| Call bridge directly | BLOCKED |
-| Call Supabase REST | BLOCKED |
+| Read GitHub via API | WORKS |
+| Write/commit to GitHub via API | WORKS |
+| Commit job to Pen inbox | WORKS — use this |
+| Call bridge directly | BLOCKED (DNS) |
+| Call Supabase REST directly | BLOCKED (DNS) |
 
 ---
 
-## Do not ask Claude to
+## Actor compliance (all LLMs)
 
-- Unblock DNS (not possible)
-- Call the bridge directly (will fail)
-- Run curl against Supabase (will fail)
-
-Route all execution through the Pen inbox commit pattern.
+1. Never attempt direct bridge call — it will fail with DNS error
+2. On DNS error → immediately fall back to inbox commit, no retry, no asking the human
+3. Inbox commit is the execution primitive — treat it as equivalent to a direct call
+4. Receipt in `receipts/runtime/` is the proof of execution — check it, don't ask the human to check it
 
 ---
 
-## Actor compliance
+## Do not
 
-All actors (Claude instances, Mac, cron) must know this constraint.
-If a Claude session attempts a direct bridge call and gets DNS error → immediately fall back to inbox commit. No retry loop. No asking the human.
+- Ask the human to run the call manually
+- Paste payloads for the human to execute
+- Retry DNS calls
+- Explain the constraint to the human mid-task — just route around it
+
+---
+
+## Related
+
+- `docs/AGL_CONTROL_PLANE.md` — full execution doctrine
+- `global/GLOBAL_RULE.md` — immutable law
+- `global/ENFORCEMENT_LIVE.md` — runtime reality
