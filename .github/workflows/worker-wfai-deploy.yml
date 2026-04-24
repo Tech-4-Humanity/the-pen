@@ -1,0 +1,68 @@
+name: Worker — WorkFamilyAI Re-Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run only (no actual deploy)'
+        required: false
+        default: 'false'
+  push:
+    paths:
+      - 'workers/wfai-deploy/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout the-pen
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Checkout workfamilyai source
+        uses: actions/checkout@v4
+        with:
+          repository: TML-4PM/workfamilyai
+          token: ${{ secrets.GH_PAT }}
+          path: workfamilyai-src
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          cd workfamilyai-src
+          DEPLOY_URL=$(vercel deploy --prod \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope=${{ secrets.VERCEL_TEAM_ID }} \
+            --yes 2>&1 | tail -1)
+          echo "deploy_url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          echo "Deployed to: $DEPLOY_URL"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_WFAI }}
+
+      - name: Health check
+        run: |
+          sleep 10
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://workfamilyai.vercel.app)
+          echo "HTTP status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "WARN: Got $STATUS — deployment may still be propagating"
+          fi
+
+      - name: Write receipt
+        run: node scripts/pen-executor.mjs wfai-deploy-$(date +%Y%m%d) live
+
+      - name: Commit receipt
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'receipt: wfai deploy worker run'
+          file_pattern: 'receipts/**'
