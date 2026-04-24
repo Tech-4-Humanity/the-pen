@@ -1,0 +1,23 @@
+name: Deploy Domain Control System
+
+on:
+  push:
+    paths:
+      - 'registry/domain-control-system/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+        working-directory: registry/domain-control-system
+      - run: node scripts/deploy-lambdas.mjs
+        working-directory: registry/domain-control-system
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          LAMBDA_EXEC_ROLE_ARN: ${{ secrets.LAMBDA_EXEC_ROLE_ARN }}
