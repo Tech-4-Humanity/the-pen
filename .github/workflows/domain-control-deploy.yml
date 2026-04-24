@@ -18,6 +18,9 @@ jobs:
       - run: node scripts/deploy-lambdas.mjs
         working-directory: registry/domain-control-system
         env:
+          AWS_REGION: ap-southeast-2
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           LAMBDA_EXEC_ROLE_ARN: ${{ secrets.LAMBDA_EXEC_ROLE_ARN }}
