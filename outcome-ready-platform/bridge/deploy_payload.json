@@ -1,0 +1,28 @@
+{
+  "action": "outcome_ready_full_deploy",
+  "description": "Deploy Outcome Ready platform, apply schema, and run smoke loop",
+  "steps": [
+    "install_dependencies",
+    "build_project",
+    "apply_supabase_schema",
+    "deploy_vercel",
+    "run_smoke_test",
+    "log_reality_ledger"
+  ],
+  "smoke_test": {
+    "scenario": "reading_assessment_loop",
+    "steps": [
+      "open_reading_page",
+      "submit_assessment",
+      "write_lead",
+      "write_assessment",
+      "return_recommendation",
+      "log_event"
+    ],
+    "success_criteria": [
+      "lead_row_created",
+      "assessment_row_created",
+      "recommendation_returned"
+    ]
+  }
+}
