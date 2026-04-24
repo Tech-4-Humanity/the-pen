@@ -1,0 +1,34 @@
+{
+  "system": "Domain Control System",
+  "version": "1.0.0",
+  "products": [
+    {
+      "sku": "dcs_audit_once",
+      "name": "Domain Audit Snapshot",
+      "type": "one_time",
+      "price_aud": 490,
+      "deliverables": ["AWS/DNS domain inventory", "REAL/PARTIAL/PRETEND classification", "kill list", "PDF/CSV export", "30-minute review"]
+    },
+    {
+      "sku": "dcs_cleanup_pack",
+      "name": "Domain Cleanup Pack",
+      "type": "one_time",
+      "price_aud": 1900,
+      "deliverables": ["full audit", "redirect/mail-only classification", "cleanup plan", "archive-safe kill workflow", "implementation support"]
+    },
+    {
+      "sku": "dcs_monitor_monthly",
+      "name": "Domain Governance Monitor",
+      "type": "recurring_monthly",
+      "price_aud": 290,
+      "deliverables": ["continuous DNS/HTTPS/SSL checks", "Command Centre widget", "monthly report", "alerts"]
+    },
+    {
+      "sku": "dcs_enterprise_monthly",
+      "name": "Enterprise Domain Intelligence",
+      "type": "recurring_monthly",
+      "price_aud": 2400,
+      "deliverables": ["multi-account AWS Route53 monitoring", "Supabase registry", "executive reporting", "governance workflows", "priority support"]
+    }
+  ]
+}
