@@ -1,0 +1,87 @@
+{
+  "fn": "enqueue_job",
+  "action": "sweeper.install_continuous_loop",
+  "idempotency_key": "sweeper-continuous-loop-006",
+  "priority": 3,
+  "payload": {
+    "name": "Continuous Signal Sweeper Loop",
+    "mode": "install_or_verify_recurring_queue_loop",
+    "loop_id": "continuous-signal-sweeper-loop-v1",
+    "target_jobs": [
+      "sweeper-llm-doc-signal-seed-001",
+      "sweeper-llm-chat-ingest-002",
+      "sweeper-external-enrich-003",
+      "sweeper-permutation-engine-004",
+      "sweeper-audit-queue-receipts-005"
+    ],
+    "cadence": {
+      "inventory_delta": "hourly",
+      "deep_extract": "daily",
+      "external_enrichment": "daily_after_extract",
+      "permutation_generation": "daily_after_enrichment",
+      "receipt_audit": "hourly",
+      "full_resweep": "weekly"
+    },
+    "loop_rules": {
+      "idempotent": true,
+      "delta_first": true,
+      "skip_unchanged_hashes": true,
+      "archive_not_delete": true,
+      "read_only_original_sources": true,
+      "emit_jobs_only_when_confidence_and_value_threshold_met": true,
+      "do_not_repeat_completed_candidate_jobs_unless_source_hash_changed": true,
+      "write_receipt_every_run": true,
+      "write_audit_log_every_run": true
+    },
+    "thresholds": {
+      "min_confidence": 0.6,
+      "min_value": 0.7,
+      "urgent_value": 0.9,
+      "security_or_compliance_always_emit": true
+    },
+    "outputs": {
+      "receipt_path_prefix": "receipts/runtime/sweeper-continuous-loop-006",
+      "audit_event": "sweeper.install_continuous_loop.completed",
+      "artifacts": [
+        "loop_manifest.json",
+        "loop_schedule.json",
+        "last_run_state.json",
+        "delta_policy.md",
+        "failure_policy.md",
+        "audit_summary.md"
+      ]
+    },
+    "definition_of_done": [
+      "recurring loop manifest created or verified",
+      "cadence registered for inventory, extraction, enrichment, permutation, audit, and full resweep",
+      "state file created for last-run hashes and cursor positions",
+      "receipt written",
+      "audit.log row written",
+      "next due run visible in loop manifest",
+      "no original source mutated"
+    ],
+    "fallback_if_cron_unavailable": {
+      "strategy": "self-requeue via inbox",
+      "next_job_template": "sweeper-continuous-loop-tick-{iso_date_hour}.json",
+      "dedupe_key_template": "sweeper-continuous-loop-tick-{iso_date_hour}",
+      "max_requeue_window_hours": 168
+    },
+    "safety": {
+      "read_only_original_sources": true,
+      "archive_not_delete": true,
+      "human_gate_required_for": [
+        "delete",
+        "deploy",
+        "RLS_change",
+        "IAM_change",
+        "credential_use",
+        "payment_action",
+        "legal_action",
+        "external_outreach"
+      ]
+    },
+    "requested_by": "troy",
+    "source": "chatgpt",
+    "created_at": "2026-04-26T23:05:00+10:00"
+  }
+}
