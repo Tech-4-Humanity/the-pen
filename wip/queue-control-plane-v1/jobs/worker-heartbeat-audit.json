@@ -1,0 +1,1 @@
+{"fn":"enqueue_job","action":"worker.heartbeat.audit","idempotency_key":"worker-heartbeat-audit-20260424","payload":{"checks":["active_workers","last_heartbeat","stale_workers"],"fail_if_no_active_workers":true},"priority":9,"work_type":"audit"}
