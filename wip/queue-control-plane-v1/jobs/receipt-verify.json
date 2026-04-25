@@ -1,0 +1,1 @@
+{"fn":"enqueue_job","action":"receipt.verify","idempotency_key":"receipt-verify-20260424","payload":{"window":"24h","required":["receipt","audit"],"on_missing":"repair"},"priority":9,"work_type":"audit"}
