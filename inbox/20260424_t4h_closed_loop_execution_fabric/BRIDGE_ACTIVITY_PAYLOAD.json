@@ -1,0 +1,39 @@
+{
+  "action": "invoke_function",
+  "function_name": "t4h-bridge-runner",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "mode": "lock_and_execute",
+    "repo": "TML-4PM/the-pen",
+    "path": "inbox/20260424_t4h_closed_loop_execution_fabric",
+    "tasks": [
+      "complete outstanding docs",
+      "generate Drive links",
+      "store registry rows",
+      "update receipts",
+      "build category assets",
+      "prepare partner capture pack",
+      "wire command centre widgets"
+    ],
+    "required_outputs": [
+      "LOCK_RECEIPT.md",
+      "CATEGORY_POV.md",
+      "EXECUTION_ASSURANCE_SCORE.md",
+      "PARTNER_CAPTURE_PLAYBOOK.md",
+      "MARKET_POSITIONING_PAGE.md",
+      "CATEGORY_LANDING_PAGE.md",
+      "BOARD_LEVEL_ONE_PAGER.md",
+      "COMMAND_CENTRE_WIDGET_SPEC.md",
+      "DRIVE_LINKS.md",
+      "receipts/RCP_T4H_ClosedLoopExecutionFabric_20260424.md",
+      "receipts/index.jsonl"
+    ],
+    "classification": "PARTIAL / LOCKED-BUT-UNPROVEN",
+    "autonomy": "AUTONOMOUS_NON_DESTRUCTIVE",
+    "human_in_loop": false
+  },
+  "metadata": {
+    "source": "chatgpt",
+    "intent": "lock complete and execute"
+  }
+}
