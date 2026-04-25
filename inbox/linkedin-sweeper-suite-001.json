@@ -1,0 +1,153 @@
+{
+  "fn": "enqueue_job",
+  "action": "sweepers.linkedin_suite.setup",
+  "idempotency_key": "linkedin-sweeper-suite-001",
+  "priority": 7,
+  "payload": {
+    "source": "linkedin",
+    "mode": "read_inspect_enqueue",
+    "scope": [
+      "profile_posts",
+      "articles",
+      "shares",
+      "comments",
+      "reactions",
+      "inbound_messages_if_available",
+      "connection_interactions",
+      "external_links",
+      "mentioned_people",
+      "mentioned_companies"
+    ],
+    "business_context": "T4H multi-business signal mining, opportunity routing, IP/product discovery, content system, network intelligence graph.",
+    "sweepers": [
+      {
+        "name": "linkedin.signal.miner",
+        "purpose": "Extract atomic business, product, market, relationship and personal-intent signals from LinkedIn activity.",
+        "looks_for": ["repeated themes", "problems", "manual/friction language", "strong opinions", "emerging verticals", "unfinished ideas"],
+        "outputs": ["signals[]"],
+        "routes": ["KB", "WIP"]
+      },
+      {
+        "name": "linkedin.opportunity.detector",
+        "purpose": "Detect leads, sales opportunities, partnership opportunities, hiring/collab opportunities and customer pain.",
+        "looks_for": ["can you help", "DM me", "how much", "we need", "looking for", "intro", "partnership", "pilot"],
+        "outputs": ["opportunities[]"],
+        "routes": ["CRM", "PEN"]
+      },
+      {
+        "name": "linkedin.content.deconstructor",
+        "purpose": "Reverse-engineer high-performing posts/articles into reusable content patterns.",
+        "looks_for": ["high engagement", "long comment chains", "saves implied by replies", "shares", "format", "hook", "CTA", "argument structure"],
+        "outputs": ["content_playbooks[]"],
+        "routes": ["KB", "content_queue"]
+      },
+      {
+        "name": "linkedin.idea.extractor",
+        "purpose": "Turn posts, comments and repeated explanations into product, IP, agent and pack candidates.",
+        "looks_for": ["frameworks", "named concepts", "repeat explanations", "diagrams", "operating models", "customer problems"],
+        "outputs": ["assets[]", "product_candidates[]"],
+        "routes": ["WIP", "PEN"]
+      },
+      {
+        "name": "linkedin.network.mapper",
+        "purpose": "Build a person/company graph showing buyers, amplifiers, collaborators, experts, critics and dormant relationships.",
+        "looks_for": ["repeat commenters", "resharers", "profile overlap", "company clusters", "challenge quality", "warm intros"],
+        "outputs": ["relationship_graph[]"],
+        "routes": ["CRM", "KB"]
+      },
+      {
+        "name": "linkedin.intent.parser",
+        "purpose": "Detect buying, partnering, hiring, media, investment, advisory and research intent.",
+        "looks_for": ["intent language", "urgency", "budget hints", "authority", "problem specificity"],
+        "outputs": ["intent_events[]"],
+        "routes": ["CRM", "PEN"]
+      },
+      {
+        "name": "linkedin.gap.finder",
+        "purpose": "Identify unanswered questions, market confusion, missing explainers, content gaps and product gaps.",
+        "looks_for": ["confusion", "no good answer", "thread drop-off", "repeated objections", "misunderstood capability"],
+        "outputs": ["gaps[]"],
+        "routes": ["WIP", "content_queue"]
+      },
+      {
+        "name": "linkedin.recycler",
+        "purpose": "Find old posts/articles/comments worth refreshing, recombining or turning into campaigns.",
+        "looks_for": ["evergreen posts", "underused insights", "old ideas now newly relevant", "theme clusters"],
+        "outputs": ["recycled_content_candidates[]"],
+        "routes": ["content_queue"]
+      },
+      {
+        "name": "linkedin.angle.generator",
+        "purpose": "Extract contrarian, polarising or high-attention angles and generate safe variants.",
+        "looks_for": ["debate", "pushback", "strong reactions", "category errors", "market myths"],
+        "outputs": ["angles[]"],
+        "routes": ["content_queue", "WIP"]
+      },
+      {
+        "name": "linkedin.knowledge.sync",
+        "purpose": "Sync links, references, docs, named systems, claims and entities into the knowledge spine with provenance.",
+        "looks_for": ["external links", "company names", "tools", "frameworks", "named systems", "claims needing validation"],
+        "outputs": ["knowledge_nodes[]"],
+        "routes": ["KB"]
+      },
+      {
+        "name": "linkedin.business.router",
+        "purpose": "Map every useful signal to one or more of the active businesses, brands, products, agents or operational queues.",
+        "looks_for": ["business fit", "brand fit", "revenue path", "delivery path", "dependency", "owner"],
+        "outputs": ["routed_jobs[]"],
+        "routes": ["PEN", "WIP", "CRM", "KB"]
+      }
+    ],
+    "standard_output_schema": {
+      "source": "linkedin",
+      "record_type": "signal|opportunity|asset|gap|person|content|knowledge_node|job",
+      "category": "business|content|network|ip|sales|product|operations|research",
+      "content": "string",
+      "source_ref": {
+        "url": "string|null",
+        "linkedin_id": "string|null",
+        "captured_at": "ISO-8601",
+        "author": "string|null"
+      },
+      "entities": {
+        "people": [],
+        "companies": [],
+        "products": [],
+        "businesses": [],
+        "topics": []
+      },
+      "score": {
+        "value": "0..1",
+        "urgency": "0..1",
+        "novelty": "0..1",
+        "confidence": "0..1"
+      },
+      "recommended_action": "string",
+      "destination": "WIP|PEN|CRM|KB|content_queue",
+      "dedupe_key": "linkedin:<type>:<stable_hash>",
+      "evidence": "REAL|PARTIAL|PRETEND"
+    },
+    "rules": [
+      "Read-only scrape/inspect first; no posting, deleting, messaging or external action without gated approval.",
+      "Archive never delete.",
+      "Every generated job must include idempotency_key, source_ref, evidence grade and rollback note.",
+      "Prefer observed data over assumptions.",
+      "Route only high-confidence opportunities directly to PEN; uncertain items go to WIP for review/enrichment.",
+      "No credentials in payloads or receipts. Use existing vault/connector secrets only.",
+      "Receipt must include counts scanned, counts classified, jobs enqueued, failures, skipped items and proof refs."
+    ],
+    "definition_of_done": [
+      "Sweeper suite registered or queued for registration.",
+      "At least one dry-run/read-only pass executed if LinkedIn data source is available.",
+      "Receipt saved under receipts/runtime/ with idempotency_key linkedin-sweeper-suite-001.",
+      "Any generated child jobs use stable dedupe keys and include source provenance.",
+      "If LinkedIn data source is unavailable, receipt states blocked reason and exact connector/export required."
+    ]
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "conversation",
+    "created_at": "2026-04-25T00:00:00Z",
+    "handover": "User requested LinkedIn data/articles/shares sweepers for businesses; finish and send to PEN; validate handover with GitHub receipts."
+  }
+}
