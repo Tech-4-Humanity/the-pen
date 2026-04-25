@@ -1,0 +1,22 @@
+{
+  "fn": "enqueue_job",
+  "action": "sweeper.external_enrichment",
+  "idempotency_key": "sweeper-external-enrich-003",
+  "priority": 5,
+  "payload": {
+    "sweeper_id": "external-enrich-sweeper-003",
+    "mode": "entity-driven",
+    "input_dependency": ["sweeper-llm-doc-signal-seed-001", "sweeper-llm-chat-ingest-002"],
+    "rules": {
+      "only_enrich_extracted_entities": true,
+      "sources": ["web", "docs", "repos", "product pages", "research"],
+      "dedupe": true,
+      "evidence_required": true
+    },
+    "outputs": {
+      "receipt_path_prefix": "receipts/runtime/sweeper-external-enrich-003",
+      "artifacts": ["entity_enrichment.jsonl", "source_links.jsonl", "evidence_scores.jsonl"]
+    },
+    "definition_of_done": ["entities enriched", "sources validated", "receipt written"]
+  }
+}
