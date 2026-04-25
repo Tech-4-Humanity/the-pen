@@ -1,0 +1,14 @@
+{
+  "action": "invoke_function",
+  "function_name": "troy-sql-executor",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "sql": "-- SEE FILE: supabase/001_accento_memory_graph.sql",
+    "dry_run": false
+  },
+  "metadata": {
+    "request_id": "accento-wave10-deploy-001",
+    "source": "the-pen",
+    "timestamp_utc": "2026-04-24T00:00:00Z"
+  }
+}
