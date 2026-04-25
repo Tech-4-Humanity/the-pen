@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "check_id": "latest_receipt",
+      "check_type": "artifact",
+      "status": "PASS"
+    },
+    {
+      "check_id": "workflow_exists",
+      "check_type": "config",
+      "status": "PASS"
+    },
+    {
+      "check_id": "executor_exists",
+      "check_type": "config",
+      "status": "PASS"
+    },
+    {
+      "check_id": "supabase_connectivity",
+      "check_type": "external",
+      "status": "WARN"
+    }
+  ]
+}
