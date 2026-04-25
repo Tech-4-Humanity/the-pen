@@ -4,10 +4,7 @@
 RCP_T4H_ClosedLoopExecutionFabric_20260424
 
 ## Status
-PARTIAL / LOCKED-BUT-UNPROVEN
-
-## Reason
-The handoff, category lock, bridge activity payload, and execution mandates have been written to GitHub. Runtime proof, Google Drive links, Supabase registry rows, Command Centre widgets, and revenue proof have not yet been returned by an execution worker.
+PARTIAL / EXPANSION-DESIGNED-BUT-UNPROVEN
 
 ## Repository
 TML-4PM/the-pen
@@ -17,6 +14,9 @@ TML-4PM/the-pen
 
 ## GitHub Issue
 https://github.com/TML-4PM/the-pen/issues/7
+
+## Latest Expansion Commit
+EXPAND_MULTI_REGION_PARTNER_ENTERPRISE.md: `0d222b96050c6dc62d7dfbf70587edc1f0412908`
 
 ## Artefacts Written
 
@@ -30,6 +30,7 @@ https://github.com/TML-4PM/the-pen/issues/7
 - `DOMINATE.md`
 - `LOCK.md`
 - `BRIDGE_ACTIVITY_PAYLOAD.json`
+- `EXPAND_MULTI_REGION_PARTNER_ENTERPRISE.md`
 
 ## Known Commits
 
@@ -43,6 +44,7 @@ https://github.com/TML-4PM/the-pen/issues/7
 - DOMINATE.md: `2f50bb36a156d65ca48d7cb1f35225629d5d34b3`
 - LOCK.md: `1a3725414b5ddc965ffe5cc142235cb69e737543`
 - BRIDGE_ACTIVITY_PAYLOAD.json: `dd5556d533e2ca48d9f912747529d7f060fe0d81`
+- EXPAND_MULTI_REGION_PARTNER_ENTERPRISE.md: `0d222b96050c6dc62d7dfbf70587edc1f0412908`
 
 ## Bridge Payload
 The executable bridge activity payload exists at:
@@ -59,10 +61,11 @@ The system must still return:
 4. Runtime execution proof.
 5. Command Centre widget references.
 6. Revenue or value attribution evidence.
-7. Updated classification.
+7. Partner or enterprise response evidence.
+8. Updated classification.
 
 ## Close Rule
-This receipt is a handoff receipt, not final proof of runtime. The system remains PARTIAL until execution proof and returned links exist.
+This receipt is a handoff receipt, not final proof of runtime. The system remains PARTIAL until execution proof, returned links, and expansion signals exist.
 
 ## Next State
-Receiver must resync GitHub, execute bridge payload, write missing assets, and update this receipt with evidence.
+Receiver must resync GitHub, execute expansion payload, generate outputs, and update this receipt with links and proof.
