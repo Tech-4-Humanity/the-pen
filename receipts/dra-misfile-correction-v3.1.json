@@ -1,0 +1,134 @@
+{
+  "receipt_id": "dra-misfile-correction-v3.1",
+  "schema": "TML-4PM/the-pen/RECEIPT_SCHEMA.json",
+  "issued_at": "2026-04-26T00:00:00Z",
+  "issuer": {
+    "principal": "Troy Latter",
+    "role": "sole_director",
+    "entity": "Tech 4 Humanity Pty Ltd",
+    "abn": "70 666 271 272"
+  },
+  "agent": {
+    "name": "Claude",
+    "session": "2026-04-22 to 2026-04-26",
+    "model_family": "Claude 4.x"
+  },
+  "status": "GATED — awaits Troy's explicit go-ahead before execution",
+  "evidence_grade": "PRETEND_UNTIL_RUN",
+  "purpose": "Correct misfiling of the Drug Resilience Atlas (DRA) in Supabase. DRA is a peer programme to AI Sweet Spots; it has been misfiled as an APPLIED case-series sub-study. Migration reclassifies DRA to CORE/PROGRAM, fixes 4 misspellings, corrects 1 wrong-n attribution, and re-frames containment relationships as cross-references.",
+  "canonical_authority": {
+    "source_doc": "s3://troy-intelligence-dashboard/GDRIVE_WORK_BACKUP/Drug Resilience Atlas V1B.docx",
+    "source_doc_size_chars": 363000,
+    "framework_paragraph": 2577,
+    "schema_paragraph": 1449,
+    "monetisation_paragraph": 2547,
+    "source_repo": "https://github.com/TML-4PM/drug-resilience-atlas",
+    "definitions_doc": "Research_Stack_Definitions_v2.docx"
+  },
+  "scope": {
+    "in_scope": [
+      "Reclassify DRA in research.t4h_study_registry from APPLIED to CORE/PROGRAM",
+      "Fix 'Drug Resistance Atlas' misspelling (2 rows + 1 view definition)",
+      "Fix 'Drug-Reaction-AI' misspelling (1 row)",
+      "Correct research_items EXT-003 mis-attribution of n=11,241 to DRA (it is ASS-2's n)",
+      "Clarify ass_study_cards.DRA row as clinical sub-cohort, not whole programme",
+      "Re-frame A3 / A3-S4 / 8 auto-seed artefacts as cross-references",
+      "Add canonical source pointers (S3 V1B.docx, GitHub repo, Notion root)",
+      "Add 6 monetisation-layer products (DRA-Learn, DRA-Pro, DRA-Health, DRA-Insight, DRA-Partner, DRA-Certify)",
+      "Snapshot all touched rows to audit.dra_misfile_correction_20260426",
+      "Broadcast SCHEMA_CHANGE event via t4h_canonical_changes -> Telegram"
+    ],
+    "out_of_scope": [
+      "Renaming DRA to anything (PRAX was a Claude fabrication, deprecated)",
+      "Changing study_id='DRA' (FK target preserved)",
+      "Seeding an AI Sweet Spots umbrella row in registry (separate workstream)",
+      "Populating the 8 auto-seed artefacts (canonical artefacts live in GitHub repo)",
+      "Resolving 5 pre-existing t4h_study_conflicts rows (separate workstream)",
+      "Reading content of V1B.docx end-to-end (out-of-scope this session)",
+      "Touching Supabase S2 (policy-gated)"
+    ]
+  },
+  "tables_touched": {
+    "research.t4h_study_registry": {"updates": 1, "notes": "DRA row promoted to CORE/PROGRAM"},
+    "public.ass_study_cards": {"updates": 1, "notes": "DRA row clarified as clinical sub-cohort"},
+    "public.t4h_research_area": {"updates": 2, "notes": "A3 + DRUG_INTERACT spelling/scope fixes"},
+    "public.t4h_research_subarea": {"updates": 1, "notes": "A3-S4 reframed as cross-reference"},
+    "public.t4h_research_asset": {"updates": 8, "notes": "8 auto-seed rows reframed as cross-reference placeholders"},
+    "public.research_items": {"updates": 1, "notes": "EXT-003 spelling + n attribution corrected"},
+    "public.research_sublayers": {"updates": 1, "notes": "T3 'Drug-Reaction-AI' fix"},
+    "research.study_id_map": {"inserts": 1, "notes": "DRA-CLINICAL alias added"},
+    "audit.dra_misfile_correction_20260426": {"creates": 1, "notes": "snapshot table for rollback"},
+    "public.t4h_canonical_changes": {"inserts": 1, "notes": "SCHEMA_CHANGE broadcast"}
+  },
+  "views_touched": {
+    "public.v_sweetspots_research_registry": {
+      "action": "CREATE OR REPLACE",
+      "notes": "Removes hardcoded 'Drug Resistance Atlas' misspelling and incorrect attribution to ASS-2 study code. Adds DRA as its own entry."
+    }
+  },
+  "expected_drift": {
+    "v_program_total_true.n_validated_active": {"before": 18380, "after": 18336, "delta_pct": -0.24},
+    "v_rollup_by_type.APPLIED.studies": {"before": 28, "after": 27, "delta": -1},
+    "v_rollup_by_type.CORE.studies": {"before": 3, "after": 4, "delta": 1},
+    "v_rollup_by_bucket.APPLIED.studies": {"before": 4, "after": 3, "delta": -1},
+    "v_rollup_by_bucket.PROGRAM.studies": {"before": 15, "after": 16, "delta": 1}
+  },
+  "execution_contract": {
+    "executor": "troy-sql-executor (single-statement only)",
+    "envelope": {"fn": "troy-sql-executor", "payload": {"sql": "<one statement>"}},
+    "endpoint": "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke",
+    "auth": "x-api-key header (server-side cap_secrets lookup)",
+    "phase_order": ["A.0", "A.1", "B", "C.1", "C.2", "D", "E", "F", "G", "I", "H"],
+    "abort_conditions": [
+      "any A.0 check returns false",
+      "snapshot count from A.1 differs from expected (≥14)",
+      "any G verification returns remaining_hits > 0"
+    ],
+    "irreversible_step": "H (Telegram broadcast — once fired, cannot be unfired; data still rollbackable)"
+  },
+  "rollback": {
+    "available": true,
+    "method": "audit.dra_misfile_correction_20260426 snapshot + Phase Z (commented at bottom of SQL)",
+    "ttl_days": 30,
+    "rollback_steps": ["Z.1 through Z.9 restore each table from snapshot", "Z.10 broadcasts the reversal"]
+  },
+  "approvals": {
+    "principal_approval": "REQUIRED — must be explicit 'go' from Troy in originating chat",
+    "auto_execution": "FORBIDDEN — even with this receipt published, no agent should auto-execute"
+  },
+  "files_in_handoff": [
+    {"path": "Handoff_Brief_DRA_Correction.md", "role": "primary entry point — read first", "size_bytes": 11484},
+    {"path": "DRA_misfile_correction_v3.1.sql", "role": "the migration to execute", "size_bytes": 27577},
+    {"path": "Research_Stack_Definitions_v2.docx", "role": "canonical research naming authority", "size_bytes": 19765},
+    {"path": "DRA_Canonical_Definition_2026-04-22.md", "role": "DRA framework + schema authority", "size_bytes": 9463},
+    {"path": "DRA_Audit_Report_2026-04-22.md", "role": "original drift audit", "size_bytes": 8584}
+  ],
+  "history": {
+    "earlier_attempts": [
+      {"version": "v1", "issue": "proposed renaming DRA to PRAX based on memory not source — withdrawn"},
+      {"version": "v2", "issue": "registry schema mismatch (assumed empty registry) — withdrawn"},
+      {"version": "v3", "issue": "enum constraint violations (PROGRAMME / programme / PROGRAMME not in allowed sets) — withdrawn"}
+    ],
+    "current_version": "v3.1",
+    "delta_v3_to_v3.1": [
+      "study_type 'PROGRAMME' -> 'CORE' (real enum value)",
+      "spot_bucket 'PROGRAMME' -> 'PROGRAM' (real enum value)",
+      "n_type 'programme' -> 'open_platform' (real enum value)",
+      "Added Phase A.0 enum verification",
+      "Added Phase I (view DDL fix)",
+      "Removed invalid INSERT...DEFAULT VALUES WHERE FALSE noop"
+    ]
+  },
+  "doc_hierarchy_compliance": {
+    "global_rule": "honoured — archive-not-delete, snapshot-before-write, GATED waits for human go",
+    "execution_contract": "honoured — single-statement bridge envelope only",
+    "enforcement_live": "honoured — change_type=SCHEMA_CHANGE, severity=NORMAL"
+  },
+  "next_actions_after_execution": [
+    "Recompute and rebroadcast canonical participant total",
+    "Decide on AI Sweet Spots umbrella row in registry",
+    "Decide on populating or deleting 8 auto-seed artefacts (R-A3-A3-S4-AST-*)",
+    "Investigate research_topics T07-S03 'Resilience Atlas Integration' under CARE",
+    "Populate s3://t4h-ip-static/resilienceatlas/ scaffold when DRA microsite ready"
+  ]
+}
