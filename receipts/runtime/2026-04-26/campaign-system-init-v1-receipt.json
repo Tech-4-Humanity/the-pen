@@ -1,0 +1,20 @@
+{
+  "request_id": "req-20260426-28135",
+  "task_id": "campaign-system-init-v1",
+  "timestamp_utc": "2026-04-26T01:37:32.031Z",
+  "source": "pen-executor",
+  "status": "PASS",
+  "reality_classification": "REAL",
+  "evidence": [
+    "enqueue_job RPC OK",
+    "job_id: \"c538d97f-fe5f-4bec-9ee7-7ad27a138e53\""
+  ],
+  "detail": {
+    "job_id": "c538d97f-fe5f-4bec-9ee7-7ad27a138e53",
+    "enqueued": true
+  },
+  "recovery": {
+    "required": false,
+    "action": "none"
+  }
+}
