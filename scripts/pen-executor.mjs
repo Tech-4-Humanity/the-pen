@@ -60,10 +60,10 @@ async function handle_enqueue_job(job) {
   const result = await supabaseRpc('enqueue_job', {
     p_biz_key:             job.idempotency_key,
     p_job_type:            job.action || p.fn || 'generic',
-    p_source_type:         'pen',
+    p_source_type:         'system',  // pen→system: work_register constraint
     p_required_outcome:    p.objective || job.action || 'execute',
     p_target_ref:          p.target_ref || null,
-    p_priority:            job.priority ?? 50,
+    p_priority:            Math.min(5, Math.max(1, job.priority ?? 3)),  // clamp 1-5
     p_autonomy_tier:       'AUTONOMOUS',
     p_product_code:        p.product_code || null,
     p_revenue_tag:         p.revenue_tag  || null,
@@ -77,10 +77,10 @@ async function handle_sql_query(job) {
   const result = await supabaseRpc('enqueue_job', {
     p_biz_key:             job.idempotency_key,
     p_job_type:            'sql_query',
-    p_source_type:         'pen',
+    p_source_type:         'system',  // pen→system: work_register constraint
     p_required_outcome:    'query_result',
     p_target_ref:          null,
-    p_priority:            job.priority ?? 50,
+    p_priority:            Math.min(5, Math.max(1, job.priority ?? 3)),  // clamp 1-5
     p_autonomy_tier:       'AUTONOMOUS',
     p_product_code:        null,
     p_revenue_tag:         null,
