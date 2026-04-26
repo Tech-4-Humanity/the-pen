@@ -1,8 +1,8 @@
 {
-  "ts": "2026-04-26T01:57:50.052Z",
-  "passed": 2,
+  "ts": "2026-04-26T02:01:11.106Z",
+  "passed": 1,
   "failed": 0,
-  "skipped": 28,
+  "skipped": 30,
   "results": [
     {
       "file": "agl-bootstrap-ddl-001.json",
@@ -17,8 +17,7 @@
     {
       "file": "bridge-mac-complete-sweeper-system-009.json",
       "key": "bridge-mac-complete-sweeper-system-009",
-      "status": "PASS",
-      "job_id": "f2335c65-8fca-4516-a8e9-ca8e196b2759"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "campaign-brandA-agents-2026-05.json",
@@ -29,6 +28,12 @@
       "file": "campaign-system-init-v1.json",
       "key": "campaign-system-init-v1",
       "status": "SKIP_IDEMPOTENT"
+    },
+    {
+      "file": "daily-brief-v2-2026-04-26.json",
+      "key": "daily-brief-v2-2026-04-26",
+      "status": "PASS",
+      "job_id": "b5978406-806b-465e-8bc0-6a66214c05f1"
     },
     {
       "file": "deploy-project-test-mcp-deploy-001.json",
@@ -88,8 +93,7 @@
     {
       "file": "signal-mining-receipt-fallback-chatgpt-20260425.json",
       "key": "signal-mining-receipt-fallback-chatgpt-20260425",
-      "status": "PASS",
-      "job_id": "c8b4dc58-d69f-44f4-8fe6-dd1e77d0d340"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "signal-mining-slice-01-research-plan-chatgpt-20260425.json",
