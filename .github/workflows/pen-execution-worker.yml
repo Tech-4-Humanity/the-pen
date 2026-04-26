@@ -6,11 +6,11 @@ on:
       task_id:
         description: Task ID to execute
         required: true
-        default: pen-smoke-task
+        default: inbox-dispatch
       mode:
         description: Execution mode
         required: true
-        default: dry_run
+        default: execute
         type: choice
         options:
           - dry_run
@@ -48,8 +48,11 @@ jobs:
 
       - name: Execute Pen task
         id: pen_execute
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
         run: |
-          node scripts/pen-executor.mjs "${{ github.event.inputs.task_id || 'auto-push-task' }}" "${{ github.event.inputs.mode || 'execute' }}"
+          node scripts/pen-executor.mjs "${{ github.event.inputs.task_id || 'inbox-dispatch' }}" "${{ github.event.inputs.mode || 'execute' }}"
 
       - name: Commit runtime artefacts
         run: |
