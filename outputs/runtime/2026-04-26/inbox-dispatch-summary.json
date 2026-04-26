@@ -1,176 +1,160 @@
 {
-  "ts": "2026-04-26T01:37:32.031Z",
-  "passed": 28,
+  "ts": "2026-04-26T01:57:50.052Z",
+  "passed": 2,
   "failed": 0,
-  "skipped": 0,
+  "skipped": 28,
   "results": [
     {
       "file": "agl-bootstrap-ddl-001.json",
       "key": "agl-bootstrap-ddl-001",
-      "status": "PASS",
-      "job_id": "8bf99db6-bf25-45bc-8838-505276f1d2de"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "agl-closure-validation-2026-04-24-chatgpt.json",
       "key": "agl-closure-validation-2026-04-24-chatgpt",
+      "status": "SKIP_IDEMPOTENT"
+    },
+    {
+      "file": "bridge-mac-complete-sweeper-system-009.json",
+      "key": "bridge-mac-complete-sweeper-system-009",
       "status": "PASS",
-      "job_id": "44162a67-19dd-4126-9bd9-23ff3f7da0ff"
+      "job_id": "f2335c65-8fca-4516-a8e9-ca8e196b2759"
     },
     {
       "file": "campaign-brandA-agents-2026-05.json",
       "key": "campaign-brandA-agents-2026-05",
-      "status": "PASS",
-      "job_id": "f1151b4f-e222-461c-bae2-5b2d3266b56a"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "campaign-system-init-v1.json",
       "key": "campaign-system-init-v1",
-      "status": "PASS",
-      "job_id": "c538d97f-fe5f-4bec-9ee7-7ad27a138e53"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "deploy-project-test-mcp-deploy-001.json",
       "key": "deploy-project-test-mcp-deploy-001",
-      "status": "PASS",
-      "job_id": "34a0a297-cf33-4830-bbf2-a26e17f4003e"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "domain-control-r53-authority-reconcile-20260426.json",
       "key": "domain-control-r53-authority-reconcile-20260426",
-      "status": "PASS",
-      "job_id": "5ebea12b-87cb-4186-99db-5d508a7719ac"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "domain-control-registrar-route53domains-partial-20260426.json",
       "key": "domain-control-registrar-route53domains-partial-20260426",
-      "status": "PASS",
-      "job_id": "25ea9d5a-ec41-4f00-ac4b-aa4a6deac0f5"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "fix-sweepers-20260424-001.json",
       "key": "fix-sweepers-20260424-001",
-      "status": "PASS",
-      "job_id": "983dbf05-84f1-46ee-b76b-f198d48e175c"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "fix-sweepers-stage2-20260424-001.json",
       "key": "fix-sweepers-stage2-20260424-001",
-      "status": "PASS",
-      "job_id": "68144b84-498e-4606-9de1-8b704a642328"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "get-work-register-constraints-001.json",
       "key": "get-work-register-constraints-001",
-      "status": "PASS",
-      "job_id": "7ec5575d-a3bb-42fd-8af5-a1cdadf4eb93"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "linkedin-sweeper-suite-001.json",
       "key": "linkedin-sweeper-suite-001",
-      "status": "PASS",
-      "job_id": "51c90ac3-383d-4e72-b1ba-13bee839f5f9"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "linkedin-sweeper-suite-wireup-001.json",
       "key": "linkedin-sweeper-suite-wireup-001",
-      "status": "PASS",
-      "job_id": "e8b35d81-b804-46eb-a456-98dc8811529c"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "pen-runtime-smoke-20260424-001.json",
       "key": "pen-runtime-smoke-20260424-001",
-      "status": "PASS",
-      "job_id": "f52a7e28-b4e2-428e-a99b-a5dd3fc28528"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "ping-chatgpt-queue-bootstrap-20260424.json",
       "key": "queue-bootstrap-ping-20260424",
-      "status": "PASS",
-      "job_id": "5eaa9e3f-85e3-4747-a8d1-572237efc829"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "signal-mining-handover-trigger-chatgpt-20260425.json",
       "key": "signal-mining-exec-slice-01-chatgpt-20260425",
+      "status": "SKIP_IDEMPOTENT"
+    },
+    {
+      "file": "signal-mining-receipt-fallback-chatgpt-20260425.json",
+      "key": "signal-mining-receipt-fallback-chatgpt-20260425",
       "status": "PASS",
-      "job_id": "076f3e55-ff01-44c7-9cfd-dec9b06f5b21"
+      "job_id": "c8b4dc58-d69f-44f4-8fe6-dd1e77d0d340"
     },
     {
       "file": "signal-mining-slice-01-research-plan-chatgpt-20260425.json",
       "key": "signal-mining-slice-01-research-plan-chatgpt-20260425",
-      "status": "PASS",
-      "job_id": "a2b2d74d-173e-4ff8-8bb9-666722d8148f"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "signal-mining-worker-mapping-chatgpt-20260425.json",
       "key": "signal-mining-worker-mapping-chatgpt-20260425",
-      "status": "PASS",
-      "job_id": "f219ba8f-cc58-45c8-aad0-ed1dc75da876"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "signal-swarm-routing-008.json",
       "key": "signal-swarm-routing-008",
-      "status": "PASS",
-      "job_id": "4ea00922-b6e7-4dda-95fa-07af8ed19a52"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "stripe-webhook-closeout-patch-verify-20260426-001.json",
       "key": "stripe-webhook-closeout-patch-verify-20260426-001",
-      "status": "PASS",
-      "job_id": "8ea6308f-d1c3-4b39-ad0e-052db4203a72"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "sweeper-audit-queue-receipts-005.json",
       "key": "sweeper-audit-queue-receipts-005",
-      "status": "PASS",
-      "job_id": "fc55e3d0-3d79-4f44-b71f-c2187f6e62d3"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "sweeper-auto-promote-007.json",
       "key": "sweeper-auto-promote-007",
-      "status": "PASS",
-      "job_id": "bf2596cb-4610-4e82-9932-932c2888e67a"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "sweeper-continuous-loop-006.json",
       "key": "sweeper-continuous-loop-006",
-      "status": "PASS",
-      "job_id": "610b7b3b-25f9-4072-b037-47b3765242f5"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "sweeper-external-enrich-003.json",
       "key": "sweeper-external-enrich-003",
-      "status": "PASS",
-      "job_id": "adb2829f-233e-4399-a1e2-5d83dbf59838"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "sweeper-llm-chat-ingest-002.json",
       "key": "sweeper-llm-chat-ingest-002",
-      "status": "PASS",
-      "job_id": "f0f0f65e-93be-4d39-9a63-6fdaa94f45de"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "sweeper-llm-doc-signal-seed-001.json",
       "key": "sweeper-llm-doc-signal-seed-001",
-      "status": "PASS",
-      "job_id": "007c9b00-41cb-4ee5-adcb-39811fd1c44c"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "sweeper-permutation-engine-004.json",
       "key": "sweeper-permutation-engine-004",
-      "status": "PASS",
-      "job_id": "51e18b6c-9667-4be5-acff-5be46865a77e"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "symbio-verifier-recover-20260424-001.json",
       "key": "symbio-verifier-recover-20260424-001",
-      "status": "PASS",
-      "job_id": "0f01373d-bd29-4fa6-8638-1b087a9d87e7"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "url-surfacing-search-coverage-v1.json",
       "key": "url-surfacing-search-coverage-v1-20260425",
-      "status": "PASS",
-      "job_id": "f344c1aa-4f7e-4d8d-8fe8-4221f68588f1"
+      "status": "SKIP_IDEMPOTENT"
     }
   ]
 }
