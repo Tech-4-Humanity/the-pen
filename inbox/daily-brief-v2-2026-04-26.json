@@ -1,0 +1,87 @@
+{
+  "fn": "enqueue_job",
+  "action": "report.generate.daily.v2",
+  "idempotency_key": "daily-brief-v2-2026-04-26",
+  "priority": 5,
+  "payload": {
+    "intent": "Replace dual morning reports with one canonical text-first daily brief.",
+    "problem_observed": [
+      "Two reports are being produced: T4H Morning Brief and HoloOrg Morning Brief.",
+      "T4H report is arriving as raw HTML/DOCTYPE in Gmail and is unreadable.",
+      "HoloOrg report is readable but too shallow to be operationally meaningful.",
+      "Metrics conflict: HoloOrg shows 49/49 products ready while T4H HTML reports product/site counters as 0.",
+      "Report lacks deltas, evidence links, queue/worker visibility, and next actions."
+    ],
+    "required_outcome": {
+      "single_email_only": true,
+      "format": "text/plain",
+      "html_policy": "disable raw HTML email body; optional HTML only as secondary MIME part after text/plain is confirmed readable",
+      "report_name": "T4H Daily Brief",
+      "must_block_send_if_missing_required_signals": true
+    },
+    "canonical_sections": [
+      "STATE",
+      "CHANGES_24H",
+      "BREAKS",
+      "PIPELINE",
+      "FINANCIAL_RDTI",
+      "EXECUTION",
+      "NEXT_ACTIONS"
+    ],
+    "required_signals": {
+      "agents": "int >= 0",
+      "products_ready": "int >= 0",
+      "products_live": "int >= 0",
+      "sites_active": "int >= 0 or explicit UNKNOWN with reason",
+      "businesses_active": "int >= 0",
+      "businesses_total": "int >= active",
+      "leads_24h": "int >= 0",
+      "forms_verified_24h": "int >= 0 or FAIL",
+      "emails_sent_24h": "int >= 0",
+      "agent_runs_24h": "int >= 0",
+      "queue_depth": "int >= 0 or explicit UNKNOWN with reason",
+      "failed_jobs_24h": "int >= 0",
+      "rdti_status": "string with date/ref/amount if known",
+      "doc_matrix_complete": "int >= 0",
+      "doc_matrix_total": "int >= complete"
+    },
+    "break_rules": [
+      "agent_runs_24h == 0 => Agent system idle",
+      "emails_sent_24h == 0 => Email pipeline down or idle; distinguish with evidence",
+      "leads_24h == 0 => No leads captured; verify forms before assuming no demand",
+      "products_ready != products_live => Product count mismatch",
+      "sites_active unknown or zero while known platform URLs exist => Site state mismatch",
+      "doc_matrix_complete == 0 and doc_matrix_total > 0 => RDTI evidence pipeline critical"
+    ],
+    "sample_text_output": "T4H DAILY — 26 APR\n\nSTATE\nAgents: 50\nProducts: 49 (VERIFY — mismatch)\nSites: UNKNOWN (DATA ISSUE)\nBusinesses: 6 active / 28 total\n\nCHANGES (24h)\n- Agent runs: 0\n- Leads: 0\n- Emails sent: 0\n\nBREAKS\n1. Agent system idle\n2. Email pipeline not sending or not measured\n3. Lead capture unverified\n4. Product/site count mismatch\n5. RDTI doc matrix not populated\n\nPIPELINE\nLeads: 0\nForms: NOT VERIFIED\nAlerts: FAIL/UNKNOWN\n\nFINANCIAL / RDTI\nRDTI: $929K pending; ref PYV4R3VPW if current\nDocs: verify doc matrix baseline\n\nEXECUTION\nQueue depth: UNKNOWN\nWorkers: IDLE/UNKNOWN\nFailed jobs: UNKNOWN\n\nNEXT\n1. Trigger one test agent job and log receipt\n2. Submit one test lead and verify DB + email\n3. Reconcile product/site counters against source-of-truth\n4. Populate doc matrix baseline\n5. Add queue/worker status to tomorrow’s brief",
+    "implementation_notes": {
+      "sender": "atlas@tech4humanity.com.au or current morning-brief sender",
+      "content_type": "text/plain; charset=utf-8",
+      "idempotency": "one report per day per tenant; dedupe on date + report_name",
+      "evidence": "include source table/view/query or receipt link for every critical count",
+      "archive_not_delete": "archive legacy template/sender; do not delete until v2 verified for 3 runs"
+    },
+    "validation_required": [
+      "Force run report.generate.daily.v2",
+      "Confirm exactly one email arrives",
+      "Confirm no raw HTML/DOCTYPE visible in Gmail list or body",
+      "Confirm STATE counters reconcile or show explicit mismatch",
+      "Confirm NEXT_ACTIONS created/enqueued where safe",
+      "Write runtime receipt with email subject, generated_at, send_status, signal coverage, and mismatch list"
+    ],
+    "source_context": {
+      "gmail_subjects_seen": [
+        "✅ T4H Morning Brief — Sunday 26 Apr 2026",
+        "HoloOrg Morning Brief - 2026-04-25"
+      ],
+      "user_observation": "two reports: one arrives in HTML and is useless; the other lacks detail to be meaningful"
+    }
+  },
+  "meta": {
+    "actor": "troy/chatgpt",
+    "handoff": "bridge/pen",
+    "created_at": "2026-04-26T01:00:00+10:00",
+    "source": "chatgpt",
+    "receipt_required": true
+  }
+}
