@@ -50,7 +50,12 @@ jobs:
         id: pen_execute
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
+          BRIDGE_KEY: ${{ secrets.BRIDGE_KEY }}
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           node scripts/pen-executor.mjs "${{ github.event.inputs.task_id || 'inbox-dispatch' }}" "${{ github.event.inputs.mode || 'execute' }}"
 
