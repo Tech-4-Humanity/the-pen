@@ -1,0 +1,108 @@
+{
+  "fn": "enqueue_job",
+  "action": "bridge.mac_worker.complete_sweeper_system",
+  "idempotency_key": "bridge-mac-complete-sweeper-system-009",
+  "priority": 2,
+  "payload": {
+    "name": "Complete Continuous Sweeper System via Bridge/Mac Worker",
+    "target_worker": "mac_endpoint_or_available_bridge_worker",
+    "mode": "execute_validate_and_receipt",
+    "source_jobs": [
+      "sweeper-llm-doc-signal-seed-001",
+      "sweeper-llm-chat-ingest-002",
+      "sweeper-external-enrich-003",
+      "sweeper-permutation-engine-004",
+      "sweeper-audit-queue-receipts-005",
+      "sweeper-continuous-loop-006",
+      "sweeper-auto-promote-007",
+      "signal-swarm-routing-008"
+    ],
+    "source_inbox_files": [
+      "inbox/sweeper-llm-doc-signal-seed-001.json",
+      "inbox/sweeper-llm-chat-ingest-002.json",
+      "inbox/sweeper-external-enrich-003.json",
+      "inbox/sweeper-permutation-engine-004.json",
+      "inbox/sweeper-audit-queue-receipts-005.json",
+      "inbox/sweeper-continuous-loop-006.json",
+      "inbox/sweeper-auto-promote-007.json",
+      "inbox/signal-swarm-routing-008.json"
+    ],
+    "docs": [
+      "docs/sweepers/CONTINUOUS_SIGNAL_SWEEPERS.md",
+      "receipts/runtime/sweeper-handover-006.json"
+    ],
+    "required_actions": [
+      "read all listed source inbox files",
+      "confirm each job exists on main",
+      "execute or claim any unprocessed jobs through the normal bridge queue path",
+      "install or verify continuous loop schedule or self-requeue fallback",
+      "install or verify auto-promote-to-PEN promotion gate",
+      "install or verify signal-swarm routing manifest",
+      "run queue and receipt audit",
+      "write runtime receipts for each completed step",
+      "write final bridge/Mac worker receipt with exact outcomes, blocked reasons, and next actions"
+    ],
+    "required_outputs": {
+      "receipt_path_prefix": "receipts/runtime/bridge-mac-complete-sweeper-system-009",
+      "artifacts": [
+        "bridge_mac_execution_summary.md",
+        "job_status_matrix.json",
+        "worker_pickup_trace.json",
+        "receipt_trace.json",
+        "missing_or_blocked_jobs.json",
+        "promotion_status.json",
+        "swarm_routing_status.json",
+        "continuous_loop_status.json"
+      ],
+      "audit_event": "bridge.mac_worker.complete_sweeper_system.completed"
+    },
+    "definition_of_done": [
+      "all eight source jobs checked",
+      "continuous loop either installed or blocked reason recorded",
+      "auto-promotion either installed or blocked reason recorded",
+      "signal swarm routing either installed or blocked reason recorded",
+      "PEN promotion path verified",
+      "receipts/runtime contains bridge_mac final receipt",
+      "audit.log row written",
+      "no source files deleted or mutated",
+      "if worker cannot execute, it emits exact failure reason and repair job"
+    ],
+    "fallback": {
+      "if_mac_endpoint_unavailable": "use any available bridge worker and emit mac_endpoint_unavailable in receipt",
+      "if_worker_cannot_access_drive": "record access failure and continue validating non-drive queue components",
+      "if_cron_unavailable": "install self-requeue inbox tick pattern",
+      "if_execution_blocked": "write repair job to inbox with stable idempotency key and exact blocked reason"
+    },
+    "safety": {
+      "read_only_original_sources": true,
+      "archive_not_delete": true,
+      "no_direct_gated_actions": true,
+      "human_gate_required_for": [
+        "delete",
+        "deploy",
+        "RLS_change",
+        "IAM_change",
+        "credential_use",
+        "payment_action",
+        "legal_action",
+        "external_outreach"
+      ],
+      "redact_private_contacts_and_credentials_in_summaries": true
+    },
+    "proof_commits_known": {
+      "001": "3523f0de59b064bf0c3dc0fb202e744900ec0fbd",
+      "002": "c80af075ed35a440e5fb312a09eac0b28f640df6",
+      "003": "7edf599819e30e32dccda9ca8a5d3d164ebc5eb3",
+      "004": "c0098dd301f548fc039c03653b2c59532a540ab3",
+      "005": "afc95daa5e2c8eea7037e2163b0eff781627004a",
+      "006": "ab8d30d917730d604f1e64d57ef031acdf096987",
+      "007": "75d887d48e137c6555a8f4137e20bedac2ddf8f7",
+      "008": "76f4dbf801fb139ad9b24dbb3cf23868129e232d",
+      "docs": "5be75cf076c1eb4c98582e9a2221e5ea88fa6ba8",
+      "handover_receipt": "4ae813b667a9940584c0da93908cac65f3c40313"
+    },
+    "requested_by": "troy",
+    "source": "chatgpt",
+    "created_at": "2026-04-26T23:30:00+10:00"
+  }
+}
