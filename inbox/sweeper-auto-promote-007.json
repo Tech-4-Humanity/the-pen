@@ -1,0 +1,101 @@
+{
+  "fn": "enqueue_job",
+  "action": "sweeper.install_auto_promote_to_pen",
+  "idempotency_key": "sweeper-auto-promote-007",
+  "priority": 3,
+  "payload": {
+    "name": "Auto-promote high-value sweeper candidates into PEN",
+    "mode": "install_or_verify_promotion_gate",
+    "input_dependency": [
+      "sweeper-permutation-engine-004",
+      "sweeper-audit-queue-receipts-005",
+      "sweeper-continuous-loop-006"
+    ],
+    "source_artifacts": [
+      "candidate_jobs_ranked.jsonl",
+      "blocked_or_failed_jobs.json",
+      "audit_summary.md"
+    ],
+    "promotion_rules": {
+      "target_queue": "PEN",
+      "promote_when": {
+        "min_confidence": 0.75,
+        "min_value": 0.8,
+        "has_source_evidence": true,
+        "not_duplicate": true,
+        "not_blocked_by_human_gate": true
+      },
+      "fast_track_when": {
+        "urgent_value_gte": 0.9,
+        "security_or_compliance": true,
+        "system_execution_blocker": true
+      },
+      "do_not_promote_when": [
+        "requires_payment_action",
+        "requires_IAM_change",
+        "requires_credentials",
+        "requires_delete",
+        "requires_RLS_change",
+        "requires_legal_action",
+        "requires_external_outreach_without_gate",
+        "missing_source_evidence",
+        "confidence_below_threshold"
+      ]
+    },
+    "job_shape": {
+      "fn": "enqueue_job",
+      "action": "pen.execute_candidate",
+      "idempotency_key_template": "pen-promote-{source_candidate_id}",
+      "priority_template": "derived_from_value_urgency_and_blocker_score",
+      "payload_required_fields": [
+        "candidate_id",
+        "title",
+        "source_refs",
+        "reason",
+        "expected_outcome",
+        "definition_of_done",
+        "rollback_or_stop_condition",
+        "owner_agent",
+        "gate_class",
+        "value_score",
+        "confidence_score"
+      ]
+    },
+    "outputs": {
+      "receipt_path_prefix": "receipts/runtime/sweeper-auto-promote-007",
+      "audit_event": "sweeper.install_auto_promote_to_pen.completed",
+      "artifacts": [
+        "promotion_manifest.json",
+        "promoted_jobs.jsonl",
+        "held_for_gate.jsonl",
+        "rejected_promotions.jsonl",
+        "promotion_summary.md"
+      ]
+    },
+    "definition_of_done": [
+      "promotion manifest created or verified",
+      "top-ranked candidate jobs evaluated",
+      "eligible jobs promoted to PEN with idempotency keys",
+      "blocked gated jobs held with reason",
+      "receipt written",
+      "audit.log row written"
+    ],
+    "safety": {
+      "archive_not_delete": true,
+      "no_direct_execution_of_gated_actions": true,
+      "human_gate_required_for": [
+        "delete",
+        "deploy",
+        "RLS_change",
+        "IAM_change",
+        "credential_use",
+        "payment_action",
+        "legal_action",
+        "external_outreach"
+      ]
+    },
+    "requested_by": "troy",
+    "source": "chatgpt",
+    "created_at": "2026-04-26T23:20:00+10:00"
+  }
+}
