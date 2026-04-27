@@ -1,8 +1,8 @@
 {
-  "ts": "2026-04-27T02:39:16.500Z",
+  "ts": "2026-04-27T02:42:20.386Z",
   "passed": 0,
   "failed": 0,
-  "skipped": 33,
+  "skipped": 34,
   "results": [
     {
       "file": "agl-bootstrap-ddl-001.json",
@@ -165,6 +165,12 @@
       "file": "symbio-verifier-recover-20260424-001.json",
       "key": "symbio-verifier-recover-20260424-001",
       "status": "SKIP_IDEMPOTENT"
+    },
+    {
+      "file": "synal-signal-composer-placement-extension-2026-04-27-002.json",
+      "key": "synal-signal-composer-placement-extension-2026-04-27-002",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
     },
     {
       "file": "url-surfacing-search-coverage-v1.json",
