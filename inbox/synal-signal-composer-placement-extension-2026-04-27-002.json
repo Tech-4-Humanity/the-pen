@@ -1,0 +1,155 @@
+{
+  "idempotency_key": "synal-signal-composer-placement-extension-2026-04-27-002",
+  "created_at": "2026-04-27T00:00:00+10:00",
+  "origin": "chatgpt",
+  "destination": "pen",
+  "status": "submitted",
+  "title": "Synal placement/browser extension for Signal Composer",
+  "reality_classification": "PARTIAL",
+  "parent_job": "signal-composer-control-layer-2026-04-27-001",
+  "parent_commit_sha": "5158cd90683faa61517d40b67107681fe87febfb",
+  "grouping": "SYNAL",
+  "reuse_first": true,
+  "not_greenfield": true,
+  "observed_existing_assets": {
+    "github_repo_search": "No indexed Synal repository or Synal/signal/browser/place source assets found via connector search at time of enqueue.",
+    "reuse_anchor": "Use parent Signal Composer job as canonical base and extend it into Synal placement/browser surfaces rather than creating a new standalone system."
+  },
+  "intent": "Attach the Signal Composer control layer to Synal as the placement, browser, overlay and environment-aware interaction system. Ensure it works across browser text boxes, web apps, sticky/overlay surfaces, command palettes, email/calendar/chat entry points and away-from-keyboard capture.",
+  "thread_parse_delta": {
+    "new_requirement": "Because this involves place/browser/overlay behaviour, it belongs in the Synal grouping.",
+    "operator_instruction": "Do not start from zero. Reuse prior Signal Composer taxonomy, parser, router, dogfood scenarios and control tower design.",
+    "meaning_of_place": "The UI/control surface where the signal is composed, suggested, selected, overlaid, captured or routed — browser field, desktop overlay, chat thread, calendar title, email subject, meeting transcript, voice capture, watch, mobile share sheet, or command centre tile."
+  },
+  "synal_extension_modules": [
+    {
+      "name": "Synal Placement Registry",
+      "purpose": "Canonical registry of where Signal Composer can appear: browser text box, email subject, calendar title, chat composer, docs header, sticky overlay, mobile share sheet, voice capture, meeting transcript, command centre widget.",
+      "reuse": "Consumes Signal Composer taxonomy and parser."
+    },
+    {
+      "name": "Browser Overlay Injector",
+      "purpose": "Detect editable fields and offer compact Signal Composer chip, stepper, autocomplete or hidden power-user mode.",
+      "reuse": "Uses existing composer modes rather than inventing a new UX."
+    },
+    {
+      "name": "Place-Aware Defaults",
+      "purpose": "Change default options by location: email defaults to Info/Decision/Action, calendar defaults to Review/Action, support defaults to Incident/Customer, launch pages default to Decision/Launch.",
+      "reuse": "Uses weighting engine and policy rules from parent job."
+    },
+    {
+      "name": "Context Capture Adapter",
+      "purpose": "Capture page URL, app name, field label, selected text, transcript segment or screenshot reference as evidence metadata without overcollecting content.",
+      "reuse": "Binds to audit.signal_event and audit evidence states."
+    },
+    {
+      "name": "Sticky/Overlay Surface",
+      "purpose": "Modern sticky-style signal cards that can sit over browser/desktop contexts and convert thoughts into structured signals, tasks, decisions or queue jobs.",
+      "reuse": "Routes through runtime.signal_queue; no standalone sticky database."
+    },
+    {
+      "name": "Synal Control Tower Rollup",
+      "purpose": "Show signal load by place, tool, user, role, org, control tower and portfolio; expose stuck decisions, noisy surfaces and high-value routes.",
+      "reuse": "Extends cc.signal_widget_config and existing control tower model."
+    }
+  ],
+  "placement_registry_seed": [
+    {
+      "place_key": "browser.generic_textbox",
+      "surface": "browser",
+      "default_mode": "compact_chip",
+      "allowed_modes": ["hidden", "inline", "stepper", "hybrid", "auto_suggest"],
+      "default_policy": "suggest_only"
+    },
+    {
+      "place_key": "email.subject",
+      "surface": "email",
+      "default_mode": "inline_autocomplete",
+      "allowed_modes": ["inline", "stepper", "hybrid", "auto_suggest"],
+      "default_policy": "require_type_value_for_external_exec"
+    },
+    {
+      "place_key": "calendar.title",
+      "surface": "calendar",
+      "default_mode": "stepper",
+      "allowed_modes": ["stepper", "hybrid", "auto_suggest"],
+      "default_policy": "require_time_for_action_or_decision"
+    },
+    {
+      "place_key": "chat.composer",
+      "surface": "chat",
+      "default_mode": "inline",
+      "allowed_modes": ["hidden", "inline", "hybrid", "auto_suggest"],
+      "default_policy": "optional_with_auto_classify"
+    },
+    {
+      "place_key": "meeting.transcript",
+      "surface": "meeting",
+      "default_mode": "auto_suggest",
+      "allowed_modes": ["auto_suggest", "review_queue"],
+      "default_policy": "extract_decisions_actions_reviews"
+    },
+    {
+      "place_key": "mobile.share_sheet",
+      "surface": "mobile",
+      "default_mode": "stepper",
+      "allowed_modes": ["stepper", "voice", "preset"],
+      "default_policy": "fast_capture_then_queue"
+    },
+    {
+      "place_key": "desktop.sticky_overlay",
+      "surface": "desktop_overlay",
+      "default_mode": "hybrid",
+      "allowed_modes": ["sticky_card", "stepper", "inline", "voice"],
+      "default_policy": "capture_to_wip_then_route"
+    },
+    {
+      "place_key": "command_centre.tile",
+      "surface": "control_tower",
+      "default_mode": "dashboard_filter",
+      "allowed_modes": ["dashboard_filter", "drilldown", "bulk_route"],
+      "default_policy": "read_first_gated_write"
+    }
+  ],
+  "new_supabase_tables_or_extensions": [
+    "ops.synal_place_registry",
+    "ops.synal_surface_policy",
+    "audit.synal_capture_event",
+    "runtime.synal_route_queue",
+    "cc.synal_signal_widget_config"
+  ],
+  "implementation_outputs_required": [
+    "supabase/synal_signal_extension.sql",
+    "packages/signal-core/src/parser.ts",
+    "packages/signal-core/src/taxonomy.ts",
+    "packages/synal-placement/src/placeRegistry.ts",
+    "packages/synal-placement/src/browserOverlay.tsx",
+    "packages/synal-placement/src/stickySignalCard.tsx",
+    "packages/synal-placement/src/contextCapture.ts",
+    "workers/synalSignalRouter.ts",
+    "tests/synal-placement.scenarios.json",
+    "docs/synal-signal-composer-extension.md"
+  ],
+  "acceptance_criteria": [
+    "Does not duplicate parent Signal Composer taxonomy/parser/router concepts",
+    "Every placement references a canonical place_key",
+    "Browser overlay can run in suggest-only mode before any write actions",
+    "Sticky overlay creates structured signal objects, not loose notes",
+    "Context capture stores source metadata without requiring screenshots/content unless explicitly allowed",
+    "All route writes are queued and idempotent",
+    "Control tower can show signal volume/value by place/surface/org/role",
+    "Deploy/RLS remains gated; read/inspect/enqueue can be autonomous"
+  ],
+  "dogfood_validation": [
+    "Use Signal Composer inside a browser text field to tag this Synal job",
+    "Use sticky overlay to capture a launch approval thought and route to Pen",
+    "Use calendar placement to schedule a review from a tag",
+    "Use meeting transcript extraction to identify decisions/actions",
+    "Show Synal control tower rollup for decisions vs actions vs noise by place"
+  ],
+  "handoff": {
+    "target": "Pen first, then Symbio implementation branch; Synapse only after Gatekeeper validation.",
+    "next_worker_action": "Build extension bundle by reusing parent job assets, creating placement registry schema and browser/sticky overlay components, then emit runtime receipt.",
+    "autonomy_tier": "AUTO for inspect/enqueue/build assets; GATED for deploy/RLS/browser extension publication; BLOCKED for creds/payments/IAM/legal."
+  }
+}
