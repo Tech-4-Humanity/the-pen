@@ -1,8 +1,8 @@
 {
-  "ts": "2026-04-27T01:35:42.794Z",
+  "ts": "2026-04-27T02:39:16.500Z",
   "passed": 0,
   "failed": 0,
-  "skipped": 32,
+  "skipped": 33,
   "results": [
     {
       "file": "agl-bootstrap-ddl-001.json",
@@ -87,6 +87,12 @@
     {
       "file": "reuse-enforcement-layer-2026-04-27.json",
       "key": "reuse-enforcement-layer-2026-04-27-001",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "signal-composer-control-layer-2026-04-27-001.json",
+      "key": "signal-composer-control-layer-2026-04-27-001",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     },
