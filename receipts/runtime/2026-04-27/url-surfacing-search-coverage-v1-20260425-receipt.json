@@ -1,0 +1,20 @@
+{
+  "request_id": "req-20260427-2783",
+  "task_id": "url-surfacing-search-coverage-v1-20260425",
+  "timestamp_utc": "2026-04-27T00:52:25.013Z",
+  "source": "pen-executor",
+  "status": "PASS",
+  "reality_classification": "REAL",
+  "evidence": [
+    "enqueue_job RPC OK",
+    "job_id: \"36422a7f-513e-4dba-a774-2e5782197fb0\""
+  ],
+  "detail": {
+    "job_id": "36422a7f-513e-4dba-a774-2e5782197fb0",
+    "enqueued": true
+  },
+  "recovery": {
+    "required": false,
+    "action": "none"
+  }
+}

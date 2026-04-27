@@ -1,16 +1,8 @@
 {
-  "request_id": "req-20260427-summary",
-  "task_id": "inbox-dispatch",
-  "timestamp_utc": "2026-04-27T00:52:25.013Z",
-  "source": "pen-executor",
-  "status": "PASS",
-  "reality_classification": "REAL",
-  "summary": {
-    "passed": 31,
-    "failed": 0,
-    "skipped": 0,
-    "total": 31
-  },
+  "ts": "2026-04-27T00:52:25.013Z",
+  "passed": 31,
+  "failed": 0,
+  "skipped": 0,
   "results": [
     {
       "file": "agl-bootstrap-ddl-001.json",
@@ -198,9 +190,5 @@
       "status": "PASS",
       "job_id": "36422a7f-513e-4dba-a774-2e5782197fb0"
     }
-  ],
-  "recovery": {
-    "required": false,
-    "action": "none"
-  }
+  ]
 }

@@ -1,0 +1,20 @@
+{
+  "request_id": "req-20260427-23191",
+  "task_id": "signal-mining-exec-slice-01-chatgpt-20260425",
+  "timestamp_utc": "2026-04-27T00:52:25.013Z",
+  "source": "pen-executor",
+  "status": "PASS",
+  "reality_classification": "REAL",
+  "evidence": [
+    "enqueue_job RPC OK",
+    "job_id: \"2b1d3a5f-28bb-4ffb-b6b2-ab858ae64b9c\""
+  ],
+  "detail": {
+    "job_id": "2b1d3a5f-28bb-4ffb-b6b2-ab858ae64b9c",
+    "enqueued": true
+  },
+  "recovery": {
+    "required": false,
+    "action": "none"
+  }
+}

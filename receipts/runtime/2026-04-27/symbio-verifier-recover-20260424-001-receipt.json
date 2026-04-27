@@ -1,0 +1,20 @@
+{
+  "request_id": "req-20260427-27612",
+  "task_id": "symbio-verifier-recover-20260424-001",
+  "timestamp_utc": "2026-04-27T00:52:25.013Z",
+  "source": "pen-executor",
+  "status": "PASS",
+  "reality_classification": "REAL",
+  "evidence": [
+    "enqueue_job RPC OK",
+    "job_id: \"62d67031-42c3-43fc-a9f4-fda5e1f7dcbc\""
+  ],
+  "detail": {
+    "job_id": "62d67031-42c3-43fc-a9f4-fda5e1f7dcbc",
+    "enqueued": true
+  },
+  "recovery": {
+    "required": false,
+    "action": "none"
+  }
+}
