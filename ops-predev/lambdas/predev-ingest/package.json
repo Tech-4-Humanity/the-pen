@@ -1,0 +1,9 @@
+{
+  "name": "predev-ingest",
+  "version": "1.0.0",
+  "description": "ops.predev ingest Lambda — writes pre-dev items to ops_predev table",
+  "main": "index.js",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0"
+  }
+}
