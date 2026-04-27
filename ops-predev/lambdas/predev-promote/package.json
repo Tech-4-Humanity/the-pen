@@ -1,0 +1,9 @@
+{
+  "name": "predev-promote",
+  "version": "1.0.0",
+  "description": "ops.predev promote Lambda — moves item to agent_work_queue, triggers unblock cascade",
+  "main": "index.js",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0"
+  }
+}
