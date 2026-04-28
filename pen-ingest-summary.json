@@ -1,8 +1,8 @@
 {
   "worker": "github-actions/pen-ingest",
-  "processed_at": "2026-04-28T15:15:49.828Z",
+  "processed_at": "2026-04-28T15:18:00.170Z",
   "target_key": null,
-  "jobs_found": 37,
+  "jobs_found": 38,
   "results": [
     {
       "job": "agl-bootstrap-ddl-001.json",
@@ -129,7 +129,7 @@
       "job": "force-execute-bridge-mac-sweeper-010.json",
       "idempotency_key": "force-execute-bridge-mac-sweeper-010",
       "receipt_path": "receipts/runtime/force-execute-bridge-mac-sweeper-010.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -395,6 +395,17 @@
       "idempotency_key": "url-surfacing-search-coverage-v1-20260425",
       "receipt_path": "receipts/runtime/url-surfacing-search-coverage-v1-20260425.receipt.json",
       "receipt_created": false,
+      "evidence_state": "PARTIAL",
+      "status": "invalid",
+      "errors": [
+        "Missing required fields: origin, destination"
+      ]
+    },
+    {
+      "job": "worker-bootstrap-mac-011.json",
+      "idempotency_key": "worker-bootstrap-mac-011",
+      "receipt_path": "receipts/runtime/worker-bootstrap-mac-011.receipt.json",
+      "receipt_created": true,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [

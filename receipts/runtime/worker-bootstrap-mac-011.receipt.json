@@ -1,0 +1,40 @@
+{
+  "idempotency_key": "worker-bootstrap-mac-011",
+  "parent_job": null,
+  "status": "invalid",
+  "processed_at": "2026-04-28T15:18:00.168Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/worker-bootstrap-mac-011.json",
+  "source_sha256": "cb601fb954d210a594dc273cb73b9871d49af0aac7ef08be7b4b72b11d3dd681",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "reality/evidence state missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit under a new idempotency key."
+  ]
+}
