@@ -1,0 +1,19 @@
+{
+  "coaxthreadid": "COAX-2026-04-28-X01",
+  "from": "COAX-G",
+  "to": "COAX-X",
+  "agent": "COAX-X",
+  "targetsystem": "Grok",
+  "intent": "Validate BASIQ CDR consent flow against production API surface; flag rate limits, sandbox vs prod contradictions, and ADR sponsor SLA obligations",
+  "classification": "RISK",
+  "scope": {"regions": ["AU"], "timeframe": "current", "depth": "medium"},
+  "questions": [
+    "What CDR consent scopes does BASIQ production expose vs sandbox?",
+    "What are current BASIQ rate limits for data holder connections?",
+    "What ADR sponsor obligations apply to MAAT before go-live?",
+    "What contradictions exist between sandbox test results and production behaviour?"
+  ],
+  "returnrequired": {"format": "json", "include": ["findings","contradictions","opportunities","risks","sources","confidence"]},
+  "nopretendgates": ["github_write", "execution_surface_receipt", "coaxthreadid_match", "url_present", "schema_valid", "runtime_log_exists"],
+  "dispatched_at_utc": "2026-04-28T12:09:00Z"
+}

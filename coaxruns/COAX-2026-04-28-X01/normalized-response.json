@@ -1,0 +1,14 @@
+{
+  "coaxthreadid": "COAX-2026-04-28-X01",
+  "normalised_by": "COAX-G",
+  "timestamputc": "2026-04-28T12:09:00Z",
+  "items": [
+    {"id": "F01", "type": "RISK", "decision": "Block MAAT BASIQ go-live until production consent scope confirmed", "action": "Troy / MAAT build", "proof": "Production API call log + consent scope list", "state": "ROUTED", "reality": "PARTIAL", "fate": "active"},
+    {"id": "F02", "type": "RISK", "decision": "Add rate limit handler to MAAT batch reconciliation", "action": "Build Agent", "proof": "Load test result at 300 req/min", "state": "ROUTED", "reality": "PARTIAL", "fate": "active"},
+    {"id": "F03", "type": "RISK", "decision": "Confirm ADR sponsor registration before live call", "action": "Troy / compliance", "proof": "ACCC accreditation record + registered software product ID", "state": "ROUTED", "reality": "PARTIAL", "fate": "active"},
+    {"id": "F04", "type": "OPS",  "decision": "Park CDR Phase 3 payment initiation for MAAT v2", "action": "Archive Agent", "proof": "N/A — parked", "state": "PARKED", "reality": "PARTIAL", "fate": "parked"},
+    {"id": "C01", "type": "RISK", "decision": "Sandbox test != prod proof. Require production run before REAL.", "action": "COAX-G proof gate", "proof": "Production run log in Supabase", "state": "ROUTED", "reality": "PARTIAL", "fate": "active"}
+  ],
+  "reality": "PARTIAL",
+  "blockers": ["ADR accreditation unconfirmed", "No production BASIQ test run exists"]
+}

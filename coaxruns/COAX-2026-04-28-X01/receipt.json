@@ -1,0 +1,16 @@
+{
+  "receiptid": "RCP-COAXX-20260428-X01",
+  "coaxthreadid": "COAX-2026-04-28-X01",
+  "agent": "COAX-X",
+  "machineemitter": "bridge-worker-intake",
+  "emitsurface": "the-pen",
+  "prooftype": "external-api-research-completion",
+  "proofuri": "https://github.com/TML-4PM/the-pen/tree/main/coaxruns/COAX-2026-04-28-X01/receipt.json",
+  "githubcommitsha": "PENDING_WRITE",
+  "hiltouched": false,
+  "status": "completed",
+  "timestamputc": "2026-04-28T12:09:00Z",
+  "reality": "PARTIAL",
+  "nopretendgates_passed": ["coaxthreadid_match", "schema_valid", "url_present"],
+  "nopretendgates_pending": ["github_write", "execution_surface_receipt", "runtime_log_exists"]
+}

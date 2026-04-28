@@ -1,0 +1,25 @@
+{
+  "coaxthreadid": "COAX-2026-04-28-X01",
+  "coaxagent": "COAX-X",
+  "sourcesystem": "Grok",
+  "timestamputc": "2026-04-28T12:09:00Z",
+  "task": "Validate BASIQ CDR consent flow against production API surface; flag rate limits, sandbox vs prod contradictions, and ADR sponsor SLA obligations",
+  "findings": [
+    {"id": "F01", "type": "risk", "summary": "BASIQ sandbox does not mirror production CDR consent scopes — sandbox exposes all scopes unconditionally; production requires live ADR accreditation and consumer consent per holder.", "evidencelinks": ["https://api.basiq.io/docs/cdr-overview", "https://www.cdr.gov.au/for-providers/accreditation"], "confidence": "high", "stale": false, "status": "ACTIVE"},
+    {"id": "F02", "type": "risk", "summary": "BASIQ rate limits differ per plan tier — sandbox is effectively uncapped; production Starter caps at 300 req/min per connection. MAAT batch reconciliation could hit this.", "evidencelinks": ["https://api.basiq.io/reference/rate-limits"], "confidence": "medium", "stale": false, "status": "ACTIVE"},
+    {"id": "F03", "type": "risk", "summary": "ADR sponsor obligations require MAAT to have a registered software product under an accredited ADR before calling live data holders. Sponsor SLA includes incident reporting within 30 mins.", "evidencelinks": ["https://www.cdr.gov.au/for-providers/become-an-accredited-data-recipient", "https://consumerdatastandards.gov.au/standards/"], "confidence": "high", "stale": false, "status": "ACTIVE"},
+    {"id": "F04", "type": "ops", "summary": "CDR Phase 3 payment initiation not yet live for BASIQ — watch trigger for MAAT v2 payment flows. Estimated 2026 Q3 rollout.", "evidencelinks": ["https://consumerdatastandards.gov.au/standards/versioning/"], "confidence": "medium", "stale": false, "status": "PARKED"}
+  ],
+  "contradictions": [
+    {"summary": "Sandbox test results cannot be used as proof of production CDR compliance — the two environments are architecturally different. Any REAL status on MAAT BASIQ integration requires a production test run.", "evidencelinks": ["https://api.basiq.io/docs/environments"], "confidence": "high"}
+  ],
+  "opportunities": [
+    {"summary": "MAAT can use BASIQ pre-built consent UI to reduce ADR build cost and time-to-accreditation. This path is faster than building consent flows from scratch.", "evidencelinks": ["https://api.basiq.io/docs/consent-ui"], "confidence": "medium"}
+  ],
+  "risks": [
+    {"summary": "Proceeding to production without ADR accreditation confirmation exposes MAAT to CDR enforcement action from ACCC. Block go-live gate on this.", "evidencelinks": ["https://www.accc.gov.au/focus-areas/consumer-data-right-cdr/for-accredited-data-recipients"], "confidence": "high"}
+  ],
+  "overallconfidence": "medium-high",
+  "notes": "F01 and CONTRADICTION-01 are hard blockers for REAL status on MAAT BASIQ integration. COAX-G must not mark closed until production test run exists.",
+  "reality": "PARTIAL"
+}
