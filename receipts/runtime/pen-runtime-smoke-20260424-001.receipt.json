@@ -1,0 +1,40 @@
+{
+  "idempotency_key": "pen-runtime-smoke-20260424-001",
+  "parent_job": null,
+  "status": "invalid",
+  "processed_at": "2026-04-28T14:44:34.174Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/pen-runtime-smoke-20260424-001.json",
+  "source_sha256": "a41b6772060d20776eb557c3a2ff0e512239813ff167a00b42be12d71f6cc94e",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "reality/evidence state missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit under a new idempotency key."
+  ]
+}

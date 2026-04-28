@@ -1,0 +1,33 @@
+{
+  "idempotency_key": "t4h-permanent-execution-backup-2026-04-29-001",
+  "parent_job": null,
+  "status": "processed",
+  "processed_at": "2026-04-28T14:44:34.186Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/t4h-permanent-execution-backup-2026-04-29-001.json",
+  "source_sha256": "656babc529692977c291bc610bf88e0687034b671a42768f641b3dc111471bf5",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": []
+  },
+  "classification": {
+    "lane": "CONTROLLED_LANE_PRESENT",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Receipt created. Controlled operations are not executed by this worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [],
+  "next": [
+    "Bind receipt to the audit/evidence register or repo-equivalent ledger.",
+    "Treat this receipt as proof of ingestion and validation only.",
+    "Controlled operations require the approved execution lane."
+  ]
+}

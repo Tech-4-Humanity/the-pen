@@ -1,0 +1,33 @@
+{
+  "idempotency_key": "t4h-gap-closure-execution-backup-2026-04-29-002",
+  "parent_job": "t4h-permanent-execution-backup-2026-04-29-001",
+  "status": "processed",
+  "processed_at": "2026-04-28T14:44:34.185Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/t4h-gap-closure-execution-backup-2026-04-29-002.json",
+  "source_sha256": "e07829f5f232e615ef82d150b1f55300bf5930e97536dea2438621059c9bbe88",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": []
+  },
+  "classification": {
+    "lane": "CONTROLLED_LANE_PRESENT",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Receipt created. Controlled operations are not executed by this worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [],
+  "next": [
+    "Bind receipt to the audit/evidence register or repo-equivalent ledger.",
+    "Treat this receipt as proof of ingestion and validation only.",
+    "Controlled operations require the approved execution lane."
+  ]
+}

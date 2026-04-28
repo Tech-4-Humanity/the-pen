@@ -1,0 +1,40 @@
+{
+  "idempotency_key": "get-work-register-constraints-001",
+  "parent_job": null,
+  "status": "invalid",
+  "processed_at": "2026-04-28T14:44:34.169Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/get-work-register-constraints-001.json",
+  "source_sha256": "eb30d97868bd1ab60c6628310055b621d8ac17145726c1327696d43286539574",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "reality/evidence state missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit under a new idempotency key."
+  ]
+}

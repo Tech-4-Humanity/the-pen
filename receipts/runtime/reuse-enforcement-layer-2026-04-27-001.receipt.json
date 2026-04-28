@@ -1,0 +1,35 @@
+{
+  "idempotency_key": "reuse-enforcement-layer-2026-04-27-001",
+  "parent_job": null,
+  "status": "processed",
+  "processed_at": "2026-04-28T14:44:34.175Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/reuse-enforcement-layer-2026-04-27.json",
+  "source_sha256": "3b991416b96fa310910610ce691c7d16953ea3c4fa50e43de0ebbd24a03e3963",
+  "evidence_state": "REAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": [
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [],
+  "next": [
+    "Bind receipt to the audit/evidence register or repo-equivalent ledger.",
+    "Treat this receipt as proof of ingestion and validation only.",
+    "Controlled operations require the approved execution lane."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "idempotency_key": "signal-composer-control-layer-2026-04-27-001",
+  "parent_job": null,
+  "status": "processed",
+  "processed_at": "2026-04-28T14:44:34.176Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/signal-composer-control-layer-2026-04-27-001.json",
+  "source_sha256": "088a9d3de3746c88f7b6051cd61fb82b218c4708be1a72cce09fc24742f59651",
+  "evidence_state": "REAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": [
+      "reality/evidence state missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [],
+  "next": [
+    "Bind receipt to the audit/evidence register or repo-equivalent ledger.",
+    "Treat this receipt as proof of ingestion and validation only.",
+    "Controlled operations require the approved execution lane."
+  ]
+}

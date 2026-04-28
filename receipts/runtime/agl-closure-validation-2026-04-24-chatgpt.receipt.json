@@ -1,0 +1,40 @@
+{
+  "idempotency_key": "agl-closure-validation-2026-04-24-chatgpt",
+  "parent_job": null,
+  "status": "invalid",
+  "processed_at": "2026-04-28T14:44:34.161Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/agl-closure-validation-2026-04-24-chatgpt.json",
+  "source_sha256": "49b83e25a315a828c46787d9cda2bbe35795aad06c0481f31cda500d5d1f08ca",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "reality/evidence state missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit under a new idempotency key."
+  ]
+}

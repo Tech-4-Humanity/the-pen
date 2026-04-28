@@ -1,0 +1,40 @@
+{
+  "idempotency_key": "domain-control-r53-authority-reconcile-20260426",
+  "parent_job": null,
+  "status": "invalid",
+  "processed_at": "2026-04-28T14:44:34.166Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/domain-control-r53-authority-reconcile-20260426.json",
+  "source_sha256": "051327a43a23019b715309d018f4156c35895da21de0005e9083a2c534a7b62d",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "reality/evidence state missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit under a new idempotency key."
+  ]
+}

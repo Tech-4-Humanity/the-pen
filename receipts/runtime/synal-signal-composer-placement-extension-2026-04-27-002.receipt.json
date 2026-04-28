@@ -1,0 +1,36 @@
+{
+  "idempotency_key": "synal-signal-composer-placement-extension-2026-04-27-002",
+  "parent_job": "signal-composer-control-layer-2026-04-27-001",
+  "status": "processed",
+  "processed_at": "2026-04-28T14:44:34.185Z",
+  "worker": "github-actions/pen-ingest",
+  "source_path": "inbox/synal-signal-composer-placement-extension-2026-04-27-002.json",
+  "source_sha256": "4a7a7f499c15abc69716983605f02915b07cc7671a30169643d406eabc8b4b54",
+  "evidence_state": "REAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": [
+      "reality/evidence state missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [],
+  "next": [
+    "Bind receipt to the audit/evidence register or repo-equivalent ledger.",
+    "Treat this receipt as proof of ingestion and validation only.",
+    "Controlled operations require the approved execution lane."
+  ]
+}
