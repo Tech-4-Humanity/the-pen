@@ -1,0 +1,62 @@
+name: PEN Ingest Worker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'inbox/**/*.json'
+      - 'tools/pen/pen_ingest_worker.mjs'
+      - '.github/workflows/pen-ingest.yml'
+  workflow_dispatch:
+    inputs:
+      idempotency_key:
+        description: 'Optional idempotency key filter'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pen-ingest-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    name: Ingest PEN inbox and write receipts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run PEN worker
+        env:
+          PEN_ROOT: ${{ github.workspace }}
+          PEN_WORKER_ID: github-actions/pen-ingest
+          PEN_IDEMPOTENCY_KEY: ${{ github.event.inputs.idempotency_key || '' }}
+        run: |
+          node tools/pen/pen_ingest_worker.mjs | tee pen-ingest-summary.json
+
+      - name: Commit receipts
+        run: |
+          git config user.name "pen-ingest-bot"
+          git config user.email "pen-ingest-bot@users.noreply.github.com"
+          git add receipts/runtime pen-ingest-summary.json
+          if git diff --cached --quiet; then
+            echo "No new receipts to commit"
+          else
+            git commit -m "write PEN runtime receipts"
+            git push
+          fi
+
+      - name: Print receipt summary
+        run: |
+          cat pen-ingest-summary.json
