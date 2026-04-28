@@ -1,0 +1,156 @@
+{
+  "batch_id": "obsidian_001",
+  "count": 25,
+  "themes": [
+    {
+      "idx": 0,
+      "manifest": "manifest_00.json",
+      "name": "Obsidian Pro Blue - True Black",
+      "image": "obsidian_00_true_black_blue.png"
+    },
+    {
+      "idx": 1,
+      "manifest": "manifest_01.json",
+      "name": "Obsidian Edge Purple - True Black",
+      "image": "obsidian_01_true_black_purple.png"
+    },
+    {
+      "idx": 2,
+      "manifest": "manifest_02.json",
+      "name": "Obsidian Ultra Red - True Black",
+      "image": "obsidian_02_true_black_red.png"
+    },
+    {
+      "idx": 3,
+      "manifest": "manifest_03.json",
+      "name": "Obsidian Minimal Green - True Black",
+      "image": "obsidian_03_true_black_green.png"
+    },
+    {
+      "idx": 4,
+      "manifest": "manifest_04.json",
+      "name": "Obsidian AMOLED Orange - True Black",
+      "image": "obsidian_04_true_black_orange.png"
+    },
+    {
+      "idx": 5,
+      "manifest": "manifest_05.json",
+      "name": "Obsidian Pro Blue - Graphite",
+      "image": "obsidian_05_graphite_blue.png"
+    },
+    {
+      "idx": 6,
+      "manifest": "manifest_06.json",
+      "name": "Obsidian Edge Purple - Graphite",
+      "image": "obsidian_06_graphite_purple.png"
+    },
+    {
+      "idx": 7,
+      "manifest": "manifest_07.json",
+      "name": "Obsidian Ultra Red - Graphite",
+      "image": "obsidian_07_graphite_red.png"
+    },
+    {
+      "idx": 8,
+      "manifest": "manifest_08.json",
+      "name": "Obsidian Minimal Green - Graphite",
+      "image": "obsidian_08_graphite_green.png"
+    },
+    {
+      "idx": 9,
+      "manifest": "manifest_09.json",
+      "name": "Obsidian AMOLED Orange - Graphite",
+      "image": "obsidian_09_graphite_orange.png"
+    },
+    {
+      "idx": 10,
+      "manifest": "manifest_10.json",
+      "name": "Obsidian Pro Blue - Charcoal",
+      "image": "obsidian_10_charcoal_blue.png"
+    },
+    {
+      "idx": 11,
+      "manifest": "manifest_11.json",
+      "name": "Obsidian Edge Purple - Charcoal",
+      "image": "obsidian_11_charcoal_purple.png"
+    },
+    {
+      "idx": 12,
+      "manifest": "manifest_12.json",
+      "name": "Obsidian Ultra Red - Charcoal",
+      "image": "obsidian_12_charcoal_red.png"
+    },
+    {
+      "idx": 13,
+      "manifest": "manifest_13.json",
+      "name": "Obsidian Minimal Green - Charcoal",
+      "image": "obsidian_13_charcoal_green.png"
+    },
+    {
+      "idx": 14,
+      "manifest": "manifest_14.json",
+      "name": "Obsidian AMOLED Orange - Charcoal",
+      "image": "obsidian_14_charcoal_orange.png"
+    },
+    {
+      "idx": 15,
+      "manifest": "manifest_15.json",
+      "name": "Obsidian Pro Blue - Slate",
+      "image": "obsidian_15_slate_blue.png"
+    },
+    {
+      "idx": 16,
+      "manifest": "manifest_16.json",
+      "name": "Obsidian Edge Purple - Slate",
+      "image": "obsidian_16_slate_purple.png"
+    },
+    {
+      "idx": 17,
+      "manifest": "manifest_17.json",
+      "name": "Obsidian Ultra Red - Slate",
+      "image": "obsidian_17_slate_red.png"
+    },
+    {
+      "idx": 18,
+      "manifest": "manifest_18.json",
+      "name": "Obsidian Minimal Green - Slate",
+      "image": "obsidian_18_slate_green.png"
+    },
+    {
+      "idx": 19,
+      "manifest": "manifest_19.json",
+      "name": "Obsidian AMOLED Orange - Slate",
+      "image": "obsidian_19_slate_orange.png"
+    },
+    {
+      "idx": 20,
+      "manifest": "manifest_20.json",
+      "name": "Obsidian Pro Blue - Void",
+      "image": "obsidian_20_void_blue.png"
+    },
+    {
+      "idx": 21,
+      "manifest": "manifest_21.json",
+      "name": "Obsidian Edge Purple - Void",
+      "image": "obsidian_21_void_purple.png"
+    },
+    {
+      "idx": 22,
+      "manifest": "manifest_22.json",
+      "name": "Obsidian Ultra Red - Void",
+      "image": "obsidian_22_void_red.png"
+    },
+    {
+      "idx": 23,
+      "manifest": "manifest_23.json",
+      "name": "Obsidian Minimal Green - Void",
+      "image": "obsidian_23_void_green.png"
+    },
+    {
+      "idx": 24,
+      "manifest": "manifest_24.json",
+      "name": "Obsidian AMOLED Orange - Void",
+      "image": "obsidian_24_void_orange.png"
+    }
+  ]
+}
