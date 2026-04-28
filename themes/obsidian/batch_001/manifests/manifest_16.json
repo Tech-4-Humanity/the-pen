@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Obsidian Edge Purple - Slate",
+  "version": "1.0.0",
+  "description": "Obsidian dark theme. Slate base with purple accent. AMOLED-friendly, minimal, focus-grade.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/obsidian_16_slate_purple.png",
+      "theme_toolbar": "images/obsidian_16_slate_purple.png"
+    },
+    "colors": {
+      "frame": [
+        40,
+        40,
+        40
+      ],
+      "toolbar": [
+        40,
+        40,
+        40
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        180,
+        180,
+        180
+      ],
+      "bookmark_text": [
+        220,
+        220,
+        220
+      ],
+      "ntp_background": [
+        40,
+        40,
+        40
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        88,
+        86,
+        214
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "bottom"
+    }
+  }
+}
