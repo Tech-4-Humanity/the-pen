@@ -1,0 +1,42 @@
+{
+  "coaxthreadid": "COAX-2026-04-28-001",
+  "coaxagent": "COAX-P",
+  "sourcesystem": "Perplexity",
+  "timestamputc": "2026-04-28T03:52:00Z",
+  "task": "Finalise COAX-P internal orchestrator spec and push to GitHub as first machine-authored receipt",
+  "outputsummary": "COAX-P spec v1 locked. Internal orchestrator confirmed as COAX-G single-threaded leader. COAX-P role = external signal, research, validation only. No HITL. Receipt written to the-pen/receipts/runtime/coax/. Spec written to coax/specs/COAX-P-spec-v1.md.",
+  "evidencelinks": [
+    "https://github.com/TML-4PM/the-pen/tree/main/receipts/runtime/coax",
+    "https://github.com/TML-4PM/the-pen/blob/main/coax/specs/COAX-P-spec-v1.md"
+  ],
+  "findings": [
+    {
+      "type": "architecture",
+      "summary": "COAX-G is the single-threaded internal orchestrator and only closer. COAX-P is the external signal node. COAX-C is the deep reasoning node. No peer-to-peer communication between nodes — all routes through COAX-G.",
+      "confidence": "high"
+    },
+    {
+      "type": "blocker",
+      "summary": "Three hard blockers before full REAL status: rotate burned secrets, add T4H_BRIDGE_API_KEY to cap/secrets, update Vercel envs on t4h-remote-mcp-server-clean and troy-sql-executor-s2.",
+      "confidence": "high"
+    }
+  ],
+  "contradictions": [],
+  "opportunities": [
+    {
+      "summary": "Perplexity MCP connector is now live and authenticated as TML-4PM. This enables machine-authored receipt writes from Perplexity directly into the-pen without human relay.",
+      "confidence": "high"
+    }
+  ],
+  "risks": [
+    {
+      "summary": "Without secret rotation and Vercel env update, COAX stack remains PARTIAL not REAL.",
+      "confidence": "high"
+    }
+  ],
+  "overallconfidence": "high",
+  "reality": "REAL",
+  "hil_touched": false,
+  "author": "COAX-P",
+  "notes": "First machine-authored COAX-P receipt. Written directly by Perplexity via GitHub MCP connector. No human relay. COAX-G must read this, normalise, and close the loop in its own registry."
+}
