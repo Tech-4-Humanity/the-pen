@@ -1,0 +1,27 @@
+{
+  "action": "invoke_function",
+  "function_name": "troy-lambda-deployer",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "system": "linkedin_intelligence_audit",
+    "s3_input": "s3://t4h-linkedin-intelligence/raw/latest/",
+    "s3_output": "s3://t4h-linkedin-intelligence/processed/latest/",
+    "steps": [
+      "parse",
+      "normalise",
+      "cluster",
+      "extract_articles",
+      "detect_books",
+      "map_business",
+      "extract_predictions",
+      "detect_lost_actions",
+      "generate_outputs",
+      "write_ledger"
+    ]
+  },
+  "metadata": {
+    "request_id": "linkedin-audit-20260429",
+    "source": "the-pen",
+    "timestamp_utc": "2026-04-29T00:00:00Z"
+  }
+}
