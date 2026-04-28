@@ -1,0 +1,80 @@
+{
+  "idempotency_key": "mee-mcp-bootstrap-20260429-001",
+  "job_id": "mee-job-ingest-001",
+  "system": "MEE",
+  "title": "Bootstrap My Employment Engine MCP stack",
+  "created_by": "chatgpt",
+  "execution_tier": "AUTO_READ_INSPECT_ENQUEUE",
+  "destination": "WIP_TO_PEN_TO_BRIDGE",
+  "reality_state": "PARTIAL",
+  "objective": "Reuse PLMOS V3 assets and bootstrap MEE as a personalised, evidence-backed employment operating system with MCP source registry, ingestion workers, scoring, evidence binding, reporting, and dashboard command centre requirements.",
+  "reuse_first": {
+    "source_system": "PLMOS V3",
+    "reuse_assets": [
+      "dashboard",
+      "role_universe",
+      "skills_matrix",
+      "applications",
+      "analytics",
+      "learning_engine",
+      "canonical_roles",
+      "skill_domains",
+      "cluster_fit_analysis",
+      "application_funnel",
+      "market_timing_signals",
+      "recent_applications"
+    ],
+    "do_not_rebuild": true,
+    "enhance_as": "MEE - My Employment Engine"
+  },
+  "minimum_viable_mcp_set": [
+    "Supabase control plane",
+    "GitHub Pen inbox",
+    "Bridge Lambda invoke",
+    "LinkedIn Jobs",
+    "Seek",
+    "Indeed",
+    "Adzuna",
+    "GitHub evidence",
+    "Gmail or SES",
+    "Calendar"
+  ],
+  "mcp_registry_layers": {
+    "core_job_sources": ["LinkedIn Jobs", "Seek", "Indeed", "Glassdoor", "Jora", "Adzuna", "Wellfound"],
+    "enterprise_gov_specialist": ["APS Jobs", "NSW Government Jobs", "Defence Jobs Australia", "AWS Careers", "Microsoft Careers", "Google Careers", "Oracle Careers"],
+    "talent_recruiters": ["Hays", "Robert Half", "Michael Page", "Randstad", "Hudson"],
+    "skills_signals": ["Coursera", "Udemy", "GitHub", "Kaggle", "Stack Overflow"],
+    "salary_market_intel": ["Payscale", "Salary.com", "Seek Salary Insights"],
+    "personalisation": ["Supabase", "GitHub", "Google Drive", "Gmail/SES", "Calendar"],
+    "output_action": ["Bridge", "GitHub Pen inbox", "Supabase runtime", "Email", "Dashboard cc"]
+  },
+  "pipeline": [
+    {"stage": "ingest", "output": "raw_job_pool"},
+    {"stage": "normalize", "output": "canonical_roles"},
+    {"stage": "enrich", "output": "scored_roles"},
+    {"stage": "match", "output": "ranked_shortlist"},
+    {"stage": "act", "output": "applications_and_outreach"},
+    {"stage": "learn", "output": "feedback_loop"},
+    {"stage": "report", "output": "daily_weekly_monthly_command_reports"}
+  ],
+  "definition_of_done": [
+    "MCP registry schema exists with PK, timestamps, lifecycle, evidence state",
+    "Job source records seeded idempotently",
+    "Raw job ingestion queue can accept jobs",
+    "Normalised roles are deduped by source_url_hash and canonical role match",
+    "Match scoring produces fit, win probability, effort, strategic value, risk",
+    "Evidence binding writes REAL/PARTIAL/PRETEND state",
+    "Dashboard requirements are registered for command centre representation",
+    "Worker dry-run receipt is written before live ingestion",
+    "Archive policy is explicit; no deletes"
+  ],
+  "requested_artifacts": [
+    "sql/mee_control_plane_schema.sql",
+    "workers/mee_ingest_worker_spec.md",
+    "docs/mee_command_centre_spec.md",
+    "docs/mee_asset_reuse_and_enhancement_map.md"
+  ],
+  "blocked_actions": ["payments", "IAM", "credential handling", "legal claims", "production deploy without gate"],
+  "next_bridge_action": "enqueue_job",
+  "evidence_required": ["github_commit_sha", "workflow_run_id_or_receipt", "audit.evidence_register row"]
+}
