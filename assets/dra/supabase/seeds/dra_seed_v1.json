@@ -1,0 +1,49 @@
+{
+  "version": "v1",
+  "substances": [
+    {"substance_key":"cannabis","name":"Cannabis","category":"depressant/psychoactive","primary_pathways":["endocannabinoid","dopamine","GABA"]},
+    {"substance_key":"mdma","name":"MDMA","category":"empathogen","primary_pathways":["serotonin","dopamine","oxytocin"]},
+    {"substance_key":"methamphetamine","name":"Methamphetamine","category":"stimulant","primary_pathways":["dopamine","norepinephrine"]},
+    {"substance_key":"cocaine","name":"Cocaine","category":"stimulant","primary_pathways":["dopamine"]},
+    {"substance_key":"opiates","name":"Opiates","category":"depressant","primary_pathways":["endorphins"]},
+    {"substance_key":"alcohol","name":"Alcohol","category":"depressant","primary_pathways":["GABA","dopamine"]},
+    {"substance_key":"nicotine","name":"Nicotine","category":"stimulant","primary_pathways":["acetylcholine","dopamine"]}
+  ],
+  "populations": [
+    {"population_key":"adhd","name":"ADHD"},
+    {"population_key":"autism","name":"Autism"},
+    {"population_key":"dyslexia","name":"Dyslexia"},
+    {"population_key":"indigenous","name":"Indigenous populations"},
+    {"population_key":"elderly","name":"Elderly"},
+    {"population_key":"neurotypical","name":"Neurotypical baseline"}
+  ],
+  "observations_seed_note": "Minimal seed set. Expand via ingestion queue and hypothesis testing. Mark all as PARTIAL until evidence bound.",
+  "observations": [
+    {
+      "substance_key":"cannabis",
+      "population_key":"autism",
+      "primary_neurochemical_pathway":"GABA modulation",
+      "felt_deficit_or_state_sought":"reduction in sensory overload",
+      "in_use_effect":"temporary calming of sensory input",
+      "crash_or_rebound_effect":"sensory rebound and fatigue",
+      "neurotype_specific_landing_pattern":"higher sensitivity to sensory shifts",
+      "functional_gain":"short-term anxiety reduction",
+      "functional_harm":"dependency risk and cognitive dulling",
+      "dependency_risk":"medium",
+      "evidence_status":"partial"
+    },
+    {
+      "substance_key":"mdma",
+      "population_key":"adhd",
+      "primary_neurochemical_pathway":"serotonin spike",
+      "felt_deficit_or_state_sought":"emotional regulation and connection",
+      "in_use_effect":"enhanced empathy and focus on social cues",
+      "crash_or_rebound_effect":"serotonin depletion, low mood",
+      "neurotype_specific_landing_pattern":"amplified emotional contrast",
+      "functional_gain":"temporary emotional clarity",
+      "functional_harm":"post-use crash and instability",
+      "dependency_risk":"medium",
+      "evidence_status":"partial"
+    }
+  ]
+}
