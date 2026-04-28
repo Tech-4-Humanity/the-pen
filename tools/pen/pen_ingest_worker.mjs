@@ -15,7 +15,7 @@ const INBOX_DIR = path.join(ROOT, 'inbox');
 const RECEIPT_DIR = path.join(ROOT, 'receipts', 'runtime');
 const WORKER_ID = process.env.PEN_WORKER_ID || 'pen_ingest_worker.mjs';
 const TARGET_KEY = process.env.PEN_IDEMPOTENCY_KEY || '';
-const REQUIRED_FIELDS = ['idempotency_key', 'origin', 'destination'];
+const REQUIRED_FIELDS = ['idempotency_key'];
 
 function nowIso() {
   return new Date().toISOString();
@@ -49,6 +49,26 @@ async function listJsonJobs() {
     .filter((name) => name.endsWith('.json'))
     .filter((name) => !TARGET_KEY || name.includes(TARGET_KEY))
     .sort();
+}
+
+function normalizeJob(job, jobName) {
+  const payload = job && typeof job.payload === 'object' && job.payload !== null ? job.payload : {};
+  const meta = job && typeof job.meta === 'object' && job.meta !== null ? job.meta : {};
+  return {
+    ...job,
+    idempotency_key: job.idempotency_key || payload.idempotency_key || jobName.replace(/\.json$/, ''),
+    origin: job.origin || meta.source || job.source || payload.source || 'unknown',
+    destination: job.destination || payload.destination || 'pen',
+    objective:
+      job.objective ||
+      job.purpose ||
+      payload.objective ||
+      payload.name ||
+      job.action ||
+      job.fn ||
+      'process inbox job',
+    created_at: job.created_at || meta.ts || payload.created_at || null
+  };
 }
 
 function validateJob(job) {
@@ -130,7 +150,7 @@ async function processJob(jobName) {
   let job;
 
   try {
-    job = JSON.parse(jobText);
+    job = normalizeJob(JSON.parse(jobText), jobName);
   } catch (error) {
     job = {
       idempotency_key: jobName.replace(/\.json$/, ''),
