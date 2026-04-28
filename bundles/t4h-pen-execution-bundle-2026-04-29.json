@@ -1,0 +1,52 @@
+{
+  "bundle_id": "t4h-pen-execution-bundle-2026-04-29",
+  "created_at": "2026-04-29T00:00:00+10:00",
+  "status": "READY",
+  "reality_state": "PARTIAL",
+  "components": {
+    "worker": {
+      "path": "tools/pen/pen_ingest_worker.mjs",
+      "purpose": "consume inbox jobs and write receipts",
+      "state": "DEPLOYED"
+    },
+    "workflow": {
+      "path": ".github/workflows/pen-ingest.yml",
+      "purpose": "auto-trigger worker on inbox push",
+      "state": "DEPLOYED"
+    },
+    "jobs": [
+      {
+        "idempotency_key": "t4h-permanent-execution-backup-2026-04-29-001",
+        "path": "inbox/t4h-permanent-execution-backup-2026-04-29-001.json",
+        "state": "QUEUED"
+      },
+      {
+        "idempotency_key": "t4h-gap-closure-execution-backup-2026-04-29-002",
+        "path": "inbox/t4h-gap-closure-execution-backup-2026-04-29-002.json",
+        "state": "QUEUED"
+      }
+    ]
+  },
+  "execution_contract": {
+    "trigger": "git push to inbox/",
+    "runner": "github actions",
+    "output": "receipts/runtime/*.receipt.json",
+    "idempotent": true
+  },
+  "evidence_expected": {
+    "receipt_paths": [
+      "receipts/runtime/t4h-permanent-execution-backup-2026-04-29-001.receipt.json",
+      "receipts/runtime/t4h-gap-closure-execution-backup-2026-04-29-002.receipt.json"
+    ]
+  },
+  "closure_definition": [
+    "worker executes",
+    "receipts written",
+    "receipts committed",
+    "evidence_state becomes REAL"
+  ],
+  "rollback": {
+    "strategy": "archive_not_delete",
+    "note": "preserve inbox + receipts, archive bundle if superseded"
+  }
+}
