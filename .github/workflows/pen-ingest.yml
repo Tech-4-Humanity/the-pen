@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'inbox/**/*.json'
-      - 'tools/pen/pen_ingest_worker.mjs'
-      - '.github/workflows/pen-ingest.yml'
   workflow_dispatch:
     inputs:
       idempotency_key:
