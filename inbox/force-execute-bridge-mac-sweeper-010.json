@@ -1,0 +1,34 @@
+{
+  "fn": "enqueue_job",
+  "action": "worker.force_execute_job",
+  "idempotency_key": "force-execute-bridge-mac-sweeper-010",
+  "priority": 1,
+  "payload": {
+    "target_job_id": "bridge-mac-complete-sweeper-system-009",
+    "target_job_path": "inbox/bridge-mac-complete-sweeper-system-009.json",
+    "mode": "claim_execute_validate_receipt",
+    "bypass_idle_worker": true,
+    "required_sequence": [
+      "fetch target job from main",
+      "claim execution with timestamp and worker id",
+      "execute validation for source jobs 001-008",
+      "install or verify continuous loop",
+      "install or verify auto-promote to PEN",
+      "install or verify signal swarm routing",
+      "write runtime receipts",
+      "write blocked reasons if any step cannot run"
+    ],
+    "required_receipt_prefix": "receipts/runtime/force-execute-bridge-mac-sweeper-010",
+    "definition_of_done": [
+      "target job claimed or exact blocker recorded",
+      "bridge/mac sweeper system status matrix written",
+      "runtime receipt written",
+      "repair job emitted if blocked"
+    ],
+    "safety": {
+      "read_only_original_sources": true,
+      "archive_not_delete": true,
+      "no_gated_action_execution": true
+    }
+  }
+}
