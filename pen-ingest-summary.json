@@ -1,14 +1,14 @@
 {
   "worker": "github-actions/pen-ingest",
-  "processed_at": "2026-04-28T14:44:34.187Z",
+  "processed_at": "2026-04-28T15:15:49.828Z",
   "target_key": null,
-  "jobs_found": 36,
+  "jobs_found": 37,
   "results": [
     {
       "job": "agl-bootstrap-ddl-001.json",
       "idempotency_key": "agl-bootstrap-ddl-001",
       "receipt_path": "receipts/runtime/agl-bootstrap-ddl-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -19,7 +19,7 @@
       "job": "agl-closure-validation-2026-04-24-chatgpt.json",
       "idempotency_key": "agl-closure-validation-2026-04-24-chatgpt",
       "receipt_path": "receipts/runtime/agl-closure-validation-2026-04-24-chatgpt.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -30,7 +30,7 @@
       "job": "bridge-mac-complete-sweeper-system-009.json",
       "idempotency_key": "bridge-mac-complete-sweeper-system-009",
       "receipt_path": "receipts/runtime/bridge-mac-complete-sweeper-system-009.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -41,7 +41,7 @@
       "job": "campaign-brandA-agents-2026-05.json",
       "idempotency_key": "campaign-brandA-agents-2026-05",
       "receipt_path": "receipts/runtime/campaign-branda-agents-2026-05.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -52,7 +52,7 @@
       "job": "campaign-system-init-v1.json",
       "idempotency_key": "campaign-system-init-v1",
       "receipt_path": "receipts/runtime/campaign-system-init-v1.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -63,7 +63,7 @@
       "job": "daily-brief-v2-2026-04-26.json",
       "idempotency_key": "daily-brief-v2-2026-04-26",
       "receipt_path": "receipts/runtime/daily-brief-v2-2026-04-26.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -74,7 +74,7 @@
       "job": "deploy-project-test-mcp-deploy-001.json",
       "idempotency_key": "deploy-project-test-mcp-deploy-001",
       "receipt_path": "receipts/runtime/deploy-project-test-mcp-deploy-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -85,7 +85,7 @@
       "job": "domain-control-r53-authority-reconcile-20260426.json",
       "idempotency_key": "domain-control-r53-authority-reconcile-20260426",
       "receipt_path": "receipts/runtime/domain-control-r53-authority-reconcile-20260426.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -96,7 +96,7 @@
       "job": "domain-control-registrar-route53domains-partial-20260426.json",
       "idempotency_key": "domain-control-registrar-route53domains-partial-20260426",
       "receipt_path": "receipts/runtime/domain-control-registrar-route53domains-partial-20260426.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -107,7 +107,7 @@
       "job": "fix-sweepers-20260424-001.json",
       "idempotency_key": "fix-sweepers-20260424-001",
       "receipt_path": "receipts/runtime/fix-sweepers-20260424-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -118,6 +118,17 @@
       "job": "fix-sweepers-stage2-20260424-001.json",
       "idempotency_key": "fix-sweepers-stage2-20260424-001",
       "receipt_path": "receipts/runtime/fix-sweepers-stage2-20260424-001.receipt.json",
+      "receipt_created": false,
+      "evidence_state": "PARTIAL",
+      "status": "invalid",
+      "errors": [
+        "Missing required fields: origin, destination"
+      ]
+    },
+    {
+      "job": "force-execute-bridge-mac-sweeper-010.json",
+      "idempotency_key": "force-execute-bridge-mac-sweeper-010",
+      "receipt_path": "receipts/runtime/force-execute-bridge-mac-sweeper-010.receipt.json",
       "receipt_created": true,
       "evidence_state": "PARTIAL",
       "status": "invalid",
@@ -129,7 +140,7 @@
       "job": "get-work-register-constraints-001.json",
       "idempotency_key": "get-work-register-constraints-001",
       "receipt_path": "receipts/runtime/get-work-register-constraints-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -140,7 +151,7 @@
       "job": "linkedin-sweeper-suite-001.json",
       "idempotency_key": "linkedin-sweeper-suite-001",
       "receipt_path": "receipts/runtime/linkedin-sweeper-suite-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -151,7 +162,7 @@
       "job": "linkedin-sweeper-suite-wireup-001.json",
       "idempotency_key": "linkedin-sweeper-suite-wireup-001",
       "receipt_path": "receipts/runtime/linkedin-sweeper-suite-wireup-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -162,7 +173,7 @@
       "job": "pen-runtime-smoke-20260424-001.json",
       "idempotency_key": "pen-runtime-smoke-20260424-001",
       "receipt_path": "receipts/runtime/pen-runtime-smoke-20260424-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -173,7 +184,7 @@
       "job": "ping-chatgpt-queue-bootstrap-20260424.json",
       "idempotency_key": "queue-bootstrap-ping-20260424",
       "receipt_path": "receipts/runtime/queue-bootstrap-ping-20260424.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -184,7 +195,7 @@
       "job": "reuse-enforcement-layer-2026-04-27.json",
       "idempotency_key": "reuse-enforcement-layer-2026-04-27-001",
       "receipt_path": "receipts/runtime/reuse-enforcement-layer-2026-04-27-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "REAL",
       "status": "processed",
       "errors": []
@@ -193,7 +204,7 @@
       "job": "signal-composer-control-layer-2026-04-27-001.json",
       "idempotency_key": "signal-composer-control-layer-2026-04-27-001",
       "receipt_path": "receipts/runtime/signal-composer-control-layer-2026-04-27-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "REAL",
       "status": "processed",
       "errors": []
@@ -202,7 +213,7 @@
       "job": "signal-mining-handover-trigger-chatgpt-20260425.json",
       "idempotency_key": "signal-mining-exec-slice-01-chatgpt-20260425",
       "receipt_path": "receipts/runtime/signal-mining-exec-slice-01-chatgpt-20260425.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -213,7 +224,7 @@
       "job": "signal-mining-receipt-fallback-chatgpt-20260425.json",
       "idempotency_key": "signal-mining-receipt-fallback-chatgpt-20260425",
       "receipt_path": "receipts/runtime/signal-mining-receipt-fallback-chatgpt-20260425.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -224,7 +235,7 @@
       "job": "signal-mining-slice-01-research-plan-chatgpt-20260425.json",
       "idempotency_key": "signal-mining-slice-01-research-plan-chatgpt-20260425",
       "receipt_path": "receipts/runtime/signal-mining-slice-01-research-plan-chatgpt-20260425.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -235,7 +246,7 @@
       "job": "signal-mining-worker-mapping-chatgpt-20260425.json",
       "idempotency_key": "signal-mining-worker-mapping-chatgpt-20260425",
       "receipt_path": "receipts/runtime/signal-mining-worker-mapping-chatgpt-20260425.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -246,7 +257,7 @@
       "job": "signal-swarm-routing-008.json",
       "idempotency_key": "signal-swarm-routing-008",
       "receipt_path": "receipts/runtime/signal-swarm-routing-008.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -257,7 +268,7 @@
       "job": "stripe-webhook-closeout-patch-verify-20260426-001.json",
       "idempotency_key": "stripe-webhook-closeout-patch-verify-20260426-001",
       "receipt_path": "receipts/runtime/stripe-webhook-closeout-patch-verify-20260426-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -268,7 +279,7 @@
       "job": "sweeper-audit-queue-receipts-005.json",
       "idempotency_key": "sweeper-audit-queue-receipts-005",
       "receipt_path": "receipts/runtime/sweeper-audit-queue-receipts-005.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -279,7 +290,7 @@
       "job": "sweeper-auto-promote-007.json",
       "idempotency_key": "sweeper-auto-promote-007",
       "receipt_path": "receipts/runtime/sweeper-auto-promote-007.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -290,7 +301,7 @@
       "job": "sweeper-continuous-loop-006.json",
       "idempotency_key": "sweeper-continuous-loop-006",
       "receipt_path": "receipts/runtime/sweeper-continuous-loop-006.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -301,7 +312,7 @@
       "job": "sweeper-external-enrich-003.json",
       "idempotency_key": "sweeper-external-enrich-003",
       "receipt_path": "receipts/runtime/sweeper-external-enrich-003.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -312,7 +323,7 @@
       "job": "sweeper-llm-chat-ingest-002.json",
       "idempotency_key": "sweeper-llm-chat-ingest-002",
       "receipt_path": "receipts/runtime/sweeper-llm-chat-ingest-002.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -323,7 +334,7 @@
       "job": "sweeper-llm-doc-signal-seed-001.json",
       "idempotency_key": "sweeper-llm-doc-signal-seed-001",
       "receipt_path": "receipts/runtime/sweeper-llm-doc-signal-seed-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -334,7 +345,7 @@
       "job": "sweeper-permutation-engine-004.json",
       "idempotency_key": "sweeper-permutation-engine-004",
       "receipt_path": "receipts/runtime/sweeper-permutation-engine-004.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -345,7 +356,7 @@
       "job": "symbio-verifier-recover-20260424-001.json",
       "idempotency_key": "symbio-verifier-recover-20260424-001",
       "receipt_path": "receipts/runtime/symbio-verifier-recover-20260424-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
@@ -356,7 +367,7 @@
       "job": "synal-signal-composer-placement-extension-2026-04-27-002.json",
       "idempotency_key": "synal-signal-composer-placement-extension-2026-04-27-002",
       "receipt_path": "receipts/runtime/synal-signal-composer-placement-extension-2026-04-27-002.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "REAL",
       "status": "processed",
       "errors": []
@@ -365,7 +376,7 @@
       "job": "t4h-gap-closure-execution-backup-2026-04-29-002.json",
       "idempotency_key": "t4h-gap-closure-execution-backup-2026-04-29-002",
       "receipt_path": "receipts/runtime/t4h-gap-closure-execution-backup-2026-04-29-002.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "processed",
       "errors": []
@@ -374,7 +385,7 @@
       "job": "t4h-permanent-execution-backup-2026-04-29-001.json",
       "idempotency_key": "t4h-permanent-execution-backup-2026-04-29-001",
       "receipt_path": "receipts/runtime/t4h-permanent-execution-backup-2026-04-29-001.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "processed",
       "errors": []
@@ -383,7 +394,7 @@
       "job": "url-surfacing-search-coverage-v1.json",
       "idempotency_key": "url-surfacing-search-coverage-v1-20260425",
       "receipt_path": "receipts/runtime/url-surfacing-search-coverage-v1-20260425.receipt.json",
-      "receipt_created": true,
+      "receipt_created": false,
       "evidence_state": "PARTIAL",
       "status": "invalid",
       "errors": [
