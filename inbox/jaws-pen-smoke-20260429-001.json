@@ -1,0 +1,26 @@
+{
+  "idempotency_key": "jaws-pen-smoke-20260429-001",
+  "fn": "pen.smoke",
+  "action": "verify_pen_ingest_after_fix",
+  "priority": 2,
+  "origin": "chatgpt",
+  "destination": "the-pen",
+  "objective": "Verify that the fixed Pen ingest path accepts a normalized inbox job and emits a runtime receipt without requiring legacy top-level origin/destination fields.",
+  "payload": {
+    "system": "jaws",
+    "surface": "the-pen",
+    "mode": "smoke",
+    "expected_receipt": "receipts/runtime/jaws-pen-smoke-20260429-001.receipt.json",
+    "evidence_required": [
+      "github_commit",
+      "workflow_run_or_runtime_receipt",
+      "vercel_ready_if_deployed"
+    ],
+    "non_destructive": true
+  },
+  "meta": {
+    "source": "chatgpt_api_tool",
+    "created_at": "2026-04-29T00:00:00Z",
+    "reason": "User requested push into JAWS after Pen fix."
+  }
+}
