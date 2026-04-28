@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Obsidian Pro Blue - Void",
+  "version": "1.0.0",
+  "description": "Obsidian dark theme. Void base with blue accent. AMOLED-friendly, minimal, focus-grade.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/obsidian_20_void_blue.png",
+      "theme_toolbar": "images/obsidian_20_void_blue.png"
+    },
+    "colors": {
+      "frame": [
+        10,
+        10,
+        10
+      ],
+      "toolbar": [
+        10,
+        10,
+        10
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        180,
+        180,
+        180
+      ],
+      "bookmark_text": [
+        220,
+        220,
+        220
+      ],
+      "ntp_background": [
+        10,
+        10,
+        10
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        0,
+        122,
+        255
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "bottom"
+    }
+  }
+}
