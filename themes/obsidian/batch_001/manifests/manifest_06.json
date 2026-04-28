@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Obsidian Edge Purple - Graphite",
+  "version": "1.0.0",
+  "description": "Obsidian dark theme. Graphite base with purple accent. AMOLED-friendly, minimal, focus-grade.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/obsidian_06_graphite_purple.png",
+      "theme_toolbar": "images/obsidian_06_graphite_purple.png"
+    },
+    "colors": {
+      "frame": [
+        18,
+        18,
+        18
+      ],
+      "toolbar": [
+        18,
+        18,
+        18
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        180,
+        180,
+        180
+      ],
+      "bookmark_text": [
+        220,
+        220,
+        220
+      ],
+      "ntp_background": [
+        18,
+        18,
+        18
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        88,
+        86,
+        214
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "bottom"
+    }
+  }
+}
