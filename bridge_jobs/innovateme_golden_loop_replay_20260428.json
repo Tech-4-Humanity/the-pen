@@ -1,0 +1,30 @@
+{
+  "job_key": "innovateme_golden_loop_replay_20260428",
+  "created_at_utc": "2026-04-28T00:00:00Z",
+  "source": "chatgpt_session_replay_request",
+  "target": "MCP_BRIDGE_GOLDEN_LOOP",
+  "required_path": "MCP Bridge -> troy-sql-executor -> public.fn_github_push -> GitHub commit -> Supabase canonical change receipt",
+  "repo": "TML-4PM/the-pen",
+  "status": "QUEUED_FOR_GOLDEN_LOOP_REPLAY_NOT_RUNTIME_PROVEN",
+  "truth_statement": "This file is a replay instruction for the already-proven autonomous golden loop. Runtime proof requires a bridge response from troy-sql-executor and a canonical Supabase change receipt.",
+  "execute_sql_shape": "SELECT public.fn_github_push('TML-4PM/the-pen','receipts/innovateme_runtime_replay_result_20260428.json','<receipt_payload>','receipt: InnovateME golden loop replay result','main') AS result;",
+  "payload_to_replay": {
+    "source_receipt": "bridge_jobs/innovateme_master_operating_model_closeout_20260428.json",
+    "build_pack_root": "innovatememe_build_pack/",
+    "canonical_model": "Story -> System -> Control -> Pilot -> Proof -> Scale",
+    "required_runtime_gates": [
+      "migration_runs_clean",
+      "seed_data_queryable",
+      "story_api_returns_supabase_records",
+      "pilot_intake_writes_receipt",
+      "stripe_test_checkout_configured",
+      "webhook_writes_receipt",
+      "command_centre_widget_renders_live_data"
+    ]
+  },
+  "classification": {
+    "golden_loop_exists": "REAL",
+    "this_replay_instruction": "REAL_GITHUB_ARTIFACT",
+    "runtime_execution": "PARTIAL_UNTIL_BRIDGE_RECEIPT"
+  }
+}
