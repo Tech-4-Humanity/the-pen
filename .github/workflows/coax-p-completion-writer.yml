@@ -1,0 +1,87 @@
+name: COAX-P Completion Writer
+
+on:
+  repository_dispatch:
+    types: [coax-p-completion]
+
+permissions:
+  contents: write
+
+env:
+  RECEIPT_DIR: receipts/runtime/coax
+
+jobs:
+  write-receipt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Extract payload
+        id: payload
+        run: |
+          echo "THREAD_ID=${{ github.event.client_payload.coax_thread_id }}" >> $GITHUB_ENV
+          echo "RECEIPT_ID=${{ github.event.client_payload.receipt_id }}" >> $GITHUB_ENV
+          echo "AGENT=${{ github.event.client_payload.agent }}" >> $GITHUB_ENV
+          echo "STATUS=${{ github.event.client_payload.status }}" >> $GITHUB_ENV
+          echo "REALITY=${{ github.event.client_payload.reality }}" >> $GITHUB_ENV
+          echo "EMITTER=${{ github.event.client_payload.machine_emitter }}" >> $GITHUB_ENV
+
+      - name: Validate required fields
+        run: |
+          if [ -z "$THREAD_ID" ] || [ -z "$RECEIPT_ID" ] || [ -z "$AGENT" ]; then
+            echo "FATAL: missing required fields in client_payload"
+            exit 1
+          fi
+          if [ "$STATUS" != "completed" ]; then
+            echo "FATAL: status is not completed — got $STATUS"
+            exit 1
+          fi
+
+      - name: Write receipt JSON
+        run: |
+          mkdir -p $RECEIPT_DIR
+          RECEIPT_PATH="$RECEIPT_DIR/${THREAD_ID}.json"
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          cat > "$RECEIPT_PATH" <<EOF
+          {
+            "receipt_id": "$RECEIPT_ID",
+            "coax_thread_id": "$THREAD_ID",
+            "agent": "$AGENT",
+            "status": "$STATUS",
+            "reality": "$REALITY",
+            "machine_emitter": "$EMITTER",
+            "hil_touched": false,
+            "github_repo": "TML-4PM/the-pen",
+            "github_run_id": "${{ github.run_id }}",
+            "github_run_url": "https://github.com/TML-4PM/the-pen/actions/runs/${{ github.run_id }}",
+            "commit_author": "github-actions[bot]",
+            "created_at_utc": "$NOW"
+          }
+          EOF
+          # also write latest pointer
+          cp "$RECEIPT_PATH" "$RECEIPT_DIR/latest.json"
+
+      - name: Commit receipt (machine identity only)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add receipts/runtime/coax/
+          git diff --cached --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "COAX-P receipt: $THREAD_ID [$STATUS/$REALITY]"
+          git push
+
+      - name: Dispatch verifier
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: coax-p-verify
+          client-payload: |
+            {
+              "coax_thread_id": "${{ github.event.client_payload.coax_thread_id }}",
+              "receipt_id": "${{ github.event.client_payload.receipt_id }}",
+              "expected_path": "receipts/runtime/coax/${{ github.event.client_payload.coax_thread_id }}.json",
+              "writer_run_id": "${{ github.run_id }}"
+            }

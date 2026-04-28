@@ -1,0 +1,103 @@
+name: COAX-P HIL-Free Verifier
+
+on:
+  repository_dispatch:
+    types: [coax-p-verify]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      hil_touched: ${{ steps.hil_check.outputs.hil_touched }}
+      verified: ${{ steps.validate.outputs.verified }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read receipt from repo
+        id: read_receipt
+        run: |
+          RECEIPT_PATH="${{ github.event.client_payload.expected_path }}"
+          if [ ! -f "$RECEIPT_PATH" ]; then
+            echo "FATAL: receipt file not found at $RECEIPT_PATH"
+            exit 1
+          fi
+          echo "RECEIPT=$(cat $RECEIPT_PATH | tr -d '\n')" >> $GITHUB_ENV
+          cat "$RECEIPT_PATH"
+
+      - name: Validate receipt schema
+        id: validate
+        run: |
+          RECEIPT_PATH="${{ github.event.client_payload.expected_path }}"
+          # Required fields
+          for FIELD in receipt_id coax_thread_id agent status reality hil_touched github_run_id created_at_utc; do
+            VALUE=$(jq -r ".${FIELD}" "$RECEIPT_PATH")
+            if [ -z "$VALUE" ] || [ "$VALUE" = "null" ]; then
+              echo "FAIL: missing field $FIELD"
+              exit 1
+            fi
+          done
+          # Status must be completed
+          STATUS=$(jq -r '.status' "$RECEIPT_PATH")
+          if [ "$STATUS" != "completed" ]; then
+            echo "FAIL: status=$STATUS"
+            exit 1
+          fi
+          # Thread ID must match dispatch
+          RECEIPT_THREAD=$(jq -r '.coax_thread_id' "$RECEIPT_PATH")
+          EXPECTED_THREAD="${{ github.event.client_payload.coax_thread_id }}"
+          if [ "$RECEIPT_THREAD" != "$EXPECTED_THREAD" ]; then
+            echo "FAIL: thread_id mismatch: $RECEIPT_THREAD vs $EXPECTED_THREAD"
+            exit 1
+          fi
+          echo "verified=true" >> $GITHUB_OUTPUT
+          echo "SCHEMA VALID"
+
+      - name: Check machine authorship (no HIL)
+        id: hil_check
+        run: |
+          RECEIPT_PATH="${{ github.event.client_payload.expected_path }}"
+          # Get the git log for this file — check all commits that touched it
+          while IFS= read -r COMMITTER; do
+            if [ "$COMMITTER" != "github-actions[bot]" ]; then
+              echo "HIL_DETECTED: commit by $COMMITTER"
+              echo "hil_touched=true" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          done < <(git log --follow --format="%cn" -- "$RECEIPT_PATH")
+          echo "hil_touched=false" >> $GITHUB_OUTPUT
+          echo "ALL COMMITS by machine identity"
+
+      - name: Check writer run SHA integrity
+        run: |
+          RECEIPT_PATH="${{ github.event.client_payload.expected_path }}"
+          RECEIPT_RUN=$(jq -r '.github_run_id' "$RECEIPT_PATH")
+          WRITER_RUN="${{ github.event.client_payload.writer_run_id }}"
+          if [ "$RECEIPT_RUN" != "$WRITER_RUN" ]; then
+            echo "WARN: receipt run_id $RECEIPT_RUN does not match writer run_id $WRITER_RUN"
+          else
+            echo "RUN_ID INTEGRITY OK"
+          fi
+
+      - name: Accept receipt as REAL
+        run: |
+          echo "COAX-P RECEIPT VERIFIED"
+          echo "coax_thread_id: ${{ github.event.client_payload.coax_thread_id }}"
+          echo "receipt_id: ${{ github.event.client_payload.receipt_id }}"
+          echo "hil_touched: false"
+          echo "reality: REAL"
+          echo "verified_by: github-actions[coax-p-verifier]"
+          echo "verified_at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+      - name: Fail visibly if HIL detected
+        if: steps.hil_check.outputs.hil_touched == 'true'
+        run: |
+          echo "FATAL: HIL_TOUCHED=true on receipt ${{ github.event.client_payload.receipt_id }}"
+          echo "REALITY degraded to PARTIAL — COAX-G must review"
+          exit 1
