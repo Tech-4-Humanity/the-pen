@@ -5,6 +5,7 @@
 **Repo:** TML-4PM/the-pen  
 **Classification:** PARTIAL until Bridge/Lambda/Supabase execution receipts are returned  
 **Owner:** COAX / Command Centre  
+**Autonomy:** No HITL until prod; execute, prove, receipt, then promote.
 
 ## Executive intent
 
@@ -17,26 +18,34 @@ This is not a manual controller. It is a continuous allocation and recovery loop
 A production-ready assignment engine with:
 
 1. Supabase source-of-truth tables.
-2. Lambda execution engine.
-3. EventBridge recurring scheduler.
-4. Manual Bridge invocation payload.
-5. Command Centre widget snippet.
-6. Smoke tests.
-7. Reality Ledger binding.
-8. Recovery/escalation path.
-9. Monetisation/value event hook.
+2. RLS policies and service-role execution posture.
+3. Lambda execution engine.
+4. EventBridge recurring scheduler.
+5. Manual Bridge invocation payload.
+6. API endpoint for Command Centre status.
+7. Command Centre widget snippet.
+8. Seed pack for teams/items.
+9. Smoke tests.
+10. Reality Ledger binding.
+11. Recovery/escalation path.
+12. Monetisation/value event hook.
+13. Production acceptance gates.
 
 ## Files in this pack
 
-This single markdown handoff contains all deployable artefacts. Dev/Bridge should split these into repo paths during execution:
+Dev/Bridge should split this handoff into repo paths during execution:
 
 ```text
 /coax-engine
   /sql/schema.sql
+  /sql/rls.sql
+  /sql/seed.sql
   /lambda/coax-assignment-engine.ts
   /infra/eventbridge.json
+  /api/assignment-status.ts
   /widgets/assignment-dashboard.html
   /bridge/deploy-payload.json
+  /bridge/sql-payload.json
   /tests/smoke-test.sh
   /docs/README.md
 ```
@@ -110,6 +119,24 @@ create table if not exists public.coax_value_events (
   created_at timestamptz not null default now()
 );
 
+create or replace function public.set_updated_at()
+returns trigger language plpgsql as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_coax_teams_updated_at on public.coax_teams;
+create trigger trg_coax_teams_updated_at
+before update on public.coax_teams
+for each row execute function public.set_updated_at();
+
+drop trigger if exists trg_coax_items_updated_at on public.coax_items;
+create trigger trg_coax_items_updated_at
+before update on public.coax_items
+for each row execute function public.set_updated_at();
+
 create index if not exists idx_coax_items_status on public.coax_items(status);
 create index if not exists idx_coax_items_team on public.coax_items(team_id);
 create index if not exists idx_coax_items_updated on public.coax_items(updated_at);
@@ -126,7 +153,62 @@ alter table public.coax_value_events enable row level security;
 
 ---
 
-## 2. Lambda execution engine
+## 2. RLS / execution posture
+
+Service-role Lambdas bypass RLS. Browser/UI must be read-only until auth roles are formally mapped.
+
+```sql
+create policy if not exists coax_teams_read_all
+on public.coax_teams for select
+to authenticated
+using (true);
+
+create policy if not exists coax_items_read_all
+on public.coax_items for select
+to authenticated
+using (true);
+
+create policy if not exists coax_assignment_log_read_all
+on public.coax_assignment_log for select
+to authenticated
+using (true);
+
+create policy if not exists coax_reality_ledger_read_all
+on public.coax_reality_ledger for select
+to authenticated
+using (true);
+
+create policy if not exists coax_value_events_read_all
+on public.coax_value_events for select
+to authenticated
+using (true);
+```
+
+Write access remains service-role only until production auth model is confirmed. This prevents browser clients from mutating assignments.
+
+---
+
+## 3. Seed pack
+
+```sql
+insert into public.coax_teams (name, skills, active, max_active_items, autonomy_tier)
+values
+  ('COAX', array['orchestration','routing','command-centre','recovery'], true, 25, 'AUTONOMOUS'),
+  ('Pen', array['handoff','github','documentation','receipt'], true, 20, 'AUTONOMOUS'),
+  ('Symbio', array['dev','lambda','supabase','eventbridge','test'], true, 20, 'AUTONOMOUS')
+on conflict do nothing;
+
+insert into public.coax_items (title, description, status, tags, priority, source_system, biz_key)
+values
+  ('COAX seed: route unfinished handoff', 'Seed item to prove assignment path.', 'todo', array['orchestration','handoff'], 7, 'COAX', 'Research'),
+  ('COAX seed: deploy Lambda schedule', 'Seed item to prove dev execution path.', 'todo', array['dev','lambda','eventbridge'], 8, 'COAX', 'Research'),
+  ('COAX seed: create receipt proof', 'Seed item to prove GitHub receipt path.', 'todo', array['github','receipt'], 6, 'COAX', 'Research')
+on conflict do nothing;
+```
+
+---
+
+## 4. Lambda execution engine
 
 ```ts
 import { createClient } from '@supabase/supabase-js';
@@ -157,7 +239,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || ''
 );
 
-const STALE_MINUTES = Number(process.env.COA X_STALE_MINUTES || '15'.replace(' ', ''));
+const STALE_MINUTES = Number(process.env.COAX_STALE_MINUTES || '15');
 const MAX_REASSIGNMENTS_BEFORE_ESCALATION = Number(process.env.COAX_MAX_REASSIGNMENTS || '3');
 
 export const handler = async (event: any = {}) => {
@@ -239,7 +321,6 @@ async function assignOne(item: Item, teams: Team[], runId: string) {
     .update({
       team_id: best.team.id,
       assigned_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
       assignment_attempts: (item.assignment_attempts || 0) + 1,
       last_assignment_reason: reason,
       status: item.status === 'todo' ? 'in_progress' : item.status
@@ -323,7 +404,7 @@ async function log(itemId: string, teamId: string | null, score: number | null, 
 
 ---
 
-## 3. EventBridge scheduler
+## 5. EventBridge scheduler
 
 ```json
 {
@@ -344,7 +425,41 @@ async function log(itemId: string, teamId: string | null, score: number | null, 
 
 ---
 
-## 4. Command Centre widget snippet
+## 6. Command Centre status API
+
+```ts
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || ''
+);
+
+export default async function handler(req: any, res: any) {
+  const staleIso = new Date(Date.now() - 15 * 60_000).toISOString();
+  const since24h = new Date(Date.now() - 24 * 60 * 60_000).toISOString();
+
+  const [{ count: unassigned }, { count: stale }, { count: activeTeams }, { count: assignments24h }] = await Promise.all([
+    supabase.from('coax_items').select('*', { count: 'exact', head: true }).is('team_id', null).in('status', ['todo','in_progress','blocked']),
+    supabase.from('coax_items').select('*', { count: 'exact', head: true }).lt('updated_at', staleIso).in('status', ['todo','in_progress','blocked']),
+    supabase.from('coax_teams').select('*', { count: 'exact', head: true }).eq('active', true),
+    supabase.from('coax_assignment_log').select('*', { count: 'exact', head: true }).gte('created_at', since24h)
+  ]);
+
+  res.status(200).json({
+    status: 'OK',
+    unassigned: unassigned || 0,
+    stale: stale || 0,
+    activeTeams: activeTeams || 0,
+    assignments24h: assignments24h || 0,
+    checkedAt: new Date().toISOString()
+  });
+}
+```
+
+---
+
+## 7. Command Centre widget snippet
 
 ```html
 <div class="coax-assignment-widget" style="font-family: system-ui; border: 1px solid #ddd; border-radius: 12px; padding: 16px; max-width: 720px;">
@@ -368,7 +483,7 @@ async function log(itemId: string, teamId: string | null, score: number | null, 
       document.getElementById('coax-stale').innerText = data.stale ?? 0;
       document.getElementById('coax-active').innerText = data.activeTeams ?? 0;
       document.getElementById('coax-assignments').innerText = data.assignments24h ?? 0;
-      document.getElementById('coax-assignment-status').innerText = data.status || 'OK';
+      document.getElementById('coax-assignment-status').innerText = `${data.status || 'OK'} · ${data.checkedAt || ''}`;
     } catch (e) {
       document.getElementById('coax-assignment-status').innerText = 'Widget API unavailable; check deployment.';
     }
@@ -381,7 +496,31 @@ async function log(itemId: string, teamId: string | null, score: number | null, 
 
 ---
 
-## 5. Bridge deployment envelope
+## 8. Bridge deployment envelopes
+
+### 8.1 SQL executor envelope
+
+```json
+{
+  "action": "invoke_function",
+  "function_name": "troy-sql-executor",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "source_package": "handoffs/COAX_AssignmentEngine_BridgeDevPack_20260428.md",
+    "sql_sections": ["1. Supabase schema", "2. RLS / execution posture", "3. Seed pack"],
+    "dry_run": false,
+    "approval_required": false
+  },
+  "metadata": {
+    "request_id": "coax-assignment-engine-sql-20260428",
+    "source": "the-pen",
+    "timestamp_utc": "2026-04-28T00:00:00Z",
+    "auth_context": "github_connector_handoff"
+  }
+}
+```
+
+### 8.2 Lambda deployer envelope
 
 ```json
 {
@@ -404,7 +543,7 @@ async function log(itemId: string, teamId: string | null, score: number | null, 
     "approval_required": false
   },
   "metadata": {
-    "request_id": "coax-assignment-engine-20260428",
+    "request_id": "coax-assignment-engine-lambda-20260428",
     "source": "the-pen",
     "timestamp_utc": "2026-04-28T00:00:00Z",
     "auth_context": "github_connector_handoff"
@@ -414,7 +553,7 @@ async function log(itemId: string, teamId: string | null, score: number | null, 
 
 ---
 
-## 6. Smoke test
+## 9. Smoke test
 
 ```bash
 #!/usr/bin/env bash
@@ -432,29 +571,65 @@ curl -sS -X POST "$LAMBDA_URL" \
   -d '{"source":"smoke-test","metadata":{"request_id":"coax-smoke-20260428"}}' | jq .
 ```
 
-Expected response:
+Expected response after seed:
 
 ```json
 {
   "status": "complete",
-  "processed": 0,
-  "results": []
+  "processed": 3,
+  "results": [
+    { "action": "ASSIGNED" }
+  ]
 }
 ```
 
-A `processed: 0` result is acceptable only when no unfinished items exist. It should still write a cycle-level Reality Ledger row.
+A later `processed: 0` result is acceptable only when no unfinished/stale items exist. It should still write a cycle-level Reality Ledger row.
 
 ---
 
-## 7. Dev execution checklist
+## 10. Recovery and fallback contract
+
+If no assignment rows appear for 10 minutes while unfinished items exist:
+
+1. Re-run Lambda manually through Bridge.
+2. If Lambda fails because env vars are missing, return PARTIAL receipt with missing env list.
+3. If Supabase schema is missing, execute SQL pack again.
+4. If EventBridge is missing or disabled, recreate the schedule.
+5. If no viable team exists, create or reactivate `COAX` fallback team.
+6. If an item exceeds 3 assignment attempts, mark assignment action as `ESCALATED` and preserve item status for operator review.
+
+Stopping without a receipt is a failure.
+
+---
+
+## 11. Production acceptance gates
+
+Promote to REAL only when all are true:
+
+- [ ] Tables exist in Supabase.
+- [ ] RLS is enabled.
+- [ ] Seed teams exist.
+- [ ] Lambda exists as `coax-assignment-engine`.
+- [ ] Lambda env vars are present.
+- [ ] EventBridge schedule exists and is enabled.
+- [ ] Manual invocation returns structured JSON.
+- [ ] At least one seed item is assigned or reassigned.
+- [ ] `coax_assignment_log` contains assignment evidence.
+- [ ] `coax_reality_ledger` contains cycle and item rows.
+- [ ] Widget status API returns HTTP 200.
+- [ ] Receipt is posted back to GitHub Issue #35.
+
+---
+
+## 12. Dev execution checklist
 
 - [ ] Split this handoff into `/coax-engine` file structure.
 - [ ] Apply Supabase schema via bridge `troy-sql-executor`.
+- [ ] Apply RLS and seed pack.
 - [ ] Deploy Lambda via `troy-lambda-deployer` or existing CFN/SAM path.
 - [ ] Bind EventBridge schedule every 2 minutes.
-- [ ] Register widget in `t4h_ui_snippet` as slug `coax-assignment-engine`.
-- [ ] Seed at least 3 teams: `COAX`, `Pen`, `Symbio`.
-- [ ] Seed 3 unfinished items with mixed tags.
+- [ ] Register widget in `t4h_ui_snippet` as slug `coax-assignment-engine` if Command Centre registry is available.
+- [ ] Add status API to Command Centre or target service.
 - [ ] Run manual Lambda invoke.
 - [ ] Confirm assignment log rows.
 - [ ] Confirm Reality Ledger rows.
@@ -462,7 +637,7 @@ A `processed: 0` result is acceptable only when no unfinished items exist. It sh
 
 ---
 
-## 8. Reality Ledger current state
+## 13. Reality Ledger current state
 
 Current handoff state: **PARTIAL**.
 
@@ -479,7 +654,7 @@ Promotion to REAL requires:
 
 ---
 
-## 9. Receipt payload required from Bridge/Dev
+## 14. Receipt payload required from Bridge/Dev
 
 ```json
 {
@@ -488,10 +663,17 @@ Promotion to REAL requires:
   "repo": "TML-4PM/the-pen",
   "source_file": "handoffs/COAX_AssignmentEngine_BridgeDevPack_20260428.md",
   "resources": {
-    "supabase_tables": [],
+    "supabase_tables": [
+      "coax_teams",
+      "coax_items",
+      "coax_assignment_log",
+      "coax_reality_ledger",
+      "coax_value_events"
+    ],
     "lambda_name": "coax-assignment-engine",
     "eventbridge_rule": "coax-assignment-engine-every-2-minutes",
-    "widget_slug": "coax-assignment-engine"
+    "widget_slug": "coax-assignment-engine",
+    "status_api": "/api/coax/assignment-status"
   },
   "smoke_test": {
     "status": "pending",
@@ -509,4 +691,4 @@ Promotion to REAL requires:
 
 ## Bottom line
 
-This is now lodged as an execution handoff. Dev/Bridge should execute, prove, and return the receipt. No further human approval is required before prod under the current instruction set.
+This handoff is complete enough for Bridge/Dev execution with no further human approval. It must remain PARTIAL until runtime proof returns. Execute, prove, receipt, and promote.
