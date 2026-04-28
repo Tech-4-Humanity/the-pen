@@ -1,0 +1,19 @@
+{
+  "action": "invoke_function",
+  "function_name": "troy-sql-executor",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "mode": "execute",
+    "steps": [
+      {"name":"apply_schema","type":"sql","file_ref":"assets/dra/supabase/migrations/20260424_dra_core.sql"},
+      {"name":"seed_data","type":"json_seed","file_ref":"assets/dra/supabase/seeds/dra_seed_v1.json"},
+      {"name":"write_reality_ledger","type":"ledger","classification":"partial","evidence_ref":"github:the-pen/assets/dra"}
+    ]
+  },
+  "metadata": {
+    "request_id": "dra_exec_20260424",
+    "source": "the-pen",
+    "timestamp_utc": "2026-04-24T00:00:00Z",
+    "auth_context": "service"
+  }
+}
