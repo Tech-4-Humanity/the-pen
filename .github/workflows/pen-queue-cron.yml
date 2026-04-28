@@ -3,7 +3,16 @@ name: Pen Queue Processor
 on:
   schedule:
     - cron: '*/2 * * * *'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Target environment
+        required: false
+        default: production
+        type: choice
+        options:
+          - production
+          - dev
 
 permissions:
   contents: write
@@ -15,7 +24,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           persist-credentials: true
+
+      - name: Verify queue processor scripts exist
+        run: |
+          MISSING=0
+          for f in scripts/pen-queue-processor.mjs scripts/pen-drift-check.mjs; do
+            if [ ! -f "$f" ]; then
+              echo "WARNING: $f not found — will skip"
+              MISSING=1
+            fi
+          done
+          echo "SCRIPTS_MISSING=$MISSING" >> $GITHUB_ENV
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -28,16 +49,24 @@ jobs:
           npm install @supabase/supabase-js >/dev/null 2>&1
 
       - name: Run queue processor
+        if: env.SCRIPTS_MISSING == '0'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          PEN_ENV: ${{ github.event.inputs.env || 'production' }}
         run: node scripts/pen-queue-processor.mjs
 
       - name: Drift check
+        if: env.SCRIPTS_MISSING == '0'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          PEN_ENV: ${{ github.event.inputs.env || 'production' }}
         run: node scripts/pen-drift-check.mjs
+
+      - name: Skip notice
+        if: env.SCRIPTS_MISSING == '1'
+        run: echo "One or more queue scripts missing — queue run skipped. Bridge is the fallback."
 
       - name: Commit artefacts
         run: |
@@ -47,6 +76,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No artefacts to commit"
           else
-            git commit -m "Queue processor run: receipts + drift checks"
+            git commit -m "queue-processor run: receipts + drift [${{ github.event.inputs.env || 'production' }}]"
             git push
           fi

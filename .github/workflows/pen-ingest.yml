@@ -2,8 +2,12 @@ name: PEN Ingest Worker
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, dev]
+    paths:
+      - 'inbox/**'
+      - 'tools/pen/**'
+  schedule:
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       idempotency_key:
@@ -26,7 +30,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 2
+
+      - name: Debug context
+        run: |
+          echo "REF: $GITHUB_REF  SHA: $GITHUB_SHA"
+          echo "=== inbox files ==="
+          find inbox -maxdepth 1 -name '*.json' | sort || echo "(none)"
+          echo "=== changed files ==="
+          git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "(shallow or first commit)"
+
+      - name: Verify worker script exists
+        run: |
+          if [ ! -f tools/pen/pen_ingest_worker.mjs ]; then
+            echo "ERROR: tools/pen/pen_ingest_worker.mjs not found"
+            exit 1
+          fi
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -38,6 +57,7 @@ jobs:
           PEN_ROOT: ${{ github.workspace }}
           PEN_WORKER_ID: github-actions/pen-ingest
           PEN_IDEMPOTENCY_KEY: ${{ github.event.inputs.idempotency_key || '' }}
+          PEN_ENV: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
         run: |
           node tools/pen/pen_ingest_worker.mjs | tee pen-ingest-summary.json
 
@@ -49,10 +69,9 @@ jobs:
           if git diff --cached --quiet; then
             echo "No new receipts to commit"
           else
-            git commit -m "write PEN runtime receipts"
+            git commit -m "write PEN runtime receipts [${{ github.ref_name }}]"
             git push
           fi
 
       - name: Print receipt summary
-        run: |
-          cat pen-ingest-summary.json
+        run: cat pen-ingest-summary.json

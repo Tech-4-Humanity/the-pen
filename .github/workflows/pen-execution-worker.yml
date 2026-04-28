@@ -15,7 +15,16 @@ on:
         options:
           - dry_run
           - execute
+      env:
+        description: Target environment
+        required: false
+        default: production
+        type: choice
+        options:
+          - production
+          - dev
   push:
+    branches: [main, dev]
     paths:
       - 'inbox/**'
       - 'tasks/**'
@@ -39,7 +48,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           persist-credentials: true
+
+      - name: Debug context
+        run: |
+          echo "REF: $GITHUB_REF  BRANCH: ${{ github.ref_name }}"
+          echo "=== inbox files ==="
+          find inbox -maxdepth 1 -name '*.json' | sort || echo "(none)"
+
+      - name: Verify executor script exists
+        run: |
+          if [ ! -f scripts/pen-executor.mjs ]; then
+            echo "ERROR: scripts/pen-executor.mjs not found"
+            exit 1
+          fi
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -56,8 +79,11 @@ jobs:
           BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
           BRIDGE_KEY: ${{ secrets.BRIDGE_KEY }}
           GH_PAT: ${{ secrets.GH_PAT }}
+          PEN_ENV: ${{ github.event.inputs.env || (github.ref_name == 'main' && 'production' || 'dev') }}
         run: |
-          node scripts/pen-executor.mjs "${{ github.event.inputs.task_id || 'inbox-dispatch' }}" "${{ github.event.inputs.mode || 'execute' }}"
+          node scripts/pen-executor.mjs \
+            "${{ github.event.inputs.task_id || 'inbox-dispatch' }}" \
+            "${{ github.event.inputs.mode || 'execute' }}"
 
       - name: Commit runtime artefacts
         run: |
@@ -67,7 +93,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No runtime artefacts to commit"
           else
-            git commit -m "Add Pen runtime execution receipt"
+            git commit -m "pen-execution receipt [${{ github.ref_name }}]"
             git push
           fi
 
