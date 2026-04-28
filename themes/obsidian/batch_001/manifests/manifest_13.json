@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Obsidian Minimal Green - Charcoal",
+  "version": "1.0.0",
+  "description": "Obsidian dark theme. Charcoal base with green accent. AMOLED-friendly, minimal, focus-grade.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/obsidian_13_charcoal_green.png",
+      "theme_toolbar": "images/obsidian_13_charcoal_green.png"
+    },
+    "colors": {
+      "frame": [
+        28,
+        28,
+        28
+      ],
+      "toolbar": [
+        28,
+        28,
+        28
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        180,
+        180,
+        180
+      ],
+      "bookmark_text": [
+        220,
+        220,
+        220
+      ],
+      "ntp_background": [
+        28,
+        28,
+        28
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        52,
+        199,
+        89
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "bottom"
+    }
+  }
+}
