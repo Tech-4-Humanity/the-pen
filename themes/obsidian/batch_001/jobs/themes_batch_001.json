@@ -1,0 +1,37 @@
+{
+  "idempotency_key": "theme-factory-obsidian-2026-04-29-001",
+  "action": "enqueue_theme_batch",
+  "version": 1,
+  "created_utc": "2026-04-29T00:00:00Z",
+  "payload": {
+    "batch_id": "obsidian_001",
+    "cluster": "OBSIDIAN",
+    "theme_count": 25,
+    "manifest_count": 25,
+    "name_grid_size": 875,
+    "repo_path": "themes/obsidian/batch_001",
+    "deploy_target": "chrome_web_store",
+    "post_actions": [
+      "log_to_supabase",
+      "create_receipt",
+      "update_registry"
+    ]
+  },
+  "expected_writes": {
+    "ops.system_registry": {
+      "object_key": "cw_theme_factory_obsidian",
+      "object_type": "commercial_widget",
+      "lifecycle_state": "active",
+      "evidence_status": "PARTIAL"
+    },
+    "audit.evidence_register": {
+      "subject_object_key": "obsidian_batch_001",
+      "evidence_type": "output_artifact",
+      "evidence_uri": "repo://themes/obsidian/batch_001",
+      "validation_status": "pending"
+    }
+  },
+  "promotion": {
+    "to_real_when": "manifests_count==25 AND images_count==25 AND chrome_validates==true"
+  }
+}
