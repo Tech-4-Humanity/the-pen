@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Obsidian Ultra Red - Graphite",
+  "version": "1.0.0",
+  "description": "Obsidian dark theme. Graphite base with red accent. AMOLED-friendly, minimal, focus-grade.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/obsidian_07_graphite_red.png",
+      "theme_toolbar": "images/obsidian_07_graphite_red.png"
+    },
+    "colors": {
+      "frame": [
+        18,
+        18,
+        18
+      ],
+      "toolbar": [
+        18,
+        18,
+        18
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        180,
+        180,
+        180
+      ],
+      "bookmark_text": [
+        220,
+        220,
+        220
+      ],
+      "ntp_background": [
+        18,
+        18,
+        18
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        255,
+        45,
+        85
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "bottom"
+    }
+  }
+}
