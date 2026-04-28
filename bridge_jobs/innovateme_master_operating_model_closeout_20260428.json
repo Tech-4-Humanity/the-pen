@@ -1,0 +1,45 @@
+{
+  "receipt_key": "innovatememe_master_operating_model_closeout_20260428",
+  "created_at_utc": "2026-04-28T00:00:00Z",
+  "source": "chatgpt_google_doc_closeout",
+  "target_repo": "TML-4PM/the-pen",
+  "biz_key": "innovatememe",
+  "autonomy_tier": "AUTONOMOUS",
+  "rdti_flag": true,
+  "status": "PARTIAL_DESIGN_COMPLETE_NOT_DEPLOYED",
+  "truth_statement": "This receipt records a machine-created build handoff and design closeout. It does not claim Supabase, Stripe, Vercel, or Command Centre runtime deployment has occurred.",
+  "canonical_model": "Story -> System -> Control -> Pilot -> Proof -> Scale",
+  "commercial_model": "Workshop -> Design Pack -> Controlled Pilot -> Scale-Up -> Operating Layer",
+  "actions_requested": [
+    "create_supabase_migration_for_innovateme_schema",
+    "seed_first_six_story_objects",
+    "seed_pilot_offer_ladder",
+    "seed_objection_clusters",
+    "create_command_centre_widget_innovateme_pilot_engine",
+    "create_nextjs_story_pages_from_story_object",
+    "create_pricing_page_and_checkout_flow",
+    "create_stripe_seed_script_and_webhook_handlers",
+    "create_reality_ledger_receipts_for_all_generated_assets"
+  ],
+  "proof_gates": [
+    "migration_runs_clean",
+    "seed_data_queryable",
+    "widget_renders_from_supabase",
+    "checkout_session_can_be_created_in_test_mode",
+    "webhook_handler_writes_receipt",
+    "story_pages_render_from_story_object",
+    "reality_ledger_status_defaults_to_PRETEND_until_runtime_evidence_exists"
+  ],
+  "rollback": [
+    "disable_widget_slug",
+    "set_pilot_offers_inactive",
+    "archive_story_records",
+    "remove_checkout_route_if_unproven"
+  ],
+  "machine_receipt": {
+    "created_by": "GPT-5.5 Thinking",
+    "human_in_loop_required": false,
+    "destructive_actions_taken": false,
+    "production_claim": false
+  }
+}
