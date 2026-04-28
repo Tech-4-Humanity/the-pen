@@ -1,0 +1,21 @@
+{
+  "receipt_type": "status_update",
+  "job_id": "bridge-mac-complete-sweeper-system-009",
+  "status": "queued_no_worker_receipt_observed",
+  "observed": {
+    "master_handoff_file_exists_on_main": true,
+    "master_handoff_path": "inbox/bridge-mac-complete-sweeper-system-009.json",
+    "master_handoff_commit": "f44b93fa08f63e485d88702ed2b060522f21a407",
+    "github_fetch_verified": true,
+    "runtime_receipt_search_results": 0
+  },
+  "impact": "Queue handoff is real, but execution by bridge/Mac worker is not yet verified. System remains queued, not complete at runtime proof level.",
+  "required_next_action": {
+    "action": "worker_pickup_or_repair",
+    "description": "Bridge/Mac worker must claim bridge-mac-complete-sweeper-system-009, execute validation, and write final runtime receipts. If worker cannot claim it, emit a repair job with exact blocked reason."
+  },
+  "expected_final_receipt_prefix": "receipts/runtime/bridge-mac-complete-sweeper-system-009/",
+  "created_at": "2026-04-28T00:00:00+10:00",
+  "actor": "chatgpt",
+  "evidence_state": "PARTIAL"
+}
