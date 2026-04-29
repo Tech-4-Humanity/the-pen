@@ -1,0 +1,71 @@
+{
+  "fn": "enqueue_job",
+  "action": "stripe.webhook.closeout_patch_verify",
+  "idempotency_key": "stripe-webhook-closeout-patch-verify-20260426-001",
+  "priority": 1,
+  "payload": {
+    "intent": "Stop Stripe webhook route failures, preserve payment event processing, and produce runtime proof.",
+    "meaning": "Previous receipt was only a GitHub issue comment. This file is the executable Pen inbox handoff for the bridge/worker path.",
+    "verified_failure": {
+      "url": "https://t4h-checkout-api.vercel.app/api/webhooks/stripe",
+      "status": 404,
+      "error": "NOT_FOUND",
+      "impact": "Stripe events sent to this URL will not be processed. Payments may complete without downstream fulfilment/audit/order recording."
+    },
+    "targets": [
+      {
+        "project": "t4h-checkout-api",
+        "vercel_project_id": "prj_DX9gF8YvjKj1fDZC3760r6GkrvaF",
+        "repo": "TML-4PM/t4h-checkout-api",
+        "required_fix": "Add /api/webhooks/stripe compatibility route that delegates to existing /api/webhook handler while preserving raw-body and stripe-signature verification."
+      },
+      {
+        "project": "outcome-ready",
+        "vercel_project_id": "prj_dpD4QAVnpSxo2RYEuSQERh6e91NX",
+        "required_fix": "Ensure /api/webhooks/stripe delegates to /api/billing/webhook/stripe, or update Stripe endpoint registration."
+      },
+      {
+        "project": "readingbuddy-au",
+        "required_fix": "Verify route and STRIPE_WEBHOOK_SECRET. Unsigned probes should return controlled 400, not 404. Signed Stripe replay must pass after secret is set."
+      }
+    ],
+    "tasks": [
+      "Inspect webhook route files in target repos.",
+      "Patch compatibility routes where missing.",
+      "Add smoke tests proving webhook paths do not return 404.",
+      "Deploy patched projects to Vercel.",
+      "Record commit SHA, deployment URL, route smoke output, and any remaining blocker.",
+      "If Stripe/Vercel secrets are available to runner, run signed Stripe replay and write runtime receipt."
+    ],
+    "blocked_items": [
+      "Stripe Dashboard webhook endpoint URL edits if not available through runner credentials.",
+      "Stripe webhook signing secret rotation/copy.",
+      "Vercel STRIPE_WEBHOOK_SECRET writes if env mutation permission is unavailable.",
+      "Live signed Stripe replay until valid webhook secret is present."
+    ],
+    "definition_of_done": [
+      "No target webhook route returns 404.",
+      "Unsigned requests return controlled 400/405 with useful error, not NOT_FOUND.",
+      "Signed Stripe replay succeeds, or exact secret/dashboard blocker is recorded.",
+      "GitHub receipt file written under receipts/runtime/ with commit SHA and Vercel deployment proof."
+    ],
+    "rollback": "Git revert compatibility route commit. Do not delete payment/order/intake records. Archive failed job receipts, do not delete.",
+    "source_issue": "https://github.com/TML-4PM/the-pen/issues/2#issuecomment-4320192536"
+  },
+  "meta": {
+    "source": "chatgpt",
+    "created_for": "Pen/Bridge executable handoff",
+    "reality_state": "PARTIAL",
+    "close_type": "issue_comment_was_not_enough_create_real_inbox_job"
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:13:03Z",
+    "source_file": "stripe-webhook-closeout-patch-verify-20260426-001.json"
+  }
+}
