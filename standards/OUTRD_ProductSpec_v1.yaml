@@ -1,0 +1,220 @@
+version: "1.0"
+standard_id: OUTRD_ProductSpec_v1
+business: Outcome Ready
+purpose: >
+  Canonical product specification for Outcome Ready products. No Outcome Ready
+  product should move to build, execution, revenue reporting, or bridge routing
+  unless this spec is complete and portfolio-approved.
+
+mandatory_rule:
+  no_spec_no_product: true
+  no_portfolio_pass_no_build: true
+  no_agent_binding_no_execution: true
+  no_proof_no_revenue_counted: true
+
+product_identity:
+  product_id: "REQUIRED"
+  product_name: "REQUIRED"
+  business: "Outcome Ready"
+  brand_code: "OUTRD"
+  lifecycle_state: "idea|draft|review|approved|build|live|degraded|retired|archived"
+  owner: "REQUIRED"
+  created_at: "REQUIRED"
+  updated_at: "REQUIRED"
+
+portfolio_role:
+  role: "ENTRY|CORE|EXPANSION|PREMIUM|EXPERIMENT|CHANNEL|ENTERPRISE"
+  purpose:
+    - "lead_generation|conversion|retention|upsell_anchor|channel_growth|enterprise_growth|research"
+  depends_on: []
+  replaces: []
+  blocked_by: []
+
+customer_contract:
+  one_liner: "REQUIRED"
+  target_buyers: []
+  target_users: []
+  trigger_moment: "REQUIRED"
+  immediate_value: []
+  first_action: "REQUIRED"
+  excluded_claims: []
+
+job_to_be_done:
+  pain: "REQUIRED"
+  desired_outcome: "REQUIRED"
+  success_definition: []
+  measurable_outcomes: []
+
+offer:
+  inclusions: []
+  exclusions: []
+  guardrails: []
+  sample_outputs: []
+  upgrade_paths: []
+
+pricing_and_economics:
+  currency: AUD
+  price_points: []
+  cost_per_execution: "estimate|required"
+  expected_value: "estimate|required"
+  gross_margin_target: "REQUIRED"
+  break_even_runs: "derive|required"
+  monetisation_trigger: []
+
+lifecycle:
+  pre_sale:
+    assets: []
+    proof_assets: []
+    trust_assets: []
+    cta: "REQUIRED"
+  sale:
+    checkout: "Stripe|manual|enterprise_contract|required"
+    intake_required: true
+    consent_required: true
+    referral_source_capture: true
+    upsell_path: []
+  use:
+    core_steps: []
+    data_captured: []
+    report_outputs: []
+    support_actions: []
+  post_sale:
+    follow_up: []
+    retention_actions: []
+    referral_actions: []
+    testimonial_capture: true
+
+agent_binding:
+  required: true
+  agents:
+    - role: intake
+      agent_type: worker
+      min_power: P1
+      required: true
+    - role: processor
+      agent_type: worker
+      min_power: P2
+      required: true
+    - role: reviewer
+      agent_type: supervisor
+      min_power: P3
+      required: false
+    - role: delivery
+      agent_type: worker
+      min_power: P1
+      required: true
+    - role: proof
+      agent_type: auditor
+      min_power: P2
+      required: true
+
+portfolio_control:
+  similarity_check:
+    enabled: true
+    threshold: 0.8
+    compare_fields:
+      - buyer
+      - user
+      - outcome
+      - pricing
+      - experience
+      - data_model
+      - execution_pattern
+  distance_model:
+    min_distance_required: 0.4
+    dimensions:
+      audience: "0.0-1.0"
+      outcome: "0.0-1.0"
+      price: "0.0-1.0"
+      experience: "0.0-1.0"
+      channel: "0.0-1.0"
+  collision_decision: "PASS|MERGE|REPOSITION|LIMIT_INVESTMENT|KILL"
+  roadmap_alignment_required: true
+
+proof_and_reality:
+  enforcement: hard_block
+  required_events:
+    - product_spec_completed
+    - portfolio_passed
+    - session_created
+    - execution_started
+    - execution_completed
+    - output_generated
+    - evidence_logged
+    - reality_ledger_updated
+  classifications:
+    REAL: "executed, logged, evidenced, replayable"
+    PARTIAL: "partially executed or missing runtime proof"
+    PRETEND: "claimed but not executed or not evidenced"
+  failure_if_missing: true
+
+runtime_enforcement:
+  enforced_by: bridge
+  pre_check:
+    - validate_product_spec
+    - validate_portfolio_approval
+    - validate_agent_binding
+    - validate_economics
+    - validate_lifecycle_state
+    - validate_required_proof_events
+  post_check:
+    - log_execution
+    - attach_evidence
+    - update_reality_ledger
+    - update_product_health
+    - sync_dossier
+  block_if_failed: true
+
+dossier_sync:
+  enabled: true
+  updates:
+    - execution_count
+    - last_activity
+    - performance_score
+    - revenue_state
+    - health_state
+    - proof_state
+
+failure_and_recovery:
+  failure_modes: []
+  retry_policy: "REQUIRED"
+  fallback_path: "REQUIRED"
+  owner_alert: "REQUIRED"
+  user_recovery_message: "REQUIRED"
+
+kill_switch:
+  enabled: true
+  scope:
+    - product
+    - agent
+    - channel
+    - global
+  trigger_conditions:
+    - safety_boundary_breach
+    - evidence_missing
+    - repeated_execution_failure
+    - negative_margin
+    - duplicated_product
+    - owner_shutdown
+
+distribution:
+  channels: []
+  partner_channels: []
+  reseller_model: []
+  white_label_ready: false
+
+reporting:
+  report_products: []
+  analytics_required: []
+  board_metrics: []
+
+support_model:
+  support_owner: "REQUIRED"
+  response_sla: "REQUIRED"
+  escalation_path: []
+
+approval:
+  product_owner: "REQUIRED"
+  portfolio_owner: "REQUIRED"
+  compliance_review: "REQUIRED_WHEN_SENSITIVE"
+  approval_status: "draft|approved|blocked"
