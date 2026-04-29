@@ -1,0 +1,61 @@
+{
+  "job_id": "bridge-intake-status-validation-2026-04-29-001",
+  "idempotency_key": "bridge-intake-status-validation-2026-04-29-001",
+  "source": "chatgpt.operator",
+  "target": "pen|bridge|vercel|github|supabase",
+  "tier": "LOG",
+  "intent": "validate_pen_active_and_bridge_worker_intake_runtime",
+  "created_at": "2026-04-29T00:00:00+10:00",
+  "observed": {
+    "vercel_team_id": "team_IKIr2Kcs38KGo8Zs60yNtm7Y",
+    "vercel_project": "bridge-worker-intake-c15w",
+    "vercel_project_id": "prj_sHvsyTAGm8UJo2dF468wgR9IJ83z",
+    "deployment_id": "dpl_37Xr7qYoZukTYs68fcq1QtkPVWtv",
+    "deployment_state": "READY",
+    "deployment_target": "production",
+    "github_repo": "TML-4PM/bridge-worker-intake",
+    "github_commit_sha": "e786de7b64d8d8f7f411ec93136700adf74df74d",
+    "routes_built": ["/", "/api/drop", "/api/lead-os/intake", "/api/lead-os/signal"],
+    "pen_repo": "TML-4PM/the-pen",
+    "pen_connector_permissions": ["admin", "maintain", "pull", "push", "triage"],
+    "prior_pen_receipt_issue": "TML-4PM/the-pen#38"
+  },
+  "root_cause_validation": [
+    {
+      "failure_point": "No handler bound",
+      "current_state": "PARTIAL_FALSE",
+      "evidence": "Vercel build logs list dynamic routes /api/drop, /api/lead-os/intake, /api/lead-os/signal",
+      "needed_to_close": "HTTP POST smoke test against each route with response body captured"
+    },
+    {
+      "failure_point": "No queue write",
+      "current_state": "PARTIAL",
+      "evidence": "src/app/api/drop/route.ts calls Supabase RPC bwd_enqueue; runtime execution not yet proven",
+      "needed_to_close": "POST /api/drop test and verify Supabase row or returned ID"
+    },
+    {
+      "failure_point": "Worker not running",
+      "current_state": "UNKNOWN",
+      "evidence": "Prior issue #38 found no GitHub Actions workflow run for the PEN bundle commit",
+      "needed_to_close": "Observe workflow run or downstream bridge/runtime worker receipt"
+    },
+    {
+      "failure_point": "No receipt writer",
+      "current_state": "PARTIAL_TRUE",
+      "evidence": "Observed intake routes return JSON but no explicit GitHub/Supabase receipt writer was found in inspected routes",
+      "needed_to_close": "Add explicit receipt emission to receipts/runtime and audit.evidence_register"
+    }
+  ],
+  "required_actions": [
+    "Run POST smoke test for /api/drop with a minimal raw_content payload",
+    "Run POST smoke test for /api/lead-os/intake with sample Tally-shaped fields",
+    "Run POST smoke test for /api/lead-os/signal with known lead_id only after a lead exists",
+    "Verify Supabase bwd_enqueue output and/or runtime.work_queue row",
+    "Verify GitHub Actions run for this inbox payload",
+    "Emit receipt to receipts/runtime/bridge-intake-status-validation-2026-04-29-001.receipt.json",
+    "Classify runtime REAL only after route response + queue row + receipt are observed"
+  ],
+  "expected_receipt_path": "receipts/runtime/bridge-intake-status-validation-2026-04-29-001.receipt.json",
+  "rollback": "archive validation job and preserve evidence; do not delete deployed projects",
+  "reality_state": "PARTIAL"
+}
