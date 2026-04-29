@@ -1,0 +1,139 @@
+{
+  "fn": "enqueue_job",
+  "action": "synal.backbone.pack_and_execute",
+  "idempotency_key": "synal-backbone-pack-v1",
+  "priority": 5,
+  "payload": {
+    "status": "packed_for_pen",
+    "endpoint": "MAC",
+    "instruction": "Treat MAC as endpoint only. Execute via Bridge, PEN and WIP workers. Do not mark done until execution receipt exists.",
+    "thread_pack": {
+      "purpose": "Build Synal backbone for split-topic threads so tools, workers and specialists keep context when LLM threads fragment.",
+      "problem": "Long threads split into many topics. One LLM loses context. Valuable ideas, decisions and actions get buried. The system needs common worker analysis plus topic-specialist routing.",
+      "target_model": "One common Signal Analyst across all meetings, threads and queues; 729 topic specialists; 727 knowledge/control updates; Synal ledger as shared signal memory; two-way sharing through WIP, PEN and Bridge.",
+      "external_reference": "thinkscape.ai pattern: swarm/small-group thinking and propagated insight",
+      "concepts": [
+        "Synal",
+        "Signal Analyst",
+        "Signal Swarm Analyst",
+        "Neural Ennead",
+        "729 specialist mesh",
+        "727 knowledge/control layer",
+        "Lost Idea Sweeper",
+        "Queue Compiler",
+        "Signal Brief Publisher",
+        "Options Simulator"
+      ]
+    },
+    "work_already_done": [
+      {
+        "type": "github_issue_anchor",
+        "repo": "TML-4PM/the-pen",
+        "issue": 15,
+        "title": "Synal backbone: lost ideas sweep then active thread routing",
+        "state_observed": "closed but not execution-verified"
+      },
+      {
+        "type": "handoff_receipt",
+        "path": "receipts/runtime/synal-backbone-handoff-receipt-20260426.md",
+        "commit_sha": "7da15a165f86f306df119427f8c35d511f0882f2",
+        "state": "handoff receipt only; execution receipt still required"
+      }
+    ],
+    "required_actions": [
+      "Read issue #15 and its comment payloads.",
+      "Run lost_ideas.sweep across historical chats, chosen docs, WIP, PEN and receipts.",
+      "Seed Synal ledger or equivalent store with recovered ideas, decisions, contradictions, stalled actions, patterns and routing candidates.",
+      "Create at least 5 follow-up jobs from recovered ideas.",
+      "Wire threads.topic.route into active/new thread processing.",
+      "Dispatch routed topics to 729 specialists.",
+      "Publish rolling Signal Analyst brief.",
+      "Write execution receipt under receipts/runtime and link queue/audit evidence."
+    ],
+    "docs_updates_required": [
+      {
+        "target": "727",
+        "section": "Signal Swarm Layer",
+        "change": "Add mandatory common Signal Analyst attending all threads, meetings, queues, receipts and docs; routes topics, reconciles outputs, captures lost ideas, detects contradictions, simulates options and publishes to Synal/WIP/PEN/global docs."
+      },
+      {
+        "target": "729",
+        "section": "Neural Ennead / Specialist Swarm",
+        "change": "Topic workers receive routed fragments and return judgement, next action, risk, queue payload, evidence requirement and definition of done. Support one or many LLMs, one or many people, short and long time horizons."
+      }
+    ],
+    "jobs_to_enqueue": [
+      {
+        "action": "lost_ideas.sweep",
+        "idempotency_key": "lost-ideas-sweep-v1",
+        "payload": {
+          "sources": ["llm_chats", "docs", "wip", "pen", "receipts"],
+          "extract": ["ideas", "decisions", "contradictions", "stalled_actions", "patterns", "routing_candidates"],
+          "output": "synal_ledger_and_ranked_jobs",
+          "endpoint": "MAC"
+        }
+      },
+      {
+        "action": "threads.topic.route",
+        "idempotency_key": "threads-topic-route-v1",
+        "payload": {
+          "input": "active_threads",
+          "output": "topic_worker_mapping_and_child_jobs",
+          "endpoint": "MAC"
+        }
+      },
+      {
+        "action": "specialists.dispatch",
+        "idempotency_key": "specialists-dispatch-v1",
+        "payload": {
+          "workers": ["infra", "ops", "strategy", "knowledge", "product", "audit"],
+          "input": "routed_topics",
+          "endpoint": "MAC"
+        }
+      },
+      {
+        "action": "options.simulate",
+        "idempotency_key": "options-simulate-v1",
+        "payload": {
+          "input": "high_value_recovered_ideas",
+          "output": "ranked_options_with_risk_value_and_next_action"
+        }
+      },
+      {
+        "action": "signal.brief.publish",
+        "idempotency_key": "signal-brief-publish-v1",
+        "payload": {
+          "input": "synal_ledger_recent_and_routed_topics",
+          "output": "rolling_signal_analyst_brief"
+        }
+      }
+    ],
+    "seed_ledger_rows": [
+      {"topic": "Synal backbone", "fragment": "Need common analyst across all threads", "worker": "Strategy", "action": "register Signal Analyst and routing"},
+      {"topic": "Lost ideas", "fragment": "Past chats/docs contain buried IP", "worker": "Ops", "action": "run sweep and score"},
+      {"topic": "Queue model", "fragment": "Inbox pattern and receipts are mandatory", "worker": "Infra", "action": "enforce enqueue_job only"},
+      {"topic": "Bootstrap gap", "fragment": "Sessions start blank unless actor bootstrap loaded", "worker": "Knowledge", "action": "enforce bootstrap check"},
+      {"topic": "Swarm thinking", "fragment": "Thinkscape-like propagated insight can improve decisions", "worker": "Strategy", "action": "evaluate swarm pattern"},
+      {"topic": "Topic overload", "fragment": "Threads split and LLM loses context", "worker": "Ops", "action": "wire auto topic router"},
+      {"topic": "Multi LLM", "fragment": "One LLM ok, many better", "worker": "Strategy", "action": "route to 729 mesh"},
+      {"topic": "Short vs long time", "fragment": "Need both immediate queue and long memory", "worker": "Knowledge", "action": "dual ledger plus queue model"},
+      {"topic": "Signal loss", "fragment": "Good ideas get buried", "worker": "Ops", "action": "recurring lost_ideas.sweep"},
+      {"topic": "Execution gap", "fragment": "Ideas must become jobs", "worker": "Infra", "action": "Queue Compiler"}
+    ],
+    "definition_of_done": [
+      "PEN inbox pack committed and readable.",
+      "Worker executes lost_ideas.sweep and writes result.",
+      "Synal ledger or equivalent output exists with seeded rows.",
+      "At least five follow-up jobs created.",
+      "Active thread routing can classify new fragments.",
+      "Signal Analyst brief exists.",
+      "Execution receipt under receipts/runtime links queue/audit proof."
+    ],
+    "evidence_rule": "This pack receipt proves handoff only. Final status remains PARTIAL until a worker execution receipt exists."
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "thread_pack",
+    "ts": "2026-04-29T00:00:00Z"
+  }
+}
