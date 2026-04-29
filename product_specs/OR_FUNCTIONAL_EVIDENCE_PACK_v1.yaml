@@ -1,0 +1,52 @@
+product_identity:
+  product_id: OR-FEP-001
+  product_name: Functional Evidence Pack
+  business: Outcome Ready
+  brand_code: OUTRD
+  lifecycle_state: build
+  owner: Outcome Ready Product Lead
+  created_at: 2026-04-29
+  updated_at: 2026-04-29
+
+portfolio_role:
+  role: ENTRY
+  purpose:
+    - conversion
+    - upsell_anchor
+
+customer_contract:
+  one_liner: >
+    A structured functional profile and report that converts observations into
+    clear, usable evidence for practitioners, schools, and support systems.
+  target_buyers:
+    - parents
+    - NDIS families
+  trigger_moment: "Need to prove what is happening"
+  immediate_value:
+    - structured evidence
+    - clear report
+  first_action: "Start functional profiling"
+
+job_to_be_done:
+  pain: "Observations are scattered and not taken seriously"
+  desired_outcome: "Clear, credible functional report"
+
+pricing_and_economics:
+  currency: AUD
+  price_points:
+    - 399
+    - 999
+  gross_margin_target: 0.85
+
+agent_binding:
+  required: true
+
+proof_and_reality:
+  enforcement: hard_block
+  required_events:
+    - session_created
+    - evidence_logged
+    - report_generated
+
+approval:
+  approval_status: approved
