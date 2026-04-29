@@ -1,0 +1,28 @@
+{
+  "name": "infra-autopilot-grid-wave20",
+  "version": "1.0.0",
+  "date": "2026-04-30",
+  "status": "PARTIAL",
+  "receipt": {
+    "repo": "TML-4PM/the-pen",
+    "path": "handoffs/2026-04-30/infra-autopilot-grid-wave20/",
+    "commit_sha": "pending-runtime-binding"
+  },
+  "components": [
+    "supabase-schema",
+    "lambda-control-pack",
+    "step-function-orchestrator",
+    "policy-engine",
+    "reality-ledger-binding",
+    "command-centre-metrics",
+    "bridge-invocation"
+  ],
+  "next_required_event": "bridge_execution",
+  "proof_required": [
+    "scan_complete",
+    "migration_attempt",
+    "smoke_test",
+    "rollback_test",
+    "ledger_write"
+  ]
+}
