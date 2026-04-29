@@ -1,0 +1,94 @@
+{
+  "fn": "enqueue_job",
+  "action": "sweeper.install_signal_swarm_routing",
+  "idempotency_key": "signal-swarm-routing-008",
+  "priority": 3,
+  "payload": {
+    "name": "Signal Swarm Multi-Agent Routing",
+    "mode": "install_or_verify_routing_layer",
+    "input_dependency": [
+      "sweeper-permutation-engine-004",
+      "sweeper-auto-promote-007"
+    ],
+    "agents": [
+      {
+        "id": "common_analyst",
+        "role": "global signal aggregator",
+        "always_included": true
+      },
+      {
+        "id": "product_worker",
+        "role": "product + SKU + ICP"
+      },
+      {
+        "id": "growth_worker",
+        "role": "campaigns + channels"
+      },
+      {
+        "id": "tech_worker",
+        "role": "deployability + infra"
+      },
+      {
+        "id": "data_worker",
+        "role": "data + ingestion + graph"
+      },
+      {
+        "id": "risk_worker",
+        "role": "security + compliance"
+      },
+      {
+        "id": "ops_worker",
+        "role": "execution + queue health"
+      },
+      {
+        "id": "commercial_worker",
+        "role": "revenue + partnerships"
+      }
+    ],
+    "routing_rules": {
+      "always_include": [
+        "common_analyst"
+      ],
+      "map_by_tags": {
+        "product": "product_worker",
+        "campaign": "growth_worker",
+        "deploy": "tech_worker",
+        "data": "data_worker",
+        "risk": "risk_worker",
+        "ops": "ops_worker",
+        "revenue": "commercial_worker"
+      },
+      "multi_assign": true,
+      "max_agents_per_job": 4
+    },
+    "outputs": {
+      "receipt_path_prefix": "receipts/runtime/signal-swarm-routing-008",
+      "artifacts": [
+        "routing_manifest.json",
+        "job_agent_assignments.jsonl",
+        "agent_load.json",
+        "routing_summary.md"
+      ]
+    },
+    "definition_of_done": [
+      "routing manifest created",
+      "agents assigned to candidate jobs",
+      "common analyst included in all",
+      "no job left unassigned",
+      "receipt written"
+    ],
+    "requested_by": "troy",
+    "source": "chatgpt",
+    "created_at": "2026-04-26T23:22:00+10:00"
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:13:01Z",
+    "source_file": "signal-swarm-routing-008.json"
+  }
+}
