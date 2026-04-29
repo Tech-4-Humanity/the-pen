@@ -1,0 +1,37 @@
+{
+  "idempotency_key": "mee-mcp-bootstrap-20260429-001",
+  "parent_job": null,
+  "status": "invalid",
+  "processed_at": "2026-04-28T19:34:07.015Z",
+  "worker": "sandbox/local-probe",
+  "source_path": "inbox/mee-mcp-bootstrap-20260429-001.json",
+  "source_sha256": "7d5c4cc36d939ae4aca9f0cb329bfcc1dce26ef3e82fd1c356fb9ad788c88124",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin"
+    ],
+    "warnings": [
+      "created_at missing"
+    ]
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [
+    "Missing required fields: origin"
+  ],
+  "next": [
+    "Correct payload and resubmit under a new idempotency key."
+  ]
+}
