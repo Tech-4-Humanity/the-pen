@@ -1,0 +1,39 @@
+{
+  "fn": "enqueue_job",
+  "action": "report.generate.daily.v2.test_and_repair",
+  "idempotency_key": "daily-brief-v2-retry-2026-04-26-002",
+  "priority": 9,
+  "payload": {
+    "mode": "force_validation",
+    "source_commit": "847b68486d2715cdd73ac54fecf86478b9cbd2c0",
+    "instruction": "Retry PEN pickup for daily brief v2. If runner is alive, execute minimal text/plain report generation test, then write runtime receipt. If report generator is missing, write failure receipt with missing handler details. Do not send duplicate production email unless dry_run=false is explicitly supported by runner.",
+    "dry_run": true,
+    "required_receipt": {
+      "path_prefix": "receipts/runtime/",
+      "fields": [
+        "idempotency_key",
+        "action",
+        "picked_up_at",
+        "handler_found",
+        "dry_run",
+        "status",
+        "errors",
+        "next_required_fix"
+      ]
+    },
+    "checks": [
+      "PEN action fires on inbox/*.json push",
+      "worker can parse job JSON",
+      "handler report.generate.daily.v2 exists or explicit missing-handler receipt is emitted",
+      "no raw HTML email is emitted during dry run",
+      "receipt is committed back to GitHub"
+    ]
+  },
+  "meta": {
+    "actor": "troy/chatgpt",
+    "handoff": "pen",
+    "created_at": "2026-04-26T01:30:00+10:00",
+    "retry_of": "daily-brief-v2-2026-04-26",
+    "receipt_required": true
+  }
+}
