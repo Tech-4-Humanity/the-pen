@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "Aether Drift - Synthwave (Reverse Diagonal)",
+  "version": "1.0.0",
+  "description": "Aether gradient theme. Synthwave colour pair, reverse diagonal direction. Smooth, immersive, focus-friendly aesthetic.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/aether_18_synthwave_diag_up.png",
+      "theme_toolbar": "images/aether_18_synthwave_diag_up.png",
+      "theme_ntp_background": "images/aether_18_synthwave_diag_up.png"
+    },
+    "colors": {
+      "frame": [
+        25,
+        10,
+        50
+      ],
+      "toolbar": [
+        25,
+        10,
+        50
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        200,
+        200,
+        220
+      ],
+      "bookmark_text": [
+        230,
+        230,
+        245
+      ],
+      "ntp_background": [
+        25,
+        10,
+        50
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        255,
+        255,
+        255
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "center",
+      "ntp_background_repeat": "no-repeat"
+    }
+  }
+}
