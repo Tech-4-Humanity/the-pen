@@ -1,0 +1,41 @@
+{
+  "fn": "enqueue_job",
+  "action": "sweeper.generate_permutations",
+  "idempotency_key": "sweeper-permutation-engine-004",
+  "priority": 5,
+  "payload": {
+    "sweeper_id": "permutation-engine-004",
+    "input_dependency": [
+      "sweeper-llm-doc-signal-seed-001",
+      "sweeper-llm-chat-ingest-002",
+      "sweeper-external-enrich-003"
+    ],
+    "strategy": "entity x time x business x capability x action",
+    "filters": {
+      "min_confidence": 0.6,
+      "min_value": 0.7
+    },
+    "outputs": {
+      "receipt_path_prefix": "receipts/runtime/sweeper-permutation-engine-004",
+      "artifacts": [
+        "candidate_jobs_ranked.jsonl",
+        "rejected.jsonl"
+      ]
+    },
+    "definition_of_done": [
+      "permutations generated",
+      "jobs ranked",
+      "receipt written"
+    ]
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:13:19Z",
+    "source_file": "sweeper-permutation-engine-004.json"
+  }
+}
