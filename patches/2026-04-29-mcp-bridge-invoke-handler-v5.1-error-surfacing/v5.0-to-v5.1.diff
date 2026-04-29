@@ -1,0 +1,35 @@
+--- /home/claude/work/bridge_patch/index.mjs.bak	2026-04-29 06:38:11.014034794 +0000
++++ /home/claude/work/bridge_patch/index.mjs	2026-04-29 06:38:11.040034991 +0000
+@@ -1,5 +1,5 @@
+ /**
+- * mcp-bridge-invoke-handler v5.0 — HARDENED
++ * mcp-bridge-invoke-handler v5.1 — HARDENED + ERROR SURFACING
+  * Changes from v4.4:
+  *  - NO hardcoded key fallbacks (env-only; fail-closed if missing)
+  *  - Registry-driven allowlist: fn must exist in mcp_lambda_registry with is_callable=true
+@@ -108,7 +108,15 @@
+     body: JSON.stringify({ query: cleanSql })
+   });
+   const data = await res.json();
+-  if (!res.ok) return { success: false, error: "sql_error", rows: [], count: 0, command: null };
++  if (!res.ok) {
++    let errMsg = `http_${res.status}`;
++    let errCode = null;
++    if (data && typeof data === "object") {
++      errMsg = data.message || data.error || errMsg;
++      errCode = data.code || data.sqlstate || null;
++    }
++    return { success: false, error: errMsg, sqlstate: errCode, rows: [], count: 0, command: null, http_status: res.status };
++  }
+   if (Array.isArray(data)) {
+     if (returnType === "value") {
+       const val = data[0] ? Object.values(data[0])[0] : null;
+@@ -116,7 +124,7 @@
+     }
+     return { success: true, rows: data, count: data.length, command: "SELECT" };
+   }
+-  if (data.error) return { success: false, error: "sql_error", rows: [], count: 0, command: null };
++  if (data.error) return { success: false, error: data.error, sqlstate: data.sqlstate || null, rows: [], count: 0, command: null };
+   return { success: true, rows: [], count: data.rows_affected ?? 0, command: data.command ?? firstWord };
+ }
+ 
