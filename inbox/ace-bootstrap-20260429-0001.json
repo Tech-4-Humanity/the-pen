@@ -1,0 +1,214 @@
+{
+  "idempotency_key": "ace-bootstrap-20260429-0001",
+  "title": "ACE Broker Bootstrap v1 - Autonomous Context Engine",
+  "submitted_at": "2026-04-29T00:00:00+10:00",
+  "origin": "chatgpt:gpt-5.5-thinking",
+  "destination": "PEN",
+  "mode": "PROD_OPERATOR",
+  "reality_state": "PARTIAL",
+  "reason": "Contract lodged to PEN inbox. Execution requires PEN/Bridge runner receipt and runtime verification.",
+  "objective": "Bootstrap the ACE Mac broker as a local signal router and sensor hub for screen, camera, audio, file, clipboard, app-state, device-health and behaviour signals, routed into T4H control-plane evidence flows.",
+  "scope": {
+    "included": [
+      "Supabase schemas and tables for runtime events, capture jobs, evidence binding, reality ledger, gap closure and CC widget state",
+      "Mac broker event contract and local capture modules",
+      "Signal policies for drift, error, keyword, low confidence and scheduled capture",
+      "Routing to S3/Supabase evidence register",
+      "Command Centre widget seeds",
+      "Verification harness and receipts"
+    ],
+    "excluded_or_gated": [
+      "Payments",
+      "IAM or credential changes",
+      "Production RLS activation without dry-run and explicit gate",
+      "Silent capture where endpoint permissions or user privacy policy disallow it"
+    ]
+  },
+  "autonomy_tier": {
+    "auto": [
+      "read existing repo docs",
+      "create dry-run SQL",
+      "create broker code bundle",
+      "create verification harness",
+      "create CC widget seed payload",
+      "enqueue runtime validation jobs"
+    ],
+    "log_only": [
+      "initial endpoint inventory",
+      "available camera/mic/screen permission status",
+      "capture capability checks"
+    ],
+    "gated": [
+      "deploy worker/API",
+      "activate RLS policies",
+      "enable scheduled capture policies",
+      "write to production registries"
+    ],
+    "blocked": [
+      "payments",
+      "IAM/credential rotation",
+      "legal/privacy policy decisions",
+      "unconsented surveillance"
+    ]
+  },
+  "required_repo_bootstrap_reads": [
+    "global/GLOBAL_RULE.md",
+    "global/ENFORCEMENT_LIVE.md",
+    "global/CLAUDE_CONTAINER_CONSTRAINT.md",
+    "global/NO_MCP_GITHUB_CONNECTOR.md",
+    "docs/AGL_CONTROL_PLANE.md",
+    "global/ACTOR_BOOTSTRAP.md"
+  ],
+  "deliverables": [
+    {
+      "name": "supabase_schema",
+      "path": "ace/sql/001_ace_broker_schema.sql",
+      "requirements": [
+        "idempotent DDL",
+        "schemas: runtime, audit, ops, cc where needed",
+        "PKs on all tables",
+        "created_at and updated_at timestamps",
+        "org_id/device_id/user_id fields where applicable",
+        "RLS policies included but gated/dry-run first"
+      ]
+    },
+    {
+      "name": "broker_event_contract",
+      "path": "ace/contracts/ace_event.schema.json",
+      "requirements": [
+        "event_id",
+        "idempotency_key",
+        "device_id",
+        "org_id",
+        "signal_type",
+        "capture_bundle",
+        "analysis",
+        "evidence",
+        "timestamps"
+      ]
+    },
+    {
+      "name": "mac_broker",
+      "path": "ace/broker/",
+      "requirements": [
+        "screen capture module",
+        "camera frame module using available macOS input including Continuity Camera if selected/available",
+        "audio ring-buffer module stub with permissions detection",
+        "file watcher module",
+        "app/window context module",
+        "local retry queue",
+        "privacy and kill-switch controls"
+      ]
+    },
+    {
+      "name": "worker_api",
+      "path": "ace/worker/",
+      "requirements": [
+        "capture job intake",
+        "idempotency checks",
+        "Supabase REST fallback read-only mode",
+        "S3/Supabase routing placeholders without secrets",
+        "health endpoint"
+      ]
+    },
+    {
+      "name": "cc_widgets",
+      "path": "ace/cc/seed_widgets.json",
+      "requirements": [
+        "Capture Now",
+        "Open Camera",
+        "Enable Drift Capture",
+        "Endpoint Readiness",
+        "Evidence Feed"
+      ]
+    },
+    {
+      "name": "verification_harness",
+      "path": "ace/verify/",
+      "requirements": [
+        "dry-run schema verification",
+        "event contract validation",
+        "idempotency replay test",
+        "receipt writer",
+        "REAL/PARTIAL/PRETEND classifier"
+      ]
+    }
+  ],
+  "canonical_tables": [
+    "runtime.capture_job",
+    "runtime.event_log",
+    "runtime.endpoint_heartbeat",
+    "audit.evidence_register",
+    "audit.reality_ledger",
+    "ops.gap_register",
+    "ops.policy",
+    "cc.widget_state"
+  ],
+  "event_contract_example": {
+    "event_id": "ace-capture-20260429-0001",
+    "idempotency_key": "ace-capture-20260429-0001",
+    "device_id": "mac-uuid",
+    "user_id": "user-uuid",
+    "org_id": "org-slug",
+    "signal_type": "DRIFT|ERROR|KEYWORD|LOW_CONFIDENCE|MANUAL|SCHEDULE",
+    "capture_bundle": {
+      "screen": {"uri": "s3://bucket/key/screen.png", "ocr": true},
+      "camera": {"uri": "s3://bucket/key/frame.jpg", "source": "continuity|facetime|external|none"},
+      "audio": {"uri": "s3://bucket/key/clip.wav", "seconds": 45, "transcript": true},
+      "context": {"app": "Chrome", "url": "", "window_title": ""}
+    },
+    "analysis": {
+      "vision": {"labels": [], "entities": []},
+      "audio": {"sentiment": "neutral", "keywords": []},
+      "text": {"summary": "", "confidence_delta": null}
+    },
+    "evidence": {"evidence_state": "REAL|PARTIAL|PRETEND", "attachments": []},
+    "timestamps": {"captured_at": "", "processed_at": ""}
+  },
+  "initial_signal_policies": [
+    {
+      "policy_key": "ace.drift.capture.v1",
+      "trigger": "idle_seconds > 45 AND app_switches_per_minute > 5",
+      "capture": ["screen", "app_context"],
+      "throttle": "max 6/hour/device"
+    },
+    {
+      "policy_key": "ace.error.bundle.v1",
+      "trigger": "error_dialog_detected OR crash_log_created",
+      "capture": ["screen", "audio_last_30s", "app_context"],
+      "throttle": "max 12/hour/device"
+    },
+    {
+      "policy_key": "ace.keyword.showme.v1",
+      "trigger": "keyword in ['show me','stuck','error','look at this']",
+      "capture": ["screen", "optional_camera", "app_context"],
+      "throttle": "max 10/hour/device"
+    },
+    {
+      "policy_key": "ace.low_confidence.v1",
+      "trigger": "confidence_delta < -0.15",
+      "capture": ["screen", "app_context"],
+      "throttle": "max 6/hour/device"
+    }
+  ],
+  "definition_of_done": [
+    "Contract file present in PEN inbox",
+    "Runner acknowledges job with receipt in receipts/runtime/ace-bootstrap-20260429-0001.receipt.json",
+    "Bundle files created and committed",
+    "Schema dry-run passes",
+    "Event contract validation passes",
+    "Verification harness emits receipt",
+    "No duplicate rows/files on idempotency replay",
+    "Reality state set to REAL only after runtime proof; otherwise PARTIAL/PRETEND with reason"
+  ],
+  "expected_receipts": [
+    "receipts/runtime/ace-bootstrap-20260429-0001.receipt.json",
+    "receipts/runtime/ace-bootstrap-20260429-0001.completion.receipt.json"
+  ],
+  "rollback": {
+    "disable_policy": "set ops.policy.enabled=false for ace.* policies",
+    "stop_broker": "disable local broker launch agent/service",
+    "archive_not_delete": "archive generated artifacts and mark lifecycle_state=archived; do not delete evidence"
+  },
+  "handoff_instruction": "PEN/Bridge runner should build the requested bundle, perform dry-run verification, write runtime receipt, then await gated promotion for deploy/RLS activation. No human loop is needed for dev bundle creation."
+}
