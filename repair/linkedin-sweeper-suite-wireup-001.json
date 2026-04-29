@@ -1,0 +1,42 @@
+{
+  "fn": "enqueue_job",
+  "action": "sweepers.linkedin_suite.wireup_and_run",
+  "idempotency_key": "linkedin-sweeper-suite-wireup-001",
+  "priority": 8,
+  "payload": {
+    "depends_on": "linkedin-sweeper-suite-001",
+    "mode": "register_then_dry_run",
+    "source": "linkedin",
+    "fallback": "expect_linkedin_export",
+    "required_outputs": [
+      "receipt_runtime",
+      "child_jobs",
+      "classification_summary"
+    ],
+    "receipt": {
+      "path": "receipts/runtime/linkedin-sweeper-suite-wireup-001.json",
+      "must_include": [
+        "scanned_count",
+        "classified_count",
+        "enqueued_jobs",
+        "blocked_reason",
+        "evidence"
+      ]
+    }
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "handover_bundle",
+    "ts": "2026-04-25T00:00:00Z"
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:37Z",
+    "source_file": "linkedin-sweeper-suite-wireup-001.json"
+  }
+}
