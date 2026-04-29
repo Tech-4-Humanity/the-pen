@@ -1,0 +1,189 @@
+{
+  "idempotency_key": "signals-expansion-2026-04-29-001",
+  "submitted_at": "2026-04-29T00:00:00Z",
+  "source": "chatgpt-github-connector",
+  "target": "PEN",
+  "job_type": "SYSTEM_EXTENSION",
+  "title": "Telemetry Signal Expansion + Economic Layer",
+  "priority": "HIGH",
+  "autonomy_tier": "AUTO_DEV_ALLOWED__PROD_GATED",
+  "reality_policy": {
+    "done_requires": [
+      "github_commit",
+      "pen_runtime_receipt",
+      "supabase_audit_evidence_register_row",
+      "runtime_log",
+      "cc_visibility_or_artifact"
+    ],
+    "completion_without_evidence": "PRETEND_REJECTED"
+  },
+  "payload": {
+    "intent": "Expand real-time telemetry signals beyond drift and sentiment into an economic, operational, semantic, relational and temporal signal layer usable at single-interaction and organisation-wide levels.",
+    "modules": [
+      "cognitive_signals",
+      "behavioural_signals",
+      "semantic_signals",
+      "relational_graph_signals",
+      "emotional_trust_signals",
+      "economic_value_signals",
+      "operational_closure_signals",
+      "temporal_responsiveness_signals",
+      "composite_indices",
+      "cc_signal_widgets",
+      "auto_job_extraction_to_wip_pen"
+    ],
+    "metrics": [
+      {
+        "key": "intent_volatility",
+        "class": "cognitive",
+        "meaning": "Frequency and magnitude of goal shifts across turns.",
+        "single_view_value": "Detect confusion, pivot, or buying/decision cues mid-conversation.",
+        "org_view_value": "Expose product-market and message misalignment clusters."
+      },
+      {
+        "key": "resolution_confidence",
+        "class": "cognitive",
+        "meaning": "Likelihood that the user problem is actually closed.",
+        "single_view_value": "Prevent false close and trigger repair before exit.",
+        "org_view_value": "Measure true outcome completion versus vanity engagement."
+      },
+      {
+        "key": "friction_score",
+        "class": "behavioural",
+        "meaning": "Effort required to make progress.",
+        "single_view_value": "Route to helper, simplifier, or human escalation.",
+        "org_view_value": "Rank process and UX bottlenecks."
+      },
+      {
+        "key": "momentum",
+        "class": "behavioural",
+        "meaning": "Speed and consistency of movement toward outcome.",
+        "single_view_value": "Identify when to push, pause, clarify or package an offer.",
+        "org_view_value": "Forecast pipeline velocity and stalled lanes."
+      },
+      {
+        "key": "abandonment_probability",
+        "class": "behavioural",
+        "meaning": "Likelihood the interaction or workflow will be dropped.",
+        "single_view_value": "Save the session with a next-best action.",
+        "org_view_value": "Find funnel leakage and operational neglect."
+      },
+      {
+        "key": "topic_entropy",
+        "class": "semantic",
+        "meaning": "Spread and scatter of topics within a conversation or workstream.",
+        "single_view_value": "Distinguish exploration from confusion.",
+        "org_view_value": "Detect unclear brands, products and internal operating models."
+      },
+      {
+        "key": "novelty_index",
+        "class": "semantic",
+        "meaning": "How new a signal is compared with prior corpus and registry.",
+        "single_view_value": "Capture invention and unusual opportunity moments.",
+        "org_view_value": "Feed R&D, IP harvesting and Commercial Widget discovery."
+      },
+      {
+        "key": "dependency_density",
+        "class": "relational",
+        "meaning": "How many system, actor, data or process dependencies attach to the item.",
+        "single_view_value": "Expose hidden blockers and orchestration needs.",
+        "org_view_value": "Map system fragility and integration risk."
+      },
+      {
+        "key": "trust_trajectory",
+        "class": "emotional",
+        "meaning": "Whether trust appears to be rising, flat or falling.",
+        "single_view_value": "Adjust tone, evidence level and escalation.",
+        "org_view_value": "Track brand and agent credibility over time."
+      },
+      {
+        "key": "commitment_strength",
+        "class": "economic",
+        "meaning": "Likelihood the user will act, buy, approve or continue.",
+        "single_view_value": "Trigger deal shaping or next-best conversion action.",
+        "org_view_value": "Improve revenue and demand forecasting."
+      },
+      {
+        "key": "value_density",
+        "class": "economic",
+        "meaning": "Estimated economic value per interaction, action or unit of effort.",
+        "single_view_value": "Prioritise high-value paths instantly.",
+        "org_view_value": "Create ROI heatmaps across brands, widgets and workflows."
+      },
+      {
+        "key": "loop_closure_rate",
+        "class": "operational",
+        "meaning": "Percentage of loops closed with evidence under AGL rules.",
+        "single_view_value": "Stop pretending a job is complete.",
+        "org_view_value": "Measure true execution capability."
+      },
+      {
+        "key": "evidence_strength",
+        "class": "operational",
+        "meaning": "REAL/PARTIAL/PRETEND status backed by proof.",
+        "single_view_value": "Validate or reject claimed outcome.",
+        "org_view_value": "Power audit-grade governance and promotion gates."
+      },
+      {
+        "key": "latency_to_insight",
+        "class": "temporal",
+        "meaning": "Time from signal arrival to useful insight or action.",
+        "single_view_value": "Improve perceived intelligence and speed.",
+        "org_view_value": "Expose responsiveness advantage or decay."
+      },
+      {
+        "key": "opportunity_decay_rate",
+        "class": "temporal",
+        "meaning": "Value lost as action is delayed.",
+        "single_view_value": "Force urgent paths when needed.",
+        "org_view_value": "Prioritise execution by value-at-risk."
+      }
+    ],
+    "composite_indices": [
+      {
+        "key": "execution_quality_index",
+        "inputs": ["loop_closure_rate", "evidence_strength", "friction_score"],
+        "use": "Gate production promotion and detect fake done."
+      },
+      {
+        "key": "conversation_roi",
+        "inputs": ["value_density", "resolution_confidence", "commitment_strength"],
+        "use": "Prioritise actions, offers and workflows by commercial impact."
+      },
+      {
+        "key": "signal_clarity_score",
+        "inputs": ["topic_entropy", "intent_volatility", "resolution_confidence"],
+        "use": "Route unclear work to analysis, clarification or restructuring."
+      },
+      {
+        "key": "autonomy_readiness",
+        "inputs": ["momentum", "dependency_density", "evidence_strength"],
+        "use": "Decide AUTO, LOG, GATED or BLOCKED execution tier."
+      },
+      {
+        "key": "innovation_yield",
+        "inputs": ["novelty_index", "value_density", "opportunity_emergence"],
+        "use": "Harvest new Commercial Widgets, IP and product lanes."
+      }
+    ],
+    "required_build_actions": [
+      "Design idempotent Supabase schema for raw signals, derived metrics, composites, and evidence bindings with PKs, timestamps and RLS.",
+      "Create ingestion contract for real-time chat/thread/event telemetry.",
+      "Create scoring workers for raw metric calculation and composite index generation.",
+      "Attach audit.evidence_register and audit.reality_ledger evidence state to all generated claims/actions.",
+      "Create WIP/PEN auto-job extraction rules for high-value abandoned ideas, high novelty, high friction, and high opportunity decay.",
+      "Create Command Centre widgets for single-interaction view and organisation-level heatmaps.",
+      "Add test harness with sample telemetry payloads and expected composite outputs.",
+      "Emit runtime receipt and final build closure evidence."
+    ],
+    "definition_of_done": {
+      "schema": "Tables, views and policies exist; migration is idempotent.",
+      "ingestion": "Sample event batch is accepted and stored.",
+      "scoring": "Raw metrics and composite scores are generated deterministically.",
+      "routing": "At least one sample signal creates a WIP/PEN job with idempotency key.",
+      "evidence": "Evidence rows bind job, runtime output and reality state.",
+      "visibility": "CC widget or exported dashboard artifact shows single and org views.",
+      "closure": "Receipt written to receipts/runtime and final evidence_state is REAL or PARTIAL with exact gaps."
+    }
+  }
+}
