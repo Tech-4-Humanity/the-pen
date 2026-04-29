@@ -1,0 +1,26 @@
+{
+  "fn": "bridge.invoke",
+  "action": "troy-sql-executor",
+  "idempotency_key": "direct-bridge-invoke-012",
+  "priority": 1,
+  "payload": {
+    "note": "fallback direct bridge invoke to prove execution lane",
+    "validation_sql": "select now() as runtime_check;",
+    "expected_result": "timestamp returned",
+    "post_action": [
+      "write receipt to receipts/runtime/direct-bridge-invoke-012",
+      "log audit entry",
+      "trigger force-execute-bridge-mac-sweeper-010"
+    ]
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:14Z",
+    "source_file": "direct-bridge-invoke-012.json"
+  }
+}
