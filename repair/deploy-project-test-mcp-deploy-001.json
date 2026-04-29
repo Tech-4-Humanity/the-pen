@@ -1,0 +1,30 @@
+{
+  "fn": "enqueue_job",
+  "action": "deploy.project",
+  "idempotency_key": "deploy-project-test-mcp-deploy-001",
+  "payload": {
+    "tool": "deploy_project",
+    "name": "test-mcp-deploy",
+    "repo": "TML-4PM/symbio-dev-control-plane",
+    "branch": "main",
+    "env": {},
+    "allowWrite": true,
+    "dryRun": false
+  },
+  "priority": 5,
+  "meta": {
+    "actor": "troy",
+    "source": "chatgpt",
+    "ts": "2026-04-24T03:20:00Z"
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:12Z",
+    "source_file": "deploy-project-test-mcp-deploy-001.json"
+  }
+}
