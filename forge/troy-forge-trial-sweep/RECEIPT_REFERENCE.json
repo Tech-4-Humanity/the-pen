@@ -1,0 +1,15 @@
+{
+  "run_id": "forge-alpha-trial-20260429-001",
+  "bucket": "tech4humanity-forge",
+  "receipt_uri": "s3://tech4humanity-forge/trials/receipts/forge-alpha-trial-20260429-001.json",
+  "etag": "f95ba7f17e12162b1193835db857c53d",
+  "size_bytes": 693,
+  "files_scanned": 1,
+  "total_records": 500,
+  "sampled_records": 250,
+  "ok": true,
+  "rdti": {
+    "is_rd": true,
+    "project_code": "OUTRD-FORGE-001"
+  }
+}
