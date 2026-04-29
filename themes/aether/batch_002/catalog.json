@@ -1,0 +1,206 @@
+{
+  "batch_id": "aether_002",
+  "count": 25,
+  "themes": [
+    {
+      "idx": 0,
+      "manifest": "manifest_00.json",
+      "name": "Aether Aurora - Violet Cobalt (Vertical)",
+      "image": "aether_00_violet_cobalt_vertical.png",
+      "pair": "violet_cobalt",
+      "direction": "vertical"
+    },
+    {
+      "idx": 1,
+      "manifest": "manifest_01.json",
+      "name": "Aether Mist - Violet Cobalt (Horizontal)",
+      "image": "aether_01_violet_cobalt_horizontal.png",
+      "pair": "violet_cobalt",
+      "direction": "horizontal"
+    },
+    {
+      "idx": 2,
+      "manifest": "manifest_02.json",
+      "name": "Aether Glow - Violet Cobalt (Diagonal)",
+      "image": "aether_02_violet_cobalt_diag_down.png",
+      "pair": "violet_cobalt",
+      "direction": "diag_down"
+    },
+    {
+      "idx": 3,
+      "manifest": "manifest_03.json",
+      "name": "Aether Drift - Violet Cobalt (Reverse Diagonal)",
+      "image": "aether_03_violet_cobalt_diag_up.png",
+      "pair": "violet_cobalt",
+      "direction": "diag_up"
+    },
+    {
+      "idx": 4,
+      "manifest": "manifest_04.json",
+      "name": "Aether Bloom - Violet Cobalt (Radial)",
+      "image": "aether_04_violet_cobalt_radial.png",
+      "pair": "violet_cobalt",
+      "direction": "radial"
+    },
+    {
+      "idx": 5,
+      "manifest": "manifest_05.json",
+      "name": "Aether Aurora - Rose Amber (Vertical)",
+      "image": "aether_05_rose_amber_vertical.png",
+      "pair": "rose_amber",
+      "direction": "vertical"
+    },
+    {
+      "idx": 6,
+      "manifest": "manifest_06.json",
+      "name": "Aether Mist - Rose Amber (Horizontal)",
+      "image": "aether_06_rose_amber_horizontal.png",
+      "pair": "rose_amber",
+      "direction": "horizontal"
+    },
+    {
+      "idx": 7,
+      "manifest": "manifest_07.json",
+      "name": "Aether Glow - Rose Amber (Diagonal)",
+      "image": "aether_07_rose_amber_diag_down.png",
+      "pair": "rose_amber",
+      "direction": "diag_down"
+    },
+    {
+      "idx": 8,
+      "manifest": "manifest_08.json",
+      "name": "Aether Drift - Rose Amber (Reverse Diagonal)",
+      "image": "aether_08_rose_amber_diag_up.png",
+      "pair": "rose_amber",
+      "direction": "diag_up"
+    },
+    {
+      "idx": 9,
+      "manifest": "manifest_09.json",
+      "name": "Aether Bloom - Rose Amber (Radial)",
+      "image": "aether_09_rose_amber_radial.png",
+      "pair": "rose_amber",
+      "direction": "radial"
+    },
+    {
+      "idx": 10,
+      "manifest": "manifest_10.json",
+      "name": "Aether Aurora - Ocean Cyan (Vertical)",
+      "image": "aether_10_ocean_cyan_vertical.png",
+      "pair": "ocean_cyan",
+      "direction": "vertical"
+    },
+    {
+      "idx": 11,
+      "manifest": "manifest_11.json",
+      "name": "Aether Mist - Ocean Cyan (Horizontal)",
+      "image": "aether_11_ocean_cyan_horizontal.png",
+      "pair": "ocean_cyan",
+      "direction": "horizontal"
+    },
+    {
+      "idx": 12,
+      "manifest": "manifest_12.json",
+      "name": "Aether Glow - Ocean Cyan (Diagonal)",
+      "image": "aether_12_ocean_cyan_diag_down.png",
+      "pair": "ocean_cyan",
+      "direction": "diag_down"
+    },
+    {
+      "idx": 13,
+      "manifest": "manifest_13.json",
+      "name": "Aether Drift - Ocean Cyan (Reverse Diagonal)",
+      "image": "aether_13_ocean_cyan_diag_up.png",
+      "pair": "ocean_cyan",
+      "direction": "diag_up"
+    },
+    {
+      "idx": 14,
+      "manifest": "manifest_14.json",
+      "name": "Aether Bloom - Ocean Cyan (Radial)",
+      "image": "aether_14_ocean_cyan_radial.png",
+      "pair": "ocean_cyan",
+      "direction": "radial"
+    },
+    {
+      "idx": 15,
+      "manifest": "manifest_15.json",
+      "name": "Aether Aurora - Synthwave (Vertical)",
+      "image": "aether_15_synthwave_vertical.png",
+      "pair": "synthwave",
+      "direction": "vertical"
+    },
+    {
+      "idx": 16,
+      "manifest": "manifest_16.json",
+      "name": "Aether Mist - Synthwave (Horizontal)",
+      "image": "aether_16_synthwave_horizontal.png",
+      "pair": "synthwave",
+      "direction": "horizontal"
+    },
+    {
+      "idx": 17,
+      "manifest": "manifest_17.json",
+      "name": "Aether Glow - Synthwave (Diagonal)",
+      "image": "aether_17_synthwave_diag_down.png",
+      "pair": "synthwave",
+      "direction": "diag_down"
+    },
+    {
+      "idx": 18,
+      "manifest": "manifest_18.json",
+      "name": "Aether Drift - Synthwave (Reverse Diagonal)",
+      "image": "aether_18_synthwave_diag_up.png",
+      "pair": "synthwave",
+      "direction": "diag_up"
+    },
+    {
+      "idx": 19,
+      "manifest": "manifest_19.json",
+      "name": "Aether Bloom - Synthwave (Radial)",
+      "image": "aether_19_synthwave_radial.png",
+      "pair": "synthwave",
+      "direction": "radial"
+    },
+    {
+      "idx": 20,
+      "manifest": "manifest_20.json",
+      "name": "Aether Aurora - Plasma Void (Vertical)",
+      "image": "aether_20_plasma_void_vertical.png",
+      "pair": "plasma_void",
+      "direction": "vertical"
+    },
+    {
+      "idx": 21,
+      "manifest": "manifest_21.json",
+      "name": "Aether Mist - Plasma Void (Horizontal)",
+      "image": "aether_21_plasma_void_horizontal.png",
+      "pair": "plasma_void",
+      "direction": "horizontal"
+    },
+    {
+      "idx": 22,
+      "manifest": "manifest_22.json",
+      "name": "Aether Glow - Plasma Void (Diagonal)",
+      "image": "aether_22_plasma_void_diag_down.png",
+      "pair": "plasma_void",
+      "direction": "diag_down"
+    },
+    {
+      "idx": 23,
+      "manifest": "manifest_23.json",
+      "name": "Aether Drift - Plasma Void (Reverse Diagonal)",
+      "image": "aether_23_plasma_void_diag_up.png",
+      "pair": "plasma_void",
+      "direction": "diag_up"
+    },
+    {
+      "idx": 24,
+      "manifest": "manifest_24.json",
+      "name": "Aether Bloom - Plasma Void (Radial)",
+      "image": "aether_24_plasma_void_radial.png",
+      "pair": "plasma_void",
+      "direction": "radial"
+    }
+  ]
+}
