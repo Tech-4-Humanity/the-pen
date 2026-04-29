@@ -1,0 +1,137 @@
+{
+  "idempotency_key": "synal-place-of-places-sticky-entry-20260429-001",
+  "submitted_at": "2026-04-29T00:00:00+10:00",
+  "origin": "chatgpt",
+  "destination": "pen",
+  "mode": "PROD_OPERATOR_PLAN_HANDOFF",
+  "approval_required": true,
+  "title": "Build SY-N-A-L place-of-places sticky entry surface",
+  "canonical_correction": {
+    "synal_spelling": "SY-N-A-L / Synal",
+    "do_not_create": [
+      "a separate sticky product that owns the process",
+      "a standalone Signal Tiles system",
+      "anything called signer",
+      "a parallel notes platform"
+    ],
+    "must_build": "A sticky-style digital note entry surface that works like a normal desktop sticky but attaches to SY-N-A-L place context and can optionally activate the existing intent/orchestration layer.",
+    "layer_doctrine": "SY-N-A-L is the place of places: browser, app, widgets, applets, extensions, dashboards, threads and desktop surfaces are place nodes. Sticky is one entry surface only."
+  },
+  "plain_english_intent": "User still gets a real sticky note: coloured note on desktop/browser/widget that can sit dumb until deleted/clicked. If activated, it becomes one of many entry points into the same intent process used by chat, widgets, calendar, forms, extensions and agents.",
+  "architecture": {
+    "entry_layer": [
+      "desktop sticky",
+      "browser sticky/overlay",
+      "chat inline note",
+      "command centre widget note",
+      "extension/app note",
+      "calendar/task quick capture"
+    ],
+    "place_layer": "All entries bind to nearest place_id / place_node. Desktop, browser tab, applet, widget, thread and extension are all places.",
+    "intent_layer": "Captured content resolves to a unified work intent only when needed. Sticky does not own the work; it is only a surface.",
+    "orchestration_layer": "Existing AGL/Bridge/runtime queues/agents/calendar/task systems act after explicit or policy-allowed activation.",
+    "output_layer": "Results return to the same sticky and/or any other relevant surface: widget, calendar, task list, chat, email, dashboard."
+  },
+  "user_experience_requirements": [
+    "User can create a sticky instantly on desktop or browser.",
+    "Sticky can be yellow/pink/green/etc and remain visible until user deletes, hides, pins, archives or activates it.",
+    "Default mode is dumb/passive: no forced automation, no agent swarm, no conversion to task unless activated or explicitly configured.",
+    "Sticky can show a simple action button such as Take Control / Make Useful / Route.",
+    "Activation can create or link task/calendar/reminder/agent pod/ordering flow depending on intent.",
+    "Same outcome must be reachable from sticky, chat, widget, calendar, form or extension. No sticky-first dogma.",
+    "Sticky remains a visual handle/status surface after activation; it does not become the only source of truth.",
+    "User can keep a sticky as a personal note forever without it entering execution."
+  ],
+  "example_flows": [
+    {
+      "input": "get chicken",
+      "entry_surface": "desktop sticky",
+      "default": "sits as passive note",
+      "on_activation": ["shopping reminder", "task list item", "calendar/time reminder"]
+    },
+    {
+      "input": "hire a dog for weekend",
+      "entry_surface": "sticky/chat/calendar/widget all valid",
+      "default": "sits as passive note if not activated",
+      "on_activation": ["interpret service booking intent", "check weekend/calendar context", "route to agent pod for options", "return shortlist/status to sticky and widget"]
+    },
+    {
+      "input": "pick up keys",
+      "entry_surface": "browser or desktop sticky",
+      "default": "visual reminder",
+      "on_activation": ["time reminder", "location-aware alert if available", "calendar/task item"]
+    }
+  ],
+  "implementation_scope": {
+    "phase_1": [
+      "Inspect existing SY-N-A-L/place/grouping/CC/runtime assets before creating anything new.",
+      "Add/extend a sticky entry adapter only where missing.",
+      "Bind sticky to current or inferred place_id.",
+      "Create passive sticky UI behaviour: create, edit, colour, pin, move, hide, archive/delete depending policy.",
+      "Add Take Control action that enqueues a place-bound intent job through existing runtime/PEN/Bridge route."
+    ],
+    "phase_2": [
+      "Expose stickies in Command Centre widget by place/status.",
+      "Enable browser/extension/app/widget adapters to render same sticky where place context matches.",
+      "Add light classification for suggestions without auto-executing.",
+      "Add calendar/task agent routing only after activation or allowed automation policy."
+    ],
+    "phase_3": [
+      "Agent pod activation: controlled expansion from any entry surface, not sticky-specific.",
+      "Portfolio roll-up across places, not notes.",
+      "Evidence-bound closure for activated intents only."
+    ]
+  },
+  "data_contract_reuse_first": {
+    "required_lookup_before_build": [
+      "ops.system_registry existing place/surface objects",
+      "cc widget/snippet/placement records",
+      "runtime.work_queue schema and enqueue pattern",
+      "audit.evidence_register and reality ledger patterns",
+      "existing Synal/SY-N-A-L docs/code/routes"
+    ],
+    "new_objects_allowed_only_if_missing": [
+      "sticky_entry_adapter",
+      "place-bound sticky UI component",
+      "intent activation command mapping"
+    ],
+    "required_fields_if_persisted": [
+      "idempotency_key",
+      "place_id",
+      "surface_id",
+      "content",
+      "colour",
+      "position",
+      "state",
+      "created_at",
+      "updated_at",
+      "archived_at not deleted unless user explicitly deletes",
+      "activation_ref if routed"
+    ]
+  },
+  "governance": {
+    "autonomous": ["read", "inspect", "create passive sticky", "archive", "enqueue activation job"],
+    "log_only": ["suggest classification", "suggest routing", "observe sticky usage"],
+    "gated": ["deploy", "delete", "RLS changes", "production route changes"],
+    "blocked": ["payments", "IAM", "credentials", "legal commitments"]
+  },
+  "acceptance_criteria": [
+    "A user can create a visible sticky-style note from at least one surface.",
+    "The sticky behaves passively until activated.",
+    "The sticky is bound to a SY-N-A-L place_id/place context.",
+    "Activation routes through existing intent/orchestration path, not a sticky-owned process.",
+    "Same intent path can be triggered from non-sticky surfaces.",
+    "No standalone sticky product/system/name is introduced.",
+    "No orphan signals are created outside a place.",
+    "Receipt is written back to GitHub/PEN and, if available, Bridge on completion."
+  ],
+  "requested_pen_actions": [
+    "Validate this packet against existing SY-N-A-L place doctrine.",
+    "Generate system approval response for user approval.",
+    "On approval, execute build via Bridge-safe tools.",
+    "If Bridge unavailable, retain in PEN and push from PEN when runner is available.",
+    "Return receipt with commit SHA, status, and next action contract."
+  ],
+  "reality_state": "PARTIAL",
+  "reason": "Execution packet lodged; build and bridge receipt pending approval/execution."
+}
