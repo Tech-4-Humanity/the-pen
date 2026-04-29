@@ -1,0 +1,95 @@
+name: pen-worker
+
+on:
+  push:
+    paths:
+      - 'inbox/*.json'
+      - 'workers/**'
+      - 'schemas/**'
+      - 'templates/**'
+      - 'docs/**'
+      - '.github/workflows/pen-worker.yml'
+  workflow_dispatch:
+    inputs:
+      job_path:
+        description: 'Path to inbox job JSON'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: pen-worker-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  run-pen-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PEN_RECEIPTS_DIR: receipts/runtime
+      PEN_INBOX_DIR: inbox
+      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
+      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r workers/requirements.txt
+
+      - name: Resolve job path
+        id: job
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${{ github.event.inputs.job_path || '' }}" ]; then
+            JOB_PATH="${{ github.event.inputs.job_path }}"
+          else
+            JOB_PATH=$(git diff --name-only HEAD~1 HEAD | grep '^inbox/.*\.json$' | head -n 1 || true)
+            if [ -z "$JOB_PATH" ]; then
+              JOB_PATH=$(ls -1t inbox/*.json | head -n 1)
+            fi
+          fi
+          test -f "$JOB_PATH"
+          echo "job_path=$JOB_PATH" >> "$GITHUB_OUTPUT"
+          echo "Resolved job path: $JOB_PATH"
+
+      - name: Run Pen worker
+        id: worker
+        run: |
+          python workers/pen_worker.py --job "${{ steps.job.outputs.job_path }}" --receipts-dir "$PEN_RECEIPTS_DIR"
+
+      - name: Commit receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "pen-worker"
+          git config user.email "pen-worker@users.noreply.github.com"
+          git add receipts/runtime/*.receipt.json
+          if git diff --cached --quiet; then
+            echo "No new receipt to commit; likely idempotent replay."
+          else
+            git commit -m "receipt: pen worker execution"
+            git push
+          fi
+
+      - name: Summary
+        shell: bash
+        run: |
+          echo "## Pen worker" >> "$GITHUB_STEP_SUMMARY"
+          echo "Job: ${{ steps.job.outputs.job_path }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Receipts:" >> "$GITHUB_STEP_SUMMARY"
+          ls -1 receipts/runtime/*.receipt.json | tail -n 10 >> "$GITHUB_STEP_SUMMARY"
