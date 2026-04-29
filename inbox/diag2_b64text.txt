@@ -1,1 +1,4 @@
-dGhpcyBpcyBmYWtlIGJpbmFyeSBjb250ZW50IGZvciBkaWFn
+# RETIRED PROBE FILE
+# This file was a diagnostic probe during theme-factory execution 2026-04-29.
+# Bundle is at: /themes/obsidian/batch_001/
+# Receipt: /themes/obsidian/batch_001/receipt.json
