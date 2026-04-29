@@ -1,0 +1,59 @@
+product_identity:
+  product_id: OR-BAP-001
+  product_name: Before the Appointment Pack
+  business: Outcome Ready
+  brand_code: OUTRD
+  lifecycle_state: build
+  owner: Outcome Ready Product Lead
+  created_at: 2026-04-29
+  updated_at: 2026-04-29
+
+portfolio_role:
+  role: ENTRY
+  purpose:
+    - lead_generation
+    - conversion
+
+customer_contract:
+  one_liner: >
+    A guided evidence builder that helps parents prepare for ADHD, autism,
+    and developmental appointments by turning observations into a structured,
+    practitioner-ready report.
+  target_buyers:
+    - parents
+    - carers
+  trigger_moment: "Concern about child behaviour or development"
+  immediate_value:
+    - clarity
+    - structure
+    - preparation
+  first_action: "Start evidence intake"
+  excluded_claims:
+    - diagnosis
+    - prescribing
+
+job_to_be_done:
+  pain: "Parents don’t know what to track or bring to appointments"
+  desired_outcome: "Arrive prepared with structured evidence"
+  measurable_outcomes:
+    - intake_completion
+    - report_generated
+
+pricing_and_economics:
+  currency: AUD
+  price_points:
+    - 149
+  gross_margin_target: 0.8
+
+agent_binding:
+  required: true
+
+proof_and_reality:
+  enforcement: hard_block
+  required_events:
+    - session_created
+    - intake_completed
+    - report_generated
+
+approval:
+  approval_status: approved
