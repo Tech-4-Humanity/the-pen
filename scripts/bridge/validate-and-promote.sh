@@ -22,9 +22,7 @@ echo "Dry run:  $DRY_RUN"
 echo "Started:  $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 echo ""
 
-# Get inbox listing
 INBOX_FILES=$(gh api "repos/$REPO/contents/inbox" --jq '[.[] | select(.type=="file" and (.name | endswith(".json"))) | {name: .name, path: .path, sha: .sha}]')
-
 FILE_COUNT=$(echo "$INBOX_FILES" | jq length)
 echo "Found $FILE_COUNT JSON files in inbox/"
 echo ""
@@ -36,7 +34,6 @@ for row in $(echo "$INBOX_FILES" | jq -r '.[] | @base64'); do
   FILE_PATH=$(_jq '.path')
   FILE_SHA=$(_jq '.sha')
 
-  # Fetch and decode content
   CONTENT=$(gh api "repos/$REPO/contents/$FILE_PATH" --jq '.content' | base64 --decode 2>/dev/null || echo "")
 
   if [[ -z "$CONTENT" ]]; then
@@ -45,8 +42,6 @@ for row in $(echo "$INBOX_FILES" | jq -r '.[] | @base64'); do
     continue
   fi
 
-  # Validate required fields — check none are null or missing
-  MISSING_FIELDS=[]
   VALID=true
   MISSING_LIST=""
   for field in "${REQUIRED_FIELDS[@]}"; do
@@ -58,29 +53,25 @@ for row in $(echo "$INBOX_FILES" | jq -r '.[] | @base64'); do
   done
   MISSING_LIST="${MISSING_LIST%,}"
 
-  IDEMPOTENCY_KEY=$(echo "$CONTENT" | jq -r '.idempotency_key // .fn // "unknown"')
-
   if [[ "$VALID" == true ]]; then
     echo "  VALID → promote: $FILE_NAME"
     if [[ "$DRY_RUN" == false ]]; then
       ENCODED=$(echo "$CONTENT" | base64)
-      # Write to bridge_jobs/
       gh api --method PUT "repos/$REPO/contents/bridge_jobs/$FILE_NAME" \
-        --field message="promote: $FILE_NAME from inbox to bridge_jobs" \
+        --field message="promote: $FILE_NAME inbox→bridge_jobs" \
         --field content="$ENCODED" \
         --field branch="main" > /dev/null 2>&1 && echo "    ✔ written to bridge_jobs/$FILE_NAME"
-      # Delete from inbox
       gh api --method DELETE "repos/$REPO/contents/$FILE_PATH" \
         --field message="promote: remove $FILE_NAME from inbox" \
         --field sha="$FILE_SHA" \
-        --field branch="main" > /dev/null 2>&1 && echo "    ✔ removed from inbox/$FILE_NAME"
+        --field branch="main" > /dev/null 2>&1 && echo "    ✔ removed from inbox"
     fi
     ((PROMOTED++)) || true
   else
     echo "  INVALID → repair: $FILE_NAME (missing: $MISSING_LIST)"
     if [[ "$DRY_RUN" == false ]]; then
-      REASON=$(echo "$CONTENT" | jq \n        --arg missing "$MISSING_LIST" \n        --arg file "$FILE_NAME" \n        --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \n        '. + {_repair: {reason: "missing required fields", missing_fields: ($missing | split(",")), quarantined_at: $ts, source_file: $file}}'
-      )
+      TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+      REASON=$(echo "$CONTENT" | jq --arg missing "$MISSING_LIST" --arg file "$FILE_NAME" --arg ts "$TS" '. + {_repair: {reason: "missing required fields", missing_fields: ($missing | split(",")), quarantined_at: $ts, source_file: $file}}')
       ENCODED=$(echo "$REASON" | base64)
       gh api --method PUT "repos/$REPO/contents/repair/$FILE_NAME" \
         --field message="quarantine: $FILE_NAME missing [$MISSING_LIST]" \
@@ -89,7 +80,7 @@ for row in $(echo "$INBOX_FILES" | jq -r '.[] | @base64'); do
       gh api --method DELETE "repos/$REPO/contents/$FILE_PATH" \
         --field message="quarantine: remove $FILE_NAME from inbox" \
         --field sha="$FILE_SHA" \
-        --field branch="main" > /dev/null 2>&1 && echo "    ✔ removed from inbox/$FILE_NAME"
+        --field branch="main" > /dev/null 2>&1 && echo "    ✔ removed from inbox"
     fi
     ((QUARANTINED++)) || true
   fi
@@ -103,26 +94,23 @@ echo "Skipped:     $SKIPPED"
 echo "Total inbox: $FILE_COUNT"
 echo ""
 
-# Write receipt
 RECEIPT_NAME="validate-promote-$(date -u +%Y%m%d-%H%M%S).receipt.json"
-RECEIPT=$(
-  jq -n \
-    --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-    --argjson promoted "$PROMOTED" \
-    --argjson quarantined "$QUARANTINED" \
-    --argjson skipped "$SKIPPED" \
-    --argjson total "$FILE_COUNT" \
-    --arg dry "$DRY_RUN" \
-    '{run_at: $ts, dry_run: $dry, promoted: $promoted, quarantined: $quarantined, skipped: $skipped, total_inbox: $total}'
-)
+RECEIPT=$(jq -n \
+  --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --argjson promoted "$PROMOTED" \
+  --argjson quarantined "$QUARANTINED" \
+  --argjson skipped "$SKIPPED" \
+  --argjson total "$FILE_COUNT" \
+  --arg dry "$DRY_RUN" \
+  '{run_at: $ts, dry_run: $dry, promoted: $promoted, quarantined: $quarantined, skipped: $skipped, total_inbox: $total}')
 
 if [[ "$DRY_RUN" == false ]]; then
   ENCODED=$(echo "$RECEIPT" | base64)
   gh api --method PUT "repos/$REPO/contents/receipts/runtime/$RECEIPT_NAME" \
-    --field message="receipt: validate-and-promote run $RECEIPT_NAME" \
+    --field message="receipt: validate-and-promote $RECEIPT_NAME" \
     --field content="$ENCODED" \
     --field branch="main" > /dev/null 2>&1 && echo "Receipt: receipts/runtime/$RECEIPT_NAME"
 else
-  echo "[dry-run] Receipt would be: receipts/runtime/$RECEIPT_NAME"
+  echo "[dry-run] Receipt: receipts/runtime/$RECEIPT_NAME"
   echo "$RECEIPT"
 fi

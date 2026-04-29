@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # fix-job.sh
-# Patches a single job in repair/ with missing fields so it can be re-queued to inbox
+# Patches a single job with missing fields and returns it to inbox for re-processing
 # Usage: ./scripts/bridge/fix-job.sh <filename> <origin> <destination> <topic>
 # Example: ./scripts/bridge/fix-job.sh direct-bridge-invoke-012.json the-pen bridge-runner sql-exec
 
@@ -19,14 +19,18 @@ ORIGIN="$2"
 DESTINATION="$3"
 TOPIC="$4"
 
-# Try repair/ first, then inbox/
+# Find file in repair/, then inbox/
 SOURCE_PATH=""
+FILE_SHA=""
 for dir in repair inbox; do
-  EXISTS=$(gh api "repos/$REPO/contents/$dir/$FILE_NAME" --jq '.sha' 2>/dev/null || echo "")
-  if [[ -n "$EXISTS" ]]; then
-    SOURCE_PATH="$dir/$FILE_NAME"
-    FILE_SHA="$EXISTS"
-    break
+  RESP=$(gh api "repos/$REPO/contents/$dir/$FILE_NAME" 2>/dev/null || echo "")
+  if [[ -n "$RESP" ]]; then
+    FILE_SHA=$(echo "$RESP" | jq -r '.sha')
+    if [[ "$FILE_SHA" != "null" && -n "$FILE_SHA" ]]; then
+      SOURCE_PATH="$dir/$FILE_NAME"
+      CONTENT=$(echo "$RESP" | jq -r '.content' | base64 --decode)
+      break
+    fi
   fi
 done
 
@@ -37,28 +41,34 @@ fi
 
 echo "Found: $SOURCE_PATH"
 
-# Fetch content
-CONTENT=$(gh api "repos/$REPO/contents/$SOURCE_PATH" --jq '.content' | base64 --decode)
-
-# Patch fields — strip _repair metadata if present, inject required fields
+TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 PATCHED=$(echo "$CONTENT" | jq \
   --arg origin "$ORIGIN" \
   --arg destination "$DESTINATION" \
   --arg topic "$TOPIC" \
-  --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-  'del(._repair) | .origin = $origin | .destination = $destination | .topic = $topic | .patched_at = $ts'
-)
+  --arg ts "$TS" \
+  'del(._repair) | .origin = $origin | .destination = $destination | .topic = $topic | .patched_at = $ts')
 
-echo "Patched job:"
+echo "Patched:"
 echo "$PATCHED" | jq '{fn,action,idempotency_key,origin,destination,topic,patched_at}'
 
-# Write back to inbox/ for re-processing
 ENCODED=$(echo "$PATCHED" | base64)
-gh api --method PUT "repos/$REPO/contents/inbox/$FILE_NAME" \
-  --field message="fix-job: patch $FILE_NAME → origin=$ORIGIN destination=$DESTINATION topic=$TOPIC" \
-  --field content="$ENCODED" \
-  --field branch="main" > /dev/null 2>&1
 
+# Check if file already exists in inbox (get its sha if so)
+EXISTING_INBOX=$(gh api "repos/$REPO/contents/inbox/$FILE_NAME" 2>/dev/null || echo "")
+if [[ -n "$EXISTING_INBOX" ]]; then
+  INBOX_SHA=$(echo "$EXISTING_INBOX" | jq -r '.sha')
+  gh api --method PUT "repos/$REPO/contents/inbox/$FILE_NAME" \
+    --field message="fix-job: patch $FILE_NAME origin=$ORIGIN destination=$DESTINATION topic=$TOPIC" \
+    --field content="$ENCODED" \
+    --field sha="$INBOX_SHA" \
+    --field branch="main" > /dev/null 2>&1
+else
+  gh api --method PUT "repos/$REPO/contents/inbox/$FILE_NAME" \
+    --field message="fix-job: patch $FILE_NAME origin=$ORIGIN destination=$DESTINATION topic=$TOPIC" \
+    --field content="$ENCODED" \
+    --field branch="main" > /dev/null 2>&1
+fi
 echo "✔ Written to inbox/$FILE_NAME"
 
 # Remove from repair/ if that's where it came from
@@ -71,4 +81,4 @@ if [[ "$SOURCE_PATH" == repair/* ]]; then
 fi
 
 echo ""
-echo "Job ready. Run validate-and-promote.sh to send it to bridge_jobs."
+echo "Ready. Run: ./scripts/bridge/validate-and-promote.sh"
