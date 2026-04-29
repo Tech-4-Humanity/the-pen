@@ -1,0 +1,130 @@
+{
+  "idempotency_key": "t4h-gap-closure-execution-backup-2026-04-29-002",
+  "created_at": "2026-04-29T00:00:00+10:00",
+  "origin": "chatgpt",
+  "destination": "pen",
+  "parent_job": "t4h-permanent-execution-backup-2026-04-29-001",
+  "reality_state": "PARTIAL",
+  "purpose": "Close remaining gaps in the permanent backup execution path so hosted LLM sessions can continue work without direct bridge credentials.",
+  "observed_evidence": [
+    {
+      "type": "github_file_read",
+      "path": "inbox/t4h-permanent-execution-backup-2026-04-29-001.json",
+      "state": "REAL",
+      "detail": "Parent PEN job exists on main and is readable."
+    }
+  ],
+  "gap_register": [
+    {
+      "gap_key": "gap.runtime_receipt_not_verified",
+      "lens": "RUNTIME",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "impact": "Cannot claim REAL completion until worker consumes job and writes receipt.",
+      "closure_action": "Run Pen worker against inbox job and write receipts/runtime/t4h-permanent-execution-backup-2026-04-29-001.receipt.json."
+    },
+    {
+      "gap_key": "gap.capability_probe_not_installed",
+      "lens": "TOOLING",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "impact": "Each hosted session must rediscover tool capability manually.",
+      "closure_action": "Install ops.capability_probe wrapper or documented workflow that classifies available lanes at session start."
+    },
+    {
+      "gap_key": "gap.bridge_proxy_contract_not_bound",
+      "lens": "EXECUTION",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "impact": "Direct bridge remains unavailable unless a server-side proxy wrapper is provided.",
+      "closure_action": "Create bridge.proxy.invoke as allowlisted credential-shielded endpoint."
+    },
+    {
+      "gap_key": "gap.receipt_search_not_standardised",
+      "lens": "EVIDENCE",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "impact": "Agents may confuse handoff commit with runtime completion.",
+      "closure_action": "Standardise pen.receipt_search and require receipt verification before marking REAL."
+    },
+    {
+      "gap_key": "gap.rollback_path_not_executable",
+      "lens": "RECOVERY",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "impact": "Failed wrapper installs need deterministic rollback.",
+      "closure_action": "Rollback by archiving new wrapper files/issues, preserving inbox job and receipts. No deletes."
+    }
+  ],
+  "execution_payload": {
+    "actions": [
+      {
+        "step": 1,
+        "action": "verify_parent_job",
+        "input_path": "inbox/t4h-permanent-execution-backup-2026-04-29-001.json",
+        "expected": "file exists and parses as JSON"
+      },
+      {
+        "step": 2,
+        "action": "create_tool_contracts",
+        "contracts": [
+          "ops.capability_probe",
+          "pen.enqueue_job",
+          "pen.receipt_search",
+          "bridge.proxy.invoke",
+          "supabase.readonly.rest"
+        ],
+        "expected": "contracts documented or registered in canonical tool registry"
+      },
+      {
+        "step": 3,
+        "action": "write_runtime_receipt",
+        "receipt_path": "receipts/runtime/t4h-gap-closure-execution-backup-2026-04-29-002.receipt.json",
+        "expected": "receipt includes idempotency_key, processed_at, worker, outputs, evidence_state, errors"
+      },
+      {
+        "step": 4,
+        "action": "bind_audit_evidence",
+        "expected": "audit/evidence register row or repo-equivalent receipt references this job and parent job"
+      }
+    ]
+  },
+  "done_definition": [
+    "Parent job exists and is parsed",
+    "Gap closure job exists in PEN inbox",
+    "Worker receipt exists for parent or gap-closure job",
+    "Receipt validates expected fields",
+    "No destructive action performed",
+    "Evidence state upgraded from PARTIAL to REAL only after runtime receipt is observed"
+  ],
+  "rollback": {
+    "method": "archive_not_delete",
+    "steps": [
+      "Move superseded inbox payloads to archive/ with tombstone metadata if required",
+      "Leave receipts immutable",
+      "Create corrective job with same parent_job and new idempotency_key"
+    ]
+  },
+  "next_worker_command": {
+    "mode": "AUTO",
+    "safe_to_execute_without_hitl": true,
+    "blocked_actions": [
+      "payments",
+      "IAM",
+      "credential exposure",
+      "delete",
+      "RLS changes without dry-run"
+    ],
+    "instruction": "Consume this job, close listed gaps that are AUTO-safe, emit receipt, and leave GATED items as dry-run proposals with evidence."
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "fn",
+      "action",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:13:27Z",
+    "source_file": "t4h-gap-closure-execution-backup-2026-04-29-002.json"
+  }
+}
