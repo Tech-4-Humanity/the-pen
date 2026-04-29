@@ -1,0 +1,65 @@
+{
+  "fn": "enqueue_job",
+  "action": "domain_control.reconcile_authority",
+  "idempotency_key": "domain-control-r53-authority-reconcile-20260426",
+  "priority": 10,
+  "payload": {
+    "seed_source": "route53_hosted_zones_screenshot_uploaded_2026-04-26",
+    "authority_order": [
+      "route53_hosted_zones",
+      "registrar_registered_domains",
+      "vercel_domains",
+      "github_repos_and_configs",
+      "supabase_registry_tables",
+      "google_drive_docs_and_sheets",
+      "gmail_evidence",
+      "notion_records"
+    ],
+    "required_outputs": [
+      "canonical_domain_register",
+      "domain_to_business_map",
+      "dns_provider_truth",
+      "mail_provider_truth",
+      "web_provider_truth",
+      "vercel_project_binding",
+      "github_repo_binding",
+      "stale_source_register",
+      "conflict_matrix",
+      "archive_not_delete_noise_plan",
+      "daily_weekly_reconcile_schedule",
+      "audit_receipt"
+    ],
+    "guardrails": {
+      "delete_allowed": false,
+      "archive_allowed": true,
+      "dns_write_allowed": false,
+      "payments_allowed": false,
+      "iam_allowed": false,
+      "truth_policy": "observed_over_assumed; stale docs cannot override live connector reads; archive_noise_do_not_delete"
+    },
+    "route53_seed_counts": {
+      "hosted_zones_observed": 60,
+      "source_file": "Pasted text(37).txt",
+      "note": "Use screenshot/export as initial source only; validate via AWS Route53 list-hosted-zones and list-resource-record-sets."
+    },
+    "cadence": {
+      "daily": "read-only drift scan: R53, registrar, Vercel, GitHub, Supabase, Drive deltas",
+      "weekly": "full reconciliation: conflict closure, stale source archive recommendations, control-centre register update"
+    }
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "chatgpt-2026-04-26-domain-control-start-r53",
+    "handover": "Start at Route53. Build one machine-reconciled canonical domain list. Eliminate old data pollution by marking stale/conflicting sources; do not delete records without explicit gate."
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:16Z",
+    "source_file": "domain-control-r53-authority-reconcile-20260426.json"
+  }
+}
