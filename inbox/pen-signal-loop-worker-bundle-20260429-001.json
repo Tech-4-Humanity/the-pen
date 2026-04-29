@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0",
+  "idempotency_key": "pen-signal-loop-worker-bundle-20260429-001",
+  "job_id": "pen-signal-loop-worker-bundle-20260429-001",
+  "created_at": "2026-04-29T00:00:00+10:00",
+  "created_by": "chatgpt-gpt-5.5-thinking",
+  "target_repo": "TML-4PM/the-pen",
+  "lane": "Pen",
+  "autonomy_tier": "AUTO_READ_INSPECT_ENQUEUE__GATED_FOR_DEPLOY_DELETE_RLS",
+  "reality_state": "PARTIAL",
+  "objective": "Finish the reusable Pen worker and close the signal loop: inbox job -> worker/action -> bridge/API execution -> receipt -> Supabase/audit state -> dashboard-visible proof.",
+  "operator_intent": {
+    "summary": "Build a reusable signal-loop execution bundle for the-pen with compute/memory declarations, actionable worker logic, two-way communications, receipts, and templates for internal and external white-label jobs.",
+    "must_not_do": [
+      "Do not delete or destructively alter existing jobs or receipts.",
+      "Do not deploy production or change RLS without dry-run then explicit gated execution.",
+      "Do not use local Mac execution as the source of truth; Mac is endpoint only.",
+      "Do not claim DONE unless runtime proof and receipt exist."
+    ]
+  },
+  "required_outputs": [
+    {
+      "path": ".github/workflows/pen-worker.yml",
+      "type": "github_actions_workflow",
+      "purpose": "Runs on inbox JSON changes and manual dispatch; validates payloads, executes worker, writes receipt artifact, and commits receipt to receipts/runtime."
+    },
+    {
+      "path": "workers/pen_worker.py",
+      "type": "python_worker",
+      "purpose": "Reusable worker: validate envelope, enforce idempotency, route allowed actions, call bridge/API, classify REAL/PARTIAL/PRETEND, emit receipt."
+    },
+    {
+      "path": "workers/requirements.txt",
+      "type": "dependency_manifest",
+      "purpose": "Minimal pinned dependencies for requests, pydantic/jsonschema, tenacity, python-dateutil."
+    },
+    {
+      "path": "schemas/pen_job.schema.json",
+      "type": "json_schema",
+      "purpose": "Strict input contract for all Pen inbox jobs. Includes job_id, idempotency_key, action, autonomy_tier, target, payload, evidence requirements."
+    },
+    {
+      "path": "schemas/pen_receipt.schema.json",
+      "type": "json_schema",
+      "purpose": "Strict output receipt contract. Includes job_id, status, executed_at, evidence_state, bridge_response, logs, rollback_path."
+    },
+    {
+      "path": "templates/internal_job.template.json",
+      "type": "template",
+      "purpose": "Internal wired job template for bridge/runtime/Supabase/command-centre work."
+    },
+    {
+      "path": "templates/external_whitelabel_job.template.json",
+      "type": "template",
+      "purpose": "External white-label/priced customer-safe job template with tenant, brand, pricing, entitlement, and visibility fields."
+    },
+    {
+      "path": "docs/render-checklist.md",
+      "type": "checklist",
+      "purpose": "Full-start Render checklist: services, compute, memory, env, workers, health checks, queues, receipts, logs, rollback, pricing/template notes."
+    },
+    {
+      "path": "docs/hidden-communication-surfaces.md",
+      "type": "ops_doc",
+      "purpose": "Document machine-readable communication places: headers, env, metadata, filenames, URLs, webhooks, queue rows, receipts, comments, labels, statuses."
+    },
+    {
+      "path": "docs/definition-of-done.md",
+      "type": "closure_doc",
+      "purpose": "AGL definition of done: runs, outputs, logs, receipts, state updates, dashboard visibility, rollback."
+    }
+  ],
+  "worker_contract": {
+    "inputs": [
+      "inbox/*.json",
+      "manual workflow_dispatch job_path",
+      "optional replay path for idempotent reruns"
+    ],
+    "actions_allowed_initially": [
+      "bridge.health_check",
+      "bridge.invoke",
+      "supabase.readonly_probe",
+      "receipt.write",
+      "dashboard.signal_refresh",
+      "noop.smoke_test"
+    ],
+    "actions_gated": [
+      "deploy.*",
+      "delete.*",
+      "rls.*",
+      "billing.*",
+      "iam.*"
+    ],
+    "execution_steps": [
+      "Load and validate inbox payload against schemas/pen_job.schema.json.",
+      "Check existing receipts/runtime for idempotency_key before executing.",
+      "Classify autonomy tier and block/gate unsafe actions.",
+      "Execute allowed action via Bridge-first endpoint or approved read-only fallback.",
+      "Capture stdout/stderr/HTTP response/timing.",
+      "Write receipt JSON to receipts/runtime/<idempotency_key>.receipt.json.",
+      "Emit GitHub Actions summary with status and evidence URI.",
+      "Optional: write audit/reality rows only if configured credentials exist and action is allowed."
+    ],
+    "receipt_required_fields": [
+      "job_id",
+      "idempotency_key",
+      "status",
+      "evidence_state",
+      "started_at",
+      "finished_at",
+      "duration_ms",
+      "action",
+      "inputs_hash",
+      "outputs_hash",
+      "evidence",
+      "rollback_path",
+      "next_state"
+    ]
+  },
+  "render_checklist_seed": {
+    "must_start_full_not_empty": true,
+    "services": [
+      "web/API service",
+      "background worker",
+      "scheduler/cron",
+      "health endpoint",
+      "receipt writer"
+    ],
+    "compute_and_memory_fields": [
+      "service_name",
+      "environment",
+      "region",
+      "instance_type_or_plan",
+      "cpu",
+      "memory_mb",
+      "min_instances",
+      "max_instances",
+      "worker_concurrency",
+      "timeout_seconds",
+      "retry_policy",
+      "health_check_path",
+      "log_destination",
+      "queue_source",
+      "receipt_destination"
+    ],
+    "communications": [
+      "HTTP headers",
+      "webhooks",
+      "metadata blocks",
+      "commit messages",
+      "issue comments",
+      "labels",
+      "deployment env vars",
+      "receipts",
+      "audit rows",
+      "status checks"
+    ]
+  },
+  "acceptance_tests": [
+    {
+      "name": "noop smoke test",
+      "input": "templates/internal_job.template.json with action noop.smoke_test",
+      "expected": "Receipt written with status SUCCESS and evidence_state REAL."
+    },
+    {
+      "name": "idempotency replay",
+      "input": "same idempotency_key submitted twice",
+      "expected": "Second run does not duplicate execution; writes or references prior receipt."
+    },
+    {
+      "name": "blocked destructive action",
+      "input": "delete.* or rls.* action without approval token",
+      "expected": "Worker refuses execution and writes PARTIAL/BLOCKED receipt with impact and next gate."
+    },
+    {
+      "name": "bridge health",
+      "input": "bridge.health_check",
+      "expected": "Bridge HTTP result captured; receipt includes status, latency, and response summary."
+    }
+  ],
+  "definition_of_done": {
+    "done_only_when": [
+      "Files exist in target repo or PR branch.",
+      "GitHub Action runs from inbox change or manual dispatch.",
+      "At least one noop smoke test receipt exists under receipts/runtime.",
+      "Idempotency replay proves no duplicate execution.",
+      "Blocked/gated action proves safe refusal path.",
+      "README/checklist documents Render compute/memory/workers/2-way comms.",
+      "Final receipt references commit SHA, workflow run, and receipt file path."
+    ],
+    "current_state": "PARTIAL - job has been enqueued; build/worker execution receipt must be produced by Pen/runner."
+  },
+  "rollback": {
+    "safe_rollback": "Archive or revert newly added workflow/worker/schema/template/checklist files. Do not delete receipts; archive superseded receipts only.",
+    "blast_radius": "Repository-scoped. No production deploy, no RLS, no IAM, no payment changes requested."
+  },
+  "routing": {
+    "preferred_executor": "GitHub Actions in TML-4PM/the-pen",
+    "bridge_first_endpoint": "https://m5oqj21chd.execute-api.ap-southeast-2.amazonaws.com/lambda/invoke",
+    "fallback": "read-only Supabase REST probe only when bridge unavailable and credentials are already present in runner environment"
+  },
+  "next_receipt_expected": "receipts/runtime/pen-signal-loop-worker-bundle-20260429-001.receipt.json"
+}
