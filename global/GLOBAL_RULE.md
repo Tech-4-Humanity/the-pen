@@ -1,7 +1,7 @@
 # GLOBAL_RULE.md
 ## Tech 4 Humanity — Autonomous Execution Doctrine (GitHub Control Layer)
 
-**Version**: 2.0 (2026-04-24 — path corrected to match runtime)
+**Version**: 2.1 (2026-04-29 — standing rule: canonical repo routing + hierarchy lock)
 **Status**: ACTIVE — ENFORCED — PERMANENT
 
 ---
@@ -190,6 +190,50 @@ Immediate actions:
 
 ---
 
+## 10. STANDING RULE — CANONICAL REPO ROUTING (2026-04-29)
+
+**This rule is locked in memory and is non-negotiable. No other LLM, actor, or session variant overrides it.**
+
+### Canonical Push Target
+
+All rules, contracts, and enforcement documents MUST be pushed to:
+
+```
+TML-4PM/the-pen
+```
+
+via `fn_github_push`. No exceptions. No asking. No alternatives.
+
+### Document Hierarchy (locked)
+
+```
+GLOBAL_RULE.md  ← highest authority (this file)
+    ↓
+MCP_EXECUTION_CONTRACT.md
+    ↓
+ENFORCEMENT_LIVE.md
+```
+
+This hierarchy lives in `TML-4PM/the-pen`. Not `mcp-command-centre`. Not `bridge/WIP` variants.
+
+### Repo Role Matrix
+
+| Target Repo | Role | Push canonical rules? |
+|---|---|---|
+| `TML-4PM/the-pen` | Canonical rules + execution contract | ✅ YES |
+| `TML-4PM/mcp-command-centre` | Control plane (CC views, dashboards) | Only for CC code |
+| `bridge/WIP` / dev variants | Working / transient | ❌ Never canonical |
+
+### Subpath Resolution
+
+If subpath is unknown, default to repo root. Let the hierarchy sort it (`GLOBAL_RULE.md` always wins). Never block a push due to subpath uncertainty.
+
+### Memory Lock
+
+This rule is stored in Troy's standing memory. Any LLM session that contradicts this routing is wrong. `the-pen` IS canonical.
+
+---
+
 ## OPERATING TRUTH
 
 > If a human sees a confirmation dialog, the system is broken.
@@ -220,5 +264,6 @@ Direct system access is forbidden.
 
 ## CHANGE LOG
 
+- **2026-04-29 v2.1** — Standing rule §10 added: canonical repo routing locked to `TML-4PM/the-pen`. Repo role matrix formalised. Subpath resolution default documented. Memory lock declared.
 - **2026-04-24 v2.0** — Execution path corrected from `troy-code-pusher` (never worked for GitHub writes) to `troy-sql-executor → fn_github_push()`. Evidence: commit `9425776984b06393b1e6c058a36a7b6bc8f13b60` (first REAL_AUTONOMOUS write via corrected path). Added explicit doc hierarchy + credential exp dates.
 - **2026-04-23 v1.0** — Initial doctrine drafted via chat-native connector writes (the event that motivated this rule).
