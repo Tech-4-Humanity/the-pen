@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "Aether Aurora - Ocean Cyan (Vertical)",
+  "version": "1.0.0",
+  "description": "Aether gradient theme. Ocean Cyan colour pair, vertical direction. Smooth, immersive, focus-friendly aesthetic.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/aether_10_ocean_cyan_vertical.png",
+      "theme_toolbar": "images/aether_10_ocean_cyan_vertical.png",
+      "theme_ntp_background": "images/aether_10_ocean_cyan_vertical.png"
+    },
+    "colors": {
+      "frame": [
+        10,
+        18,
+        35
+      ],
+      "toolbar": [
+        10,
+        18,
+        35
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        200,
+        200,
+        220
+      ],
+      "bookmark_text": [
+        230,
+        230,
+        245
+      ],
+      "ntp_background": [
+        10,
+        18,
+        35
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        255,
+        255,
+        255
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "center",
+      "ntp_background_repeat": "no-repeat"
+    }
+  }
+}
