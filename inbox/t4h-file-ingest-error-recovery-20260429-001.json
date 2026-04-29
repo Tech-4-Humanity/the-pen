@@ -1,0 +1,32 @@
+{
+  "idempotency_key": "t4h-file-ingest-error-recovery-20260429-001",
+  "source": "chatgpt",
+  "target_lane": "the-pen",
+  "evidence_state": "PARTIAL",
+  "title": "Recover file ingest MCP and bridge handoff path",
+  "intent": "Enqueue recovery payload, wait for receipt, then promote to active research execution loop only after receipt exists.",
+  "observed_failures": [
+    "archive missing",
+    "commented shell block executed incorrectly",
+    "bridge runner paths missing",
+    "workflow path missing",
+    "MCP server path mismatch",
+    "requirements file missing from working directory",
+    "Google Drive scan timeout and node_modules traversal risk"
+  ],
+  "required_actions": [
+    "Verify the-pen repo root and current git ref on runner",
+    "Create bridge smoke runner and recovery workflow idempotently",
+    "Locate actual file ingest MCP server path",
+    "Patch scanner excludes for node_modules, git, build, dist, venv, cache paths",
+    "Stage Drive dataset locally or enforce bounded scan timeout handling",
+    "Write runtime receipt with status, evidence_state, commit_sha, verified outputs, rollback"
+  ],
+  "promotion_gate": {
+    "may_promote_to_active_research_loop": false,
+    "requires_receipt": true,
+    "receipt_expected_path_prefix": "receipts/runtime/",
+    "reject_evidence_state": "PRETEND"
+  },
+  "rollback": "Archive rather than delete; revert created recovery files by commit SHA if needed."
+}
