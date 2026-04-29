@@ -1,0 +1,33 @@
+{
+  "idempotency_key": "force-trigger-pen-ingest-2026-04-29-003",
+  "parent_job": null,
+  "status": "processed",
+  "processed_at": "2026-04-28T19:34:07.004Z",
+  "worker": "sandbox/local-probe",
+  "source_path": "inbox/force-trigger-pen-ingest-2026-04-29-003.json",
+  "source_sha256": "3ca51f38942a2505366c7e7a5fa7e86b9375f4793bab9059130be50724cf1daa",
+  "evidence_state": "REAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": []
+  },
+  "classification": {
+    "lane": "AUTO_SAFE_LOCAL_VALIDATION",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Job parsed and receipt produced by local validation worker."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "controlled_operations_executed": false
+  },
+  "errors": [],
+  "next": [
+    "Bind receipt to the audit/evidence register or repo-equivalent ledger.",
+    "Treat this receipt as proof of ingestion and validation only.",
+    "Controlled operations require the approved execution lane."
+  ]
+}
