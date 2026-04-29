@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "Aether Mist - Ocean Cyan (Horizontal)",
+  "version": "1.0.0",
+  "description": "Aether gradient theme. Ocean Cyan colour pair, horizontal direction. Smooth, immersive, focus-friendly aesthetic.",
+  "theme": {
+    "images": {
+      "theme_frame": "images/aether_11_ocean_cyan_horizontal.png",
+      "theme_toolbar": "images/aether_11_ocean_cyan_horizontal.png",
+      "theme_ntp_background": "images/aether_11_ocean_cyan_horizontal.png"
+    },
+    "colors": {
+      "frame": [
+        10,
+        18,
+        35
+      ],
+      "toolbar": [
+        10,
+        18,
+        35
+      ],
+      "tab_text": [
+        255,
+        255,
+        255
+      ],
+      "tab_background_text": [
+        200,
+        200,
+        220
+      ],
+      "bookmark_text": [
+        230,
+        230,
+        245
+      ],
+      "ntp_background": [
+        10,
+        18,
+        35
+      ],
+      "ntp_text": [
+        255,
+        255,
+        255
+      ],
+      "button_background": [
+        255,
+        255,
+        255
+      ]
+    },
+    "tints": {
+      "buttons": [
+        -1,
+        -1,
+        0.05
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "center",
+      "ntp_background_repeat": "no-repeat"
+    }
+  }
+}
