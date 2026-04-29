@@ -1,0 +1,27 @@
+{
+  "fn": "enqueue_job",
+  "action": "research.signal_mining_execute_slice_01",
+  "idempotency_key": "signal-mining-exec-slice-01-chatgpt-20260425",
+  "priority": 9,
+  "payload": {
+    "handover_ref": "global/COMMS_20260425_signal_mining_handover.md",
+    "spec_ref": "docs/SIGNAL_MINING_SLICE_01.md",
+    "mode": "read_only",
+    "required_receipts": true,
+    "notes": "Execute per handover. Write receipts for each sub-action."
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "chatgpt_current_thread"
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:52Z",
+    "source_file": "signal-mining-handover-trigger-chatgpt-20260425.json"
+  }
+}
