@@ -1,0 +1,28 @@
+{
+  "fn": "enqueue_job",
+  "action": "research.signal_mining_receipt_check",
+  "idempotency_key": "signal-mining-receipt-fallback-chatgpt-20260425",
+  "priority": 10,
+  "payload": {
+    "must_write_receipt": true,
+    "target_keys": [
+      "signal-mining-exec-slice-01-chatgpt-20260425",
+      "signal-mining-slice-01-research-plan-chatgpt-20260425"
+    ],
+    "instruction": "If no receipts exist, write blocked receipts immediately per PEN_WORKER_SIGNAL_MINING_PATCH.md"
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "chatgpt_current_thread"
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:54Z",
+    "source_file": "signal-mining-receipt-fallback-chatgpt-20260425.json"
+  }
+}
