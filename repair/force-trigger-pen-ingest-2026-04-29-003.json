@@ -1,0 +1,35 @@
+{
+  "idempotency_key": "force-trigger-pen-ingest-2026-04-29-003",
+  "created_at": "2026-04-29T00:00:00+10:00",
+  "origin": "chatgpt",
+  "destination": "pen",
+  "reality_state": "PARTIAL",
+  "purpose": "Force GitHub Actions PEN ingest workflow to run after prior bundle push did not show a workflow run.",
+  "parent_jobs": [
+    "t4h-permanent-execution-backup-2026-04-29-001",
+    "t4h-gap-closure-execution-backup-2026-04-29-002"
+  ],
+  "execution_contract": {
+    "expected_workflow": ".github/workflows/pen-ingest.yml",
+    "expected_worker": "tools/pen/pen_ingest_worker.mjs",
+    "expected_receipt": "receipts/runtime/force-trigger-pen-ingest-2026-04-29-003.receipt.json"
+  },
+  "safe_to_execute_without_hitl": true,
+  "controlled_operations": "none",
+  "done_definition": [
+    "workflow run observed",
+    "worker completes",
+    "receipt committed under receipts/runtime",
+    "issue 37 updated with result"
+  ],
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "fn",
+      "action",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:28Z",
+    "source_file": "force-trigger-pen-ingest-2026-04-29-003.json"
+  }
+}
