@@ -1,0 +1,35 @@
+{
+  "idempotency_key": "theme-factory-aether-2026-04-29-002",
+  "action": "enqueue_theme_batch",
+  "version": 1,
+  "created_utc": "2026-04-29T06:00:00Z",
+  "payload": {
+    "batch_id": "aether_002",
+    "cluster": "AETHER",
+    "theme_count": 25,
+    "manifest_count": 25,
+    "name_grid_size": 1750,
+    "repo_path": "themes/aether/batch_002",
+    "deploy_target": "chrome_web_store",
+    "post_actions": [
+      "log_to_supabase",
+      "create_receipt",
+      "update_registry"
+    ]
+  },
+  "expected_writes": {
+    "core.registry_entities": {
+      "entity_key": "cw.theme_factory.aether",
+      "entity_type": "system",
+      "status": "active",
+      "autonomy_tier": "GATED"
+    },
+    "core.evidence_store": {
+      "evidence_type": "output_artifact",
+      "evidence_uri": "github://TML-4PM/the-pen/themes/aether/batch_002"
+    }
+  },
+  "promotion": {
+    "to_real_when": "manifests_count==25 AND images_count==25 AND chrome_validates==true"
+  }
+}
