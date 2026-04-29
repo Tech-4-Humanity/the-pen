@@ -1,0 +1,26 @@
+{
+  "idempotency_key": "pen-now-control-plane-ping-20260429-001",
+  "fn": "pen.enqueue_job",
+  "action": "control_plane_ping",
+  "priority": 1,
+  "payload": {
+    "objective": "Accept and process a fresh ChatGPT-originated Pen inbox job after Pen/Vercel fixes; emit runtime receipt and prove active worker path.",
+    "target_ref": "the-pen/runtime/active-check",
+    "product_code": "T4H-CONTROL-PLANE",
+    "revenue_tag": "ops",
+    "non_destructive": true,
+    "expected_receipt": "receipts/runtime/pen-now-control-plane-ping-20260429-001.receipt.json",
+    "closure_required": [
+      "job parsed by pen_ingest_worker",
+      "job accepted without legacy field failure",
+      "runtime receipt emitted",
+      "status visible in GitHub or Supabase queue"
+    ]
+  },
+  "meta": {
+    "source": "chatgpt_api_tool",
+    "created_at": "2026-04-29T00:00:00Z",
+    "user_signal": "send to the pen now",
+    "reality": "REAL_GITHUB_WRITE_REQUESTED"
+  }
+}
