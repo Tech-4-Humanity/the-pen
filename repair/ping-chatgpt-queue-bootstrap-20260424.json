@@ -1,0 +1,29 @@
+{
+  "fn": "enqueue_job",
+  "action": "queue.bootstrap.ping",
+  "idempotency_key": "queue-bootstrap-ping-20260424",
+  "payload": {
+    "objective": "confirm PEN inbox ingestion and queue worker execution",
+    "definition_of_done": {
+      "receipt_required": true,
+      "audit_required": true
+    }
+  },
+  "priority": 9,
+  "work_type": "system",
+  "meta": {
+    "actor": "chatgpt",
+    "source": "github_connector",
+    "ts": "2026-04-24T19:00:00+10:00"
+  },
+  "_repair": {
+    "reason": "missing required fields",
+    "missing_fields": [
+      "origin",
+      "destination",
+      "topic"
+    ],
+    "quarantined_at": "2026-04-29T00:12:45Z",
+    "source_file": "ping-chatgpt-queue-bootstrap-20260424.json"
+  }
+}
