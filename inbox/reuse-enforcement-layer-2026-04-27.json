@@ -1,0 +1,385 @@
+{
+  "idempotency_key": "reuse-enforcement-layer-2026-04-27-002",
+  "supersedes": "reuse-enforcement-layer-2026-04-27-001",
+  "created_at": "2026-04-27T11:45:00+10:00",
+  "updated_at": "2026-04-27T12:05:00+10:00",
+  "origin": "chatgpt",
+  "destination": "pen",
+  "mode": "PROD_OPERATOR",
+  "title": "Install reuse enforcement layer across Symbio, WIP, and Pen",
+  "reality_state": "PARTIAL",
+  "reason": "Requirements, plan, and GitHub handoff are real. Runtime execution still requires Pen/Bridge receipt before COMPLETE.",
+  "top_level_requirement": "Stop duplicate builds without inhibiting speed, innovation, experimentation, or Golden Autonomous Loop execution.",
+  "original_need_covered": {
+    "leak": "Same capability, different names, rebuilt multiple times across brands, products, tools, and agents.",
+    "fix": "Standing reuse enforcement layer across Symbio dev, WIP intake, and Pen promotion.",
+    "must_not_do": [
+      "Do not create a bureaucracy layer.",
+      "Do not slow ideation.",
+      "Do not block Symbio experimentation.",
+      "Do not turn reuse into manual approval theatre.",
+      "Do not allow duplicate capability to coexist under different names."
+    ],
+    "must_do": [
+      "Intercept every incoming code, idea, draft, job, agent proposal, product proposal, workflow, Commercial Widget, and promotion request.",
+      "Compare against canonical registry, existing AGL flows, workers, queues, evidence paths, Command Centre surfaces, and Commercial Widgets.",
+      "Classify as FULL_MATCH, PARTIAL_MATCH, NET_NEW, or UNCLEAR_NEEDS_REVIEW.",
+      "Force reuse-first route when there is any viable attach path.",
+      "Create refactor/merge jobs where overlap exists.",
+      "Update registry and Commercial Widget definitions as part of closure.",
+      "Emit evidence and receipts for all decisions."
+    ]
+  },
+  "innovation_speed_validation": {
+    "verdict": "SAFE_IF_BOUNDARY_RULES_ARE_ENFORCED",
+    "boundary_rules": [
+      "WIP captures everything and never suppresses ideas.",
+      "Symbio can build and test freely, but must log reuse classification and attach recommendations.",
+      "Pen is the hard control point for promotion only.",
+      "Net-new path is explicit and fast when proof shows no attach path.",
+      "False blocks are reversible through GATED override with evidence.",
+      "Post-build sweeps catch misses without stopping current flow."
+    ],
+    "what_would_break_it": [
+      "Hard-blocking WIP ideation.",
+      "Hard-blocking Symbio experiments before evidence exists.",
+      "Manual human approval for every classification.",
+      "No NET_NEW path.",
+      "Weak registry quality.",
+      "Silent duplicate coexistence."
+    ]
+  },
+  "control_points": [
+    {
+      "layer": "WIP",
+      "intent": "Capture and classify early.",
+      "enforcement": "AUTO_LOG_ONLY",
+      "allowed": "All ideas/code/drafts accepted.",
+      "blocked": "Nothing blocked at ideation."
+    },
+    {
+      "layer": "Symbio",
+      "intent": "Map to reuse and AGL attach points while preserving experimentation.",
+      "enforcement": "AUTO_REDIRECT_AND_LOG",
+      "allowed": "Build/test/prototype allowed.",
+      "blocked": "No promotion path without reuse record."
+    },
+    {
+      "layer": "Pen",
+      "intent": "Prevent duplicate promotion and registry drift.",
+      "enforcement": "HARD_GATE_GATED_OVERRIDE",
+      "allowed": "Promote only with reuse classification, fit plan, registry update, and evidence.",
+      "blocked": "Duplicate, unclassified, stale registry, missing evidence, missing closure definition."
+    }
+  ],
+  "agent_roles": [
+    {
+      "agent": "Reuse Analyst",
+      "placement": "WIP, Symbio, Pen ingress",
+      "action": "Scan incoming work against registry, Commercial Widgets, workers, queues, processes, evidence paths, and prior builds.",
+      "output": "reuse_classification row and evidence record.",
+      "outcome": "FULL_MATCH / PARTIAL_MATCH / NET_NEW / UNCLEAR_NEEDS_REVIEW."
+    },
+    {
+      "agent": "Fit Mapper",
+      "placement": "Symbio",
+      "action": "Map capability into existing AGL flows: runtime queue, worker, evidence hook, closure register, CC widget/snippet, registry object, CW definition.",
+      "output": "integration_plan with attach points.",
+      "outcome": "Extend existing system instead of rebuilding."
+    },
+    {
+      "agent": "Duplication Guard",
+      "placement": "Pen",
+      "action": "Block promotion if equivalent capability exists or reuse classification is missing.",
+      "output": "duplication_block row or promotion_pass row.",
+      "outcome": "No parallel promoted builds."
+    },
+    {
+      "agent": "Refactor Trigger",
+      "placement": "Symbio and Pen",
+      "action": "Raise merge/refactor/archive jobs when overlap is found.",
+      "output": "runtime.work_queue job with canonical target object.",
+      "outcome": "Duplicates collapse into one canonical unit."
+    },
+    {
+      "agent": "Registry Updater",
+      "placement": "Pen",
+      "action": "Update ops.system_registry and Commercial Widget definitions before closure.",
+      "output": "registry update evidence and reality ledger binding.",
+      "outcome": "Single source of truth maintained."
+    },
+    {
+      "agent": "Innovation Safeguard",
+      "placement": "WIP and Symbio",
+      "action": "Ensure reuse checks recommend and route without suppressing ideation or early experiments.",
+      "output": "speed_impact and innovation_impact fields on classification.",
+      "outcome": "Reuse control improves velocity rather than becoming bureaucracy."
+    },
+    {
+      "agent": "Drift Sweeper",
+      "placement": "Runtime scheduled jobs",
+      "action": "Continuously detect naming drift, capability overlap, orphaned code, stale registry links, and abandoned duplicate builds.",
+      "output": "gap_register rows and merge/refactor jobs.",
+      "outcome": "Long-term coherence across 30-50 businesses and 200+ surfaces."
+    }
+  ],
+  "schemas_required": [
+    {
+      "schema": "ops.reuse_classification",
+      "purpose": "Canonical record of reuse decision per incoming object.",
+      "required_columns": [
+        "id uuid primary key",
+        "object_key text not null",
+        "source_layer text not null",
+        "match_type text not null check in FULL_MATCH/PARTIAL_MATCH/NET_NEW/UNCLEAR_NEEDS_REVIEW",
+        "matched_object_keys text[] not null default '{}'",
+        "confidence numeric not null",
+        "rationale text not null",
+        "innovation_impact text not null default 'SAFE'",
+        "speed_impact text not null default 'SAFE'",
+        "evidence_state evidence_state not null default 'PARTIAL'",
+        "created_at timestamptz not null default now()",
+        "updated_at timestamptz not null default now()"
+      ]
+    },
+    {
+      "schema": "ops.reuse_actions",
+      "purpose": "Actions arising from classification.",
+      "required_columns": [
+        "id uuid primary key",
+        "object_key text not null",
+        "action_type text not null check in MERGE/EXTEND/ARCHIVE/BLOCK/NET_NEW_APPROVED/REVIEW",
+        "target_object_key text",
+        "status lifecycle_state not null default 'queued'",
+        "owner text",
+        "evidence_ref text",
+        "created_at timestamptz not null default now()",
+        "updated_at timestamptz not null default now()"
+      ]
+    },
+    {
+      "schema": "ops.duplication_blocks",
+      "purpose": "Hard Pen blocks caused by duplicate or missing reuse evidence.",
+      "required_columns": [
+        "id uuid primary key",
+        "object_key text not null",
+        "equivalent_object_key text",
+        "blocking_reason text not null",
+        "severity severity_level not null default 'HIGH'",
+        "lifecycle lifecycle_state not null default 'blocked'",
+        "created_at timestamptz not null default now()",
+        "updated_at timestamptz not null default now()"
+      ]
+    }
+  ],
+  "rls_and_integrity": [
+    "Enable RLS on all new ops tables.",
+    "Service role and approved worker role can insert/update.",
+    "Authenticated read only where Command Centre requires visibility.",
+    "No anonymous write.",
+    "All writes require object_key, timestamp, evidence_state, and rationale.",
+    "Use idempotency key to prevent duplicate rows for same source object/run."
+  ],
+  "execution_steps": [
+    {
+      "step": 1,
+      "name": "Bootstrap and constraint load",
+      "actions": [
+        "Read global/GLOBAL_RULE.md",
+        "Read global/ENFORCEMENT_LIVE.md",
+        "Read global/CLAUDE_CONTAINER_CONSTRAINT.md",
+        "Read global/NO_MCP_GITHUB_CONNECTOR.md",
+        "Read docs/AGL_CONTROL_PLANE.md",
+        "Read global/ACTOR_BOOTSTRAP.md"
+      ],
+      "acceptance": "Worker confirms bridge-first, queue-first, no fake receipt, no direct ad hoc execution."
+    },
+    {
+      "step": 2,
+      "name": "Create/patch reuse schema",
+      "actions": [
+        "Apply idempotent migration for ops.reuse_classification.",
+        "Apply idempotent migration for ops.reuse_actions.",
+        "Apply idempotent migration for ops.duplication_blocks.",
+        "Add indexes and RLS policies.",
+        "Bind evidence to audit.evidence_register and audit.reality_ledger."
+      ],
+      "acceptance": "Migration re-runs safely and tables prove PK/RLS/timestamps/indexes."
+    },
+    {
+      "step": 3,
+      "name": "Install WIP ingress reuse check",
+      "actions": [
+        "Intercept incoming ideas, pasted code, job drafts, product drafts, CW proposals, and agent requests.",
+        "Classify but do not block.",
+        "Return attach suggestions early."
+      ],
+      "acceptance": "WIP capture remains unrestricted and writes classification/evidence."
+    },
+    {
+      "step": 4,
+      "name": "Install Symbio pre-build reuse mapping",
+      "actions": [
+        "Run reuse analyst before build job starts.",
+        "Run fit mapper to find AGL attach path.",
+        "If FULL/PARTIAL match, route to EXTEND/MERGE rather than REBUILD unless explicitly justified.",
+        "Allow experimental branch to continue but mark promotion blocked until resolved."
+      ],
+      "acceptance": "Symbio experiments are not stopped, but promotion readiness includes reuse evidence."
+    },
+    {
+      "step": 5,
+      "name": "Install Pen promotion hard gate",
+      "actions": [
+        "Reject promotion if reuse classification missing.",
+        "Reject promotion if FULL_MATCH unresolved.",
+        "Require integration plan for PARTIAL_MATCH.",
+        "Require net-new proof bundle for NET_NEW.",
+        "Require registry/CW update before COMPLETE."
+      ],
+      "acceptance": "Duplicate promotion fails closed with ops.duplication_blocks evidence."
+    },
+    {
+      "step": 6,
+      "name": "Install refactor and merge queue",
+      "actions": [
+        "Create runtime.work_queue jobs for merge/refactor/archive actions.",
+        "Attach source object, duplicate object, canonical target, owner, rollback path, evidence required.",
+        "Never delete first; archive only after evidence and Gatekeeper approval where risky."
+      ],
+      "acceptance": "Overlap generates actionable queue job, not a vague note."
+    },
+    {
+      "step": 7,
+      "name": "Install continuous sweeps",
+      "actions": [
+        "duplication_sweep hourly across recent builds/jobs/registry changes.",
+        "cw_overlap_scan daily across Commercial Widgets.",
+        "orphan_capability_scan daily across code, jobs, and surfaces.",
+        "naming_drift_check per deploy/promotion."
+      ],
+      "acceptance": "Sweeps write gap_register rows, evidence rows, and work_queue jobs."
+    },
+    {
+      "step": 8,
+      "name": "Command Centre visibility",
+      "actions": [
+        "Expose reuse status widget/snippet in cc.*.",
+        "Show blocked promotions, net-new approvals, duplicate clusters, pending refactors, registry drift.",
+        "Display REAL/PARTIAL/PRETEND state."
+      ],
+      "acceptance": "Operator can see current reuse health without reading logs."
+    },
+    {
+      "step": 9,
+      "name": "Smoke tests",
+      "actions": [
+        "Submit sample FULL_MATCH object and prove Pen blocks promotion.",
+        "Submit sample PARTIAL_MATCH object and prove integration plan is created.",
+        "Submit sample NET_NEW object and prove proof bundle is required but path remains open.",
+        "Submit sample false-block override and prove GATED evidence path works.",
+        "Run one sweep and prove gap/work_queue/evidence writes."
+      ],
+      "acceptance": "All smoke tests produce receipts/runtime entries and audit evidence."
+    },
+    {
+      "step": 10,
+      "name": "Final reality binding",
+      "actions": [
+        "Write initial accepted receipt.",
+        "Write execution receipt after smoke tests.",
+        "Update audit.reality_ledger to REAL only after runtime proof.",
+        "If any runtime proof missing, remain PARTIAL and report exact blocker."
+      ],
+      "acceptance": "No COMPLETE without second receipt, Supabase evidence, and smoke test proof."
+    }
+  ],
+  "decision_rules": [
+    "No build or promotion can reach COMPLETE without reuse classification.",
+    "No Pen promotion proceeds with missing reuse evidence.",
+    "FULL_MATCH means merge/extend/archive path, not new promoted capability.",
+    "PARTIAL_MATCH means produce an integration plan and gap list.",
+    "NET_NEW means prove no viable attach path exists.",
+    "UNCLEAR_NEEDS_REVIEW means log and hold at Pen, not WIP.",
+    "Duplicate capability equals merge, extend, archive, or kill; never silent coexistence.",
+    "Archive is not delete.",
+    "Canonical naming comes from ops.system_registry only.",
+    "Innovation is protected by WIP/Symbio freedom and Pen-only hard gate."
+  ],
+  "success_metrics": [
+    "100 percent of promoted builds have reuse classification.",
+    "100 percent of Pen promotions have registry/CW fit check.",
+    "Duplicate promoted capability trends down.",
+    "CW reuse rate trends up.",
+    "Average time-to-value decreases through extension over rebuild.",
+    "False-block rate tracked and reduced.",
+    "Registry drift count trends down.",
+    "Orphan capability backlog trends down."
+  ],
+  "receipt_requirements": {
+    "initial_receipt": "receipts/runtime/reuse-enforcement-layer-2026-04-27.initial.receipt.json",
+    "execution_receipt": "receipts/runtime/reuse-enforcement-layer-2026-04-27.execution.receipt.json",
+    "receipt_must_include": [
+      "idempotency_key",
+      "commit_sha",
+      "runner_id",
+      "started_at",
+      "completed_at",
+      "schema_result",
+      "worker_result",
+      "gate_result",
+      "sweep_result",
+      "smoke_test_results",
+      "evidence_refs",
+      "reality_state",
+      "blockers_if_any"
+    ]
+  },
+  "failure_handling": [
+    {
+      "failure": "False block",
+      "impact": "Delayed promotion or frustration.",
+      "rollback": "GATED override with evidence and rationale.",
+      "next": "Tune thresholds and add counterexample to classifier."
+    },
+    {
+      "failure": "Missed duplicate",
+      "impact": "Parallel build continues temporarily.",
+      "rollback": "Post-build sweep creates merge/refactor/archive job.",
+      "next": "Merge into canonical unit and update registry."
+    },
+    {
+      "failure": "Registry drift",
+      "impact": "Bad reuse decisions.",
+      "rollback": "Lock affected object and force registry sync.",
+      "next": "Registry Updater closes stale mappings."
+    },
+    {
+      "failure": "No receipt",
+      "impact": "Unknown state.",
+      "rollback": "Mark PRETEND and re-run idempotent job.",
+      "next": "Do not claim COMPLETE."
+    },
+    {
+      "failure": "Too much friction",
+      "impact": "Innovation and speed inhibited.",
+      "rollback": "Move hard gate back to Pen only and downgrade WIP/Symbio to log/recommend.",
+      "next": "Measure classification latency and false-block rate."
+    }
+  ],
+  "done_definition": [
+    "GitHub handoff exists and is fetch-verified.",
+    "Pen/Bridge accepts the job and writes initial receipt.",
+    "Schema exists with PK, timestamps, indexes, and RLS.",
+    "Reuse worker produces classification evidence.",
+    "Fit mapper produces AGL attach plan.",
+    "Pen gate blocks missing/duplicate reuse evidence.",
+    "Refactor trigger creates runtime.work_queue job.",
+    "Registry updater writes canonical registry/CW changes.",
+    "At least one scheduled sweep runs and writes evidence/gaps/jobs.",
+    "Command Centre visibility exists or a gap is logged with owner and closure path.",
+    "Execution receipt exists.",
+    "Reality ledger is REAL only after runtime proof."
+  ],
+  "current_handoff_status": "UPDATED_AND_LODGED_TO_GITHUB_PENDING_RUNTIME_EXECUTION"
+}
