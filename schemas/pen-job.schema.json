@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/TML-4PM/the-pen/schemas/pen-job.schema.json",
+  "title": "PEN Job",
+  "description": "Standard schema for all jobs entering the PEN inbox. origin, destination and topic are required for bridge promotion.",
+  "type": "object",
+  "required": ["fn", "action", "idempotency_key", "origin", "destination", "topic"],
+  "properties": {
+    "fn": {
+      "type": "string",
+      "description": "Function class e.g. bridge.invoke, bridge.sweep, bridge.signal"
+    },
+    "action": {
+      "type": "string",
+      "description": "Specific action handler e.g. troy-sql-executor"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "description": "Unique key — used to prevent duplicate processing"
+    },
+    "origin": {
+      "type": "string",
+      "description": "Source system that created this job e.g. the-pen, mcp-command-centre, chatgpt"
+    },
+    "destination": {
+      "type": "string",
+      "description": "Target system that must execute this job e.g. bridge-runner, bridge-worker-intake, lambda"
+    },
+    "topic": {
+      "type": "string",
+      "description": "Routing topic e.g. sql-exec, sweep, signal-mining, deploy, domain-control"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 3
+    },
+    "payload": {
+      "type": "object"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
