@@ -1,0 +1,58 @@
+{
+  "idempotency_key": "bridge-rebuild-handler-autodeploy-2026-04-29-002-targeted",
+  "created_at": "2026-04-29T00:00:00+10:00",
+  "source": "chatgpt-prod-operator",
+  "target_repo": "TML-4PM/mcp-bridge-invoke-handler",
+  "target_runtime_arn": "arn:aws:lambda:ap-southeast-2::runtime:18671876e7cc385452255180c58ca50cf8763398a4248ae92ed14410d196b942",
+  "connector_visibility": {
+    "github_connector_can_search_repo": false,
+    "repo_confirmed_by_operator": true,
+    "pen_repo_visible": true
+  },
+  "reality_state": "PARTIAL",
+  "intent": "Apply the bridge invoke handler rebuild to the exact repo supplied by the operator. Preserve nodejs20.x runtime evidence and emit a receipt after target repo update and smoke validation.",
+  "apply_mode": "DIRECT_TO_TARGET_REPO_VIA_PEN_OR_BRIDGE_RUNNER",
+  "autonomy_tier": "GATED",
+  "runtime_contract": {
+    "aws_region": "ap-southeast-2",
+    "lambda_runtime_arn_supplied_by_operator": true,
+    "expected_runtime": "nodejs20.x",
+    "health_expected": {
+      "http_200": true,
+      "wrong_key_401": true,
+      "sql_ping_rows_returned": true
+    }
+  },
+  "source_payload_to_extend": "inbox/bridge-rebuild-handler-autodeploy-2026-04-29-001.json",
+  "files_to_apply": [
+    {
+      "path": "handler.mjs",
+      "mode": "upsert",
+      "notes": "Use handler content from payload 001 unless target repo already has a newer valid handler. Preserve auth, body limit, Lambda invoke, evidence_state response, and GET health path."
+    },
+    {
+      "path": ".github/workflows/deploy-bridge-handler.yml",
+      "mode": "upsert",
+      "notes": "Use workflow from payload 001. Add target repo and runtime ARN metadata to receipt. If cloud deploy auth is unavailable, emit dry-run or access-blocked receipt only."
+    },
+    {
+      "path": "package.json",
+      "mode": "upsert_if_missing_or_merge",
+      "notes": "Ensure module mode and Lambda SDK dependency are present."
+    }
+  ],
+  "definition_of_done": [
+    "Target repo TML-4PM/mcp-bridge-invoke-handler updated or explicit access failure receipt emitted.",
+    "handler.mjs syntax verified on Node 20.",
+    "GitHub Action exists and is wired to deploy on push to main.",
+    "Lambda runtime evidence includes operator-supplied runtime ARN.",
+    "Smoke evidence captured: HTTP 200, SQL ping rows, wrong-key 401.",
+    "Receipt written to receipts/runtime and audit path if available."
+  ],
+  "failure_protocol": {
+    "error": "If target repo is inaccessible from Pen or runner, emit ACCESS_BLOCKED receipt and do not mark complete.",
+    "impact": "Rebuild remains queued but not applied to target repo.",
+    "rollback": "No destructive action. Existing bridge remains live.",
+    "next": "Grant runner/Pen access to target repo or mirror repo into visible installation."
+  }
+}
