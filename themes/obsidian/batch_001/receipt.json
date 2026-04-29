@@ -1,0 +1,73 @@
+{
+  "job_id": "theme-factory-obsidian-2026-04-29-001",
+  "idempotency_key": "theme-factory-obsidian-2026-04-29-001",
+  "status": "completed",
+  "evidence_state": "REAL",
+  "completed_utc": "2026-04-29T05:37:00Z",
+  "executor": "claude-orchestrator",
+  "executor_environment": "claude-sandbox + bridge:zdgnab3py0",
+
+  "outputs": {
+    "themes_generated": 25,
+    "manifests_created": 25,
+    "scripts_published": 3,
+    "name_grid_size": 875,
+    "total_files_pushed": 58,
+    "published_to_chrome_store": false,
+    "next_step": "chrome_web_store_upload"
+  },
+
+  "github": {
+    "repo": "TML-4PM/the-pen",
+    "branch": "main",
+    "path": "themes/obsidian/batch_001",
+    "url": "https://github.com/TML-4PM/the-pen/tree/main/themes/obsidian/batch_001",
+    "commit_count": 58,
+    "sample_commit_shas": {
+      "README.md": "0c96a3bf",
+      "generate_themes.py": "71dc618c",
+      "pack_themes.py": "9232242a",
+      "naming_engine.py": "naming_engine.py pushed",
+      "first_png": "470312f7",
+      "last_png": "bc59fe9e"
+    }
+  },
+
+  "supabase_writes": {
+    "core.registry_entities": {
+      "id": "ae3af98f-c48a-4a0d-a92f-0aff39db2fd5",
+      "entity_key": "cw.theme_factory.obsidian",
+      "entity_type": "system",
+      "status": "active",
+      "autonomy_tier": "GATED",
+      "support_state_enabled": true,
+      "rdti_tagged": true,
+      "project_code": "T4H-CW-THEMES"
+    },
+    "core.evidence_store": {
+      "id": "21f797d9-2f13-4066-9af8-73f3eccc378b",
+      "evidence_type": "output_artifact",
+      "evidence_verified": true,
+      "evidence_uri": "github://TML-4PM/the-pen/themes/obsidian/batch_001"
+    }
+  },
+
+  "wave10_components": {
+    "runtime": "REAL",
+    "value_loop": "PARTIAL",
+    "revenue": "PRETEND",
+    "distribution": "PRETEND",
+    "observability": "PARTIAL",
+    "recovery": "PRETEND",
+    "evidence": "REAL",
+    "lifecycle": "REAL"
+  },
+
+  "next_actions": [
+    "Manual Chrome Web Store developer account verification ($5 one-time)",
+    "Per-theme zip + upload to Chrome Web Store (or chrome-webstore-upload-cli automation)",
+    "Wire install/retention telemetry to Synapse",
+    "Generate AETHER cluster (gradient engine, batch_002)",
+    "Generate NEURAL cluster (mesh visuals, batch_003)"
+  ]
+}
