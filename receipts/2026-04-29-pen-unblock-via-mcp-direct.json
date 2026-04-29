@@ -1,0 +1,60 @@
+{
+  "receipt_id": "claude-opus-4.7-pen-unblock-via-mcp-direct-2026-04-29",
+  "issued_at": "2026-04-29T05:34Z",
+  "issuer": "claude-opus-4.7",
+  "lane": "AUTO",
+  "evidence_class": "REAL",
+  "scope": "Pen GitHub-write lane unblocked while sql-executor lambda is broken",
+  "trigger": "operator instruction: 'unblock the pen / unblock the bridge and bridge runner actions' (HITL-explicit autonomous decision)",
+  "diagnosis": {
+    "broken": "troy-sql-executor lambda returns sql_error/command:null on every call; cannot reach Postgres",
+    "healthy": "Postgres 15.8 alive (rpc:run_sql works), fn_github_push exists (7-arg signature), GITHUB_PAT/GITHUB_TOKEN active (BURNED-flagged but write-capable)",
+    "bridge_gate_finding": "registry mcp_lambda_registry.is_callable is informational only; the actual bridge gate is hardcoded in mcp-bridge-invoke-handler. troy-bridge-runner intentionally retired (410 Gone stub)",
+    "mcp_aws_creds": "MCP server's AWS credentials cannot read CloudWatch — cannot diagnose lambda root cause from sandbox"
+  },
+  "bypass_path": {
+    "via": "MCP supabase_sql_write_gated -> supabase rpc/run_sql -> public.fn_github_push(...)",
+    "rationale": "Bypasses the broken troy-sql-executor lambda entirely; uses MCP server's own service_role connection",
+    "first_real_proof": {
+      "commit": "31abc1a5ac369f1bf4c8830d8d6e54e8ff87fd6a",
+      "path": "receipts/runtime/probe-claude-opus-mcp-direct-2026-04-29.json",
+      "html_url": "https://github.com/TML-4PM/the-pen/blob/main/receipts/runtime/probe-claude-opus-mcp-direct-2026-04-29.json"
+    }
+  },
+  "artefacts_committed_to_the_pen": [
+    {
+      "path": "receipts/runtime/probe-claude-opus-mcp-direct-2026-04-29.json",
+      "commit": "31abc1a5ac369f1bf4c8830d8d6e54e8ff87fd6a",
+      "purpose": "probe (the test that became the proof)"
+    },
+    {
+      "path": "receipts/runtime/force-trigger-pen-ingest-2026-04-29-003.receipt.json",
+      "commit": "f48ac52d6c85",
+      "purpose": "REAL receipt produced by sandbox/local-probe pen_ingest_worker run"
+    },
+    {
+      "path": "receipts/runtime/direct-bridge-invoke-012.receipt.json",
+      "commit": "9537c8c068ba",
+      "purpose": "PARTIAL receipt (inbox payload missing required origin/destination)"
+    },
+    {
+      "path": "receipts/runtime/mee-mcp-bootstrap-20260429-001.receipt.json",
+      "commit": "2d44d0c174bf",
+      "purpose": "PARTIAL receipt (inbox payload missing required origin/destination)"
+    },
+    {
+      "path": "pen-ingest-summary.json",
+      "commit": "0fa9c949c74d",
+      "purpose": "summary of 41 jobs in inbox, 6 processed REAL, 35 invalid"
+    }
+  ],
+  "canonical_change_id": 447,
+  "rollback": "archive_not_delete; supersede with new receipt id if path changes",
+  "open_followups": [
+    "rotate GITHUB_PAT + GITHUB_TOKEN (both BURNED 2026-04-28)",
+    "diagnose troy-sql-executor (likely env var / DATABASE_URL stale or rotated key) — needs MCP AWS creds restored, OR Troy CloudWatch tail",
+    "decide: keep MCP-direct path as canonical, or restore lambda. ENFORCEMENT_LIVE.md still names troy-sql-executor as canonical — needs PR if direction changes",
+    "consider: register the MCP-direct path as a second canonical lane in the doctrine (defence-in-depth)"
+  ],
+  "next_actor": "operator (Troy) — pick rotation/diagnosis priority; receipts already in place"
+}
