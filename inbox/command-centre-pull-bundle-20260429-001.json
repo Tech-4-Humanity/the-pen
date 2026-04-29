@@ -1,0 +1,63 @@
+{
+  "idempotency_key": "command-centre-pull-bundle-20260429-001",
+  "created_at": "2026-04-29T00:00:00Z",
+  "source": "chatgpt",
+  "target": "the-pen",
+  "action": "create_and_run_command_centre_pull_bundle",
+  "autonomy_tier": "AUTO",
+  "evidence_required": true,
+  "reality_classification": "PARTIAL_UNTIL_RECEIPT",
+  "summary": "Create executable scripts to pull similar Command Centre, Ops Dashboard, Symbio, Synapse, Pen and Bridge repos into a timestamped temp folder, extract matching files, generate indexes, and write receipt artifacts.",
+  "observed": {
+    "canonical_repo": "TML-4PM/mcp-command-centre",
+    "empty_repo": "TML-4PM/ops-dashboard",
+    "vercel_canonical_project": "mcp-command-centre",
+    "duplicate_vercel_projects": [
+      "mcp-command-centre-maiin",
+      "symbio-dev-control-plane-4bhb",
+      "bridge-worker-intake-c15w",
+      "bridge-worker-intake-vjj9",
+      "the-pen-* variants"
+    ]
+  },
+  "deliverables": [
+    {
+      "path": "tools/command-centre-pull/pull-command-centre-similar.sh",
+      "type": "bash",
+      "purpose": "Clone known similar GitHub repos, inventory files, extract command/dashboard/control-plane files, grep signal hits, produce zip."
+    },
+    {
+      "path": "tools/command-centre-pull/README.md",
+      "type": "markdown",
+      "purpose": "Explain execution, outputs, safety, and evidence contract."
+    },
+    {
+      "path": "receipts/runtime/command-centre-pull-bundle-20260429-001.receipt.json",
+      "type": "receipt",
+      "purpose": "Record file creation, run result, extracted file counts, and zip path."
+    }
+  ],
+  "script": "#!/usr/bin/env bash\nset -euo pipefail\n\nSTAMP=\"$(date +%Y%m%d_%H%M%S)\"\nBASE=\"${T4H_PULL_BASE:-$HOME/Downloads/T4H_CommandCentre_Pull_$STAMP}\"\nmkdir -p \"$BASE\"/{repos,extracted,logs,receipts}\n\ncd \"$BASE/repos\"\n\nREPOS=(\n  \"https://github.com/TML-4PM/mcp-command-centre.git\"\n  \"https://github.com/TML-4PM/ops-dashboard.git\"\n  \"https://github.com/TML-4PM/the-pen.git\"\n)\n\nfor repo in \"${REPOS[@]}\"; do\n  name=\"$(basename \"$repo\" .git)\"\n  echo \"==> Cloning $name\"\n  if [ -d \"$name/.git\" ]; then\n    git -C \"$name\" pull --ff-only 2>&1 | tee \"$BASE/logs/${name}_pull.log\" || true\n  else\n    git clone \"$repo\" \"$name\" 2>&1 | tee \"$BASE/logs/${name}_clone.log\" || echo \"FAILED $name\" | tee -a \"$BASE/logs/failures.log\"\n  fi\ndone\n\ncd \"$BASE\"\n\nfind repos -type f \\\n  -not -path \"*/node_modules/*\" \\\n  -not -path \"*/.git/*\" \\\n  -not -path \"*/dist/*\" \\\n  -not -path \"*/build/*\" \\\n  -not -path \"*/.next/*\" \\\n  | sort > \"$BASE/file_inventory.txt\"\n\nwhile IFS= read -r f; do\n  case \"$f\" in\n    *command*|*Command*|*centre*|*Centre*|*center*|*Center*|*dashboard*|*Dashboard*|*portfolio*|*Portfolio*|*surface*|*Surface*|*navigation*|*Navigation*|*bridge*|*Bridge*|*runtime*|*Runtime*|*ops*|*Ops*|*symbio*|*Symbio*|*synapse*|*Synapse*|*pen*|*Pen*)\n      dest=\"$BASE/extracted/$f\"\n      mkdir -p \"$(dirname \"$dest\")\"\n      cp \"$f\" \"$dest\"\n      ;;\n  esac\ndone < \"$BASE/file_inventory.txt\"\n\ngrep -RInE \"PortfolioSurface|Navigation|Dashboard|Command Centre|command centre|bridge|runtime|Supabase|supabase|VITE_|VERCEL|Pen|Symbio|Synapse|OODA|evidence|work_queue|system_registry\" \\\n  \"$BASE/repos\" \\\n  --exclude-dir=.git \\\n  --exclude-dir=node_modules \\\n  --exclude-dir=dist \\\n  --exclude-dir=build \\\n  --exclude-dir=.next \\\n  > \"$BASE/focused_hits.txt\" || true\n\nfor d in \"$BASE\"/repos/*; do\n  [ -d \"$d/.git\" ] || continue\n  {\n    echo \"### $(basename \"$d\")\"\n    git -C \"$d\" remote -v\n    git -C \"$d\" branch --show-current\n    git -C \"$d\" log --oneline -n 20\n    echo\n  } >> \"$BASE/repo_status.txt\"\ndone\n\nEXTRACTED_COUNT=\"$(find \"$BASE/extracted\" -type f | wc -l | tr -d ' ')\"\nINVENTORY_COUNT=\"$(wc -l < \"$BASE/file_inventory.txt\" | tr -d ' ')\"\n\ncat > \"$BASE/receipts/command-centre-pull-bundle.receipt.json\" <<JSON\n{\n  \"idempotency_key\": \"command-centre-pull-bundle-20260429-001\",\n  \"completed_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\n  \"base\": \"$BASE\",\n  \"inventory_count\": $INVENTORY_COUNT,\n  \"extracted_count\": $EXTRACTED_COUNT,\n  \"evidence\": [\n    \"$BASE/file_inventory.txt\",\n    \"$BASE/focused_hits.txt\",\n    \"$BASE/repo_status.txt\",\n    \"$BASE/extracted\"\n  ]\n}\nJSON\n\ncd \"$(dirname \"$BASE\")\"\nzip -qr \"$(basename \"$BASE\").zip\" \"$(basename \"$BASE\")\"\n\necho \"DONE\"\necho \"Folder: $BASE\"\necho \"Zip: $(dirname \"$BASE\")/$(basename \"$BASE\").zip\"\necho \"Receipt: $BASE/receipts/command-centre-pull-bundle.receipt.json\"\n",
+  "execution_contract": {
+    "no_delete": true,
+    "archive_only": true,
+    "idempotent_folder_timestamp": true,
+    "safe_outputs": [
+      "file_inventory.txt",
+      "focused_hits.txt",
+      "repo_status.txt",
+      "extracted/",
+      "receipts/command-centre-pull-bundle.receipt.json"
+    ]
+  },
+  "verification": {
+    "done_when": [
+      "script exists in repo or worker workspace",
+      "script runs without fatal error",
+      "receipt json exists",
+      "inventory_count > 0",
+      "extracted_count > 0",
+      "zip created"
+    ]
+  }
+}
