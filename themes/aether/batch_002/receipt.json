@@ -1,0 +1,76 @@
+{
+  "job_id": "theme-factory-aether-2026-04-29-002",
+  "idempotency_key": "theme-factory-aether-2026-04-29-002",
+  "status": "completed",
+  "evidence_state": "REAL",
+  "completed_utc": "2026-04-29T06:05:00Z",
+  "executor": "claude-orchestrator",
+  "executor_environment": "claude-sandbox + bridge:zdgnab3py0",
+
+  "outputs": {
+    "themes_generated": 25,
+    "manifests_created": 25,
+    "scripts_published": 3,
+    "name_grid_size": 1750,
+    "total_files_pushed": 58,
+    "published_to_chrome_store": false,
+    "next_step": "chrome_web_store_upload"
+  },
+
+  "github": {
+    "repo": "TML-4PM/the-pen",
+    "branch": "main",
+    "path": "themes/aether/batch_002",
+    "url": "https://github.com/TML-4PM/the-pen/tree/main/themes/aether/batch_002",
+    "commit_count": 58,
+    "sample_commit_shas": {
+      "README.md": "53b46093",
+      "generate_themes.py": "e29f2a64",
+      "pack_themes.py": "4eaa33d7",
+      "naming_engine.py": "d2276d55",
+      "catalog.json": "1520ec6b",
+      "first_png": "52ccdcd5",
+      "last_png": "e33d5f16"
+    }
+  },
+
+  "supabase_writes": {
+    "core.registry_entities": {
+      "id": "9c18e736-bd05-4405-b530-1393a0a26fc9",
+      "entity_key": "cw.theme_factory.aether",
+      "entity_type": "system",
+      "status": "active",
+      "autonomy_tier": "GATED",
+      "support_state_enabled": true,
+      "rdti_tagged": true,
+      "project_code": "T4H-CW-THEMES"
+    },
+    "core.evidence_store": {
+      "evidence_type": "output_artifact",
+      "evidence_verified": true,
+      "evidence_uri": "github://TML-4PM/the-pen/themes/aether/batch_002"
+    }
+  },
+
+  "cluster_spec": {
+    "name": "AETHER",
+    "engine": "linear + radial gradient",
+    "pairs": [
+      {"name": "violet_cobalt", "from_rgb": [88, 28, 135], "to_rgb": [29, 78, 216]},
+      {"name": "rose_amber",    "from_rgb": [190, 24, 93], "to_rgb": [245, 158, 11]},
+      {"name": "ocean_cyan",    "from_rgb": [15, 23, 42],  "to_rgb": [6, 182, 212]},
+      {"name": "synthwave",     "from_rgb": [236, 72, 153],"to_rgb": [34, 211, 238]},
+      {"name": "plasma_void",   "from_rgb": [127, 29, 29], "to_rgb": [76, 29, 149]}
+    ],
+    "directions": ["vertical", "horizontal", "diag_down", "diag_up", "radial"],
+    "modifiers": ["Aurora", "Mist", "Glow", "Drift", "Bloom"]
+  },
+
+  "next_actions": [
+    "Generate NEURAL cluster (batch_003) - mesh/network visuals",
+    "Generate PRIME cluster (batch_004) - executive neutrals",
+    "Generate VOID cluster (batch_005) - distraction-free minimal",
+    "Wire chrome-webstore-upload-cli automation Lambda",
+    "Add Synapse install/retention telemetry"
+  ]
+}
