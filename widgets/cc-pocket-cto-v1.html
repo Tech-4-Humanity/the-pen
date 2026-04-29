@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Pocket CTO · T4H Command Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f3ee;
+    --rule: #1a1a1a;
+    --ok: #1a4d2e;
+    --warn: #b8860b;
+    --crit: #a01919;
+    --muted: #6b6b6b;
+    --accent: #ff5722;
+    --shadow: 6px 6px 0 var(--ink);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.5; }
+  body { padding: 24px; max-width: 1100px; margin: 0 auto; min-height: 100vh; }
+  header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: 3px solid var(--ink); margin-bottom: 24px; }
+  header h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; letter-spacing: -0.02em; }
+  header h1 span { font-style: italic; color: var(--accent); }
+  header .meta { font-size: 11px; color: var(--muted); text-align: right; }
+  header .meta b { color: var(--ink); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .card { background: #fff; border: 2px solid var(--ink); padding: 16px; box-shadow: var(--shadow); position: relative; }
+  .card.wide { grid-column: 1 / -1; }
+  .card .tag { position: absolute; top: -10px; left: 12px; background: var(--ink); color: var(--paper); font-size: 10px; padding: 2px 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .card h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px; margin-bottom: 4px; line-height: 1.1; }
+  .card .sub { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 10px; margin-bottom: 4px; }
+  input, select, textarea { width: 100%; font: inherit; padding: 6px 8px; background: var(--paper); border: 1.5px solid var(--ink); }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+  textarea { resize: vertical; min-height: 60px; }
+  .btn { display: inline-block; font: inherit; font-weight: 600; padding: 8px 14px; background: var(--ink); color: var(--paper); border: 0; cursor: pointer; margin-top: 12px; box-shadow: 3px 3px 0 var(--accent); transition: transform .08s, box-shadow .08s; }
+  .btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--accent); }
+  .btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--accent); }
+  .btn.danger { background: var(--crit); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); box-shadow: none; }
+  .btn[disabled] { opacity: .4; cursor: wait; }
+  .row { display: flex; gap: 8px; align-items: end; flex-wrap: wrap; }
+  .row > * { flex: 1; min-width: 0; }
+  .row > .narrow { flex: 0 0 auto; }
+  .out { margin-top: 12px; padding: 10px; background: var(--ink); color: #c8e6c9; font-size: 11px; max-height: 200px; overflow: auto; white-space: pre-wrap; word-break: break-all; display: none; }
+  .out.show { display: block; }
+  .out.err { color: #ffcdd2; }
+  .pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .pulse.ok { background: #2e7d32; box-shadow: 0 0 0 0 #2e7d32; animation: pulse 2s infinite; }
+  .pulse.warn { background: var(--warn); }
+  .pulse.crit { background: var(--crit); animation: pulse 1s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(46,125,50,.5); } 70% { box-shadow: 0 0 0 8px rgba(46,125,50,0); } 100% { box-shadow: 0 0 0 0 rgba(46,125,50,0); } }
+  .stat { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dotted var(--muted); font-size: 12px; }
+  .stat:last-child { border-bottom: 0; }
+  .stat b { font-variant-numeric: tabular-nums; }
+  #key-bar { background: #fff8e1; border: 1.5px dashed var(--warn); padding: 10px 14px; margin-bottom: 16px; font-size: 12px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  #key-bar.set { background: #e8f5e9; border-color: var(--ok); border-style: solid; }
+  #key-input { flex: 1; min-width: 200px; padding: 6px 8px; border: 1.5px solid var(--ink); background: #fff; font: inherit; }
+  .hint { color: var(--muted); font-size: 10.5px; margin-top: 4px; line-height: 1.4; }
+  .badge { display: inline-block; padding: 1px 6px; border: 1px solid var(--ink); font-size: 10px; text-transform: uppercase; margin-left: 4px; letter-spacing: .04em; }
+  .badge.gated { background: var(--warn); color: var(--ink); }
+  .badge.auto { background: var(--ok); color: var(--paper); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>pocket <span>cto</span></h1>
+  <div class="meta">
+    <div><b>T4H Command Centre</b> · cc.pocket_cto v1</div>
+    <div id="last-tick">awaiting probe</div>
+  </div>
+</header>
+
+<div id="key-bar">
+  <span id="key-status">🔑 bridge key required (session-only, never stored on disk)</span>
+  <input id="key-input" type="password" placeholder="bk_..." autocomplete="off">
+  <button class="btn ghost" onclick="setKey()">save · session</button>
+  <button class="btn ghost" onclick="clearKey()">clear</button>
+</div>
+
+<div class="grid">
+
+  <!-- HEALTH PROBE -->
+  <div class="card">
+    <span class="tag">probe</span>
+    <h2>Bridge Health <span class="badge auto">AUTO</span></h2>
+    <p class="sub">SQL+selftest+pushes+lambdas in one call · fn_op_bridge_probe</p>
+    <button class="btn" onclick="runProbe()">probe now</button>
+    <button class="btn ghost" onclick="autoRefresh(this)">auto · 30s</button>
+    <div id="probe-stats" style="margin-top:12px"></div>
+    <div id="out-probe" class="out"></div>
+  </div>
+
+  <!-- ROTATE PAT -->
+  <div class="card">
+    <span class="tag">1-touch rotate</span>
+    <h2>GitHub PAT Rotate <span class="badge gated">GATED</span></h2>
+    <p class="sub">atomic update + canonical change · fn_rotate_github_pat</p>
+    <label>which key</label>
+    <select id="pat-key">
+      <option>GITHUB_PAT</option>
+      <option>GITHUB_TOKEN</option>
+    </select>
+    <label>new value <span class="hint">ghp_… or github_pat_… · ≥40 chars</span></label>
+    <input id="pat-new" type="password" placeholder="ghp_NEW_TOKEN_HERE" autocomplete="off">
+    <label>notes <span class="hint">optional · stored alongside, no value</span></label>
+    <input id="pat-notes" placeholder="rotated post-COAX-burn">
+    <div class="row">
+      <button class="btn" onclick="testPat()">test current</button>
+      <button class="btn danger" onclick="rotatePat()">rotate · execute</button>
+    </div>
+    <div id="out-pat" class="out"></div>
+  </div>
+
+  <!-- LAMBDA ALLOW-LIST -->
+  <div class="card">
+    <span class="tag">flip</span>
+    <h2>Lambda Allow-List <span class="badge gated">GATED</span></h2>
+    <p class="sub">flip is_callable in mcp_lambda_registry · 60s cache TTL</p>
+    <label>function name</label>
+    <input id="ll-fn" placeholder="troy-bridge-runner">
+    <label>reason <span class="hint">required for audit</span></label>
+    <input id="ll-reason" placeholder="restoring after Wave21 review">
+    <div class="row">
+      <button class="btn" onclick="setLambda(true)">enable</button>
+      <button class="btn danger" onclick="setLambda(false)">disable</button>
+    </div>
+    <div id="out-ll" class="out"></div>
+  </div>
+
+  <!-- CRON PAUSE/RESUME -->
+  <div class="card">
+    <span class="tag">cron</span>
+    <h2>pg_cron Job Toggle <span class="badge gated">GATED</span></h2>
+    <p class="sub">pause or resume by jobid · fn_op_set_cron_active</p>
+    <label>jobid</label>
+    <input id="cron-id" type="number" placeholder="239">
+    <label>reason</label>
+    <input id="cron-reason" placeholder="manual investigation">
+    <div class="row">
+      <button class="btn danger" onclick="setCron(false)">pause</button>
+      <button class="btn" onclick="setCron(true)">resume</button>
+    </div>
+    <div id="out-cron" class="out"></div>
+  </div>
+
+  <!-- BROADCAST -->
+  <div class="card">
+    <span class="tag">log</span>
+    <h2>Quick Broadcast <span class="badge auto">LOG</span></h2>
+    <p class="sub">log a canonical change in one call · fn_op_broadcast</p>
+    <label>title</label>
+    <input id="bc-title" placeholder="caught: …">
+    <label>summary</label>
+    <textarea id="bc-summary" placeholder="what happened, evidence ref, next step"></textarea>
+    <div class="row">
+      <select id="bc-sev" class="narrow" style="flex:0 0 110px">
+        <option>NORMAL</option>
+        <option>HIGH</option>
+        <option>CRITICAL</option>
+        <option>LOW</option>
+      </select>
+      <select id="bc-type" style="flex:0 0 160px">
+        <option>SYSTEM_CHANGE</option>
+        <option>DECISION</option>
+        <option>BLOCKER</option>
+        <option>SCHEMA_CHANGE</option>
+      </select>
+    </div>
+    <button class="btn" onclick="broadcast()">log change</button>
+    <div id="out-bc" class="out"></div>
+  </div>
+
+  <!-- SECRET CHECK -->
+  <div class="card">
+    <span class="tag">verify</span>
+    <h2>Secret Check <span class="badge auto">AUTO</span></h2>
+    <p class="sub">metadata only — never reveals values · fn_op_secret_check</p>
+    <label>key (or blank for all)</label>
+    <input id="sec-key" placeholder="GITHUB_PAT">
+    <button class="btn" onclick="secretCheck()">check</button>
+    <div id="out-sec" class="out"></div>
+  </div>
+
+  <!-- PEN STATUS -->
+  <div class="card wide">
+    <span class="tag">pulse</span>
+    <h2>Pen Pulse <span class="badge auto">AUTO</span></h2>
+    <p class="sub">today's commits + canonical changes + failures · fn_op_pen_status</p>
+    <button class="btn" onclick="penStatus()">refresh</button>
+    <div id="pen-stats" style="margin-top:12px"></div>
+    <div id="out-pen" class="out"></div>
+  </div>
+
+</div>
+
+<script>
+const BRIDGE = "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke";
+let API_KEY = sessionStorage.getItem('t4h_bridge_key') || '';
+
+function updateKeyBar() {
+  const bar = document.getElementById('key-bar');
+  const status = document.getElementById('key-status');
+  const inp = document.getElementById('key-input');
+  if (API_KEY) {
+    bar.classList.add('set');
+    status.innerHTML = '🔓 bridge key set · session active · key=' + API_KEY.slice(0, 12) + '…';
+    inp.value = '';
+  } else {
+    bar.classList.remove('set');
+    status.innerHTML = '🔑 bridge key required (session-only, never stored on disk)';
+  }
+}
+function setKey() {
+  const v = document.getElementById('key-input').value.trim();
+  if (!v.startsWith('bk_')) { alert('expected bk_… key'); return; }
+  API_KEY = v;
+  sessionStorage.setItem('t4h_bridge_key', v);
+  updateKeyBar();
+  runProbe();
+}
+function clearKey() {
+  API_KEY = '';
+  sessionStorage.removeItem('t4h_bridge_key');
+  updateKeyBar();
+}
+updateKeyBar();
+
+async function bridge(sql) {
+  if (!API_KEY) throw new Error('bridge key not set');
+  const res = await fetch(BRIDGE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY },
+    body: JSON.stringify({ fn: 'troy-sql-executor', payload: { sql } })
+  });
+  const txt = await res.text();
+  let data; try { data = JSON.parse(txt); } catch { data = { raw: txt }; }
+  if (!res.ok || data.success === false) {
+    const err = new Error(data.error || data.error_code || 'http ' + res.status);
+    err.detail = data;
+    throw err;
+  }
+  return data.rows || [];
+}
+
+function show(elId, ok, msg) {
+  const el = document.getElementById(elId);
+  el.classList.add('show');
+  el.classList.toggle('err', !ok);
+  el.textContent = (typeof msg === 'string') ? msg : JSON.stringify(msg, null, 2);
+}
+
+function pulseClass(s) { return s === 'OK' ? 'ok' : (s === 'WARN' ? 'warn' : 'crit'); }
+
+async function runProbe() {
+  try {
+    document.getElementById('last-tick').textContent = 'probing…';
+    const rows = await bridge('SELECT public.fn_op_bridge_probe() AS r');
+    const r = rows[0]?.r || rows[0];
+    const stats = `<div class="stat"><span><span class="pulse ${pulseClass(r.selftest.status)}"></span>selftest</span><b>${r.selftest.status} · ${r.selftest.gap_seconds}s ago</b></div>
+      <div class="stat"><span>github pushes (24h)</span><b>${r.github_push_24h}</b></div>
+      <div class="stat"><span>callable lambdas</span><b>${r.callable_lambdas}</b></div>
+      <div class="stat"><span>db now</span><b>${new Date(r.db_now).toISOString().slice(11,19)} UTC</b></div>`;
+    document.getElementById('probe-stats').innerHTML = stats;
+    document.getElementById('last-tick').textContent = 'last probe ' + new Date().toLocaleTimeString();
+    document.getElementById('out-probe').classList.remove('show');
+  } catch (e) { show('out-probe', false, e.message + (e.detail ? '\n' + JSON.stringify(e.detail, null, 2) : '')); }
+}
+
+let _autoTimer = null;
+function autoRefresh(btn) {
+  if (_autoTimer) { clearInterval(_autoTimer); _autoTimer = null; btn.textContent = 'auto · 30s'; btn.classList.remove('danger'); return; }
+  runProbe();
+  _autoTimer = setInterval(runProbe, 30000);
+  btn.textContent = 'stop auto';
+  btn.classList.add('danger');
+}
+
+async function testPat() {
+  try {
+    const k = document.getElementById('pat-key').value;
+    const rows = await bridge(`SELECT public.fn_test_github_pat('${k}') AS r`);
+    show('out-pat', true, rows[0]?.r || rows[0]);
+  } catch (e) { show('out-pat', false, e.message); }
+}
+
+async function rotatePat() {
+  try {
+    const k = document.getElementById('pat-key').value;
+    const v = document.getElementById('pat-new').value.trim();
+    const n = document.getElementById('pat-notes').value.trim().replace(/'/g, "''");
+    if (!v) { alert('paste new token'); return; }
+    if (!confirm(`rotate ${k}?\nlength ${v.length} · prefix ${v.slice(0,6)}…\nirreversible from this widget`)) return;
+    const sql = `SELECT public.fn_rotate_github_pat($SUBQ$${v}$SUBQ$, '${k}', ${n ? `$NOTES$${n}$NOTES$` : 'NULL'}, 'pocket-cto') AS r`;
+    const rows = await bridge(sql);
+    show('out-pat', true, rows[0]?.r || rows[0]);
+    document.getElementById('pat-new').value = '';
+  } catch (e) { show('out-pat', false, e.message); }
+}
+
+async function setLambda(callable) {
+  try {
+    const fn = document.getElementById('ll-fn').value.trim();
+    const reason = document.getElementById('ll-reason').value.trim().replace(/'/g, "''");
+    if (!fn || !reason) { alert('function + reason required'); return; }
+    const sql = `SELECT public.fn_op_set_lambda_callable('${fn}', ${callable}, '${reason}', 'pocket-cto') AS r`;
+    const rows = await bridge(sql);
+    show('out-ll', true, rows[0]?.r || rows[0]);
+  } catch (e) { show('out-ll', false, e.message); }
+}
+
+async function setCron(active) {
+  try {
+    const id = parseInt(document.getElementById('cron-id').value, 10);
+    const reason = document.getElementById('cron-reason').value.trim().replace(/'/g, "''");
+    if (!id || !reason) { alert('jobid + reason required'); return; }
+    const sql = `SELECT public.fn_op_set_cron_active(${id}, ${active}, '${reason}', 'pocket-cto') AS r`;
+    const rows = await bridge(sql);
+    show('out-cron', true, rows[0]?.r || rows[0]);
+  } catch (e) { show('out-cron', false, e.message); }
+}
+
+async function broadcast() {
+  try {
+    const t = document.getElementById('bc-title').value.trim().replace(/'/g, "''");
+    const s = document.getElementById('bc-summary').value.trim().replace(/'/g, "''");
+    const sev = document.getElementById('bc-sev').value;
+    const ct = document.getElementById('bc-type').value;
+    if (!t || !s) { alert('title + summary required'); return; }
+    const sql = `SELECT public.fn_op_broadcast('${t}', '${s}', '${sev}', '${ct}', ARRAY['ad-hoc']::text[], 'pocket-cto') AS r`;
+    const rows = await bridge(sql);
+    show('out-bc', true, rows[0]?.r || rows[0]);
+    document.getElementById('bc-title').value = '';
+    document.getElementById('bc-summary').value = '';
+  } catch (e) { show('out-bc', false, e.message); }
+}
+
+async function secretCheck() {
+  try {
+    const k = document.getElementById('sec-key').value.trim();
+    const sql = k ? `SELECT public.fn_op_secret_check('${k}') AS r` : `SELECT public.fn_op_secret_check() AS r`;
+    const rows = await bridge(sql);
+    show('out-sec', true, rows[0]?.r || rows[0]);
+  } catch (e) { show('out-sec', false, e.message); }
+}
+
+async function penStatus() {
+  try {
+    const rows = await bridge('SELECT public.fn_op_pen_status() AS r');
+    const r = rows[0]?.r || rows[0];
+    document.getElementById('pen-stats').innerHTML =
+      `<div class="stat"><span>pushes today (the-pen)</span><b>${r.pushes_today_pen}</b></div>
+       <div class="stat"><span>failed pushes (24h)</span><b style="color:${r.failed_pushes_24h>0?'var(--crit)':'inherit'}">${r.failed_pushes_24h}</b></div>
+       <div class="stat"><span>canonical changes today</span><b>${r.canonical_changes_today}</b></div>
+       <div class="stat"><span>as of</span><b>${new Date(r.as_of).toISOString().slice(11,19)} UTC</b></div>`;
+  } catch (e) { show('out-pen', false, e.message); }
+}
+
+// Auto-probe on load if key present
+if (API_KEY) { setTimeout(runProbe, 200); setTimeout(penStatus, 400); }
+</script>
+</body>
+</html>
