@@ -1,0 +1,80 @@
+{
+  "idempotency_key": "bridge-rebuild-handler-autodeploy-2026-04-29-001",
+  "created_at": "2026-04-29T00:00:00+10:00",
+  "source": "chatgpt-prod-operator",
+  "target_repo": "TML-4PM/mcp-bridge-invoke-handler",
+  "fallback_repo": "TML-4PM/the-pen",
+  "reality_state": "PARTIAL",
+  "observed_evidence": {
+    "bridge_http_200": true,
+    "sql_ping_rows_returned": true,
+    "auth_wrong_key_401": true,
+    "registry_updated": "nodejs20.x SUCCESS",
+    "memory_updated": "new key stored",
+    "github_target_repo_visible_to_connector": false,
+    "pen_repo_visible_to_connector": true
+  },
+  "intent": "Complete full bridge rebuild closure by pushing handler.mjs and a GitHub Action auto-deploy workflow to the bridge invoke handler repo, then emit a receipt after verification.",
+  "autonomy_tier": "GATED",
+  "risk_notes": [
+    "Deploy, IAM, AWS role, and EventBridge production mutation are gated. Run dry-run/validation first, then execute only where repo automation or existing permissions explicitly permit.",
+    "No deletion. Archive-only for superseded files.",
+    "Secrets must be GitHub Actions secrets or OIDC role assumptions; do not commit credentials."
+  ],
+  "files_to_apply": [
+    {
+      "path": "handler.mjs",
+      "mode": "upsert",
+      "content": "import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';\n\nconst REGION = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'ap-southeast-2';\nconst BRIDGE_API_KEY = process.env.BRIDGE_API_KEY || '';\nconst DEFAULT_FUNCTION = process.env.DEFAULT_LAMBDA_FUNCTION || 'troy-sql-executor';\nconst MAX_BODY_BYTES = Number(process.env.MAX_BODY_BYTES || 262144);\n\nconst lambda = new LambdaClient({ region: REGION });\n\nfunction json(statusCode, body, extraHeaders = {}) {\n  return {\n    statusCode,\n    headers: {\n      'content-type': 'application/json; charset=utf-8',\n      'cache-control': 'no-store',\n      ...extraHeaders\n    },\n    body: JSON.stringify(body)\n  };\n}\n\nfunction safeParse(raw) {\n  if (!raw) return {};\n  if (Buffer.byteLength(raw, 'utf8') > MAX_BODY_BYTES) {\n    const err = new Error('BODY_TOO_LARGE');\n    err.statusCode = 413;\n    throw err;\n  }\n  try {\n    return JSON.parse(raw);\n  } catch {\n    const err = new Error('INVALID_JSON');\n    err.statusCode = 400;\n    throw err;\n  }\n}\n\nfunction getHeader(event, name) {\n  const headers = event.headers || {};\n  const found = Object.keys(headers).find((k) => k.toLowerCase() === name.toLowerCase());\n  return found ? headers[found] : undefined;\n}\n\nfunction assertAuth(event) {\n  if (!BRIDGE_API_KEY) return;\n  const supplied = getHeader(event, 'x-api-key') || getHeader(event, 'authorization')?.replace(/^Bearer\\s+/i, '');\n  if (supplied !== BRIDGE_API_KEY) {\n    const err = new Error('UNAUTHORISED');\n    err.statusCode = 401;\n    throw err;\n  }\n}\n\nfunction normalisePayload(event) {\n  const body = safeParse(event.body);\n  const lambda_name = body.lambda_name || body.function_name || body.functionName || DEFAULT_FUNCTION;\n  const payload = body.payload ?? body.input ?? body.args ?? {};\n  const invocation_type = body.invocation_type || body.invocationType || 'RequestResponse';\n  const idempotency_key = body.idempotency_key || body.idempotencyKey || event.requestContext?.requestId || crypto.randomUUID();\n  return { lambda_name, payload, invocation_type, idempotency_key };\n}\n\nexport const handler = async (event = {}) => {\n  const started_at = new Date().toISOString();\n  try {\n    if (event.requestContext?.http?.method === 'GET' || event.httpMethod === 'GET') {\n      return json(200, { ok: true, service: 'mcp-bridge-invoke-handler', region: REGION, runtime: 'nodejs20.x', started_at });\n    }\n\n    assertAuth(event);\n    const job = normalisePayload(event);\n\n    const command = new InvokeCommand({\n      FunctionName: job.lambda_name,\n      InvocationType: job.invocation_type,\n      Payload: Buffer.from(JSON.stringify({ ...job.payload, idempotency_key: job.idempotency_key }))\n    });\n\n    const result = await lambda.send(command);\n    const decoded = result.Payload ? Buffer.from(result.Payload).toString('utf8') : '';\n    let parsed = decoded;\n    try { parsed = decoded ? JSON.parse(decoded) : null; } catch {}\n\n    return json(200, {\n      ok: true,\n      evidence_state: 'REAL',\n      idempotency_key: job.idempotency_key,\n      lambda_name: job.lambda_name,\n      status_code: result.StatusCode,\n      function_error: result.FunctionError || null,\n      payload: parsed,\n      started_at,\n      finished_at: new Date().toISOString()\n    });\n  } catch (error) {\n    const statusCode = error.statusCode || 500;\n    return json(statusCode, {\n      ok: false,\n      evidence_state: 'REAL',\n      error: error.message || 'BRIDGE_HANDLER_ERROR',\n      impact: statusCode === 401 ? 'Request blocked before Lambda invocation.' : 'Bridge invocation did not complete.',\n      rollback: 'Revert handler.mjs to previous known-good commit and re-run bridge smoke tests.',\n      started_at,\n      finished_at: new Date().toISOString()\n    });\n  }\n};\n"
+    },
+    {
+      "path": ".github/workflows/deploy-bridge-handler.yml",
+      "mode": "upsert",
+      "content": "name: Deploy bridge invoke handler\n\non:\n  push:\n    branches: [main]\n    paths:\n      - 'handler.mjs'\n      - 'package.json'\n      - '.github/workflows/deploy-bridge-handler.yml'\n  workflow_dispatch:\n\npermissions:\n  id-token: write\n  contents: read\n\nconcurrency:\n  group: bridge-invoke-handler-deploy\n  cancel-in-progress: false\n\nenv:\n  AWS_REGION: ap-southeast-2\n  FUNCTION_NAME: mcp-bridge-invoke-handler\n\njobs:\n  validate-package-deploy-smoke:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: npm\n\n      - name: Install dependencies\n        run: |\n          if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; else npm init -y && npm install @aws-sdk/client-lambda; fi\n\n      - name: Syntax check\n        run: node --check handler.mjs\n\n      - name: Package Lambda artifact\n        run: |\n          rm -rf dist bridge-handler.zip\n          mkdir -p dist\n          cp handler.mjs dist/handler.mjs\n          if [ -d node_modules ]; then cp -R node_modules dist/node_modules; fi\n          if [ -f package.json ]; then cp package.json dist/package.json; fi\n          cd dist && zip -qr ../bridge-handler.zip .\n\n      - name: Configure AWS credentials\n        if: ${{ secrets.AWS_ROLE_TO_ASSUME != '' }}\n        uses: aws-actions/configure-aws-credentials@v4\n        with:\n          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}\n          aws-region: ${{ env.AWS_REGION }}\n\n      - name: Dry-run AWS identity\n        if: ${{ secrets.AWS_ROLE_TO_ASSUME != '' }}\n        run: aws sts get-caller-identity\n\n      - name: Deploy Lambda code\n        if: ${{ secrets.AWS_ROLE_TO_ASSUME != '' }}\n        run: |\n          aws lambda update-function-code \\\n            --function-name \"$FUNCTION_NAME\" \\\n            --zip-file fileb://bridge-handler.zip\n          aws lambda wait function-updated --function-name \"$FUNCTION_NAME\"\n          aws lambda update-function-configuration \\\n            --function-name \"$FUNCTION_NAME\" \\\n            --runtime nodejs20.x \\\n            --handler handler.handler\n          aws lambda wait function-updated --function-name \"$FUNCTION_NAME\"\n\n      - name: Smoke invoke health path\n        if: ${{ secrets.AWS_ROLE_TO_ASSUME != '' }}\n        run: |\n          aws lambda invoke \\\n            --function-name \"$FUNCTION_NAME\" \\\n            --payload '{\"requestContext\":{\"http\":{\"method\":\"GET\"}}}' \\\n            --cli-binary-format raw-in-base64-out \\\n            smoke-response.json\n          cat smoke-response.json\n          grep -q '\"ok\":true' smoke-response.json\n\n      - name: Write local receipt artifact\n        run: |\n          mkdir -p receipts/runtime\n          cat > receipts/runtime/bridge-handler-deploy.receipt.json <<JSON\n          {\n            \"idempotency_key\": \"bridge-rebuild-handler-autodeploy-2026-04-29-001\",\n            \"workflow\": \"deploy-bridge-handler\",\n            \"evidence_state\": \"REAL_IF_WORKFLOW_GREEN_PARTIAL_IF_DRY_ONLY\",\n            \"function_name\": \"$FUNCTION_NAME\",\n            \"runtime\": \"nodejs20.x\",\n            \"commit\": \"${GITHUB_SHA}\",\n            \"run_id\": \"${GITHUB_RUN_ID}\",\n            \"created_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"\n          }\n          JSON\n          cat receipts/runtime/bridge-handler-deploy.receipt.json\n\n      - uses: actions/upload-artifact@v4\n        with:\n          name: bridge-handler-deploy-receipt\n          path: receipts/runtime/bridge-handler-deploy.receipt.json\n"
+    },
+    {
+      "path": "package.json",
+      "mode": "upsert_if_missing_or_merge",
+      "content": "{\n  \"name\": \"mcp-bridge-invoke-handler\",\n  \"version\": \"1.0.0\",\n  \"type\": \"module\",\n  \"private\": true,\n  \"dependencies\": {\n    \"@aws-sdk/client-lambda\": \"latest\"\n  },\n  \"scripts\": {\n    \"check\": \"node --check handler.mjs\"\n  }\n}\n"
+    }
+  ],
+  "verification_plan": [
+    "Repo exists and default branch resolves.",
+    "handler.mjs passes node --check under Node 20.",
+    "Workflow packages bridge-handler.zip without secrets committed.",
+    "If AWS_ROLE_TO_ASSUME exists, workflow deploys Lambda, waits for update, invokes GET health path, and uploads receipt artifact.",
+    "Smoke expected: ok=true, service=mcp-bridge-invoke-handler, runtime=nodejs20.x.",
+    "Then run Bridge API tests already proven today: HTTP 200, SQL ping rows, wrong key 401."
+  ],
+  "remaining_open_items": [
+    {
+      "item": "EventBridge rule for troy-bridge-runner",
+      "tier": "GATED",
+      "dry_run_command": "aws events put-rule --name troy-bridge-runner --schedule-expression 'rate(5 minutes)' --state ENABLED --region ap-southeast-2 --dry-run",
+      "exec_command": "aws events put-rule --name troy-bridge-runner --schedule-expression 'rate(5 minutes)' --state ENABLED --region ap-southeast-2"
+    },
+    {
+      "item": "apexpredatorinsurance.com mail forwarding",
+      "tier": "BLOCKED_UNTIL_MAIL_PROVIDER_AUTH",
+      "action": "Fix Migadu forwarding for apexfredatorinsurance.com/support mail route. Do not alter DNS or mailbox deletion without explicit approval."
+    },
+    {
+      "item": "holo-morning-brief EventBridge rule",
+      "tier": "GATED",
+      "action": "Wire schedule to existing runner target; emit receipt after first successful invocation."
+    },
+    {
+      "item": "holo-weekly-adaptive-tune EventBridge rule",
+      "tier": "GATED",
+      "action": "Wire schedule to existing runner target; emit receipt after first successful invocation."
+    }
+  ],
+  "definition_of_done": [
+    "Files applied to target repo or explicit target repo missing receipt emitted.",
+    "Deploy workflow green or gated dry-run receipt captured.",
+    "Runtime smoke evidence attached: HTTP 200, SQL ping rows, wrong-key 401.",
+    "Registry remains nodejs20.x SUCCESS.",
+    "No secrets committed; no deletes performed."
+  ],
+  "receipt_required": true
+}
