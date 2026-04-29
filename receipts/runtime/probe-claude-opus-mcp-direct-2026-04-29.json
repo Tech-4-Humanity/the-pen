@@ -1,0 +1,7 @@
+{
+  "session_id": "claude-opus-4.7-pen-unblock-2026-04-29T05:32:26Z",
+  "purpose": "probe fn_github_push direct via MCP supabase_sql_write_gated path",
+  "via": "MCP /rpc/run_sql (NOT troy-sql-executor lambda which is broken)",
+  "ts": "2026-04-29T05:32:26Z",
+  "evidence_class": "REAL"
+}
