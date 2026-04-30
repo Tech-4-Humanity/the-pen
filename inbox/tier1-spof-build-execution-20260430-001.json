@@ -1,0 +1,111 @@
+{
+  "idempotency_key": "tier1-spof-build-execution-20260430-001",
+  "created_at": "2026-04-30T15:56:00+10:00",
+  "origin": "perplexity",
+  "authority": "troy",
+  "hitl": false,
+  "hitl_exception": "Only if third-party API key VALUES are required (Anthropic etc) — Bridge cannot generate external credentials",
+  "destination": "bridge",
+  "aws_access": true,
+  "executor": "aws-lambda",
+  "execution_order": [
+    {
+      "step": 1,
+      "issue": 54,
+      "title": "troy-sql-executor warm patch",
+      "reason": "Foundation — all other workers depend on DB writes",
+      "idempotency_key": "sql-executor-warm-patch-20260430-001",
+      "actions": [
+        "patch troy-sql-executor handler to re-parse command on every invocation",
+        "add DB connection health check + reconnect on stale",
+        "add null guard on command field",
+        "redeploy lambda",
+        "prove with 10 sequential warm SELECT 1 AS ok calls",
+        "write receipt to receipts/runtime/sql-executor-warm-patch-20260430-001.receipt.json"
+      ]
+    },
+    {
+      "step": 2,
+      "issue": 55,
+      "title": "Per-Lambda scoped API keys",
+      "reason": "Isolate key failures before health check worker is deployed",
+      "idempotency_key": "per-lambda-scoped-keys-20260430-001",
+      "actions": [
+        "create Secrets Manager paths: /t4h/lambda/{function_name}/anthropic_api_key",
+        "update IAM policy to allow lambda-execution-role to read /t4h/lambda/* paths",
+        "update each Lambda to fetch key from Secrets Manager at cold start",
+        "update Lambda to return {status: degraded, reason: key_unavailable} on fetch failure instead of exception",
+        "write receipt"
+      ],
+      "human_gate": "Paste actual Anthropic key values into Secrets Manager paths once created — single confirmation only"
+    },
+    {
+      "step": 3,
+      "issue": 53,
+      "title": "Bridge token auto-refresh",
+      "reason": "Prevent silent Bridge expiry",
+      "idempotency_key": "bridge-token-auto-refresh-20260430-001",
+      "actions": [
+        "deploy troy-token-refresh-worker Lambda (python3.12, 128MB, 60s, ap-southeast-2)",
+        "create EventBridge schedule every 6h",
+        "implement token validity check + auto-rotate via Secrets Manager",
+        "create ops.token_refresh_log table via troy-sql-executor",
+        "simulate near-expiry and confirm rotation",
+        "write receipt"
+      ]
+    },
+    {
+      "step": 4,
+      "issue": 52,
+      "title": "Health check worker",
+      "reason": "Automated SPOF detection across all Tier 1 components",
+      "idempotency_key": "health-check-worker-build-20260430-001",
+      "actions": [
+        "deploy troy-health-check-worker Lambda (python3.12, 256MB, 120s, ap-southeast-2)",
+        "create EventBridge schedule every 30 min",
+        "implement component test suite: sql-executor, rip-extractor, lambda-deployer, ec2-manager, Supabase, Bridge",
+        "on failure: isolate component, create BLOCKER issue, fire alert webhook, write ops.health_check_log row",
+        "create ops.health_check_log table via troy-sql-executor",
+        "simulate one component failure and confirm isolation",
+        "write receipt"
+      ]
+    },
+    {
+      "step": 5,
+      "issue": 56,
+      "title": "Receipt watcher + Pen dead-letter queue",
+      "reason": "No job frozen forever, Pen outage = buffer not halt",
+      "idempotency_key": "receipt-watcher-dead-letter-20260430-001",
+      "actions": [
+        "deploy receipt watcher Lambda, schedule every 30 min",
+        "implement dead-letter detection on inbox/ folder for files >60 min unprocessed",
+        "move stale inbox files to inbox/dead-letter/",
+        "create BLOCKER issue for each dead-letter job",
+        "wire Bridge to pick up from inbox/dead-letter/ directly",
+        "create ops.receipt_watch_log and ops.dead_letter_log tables",
+        "simulate dead-letter scenario and confirm Bridge recovery",
+        "write receipt"
+      ]
+    }
+  ],
+  "architecture": {
+    "hierarchy": "Bridge (top) -> Dev -> Prod (direct)",
+    "pen_role": "holding pad / intake queue only — Pen down = intake delay not execution failure",
+    "executor": "AWS Lambda via Bridge",
+    "no_pre_prod": true
+  },
+  "global_rules": [
+    "No deletion — archive only",
+    "No production promotion without explicit gate",
+    "Every step writes a receipt",
+    "BLOCKER on one worker must not propagate to others",
+    "Reality state PARTIAL until proof gates pass"
+  ],
+  "expected_receipts": [
+    "receipts/runtime/sql-executor-warm-patch-20260430-001.receipt.json",
+    "receipts/runtime/per-lambda-scoped-keys-20260430-001.receipt.json",
+    "receipts/runtime/bridge-token-auto-refresh-20260430-001.receipt.json",
+    "receipts/runtime/health-check-worker-build-20260430-001.receipt.json",
+    "receipts/runtime/receipt-watcher-dead-letter-20260430-001.receipt.json"
+  ]
+}
