@@ -1,0 +1,16 @@
+{
+  "origin": "chatgpt",
+  "destination": "bridge_runner",
+  "idempotency_key": "ghost-claim-recovery-20260430-001",
+  "action": "execute_recovery_pack",
+  "payload": {
+    "execution_pack": "tools/ghost-claim-recovery/recovery_execution_pack.json",
+    "repair_pack": "tools/ghost-claim-recovery/bridge_repair_and_replay_pack.json",
+    "mode": "full",
+    "time_window_hours": 72,
+    "generate_register": true,
+    "perform_rehome": true,
+    "perform_replay": true,
+    "write_receipts": true
+  }
+}
