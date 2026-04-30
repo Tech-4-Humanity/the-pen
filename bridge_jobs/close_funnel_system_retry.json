@@ -1,0 +1,18 @@
+{
+  "action": "invoke_function",
+  "function_name": "troy-orchestrator",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "job": "close_funnel_system_retry",
+    "mode": "AUTONOMOUS",
+    "retry": true,
+    "chain": [
+      {"name": "deploy_webhook","function": "troy-lambda-deployer"},
+      {"name": "apply_supabase","function": "troy-sql-executor"},
+      {"name": "register_stripe_webhook","function": "troy-stripe-executor"},
+      {"name": "test_payment","function": "troy-stripe-executor"},
+      {"name": "verify","function": "troy-sql-executor"}
+    ],
+    "control": {"execute": true,"dry_run": false,"approval_required": false}
+  }
+}
