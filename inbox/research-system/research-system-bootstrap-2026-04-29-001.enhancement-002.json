@@ -1,0 +1,330 @@
+{
+  "idempotency_key": "research-system-bootstrap-2026-04-29-001-enhancement-002",
+  "created_at": "2026-04-29T20:00:00+10:00",
+  "source": "chatgpt",
+  "target": "pen",
+  "parent_payload": {
+    "idempotency_key": "research-system-bootstrap-2026-04-29-001",
+    "path": "inbox/research-system/research-system-bootstrap-2026-04-29-001.json",
+    "observed_sha": "18f3c7998403bc9268d44113ada7e41f573c73a8",
+    "observed_total_research_items": 60,
+    "observed_state": "REAL_PARENT_PAYLOAD_EXISTS"
+  },
+  "job_type": "research.bootstrap_enhance_and_operationalise",
+  "priority": "critical",
+  "mode": "AUTO_READ_WRITE_TO_PEN_ONLY",
+  "do_not_delete_or_replace_parent_payload": true,
+  "purpose": "Enhance the existing 60-page research bootstrap with operating controls so Pen can create research pages, assign POs, validate evidence, prioritise work, produce receipts, and prevent unsupported numbers from becoming canonical.",
+  "enhancement_summary": [
+    "Add research prioritisation tiers so PO work starts with highest leverage pages.",
+    "Add evidence quality scoring and source acceptance standards.",
+    "Add per-page QA gates before any page can move to COMPLETE or REAL.",
+    "Add PO SLA and escalation rules.",
+    "Add source-pack requirements by research domain.",
+    "Add data-size and value-model calculation rules.",
+    "Add duplicate/reuse scan before new build recommendations.",
+    "Add receipt diff contract so output can be verified against the parent payload.",
+    "Add Supabase-ready operational tables/views for research QA and source packs.",
+    "Add Command Centre widget contract for visibility."
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "action": "load_parent_payload",
+      "input": "inbox/research-system/research-system-bootstrap-2026-04-29-001.json",
+      "output": "parent_payload_hash_and_item_count",
+      "must_verify": true
+    },
+    {
+      "step": 2,
+      "action": "apply_enhancement_overlay",
+      "input": "this_payload",
+      "output": "research/enhancements/research-system-bootstrap-2026-04-29-001-enhancement-002.applied.json",
+      "must_verify": true
+    },
+    {
+      "step": 3,
+      "action": "generate_or_update_pages",
+      "input": "60 parent research_items plus enhanced template",
+      "output": "research/pages/<research_id>.md",
+      "must_verify": true
+    },
+    {
+      "step": 4,
+      "action": "generate_source_pack_tasks",
+      "input": "domain_source_pack_rules",
+      "output": "research/tasks/<research_id>.source-pack.json",
+      "must_verify": true
+    },
+    {
+      "step": 5,
+      "action": "generate_qa_tasks",
+      "input": "qa_gate_contract",
+      "output": "research/tasks/<research_id>.qa.json",
+      "must_verify": true
+    },
+    {
+      "step": 6,
+      "action": "assign_product_owner_and_sla",
+      "input": "po_operating_model",
+      "output": "research/assignments/research-owner-map.json",
+      "must_verify": true
+    },
+    {
+      "step": 7,
+      "action": "emit_runtime_receipt",
+      "input": "created_file_manifest plus parent diff",
+      "output": "receipts/runtime/research-system-bootstrap-2026-04-29-001-enhancement-002.receipt.json",
+      "must_verify": true
+    }
+  ],
+  "priority_model": {
+    "scoring_fields": {
+      "strategic_fit": {"range": "0-5", "weight": 0.2},
+      "commercial_value": {"range": "0-5", "weight": 0.2},
+      "reuse_leverage": {"range": "0-5", "weight": 0.15},
+      "technical_feasibility": {"range": "0-5", "weight": 0.15},
+      "evidence_readiness": {"range": "0-5", "weight": 0.15},
+      "risk_penalty": {"range": "0-5", "weight": -0.15}
+    },
+    "tiers": [
+      {"tier": "P0", "rule": "score >= 4.0 and risk_penalty <= 3", "action": "start_source_pack_immediately"},
+      {"tier": "P1", "rule": "score >= 3.2 and score < 4.0", "action": "validate_after_P0"},
+      {"tier": "P2", "rule": "score >= 2.4 and score < 3.2", "action": "hold_for_batch_research"},
+      {"tier": "P3", "rule": "score < 2.4 or risk_penalty > 4", "action": "park_or_archive_candidate"}
+    ],
+    "initial_p0_research_ids": [
+      "research.signal.altered_states",
+      "research.ops.bridge_execution",
+      "research.ops.pen_wip_gatekeeper",
+      "research.ops.runtime_receipts",
+      "research.ops.supabase_control_spine",
+      "research.ops.command_centre",
+      "research.ops.portfolio_inventory",
+      "research.data.research_page_system",
+      "research.data.evidence_register",
+      "research.gov.privacy_consent",
+      "research.gov.auditability",
+      "research.gov.rls_policy_model",
+      "research.market.commercial_widgets",
+      "research.agent.autonomous_golden_loop",
+      "research.agent.mcp_connection_stack"
+    ]
+  },
+  "evidence_quality_model": {
+    "states": {
+      "REAL": "Evidence is source-backed, current, directly relevant, reproducible where applicable, and linked in evidence_register.",
+      "PARTIAL": "Some evidence exists but gaps remain in source quality, recency, reproducibility, numbers, or relevance.",
+      "UNKNOWN": "Research question is defined but evidence has not been collected or reviewed.",
+      "PRETEND": "Claim or number is unsupported, stale, unverifiable, fabricated, or not traceable. Must not be promoted."
+    },
+    "minimum_source_count": {
+      "market": 8,
+      "technical": 5,
+      "data_size": 4,
+      "governance": 6,
+      "product": 5,
+      "operational": 4
+    },
+    "source_quality_score": {
+      "primary_source": 5,
+      "official_docs_or_standards": 5,
+      "peer_reviewed_or_regulator": 5,
+      "reputable_industry_report": 4,
+      "credible_news_or_analysis": 3,
+      "vendor_marketing": 2,
+      "blog_or_forum": 1,
+      "uncited_claim": 0
+    },
+    "number_acceptance_rule": "Every number must include source_url_or_location, source_title, date_accessed, published_date_if_available, unit, calculation_basis, confidence, and owner_review_status.",
+    "staleness_policy": {
+      "market_size": "<= 18 months unless market is fast-moving, then <= 6 months",
+      "pricing": "<= 90 days",
+      "regulation_or_policy": "<= 90 days or official latest version",
+      "software_api_or_specs": "<= 60 days or official current docs",
+      "scientific_baseline": "stable unless contradicted by newer review",
+      "internal_runtime_evidence": "<= 30 days for active systems"
+    }
+  },
+  "enhanced_research_page_sections": [
+    "0_header",
+    "1_decision_to_support",
+    "2_priority_score",
+    "3_research_questions",
+    "4_source_pack",
+    "5_numbers_register",
+    "6_data_map",
+    "7_size_cost_model",
+    "8_value_model",
+    "9_reuse_and_existing_asset_scan",
+    "10_market_demand",
+    "11_technical_feasibility",
+    "12_governance_risk",
+    "13_productisation_path",
+    "14_qa_gate_status",
+    "15_decision",
+    "16_evidence_register",
+    "17_open_questions",
+    "18_final_verdict",
+    "19_next_action_contract"
+  ],
+  "qa_gate_contract": {
+    "research_page_complete_requires": [
+      "all_required_sections_present",
+      "po_assigned",
+      "priority_score_calculated",
+      "source_pack_attached",
+      "numbers_register_has_no_unresolved_numbers",
+      "data_size_model_reviewed",
+      "value_model_reviewed",
+      "risk_controls_present",
+      "reuse_scan_completed",
+      "decision_has_named_gate",
+      "receipt_written"
+    ],
+    "promotion_to_real_requires": [
+      "minimum_source_count_met",
+      "source_quality_average_at_least_3_5",
+      "no_pretend_numbers",
+      "all_material_claims_cited",
+      "owner_review_status_approved",
+      "evidence_register_complete",
+      "runtime_or_external_validation_when_applicable"
+    ],
+    "blocked_conditions": [
+      "unsupported_numbers",
+      "missing_owner",
+      "missing_source_pack",
+      "privacy_or_regulatory_gap_unresolved",
+      "duplicate_existing_asset_not_checked",
+      "build_recommendation_without_reuse_scan",
+      "no_receipt"
+    ]
+  },
+  "po_operating_model": {
+    "assignment_rules": {
+      "signal": "PO_SIGNAL_SYSTEMS",
+      "ops": "PO_CONTROL_PLANE",
+      "market": "PO_COMMERCIAL",
+      "agent": "PO_AGENT_SYSTEMS",
+      "data": "PO_DATA_PLATFORM",
+      "governance": "PO_GOVERNANCE"
+    },
+    "sla_by_priority": {
+      "P0": {"source_pack_due_hours": 24, "first_verdict_due_hours": 48, "escalate_after_hours": 60},
+      "P1": {"source_pack_due_hours": 48, "first_verdict_due_hours": 96, "escalate_after_hours": 120},
+      "P2": {"source_pack_due_hours": 120, "first_verdict_due_hours": 240, "escalate_after_hours": 288},
+      "P3": {"source_pack_due_hours": 240, "first_verdict_due_hours": 480, "escalate_after_hours": 600}
+    },
+    "po_must_not": [
+      "mark_complete_without_evidence",
+      "convert_unknown_to_real_without_source_pack",
+      "recommend_build_without_reuse_scan",
+      "delete_or_overwrite_parent_payload",
+      "use unsupported market numbers"
+    ]
+  },
+  "domain_source_pack_rules": {
+    "signal": ["device_specs", "sensor_data_rates", "privacy_consent_sources", "scientific_validation", "commercial_use_cases", "technical_limits"],
+    "ops": ["runtime_logs", "repo_files", "architecture_docs", "deployment_receipts", "failure_modes", "rollback_paths"],
+    "market": ["buyer_profiles", "pricing_data", "competitor_scan", "market_size_sources", "channel_analysis", "customer_evidence"],
+    "agent": ["workflow_map", "integration_docs", "agent_contracts", "failure_modes", "observability_requirements", "operator_controls"],
+    "data": ["schema_docs", "lineage_sources", "storage_costs", "volume_estimates", "retention_rules", "access_controls"],
+    "governance": ["standards", "regulation", "policy", "risk_controls", "audit_requirements", "tenant_boundary_rules"]
+  },
+  "data_size_model_rules": {
+    "required_fields": ["raw_volume_per_user_per_day", "processed_volume_per_user_per_day", "feature_rows_per_day", "retention_days", "storage_target", "monthly_storage_cost", "monthly_compute_cost", "growth_assumption", "confidence"],
+    "calculation_contract": "Use explicit units. Separate observed data, benchmark data, and estimates. Estimates without a cited basis remain PARTIAL or UNKNOWN.",
+    "storage_policy": "Raw high-volume data goes to object storage with TTL; processed features and evidence indexes go to Supabase; long-term blobs require retention reason."
+  },
+  "value_model_rules": {
+    "required_fields": ["buyer", "job_to_be_done", "willingness_to_pay_basis", "revenue_model", "unit_economics", "cost_reduction", "risk_reduction", "reuse_count", "strategic_value", "confidence"],
+    "decision_thresholds": {
+      "build_now": "high evidence, high value, feasible, manageable risk, reuse scan clear",
+      "validate_first": "promising value but missing buyer, numbers, or technical evidence",
+      "research_more": "important question but insufficient evidence",
+      "partner": "valuable but build cost or risk is high",
+      "archive": "low current value or duplicate",
+      "kill": "invalidated, unsafe, or no viable use"
+    }
+  },
+  "reuse_enforcement": {
+    "mandatory_before_build_recommendation": true,
+    "scan_targets": [
+      "ops.system_registry",
+      "commercial.widgets",
+      "research/registry.json",
+      "github_repos",
+      "vercel_projects",
+      "lovable_projects",
+      "google_drive_docs",
+      "existing_command_centre_surfaces"
+    ],
+    "outputs": ["reuse_candidate_list", "duplicate_risk", "recommended_reuse_path", "new_build_justification_if_any"],
+    "failure_state": "BLOCKED_DUPLICATE_RISK_UNCHECKED"
+  },
+  "supabase_overlay_sql": [
+    "create table if not exists ops.research_source_pack (id uuid primary key default gen_random_uuid(), research_id text not null, source_type text not null, source_title text not null, source_uri text, published_at timestamptz, accessed_at timestamptz default now(), quality_score numeric not null default 0, evidence_state text not null default 'UNKNOWN', notes jsonb default '{}'::jsonb, created_at timestamptz default now(), updated_at timestamptz default now());",
+    "create table if not exists ops.research_numbers_register (id uuid primary key default gen_random_uuid(), research_id text not null, claim_key text not null, value_text text not null, unit text, source_ref text, calculation_basis text, confidence numeric, evidence_state text not null default 'UNKNOWN', owner_review_status text default 'PENDING', created_at timestamptz default now(), updated_at timestamptz default now(), unique(research_id, claim_key));",
+    "create table if not exists ops.research_qa_gate (research_id text primary key, priority_tier text, po_owner text, source_pack_status text default 'OPEN', numbers_status text default 'OPEN', reuse_scan_status text default 'OPEN', qa_status text default 'OPEN', blocker_count integer default 0, evidence_state text default 'UNKNOWN', last_checked_at timestamptz default now(), created_at timestamptz default now(), updated_at timestamptz default now());"
+  ],
+  "command_centre_widget_contract": {
+    "widget_key": "cc.research_factory_status",
+    "title": "Research Factory Status",
+    "required_metrics": [
+      "total_research_pages",
+      "pages_created",
+      "po_assigned_count",
+      "p0_open_count",
+      "source_pack_complete_count",
+      "qa_pass_count",
+      "real_count",
+      "partial_count",
+      "pretend_count",
+      "blocked_count",
+      "latest_receipt_uri"
+    ],
+    "actions": [
+      {"label": "View P0", "mode": "read", "target": "research/registry.json?priority=P0"},
+      {"label": "Open blockers", "mode": "read", "target": "ops.research_qa_gate where blocker_count > 0"},
+      {"label": "Export receipt", "mode": "read", "target": "receipts/runtime/"}
+    ]
+  },
+  "receipt_contract": {
+    "receipt_id": "research-system-bootstrap-2026-04-29-001-enhancement-002",
+    "status": "ACCEPTED_OR_REJECTED",
+    "must_include": [
+      "parent_payload_hash",
+      "enhancement_payload_hash",
+      "parent_item_count",
+      "pages_created_or_updated_count",
+      "source_pack_tasks_created_count",
+      "qa_tasks_created_count",
+      "po_assignments_count",
+      "p0_count",
+      "blocked_count",
+      "created_files",
+      "updated_files",
+      "errors",
+      "evidence_state"
+    ],
+    "success_conditions": {
+      "parent_item_count": 60,
+      "po_assignments_count": 60,
+      "pages_created_or_updated_count": 60,
+      "source_pack_tasks_created_count": 60,
+      "qa_tasks_created_count": 60,
+      "receipt_written": true
+    },
+    "failure_response": "If any success condition fails, emit REJECTED receipt with error, impact, rollback, and next action. Do not mark COMPLETE."
+  },
+  "reality_state": {
+    "parent_payload_exists": "REAL",
+    "enhancement_payload_created": "REAL_AFTER_GITHUB_COMMIT",
+    "pen_execution": "PENDING",
+    "research_pages_created": "PENDING",
+    "po_assignments_completed": "PENDING",
+    "qa_gates_active": "PENDING",
+    "final_receipt_received": "PENDING"
+  }
+}
