@@ -1,0 +1,100 @@
+{
+  "pack_id": "ghost-claim-recovery-execution-pack-20260430-001",
+  "created_by": "ChatGPT",
+  "purpose": "Full Recovery Execution Pack: discover, register, dedupe, classify, rehome, replay, receipt all bridge-claim artefacts across PEN/WIP/MCP/BridgeRunner/dev/prod/orchestrator paths.",
+  "scope": {
+    "time_window_default_hours": 72,
+    "include_last_24h_priority": true,
+    "repositories": [
+      "TML-4PM/the-pen",
+      "TML-4PM/mcp-command-centre",
+      "TML-4PM/bridge-runner",
+      "TML-4PM/bridge-worker-intake",
+      "TML-4PM/t4h-remote-mcp-server-clean",
+      "TML-4PM/symbio-dev-control-plane",
+      "TML-4PM/symbio-synapse-ops",
+      "TML-4PM/troy-fire-orchestrator",
+      "TML-4PM/t4h-orchestrator",
+      "TML-4PM/neural-ennead-dashboard",
+      "TML-4PM/holo-org",
+      "TML-4PM/ai-evolution-program"
+    ],
+    "search_terms": [
+      "bridge",
+      "MCP",
+      "payload",
+      "runner",
+      "handoff",
+      "receipt",
+      "inbox",
+      "outbox",
+      "WIP",
+      "dev",
+      "prod",
+      "orchestrator",
+      "ChatGPT",
+      "Claude",
+      "Perplexity",
+      "COAX",
+      "Synal",
+      "Symbio",
+      "Synapse"
+    ]
+  },
+  "register_table": "public.bridge_claim_recovery",
+  "outputs": [
+    "register_rows.jsonl",
+    "dedupe_groups.json",
+    "replay_candidates.json",
+    "rehome_actions.json",
+    "missing_claims.json",
+    "handoff_receipts/*.json",
+    "runtime_receipts/*.json"
+  ],
+  "workflow": [
+    "scan_commits",
+    "scan_paths",
+    "extract_topic_identity",
+    "classify_current_route",
+    "dedupe_by_topic_slug_idempotency_and_commit",
+    "resolve_intended_destination",
+    "select_recovery_mode",
+    "write_register",
+    "emit_rehome_actions",
+    "emit_replay_actions",
+    "write_handoff_receipt"
+  ],
+  "status_taxonomy": [
+    "FOUND_COMMITTED",
+    "FOUND_INBOX",
+    "FOUND_HANDOFF",
+    "FOUND_RECEIPT",
+    "FOUND_RUNTIME_PROVEN",
+    "FOUND_INVALID_SCHEMA",
+    "FOUND_DUPLICATE_MIRROR",
+    "FOUND_NEEDS_REPLAY",
+    "FOUND_NEEDS_REHOME",
+    "FOUND_NEEDS_REINSTATEMENT",
+    "CLAIMED_NOT_FOUND",
+    "CLAIM_AMBIGUOUS"
+  ],
+  "recovery_modes": [
+    "REGISTER_ONLY",
+    "NORMALISE_SCHEMA",
+    "REHOME_TO_PEN",
+    "REHOME_TO_WIP",
+    "REHOME_TO_DEV",
+    "REHOME_TO_PROD",
+    "REHOME_TO_MCP_COMMAND",
+    "REHOME_TO_MCP_REMOTE",
+    "REHOME_TO_BRIDGE_RUNNER",
+    "REPLAY_SAFE",
+    "REQUEST_HUMAN_AUTHORITY"
+  ],
+  "proof_gates": {
+    "handoff_receipt_required": true,
+    "runtime_receipt_required_for_executed_claims": true,
+    "prod_requires_runtime_proof": true,
+    "destructive_actions_require_authority": true
+  }
+}
