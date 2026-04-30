@@ -31,10 +31,10 @@ jobs:
     env:
       PEN_RECEIPTS_DIR: receipts/runtime
       PEN_INBOX_DIR: inbox
-      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
-      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_ENDPOINT }}
+      BRIDGE_API_KEY: ${{ secrets.BRIDGE_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+      SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
     steps:
       - name: Checkout
