@@ -1,1 +1,10 @@
-{"idempotency_key":"t4h-pen-test-20260430-002","source":"chatgpt","intent":"pen enqueue test","evidence_state":"REAL"}
+{
+  "idempotency_key": "t4h-pen-test-20260430-002",
+  "source": "chatgpt",
+  "intent": "pen enqueue test",
+  "evidence_state": "REAL",
+  "fn": "troy-sql-executor",
+  "payload": {
+    "sql": "SELECT now() as ts, 'pen-test-20260430-002' as job_id"
+  }
+}
