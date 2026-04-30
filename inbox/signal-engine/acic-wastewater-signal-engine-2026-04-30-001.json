@@ -1,0 +1,206 @@
+{
+  "idempotency_key": "acic-wastewater-signal-engine-2026-04-30-001",
+  "created_at": "2026-04-30T00:00:00+10:00",
+  "source": "chatgpt",
+  "target": "pen",
+  "job_type": "signal_engine.two_fork_strategy_and_build",
+  "priority": "critical",
+  "mode": "AUTO_WITH_GATED_PROD",
+  "summary": "Create two coordinated execution forks from the ACIC wastewater signal opportunity: Fork A strategy/commercialisation and Fork B integrated build/code/repeatable signal engine. The ACIC National Wastewater Drug Monitoring Program must be slotted as a complete, reusable signal source and connected to the larger Signal A -> Trigger 1 -> Response Pack 1 engine.",
+  "context_bundle": {
+    "conversation_topics_to_preserve": [
+      "ACIC National Wastewater Drug Monitoring Program as population behaviour signal",
+      "AI lens over wastewater data",
+      "time-of-day, substance-type, neurotechnology, neurodiversity and work behaviour tests",
+      "AI intercept/interrupt/help/de-escalation model",
+      "10 things to create tomorrow from news-cycle timing",
+      "Human Load Index product module",
+      "calculator and website changes",
+      "partner targeting",
+      "next-study readiness because ACIC is recurring",
+      "100 percent repeatable Signal A -> Trigger 1 -> Response Pack 1 process",
+      "inputs may vary in quality but middle engine must run every time",
+      "evidence-bound numbers and no unsupported claims",
+      "privacy, consent, no individual profiling, no punitive use"
+    ],
+    "primary_source": {
+      "name": "ACIC National Wastewater Drug Monitoring Program reports",
+      "url": "https://www.acic.gov.au/publications/national-wastewater-drug-monitoring-program-reports",
+      "source_type": "official_public_research_series",
+      "cadence": "recurring",
+      "slot_status": "must_be_finalised_as_signal_source"
+    },
+    "known_current_facts_to_validate_before_public_claims": [
+      "Program has run since 2016",
+      "Latest report coverage and plant count must be confirmed from official ACIC page/report before publication",
+      "Drug market dollar values must be cited to official report or reputable news source before use",
+      "Substance-specific claims must be source-bound and dated"
+    ]
+  },
+  "forks": [
+    {
+      "fork_id": "A",
+      "ticket_title": "ACIC Wastewater Signal Strategy + Commercialisation Pack",
+      "ticket_type": "strategy_commercialisation",
+      "owner_role": "PO_COMMERCIAL_SIGNAL_STRATEGY",
+      "objective": "Create one pass of the full strategy and commercialisation plan for capitalising on ACIC wastewater/news-cycle timing while positioning the work as AI-supported behaviour, workforce, neurodiversity and human-load intelligence, not drug commentary.",
+      "outputs_required": [
+        "strategy/acic-wastewater-human-load-strategy.md",
+        "campaign/acic-wastewater-10-assets-pack.md",
+        "campaign/linkedin-posts.md",
+        "campaign/articles-outline-and-drafts.md",
+        "sales/enterprise-one-pager-workforce-risk.md",
+        "sales/partner-target-list.md",
+        "product/human-load-index-positioning.md",
+        "governance/no-profiling-support-first-principles.md"
+      ],
+      "must_include": [
+        "10 publishable assets for tomorrow",
+        "AI lens over time of day, substance type, neurotechnology, neurodiversity and work behaviour",
+        "clear distinction between population signal and individual-level claims",
+        "partner categories: EAP providers, insurers, HR platforms, safety systems, government/policy, neurodiversity support orgs, workplace wellbeing providers",
+        "public-safe language and compliance guardrails",
+        "calculator CTA and website copy",
+        "pricing and product packaging hypotheses",
+        "market study questions and validation tasks"
+      ],
+      "evidence_requirements": [
+        "Every statistic must include source URL, publication date, report number if applicable, and extraction basis",
+        "Any unverified number must be marked UNKNOWN or PARTIAL",
+        "No medical diagnosis claims",
+        "No individual impairment prediction claims",
+        "No employer punitive-screening framing"
+      ],
+      "acceptance_criteria": [
+        "Strategy document can be used without further explanation",
+        "At least 10 assets are drafted, not just named",
+        "Partner list has categories, target examples, outreach angle and next action",
+        "Website/calculator change brief is included",
+        "Public claims are evidence-labelled"
+      ]
+    },
+    {
+      "fork_id": "B",
+      "ticket_title": "Signal A Trigger 1 Response Pack Engine + ACIC Source Slot Build Spec",
+      "ticket_type": "build_code_execution",
+      "owner_role": "PO_CONTROL_PLANE_SIGNAL_ENGINE",
+      "objective": "Create the integrated build plan and code bundle specification for the repeatable Signal A -> Trigger 1 -> Response Pack 1 engine, with ACIC wastewater as the first finalised recurring source slot and with next-study readiness.",
+      "outputs_required": [
+        "engine/signal-engine-spec.md",
+        "engine/acic-source-slot.json",
+        "engine/response-pack-schema.json",
+        "engine/trigger-catalog.json",
+        "engine/source-quality-scoring.json",
+        "engine/research-page-linking-rules.json",
+        "engine/receipt-contract.json",
+        "code/README.md",
+        "code/package.json",
+        "code/src/ingest/acic.ts",
+        "code/src/classify/signal-classifier.ts",
+        "code/src/generate/response-pack.ts",
+        "code/src/route/pen-router.ts",
+        "code/src/watchers/acic-next-report-watch.ts",
+        "code/src/schemas.ts",
+        "supabase/001_signal_engine_schema.sql",
+        "tests/simulated-acic-run.json",
+        "tests/expected-response-pack.json"
+      ],
+      "must_include": [
+        "100 percent input processing rule: every dropped article, report, URL, note or dataset receives ingest, classify, score, match, trigger, route and receipt",
+        "Tiered output rule: not every input gets a Tier 1 output",
+        "ACIC recurring report watcher and next-study preparation",
+        "source quality score: Tier 1 official, Tier 2 credible media, Tier 3 weak/noisy, unsafe/regulatory gated, duplicate merge",
+        "Response Pack 1 default sections: source, signal, why now, AI lens, business lens, product lens, research lens, tests, content, CTA, risk, route, evidence",
+        "Product action routing: website changes, calculator changes, price/offer changes, market studies, partner outreach, research page creation",
+        "Simulated tests for time-of-day, region, substance class, work behaviour, neurodiversity support and AI intervention timing",
+        "Receipt path under receipts/runtime/ with idempotency key"
+      ],
+      "build_constraints": [
+        "No direct production deployment without gated approval",
+        "Queue-first execution",
+        "Idempotent by source_url + source_hash + idempotency_key",
+        "Archive not delete",
+        "Evidence or PRETEND",
+        "RLS + PK + timestamps in schema",
+        "No local execution assumptions"
+      ],
+      "acceptance_criteria": [
+        "ACIC source slot exists as reusable source config",
+        "Signal engine schema is complete and idempotent",
+        "Code bundle stubs are typed and runnable by worker after env wiring",
+        "Simulated ACIC run produces expected response pack JSON",
+        "Pen emits receipt with created file list, task list, and evidence state"
+      ]
+    }
+  ],
+  "shared_schema_requirements": {
+    "supabase_tables": [
+      "ops.signal_source_registry",
+      "ops.signal_input_event",
+      "ops.signal_trigger_rule",
+      "ops.signal_response_pack",
+      "ops.signal_route_decision",
+      "ops.signal_partner_target",
+      "audit.signal_evidence_register",
+      "runtime.signal_engine_job"
+    ],
+    "required_columns": [
+      "id uuid primary key",
+      "object_key text unique where applicable",
+      "source_url text",
+      "source_hash text",
+      "evidence_state text",
+      "lifecycle_state text",
+      "metadata jsonb",
+      "created_at timestamptz default now()",
+      "updated_at timestamptz default now()"
+    ]
+  },
+  "product_modules_to_expand": [
+    {
+      "module": "Human Load Index",
+      "actions": ["website module", "calculator CTA", "enterprise score explanation", "public-safe disclaimer", "research page link"]
+    },
+    {
+      "module": "Work Behaviour Lens",
+      "actions": ["fatigue/workload variables", "shift-work hypotheses", "safety positioning", "manager-safe language"]
+    },
+    {
+      "module": "Neurodiversity Support Layer",
+      "actions": ["support-first content", "task/environment adaptation", "no diagnosis/no surveillance guardrails", "partner outreach"]
+    },
+    {
+      "module": "AI Intercept Engine",
+      "actions": ["nudge examples", "de-escalation examples", "route-to-support examples", "no punitive action rule"]
+    },
+    {
+      "module": "Next Report Watcher",
+      "actions": ["monitor ACIC page", "diff report", "auto-generate response pack", "prepare posts and website deltas"]
+    }
+  ],
+  "pen_required_outputs": [
+    "tickets/acic-wastewater-strategy-commercialisation.ticket.json",
+    "tickets/signal-engine-acic-build.ticket.json",
+    "strategy/acic-wastewater-human-load-strategy.md",
+    "engine/signal-engine-spec.md",
+    "engine/acic-source-slot.json",
+    "code/README.md",
+    "supabase/001_signal_engine_schema.sql",
+    "receipts/runtime/acic-wastewater-signal-engine-2026-04-30-001.receipt.json"
+  ],
+  "receipt_contract": {
+    "receipt_id": "acic-wastewater-signal-engine-2026-04-30-001",
+    "status": "ACCEPTED_OR_REJECTED",
+    "forks_created": 2,
+    "tickets_created": 2,
+    "evidence_state": "PARTIAL_UNTIL_SOURCE_VALIDATED_AND_WORKER_RUNS",
+    "must_report": [
+      "created_files",
+      "created_tickets",
+      "assigned_owner_roles",
+      "blocked_items",
+      "next_worker_job_ids",
+      "validation_result"
+    ]
+  }
+}
