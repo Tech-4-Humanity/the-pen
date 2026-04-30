@@ -1,0 +1,78 @@
+{
+  "idempotency_key": "complete-public-signal-engine-2026-04-30-002",
+  "created_at": "2026-04-30T00:00:00+10:00",
+  "source": "chatgpt",
+  "target": "bridge",
+  "job_type": "bridge.complete_public_signal_engine_package",
+  "priority": "critical",
+  "mode": "AUTO_WITH_GATED_PUBLICATION",
+  "depends_on": {
+    "pen_payload_path": "inbox/signal-engine/acic-wastewater-signal-engine-2026-04-30-001.json",
+    "pen_payload_commit_sha": "20b3bd31c71fbd6e800c986186bf94889a8de8ce"
+  },
+  "instruction": "Complete the public signal engine package already lodged in Pen. Produce the two forks: strategy/commercialisation and build/spec/code. Treat the government wastewater-monitoring series as a recurring public aggregate signal source. Do not create individual-level claims, clinical claims, enforcement workflows, or punitive employer workflows.",
+  "forks": [
+    {
+      "fork_id": "strategy",
+      "outputs": [
+        "strategy/public-signal-human-load-strategy.md",
+        "campaign/public-signal-10-assets-pack.md",
+        "product/human-load-index-positioning.md",
+        "sales/partner-target-list.md",
+        "governance/support-first-public-signal-principles.md"
+      ]
+    },
+    {
+      "fork_id": "build",
+      "outputs": [
+        "engine/signal-engine-spec.md",
+        "engine/public-aggregate-source-slot.json",
+        "engine/response-pack-schema.json",
+        "engine/trigger-catalog.json",
+        "engine/source-quality-scoring.json",
+        "code/README.md",
+        "code/src/ingest/public-source.ts",
+        "code/src/classify/signal-classifier.ts",
+        "code/src/generate/response-pack.ts",
+        "code/src/route/pen-router.ts",
+        "code/src/watchers/public-source-watch.ts",
+        "supabase/001_signal_engine_schema.sql",
+        "tests/simulated-public-signal-run.json",
+        "tests/expected-response-pack.json"
+      ]
+    }
+  ],
+  "engine_rule": "Every input goes through ingest, classify, score, match, trigger, response-pack generation, route and receipt. Output tier varies by source quality and relevance.",
+  "source_slot_rule": "The public aggregate source must be reusable and recurring, with report-watch, source-date validation, source URL, source hash, and evidence status.",
+  "content_rule": "Create drafts and briefs, not public posts. Publication remains gated.",
+  "evidence_rule": "No statistic is publishable without source URL, date, unit and basis. Unsupported claims are marked UNKNOWN or PARTIAL.",
+  "product_actions_required": [
+    "website change brief",
+    "calculator module brief",
+    "pricing hypothesis",
+    "market study questions",
+    "partner outreach draft",
+    "next-report readiness flow"
+  ],
+  "safety_controls": [
+    "aggregate public-source framing only",
+    "no individual inference",
+    "no clinical diagnosis",
+    "no enforcement or punitive-workplace use",
+    "support-first language",
+    "production and publication remain gated"
+  ],
+  "receipt_contract": {
+    "receipt_id": "complete-public-signal-engine-2026-04-30-002",
+    "receipt_path": "receipts/runtime/complete-public-signal-engine-2026-04-30-002.receipt.json",
+    "status": "ACCEPTED_OR_REJECTED_OR_BLOCKED",
+    "must_report": [
+      "created_files",
+      "created_tickets",
+      "owner_roles",
+      "blocked_items",
+      "evidence_states",
+      "next_execution_paths"
+    ]
+  }
+}
