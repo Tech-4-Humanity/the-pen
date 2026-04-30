@@ -1,0 +1,11 @@
+{
+  "idempotency_key": "t4h-pen-runner-verify-20260430-001",
+  "origin": "claude-orchestrator",
+  "destination": "bridge-runner",
+  "objective": "Verify pen runner is operational post bridge restore",
+  "created_at": "2026-04-30T09:15:00Z",
+  "fn": "troy-sql-executor",
+  "payload": {
+    "sql": "SELECT now() as ts, 'pen-runner-verify-20260430-001' as job_id, 'REAL' as evidence_state"
+  }
+}
