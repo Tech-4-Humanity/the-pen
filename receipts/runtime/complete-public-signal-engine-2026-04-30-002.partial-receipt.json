@@ -1,0 +1,33 @@
+{
+  "receipt_id": "complete-public-signal-engine-2026-04-30-002-partial",
+  "created_at": "2026-05-01T00:00:00+10:00",
+  "receipt_type": "partial_handoff_receipt",
+  "evidence_state": "PARTIAL",
+  "job": {
+    "idempotency_key": "complete-public-signal-engine-2026-04-30-002",
+    "target": "bridge",
+    "job_type": "bridge.complete_public_signal_engine_package"
+  },
+  "verified": {
+    "repo": "TML-4PM/the-pen",
+    "handoff_file": "inbox/bridge/complete-public-signal-engine-2026-04-30-002.json",
+    "handoff_commit_sha": "181ec5888d9da7d08edd6d1d25af7ccee49a0ce1",
+    "handoff_status": "written_to_github"
+  },
+  "not_verified": {
+    "expected_bridge_runtime_receipt": "receipts/runtime/complete-public-signal-engine-2026-04-30-002.receipt.json",
+    "fetch_result": "404_not_found",
+    "bridge_execution_status": "not_observed",
+    "created_outputs_status": "not_observed"
+  },
+  "impact": "The handoff is real and committed, but bridge execution completion is not proven. Treat the package as queued or stalled until the expected runtime receipt lands.",
+  "required_next_proof": [
+    "receipts/runtime/complete-public-signal-engine-2026-04-30-002.receipt.json",
+    "created files listed by bridge",
+    "created tickets listed by bridge",
+    "owner roles assigned",
+    "evidence states per output"
+  ],
+  "rollback": "No destructive actions performed. No rollback required.",
+  "next_action": "Bridge or Pen worker must process inbox/bridge/complete-public-signal-engine-2026-04-30-002.json and emit the expected runtime receipt."
+}
