@@ -2,8 +2,8 @@
 
 ```yaml
 doc:
-  version: "3.2"
-  supersedes: "3.0-LOCKDOWN, 2.0"
+  version: "3.3"
+  supersedes: "3.2, 3.0-LOCKDOWN, 2.0"
   hierarchy: "GLOBAL_RULE.md > MCP_EXECUTION_CONTRACT.md > ENFORCEMENT_LIVE.md"
   last_change: "2026-04-30"
   baseline: "Wave-10 (8 components)"
@@ -90,9 +90,14 @@ allowlist: "mcp_lambda_registry WHERE is_callable=true"
 ### 5.2 GitHub writes — canonical path
 
 ```sql
-SELECT fn_github_push(repo, path, content, commit_message, branch);
+SELECT fn_github_push(
+  p_repo, p_path, p_content, p_message,
+  p_branch         DEFAULT 'main',
+  p_caller_llm     DEFAULT 'unknown',     -- always pass: e.g. 'claude-opus-4-7'
+  p_caller_session DEFAULT NULL           -- always pass: session_ref string
+);
 ```
-Fired through `troy-sql-executor`. Both `GITHUB_PAT` and `GITHUB_TOKEN` write-capable (exp 2027-04-17).
+Fired through `troy-sql-executor` (NESTED envelope). Always supply `p_caller_llm` and `p_caller_session` for attribution and idempotency tracking. Both `GITHUB_PAT` and `GITHUB_TOKEN` write-capable (exp 2027-04-17, next rotation 2026-05-03).
 
 ---
 
@@ -101,7 +106,12 @@ Fired through `troy-sql-executor`. Both `GITHUB_PAT` and `GITHUB_TOKEN` write-ca
 ```yaml
 canonical_change_log:
   table: "public.t4h_canonical_changes"
-  required_cols: [change_type, severity, audiences, broadcast_to, summary, evidence_url]
+  cols_count: 23
+  not_null: [change_type, title, summary, affected, author,
+             broadcast_to, broadcast_ok, severity]
+  nullable_useful: [evidence_ref, change_hash, body_md, audiences,
+                    is_rd, project_code, business_keys, memory_key,
+                    sealed, sealed_at, rollback_of, emit_status]
   enums:
     change_type: [MILESTONE, SCHEMA_CHANGE, BUSINESS_CHANGE, IP_CHANGE,
                   PRODUCT_CHANGE, FINANCIAL_CHANGE, SYSTEM_CHANGE, BLOCKER, DECISION]
@@ -109,6 +119,7 @@ canonical_change_log:
     audiences:   [ENG_AUDIT, KB_SOP, TRAINING_CORPUS, RDTI_AUDIT, BOARD,
                   NEWSLETTER, ADR, REGULATOR]   # gov_audience[] enum only
   llm_names_field: "broadcast_to (text[])"     # NEVER in audiences
+  idempotency_key: "memory_key (text)"         # use as natural session key
 
 scratchpad:
   table: "public.llm_scratchpad"
@@ -158,6 +169,9 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 10. `troy-sql-executor` masks pg errors as `sql_error / command:null` — use PostgREST `run_sql` for real messages
 11. `t4h_canonical_changes.audiences` is `gov_audience[]` enum only — LLM names go in `broadcast_to (text[])`
 12. `troy-code-pusher` is UPDATE-only — `create_if_missing` is ignored. New Lambda → `troy-lambda-deploy`.
+13. `troy-sql-executor` masks `RETURNING` on INSERT/UPDATE — response is `{count: 1, rows: []}` even when rows exist. **Always verify writes via PostgREST direct read** (`/rest/v1/<table>?...`) — never trust the executor's silent `rows:[]` to mean "no row was written".
+14. `t4h_canonical_changes` is **23 cols**, not the 6 implied by older docs. NOT-NULL = `change_type, title, summary, affected, author, broadcast_to, broadcast_ok, severity` — missing any → 23514. `affected` and `broadcast_to` are `text[]` arrays. Use `memory_key` as the natural idempotency key (NOT EXISTS guard).
+15. `fn_github_push` is **7 args**, not 5. The two trailing defaults — `p_caller_llm`, `p_caller_session` — must always be passed for attribution. Calls without them log `unknown` and lose the cross-LLM trail.
 
 ---
 
