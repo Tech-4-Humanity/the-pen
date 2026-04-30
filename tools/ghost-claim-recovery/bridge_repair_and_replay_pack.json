@@ -1,0 +1,51 @@
+{
+  "pack_id": "ghost-bridge-repair-replay-pack-20260430-001",
+  "purpose": "Normalise schemas, rehome misplaced artefacts, replay safe jobs through canonical PEN inbox, and generate receipts.",
+  "canonical_ingress": {
+    "repo": "TML-4PM/the-pen",
+    "path": "inbox/",
+    "note": "All replays and rehomed jobs must pass through this path"
+  },
+  "schema_normalisation": {
+    "required_fields": [
+      "origin",
+      "destination",
+      "idempotency_key",
+      "payload"
+    ],
+    "default_values": {
+      "origin": "unknown",
+      "destination": "pen",
+      "recovery_mode": "NORMALISE_SCHEMA"
+    }
+  },
+  "routing_rules": [
+    { "match": "the-pen/inbox", "action": "REPLAY_SAFE" },
+    { "match": "the-pen/handoffs", "action": "REHOME_TO_PEN" },
+    { "match": "mcp-command-centre/handoffs", "action": "REHOME_TO_MCP_COMMAND" },
+    { "match": "mcp-command-centre/WIP", "action": "REHOME_TO_WIP" },
+    { "match": "bridge-runner/payloads", "action": "REPLAY_SAFE" },
+    { "match": "bridge_runner/inbox", "action": "REPLAY_SAFE" },
+    { "match": "symbio-dev-control-plane", "action": "REHOME_TO_DEV" },
+    { "match": "symbio-synapse-ops", "action": "REHOME_TO_PROD" },
+    { "match": "claude-outputs", "action": "REHOME_TO_PEN" }
+  ],
+  "replay": {
+    "idempotent": true,
+    "dedupe_keys": ["idempotency_key", "topic_slug"],
+    "conflict_policy": "last_write_wins_with_receipt"
+  },
+  "receipts": {
+    "handoff": "receipts/handoff/{topic_slug}.json",
+    "runtime": "receipts/runtime/{topic_slug}.json",
+    "required": true
+  },
+  "execution": {
+    "mode": "batch",
+    "max_parallel": 10,
+    "retry": {
+      "max_attempts": 3,
+      "backoff_seconds": 5
+    }
+  }
+}
