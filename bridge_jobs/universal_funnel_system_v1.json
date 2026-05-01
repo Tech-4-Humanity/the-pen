@@ -1,0 +1,38 @@
+{
+  "task_id": "universal_funnel_system_v1",
+  "intent": "Deploy universal 12-stage funnel system to Supabase and Command Centre",
+  "actions": [
+    {
+      "type": "supabase_sql",
+      "description": "Apply funnel schema and tables",
+      "script_ref": "systems/universal_funnel/UNIVERSAL_12_STAGE_FUNNEL_CONTROL.md"
+    },
+    {
+      "type": "supabase_sql",
+      "description": "Seed stage catalog",
+      "script_inline": "insert into funnel.stage_catalog(stage_number, stage_key, stage_name, stage_question, default_agent_key) values (1,'problem_trigger','Problem Trigger','What pain or opportunity starts this?','trigger_agent');"
+    },
+    {
+      "type": "command_centre_widget",
+      "description": "Create funnel readiness widget",
+      "widget_slug": "universal_funnel_readiness",
+      "source_view": "funnel.v_product_funnel_readiness"
+    },
+    {
+      "type": "reality_ledger_write",
+      "description": "Log execution evidence",
+      "payload": {
+        "task_id": "universal_funnel_system_v1",
+        "status": "PARTIAL",
+        "expected_upgrade": "REAL after execution proof"
+      }
+    }
+  ],
+  "success_criteria": [
+    "tables_created",
+    "stage_catalog_seeded",
+    "view_returns_rows",
+    "widget_created",
+    "ledger_row_created"
+  ]
+}
