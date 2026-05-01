@@ -1,0 +1,39 @@
+{
+  "idempotency_key": "t4h-file-ingest-error-recovery-20260429-001",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.874Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/t4h-file-ingest-error-recovery-20260429-001.json",
+  "source_sha256": "0d388f4aa01035c078e3f9e822a18ac7e75bb74db19a302e09309da8032c5e9e",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

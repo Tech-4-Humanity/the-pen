@@ -1,0 +1,34 @@
+{
+  "idempotency_key": "ace-bootstrap-20260429-0001",
+  "status": "processed",
+  "processed_at": "2026-05-01T01:26:20.860Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/ace-bootstrap-20260429-0001.json",
+  "source_sha256": "7e15caafa0ed040e40fac50a3852ff29a6ce81e1e9278c18c3a58261cd9a1dc3",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": [
+      "created_at missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [],
+  "next": [
+    "Bind to audit/evidence register.",
+    "Promote only receipt-writing scope to REAL."
+  ]
+}

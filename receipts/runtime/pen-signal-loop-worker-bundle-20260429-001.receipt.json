@@ -1,0 +1,36 @@
+{
+  "idempotency_key": "pen-signal-loop-worker-bundle-20260429-001",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.868Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/pen-signal-loop-worker-bundle-20260429-001.json",
+  "source_sha256": "df35372e5f68a0c4430451316a1f30a40476ea7b865cc394091d7e243a9693a6",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": []
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

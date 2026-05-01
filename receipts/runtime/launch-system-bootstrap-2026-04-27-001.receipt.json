@@ -1,0 +1,39 @@
+{
+  "idempotency_key": "launch-system-bootstrap-2026-04-27-001",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.866Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/launch-system-bootstrap-2026-04-27-001.json",
+  "source_sha256": "138a5a8fb164356f8a0995621cf2677039f8f9f7bfbefc8c071505e7223158f2",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

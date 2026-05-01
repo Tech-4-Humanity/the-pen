@@ -1,0 +1,39 @@
+{
+  "idempotency_key": "synal-backbone-pack-v1",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.870Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/synal-backbone-pack-v1.json",
+  "source_sha256": "13956cb74488ad3cd2b8557f9ea1e46e91acc55cfe2c7e2db92a64c335002551",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

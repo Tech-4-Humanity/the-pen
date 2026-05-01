@@ -1,0 +1,39 @@
+{
+  "idempotency_key": "t4h-pen-test-20260430-002",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.875Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/t4h-pen-test-20260430-002.json",
+  "source_sha256": "7ef19f72501d0c5c9788d117dd38eca9827964cf2a7c22b91d20e8adf70a6f3e",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "idempotency_key": "bridge-rebuild-handler-autodeploy-2026-04-29-002-targeted",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.864Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/bridge-rebuild-handler-autodeploy-2026-04-29-002-targeted.json",
+  "source_sha256": "acabaf36080521de0e8dcb40697edefb133025cc715a55822c9966b8664fd7bd",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

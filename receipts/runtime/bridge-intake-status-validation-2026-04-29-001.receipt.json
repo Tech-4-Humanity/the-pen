@@ -1,0 +1,38 @@
+{
+  "idempotency_key": "bridge-intake-status-validation-2026-04-29-001",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.862Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/bridge-intake-status-validation-2026-04-29-001.json",
+  "source_sha256": "79ef7c0c4962035caa55b8dfbd4b6783b4a63ebd2a64c75df395512cea340693",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

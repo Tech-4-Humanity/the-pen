@@ -1,0 +1,39 @@
+{
+  "idempotency_key": "pen-now-control-plane-ping-20260429-001",
+  "status": "invalid",
+  "processed_at": "2026-05-01T01:26:20.867Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/pen-now-control-plane-ping-20260429-001.json",
+  "source_sha256": "ec9c36ed0843e5bf4a41e02068b1780d9c4d76c45c3cfc728b0e5d6793e4946a",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

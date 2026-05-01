@@ -1,0 +1,34 @@
+{
+  "idempotency_key": "tier1-spof-build-execution-20260430-001",
+  "status": "processed",
+  "processed_at": "2026-05-01T01:26:20.876Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/tier1-spof-build-execution-20260430-001.json",
+  "source_sha256": "81d0ca50ba041a4e4ca9634ac6c0a34c6bde0f7b1a44f28b386017054c049e67",
+  "evidence_state": "REAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": [
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [],
+  "next": [
+    "Bind to audit/evidence register.",
+    "Promote only receipt-writing scope to REAL."
+  ]
+}

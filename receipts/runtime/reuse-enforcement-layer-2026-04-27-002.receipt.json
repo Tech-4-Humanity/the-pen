@@ -1,0 +1,34 @@
+{
+  "idempotency_key": "reuse-enforcement-layer-2026-04-27-002",
+  "status": "processed",
+  "processed_at": "2026-05-01T01:26:20.869Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/reuse-enforcement-layer-2026-04-27.json",
+  "source_sha256": "614462a93992d80799d270ee1958bafbac40c86b8909643dc460c4b7a3edb661",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": [
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [],
+  "next": [
+    "Bind to audit/evidence register.",
+    "Promote only receipt-writing scope to REAL."
+  ]
+}

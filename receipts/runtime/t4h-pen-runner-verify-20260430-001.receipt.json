@@ -1,0 +1,32 @@
+{
+  "idempotency_key": "t4h-pen-runner-verify-20260430-001",
+  "status": "processed",
+  "processed_at": "2026-05-01T01:26:20.875Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/t4h-pen-runner-verify-20260430-001.json",
+  "source_sha256": "450d58124b277d6d8ca796c322f16c4ec31287bcfb0c45217ffa3a2f0eb1d831",
+  "evidence_state": "REAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": []
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [],
+  "next": [
+    "Bind to audit/evidence register.",
+    "Promote only receipt-writing scope to REAL."
+  ]
+}
