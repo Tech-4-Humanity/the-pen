@@ -1,6 +1,6 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-02T15:11:11.833Z",
+  "processed_at": "2026-05-02T16:00:21.775Z",
   "jobs_found": 18,
   "results": [
     {
