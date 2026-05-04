@@ -1,0 +1,19 @@
+{
+  "idempotency_key": "signals-expansion-2026-04-29-001",
+  "receipt_type": "SCOPED_AND_ENQUEUED",
+  "completed_at": "2026-05-04T00:00:00Z",
+  "agent": "pen-executor",
+  "reality_state": "PARTIAL",
+  "summary": "Telemetry Signal Expansion + Economic Layer spec received. Scope: expand real-time signals beyond drift/sentiment into economic, operational, semantic, relational and temporal layers. This is a SYSTEM_EXTENSION requiring schema changes, Lambda updates, and new signal collectors. Scoped into build backlog for AAA/SYNAPSE signal bus.",
+  "actions_taken": [
+    "Spec read and classified",
+    "Scope decomposed into 4 sub-systems",
+    "Enqueued as signals-expansion-build-001 in ops.work_queue"
+  ],
+  "completion_requires": [
+    "github_commit",
+    "pen_runtime_receipt",
+    "supabase_audit_evidence_register_row"
+  ],
+  "next_action": "agents: execute signals-expansion-build-001 from queue"
+}
