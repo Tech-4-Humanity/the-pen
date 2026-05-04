@@ -1,7 +1,7 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-04T23:32:12.830Z",
-  "jobs_found": 33,
+  "processed_at": "2026-05-04T23:39:44.593Z",
+  "jobs_found": 34,
   "results": [
     {
       "job": "ace-bootstrap-20260429-0001.json",
@@ -13,15 +13,13 @@
       "job": "ass1-pretend-content-invalidated-v1.json",
       "idempotency_key": "ass1-pretend-content-invalidated-v1",
       "receipt_path": "receipts/runtime/ass1-pretend-content-invalidated-v1.receipt.json",
-      "receipt_created": true,
-      "evidence_state": "PARTIAL"
+      "receipt_created": false
     },
     {
       "job": "ass1-source-correction-v2.json",
       "idempotency_key": "ass1-source-correction-v2",
       "receipt_path": "receipts/runtime/ass1-source-correction-v2.receipt.json",
-      "receipt_created": true,
-      "evidence_state": "PARTIAL"
+      "receipt_created": false
     },
     {
       "job": "asset-matrix-activation-v1.json",
@@ -148,6 +146,13 @@
       "idempotency_key": "seller_mode_session_handover_notice_v2",
       "receipt_path": "receipts/runtime/seller_mode_session_handover_notice_v2.receipt.json",
       "receipt_created": false
+    },
+    {
+      "job": "session-closure-ass1-dashboard-bridge-handover-v1.json",
+      "idempotency_key": "session-closure-ass1-dashboard-bridge-handover-v1",
+      "receipt_path": "receipts/runtime/session-closure-ass1-dashboard-bridge-handover-v1.receipt.json",
+      "receipt_created": true,
+      "evidence_state": "PARTIAL"
     },
     {
       "job": "session-handover-v2-enforcement-2026-05-04.json",

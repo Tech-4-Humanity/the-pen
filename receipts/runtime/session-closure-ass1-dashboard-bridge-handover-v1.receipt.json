@@ -1,0 +1,39 @@
+{
+  "idempotency_key": "session-closure-ass1-dashboard-bridge-handover-v1",
+  "status": "invalid",
+  "processed_at": "2026-05-04T23:39:44.588Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/session-closure-ass1-dashboard-bridge-handover-v1.json",
+  "source_sha256": "aeb632c2288819220cb3d0130beb6ce93ad1dda27f1bf4d4cb720f38f8259190",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}
