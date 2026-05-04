@@ -1,0 +1,49 @@
+{
+  "idempotency_key": "seller_mode_session_handover_notice_v2",
+  "type": "SESSION_HANDOVER_NOTICE",
+  "epoch": "SELLER_MODE",
+  "status": "READY_FOR_WORKER",
+  "receipt_required": true,
+  "message": "Seller mode is active. Resumed GPT sessions should preserve useful work, package unfinished items, deposit to PEN, capture a receipt, and mark the session work item closed.",
+  "existing_payloads": [
+    {
+      "name": "seller_mode_bootstrap",
+      "path": "inbox/bootstrap_seller_mode_v1.json",
+      "commit": "23821d1e20ca64e14c903e7b4e07ce8976fc6944"
+    },
+    {
+      "name": "seller_mode_acceleration_bundle",
+      "path": "inbox/seller_mode_acceleration_bundle_v1.json",
+      "commit": "b2869ee7a23014604d930770164626fe99f71502"
+    }
+  ],
+  "resume_actions": [
+    "write_closure_summary",
+    "create_pen_payload_for_unfinished_work",
+    "deposit_to_pen_inbox",
+    "capture_commit_or_runtime_receipt",
+    "report_receipt",
+    "mark_session_work_closed"
+  ],
+  "closure_summary_fields": [
+    "session_title",
+    "last_known_objective",
+    "completed_work",
+    "unfinished_work",
+    "assets_created_or_identified",
+    "commercial_relevance",
+    "recommended_disposition"
+  ],
+  "valid_acceptance": [
+    "summary_written",
+    "pen_payload_deposited",
+    "receipt_captured"
+  ],
+  "definition_of_done": [
+    "runtime_receipt_exists",
+    "seller_mode_flag_true",
+    "session_bootstrap_active",
+    "audit_event_written"
+  ],
+  "requested_machine_action": "publish_notice_and_route_to_bridge_for_receipt"
+}
