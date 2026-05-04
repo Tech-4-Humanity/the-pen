@@ -1,0 +1,83 @@
+{
+  "idempotency_key": "asset-matrix-control-surface-v1",
+  "title": "Deploy Sweet Spots interactive asset matrix control surface",
+  "created_by": "GPT-5.5 Thinking",
+  "classification": "handoff_to_pen",
+  "evidence_state": "PARTIAL_UNTIL_WORKER_RECEIPT",
+  "priority": "high",
+  "target_layer": "Synapse prod-minimum via Pen/Gatekeeper",
+  "goal": "Create a decent interactive web page/control surface for the consolidated Sweet Spots asset matrix, backed by Supabase and deployable to Vercel.",
+  "definition_of_done": [
+    "Supabase asset matrix schema exists and is idempotent",
+    "Seed data inserted for all supplied rows",
+    "Interactive matrix UI deployed or PR created",
+    "Filters for layer, study, completion, publishable, duplicates and missing assets work",
+    "Completion score and publishability rules visible",
+    "Duplication notes represented as first-class metadata",
+    "REAL/PARTIAL/PRETEND evidence status shown",
+    "Runtime receipt written under receipts/runtime and audit log row attempted"
+  ],
+  "source_matrix": {
+    "columns": ["Dataset","Scoring Model","Paper Formal","Poster Spec","Poster PDF","Abstract","Assessment Live","Assessment Revenue Connected","Press Public Release","Supabase Linked","Web Integrated Primary Domain","GDrive Indexed","Governance Layer","Policy Standards Hook","Dashboard Analytics"],
+    "legend": {"complete":"🟢","partial":"🟡","missing":"🔴","spec":"⚫"},
+    "rows": [
+      {"study":"ASS-1 Primary (n=4,247)","layer":"core","statuses":["🟢","🟡","🟢","🟢","🔴","🟡","🟢","🟢","🔴","🟡","🟢","🟢","🟡","🟡","🔴"],"dataType":"empirical_primary","parent":null},
+      {"study":"ASS-2 Extended (EEG n=990)","layer":"core","statuses":["🟢","🟡","🟢","🔴","🔴","🔴","🟡","🟡","🔴","🟡","🟢","🟢","🟡","🟡","🔴"],"dataType":"empirical_extended_eeg","parent":"ASS-1 Primary"},
+      {"study":"CARE Cultural","layer":"core","statuses":["🟡","🔴","🔴","🔴","🔴","🔴","🟢","🟢","🔴","🔴","🟢","🟢","🟡","🟡","🔴"],"dataType":"cultural_assessment","parent":null},
+      {"study":"CSO Platform","layer":"core","statuses":["🟢","🟢","🔴","🔴","🔴","🔴","🟢","🟢","🔴","🟢","🟢","🟡","🟡","🟡","🔴"],"dataType":"platform_protocol","parent":null},
+      {"study":"Poster Canonical Set (6)","layer":"core","statuses":["⚫","⚫","⚫","🟢","🟢","⚫","⚫","⚫","⚫","🔴","🔴","🟢","🔴","🔴","🔴"],"dataType":"poster_asset_set","parent":null},
+      {"study":"Governance Layer (21/34)","layer":"core","statuses":["🟡","🟡","🔴","🔴","🔴","🔴","⚫","⚫","🔴","🟡","🔴","🟡","🟢","🟢","🔴"],"dataType":"governance_layer","parent":null},
+      {"study":"SS-A High Performers","layer":"unpublished","statuses":["🟢","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟢","🔴","🔴","🔴"],"dataType":"unpublished_empirical","parent":null},
+      {"study":"SS-B 35 States","layer":"unpublished","statuses":["⚫","⚫","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","⚫","🔴","🔴","🔴"],"dataType":"spec_unpublished","parent":null},
+      {"study":"EXT-EXTREME (n=2,847 target)","layer":"unpublished","statuses":["⚫","⚫","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","⚫","🔴","🔴","🔴"],"dataType":"target_sample_spec","parent":null},
+      {"study":"EXT-SECOND-LANG","layer":"extension","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟡","🔴","🟡","🔴","🟡","🔴"],"dataType":"extension_policy_research","parent":null},
+      {"study":"EXT-HYBRID-INTEL","layer":"extension","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴"],"dataType":"extension_concept","parent":null},
+      {"study":"EXT-MEDICATION-AI","layer":"extension","statuses":["🟢","🟡","🔴","🔴","🔴","🔴","🟡","🟡","🔴","🟡","🔴","🟡","🟡","🟢","🔴"],"dataType":"policy_application_framing","parent":"ASS-2 Extended"},
+      {"study":"EXT-EEG-NEURAL","layer":"extension","statuses":["🟡","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟡","🔴","🔴","🔴"],"dataType":"neural_extension","parent":"ASS-2 Extended"},
+      {"study":"EXT-THRIVING-KIDS","layer":"extension","statuses":["🟡","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟢","🔴","🔴","🔴"],"dataType":"education_extension","parent":null},
+      {"study":"EXT-PSYCHEDELICS-WORKPLACE","layer":"extension","statuses":["🟢","🟡","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟢","🔴","🟡","🔴","🟡","🔴"],"dataType":"workplace_signal_extension","parent":null},
+      {"study":"EXT-WORKFORCE-ROLES","layer":"extension","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟡","🔴"],"dataType":"workforce_thought_piece","parent":null},
+      {"study":"EXT-ENTERPRISE-PILOT","layer":"extension","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟡","🟢","🔴"],"dataType":"enterprise_pilot","parent":null},
+      {"study":"EXT-COG-ASSESS","layer":"extension","statuses":["🟡","🟢","🔴","🔴","🔴","🔴","🟢","🟢","🔴","🟡","🔴","🟢","🟡","🟡","🔴"],"dataType":"protocol_backbone","parent":"CSO Platform"},
+      {"study":"EXT-GAIN-PLATFORM","layer":"extension","statuses":["🟡","🟡","🔴","🔴","🔴","🔴","🟢","🟢","🟡","🟢","🟢","🟡","🟡","🟡","🔴"],"dataType":"research_framing","parent":"GAIN Platform"},
+      {"study":"EXT-POLICY-GOV","layer":"extension","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟡","🟢","🔴"],"dataType":"policy_governance","parent":"Governance Layer"},
+      {"study":"EXT-CROSSOVER","layer":"extension","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟢","🔴"],"dataType":"thought_piece","parent":null},
+      {"study":"EXT-BRAIN-CAPITAL","layer":"extension","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟢","🔴","🔴","🟡","🔴","🟢","🔴"],"dataType":"brain_capital_policy","parent":null},
+      {"study":"EXT-DRA-MATRIX","layer":"extension","statuses":["🔴","🟡","🟡","🟢","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟢","🔴","🟢","🔴"],"dataType":"matrix_asset","parent":null},
+      {"study":"GAIN Platform","layer":"platform_policy","statuses":["🟡","🟡","🔴","🔴","🔴","🔴","🟢","🟢","🟡","🟢","🟢","🟡","🟡","🟡","🔴"],"dataType":"platform","parent":null},
+      {"study":"EDTECH Pilot","layer":"platform_policy","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟡","🔴","🟢","🔴","🟡","🔴"],"dataType":"pilot","parent":null},
+      {"study":"ISO-42001 Cog Access","layer":"platform_policy","statuses":["🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🔴","🟡","🟡","🟢","🔴"],"dataType":"standards_hook","parent":"Governance Layer"},
+      {"study":"Revenue Layer (Stripe V2)","layer":"platform_policy","statuses":["⚫","⚫","⚫","⚫","⚫","⚫","🟢","🟢","⚫","🟢","🟢","🟡","🔴","🔴","🟢"],"dataType":"revenue_layer","parent":null}
+    ]
+  },
+  "duplication_rules": [
+    {"pair":["CARE Cultural","EXT-CULTURAL-PSYCH"],"verdict":"same research spine; EXT should become standalone paper derived from CARE"},
+    {"pair":["ASS-2 Extended","EXT-MEDICATION-AI"],"verdict":"not duplicates; ASS-2 empirical dataset, EXT policy/application framing"},
+    {"pair":["CSO Platform","EXT-COG-ASSESS"],"verdict":"CSO live platform, EXT protocol backbone"},
+    {"pair":["GAIN Platform","EXT-GAIN-PLATFORM"],"verdict":"same system; EXT is research framing"}
+  ],
+  "build_outputs_required": [
+    "supabase/migrations/asset_matrix.sql",
+    "supabase/seed/asset_matrix_seed.sql",
+    "app/research/matrix/page.tsx",
+    "components/AssetMatrix.tsx",
+    "components/AssetMatrixDetailDrawer.tsx",
+    "lib/assetMatrixRules.ts",
+    "README_ASSET_MATRIX.md",
+    "receipt JSON"
+  ],
+  "ui_requirements": {
+    "views": ["matrix", "readiness", "duplicates", "missing-assets", "revenue", "governance"],
+    "filters": ["layer", "status", "publishable", "missingDashboard", "revenueConnected", "duplicateFlag"],
+    "click_behaviour": "cell drill-down with asset type, evidence state, owner placeholder, next action and source note",
+    "scoring": "complete=1, partial=0.5, spec=0.25, missing=0; score percentage over 15 asset columns",
+    "publishable_rule": "dataset complete or partial, assessment live complete, web integrated complete, revenue connected complete for commercial view; paper/poster not mandatory for platform pages"
+  },
+  "execution_policy": {
+    "no_delete": true,
+    "idempotent": true,
+    "archive_not_delete": true,
+    "dry_run_before_prod_mutation": true,
+    "gatekeeper_required_for_prod": true
+  }
+}
