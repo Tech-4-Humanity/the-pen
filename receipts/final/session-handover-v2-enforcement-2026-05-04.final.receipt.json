@@ -1,0 +1,15 @@
+{
+  "blocker": "BRIDGE_INVOKE_URL or BRIDGE_API_KEY secret missing",
+  "commit_sha": "4ff4c9da9933c604e316ff5de673abe57991cfa8",
+  "created_at": "2026-05-04T02:01:50.266140+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "session-handover-v2-enforcement-2026-05-04",
+  "impact": "Autonomous dispatch cannot run without bridge endpoint/key.",
+  "next": "Set GitHub Actions secrets BRIDGE_INVOKE_URL and BRIDGE_API_KEY, then rerun.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/session-handover-v2-enforcement-2026-05-04.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25297451046"
+}
