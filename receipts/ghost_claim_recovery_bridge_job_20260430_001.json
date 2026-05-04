@@ -1,0 +1,15 @@
+{
+  "idempotency_key": "ghost-claim-recovery-20260430-001",
+  "receipt_type": "SUPERSEDED",
+  "completed_at": "2026-05-04T00:00:00Z",
+  "agent": "pen-executor",
+  "reality_state": "REAL",
+  "summary": "Ghost claim recovery job. The bridge API key rotation (2026-04-29) resolved the root cause of ghost claims \u2014 stale key bk_tOH8P5 was producing silent 401s that left jobs in claimed/WIP state indefinitely. New key bk_gfTUR active. 5 stale WIP jobs identified and now being processed. Rehome and replay not required \u2014 jobs requeued via ops.work_queue.",
+  "actions_taken": [
+    "Root cause identified: stale bridge API key",
+    "New key active: bk_gfTUR (2026-04-29)",
+    "5 stale WIP jobs identified in ops.work_queue",
+    "Jobs being processed in current pen-executor run (2026-05-04)"
+  ],
+  "evidence": "ops.work_queue WIP jobs: 011756c2, 1d1a9943, 23fa81c1, 9669e3af, be3134db"
+}
