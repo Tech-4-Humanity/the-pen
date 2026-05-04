@@ -1,0 +1,64 @@
+{
+  "idempotency_key": "asset-matrix-activation-v1",
+  "action": "activate_study_asset_matrix",
+  "mode": "AUTO",
+  "evidence_required": true,
+  "source_file": "master_asset_matrix_interactive.jsx",
+  "requested_changes": [
+    "add dataType to every row",
+    "add SIM-RELATIONAL-INTELLIGENCE row",
+    "add parent field where applicable",
+    "reduce spec readiness weight to 0",
+    "add isPublishable computed flag",
+    "generate Supabase schema",
+    "generate idempotent insert/upsert script",
+    "generate dashboard query layer",
+    "generate work_queue from gaps",
+    "bind study_registry to audit.evidence_register",
+    "trigger nightly readiness recalculation if runner supports scheduling"
+  ],
+  "data_type_policy": {
+    "allowed": ["EMPIRICAL", "DERIVED", "SIMULATED", "PLATFORM", "CONCEPT"],
+    "simulation_rule": "SIMULATED datasets must not be aggregated with empirical participant counts",
+    "duplicate_rule": "derived rows must carry parent where applicable"
+  },
+  "supabase_schema": {
+    "tables": [
+      "research.study_registry",
+      "research.study_assets",
+      "research.study_asset_matrix_runs",
+      "ops.work_queue",
+      "audit.evidence_register"
+    ],
+    "constraints": [
+      "study_registry.study_id primary key",
+      "study_registry.data_type check in EMPIRICAL DERIVED SIMULATED PLATFORM CONCEPT",
+      "study_registry.parent references study_registry.study_id nullable",
+      "study_assets unique(study_id, asset_type)",
+      "updated_at maintained",
+      "archive not delete"
+    ]
+  },
+  "initial_rows_to_add_or_patch": [
+    {"study_id":"ASS-1","data_type":"EMPIRICAL","parent":null},
+    {"study_id":"ASS-2","data_type":"EMPIRICAL","parent":null},
+    {"study_id":"CARE","data_type":"DERIVED","parent":"ASS-2"},
+    {"study_id":"CSO","data_type":"PLATFORM","parent":null},
+    {"study_id":"SS-A","data_type":"EMPIRICAL","parent":null},
+    {"study_id":"SS-B","data_type":"SIMULATED","parent":null},
+    {"study_id":"EXT-EXTREME","data_type":"SIMULATED","parent":null},
+    {"study_id":"SIM-RELATIONAL-INTELLIGENCE","data_type":"SIMULATED","parent":null,"n":"80000","note":"Simulation only. Must never be combined with empirical Ns."},
+    {"study_id":"EXT-MEDICATION-AI","data_type":"DERIVED","parent":"ASS-2"},
+    {"study_id":"EXT-EEG-NEURAL","data_type":"DERIVED","parent":"ASS-2"},
+    {"study_id":"EXT-COG-ASSESS","data_type":"DERIVED","parent":"CSO"},
+    {"study_id":"EXT-GAIN-PLATFORM","data_type":"DERIVED","parent":"GAIN"},
+    {"study_id":"GAIN","data_type":"PLATFORM","parent":null},
+    {"study_id":"REVENUE-STRIPE-V2","data_type":"PLATFORM","parent":null}
+  ],
+  "publishable_rule": "data == complete AND paper != missing AND posterPdf != missing",
+  "readiness_weights": {"complete":3,"partial":2,"spec":0,"missing":0},
+  "receipt_expected": {
+    "path_prefix": "receipts/runtime/",
+    "must_include": ["commit_sha", "schema_status", "rows_upserted", "assets_upserted", "work_queue_items", "evidence_register_rows", "reality_classification"]
+  }
+}
