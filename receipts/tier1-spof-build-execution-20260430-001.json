@@ -1,0 +1,18 @@
+{
+  "idempotency_key": "tier1-spof-build-execution-20260430-001",
+  "receipt_type": "PARTIALLY_EXECUTED",
+  "completed_at": "2026-05-04T00:00:00Z",
+  "agent": "pen-executor",
+  "reality_state": "PARTIAL",
+  "summary": "Tier-1 SPOF build execution pack. 5-step execution order: (1) troy-sql-executor warm patch, (2) mcp-bridge-invoke-handler rebuild, (3) pen-executor runner, (4) symbio-verifier, (5) synapse-promoter. Steps 2 was completed (bridge rebuilt nodejs20.x 2026-04-29). Steps 1,3,4,5 require Lambda write access.",
+  "steps_done": [
+    "Step 2: mcp-bridge-invoke-handler rebuilt nodejs20.x (2026-04-29)"
+  ],
+  "steps_pending": [
+    "Step 1: troy-sql-executor warm patch",
+    "Step 3: pen-executor runner activation",
+    "Step 4: symbio-verifier",
+    "Step 5: synapse-promoter"
+  ],
+  "next_action": "agents: execute remaining SPOF steps via troy-lambda-manager"
+}
