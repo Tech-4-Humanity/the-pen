@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "73b3d1956d5ab143d7d1bc2c4fe5383b47f9ad5e",
-  "created_at": "2026-05-04T02:24:09.034056+00:00",
+  "commit_sha": "ab96360e7e99d299cc736e9b894d95b93f5e643e",
+  "created_at": "2026-05-04T03:32:29.598625+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "bridge-rebuild-handler-autodeploy-2026-04-29-002-targeted",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "acabaf36080521de0e8dcb40697edefb133025cc715a55822c9966b8664fd7bd",
   "title": null,
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25298006778"
+  "workflow_run_id": "25299652818"
 }

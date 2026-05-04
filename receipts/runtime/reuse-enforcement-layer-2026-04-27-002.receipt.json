@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "73b3d1956d5ab143d7d1bc2c4fe5383b47f9ad5e",
-  "created_at": "2026-05-04T02:24:09.034056+00:00",
+  "commit_sha": "ab96360e7e99d299cc736e9b894d95b93f5e643e",
+  "created_at": "2026-05-04T03:32:29.598625+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "reuse-enforcement-layer-2026-04-27-002",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "614462a93992d80799d270ee1958bafbac40c86b8909643dc460c4b7a3edb661",
   "title": "Install reuse enforcement layer across Symbio, WIP, and Pen",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25298006778"
+  "workflow_run_id": "25299652818"
 }
