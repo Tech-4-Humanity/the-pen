@@ -1,0 +1,101 @@
+{
+  "job_id": "session-closure-ass1-dashboard-bridge-handover-v1",
+  "type": "session_closure_handover",
+  "status": "COMPLETE_DEPOSITED_TO_PEN",
+  "idempotency_key": "session-closure-ass1-dashboard-bridge-handover-v1",
+  "created_by": "gpt-5.5-thinking",
+  "mode": "prod_operator_closure_not_builder",
+  "user_instruction": "Send to the bridge complete. We are not builders here. Send to the PEN/bridge and finish off, get a receipt. Take notes of all thread, add to handover and close down.",
+  "thread_summary": {
+    "initial_question": "User asked which input to complete next from repo path/docs, ASS-1 poster source, Revenue Layer notes/schema, and Supabase project/table schema.",
+    "initial_answer": "Dashboard/docs repo path should be first because it becomes the evidence control surface.",
+    "failure": "Assistant generated ASS-1 poster/revenue/schema payloads from memory/pattern instead of source evidence. User challenged the ASS-1 poster. Assistant admitted it was PRETEND, then over-corrected by saying ASS-1 source was missing after searching Drive only.",
+    "correction": "User supplied live public source URLs: https://aisweetspots.com/posters and https://aisweetspots.com/poster/ai-sweet-spots. Assistant verified both routes return 200 and corrected PEN status with ass1-source-correction-v2.json.",
+    "current_closure": "This handover deposits the corrected operational state and instructs downstream bridge/PEN worker to proceed from evidence only. This chat should close after deposit receipt is returned."
+  },
+  "evidence_already_written": [
+    {
+      "path": "inbox/ass1-pretend-content-invalidated-v1.json",
+      "commit": "d70114103cac485cdd01d82d517b504bbc14a3b8",
+      "status": "superseded_by_v2",
+      "note": "Correctly invalidated generated memory-based ASS-1 content, but incorrectly stated source was missing. Do not delete; preserve audit trail."
+    },
+    {
+      "path": "inbox/ass1-source-correction-v2.json",
+      "commit": "525800d0be59a37ff7ed0f0fcd162e9c7ca4fd9c",
+      "status": "current_correction",
+      "note": "Corrects ASS-1 source status to LIVE_PUBLIC_SOURCE_FOUND and binds aisweetspots.com routes."
+    }
+  ],
+  "corrected_source_state": {
+    "ass1_source_status": "LIVE_PUBLIC_SOURCE_FOUND",
+    "ass1_public_index_url": "https://aisweetspots.com/posters",
+    "ass1_public_poster_route": "https://aisweetspots.com/poster/ai-sweet-spots",
+    "observed_from_public_index": {
+      "page_status": 200,
+      "headline": "AI Sweet Spots Research Posters",
+      "summary": "7 studies. 11,241 participants. Comprehensive cognitive diversity research.",
+      "ass1_title": "Foundation Study (ASS-1)",
+      "ass1_sample_size": "N=160",
+      "ass1_description": "Pilot validation across 4 cognitive profiles",
+      "ass1_badges": ["Validated", "d=1.77 ADHD"],
+      "key_findings": [
+        "ADHD: +44% productivity at 48% AI intensity (d=1.92)",
+        "Dyslexia: +38% at 45% AI (d=1.01)",
+        "Neurotypical: +9% at 25% AI (d=0.73), 3.89x harm risk >50%",
+        "16.7% of workers experience negative productivity effects",
+        "83% using AI at wrong intensity for their cognitive profile"
+      ]
+    },
+    "invalidated_memory_claims": {
+      "ass1_n_4247": "INVALID_FOR_ASS1",
+      "ass1_missing_source": "INVALID",
+      "generated_publication_ready_poster_copy": "INVALID_UNLESS_REBUILT_FROM_SOURCE"
+    }
+  },
+  "top_level_answer_to_original_questions": {
+    "repo_path_or_file_set": {
+      "status": "READY",
+      "value": "TML-4PM/the-pen with inbox/, receipts/runtime/, global/GLOBAL_RULE.md, global/ENFORCEMENT_LIVE.md, docs/AGL_CONTROL_PLANE.md",
+      "purpose": "Build dashboard/docs evidence control surface: queued, active, dev-ready, prod-ready, blocked/stalled, receipt status, evidence class, source URL/file path, next action."
+    },
+    "ass1_poster_source": {
+      "status": "REAL_SOURCE_FOUND",
+      "value": ["https://aisweetspots.com/posters", "https://aisweetspots.com/poster/ai-sweet-spots"],
+      "rule": "Extract/rebuild from live public route or repo source only; no memory-based content."
+    },
+    "revenue_layer_notes_schema": {
+      "status": "DRAFT_ONLY_UNTIL_REAL_NOTES_OR_SCHEMA_SUPPLIED",
+      "known_terms": ["Factor", "Gateway", "MRI"],
+      "guardrail": "Do not reference MAAT externally. Bind to real schema/policy before writes."
+    },
+    "supabase_project_or_table_schema": {
+      "status": "BLOCKED_UNTIL_PROJECT_ID_OR_TABLE_SCHEMA_SUPPLIED",
+      "expected_schemas_if_present": ["ops", "runtime", "audit", "commercial", "public"],
+      "guardrail": "No schema writes from assumption. Use read-only Supabase REST fallback if bridge lacks write authority."
+    }
+  },
+  "bridge_instruction": {
+    "intent": "Complete downstream work via PEN/Bridge, not in-chat building.",
+    "required_worker_actions": [
+      "Read this closure handover and ass1-source-correction-v2.json.",
+      "Mark ASS-1 source status LIVE_SOURCE_FOUND, not MISSING.",
+      "Update any dashboard/status records that show ASS-1 missing.",
+      "Reject previous memory-based ASS-1 poster payloads.",
+      "Extract poster metadata from live route or source repo before any rebuild.",
+      "Build/control-surface job should use TML-4PM/the-pen as source of truth for inbox and receipts.",
+      "Keep Revenue Layer as DRAFT unless real policy/schema notes are provided.",
+      "Keep Supabase schema as BLOCKED unless actual project ID/schema is provided.",
+      "Write runtime receipt to receipts/runtime/ and append audit row if bridge has authority."
+    ],
+    "definition_of_done": [
+      "PEN file deposited with commit receipt",
+      "Worker receipt written under receipts/runtime/",
+      "Audit log or equivalent evidence row written where available",
+      "Dashboard/status uses REAL/PARTIAL/PRETEND labels correctly",
+      "No PRETEND content promoted"
+    ]
+  },
+  "evidence_class": "REAL_FOR_PEN_DEPOSIT_PARTIAL_UNTIL_WORKER_RUNTIME_RECEIPT",
+  "closure_note": "Chat should close after this PEN deposit. No further local building. Downstream worker/bridge owns execution and receipt writing."
+}
