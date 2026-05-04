@@ -1,0 +1,148 @@
+{
+  "idempotency_key": "human-pressure-signal-index-v0-1",
+  "title": "Build Human Pressure Signal Index v0.1",
+  "status": "QUEUED",
+  "evidence_class": "PARTIAL",
+  "source": "chatgpt-prod-operator",
+  "mode": "AUTO",
+  "work_type": "Completion",
+  "objective": "Convert the expanded AI/neurodiverse recurring research signal plan into Supabase schema, ingestion jobs, dashboard/API layer, and weekly research brief outputs.",
+  "anchor_thesis": "We measure when human systems go out of balance — and predict failure before it shows up in incidents, claims, or collapse.",
+  "source_document": {
+    "name": "National Wastewater Drug Monitoring Program - Report 25.pdf",
+    "role": "anchor lagging behavioural signal",
+    "observed_facts": [
+      "ACIC NWDMP Report 25 covers around 57% of the Australian population in August 2025.",
+      "The program monitors 12 licit and illicit substances including nicotine, alcohol, cannabis, methylamphetamine, amphetamine, cocaine, MDMA, MDA, heroin, oxycodone, fentanyl and ketamine.",
+      "Program sampling continues every 2 months for capital city sites and every 4 months for regional sites, while public reporting moved to one annual report in 2025.",
+      "The report explicitly states wastewater data is most valuable when combined with other data and intelligence to build a comprehensive picture."
+    ]
+  },
+  "deliverables": [
+    {
+      "name": "Supabase schema",
+      "required_objects": [
+        "signal_sources",
+        "signal_observations",
+        "signal_release_calendar",
+        "pressure_index_scores",
+        "pressure_alerts",
+        "research_briefs",
+        "signal_governance_rules",
+        "evidence_register_link"
+      ],
+      "requirements": [
+        "RLS enabled",
+        "PK on every table",
+        "created_at and updated_at timestamps",
+        "idempotency key on ingested observations",
+        "source freshness metadata",
+        "REAL/PARTIAL/PRETEND evidence classification"
+      ]
+    },
+    {
+      "name": "Ingestion registry",
+      "signal_tiers": {
+        "A_high_frequency": [
+          "Google Trends",
+          "job ads Seek LinkedIn Indeed",
+          "Reddit and public forums",
+          "weather BOM and global heat/flood/fire data",
+          "public social sentiment",
+          "sleep/recovery aggregate reports where licensed"
+        ],
+        "B_structured_au": [
+          "ABS Labour Force",
+          "ABS CPI and wages",
+          "PBS prescription data including ADHD stimulants SSRIs anxiolytics sleep medication",
+          "AIHW mental health services",
+          "Safe Work Australia",
+          "state ED presentations",
+          "WorkSafe state datasets"
+        ],
+        "C_annual_longitudinal": [
+          "ACIC NWDMP wastewater",
+          "National Drug Strategy Household Survey",
+          "AIHW health surveys",
+          "OECD wellbeing/productivity",
+          "Gallup workplace reports",
+          "Deloitte/PwC workforce reports"
+        ],
+        "D_neurodiverse_cognition": [
+          "PBS ADHD prescription trends",
+          "NDIS participant and support data",
+          "education attendance/attrition",
+          "academic journals and clinical trial registries",
+          "workplace neurodiversity reports"
+        ]
+      }
+    },
+    {
+      "name": "Pressure Score v0.1",
+      "outputs": [
+        "regional pressure score",
+        "neurodiverse load index",
+        "workforce fatigue forecast",
+        "support gap indicator",
+        "incident/claims precursor score",
+        "weekly top movers"
+      ],
+      "rules": [
+        "population-level only",
+        "no individual accusation",
+        "no punitive profiling",
+        "consent-first for private workplace data",
+        "support-first intervention language"
+      ]
+    },
+    {
+      "name": "Dashboard/API layer",
+      "surfaces": [
+        "Command Centre widget",
+        "public weekly pressure brief",
+        "partner API endpoint",
+        "industry-specific dashboard filters",
+        "ethics/governance evidence panel"
+      ]
+    },
+    {
+      "name": "Weekly research brief template",
+      "sections": [
+        "Top 5 rising pressure signals",
+        "AI/neurodiverse relevance",
+        "industry risk windows",
+        "support-first intervention options",
+        "governance checks",
+        "evidence status"
+      ]
+    }
+  ],
+  "schema_requirements_sql_outline": [
+    "create schema if not exists research;",
+    "create table if not exists research.signal_sources (...);",
+    "create table if not exists research.signal_observations (...);",
+    "create table if not exists research.signal_release_calendar (...);",
+    "create table if not exists research.pressure_index_scores (...);",
+    "create table if not exists research.pressure_alerts (...);",
+    "create table if not exists research.research_briefs (...);",
+    "alter table ... enable row level security;",
+    "create unique index if not exists ... on idempotency_key;"
+  ],
+  "acceptance_criteria": [
+    "Payload is accepted by the Pen runner or visible in the GitHub inbox path.",
+    "Worker creates/updates Supabase schema idempotently.",
+    "At least 10 recurring research sources are registered with expected frequency and next release date where available.",
+    "At least one synthetic dry-run pressure score is generated and labelled PRETEND, not REAL.",
+    "Runtime receipt is written to receipts/runtime/human-pressure-signal-index-v0-1*.json.",
+    "audit.log entry or equivalent evidence object is created if bridge/Supabase access is available."
+  ],
+  "blocked_actions": [
+    "payments",
+    "IAM or credential changes",
+    "deletes",
+    "legal advice",
+    "individual-level surveillance or profiling"
+  ],
+  "rollback": "Archive or supersede this inbox job with a new idempotency key; do not delete. Schema migrations must be additive/idempotent unless separately gated.",
+  "created_at": "2026-05-04T00:00:00Z"
+}
