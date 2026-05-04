@@ -1,0 +1,28 @@
+{
+  "job_id": "ass1-pretend-content-invalidated-v1",
+  "type": "evidence_correction",
+  "status": "COMPLETE_DEPOSITED",
+  "created_by": "gpt-5.5-thinking",
+  "reason": "Previous ASS-1 poster content was generated from memory/assumption and must not be treated as canonical.",
+  "invalidated_items": [
+    "Generated ASS-1 poster pack content",
+    "Unverified findings about ASS-1",
+    "Unverified poster abstract/body copy",
+    "Any publication-ready claim without file evidence"
+  ],
+  "observed_real_sources": [
+    {
+      "title": "ai-sweetspots-novel-ideas-register (3).pdf",
+      "drive_url": "https://drive.google.com/file/d/1emMfYjbrLaYFfPg5ZG_SBswD_jXKcaEP",
+      "evidence": "Contains metric note referencing registered studies ASS-1, ASS-2, CARE, CSO and registered posters with empty URLs. It is not the ASS-1 poster."
+    },
+    {
+      "title": "test ai sweetspots",
+      "drive_url": "https://docs.google.com/document/d/1iz66q1nzPN3e8GJ4OlVL_RNjFRQN1xg0SdIpoCtvT2c",
+      "evidence": "Large working doc about AI Sweetspots testing/product modes. It is not verified ASS-1 poster source."
+    }
+  ],
+  "evidence_class": "REAL_FOR_CORRECTION_PARTIAL_FOR_SOURCE_DISCOVERY",
+  "required_next_gate": "Only create ASS-1 poster/spec from an actual ASS-1 file, dataset, paper, abstract, or poster text. Anything else remains BLOCKED.",
+  "idempotency_key": "ass1-pretend-content-invalidated-v1"
+}
