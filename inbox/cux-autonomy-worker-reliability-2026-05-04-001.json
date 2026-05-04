@@ -1,0 +1,91 @@
+{
+  "idempotency_key": "cux-autonomy-worker-reliability-2026-05-04-001",
+  "submitted_at": "2026-05-04T00:00:00Z",
+  "submitted_by": "chatgpt-prod-operator",
+  "mode": "PROD_OPERATOR",
+  "priority": "P0",
+  "action": "deploy_cux_autonomy_worker_reliability_campaign",
+  "title": "CUX autonomous execution campaign: worker reliability, persistence, receipts, and self-repair",
+  "intent": "Make CUX a full-out autonomous execution unit that owns jobs end-to-end, fixes recurring bridge/system reliability problems, and proves completion with runtime receipts and audit evidence.",
+  "canonical_unit": {
+    "name": "CUX",
+    "meaning": "Canonical Unit of Execution",
+    "responsibility": "Own queued jobs from intake through execution, validation, receipt writing, evidence binding, and closure.",
+    "states": ["queued", "active", "validating", "complete", "blocked", "dead_lettered"],
+    "evidence_states": ["REAL", "PARTIAL", "PRETEND"]
+  },
+  "problems_to_fix": [
+    {
+      "problem": "Worker reliability and persistence are fragile",
+      "impact": "Jobs can be accepted but not executed, leaving stalled Pen or bridge work.",
+      "fix": "Deploy persistent cux-executor worker with heartbeat, watchdog, retry engine, and dead-letter queue."
+    },
+    {
+      "problem": "Endpoint can return success without useful downstream execution",
+      "impact": "False positive completion and PRETEND claims.",
+      "fix": "Contract-test intake, require queue write, require receipt before completion."
+    },
+    {
+      "problem": "Receipts are inconsistent or absent",
+      "impact": "No reliable proof that work finished.",
+      "fix": "Mandatory GitHub runtime receipt plus Supabase audit/evidence binding for every job."
+    },
+    {
+      "problem": "Manual click / HITL creep stalls work",
+      "impact": "Jobs sit waiting on a person instead of being worked by the system.",
+      "fix": "No-HITL execution path for non-destructive work; destructive actions remain dry-run/gated."
+    },
+    {
+      "problem": "Duplicate and drifting systems surprise operators",
+      "impact": "Repeated confusion, duplicated builds, stale deployments, and unclear source of truth.",
+      "fix": "Registry-first lookup before build, single canonical job state, and evidence-linked closure."
+    }
+  ],
+  "required_components": [
+    "cux-executor persistent worker",
+    "runtime.worker_heartbeat table or compatible heartbeat sink",
+    "queue monitor for queued>0 and active=0",
+    "watchdog restart policy",
+    "retry engine with max_attempts=3 and exponential backoff",
+    "dead-letter queue for exhausted jobs",
+    "receipt writer to receipts/runtime/<idempotency_key>.json",
+    "audit.log append-only event",
+    "audit.evidence_register binding",
+    "audit.reality_ledger REAL/PARTIAL/PRETEND classification",
+    "intake schema validator",
+    "idempotency enforcement"
+  ],
+  "execution_rules": [
+    "No direct execution outside queue/bridge path.",
+    "No receipt means not done.",
+    "No idempotency_key means reject intake.",
+    "No worker heartbeat means do not mark active jobs healthy.",
+    "No evidence binding means classify PARTIAL or PRETEND, not REAL.",
+    "Archive instead of delete unless explicit destructive approval exists.",
+    "All non-destructive repairs, inspections, queueing, receipts, and worker fixes are auto-approved."
+  ],
+  "success_criteria": [
+    "At least one CUX smoke job enqueued and executed end-to-end.",
+    "Worker heartbeat visible after execution starts.",
+    "Runtime receipt written to GitHub receipts/runtime/.",
+    "Audit evidence row written or compatible audit receipt recorded.",
+    "Reality classification recorded as REAL only when evidence exists.",
+    "Queued/active/complete counts surfaced for Pen, dev, and prod lanes.",
+    "Stalled jobs are either retried, closed with evidence, or dead-lettered with reason and next action."
+  ],
+  "deliverables": [
+    "CUX worker reliability patch plan",
+    "Worker heartbeat/watchdog implementation or dispatch payload",
+    "Queue and receipt validator",
+    "Smoke test receipt",
+    "Gap register update for bridge/system surprises",
+    "Final runtime receipt proving execution path"
+  ],
+  "routing": {
+    "preferred": "the-pen GitHub Action -> bridge -> worker -> receipts/runtime",
+    "fallback": "read-only Supabase inspection and GitHub receipt writing only",
+    "blocked_actions": ["payments", "IAM credential changes", "legal commitments", "destructive delete without dry-run approval"]
+  },
+  "close_signal": "CUX_AUTONOMY_WORKER_RELIABILITY_REAL_RECEIPT",
+  "status": "queued"
+}
