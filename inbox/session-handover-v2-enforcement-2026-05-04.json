@@ -1,0 +1,124 @@
+{
+  "job_id": "session-handover-v2-enforcement-2026-05-04",
+  "idempotency_key": "session-handover-v2-enforcement-2026-05-04",
+  "created_at": "2026-05-04T00:00:00+10:00",
+  "actor": "gpt-5.5-thinking",
+  "system_layer": "ops",
+  "task_type": "repair",
+  "priority": "critical",
+  "objective": "Replace GPT session handover and closure narrative with a lean, enforceable Session Closure V2 and Session Bootstrap V2 pattern that preserves autonomy while requiring real evidence for closure.",
+  "inputs": {
+    "source_refs": [
+      "chat:2026-05-04-handover-note-update",
+      "repo:TML-4PM/the-pen"
+    ],
+    "data": {
+      "closure_note_v2": {
+        "required_sections": [
+          "STATE",
+          "WHAT_MOVED",
+          "OPEN_LOOPS",
+          "NEXT_BOOTSTRAP",
+          "FAILURE_BLOCK"
+        ],
+        "hard_gates": [
+          "idempotency_key required",
+          "execution.actions required for executable jobs",
+          "validation.checks required for executable jobs",
+          "receipt required before COMPLETE",
+          "PRETEND evidence cannot close"
+        ],
+        "advisory_sections": [
+          "MEMORY_WRITE only when durable decision/constraint/path/failure changes"
+        ]
+      },
+      "bootstrap_v2": {
+        "read_first": [
+          "global/GLOBAL_RULE.md",
+          "global/ENFORCEMENT_LIVE.md",
+          "receipts/runtime latest",
+          "inbox pending jobs"
+        ],
+        "execution_mode": {
+          "bridge_only": true,
+          "no_local_execution": true,
+          "evidence_required": "REAL_OR_PARTIAL_UNTIL_RECEIPT"
+        },
+        "priority_queue": [
+          "completion",
+          "repair",
+          "extension only after parent DONE"
+        ]
+      },
+      "memory_v2": {
+        "keep": [
+          "decisions_locked",
+          "system_map",
+          "constraints",
+          "active_patterns",
+          "known_failures",
+          "canonical_paths"
+        ],
+        "remove": [
+          "chatty summaries",
+          "bloated narrative",
+          "unverified completion claims"
+        ]
+      },
+      "autonomy_balance": {
+        "back_off": [
+          "Do not force verbose memory writes every session",
+          "Do not require open loops to be empty in multi-job operations",
+          "Do not block workers on cosmetic fields"
+        ],
+        "go_further": [
+          "Add GitHub validator for inbox schema",
+          "Update receipt writer to include closure evidence",
+          "Worker ignores jobs without idempotency_key"
+        ]
+      }
+    },
+    "assumptions": [
+      "Connector write to GitHub is available",
+      "PEN worker or GitHub Action may consume inbox JSON asynchronously",
+      "This chat can create the inbox job but cannot fabricate downstream worker receipts"
+    ]
+  },
+  "execution": {
+    "target_system": "github",
+    "actions": [
+      {
+        "type": "enqueue",
+        "path": "TML-4PM/the-pen/inbox/session-handover-v2-enforcement-2026-05-04.json",
+        "payload": "this file",
+        "expected_result": "PEN job exists and is readable from GitHub"
+      },
+      {
+        "type": "implement",
+        "path": "TML-4PM/the-pen validator and receipt writer",
+        "payload": {
+          "validator_required": true,
+          "receipt_required": true,
+          "pretend_rejected": true
+        },
+        "expected_result": "Future session handovers enforce Closure V2 without blocking useful autonomy"
+      }
+    ]
+  },
+  "validation": {
+    "checks": [
+      "GitHub file exists at inbox/session-handover-v2-enforcement-2026-05-04.json",
+      "File contains idempotency_key=session-handover-v2-enforcement-2026-05-04",
+      "File contains closure_note_v2 required_sections",
+      "File contains autonomy_balance back_off and go_further controls"
+    ],
+    "evidence_required": [
+      "github_commit_sha",
+      "fetch_file_result"
+    ]
+  },
+  "closure": {
+    "close_signal": "File fetch verifies the committed PEN inbox job content. Downstream worker receipt remains separate evidence and must not be invented.",
+    "fallback": "If inbox create fails because file exists, fetch existing file and classify idempotent duplicate as acceptable if content matches."
+  }
+}
