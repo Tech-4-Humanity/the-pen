@@ -1,8 +1,8 @@
 {
-  "ts": "2026-05-04T01:38:14.564Z",
+  "ts": "2026-05-04T04:04:44.428Z",
   "passed": 0,
   "failed": 0,
-  "skipped": 19,
+  "skipped": 30,
   "results": [
     {
       "file": "ace-bootstrap-20260429-0001.json",
@@ -13,6 +13,24 @@
     {
       "file": "asset-matrix-activation-v1.json",
       "key": "asset-matrix-activation-v1",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "asset-matrix-control-surface-v1.json",
+      "key": "asset-matrix-control-surface-v1",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "bootstrap_seller_mode_v1.json",
+      "key": "bootstrap_seller_mode_v1",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "bridge-complete-pen-dispatch-20260504-001.json",
+      "key": "bridge-complete-pen-dispatch-20260504-001",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     },
@@ -41,9 +59,27 @@
       "reason": "unknown fn: undefined"
     },
     {
+      "file": "cux-autonomy-worker-reliability-2026-05-04-001.json",
+      "key": "cux-autonomy-worker-reliability-2026-05-04-001",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
       "file": "daily-brief-v2-retry-2026-04-26-002.json",
       "key": "daily-brief-v2-retry-2026-04-26-002",
       "status": "SKIP_IDEMPOTENT"
+    },
+    {
+      "file": "data-extract-insight-action-20260504.json",
+      "key": "data-extract-insight-action-20260504",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "gdrive_specialist_activation_20260429.json",
+      "key": "gdrive_specialist_activation_20260429",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
     },
     {
       "file": "ghost_claim_recovery_bridge_job_20260430_001.json",
@@ -52,9 +88,21 @@
       "reason": "unknown fn: undefined"
     },
     {
+      "file": "human-pressure-signal-index-v0-1.json",
+      "key": "human-pressure-signal-index-v0-1",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
       "file": "launch-system-bootstrap-2026-04-27-001.json",
       "key": "launch-system-bootstrap-2026-04-27-001",
       "status": "SKIP_IDEMPOTENT"
+    },
+    {
+      "file": "mac-storage-offload-audit-2026-05-04.json",
+      "key": "mac-storage-offload-audit-2026-05-04",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
     },
     {
       "file": "pen-now-control-plane-ping-20260429-001.json",
@@ -71,6 +119,18 @@
     {
       "file": "reuse-enforcement-layer-2026-04-27.json",
       "key": "reuse-enforcement-layer-2026-04-27-002",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "seller_mode_acceleration_bundle_v1.json",
+      "key": "seller_mode_acceleration_bundle_v1",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "session-handover-v2-enforcement-2026-05-04.json",
+      "key": "session-handover-v2-enforcement-2026-05-04",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     },
@@ -112,6 +172,12 @@
     {
       "file": "tier1-spof-build-execution-20260430-001.json",
       "key": "tier1-spof-build-execution-20260430-001",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "wrap-route-measure-20260429-001.json",
+      "key": "wrap-route-measure-20260429-001",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     }
