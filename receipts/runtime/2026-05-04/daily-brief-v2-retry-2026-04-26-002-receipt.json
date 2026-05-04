@@ -1,0 +1,20 @@
+{
+  "request_id": "req-20260504-69264",
+  "task_id": "daily-brief-v2-retry-2026-04-26-002",
+  "timestamp_utc": "2026-05-04T01:22:02.564Z",
+  "source": "pen-executor",
+  "status": "PASS",
+  "reality_classification": "REAL",
+  "evidence": [
+    "enqueue_job RPC OK",
+    "job_id: \"34dcd6b4-e046-4777-b05d-20040660a568\""
+  ],
+  "detail": {
+    "job_id": "34dcd6b4-e046-4777-b05d-20040660a568",
+    "enqueued": true
+  },
+  "recovery": {
+    "required": false,
+    "action": "none"
+  }
+}
