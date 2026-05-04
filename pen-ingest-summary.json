@@ -1,7 +1,7 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-04T02:16:51.639Z",
-  "jobs_found": 24,
+  "processed_at": "2026-05-04T04:06:36.044Z",
+  "jobs_found": 30,
   "results": [
     {
       "job": "ace-bootstrap-20260429-0001.json",
@@ -16,11 +16,22 @@
       "receipt_created": false
     },
     {
+      "job": "asset-matrix-control-surface-v1.json",
+      "idempotency_key": "asset-matrix-control-surface-v1",
+      "receipt_path": "receipts/runtime/asset-matrix-control-surface-v1.receipt.json",
+      "receipt_created": false
+    },
+    {
+      "job": "bootstrap_seller_mode_v1.json",
+      "idempotency_key": "bootstrap_seller_mode_v1",
+      "receipt_path": "receipts/runtime/bootstrap_seller_mode_v1.receipt.json",
+      "receipt_created": false
+    },
+    {
       "job": "bridge-complete-pen-dispatch-20260504-001.json",
       "idempotency_key": "bridge-complete-pen-dispatch-20260504-001",
       "receipt_path": "receipts/runtime/bridge-complete-pen-dispatch-20260504-001.receipt.json",
-      "receipt_created": true,
-      "evidence_state": "PARTIAL"
+      "receipt_created": false
     },
     {
       "job": "bridge-intake-status-validation-2026-04-29-001.json",
@@ -59,6 +70,12 @@
       "receipt_created": false
     },
     {
+      "job": "data-extract-insight-action-20260504.json",
+      "idempotency_key": "data-extract-insight-action-20260504",
+      "receipt_path": "receipts/runtime/data-extract-insight-action-20260504.receipt.json",
+      "receipt_created": false
+    },
+    {
       "job": "gdrive_specialist_activation_20260429.json",
       "idempotency_key": "gdrive_specialist_activation_20260429",
       "receipt_path": "receipts/runtime/gdrive_specialist_activation_20260429.receipt.json",
@@ -71,9 +88,21 @@
       "receipt_created": false
     },
     {
+      "job": "human-pressure-signal-index-v0-1.json",
+      "idempotency_key": "human-pressure-signal-index-v0-1",
+      "receipt_path": "receipts/runtime/human-pressure-signal-index-v0-1.receipt.json",
+      "receipt_created": false
+    },
+    {
       "job": "launch-system-bootstrap-2026-04-27-001.json",
       "idempotency_key": "launch-system-bootstrap-2026-04-27-001",
       "receipt_path": "receipts/runtime/launch-system-bootstrap-2026-04-27-001.receipt.json",
+      "receipt_created": false
+    },
+    {
+      "job": "mac-storage-offload-audit-2026-05-04.json",
+      "idempotency_key": "mac-storage-offload-audit-2026-05-04",
+      "receipt_path": "receipts/runtime/mac-storage-offload-audit-2026-05-04.receipt.json",
       "receipt_created": false
     },
     {
@@ -95,11 +124,17 @@
       "receipt_created": false
     },
     {
+      "job": "seller_mode_acceleration_bundle_v1.json",
+      "idempotency_key": "seller_mode_acceleration_bundle_v1",
+      "receipt_path": "receipts/runtime/seller_mode_acceleration_bundle_v1.receipt.json",
+      "receipt_created": true,
+      "evidence_state": "PARTIAL"
+    },
+    {
       "job": "session-handover-v2-enforcement-2026-05-04.json",
       "idempotency_key": "session-handover-v2-enforcement-2026-05-04",
       "receipt_path": "receipts/runtime/session-handover-v2-enforcement-2026-05-04.receipt.json",
-      "receipt_created": true,
-      "evidence_state": "PARTIAL"
+      "receipt_created": false
     },
     {
       "job": "signals-expansion-2026-04-29-001.json",
