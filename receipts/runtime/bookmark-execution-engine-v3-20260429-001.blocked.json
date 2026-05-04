@@ -1,0 +1,16 @@
+{
+  "idempotency_key": "activate-runner-infra-bookmark-engine-v3-20260429-004",
+  "receipt_type": "BLOCKED",
+  "completed_at": "2026-05-04T00:00:00Z",
+  "agent": "pen-executor",
+  "reality_state": "PARTIAL",
+  "error": "Runtime activation probe requires live runner with GitHub push event visibility and write access to receipts/runtime/. No such runner confirmed active.",
+  "impact": "Bookmark execution engine v3 cannot be verified as active without runner probe.",
+  "rollback": "N/A \u2014 no changes made.",
+  "next_action": "Operator: confirm EC2 runner (i-09f18f2e1123a5702) is running and polling inbox/. Then re-trigger probe.",
+  "check_commands": [
+    "aws ssm start-session --target i-09f18f2e1123a5702 --region ap-southeast-2",
+    "ps aux | grep symbio",
+    "cat /var/log/pen-runner.log | tail -20"
+  ]
+}
