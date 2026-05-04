@@ -1,0 +1,15 @@
+{
+  "blocker": "safety gate: destructive/payment/credential/iam-like operation requires explicit controlled path",
+  "commit_sha": "0927ddebd83382adc3b82d28ae2d2cf5d402ac4d",
+  "created_at": "2026-05-04T05:28:20.339398+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "data-extract-insight-action-20260504",
+  "impact": "Job not dispatched because it tripped a hard gate.",
+  "next": "Create dry-run or approved gated execution payload.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/data-extract-insight-action-20260504.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25302661967"
+}

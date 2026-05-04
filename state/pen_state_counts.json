@@ -1,7 +1,7 @@
 {
   "counts": {
-    "archived": 22,
-    "blocked": 1,
+    "archived": 23,
+    "blocked": 7,
     "dev_running": 0,
     "dispatched": 0,
     "failed": 0,
@@ -11,8 +11,8 @@
     "real": 0,
     "validating": 0
   },
-  "generated_at": "2026-05-04T02:01:50.266140+00:00",
+  "generated_at": "2026-05-04T05:28:20.339398+00:00",
   "note": "Pen/dev are transit lanes. Prod-minimum requires tests, validation, observability, evidence, rollback, and safety gates.",
   "repo": "TML-4PM/the-pen",
-  "workflow_run_id": "25297451046"
+  "workflow_run_id": "25302661967"
 }
