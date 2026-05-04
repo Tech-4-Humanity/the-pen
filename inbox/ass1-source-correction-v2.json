@@ -1,0 +1,46 @@
+{
+  "job_id": "ass1-source-correction-v2",
+  "type": "evidence_correction",
+  "status": "COMPLETE_DEPOSITED",
+  "supersedes": "ass1-pretend-content-invalidated-v1",
+  "created_by": "gpt-5.5-thinking",
+  "idempotency_key": "ass1-source-correction-v2",
+  "correction_summary": "Public AI Sweet Spots poster routes were provided by Troy and verified as live. Prior status saying the ASS-1 poster/source was missing was incorrect. The earlier generated poster payload remains invalid because it was memory-based, but the source itself is not missing.",
+  "source_urls": [
+    {
+      "url": "https://aisweetspots.com/posters",
+      "status": 200,
+      "observed_role": "Public poster index / source anchor",
+      "observed_facts": [
+        "AI Sweet Spots Research Posters page exists",
+        "Page states: 7 studies. 11,241 participants. Comprehensive cognitive diversity research.",
+        "Foundation Study (ASS-1): N=160 | Pilot validation across 4 cognitive profiles",
+        "ASS-2: N=11,241 | 21 sites, 6 continents, 24-month longitudinal",
+        "Key findings include ADHD +44% productivity at 48% AI intensity (d=1.92), Dyslexia +38% at 45% AI (d=1.01), Neurotypical +9% at 25% AI (d=0.73), 3.89x harm risk >50%, 16.7% negative productivity effects, 83% using AI at wrong intensity"
+      ]
+    },
+    {
+      "url": "https://aisweetspots.com/poster/ai-sweet-spots",
+      "status": 200,
+      "observed_role": "Public poster route / SPA shell",
+      "observed_facts": [
+        "Route returns 200 OK",
+        "HTML title: AI Sweet Spots: Mapping Cognitive Effectiveness and Workload",
+        "Meta description states research on AI effectiveness across diverse cognitive populations"
+      ]
+    }
+  ],
+  "corrected_facts": {
+    "ass1_source_status": "LIVE_PUBLIC_SOURCE_FOUND",
+    "ass1_poster_status": "NOT_MISSING_PUBLIC_ROUTE_EXISTS",
+    "ass1_sample_size_from_public_index": "N=160",
+    "previous_n_4247_claim_for_ass1": "INVALID",
+    "previous_missing_source_claim": "INVALID",
+    "previous_generated_poster_copy": "INVALID_UNLESS_REBUILT_FROM_LIVE_SOURCE"
+  },
+  "evidence_class": "REAL_FOR_SOURCE_DISCOVERY_AND_CORRECTION",
+  "operational_instruction": "Use https://aisweetspots.com/posters and https://aisweetspots.com/poster/ai-sweet-spots as source anchors. Do not use memory-based ASS-1 payloads. Extract/rebuild poster metadata from live public route or repository source only.",
+  "failure_root_cause": "Assistant searched Drive first, missed public canonical routes, conflated dataset/sample-size memory with ASS-1, then wrote an overbroad invalidation note.",
+  "rollback": "Do not delete prior correction; this file supersedes it and preserves audit trail. Archive previous missing-source statement as incorrect.",
+  "next": "Worker should mark ASS-1 source FOUND, update dashboard status from MISSING to LIVE_SOURCE_FOUND, and require repo/live-route extraction before any publication-grade regeneration."
+}
