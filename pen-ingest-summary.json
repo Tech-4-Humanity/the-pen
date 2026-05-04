@@ -1,6 +1,6 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-04T12:49:00.992Z",
+  "processed_at": "2026-05-04T13:03:23.786Z",
   "jobs_found": 31,
   "results": [
     {
@@ -133,8 +133,7 @@
       "job": "seller_mode_session_handover_notice_v2.json",
       "idempotency_key": "seller_mode_session_handover_notice_v2",
       "receipt_path": "receipts/runtime/seller_mode_session_handover_notice_v2.receipt.json",
-      "receipt_created": true,
-      "evidence_state": "PARTIAL"
+      "receipt_created": false
     },
     {
       "job": "session-handover-v2-enforcement-2026-05-04.json",
