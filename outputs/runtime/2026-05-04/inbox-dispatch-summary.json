@@ -1,8 +1,8 @@
 {
-  "ts": "2026-05-04T01:22:02.564Z",
-  "passed": 3,
+  "ts": "2026-05-04T01:38:14.564Z",
+  "passed": 0,
   "failed": 0,
-  "skipped": 16,
+  "skipped": 19,
   "results": [
     {
       "file": "ace-bootstrap-20260429-0001.json",
@@ -43,8 +43,7 @@
     {
       "file": "daily-brief-v2-retry-2026-04-26-002.json",
       "key": "daily-brief-v2-retry-2026-04-26-002",
-      "status": "PASS",
-      "job_id": "34dcd6b4-e046-4777-b05d-20040660a568"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "ghost_claim_recovery_bridge_job_20260430_001.json",
@@ -55,8 +54,7 @@
     {
       "file": "launch-system-bootstrap-2026-04-27-001.json",
       "key": "launch-system-bootstrap-2026-04-27-001",
-      "status": "PASS",
-      "job_id": "38734c47-8497-4352-aeb9-895245df4efc"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "pen-now-control-plane-ping-20260429-001.json",
@@ -85,8 +83,7 @@
     {
       "file": "synal-backbone-pack-v1.json",
       "key": "synal-backbone-pack-v1",
-      "status": "PASS",
-      "job_id": "1af026d8-3c06-429c-973e-d15ade75891d"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "synal-place-of-places-sticky-entry-20260429-001.json",
