@@ -1,6 +1,6 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-04T04:06:36.044Z",
+  "processed_at": "2026-05-04T07:21:14.798Z",
   "jobs_found": 30,
   "results": [
     {
@@ -127,8 +127,7 @@
       "job": "seller_mode_acceleration_bundle_v1.json",
       "idempotency_key": "seller_mode_acceleration_bundle_v1",
       "receipt_path": "receipts/runtime/seller_mode_acceleration_bundle_v1.receipt.json",
-      "receipt_created": true,
-      "evidence_state": "PARTIAL"
+      "receipt_created": false
     },
     {
       "job": "session-handover-v2-enforcement-2026-05-04.json",
