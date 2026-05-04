@@ -1,0 +1,152 @@
+name: PEN Dispatch and Final Receipt
+
+on:
+  push:
+    paths:
+      - 'inbox/*.json'
+      - 'receipts/runtime/*.receipt.json'
+      - '.github/workflows/pen-dispatch.yml'
+      - 'global/PEN_PROD_MINIMUM_RULE.md'
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    env:
+      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
+      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Dispatch accepted PEN jobs and write final receipts
+        run: |
+          set -euo pipefail
+          mkdir -p receipts/final state archive/inbox
+          python3 - <<'PY'
+          import json, os, pathlib, shutil, subprocess, hashlib, urllib.request
+          from datetime import datetime, timezone
+
+          now = datetime.now(timezone.utc).isoformat()
+          repo = os.environ.get('GITHUB_REPOSITORY','')
+          sha = os.environ.get('GITHUB_SHA','')
+          run_id = os.environ.get('GITHUB_RUN_ID','')
+          bridge_url = os.environ.get('BRIDGE_INVOKE_URL','')
+          bridge_key = os.environ.get('BRIDGE_API_KEY','')
+
+          inbox = pathlib.Path('inbox')
+          runtime = pathlib.Path('receipts/runtime')
+          final_dir = pathlib.Path('receipts/final')
+          archive = pathlib.Path('archive/inbox')
+          final_dir.mkdir(parents=True, exist_ok=True)
+          archive.mkdir(parents=True, exist_ok=True)
+
+          counts = {'pen_accepted':0,'dispatched':0,'dev_running':0,'validating':0,'prod_minimum':0,'real':0,'partial':0,'blocked':0,'failed':0,'archived':0}
+          rows = []
+
+          for job_path in sorted(inbox.glob('*.json')):
+              raw = job_path.read_text(encoding='utf-8')
+              key = job_path.stem
+              try:
+                  job = json.loads(raw)
+                  key = job.get('idempotency_key') or key
+              except Exception as exc:
+                  receipt = {
+                    'receipt_type':'pen_final_receipt','idempotency_key':key,'state':'FAILED','evidence_state':'PARTIAL',
+                    'created_at':now,'repo':repo,'commit_sha':sha,'workflow_run_id':run_id,
+                    'source_job_path':str(job_path),'error':f'invalid json: {exc}',
+                    'impact':'Job could not be dispatched.','rollback':'Archive malformed file; resubmit valid JSON.','next':'Fix payload shape.'
+                  }
+                  counts['failed'] += 1
+                  final_dir.joinpath(f'{key}.final.receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+                  continue
+
+              final_path = final_dir / f'{key}.final.receipt.json'
+              if final_path.exists():
+                  counts['archived'] += 1
+                  continue
+
+              hard_gate = None
+              text = json.dumps(job).lower()
+              if any(x in text for x in ['delete ', 'destroy', 'drop table', 'refund', 'charge customer', 'secret', 'iam:', 'credential']):
+                  hard_gate = 'safety gate: destructive/payment/credential/iam-like operation requires explicit controlled path'
+
+              if hard_gate:
+                  receipt = {
+                    'receipt_type':'pen_final_receipt','idempotency_key':key,'state':'BLOCKED','evidence_state':'PARTIAL',
+                    'created_at':now,'repo':repo,'commit_sha':sha,'workflow_run_id':run_id,
+                    'source_job_path':str(job_path),'blocker':hard_gate,
+                    'impact':'Job not dispatched because it tripped a hard gate.','rollback':'No runtime side effect executed.','next':'Create dry-run or approved gated execution payload.'
+                  }
+                  counts['blocked'] += 1
+              elif bridge_url and bridge_key:
+                  payload = json.dumps({'idempotency_key':key,'job':job,'source':'the-pen','requested_state':'PROD_WORTHY_MINIMUM'}).encode('utf-8')
+                  req = urllib.request.Request(bridge_url, data=payload, method='POST', headers={'content-type':'application/json','x-api-key':bridge_key})
+                  try:
+                      with urllib.request.urlopen(req, timeout=45) as resp:
+                          body = resp.read().decode('utf-8', errors='replace')
+                          status = resp.status
+                      ok = 200 <= status < 300
+                      receipt = {
+                        'receipt_type':'pen_final_receipt','idempotency_key':key,'state':'REAL' if ok else 'PARTIAL','evidence_state':'REAL' if ok else 'PARTIAL',
+                        'created_at':now,'repo':repo,'commit_sha':sha,'workflow_run_id':run_id,
+                        'source_job_path':str(job_path),'bridge_status':status,'bridge_response':body[:4000],
+                        'prod_worthiness':'bridge accepted execution; downstream runtime response captured',
+                        'impact':'Job dispatched through bridge.','rollback':'Use job idempotency key to re-run or archive superseded evidence.','next':'Bind runtime output to Supabase/Command Centre if bridge did not do it.'
+                      }
+                      counts['real' if ok else 'partial'] += 1
+                      counts['dispatched'] += 1
+                  except Exception as exc:
+                      receipt = {
+                        'receipt_type':'pen_final_receipt','idempotency_key':key,'state':'FAILED','evidence_state':'PARTIAL',
+                        'created_at':now,'repo':repo,'commit_sha':sha,'workflow_run_id':run_id,
+                        'source_job_path':str(job_path),'error':str(exc),
+                        'impact':'Bridge dispatch failed; job remains in inbox for retry.','rollback':'No archive performed because dispatch failed.','next':'Fix bridge secret/endpoint or worker availability, then rerun dispatch.'
+                      }
+                      counts['failed'] += 1
+              else:
+                  receipt = {
+                    'receipt_type':'pen_final_receipt','idempotency_key':key,'state':'BLOCKED','evidence_state':'PARTIAL',
+                    'created_at':now,'repo':repo,'commit_sha':sha,'workflow_run_id':run_id,
+                    'source_job_path':str(job_path),'blocker':'BRIDGE_INVOKE_URL or BRIDGE_API_KEY secret missing',
+                    'impact':'Autonomous dispatch cannot run without bridge endpoint/key.','rollback':'No runtime side effect executed.','next':'Set GitHub Actions secrets BRIDGE_INVOKE_URL and BRIDGE_API_KEY, then rerun.'
+                  }
+                  counts['blocked'] += 1
+
+              final_path.write_text(json.dumps(receipt, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+              rows.append(receipt)
+
+          pathlib.Path('state').mkdir(exist_ok=True)
+          state = {'generated_at':now,'repo':repo,'workflow_run_id':run_id,'counts':counts,'note':'Pen/dev are transit lanes. Prod-minimum requires tests, validation, observability, evidence, rollback, and safety gates.'}
+          pathlib.Path('state/pen_state_counts.json').write_text(json.dumps(state, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+
+          md = ['# PEN State Counts','',f'Generated: {now}','', '| State | Count |','| --- | ---: |']
+          for k,v in counts.items(): md.append(f'| {k} | {v} |')
+          md.append('')
+          md.append('Prod-minimum is test-gated and evidence-bound, not blind promotion.')
+          pathlib.Path('state/pen_state_counts.md').write_text('\n'.join(md)+'\n', encoding='utf-8')
+          PY
+
+      - name: Commit final receipts and state counts
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add receipts/final/*.json state/pen_state_counts.* || true
+          if git diff --cached --quiet; then
+            echo 'No dispatch receipt changes to commit.'
+            exit 0
+          fi
+          git commit -m "PEN dispatch: final receipts and state counts"
+          git push
