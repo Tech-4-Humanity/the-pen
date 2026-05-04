@@ -1,0 +1,53 @@
+{
+  "idempotency_key": "seller_mode_acceleration_bundle_v1",
+  "type": "PEN_JOB",
+  "epoch": "SELLER_MODE",
+  "priority": "HIGH",
+  "mode": "PROD_OPERATOR",
+  "role": "MASTER_ORCHESTRATOR",
+  "requested_machine_action": "apply_seller_mode_sql_toggle_and_offer_generator",
+  "receipt_required": true,
+  "human_in_loop_required": false,
+  "scope": {
+    "supabase": true,
+    "command_centre": true,
+    "offer_generator": true,
+    "registry_source": "public.mcp_business_registry"
+  },
+  "supabase_sql": "create schema if not exists ops;\ncreate schema if not exists cc;\ncreate schema if not exists audit;\n\ncreate table if not exists ops.session_bootstrap (\n  id text primary key,\n  epoch text not null,\n  mode text not null,\n  role text not null,\n  primary_identity text not null,\n  payload jsonb not null default '{}'::jsonb,\n  is_active boolean not null default true,\n  created_at timestamptz not null default now(),\n  updated_at timestamptz not null default now()\n);\n\ncreate table if not exists ops.operator_memory (\n  key text primary key,\n  value jsonb not null,\n  source text not null default 'pen',\n  evidence text not null default 'PARTIAL',\n  created_at timestamptz not null default now(),\n  updated_at timestamptz not null default now()\n);\n\ncreate table if not exists cc.feature_flags (\n  key text primary key,\n  value boolean not null default false,\n  scope text not null default 'global',\n  description text,\n  created_at timestamptz not null default now(),\n  updated_at timestamptz not null default now()\n);\n\ncreate table if not exists commercial.generated_offers (\n  offer_slug text primary key,\n  business_slug text not null,\n  group_code text,\n  offer_title text not null,\n  target_market text not null,\n  problem text not null,\n  signal text not null,\n  intervention text not null,\n  outcome text not null,\n  commercial_model text not null,\n  cta text not null,\n  source_version text default 'seller_mode_v1',\n  evidence text not null default 'PARTIAL',\n  created_at timestamptz not null default now(),\n  updated_at timestamptz not null default now()\n);\n\ninsert into ops.session_bootstrap (id, epoch, mode, role, primary_identity, payload, is_active, updated_at)\nvalues (\n  'bootstrap_seller_mode_v1',\n  'SELLER_MODE',\n  'PROD_OPERATOR',\n  'MASTER_ORCHESTRATOR',\n  'SELLER',\n  jsonb_build_object(\n    'directive', 'monetise existing assets; no new builds without revenue link',\n    'done', jsonb_build_array('offer_exists','target_market_defined','cta_live_or_queued','revenue_path_clear','receipt_exists'),\n    'handover', 'old sessions must summarise, deposit to PEN, capture receipt, close'\n  ),\n  true,\n  now()\n)\non conflict (id) do update set\n  epoch = excluded.epoch,\n  mode = excluded.mode,\n  role = excluded.role,\n  primary_identity = excluded.primary_identity,\n  payload = excluded.payload,\n  is_active = true,\n  updated_at = now();\n\ninsert into ops.operator_memory (key, value, source, evidence, updated_at)\nvalues (\n  'global.session_identity',\n  jsonb_build_object(\n    'role','MASTER_ORCHESTRATOR',\n    'mode','PROD_OPERATOR',\n    'stance','SELLER',\n    'blocked','builder drift',\n    'rule','package, price, position, sell'\n  ),\n  'pen',\n  'PARTIAL',\n  now()\n)\non conflict (key) do update set value = excluded.value, source = excluded.source, evidence = excluded.evidence, updated_at = now();\n\ninsert into cc.feature_flags (key, value, scope, description, updated_at)\nvalues (\n  'SELLER_MODE_ON',\n  true,\n  'global',\n  'Prioritise commercialisation, offer generation and sales execution over builder-mode work.',\n  now()\n)\non conflict (key) do update set value = true, scope = excluded.scope, description = excluded.description, updated_at = now();\n\ninsert into audit.log (event_type, source, payload, created_at)\nvalues (\n  'SELLER_MODE_ACCELERATION_BUNDLE_APPLIED',\n  'pen',\n  jsonb_build_object('idempotency_key','seller_mode_acceleration_bundle_v1','toggle','SELLER_MODE_ON','registry','public.mcp_business_registry'),\n  now()\n);",
+  "command_centre_toggle_binding": {
+    "feature_flag_key": "SELLER_MODE_ON",
+    "label": "Seller Mode",
+    "state": true,
+    "surface": "Command Centre",
+    "visible_effect": "Sessions package, price, position and sell. Builder-mode work must be handed over through PEN.",
+    "required_query": "select key, value, scope, description, updated_at from cc.feature_flags where key = 'SELLER_MODE_ON';"
+  },
+  "offer_generator_spec": {
+    "source_table": "public.mcp_business_registry",
+    "target_table": "commercial.generated_offers",
+    "idempotency": "offer_slug primary key generated from business_slug || '-seller-mode-offer-v1'",
+    "generation_rule": "For each active business, create one practical revenue offer using existing asset/category metadata. Do not invent operational capability that is not evidenced by registry fields. Use PARTIAL evidence when registry lacks proof.",
+    "sql_template": "insert into commercial.generated_offers (offer_slug,business_slug,group_code,offer_title,target_market,problem,signal,intervention,outcome,commercial_model,cta,evidence) select business_slug || '-seller-mode-offer-v1', business_slug, group_code, coalesce(nullif(business_name,''), business_slug) || ' Revenue Activation Offer', 'Existing buyers, partners and enterprise prospects', 'Existing asset has insufficient commercial packaging or CTA.', 'Registry confirms active business asset requiring monetisation path.', 'Package current asset into a clear offer with pricing, CTA and outbound motion.', 'Qualified lead or paid activation path created.', 'Assessment, report, subscription, API, workshop or enterprise package depending on fit.', 'Book a revenue activation call / start assessment / request proposal.', 'PARTIAL' from public.mcp_business_registry where status = 'active' on conflict (offer_slug) do update set offer_title = excluded.offer_title, target_market = excluded.target_market, problem = excluded.problem, signal = excluded.signal, intervention = excluded.intervention, outcome = excluded.outcome, commercial_model = excluded.commercial_model, cta = excluded.cta, updated_at = now();"
+  },
+  "validation_queries": [
+    "select * from cc.feature_flags where key = 'SELLER_MODE_ON';",
+    "select * from ops.session_bootstrap where id = 'bootstrap_seller_mode_v1';",
+    "select count(*) as generated_offer_count from commercial.generated_offers where source_version = 'seller_mode_v1' or offer_slug like '%seller-mode-offer-v1';",
+    "select * from audit.log where event_type = 'SELLER_MODE_ACCELERATION_BUNDLE_APPLIED' order by created_at desc limit 1;"
+  ],
+  "definition_of_done": [
+    "GitHub PEN commit exists",
+    "Bridge or worker receipt exists",
+    "SELLER_MODE_ON flag true",
+    "session bootstrap row active",
+    "generated offers created from mcp_business_registry",
+    "audit.log row written"
+  ],
+  "failure_handling": {
+    "if_audit_log_shape_differs": "write receipt file with SQL error and impact; do not pretend success",
+    "if_commercial_schema_missing": "create schema commercial before generated_offers table",
+    "if_registry_columns_differ": "fallback to business_slug/status/group_code only; receipt mismatch details",
+    "rollback": "set cc.feature_flags SELLER_MODE_ON=false only if explicitly instructed; archive not delete"
+  }
+}
