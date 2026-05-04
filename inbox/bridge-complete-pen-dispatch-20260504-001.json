@@ -1,0 +1,69 @@
+{
+  "idempotency_key": "bridge-complete-pen-dispatch-20260504-001",
+  "created_at": "2026-05-04T00:00:00Z",
+  "origin": "chatgpt-prod-operator",
+  "destination": "bridge-runner",
+  "job_type": "bridge_completion_request",
+  "priority": 10,
+  "title": "Complete PEN dispatch to prod-worthy final receipts",
+  "objective": "Use the bridge/runtime worker path to complete all accepted PEN jobs that are safe to execute, validate outputs, write final REAL/PARTIAL/BLOCKED/FAILED receipts, and update Pen/dev/prod state counts.",
+  "requested_state": "PROD_WORTHY_MINIMUM",
+  "governance": {
+    "pen_dev_are_transit_lanes": true,
+    "no_blind_prod_promotion": true,
+    "prod_minimum_requires_tests_validation_observability_evidence_rollback_safety": true,
+    "archive_not_delete": true,
+    "hard_gates": [
+      "destructive_delete",
+      "rls_or_security_policy_change_without_dry_run",
+      "iam_or_credentials_or_secrets",
+      "payments_refunds_customer_charge",
+      "legal_compliance_representation"
+    ]
+  },
+  "tasks": [
+    {
+      "name": "scan_pen_jobs",
+      "action": "Read inbox/*.json and receipts/runtime/*.receipt.json, identify ACCEPTED jobs without receipts/final/*.final.receipt.json."
+    },
+    {
+      "name": "classify_and_gate",
+      "action": "Classify each job as safe_to_execute, blocked_hard_gate, invalid_payload, duplicate, or already_finalised."
+    },
+    {
+      "name": "execute_safe_jobs",
+      "action": "For safe jobs, execute through bridge/runtime worker with idempotency key and requested_state=PROD_WORTHY_MINIMUM."
+    },
+    {
+      "name": "validate",
+      "action": "Run relevant build/test/smoke/validation checks before marking PROD_MINIMUM or REAL."
+    },
+    {
+      "name": "write_final_receipts",
+      "action": "Write receipts/final/<idempotency_key>.final.receipt.json with state REAL, PARTIAL, BLOCKED, or FAILED; include error, impact, rollback, next, runtime evidence, and validation evidence."
+    },
+    {
+      "name": "update_counts",
+      "action": "Write state/pen_state_counts.json and state/pen_state_counts.md with Pen, Dev, Validating, Prod, Real, Partial, Blocked, Failed, Archived counts."
+    },
+    {
+      "name": "close_loop",
+      "action": "Commit all final receipts and state counts to TML-4PM/the-pen and return the commit SHA as receipt evidence."
+    }
+  ],
+  "success_criteria": [
+    "No accepted safe job remains without a final receipt",
+    "Blocked jobs name the exact hard gate",
+    "Failed jobs include error, impact, rollback, next",
+    "Prod-minimum jobs include test/validation evidence",
+    "State counts exist and are committed",
+    "No destructive/payment/IAM/credential/legal action is executed without gate"
+  ],
+  "evidence_required": [
+    "final receipt path",
+    "commit sha",
+    "workflow/run id if applicable",
+    "runtime response or blocker",
+    "state counts file path"
+  ]
+}
