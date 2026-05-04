@@ -1,0 +1,13 @@
+{
+  "idempotency_key": "launch-system-bootstrap-2026-04-27-001",
+  "receipt_type": "ESCALATED_TO_OPERATOR",
+  "completed_at": "2026-05-04T00:00:00Z",
+  "agent": "pen-executor",
+  "reality_state": "PARTIAL",
+  "summary": "Launch control system spec received. Multi-lane (DEV_TO_PROD, PROD_TO_HOLD) bootstrap design requires operator decision on which 5-15 URLs proceed. Spec documented in inbox. Escalated: operator must select active brands and approve gate criteria before agents can execute lane assignments.",
+  "blockers": [
+    "Operator must select which brands enter DEV_TO_PROD lane",
+    "Gate criteria approval required"
+  ],
+  "next_action": "Operator: review inbox item, select brands, approve gates, re-enqueue as launch-system-execute-001"
+}
