@@ -1,0 +1,39 @@
+{
+  "idempotency_key": "seller_mode_session_handover_notice_v2",
+  "status": "invalid",
+  "processed_at": "2026-05-04T12:49:00.985Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/seller_mode_session_handover_notice_v2.json",
+  "source_sha256": "55187729f2da0652beea3013e1f1074749e66fc089847d422d6d69dd25a9ce4f",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": [
+      "created_at missing",
+      "objective/purpose missing"
+    ]
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}

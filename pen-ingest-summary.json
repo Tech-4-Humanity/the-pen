@@ -1,7 +1,7 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-04T11:25:10.816Z",
-  "jobs_found": 30,
+  "processed_at": "2026-05-04T12:49:00.992Z",
+  "jobs_found": 31,
   "results": [
     {
       "job": "ace-bootstrap-20260429-0001.json",
@@ -128,6 +128,13 @@
       "idempotency_key": "seller_mode_acceleration_bundle_v1",
       "receipt_path": "receipts/runtime/seller_mode_acceleration_bundle_v1.receipt.json",
       "receipt_created": false
+    },
+    {
+      "job": "seller_mode_session_handover_notice_v2.json",
+      "idempotency_key": "seller_mode_session_handover_notice_v2",
+      "receipt_path": "receipts/runtime/seller_mode_session_handover_notice_v2.receipt.json",
+      "receipt_created": true,
+      "evidence_state": "PARTIAL"
     },
     {
       "job": "session-handover-v2-enforcement-2026-05-04.json",
