@@ -1,0 +1,72 @@
+{
+  "job_id": "wip-command-bus-event-driven-v1",
+  "idempotency_key": "wip-command-bus-event-driven-v1-2026-05-05",
+  "source": "chatgpt-last-sweep-before-pen",
+  "mode": "AUTO_EXECUTE",
+  "hitl_required": false,
+  "evidence_level": "PARTIAL_UNTIL_WORKER_RECEIPT",
+  "objective": "Implement and validate WIP Command Bus as event-driven trigger layer, not always-on compute. WIP accepts commands, Pen expands, Dev executes, Prod accepts only verified outputs.",
+  "canonical_correction": "Never idle means no accepted command remains unprocessed. It does not mean workers run continuously. Compute wakes only on WIP insert, Pen job creation, retry event, scheduled watchdog, or receipt evaluation.",
+  "architecture": {
+    "wip": {
+      "role": "command intake and event trigger",
+      "allowed": ["capture intent", "classify", "expand request", "enqueue Pen expansion"],
+      "blocked": ["building", "deploying", "claiming done", "bypassing Pen"]
+    },
+    "pen": {
+      "role": "job shaping and validation",
+      "allowed": ["create job tree", "assign idempotency keys", "package bridge payload", "write receipt target"],
+      "blocked": ["final completion claims", "ungated prod promotion"]
+    },
+    "dev_symbio": {
+      "role": "execution and validation",
+      "allowed": ["build", "test", "validate", "write receipts"],
+      "blocked": ["prod promotion without gate evidence"]
+    },
+    "prod_synapse": {
+      "role": "locked production state",
+      "allowed": ["accept tested outputs only", "surface REAL evidence"],
+      "blocked": ["raw chat assumptions", "PARTIAL/PRETEND completion"]
+    }
+  },
+  "implementation_bundle": {
+    "schema_sql": "create schema if not exists ops;\ncreate table if not exists ops.wip_commands (\n  id uuid primary key default gen_random_uuid(),\n  idempotency_key text unique not null,\n  raw_command text not null,\n  command_type text not null,\n  target_slug text,\n  status text not null default 'QUEUED',\n  expansion_status text not null default 'PENDING',\n  execution_status text not null default 'PENDING',\n  evidence_status text not null default 'PENDING',\n  promoted_pen_job_id uuid,\n  evidence_ref text,\n  blocked_reason text,\n  created_at timestamptz default now(),\n  updated_at timestamptz default now(),\n  constraint wip_status_check check (status in ('QUEUED','ACTIVE','BLOCKED','COMPLETE','ARCHIVED')),\n  constraint wip_complete_requires_real_evidence check (status != 'COMPLETE' or (execution_status = 'COMPLETE' and evidence_status = 'REAL' and evidence_ref is not null))\n);",
+    "trigger_sql": "create or replace function ops.fn_wip_touch_updated() returns trigger as $$ begin new.updated_at = now(); return new; end; $$ language plpgsql;\ndrop trigger if exists trg_wip_touch_updated on ops.wip_commands;\ncreate trigger trg_wip_touch_updated before update on ops.wip_commands for each row execute function ops.fn_wip_touch_updated();\n\ncreate or replace function ops.enqueue_pen_expansion(p_wip_id uuid) returns void as $$ begin insert into audit.log(event_type, entity_type, entity_id, evidence_status, metadata) values ('WIP_ENQUEUE_PEN_EXPANSION','ops.wip_commands',p_wip_id::text,'PARTIAL',jsonb_build_object('receipt_required',true,'event_driven',true)) on conflict do nothing; end; $$ language plpgsql;\n\ncreate or replace function ops.fn_wip_trigger() returns trigger as $$ begin perform ops.enqueue_pen_expansion(new.id); return new; end; $$ language plpgsql;\ndrop trigger if exists trg_wip_on_insert on ops.wip_commands;\ncreate trigger trg_wip_on_insert after insert on ops.wip_commands for each row execute function ops.fn_wip_trigger();"
+  },
+  "execution_contract": {
+    "no_hot_loops": true,
+    "worker_pattern": "Lambda/event worker invoked only by insert, queue event, delayed retry, scheduled watchdog, or receipt evaluation.",
+    "retry_pattern": "bounded exponential backoff via SQS delay or EventBridge one-shot; no permanent polling.",
+    "watchdog": "low-frequency stale job sweep only; marks BLOCKED with reason and audit row when thresholds exceeded.",
+    "completion_gate": [
+      "runtime.jobs complete",
+      "audit.log receipt exists",
+      "audit.reality_ledger classifies evidence REAL",
+      "Command Centre status visible",
+      "ops.wip_commands.evidence_ref populated"
+    ]
+  },
+  "minimum_command_surface": {
+    "run": "full pipeline",
+    "fix": "repair jobs",
+    "status": "read receipts",
+    "stop": "halt queued/active safely",
+    "archive": "close without delete"
+  },
+  "validation_checks": [
+    "Insert sample WIP command and verify Pen expansion event is written.",
+    "Re-insert same idempotency_key and verify no duplicate job.",
+    "Attempt COMPLETE without REAL evidence and verify rejected.",
+    "Mark retryable failure and verify delayed retry rather than hot loop.",
+    "Verify no workers run when no queue/event exists.",
+    "Verify Command Centre can count QUEUED/ACTIVE/BLOCKED/COMPLETE/ARCHIVED."
+  ],
+  "handover_note": "WIP Command Bus final sweep: package is event-driven, Lambda-safe, no HITL, no hot loops, receipt-gated. Never idle means no command sits unprocessed; it does not mean always-running compute. Pen worker must expand commands deterministically, assign idempotency keys, write bridge-ready payloads, and require REAL evidence before COMPLETE.",
+  "done_requires": [
+    "pen_file_committed",
+    "worker_receipt_written",
+    "audit_log_written",
+    "runtime_receipt_returned",
+    "command_centre_visible"
+  ]
+}
