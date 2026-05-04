@@ -1,0 +1,63 @@
+{
+  "project": "OR-AAA-001",
+  "description": "Stripe products for Adaptive Ambient Access",
+  "products": [
+    {
+      "name": "AAA Starter",
+      "tier": "T1",
+      "price_monthly": 5900,
+      "price_annual": 59900,
+      "currency": "aud",
+      "metadata": {
+        "tier": "T1",
+        "participants": "1",
+        "ambient_windows": "5_per_month",
+        "ndis_billable": "true"
+      }
+    },
+    {
+      "name": "AAA Essential",
+      "tier": "T2",
+      "price_monthly": 14900,
+      "price_annual": 149900,
+      "currency": "aud",
+      "metadata": {
+        "tier": "T2",
+        "participants": "5",
+        "ambient_windows": "unlimited",
+        "ndis_billable": "true"
+      }
+    },
+    {
+      "name": "AAA Provider",
+      "tier": "T3",
+      "price_monthly": 39900,
+      "price_annual": 399900,
+      "currency": "aud",
+      "metadata": {
+        "tier": "T3",
+        "participants": "25",
+        "ambient_windows": "unlimited",
+        "api_access": "true",
+        "ndis_billable": "true"
+      }
+    },
+    {
+      "name": "AAA Network",
+      "tier": "T4",
+      "price_monthly": 99900,
+      "price_annual": 999900,
+      "currency": "aud",
+      "metadata": {
+        "tier": "T4",
+        "participants": "100",
+        "ambient_windows": "unlimited",
+        "api_access": "true",
+        "webhooks": "true",
+        "ndis_billable": "true"
+      }
+    }
+  ],
+  "seed_command": "invoke troy-stripe-executor with action=seed_products payload=this_file",
+  "idempotency_key": "or-aaa-001-stripe-products-v1"
+}
