@@ -1,13 +1,26 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-04T00:09:45.355Z",
-  "jobs_found": 18,
+  "processed_at": "2026-05-04T02:16:51.639Z",
+  "jobs_found": 24,
   "results": [
     {
       "job": "ace-bootstrap-20260429-0001.json",
       "idempotency_key": "ace-bootstrap-20260429-0001",
       "receipt_path": "receipts/runtime/ace-bootstrap-20260429-0001.receipt.json",
       "receipt_created": false
+    },
+    {
+      "job": "asset-matrix-activation-v1.json",
+      "idempotency_key": "asset-matrix-activation-v1",
+      "receipt_path": "receipts/runtime/asset-matrix-activation-v1.receipt.json",
+      "receipt_created": false
+    },
+    {
+      "job": "bridge-complete-pen-dispatch-20260504-001.json",
+      "idempotency_key": "bridge-complete-pen-dispatch-20260504-001",
+      "receipt_path": "receipts/runtime/bridge-complete-pen-dispatch-20260504-001.receipt.json",
+      "receipt_created": true,
+      "evidence_state": "PARTIAL"
     },
     {
       "job": "bridge-intake-status-validation-2026-04-29-001.json",
@@ -34,9 +47,21 @@
       "receipt_created": false
     },
     {
+      "job": "cux-autonomy-worker-reliability-2026-05-04-001.json",
+      "idempotency_key": "cux-autonomy-worker-reliability-2026-05-04-001",
+      "receipt_path": "receipts/runtime/cux-autonomy-worker-reliability-2026-05-04-001.receipt.json",
+      "receipt_created": false
+    },
+    {
       "job": "daily-brief-v2-retry-2026-04-26-002.json",
       "idempotency_key": "daily-brief-v2-retry-2026-04-26-002",
       "receipt_path": "receipts/runtime/daily-brief-v2-retry-2026-04-26-002.receipt.json",
+      "receipt_created": false
+    },
+    {
+      "job": "gdrive_specialist_activation_20260429.json",
+      "idempotency_key": "gdrive_specialist_activation_20260429",
+      "receipt_path": "receipts/runtime/gdrive_specialist_activation_20260429.receipt.json",
       "receipt_created": false
     },
     {
@@ -68,6 +93,13 @@
       "idempotency_key": "reuse-enforcement-layer-2026-04-27-002",
       "receipt_path": "receipts/runtime/reuse-enforcement-layer-2026-04-27-002.receipt.json",
       "receipt_created": false
+    },
+    {
+      "job": "session-handover-v2-enforcement-2026-05-04.json",
+      "idempotency_key": "session-handover-v2-enforcement-2026-05-04",
+      "receipt_path": "receipts/runtime/session-handover-v2-enforcement-2026-05-04.receipt.json",
+      "receipt_created": true,
+      "evidence_state": "PARTIAL"
     },
     {
       "job": "signals-expansion-2026-04-29-001.json",
@@ -109,6 +141,12 @@
       "job": "tier1-spof-build-execution-20260430-001.json",
       "idempotency_key": "tier1-spof-build-execution-20260430-001",
       "receipt_path": "receipts/runtime/tier1-spof-build-execution-20260430-001.receipt.json",
+      "receipt_created": false
+    },
+    {
+      "job": "wrap-route-measure-20260429-001.json",
+      "idempotency_key": "wrap-route-measure-20260429-001",
+      "receipt_path": "receipts/runtime/wrap-route-measure-20260429-001.receipt.json",
       "receipt_created": false
     }
   ]

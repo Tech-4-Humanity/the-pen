@@ -1,0 +1,32 @@
+{
+  "idempotency_key": "bridge-complete-pen-dispatch-20260504-001",
+  "status": "processed",
+  "processed_at": "2026-05-04T02:16:51.621Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/bridge-complete-pen-dispatch-20260504-001.json",
+  "source_sha256": "a2a0f72424aa5b925b0c745c7e0334fa8b7577769f9ac3ed95c3b3f2111e7bb7",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": true,
+    "missing": [],
+    "warnings": []
+  },
+  "classification": {
+    "lane": "BRIDGE_CONTROLLED_VALIDATE_ONLY",
+    "evidence_state": "PARTIAL",
+    "side_effects_executed": false,
+    "note": "Validated only. Controlled operations require approved runner."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [],
+  "next": [
+    "Bind to audit/evidence register.",
+    "Promote only receipt-writing scope to REAL."
+  ]
+}

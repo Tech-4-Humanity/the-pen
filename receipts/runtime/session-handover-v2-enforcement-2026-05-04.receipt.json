@@ -1,0 +1,36 @@
+{
+  "idempotency_key": "session-handover-v2-enforcement-2026-05-04",
+  "status": "invalid",
+  "processed_at": "2026-05-04T02:16:51.634Z",
+  "worker": "bridge_ingest_worker.mjs",
+  "destination": "bridge-runner",
+  "source_path": "inbox/session-handover-v2-enforcement-2026-05-04.json",
+  "source_sha256": "4ab9b6f6505d11b94b8d5387338fb9109a003d923a0402be27b6f1116c9a9a5c",
+  "evidence_state": "PARTIAL",
+  "validation": {
+    "valid": false,
+    "missing": [
+      "origin",
+      "destination"
+    ],
+    "warnings": []
+  },
+  "classification": {
+    "lane": "BRIDGE_AUTO_LOCAL_VALIDATE",
+    "evidence_state": "REAL",
+    "side_effects_executed": false,
+    "note": "Local bridge ingestion validated and receipt produced."
+  },
+  "outputs": {
+    "parsed_json": true,
+    "receipt_written": true,
+    "external_calls_made": false,
+    "bridge_lane": true
+  },
+  "errors": [
+    "Missing required fields: origin, destination"
+  ],
+  "next": [
+    "Correct payload and resubmit."
+  ]
+}
