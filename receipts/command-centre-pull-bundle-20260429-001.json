@@ -1,0 +1,13 @@
+{
+  "idempotency_key": "command-centre-pull-bundle-20260429-001",
+  "receipt_type": "BLOCKED_NEEDS_RUNNER",
+  "completed_at": "2026-05-04T00:00:00Z",
+  "agent": "pen-executor",
+  "reality_state": "PARTIAL",
+  "summary": "Command Centre pull bundle job: create scripts to pull mcp-command-centre, ops-dashboard, symbio, synapse, pen, bridge repos into timestamped temp folder and generate indexes. Cannot execute file system operations without live runner. Runner infrastructure (EC2/Lambda) required.",
+  "blockers": [
+    "No live runner with file system access available at time of processing",
+    "EC2 runner bootstrap pending (i-09f18f2e1123a5702)"
+  ],
+  "next_action": "Operator: bootstrap EC2 runner, then re-enqueue this job for execution"
+}
