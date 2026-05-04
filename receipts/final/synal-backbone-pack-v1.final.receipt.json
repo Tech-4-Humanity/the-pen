@@ -1,0 +1,15 @@
+{
+  "blocker": "BRIDGE_INVOKE_URL or BRIDGE_API_KEY secret missing",
+  "commit_sha": "18a47c1b4af38c1ece164ac3cee9f9ffaecf7793",
+  "created_at": "2026-05-04T01:56:37.672435+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "synal-backbone-pack-v1",
+  "impact": "Autonomous dispatch cannot run without bridge endpoint/key.",
+  "next": "Set GitHub Actions secrets BRIDGE_INVOKE_URL and BRIDGE_API_KEY, then rerun.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/synal-backbone-pack-v1.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25297325363"
+}
