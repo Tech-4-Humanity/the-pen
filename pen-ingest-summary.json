@@ -1,13 +1,27 @@
 {
   "worker": "bridge_ingest_worker.mjs",
-  "processed_at": "2026-05-04T22:30:59.572Z",
-  "jobs_found": 31,
+  "processed_at": "2026-05-04T23:32:12.830Z",
+  "jobs_found": 33,
   "results": [
     {
       "job": "ace-bootstrap-20260429-0001.json",
       "idempotency_key": "ace-bootstrap-20260429-0001",
       "receipt_path": "receipts/runtime/ace-bootstrap-20260429-0001.receipt.json",
       "receipt_created": false
+    },
+    {
+      "job": "ass1-pretend-content-invalidated-v1.json",
+      "idempotency_key": "ass1-pretend-content-invalidated-v1",
+      "receipt_path": "receipts/runtime/ass1-pretend-content-invalidated-v1.receipt.json",
+      "receipt_created": true,
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "job": "ass1-source-correction-v2.json",
+      "idempotency_key": "ass1-source-correction-v2",
+      "receipt_path": "receipts/runtime/ass1-source-correction-v2.receipt.json",
+      "receipt_created": true,
+      "evidence_state": "PARTIAL"
     },
     {
       "job": "asset-matrix-activation-v1.json",
