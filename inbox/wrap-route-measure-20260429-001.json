@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "idempotency_key": "wrap-route-measure-20260429-001",
+  "created_at": "2026-04-29T00:00:00Z",
+  "source": "chatgpt-master-orchestrator",
+  "priority": "critical",
+  "action": "wrap_route_measure_plan",
+  "receipt_required": true,
+  "archive_not_delete": true,
+  "owners": {
+    "router": "COUX",
+    "orchestrator": "FED-COUX",
+    "audit": "receipt-writer"
+  },
+  "summary": "Package reuse enforcement, COUX/FED-COUX cost control, row signal injection, multi-sink handoff and measurement requirements for Pen processing.",
+  "programs": [
+    {
+      "name": "reuse_enforcement",
+      "actions": [
+        "Add reuse check at WIP, Pen and Symbio ingress.",
+        "Use registry match before creating new build work.",
+        "Record reuse decision and route evidence.",
+        "Create new work only when reuse score is low and gap is logged."
+      ],
+      "metrics": ["reuse_rate", "duplicate_builds_prevented", "cost_saved_estimate"]
+    },
+    {
+      "name": "coux_fed_coux_cost_control",
+      "actions": [
+        "COUX owns fast-path routing and packaging.",
+        "FED-COUX runs only for multi-specialist or cross-thread synthesis.",
+        "GDrive worker remains stub only until service account is configured.",
+        "Retries run only for failed or receipt-missing jobs."
+      ],
+      "metrics": ["llm_calls_per_job", "route_latency", "retry_rate", "cost_per_job"]
+    },
+    {
+      "name": "thread_signal_injection",
+      "actions": [
+        "Use x_t4h metadata fields on rows and records.",
+        "Fields: signal, agent, scope, priority, action, receipt_required, idempotency_key, evidence_state.",
+        "Exclude secrets, full prompts, large blobs and mutable canonical business truth.",
+        "Map signals to queued work, not direct execution."
+      ],
+      "metrics": ["signals_emitted", "signals_matched", "signals_enqueued", "receipt_coverage"]
+    },
+    {
+      "name": "multi_sink_handoff",
+      "actions": [
+        "Pen receives executable JSON pointer job.",
+        "Supabase receives runtime and audit records.",
+        "Large artefacts use pointer plus checksum.",
+        "Human-readable docs are optional supporting artefacts.",
+        "Close only when receipt or evidence exists."
+      ],
+      "metrics": ["jobs_per_hour", "p95_completion_seconds", "jobs_without_receipt", "reality_state_distribution"]
+    }
+  ],
+  "workers": [
+    {"name": "coux-router", "type": "always_on", "responsibility": "Fast-path route, reuse lookup, package, enqueue"},
+    {"name": "fed-coux-orchestrator", "type": "conditional", "responsibility": "Multi-output synthesis only"},
+    {"name": "receipt-writer", "type": "always_on", "responsibility": "Write receipts and evidence records"},
+    {"name": "retry-daemon", "type": "cron", "responsibility": "Retry failed or missing-receipt jobs with idempotency"},
+    {"name": "queue-monitor", "type": "realtime", "responsibility": "Detect queue drops and stalled runs"},
+    {"name": "audit-sweeper", "type": "cron", "responsibility": "Find missing evidence and invalid closure"},
+    {"name": "gdrive-worker", "type": "stub", "responsibility": "Disabled until service account is configured"}
+  ],
+  "row_injection_template": {
+    "x_t4h_signal": "wrap_route_measure",
+    "x_t4h_agent": "coux",
+    "x_t4h_scope": "record",
+    "x_t4h_action": "enqueue_job",
+    "x_t4h_priority": "critical",
+    "x_t4h_receipt_required": true,
+    "x_t4h_evidence_state": "PARTIAL",
+    "x_t4h_idempotency_key": "wrap-route-measure-{object_key}"
+  },
+  "acceptance_criteria": [
+    "GitHub inbox commit receipt exists.",
+    "Pen creates or references a processing receipt.",
+    "Every job has idempotency_key, route, expected output and validator.",
+    "No complete state without receipt or evidence.",
+    "GDrive worker stays stubbed until configured.",
+    "FED-COUX skipped for single structured output.",
+    "Metrics exist for throughput, latency, retries, drift and cost per job."
+  ],
+  "do_not_include": ["credentials", "tokens", "large binaries", "raw log dumps", "payment actions", "IAM changes", "legal commitments"],
+  "expected_outputs": [
+    "GitHub inbox commit receipt",
+    "Pen processing receipt",
+    "runtime and audit evidence rows",
+    "worker/resource plan queued",
+    "measurement fields populated"
+  ]
+}
