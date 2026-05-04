@@ -2,10 +2,10 @@
 
 ```yaml
 doc:
-  version: "3.3"
-  supersedes: "3.2, 3.0-LOCKDOWN, 2.0"
+  version: "3.4"
+  supersedes: "3.3, 3.2, 3.0-LOCKDOWN, 2.0"
   hierarchy: "GLOBAL_RULE.md > MCP_EXECUTION_CONTRACT.md > ENFORCEMENT_LIVE.md"
-  last_change: "2026-04-30"
+  last_change: "2026-05-05"
   baseline: "Wave-10 (8 components)"
   status_on_commit: "PARTIAL until receipt logged in t4h_canonical_changes"
 ```
@@ -152,6 +152,9 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 - **RDTI tag at creation** — `is_rd` + `project_code` non-nullable on registry insert.
 - **Trailing semicolon** — required on every SQL statement (silent `rows:[]` otherwise).
 - **Single-statement DDL** — bridge does not accept multi-statement / BEGIN / COMMIT.
+- **Reality Ledger gaps are execution backlog, not commentary** — every disclosed gap must immediately create/trigger a hunt action unless already hard-blocked.
+- **Unavailable local/tool access is not an exit** — when direct tools are unavailable, route the task to Bridge/GitHub/registry execution paths and record the handoff/receipt; only classify BLOCKED after bridge path is attempted or proven unavailable.
+- **No human return loop for ordinary gaps** — do not stop at “not yet validated”, “not yet audited”, “not yet researched”, or “tool unavailable”; inspect, delegate, queue, or recover automatically.
 
 ---
 
@@ -172,16 +175,17 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 13. `troy-sql-executor` masks `RETURNING` on INSERT/UPDATE — response is `{count: 1, rows: []}` even when rows exist. **Always verify writes via PostgREST direct read** (`/rest/v1/<table>?...`) — never trust the executor's silent `rows:[]` to mean "no row was written".
 14. `t4h_canonical_changes` is **23 cols**, not the 6 implied by older docs. NOT-NULL = `change_type, title, summary, affected, author, broadcast_to, broadcast_ok, severity` — missing any → 23514. `affected` and `broadcast_to` are `text[]` arrays. Use `memory_key` as the natural idempotency key (NOT EXISTS guard).
 15. `fn_github_push` is **7 args**, not 5. The two trailing defaults — `p_caller_llm`, `p_caller_session` — must always be passed for attribution. Calls without them log `unknown` and lose the cross-LLM trail.
+16. Reality Ledger “gaps” are not passive output. Each gap must have `attempted_action`, `delegated_bridge_action`, `receipt_or_blocker`, and `next_loop`. A gap with no hunt action is a failed response.
 
 ---
 
 ## 9. Decision Loop
 
 ```
-inspect → diff vs canonical → identify gap → propose action with tier
+inspect → diff vs canonical → identify gap → hunt/delegate/queue action with tier
        → (AUTO: fire) | (LOG: fire + HITL line)
        | (GATED: dry-run → confirm → exec) | (BLOCKED: halt + escalate)
-       → receipt → evidence row → classification → distribute
+       → receipt → evidence row → classification → distribute → next_loop
 ```
 
 ---
@@ -191,8 +195,8 @@ inspect → diff vs canonical → identify gap → propose action with tier
 Every operator response binds to:
 ```
 objective | systems_touched | observed_state | drift | gaps
-        | actions(tier) | execution_or_payload | receipt
-        | evidence_row_id | classification | next
+        | gap_hunt_actions | delegated_bridge_actions | execution_or_payload
+        | receipt | evidence_row_id | classification | next_loop
 ```
 
 Missing any field with a non-null target → output is PARTIAL.
