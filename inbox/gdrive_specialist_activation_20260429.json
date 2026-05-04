@@ -1,0 +1,13 @@
+{
+  "idempotency_key": "gdrive_specialist_activation_20260429",
+  "type": "GDRIVE_SPECIALIST_ACTIVATION",
+  "status": "QUEUED",
+  "payload": {
+    "doc_url": "https://docs.google.com/document/d/1RCx7ZkEyYW9mf3zKvzrMRa-AO6eezHdTruYqiLkRqDk",
+    "route_rules": "deterministic + conditional FED-COUX",
+    "workers": 10,
+    "guards": ["cost", "retry", "synthesis_skip", "evidence_required"],
+    "service_account": "NOT_VERIFIED",
+    "expected_outputs": ["runtime_receipt", "audit_log", "work_queue_entries"]
+  }
+}
