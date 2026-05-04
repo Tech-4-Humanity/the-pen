@@ -1,0 +1,134 @@
+name: PEN Inbox Receipt Writer
+
+on:
+  push:
+    paths:
+      - 'inbox/*.json'
+      - 'command-centre/*.md'
+      - '.github/workflows/pen-inbox-receipt.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  pen-receipt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Discover PEN inbox jobs
+        id: discover
+        run: |
+          set -euo pipefail
+          mkdir -p receipts/runtime
+          mapfile -t JOBS < <(find inbox -maxdepth 1 -type f -name '*.json' | sort)
+          printf 'job_count=%s\n' "${#JOBS[@]}" >> "$GITHUB_OUTPUT"
+          if [ "${#JOBS[@]}" -eq 0 ]; then
+            echo 'No inbox jobs found.'
+            exit 0
+          fi
+          printf '%s\n' "${JOBS[@]}" > /tmp/pen_jobs.txt
+
+      - name: Write runtime receipts
+        if: steps.discover.outputs.job_count != '0'
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+          import hashlib
+          from datetime import datetime, timezone
+
+          repo = os.environ.get('GITHUB_REPOSITORY', '')
+          sha = os.environ.get('GITHUB_SHA', '')
+          run_id = os.environ.get('GITHUB_RUN_ID', '')
+          run_attempt = os.environ.get('GITHUB_RUN_ATTEMPT', '')
+          actor = os.environ.get('GITHUB_ACTOR', '')
+          now = datetime.now(timezone.utc).isoformat()
+          receipts_dir = pathlib.Path('receipts/runtime')
+          receipts_dir.mkdir(parents=True, exist_ok=True)
+
+          for job_path in pathlib.Path('inbox').glob('*.json'):
+              raw = job_path.read_text(encoding='utf-8')
+              try:
+                  job = json.loads(raw)
+              except Exception as exc:
+                  key = job_path.stem
+                  receipt = {
+                      'receipt_type': 'pen_runtime_receipt',
+                      'idempotency_key': key,
+                      'source_job_path': str(job_path),
+                      'receipt_state': 'PARTIAL',
+                      'evidence_state': 'PARTIAL',
+                      'created_at': now,
+                      'repo': repo,
+                      'commit_sha': sha,
+                      'workflow_run_id': run_id,
+                      'workflow_run_attempt': run_attempt,
+                      'actor': actor,
+                      'error': f'Invalid JSON: {exc}',
+                      'impact': 'PEN could not parse this job; execution was not started.',
+                      'rollback': 'Fix or archive the malformed inbox job file.',
+                      'next': 'Re-submit valid JSON with the same idempotency key where appropriate.'
+                  }
+              else:
+                  key = job.get('idempotency_key') or job_path.stem
+                  digest = hashlib.sha256(raw.encode('utf-8')).hexdigest()
+                  receipt = {
+                      'receipt_type': 'pen_runtime_receipt',
+                      'idempotency_key': key,
+                      'job_type': job.get('job_type'),
+                      'title': job.get('title'),
+                      'priority': job.get('priority'),
+                      'source_job_path': str(job_path),
+                      'source_sha256': digest,
+                      'receipt_state': 'ACCEPTED',
+                      'evidence_state': 'PARTIAL',
+                      'created_at': now,
+                      'repo': repo,
+                      'commit_sha': sha,
+                      'workflow_run_id': run_id,
+                      'workflow_run_attempt': run_attempt,
+                      'actor': actor,
+                      'observed': {
+                          'job_file_present': True,
+                          'job_json_valid': True,
+                          'receipt_written': True
+                      },
+                      'not_yet_verified': [
+                          'downstream build execution',
+                          'supabase audit.evidence_register row',
+                          'audit.reality_ledger state',
+                          'command centre live widget deployment'
+                      ],
+                      'impact': 'PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.',
+                      'rollback': 'Archive the inbox job and receipt if superseded; do not delete evidence.',
+                      'next': 'Downstream worker should process accepted job and append final REAL/PARTIAL receipt.'
+                  }
+              out = receipts_dir / f'{key}.receipt.json'
+              out.write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+              print(f'Wrote {out}')
+          PY
+
+      - name: Commit receipts
+        if: steps.discover.outputs.job_count != '0'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add receipts/runtime/*.receipt.json
+          if git diff --cached --quiet; then
+            echo 'No receipt changes to commit.'
+            exit 0
+          fi
+          git commit -m "PEN receipt: accept inbox jobs"
+          git push
