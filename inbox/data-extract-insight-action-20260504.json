@@ -1,0 +1,61 @@
+{
+  "idempotency_key": "data-extract-insight-action-20260504",
+  "title": "Extract understand action Drive conversation exports",
+  "status": "QUEUED",
+  "requested_by": "Troy Latter",
+  "created_utc": "2026-05-04T00:00:00Z",
+  "source": {
+    "folder_url": "https://drive.google.com/drive/folders/13Jf_l1m-Vk5XKhq4dWR6ySafbIH8yub_",
+    "template_source": "uploaded PER-PAGE ANALYSIS TEMPLATE analysis_template_v2",
+    "visible_files": [
+      {"id":"1V76A56knqISMEzU9GgqcRrNOxwbAi-Fs","title":"claude conversations all.json","mime_type":"application/json","created_time":"2026-04-12T22:09:14.667Z","modified_time":"2026-04-16T02:29:13.622Z"},
+      {"id":"1xPa4wW_sQS2AcXu5Q3ThqiIofjAmGiXx","title":"conversations.json","mime_type":"application/json","created_time":"2026-03-15T22:54:44.000Z","modified_time":"2026-03-15T22:54:44.000Z"},
+      {"id":"1v8BMYdkejklCeOKTBTtZO94vs1yzr7Ys","title":"conversations.json","mime_type":"application/json","created_time":"2026-02-11T11:30:02.000Z","modified_time":"2026-02-11T11:30:02.000Z"},
+      {"id":"1syB8KGaLZPcc7BNcZhnQJASOqRggcHmT","title":"conversations.json","mime_type":"application/json","created_time":"2026-01-22T16:49:06.000Z","modified_time":"2026-01-22T16:49:06.000Z"},
+      {"id":"1uHtIV2BSLC6YJB03NNEsgvw5STsXDZGi","title":"conversations.json","mime_type":"application/json","created_time":"2026-01-03T13:17:48.244Z","modified_time":"2026-01-02T20:45:22.000Z"},
+      {"id":"1ONg02sn8RkSwufKHrR6zxyVrM7yP8hma","title":"conversations.json","mime_type":"application/json","created_time":"2025-12-09T11:21:05.601Z","modified_time":"2025-12-08T08:58:36.000Z"},
+      {"id":"1X3NcphkP1naDo5r6-D-gANKRmdQwTx8m","title":"gpt conversations.json","mime_type":"application/json","created_time":"2025-11-03T22:48:53.901Z","modified_time":"2025-11-03T22:49:26.895Z"}
+    ]
+  },
+  "execution_contract": {
+    "minimum_cycles": 5,
+    "cycle_tools": ["drive_list_folder", "drive_chunk_fetch_or_export", "json_parser", "dedupe_cluster", "analysis_template_v2_mapper", "insight_generator", "task_generator", "ip_classifier", "business_mapper", "receipt_writer"],
+    "no_hitl": true,
+    "destructive_actions": "blocked; archive only, no delete",
+    "evidence_policy": "REAL runtime evidence required; PARTIAL if connector/chunk incomplete; PRETEND rejected"
+  },
+  "template": {
+    "name": "analysis_template_v2",
+    "required_sections": ["page_identity", "extraction", "business_system_classification", "ip_novelty_relevance", "execution_ownership_accountability"],
+    "per_item_fields": ["id", "url", "raw_url", "domain", "title", "page_type", "source_files", "occurrences", "first_seen", "last_seen", "duplicate_group", "cluster", "business_map", "intent", "asset_type", "depth_score", "signal_weight", "actionability", "opened_status", "evidence", "page_summary", "ideas_extracted", "tasks_detected", "implicit_tasks", "assets_found", "decisions_found", "open_questions", "risks_downside", "fixes_needed", "opportunities", "new_business_candidates", "enhancements_existing", "system_impacts", "portfolio_fit", "revenue_path", "customer_segment", "business_slug", "promotion_lane", "ip_candidate", "ip_description", "novelty_score", "relevance_score", "defensibility_score", "reuse_score", "ip_action", "related_ip_assets", "tasks_generated", "open_actions", "owner", "accountability_type", "system_layer", "state", "completion_criteria", "evidence_required", "next_action", "blocked_reason", "retry_policy"]
+  },
+  "outputs_required": {
+    "analysis_jsonl": "receipts/runtime/data-extract-insight-action-20260504/analysis_template_v2.jsonl",
+    "insights_json": "receipts/runtime/data-extract-insight-action-20260504/insights.json",
+    "task_queue_json": "receipts/runtime/data-extract-insight-action-20260504/generated_tasks.json",
+    "ip_register_json": "receipts/runtime/data-extract-insight-action-20260504/ip_candidates.json",
+    "business_candidates_json": "receipts/runtime/data-extract-insight-action-20260504/business_candidates.json",
+    "cycle_report_json": "receipts/runtime/data-extract-insight-action-20260504/cycle_report.json",
+    "audit_receipt": "receipts/runtime/data-extract-insight-action-20260504/receipt.json"
+  },
+  "cycle_spec": [
+    {"cycle":1,"goal":"Inventory all visible Drive exports, verify access, capture file metadata, size, type, timestamps."},
+    {"cycle":2,"goal":"Parse JSON exports in chunks, extract URLs/docs/threads/code/assets/actions without loading full file into memory."},
+    {"cycle":3,"goal":"Deduplicate by canonical URL/content hash/thread id; cluster by business/system/research/revenue/infra."},
+    {"cycle":4,"goal":"Apply analysis_template_v2 to every page/thread/doc; classify evidence REAL/PARTIAL/PRETEND."},
+    {"cycle":5,"goal":"Generate actionable outputs: tasks, owners, accountability, IP candidates, business candidates, enhancements, receipts."}
+  ],
+  "acceptance_criteria": [
+    "All seven visible Drive JSON files attempted and status recorded.",
+    "Every extracted page/thread/doc receives analysis_template_v2 object or failed/private status with reason.",
+    "Duplicate groups and occurrence counts are produced.",
+    "Generated tasks include owner, system_layer, state, completion_criteria, evidence_required, retry_policy.",
+    "No destructive delete actions executed.",
+    "Receipt JSON includes input counts, processed counts, failed counts, output paths, runtime timestamp, evidence classification."
+  ],
+  "fallbacks": [
+    "If file fetch exceeds connector limit, worker must export/download raw by Drive file ID and stream parse.",
+    "If Drive access fails, create PARTIAL receipt and mark missing file as BLOCKED:access.",
+    "If Supabase write unavailable, write JSON artefacts to GitHub receipts path first."
+  ]
+}
