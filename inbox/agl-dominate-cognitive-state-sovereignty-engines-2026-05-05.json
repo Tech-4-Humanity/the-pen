@@ -1,0 +1,188 @@
+{
+  "job_type": "AGL_DOMINATE_PRODUCT_ENGINE_DEPLOY",
+  "idempotency_key": "agl-dominate-cognitive-state-sovereignty-engines-2026-05-05",
+  "source": "chatgpt-browser-page-audit-session",
+  "status": "READY_FOR_EXECUTION",
+  "hitl_required": false,
+  "objective": "Bind Altered State Matrix and Neurodiverse Cognitive Surrender research into live product engines, schemas, widgets, offers, evidence gates and deployment actions across MyNeuralSignal, Outcome Ready, Synal, WorkFamilyAI and OwnMyAI.",
+  "inputs": [
+    {
+      "page_id": "ALTERED_STATE_MATRIX_PRODUCT_SIGNAL_ENGINE",
+      "source_file": "Pasted text(259).txt",
+      "evidence_state": "PARTIAL",
+      "summary": "State x cognitive profile matrix with RQ performance zones for Neurotypical, ADHD, Autism and Dyslexia across baseline, caffeine, alcohol, cannabis, fatigue, high stress and microdose."
+    },
+    {
+      "page_id": "NEURODIVERSE_COGNITIVE_SURRENDER_RESEARCH_PRODUCT",
+      "source_file": "Pasted text (2)(29).txt",
+      "evidence_state": "PARTIAL",
+      "summary": "Research/product thread mapping cognitive surrender risk across ADHD, Autism, Dyslexia, Dyscalculia, Dyspraxia, Dysgraphia, Tourette Syndrome and Twice Exceptional profiles, with short/medium/long-term effects and sovereignty protocols."
+    }
+  ],
+  "product_engines": [
+    {
+      "engine_id": "cognitive_state_optimiser",
+      "business_owner": "MyNeuralSignal",
+      "secondary_owners": ["Synal", "WorkFamilyAI", "Outcome Ready"],
+      "product_name": "Cognitive State Optimiser",
+      "commercial_role": "Optimise task routing and intervention suggestions based on human state, profile and risk zone.",
+      "first_offer": {
+        "name": "State-Aware Work Readiness Pilot",
+        "price_aud": 7500,
+        "billing_model": "pilot",
+        "buyer": "HR, learning support, neurodiversity, productivity and safety teams"
+      },
+      "required_outputs": [
+        "supabase_schema_state_profile_rq",
+        "seed_dataset_state_profile_rq",
+        "api_score_state_profile",
+        "synal_widget_state_readiness",
+        "command_centre_state_heatmap",
+        "evidence_receipt"
+      ]
+    },
+    {
+      "engine_id": "cognitive_sovereignty_engine",
+      "business_owner": "OwnMyAI",
+      "secondary_owners": ["AHC", "ConsentX", "GC-BAT", "Synal"],
+      "product_name": "Cognitive Sovereignty Engine",
+      "commercial_role": "Detect and reduce AI over-trust, cognitive surrender and fake confidence in AI-assisted work.",
+      "first_offer": {
+        "name": "AI Cognitive Surrender Audit",
+        "price_aud": 12000,
+        "billing_model": "assessment_plus_report",
+        "buyer": "Boards, executives, HR, education, public sector and regulated organisations"
+      },
+      "required_outputs": [
+        "supabase_schema_surrender_metrics",
+        "override_rate_tracker",
+        "verification_rate_tracker",
+        "friction_injection_rules",
+        "ownmyai_audit_report_template",
+        "reality_ledger_binding"
+      ]
+    },
+    {
+      "engine_id": "neurodiverse_performance_optimiser",
+      "business_owner": "Outcome Ready",
+      "secondary_owners": ["Reading Buddy", "WorkFamilyAI", "MyNeuralSignal"],
+      "product_name": "Neurodiverse Performance Optimiser",
+      "commercial_role": "Translate state, profile and AI-reliance patterns into support recommendations, practitioner prompts and evidence logs.",
+      "first_offer": {
+        "name": "Neurodiverse AI Support Pack",
+        "price_aud": 590,
+        "billing_model": "monthly_addon",
+        "buyer": "Families, providers, practitioners, schools and workplace support teams"
+      },
+      "required_outputs": [
+        "profile_specific_recommendation_engine",
+        "reading_buddy_safety_overlay",
+        "outcome_ready_evidence_prompt_pack",
+        "practitioner_review_widget",
+        "participant_friendly_report",
+        "support_action_receipt"
+      ]
+    }
+  ],
+  "database_schema_sql": "create schema if not exists cognitive;\n\ncreate table if not exists cognitive.profile_groups (\n  profile_id text primary key,\n  label text not null,\n  monitored boolean default true,\n  notes text,\n  created_at timestamptz default now()\n);\n\ncreate table if not exists cognitive.state_conditions (\n  state_id text primary key,\n  label text not null,\n  category text not null,\n  risk_notes text,\n  created_at timestamptz default now()\n);\n\ncreate table if not exists cognitive.state_profile_scores (\n  score_id uuid primary key default gen_random_uuid(),\n  state_id text references cognitive.state_conditions(state_id),\n  profile_id text references cognitive.profile_groups(profile_id),\n  rq_score numeric not null,\n  zone text not null check (zone in ('DANGER','CAUTION','OPTIMAL','SUPERPOWER')),\n  evidence_state text not null default 'PARTIAL' check (evidence_state in ('REAL','PARTIAL','PRETEND','BLOCKED')),\n  source_ref text,\n  created_at timestamptz default now(),\n  unique(state_id, profile_id)\n);\n\ncreate table if not exists cognitive.surrender_metrics (\n  metric_id uuid primary key default gen_random_uuid(),\n  session_id text,\n  profile_id text references cognitive.profile_groups(profile_id),\n  ai_answer_quality text check (ai_answer_quality in ('correct','incorrect','unknown')),\n  accepted_ai_output boolean,\n  override_used boolean,\n  verification_step_used boolean,\n  confidence_score numeric,\n  error_detected boolean,\n  cognitive_surrender_risk numeric,\n  evidence_state text not null default 'PARTIAL' check (evidence_state in ('REAL','PARTIAL','PRETEND','BLOCKED')),\n  source_ref text,\n  created_at timestamptz default now()\n);\n\ncreate table if not exists cognitive.sovereignty_interventions (\n  intervention_id uuid primary key default gen_random_uuid(),\n  profile_id text references cognitive.profile_groups(profile_id),\n  trigger_condition text not null,\n  intervention_type text not null check (intervention_type in ('micro_friction','verification_prompt','ai_fast','override_log','human_review','confidence_warning','evidence_request')),\n  intervention_copy text not null,\n  product_owner text,\n  active boolean default true,\n  created_at timestamptz default now()\n);",
+  "seed_data": {
+    "profile_groups": [
+      "neurotypical", "adhd", "autism", "dyslexia", "dyscalculia", "dyspraxia", "dysgraphia", "tourette", "twice_exceptional"
+    ],
+    "state_conditions": [
+      "baseline", "caffeine", "light_alcohol", "cannabis", "fatigue", "high_stress", "microdose"
+    ],
+    "matrix_seed_required": true,
+    "note": "Initial matrix has scores for neurotypical, ADHD, autism and dyslexia. Remaining five monitored groups require evidence-backed extension, not fabricated scores."
+  },
+  "widgets": [
+    {
+      "widget_slug": "cognitive-state-heatmap",
+      "surface": "Synal / Command Centre / Outcome Ready",
+      "purpose": "Display profile x state RQ zone matrix and recommended support route."
+    },
+    {
+      "widget_slug": "surrender-risk-meter",
+      "surface": "OwnMyAI / AHC / Synal",
+      "purpose": "Show AI over-trust risk, override rate, verification rate and error detection rate."
+    },
+    {
+      "widget_slug": "verification-friction-prompt",
+      "surface": "Synal / Reading Buddy / WorkFamilyAI",
+      "purpose": "Insert small verification steps before high-stakes AI-assisted decisions."
+    },
+    {
+      "widget_slug": "neurodiverse-support-recommendation",
+      "surface": "Outcome Ready / Reading Buddy",
+      "purpose": "Generate practitioner/family-readable recommendations with evidence status."
+    }
+  ],
+  "execution_queue": [
+    {
+      "task_id": "COG-001",
+      "lane": "SCHEMA",
+      "owner": "AGL schema worker",
+      "action": "Create cognitive schema and tables in Supabase.",
+      "done_requires": ["schema applied", "tables visible", "receipt written"]
+    },
+    {
+      "task_id": "COG-002",
+      "lane": "DATA",
+      "owner": "Research OS worker",
+      "action": "Seed profile groups, state conditions and known matrix scores; mark missing group scores as PARTIAL gaps.",
+      "done_requires": ["seed rows inserted", "missing evidence gaps logged", "no fabricated scores"]
+    },
+    {
+      "task_id": "COG-003",
+      "lane": "PRODUCT",
+      "owner": "MyNeuralSignal product worker",
+      "action": "Create Cognitive State Optimiser product record and first offer.",
+      "done_requires": ["product catalogue row", "offer row", "pricing path", "owner"]
+    },
+    {
+      "task_id": "COG-004",
+      "lane": "PRODUCT",
+      "owner": "OwnMyAI product worker",
+      "action": "Create Cognitive Sovereignty Engine product and AI Cognitive Surrender Audit offer.",
+      "done_requires": ["product catalogue row", "offer row", "sales copy", "evidence gate"]
+    },
+    {
+      "task_id": "COG-005",
+      "lane": "WIDGET",
+      "owner": "Synal widget worker",
+      "action": "Generate widget specs for heatmap, surrender risk meter and friction prompt.",
+      "done_requires": ["widget registry rows", "UI spec", "event contract"]
+    },
+    {
+      "task_id": "COG-006",
+      "lane": "ARTICLE",
+      "owner": "Research/Content worker",
+      "action": "Create paper/article pack: internal paper, practitioner article, LinkedIn article, sales one-pager.",
+      "done_requires": ["draft files", "claim risk review", "publication queue"]
+    }
+  ],
+  "reality_rules": {
+    "no_pretend_scores": true,
+    "missing_group_scores_become_evidence_gaps": true,
+    "health_or_substance_claims_require_claim_review": true,
+    "microdose_content_requires_safety_language": true,
+    "complete_requires_runtime_receipt": true,
+    "all_gaps_move_inspect_action_receipt_evidence": true
+  },
+  "first_run_acceptance_criteria": [
+    "Supabase cognitive schema applied or BLOCKED with exact database error.",
+    "Known four-profile matrix converted to rows with evidence_state PARTIAL unless evidence source is attached.",
+    "Five additional monitored groups created as profile records with score gaps, not invented data.",
+    "Three product engine records and offers created or written as payloads for product registry.",
+    "Four Synal widget specs written.",
+    "Runtime receipt written under receipts/runtime/agl-dominate-cognitive-state-sovereignty-engines-2026-05-05.receipt.json."
+  ],
+  "target_outputs": [
+    "artifacts/cognitive/schema.sql",
+    "artifacts/cognitive/seed_state_profile_scores.csv",
+    "artifacts/cognitive/product_engines.json",
+    "artifacts/cognitive/widget_specs.json",
+    "artifacts/cognitive/cognitive_sovereignty_article_pack.md",
+    "receipts/runtime/agl-dominate-cognitive-state-sovereignty-engines-2026-05-05.receipt.json"
+  ]
+}
