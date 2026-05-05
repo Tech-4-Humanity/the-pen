@@ -1,0 +1,22 @@
+{
+  "schema_version": "coax-session-manifest-v1",
+  "session_date": "2026-05-05",
+  "generated_at": "2026-05-05T19:50:00Z",
+  "operator": "Troy Latter",
+  "coax_instance": "claude-opus-4-7-2026-05-05",
+  "outcome": "PARTIAL",
+  "score": {
+    "final": 0.60,
+    "raw": 0.80,
+    "penalty": -0.20,
+    "penalty_reason": "stagnation: two stale framings recited (bridge dead, wrapper dead)"
+  },
+  "push_targets": {
+    "drive_canon": "_canon/coax-sessions/2026-05-05/",
+    "drive_000a_folder_id": "1XqiRvsRz78rwNLcdsFADjK6AweECZO0k",
+    "drive_session_folder_id": "1wWR0YKKNXOQyn5QjhyT6FKykWxY8F2c3",
+    "github_repo": "TML-4PM/the-pen",
+    "github_path": "inbox/coax-sessions/2026-05-05/",
+    "both_sha_invariant": "closed via github_bulk_dispatch response containing commit SHAs"
+  }
+}
