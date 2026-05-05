@@ -1,0 +1,10 @@
+{
+  "id": "CUX_BRIDGE_HANDOVER_SUBMIT_2026-05-05",
+  "status": "REAL",
+  "ts": 1714862400,
+  "type": "handover_submit",
+  "target": "bridge",
+  "inbox_job": "inbox/cux-bridge-handover-close-2026-05-05-001.json",
+  "commit": "7ad65a362c626220a3aba3549774b0472dde71af",
+  "note": "Bridge handover submitted. Await downstream runtime receipt for closure."
+}
