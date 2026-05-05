@@ -1,0 +1,12 @@
+{
+  "action": "deploy_system",
+  "system": "predictive_capacity_activation",
+  "components": [
+    "supabase_schema",
+    "simulator",
+    "trigger_engine",
+    "activation_layer"
+  ],
+  "region": "ap-southeast-2",
+  "mode": "autonomous"
+}
