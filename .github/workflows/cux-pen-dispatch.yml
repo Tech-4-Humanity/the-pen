@@ -1,0 +1,49 @@
+name: CUX Pen Dispatch
+
+on:
+  push:
+    paths:
+      - 'inbox/*.json'
+      - '.github/workflows/cux-pen-dispatch.yml'
+      - 'workers/cux/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cux-pen-dispatch
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare runtime dirs
+        run: |
+          mkdir -p receipts/runtime receipts/dead-letter runtime/logs
+
+      - name: Validate and process inbox jobs
+        env:
+          BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
+          BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+        run: |
+          python3 workers/cux/cux_pen_dispatch.py
+
+      - name: Commit receipts
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "cux-pen-dispatch"
+            git config user.email "actions@github.com"
+            git add receipts runtime inbox || true
+            git commit -m "cux: write runtime receipts"
+            git push
+          else
+            echo "No receipt changes to commit"
+          fi
