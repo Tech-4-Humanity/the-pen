@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "d1cd9321471fc6670fe6ecb81860403ca85dae42",
-  "created_at": "2026-05-04T23:49:07.450028+00:00",
+  "commit_sha": "3996f6dcd6ef8a3d8116b1440f38efe614aa9a31",
+  "created_at": "2026-05-05T01:55:00.964917+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "daily-brief-v2-retry-2026-04-26-002",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "9455ac74f3805cdf6300d770a4c423a4aa2975d869acf8317ec9d9408e3edda5",
   "title": null,
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25349880959"
+  "workflow_run_id": "25353701956"
 }
