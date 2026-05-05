@@ -1,0 +1,115 @@
+{
+  "job_id": "browser-tab-extraction-machine-v1",
+  "idempotency_key": "browser-tab-extraction-machine-v1-2026-05-05",
+  "created_by": "chatgpt-github-connector",
+  "created_at": "2026-05-05T11:00:00+10:00",
+  "status": "ENQUEUED",
+  "target": "bridge_or_dev_worker",
+  "mode": "PROD_OPERATOR",
+  "evidence_policy": "REAL > PARTIAL > PRETEND_REJECTED",
+  "source_context": {
+    "request": "Build repeatable browser/tab information extraction machine and send to bridge/Pen. User will paste one browser/tab dump at a time; system must disseminate content into buckets and push to dev/Pen for build completion.",
+    "known_existing_templates": [
+      "PER-PAGE ANALYSIS TEMPLATE v2",
+      "FORGE-X / FRVEE pod model",
+      "Bookmark URL Action Ledger"
+    ]
+  },
+  "objective": "Create an operational intake pipeline for browser/tab dumps that extracts reusable information, classifies work, preserves learning, routes build/fix work to dev, and records evidence without summarising away actionable content.",
+  "buckets": [
+    {
+      "bucket": "BUILD_FIX",
+      "description": "Code, broken workflows, half-finished systems, deployment gaps, bugs, missing triggers, missing receipts, failed integrations.",
+      "route": "dev_queue"
+    },
+    {
+      "bucket": "REUSE_IP",
+      "description": "Reusable snippets, frameworks, widgets, novel concepts, business ideas, productised patterns, templates, prompts, research/IP assets.",
+      "route": "asset_registry"
+    },
+    {
+      "bucket": "VALIDATE_EVIDENCE",
+      "description": "Claims of done/live/deployed/pushed/working that require receipts, runtime evidence, GitHub commits, Supabase audit rows, logs, screenshots, or test output.",
+      "route": "evidence_register"
+    },
+    {
+      "bucket": "ARCHIVE_NOISE",
+      "description": "Duplicates, stale notes, weak ideas, conflicting material, obsolete build attempts, no-payoff fragments. Archive only; do not delete.",
+      "route": "archive_register"
+    }
+  ],
+  "per_tab_template": {
+    "source": {
+      "tab_id": "required",
+      "url": "optional",
+      "title": "optional",
+      "captured_at": "required",
+      "raw_input_ref": "required"
+    },
+    "extraction": {
+      "what_is_here": [],
+      "ideas": [],
+      "existing_business_match": [],
+      "new_business_candidates": [],
+      "unfinished_actions": [],
+      "code_assets": [],
+      "reusable_assets": [],
+      "broken_or_risky_items": [],
+      "dependencies": [],
+      "owners_or_accountability": [],
+      "evidence_claims": [],
+      "novelty_or_ip_relevance": [],
+      "commercial_value": []
+    },
+    "classification": {
+      "primary_bucket": "BUILD_FIX | REUSE_IP | VALIDATE_EVIDENCE | ARCHIVE_NOISE",
+      "secondary_buckets": [],
+      "priority": "P0 | P1 | P2 | P3",
+      "status": "QUEUED | ACTIVE | BLOCKED | COMPLETE | ARCHIVED",
+      "evidence_state": "REAL | PARTIAL | PRETEND_REJECTED"
+    },
+    "actions": [
+      {
+        "action_id": "stable_idempotent_slug",
+        "type": "inspect | fix | build | validate | register | archive",
+        "destination": "pen | dev | supabase | github | command_centre",
+        "acceptance_test": "specific verifiable output",
+        "receipt_required": true
+      }
+    ]
+  },
+  "worker_requirements": [
+    "Ingest pasted tab dumps as immutable raw records.",
+    "Generate one structured extraction row per tab using per_tab_template.",
+    "Dedupe against prior tab_ids, URLs, titles, code hashes and action slugs.",
+    "Route BUILD_FIX to dev queue only when actionable.",
+    "Route REUSE_IP to asset/IP registry with business mapping.",
+    "Route VALIDATE_EVIDENCE to evidence register until REAL proof exists.",
+    "Route ARCHIVE_NOISE to archive register; never delete.",
+    "Emit receipt with counts by bucket and action IDs created.",
+    "Mark PRETEND claims rejected, not complete.",
+    "Expose status in Command Centre if available."
+  ],
+  "acceptance_tests": [
+    "Given one pasted browser tab, output exactly one extraction object and zero or more action objects.",
+    "Given duplicate tab content, worker must not create duplicate dev actions; it must link to existing action IDs.",
+    "Given a claim of deployment without a receipt, evidence_state must be PARTIAL or PRETEND_REJECTED, never REAL.",
+    "Given code in a tab, worker must preserve code block and route to BUILD_FIX or REUSE_IP with reuse notes.",
+    "Given no actionable content, worker must archive with reason and no dev enqueue."
+  ],
+  "requested_receipt": {
+    "write_to": "receipts/runtime/browser-tab-extraction-machine-v1.json",
+    "include": [
+      "job_id",
+      "idempotency_key",
+      "accepted",
+      "actions_created",
+      "bucket_counts",
+      "commit_sha",
+      "runtime_status",
+      "evidence_state",
+      "errors"
+    ]
+  },
+  "closure_note": "Browser/tab extraction machine packaged for Pen/bridge worker. Await downstream REAL runtime receipt before claiming build complete."
+}
