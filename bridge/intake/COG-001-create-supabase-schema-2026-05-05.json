@@ -1,0 +1,30 @@
+{
+  "task_id": "COG-001",
+  "session_id": "AGL_DOMINATE_2026_05_05",
+  "intent": "create_supabase_schema",
+  "target_system": "bridge_worker_or_troy_sql_executor",
+  "status": "READY_FOR_RUNTIME_EXECUTION",
+  "source_ledger_commit": "66211c3be9bfdd138398e705b28b394cec98ec6d",
+  "reality_before": "PARTIAL",
+  "action": "execute_sql",
+  "sql": "create schema if not exists agl_dominate; create table if not exists agl_dominate.cognitive_state_profiles (id uuid primary key default gen_random_uuid(), profile_key text unique not null, display_name text not null, signal_score integer not null default 10, reuse_score integer not null default 10, monetisation_score integer not null default 10, gap_score integer not null default 8, status text not null default 'READY_TO_EXECUTE', owner text, product_name text, price numeric, output_key text, created_at timestamptz default now(), updated_at timestamptz default now()); create table if not exists agl_dominate.execution_receipts (id uuid primary key default gen_random_uuid(), task_id text not null, session_id text not null, execution_status text not null, executor text, receipt jsonb, created_at timestamptz default now()); insert into agl_dominate.cognitive_state_profiles (profile_key, display_name, signal_score, reuse_score, monetisation_score, gap_score, status, owner, product_name, price, output_key) values ('ALTERED_STATE_MATRIX','Altered State Matrix',10,10,10,7,'READY_TO_EXECUTE','AGL',null,null,'cognitive_state_dataset'), ('COGNITIVE_SURRENDER','Cognitive Surrender',10,10,10,8,'READY_TO_EXECUTE','AGL',null,null,'sovereignty_model'), ('STATE_OPTIMISER_ENGINE','State Optimiser Engine',10,10,10,8,'ENQUEUED','MyNeuralSignal','Cognitive State Optimiser',7500,'state_routing_engine'), ('SOVEREIGNTY_ENGINE','Sovereignty Engine',10,10,10,8,'ENQUEUED','OwnMyAI','Cognitive Sovereignty Engine',12000,'ai_risk_audit_engine'), ('NEURO_OPTIMISER','Neuro Optimiser',10,10,10,8,'ENQUEUED','OutcomeReady','Neurodiverse Performance Optimiser',590,'support_recommendation_engine') on conflict (profile_key) do update set display_name=excluded.display_name, signal_score=excluded.signal_score, reuse_score=excluded.reuse_score, monetisation_score=excluded.monetisation_score, gap_score=excluded.gap_score, status=excluded.status, owner=excluded.owner, product_name=excluded.product_name, price=excluded.price, output_key=excluded.output_key, updated_at=now(); insert into agl_dominate.execution_receipts (task_id, session_id, execution_status, executor, receipt) values ('COG-001','AGL_DOMINATE_2026_05_05','EXECUTED_PENDING_EXTERNAL_VERIFICATION','bridge_worker_or_troy_sql_executor', jsonb_build_object('expected_tables', array['agl_dominate.cognitive_state_profiles','agl_dominate.execution_receipts'], 'expected_rows', 5, 'source_ledger_commit', '66211c3be9bfdd138398e705b28b394cec98ec6d'));",
+  "verification_sql": "select profile_key, status, owner, product_name, price, output_key from agl_dominate.cognitive_state_profiles order by profile_key; select task_id, session_id, execution_status, created_at from agl_dominate.execution_receipts where task_id='COG-001' order by created_at desc limit 1;",
+  "success_criteria": [
+    "schema agl_dominate exists",
+    "table agl_dominate.cognitive_state_profiles exists",
+    "table agl_dominate.execution_receipts exists",
+    "five cognitive profile rows exist",
+    "execution receipt row exists for COG-001"
+  ],
+  "required_receipt": {
+    "status": "SUCCESS_OR_FAIL",
+    "task_id": "COG-001",
+    "executor": "string",
+    "execution_time_utc": "timestamp",
+    "sql_result": "object_or_summary",
+    "verification_result": "object_or_summary",
+    "errors": []
+  },
+  "reality_after_if_success": "REAL",
+  "reality_after_if_no_runtime_receipt": "PARTIAL"
+}
