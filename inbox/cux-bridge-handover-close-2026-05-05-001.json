@@ -1,0 +1,62 @@
+{
+  "idempotency_key": "cux-bridge-handover-close-2026-05-05-001",
+  "submitted_at": "2026-05-05T01:20:00Z",
+  "submitted_by": "chatgpt-prod-operator",
+  "mode": "PROD_OPERATOR",
+  "priority": "P0",
+  "action": "bridge_handover_close_cux_worker_reliability_gaps",
+  "title": "Bridge handover: close CUX worker reliability and Pen execution gaps",
+  "handover_summary": {
+    "work_completed": [
+      "Created Pen inbox job for CUX autonomous execution campaign",
+      "Added CUX Pen dispatch workflow at .github/workflows/cux-pen-dispatch.yml",
+      "Added dispatcher worker at workers/cux/cux_pen_dispatch.py",
+      "Added retry, dead-letter, receipt-writing, and processed-archive behaviour",
+      "Added partial system patch receipt at receipts/runtime/CUX_SYSTEM_PATCH_2026-05-04.json"
+    ],
+    "known_commits": [
+      "7385b795326a9dc5f6267590fd392a81607a02cf",
+      "fbe2de70fe435bdbdc35790f7a75c82d5debf483",
+      "1c045ba1f76f4a6d0507949ac326db89a6ba82e5",
+      "61835e121f0827d31c3fd48412421c500e76527a"
+    ],
+    "remaining_blockers": [
+      "Verify GitHub Action execution after inbox push",
+      "Ensure BRIDGE_INVOKE_URL and BRIDGE_API_KEY secrets are present or bind equivalent bridge target",
+      "Confirm bridge receives job and writes runtime receipt",
+      "Promote from PARTIAL to REAL only after receipt and evidence exist",
+      "Add persistent runtime worker/heartbeat if GitHub Action-only dispatch is insufficient"
+    ]
+  },
+  "bridge_tasks": [
+    {
+      "task": "inspect_pen_dispatch_workflow",
+      "required": true,
+      "success": "workflow exists and is syntactically valid"
+    },
+    {
+      "task": "execute_or_replay_cux_smoke_job",
+      "required": true,
+      "success": "runtime receipt exists under receipts/runtime/"
+    },
+    {
+      "task": "verify_bridge_binding",
+      "required": true,
+      "success": "bridge target accepts job or failure is dead-lettered with explicit reason"
+    },
+    {
+      "task": "write_final_receipt",
+      "required": true,
+      "success": "receipt path receipts/runtime/cux-bridge-handover-close-2026-05-05-001.json exists"
+    }
+  ],
+  "success_criteria": [
+    "No silent failure",
+    "Inbox job is processed or dead-lettered",
+    "Receipt is written",
+    "Evidence classification is REAL only if runtime proof exists; otherwise PARTIAL",
+    "Conversation/session can close without dangling unrecorded work"
+  ],
+  "close_signal": "CUX_BRIDGE_HANDOVER_CLOSE_RECEIPT",
+  "status": "queued"
+}
