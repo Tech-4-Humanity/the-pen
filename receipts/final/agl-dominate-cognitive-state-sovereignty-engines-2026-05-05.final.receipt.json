@@ -1,0 +1,15 @@
+{
+  "blocker": "BRIDGE_INVOKE_URL or BRIDGE_API_KEY secret missing",
+  "commit_sha": "024c24fa73d4db0958fba12eee04e33222a86bc3",
+  "created_at": "2026-05-05T02:24:22.989611+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "agl-dominate-cognitive-state-sovereignty-engines-2026-05-05",
+  "impact": "Autonomous dispatch cannot run without bridge endpoint/key.",
+  "next": "Set GitHub Actions secrets BRIDGE_INVOKE_URL and BRIDGE_API_KEY, then rerun.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/agl-dominate-cognitive-state-sovereignty-engines-2026-05-05.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25354520025"
+}
