@@ -1,0 +1,79 @@
+name: PEN Signal Build Artifacts
+
+on:
+  push:
+    paths:
+      - 'inbox/signals-expansion-*.json'
+      - '.github/workflows/pen-signal-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-signal-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build signal artifacts and final partial receipt
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/signals/sql artifacts/signals/dashboard artifacts/signals/worker receipts/runtime
+          for f in inbox/signals-expansion-*.json; do
+            [ -f "$f" ] || continue
+            key=$(python3 -c "import json;print(json.load(open('$f')).get('idempotency_key'))")
+            cat > "artifacts/signals/sql/${key}.schema.sql" <<SQL
+          create schema if not exists telemetry;
+          create table if not exists telemetry.signal_events (
+            id uuid primary key default gen_random_uuid(),
+            idempotency_key text not null,
+            signal_class text not null,
+            signal_key text not null,
+            raw_value jsonb not null default '{}'::jsonb,
+            observed_at timestamptz not null default now(),
+            created_at timestamptz not null default now()
+          );
+          create table if not exists telemetry.signal_scores (
+            id uuid primary key default gen_random_uuid(),
+            idempotency_key text not null,
+            signal_key text not null,
+            score numeric not null check (score >= 0 and score <= 1),
+            evidence_state text not null default 'PARTIAL' check (evidence_state in ('REAL','PARTIAL','PRETEND')),
+            calculated_at timestamptz not null default now()
+          );
+          create table if not exists telemetry.signal_composites (
+            id uuid primary key default gen_random_uuid(),
+            idempotency_key text not null,
+            composite_key text not null,
+            inputs jsonb not null default '[]'::jsonb,
+            score numeric not null check (score >= 0 and score <= 1),
+            evidence_state text not null default 'PARTIAL' check (evidence_state in ('REAL','PARTIAL','PRETEND')),
+            calculated_at timestamptz not null default now()
+          );
+          alter table telemetry.signal_events enable row level security;
+          alter table telemetry.signal_scores enable row level security;
+          alter table telemetry.signal_composites enable row level security;
+          SQL
+            python3 - <<PY
+          import json, pathlib, datetime, hashlib
+          f = pathlib.Path('$f')
+          job = json.loads(f.read_text())
+          key = job.get('idempotency_key')
+          metrics = job.get('payload',{}).get('metrics',[])
+          comps = job.get('payload',{}).get('composite_indices',[])
+          pathlib.Path(f'artifacts/signals/worker/{key}.scoring-contract.json').write_text(json.dumps({'idempotency_key':key,'metrics':metrics,'composites':comps,'routing_rules':['high novelty + high value -> WIP','high friction -> PEN repair','low evidence -> validating']}, indent=2))
+          md = ['# Signal Telemetry Dashboard Artifact','',f'Idempotency key: `{key}`','',f'Metrics: {len(metrics)}',f'Composite indices: {len(comps)}','','Evidence state: PARTIAL','','Not live until Supabase migration and ingestion are executed.']
+          pathlib.Path(f'artifacts/signals/dashboard/{key}.dashboard.md').write_text('\n'.join(md)+'\n')
+          receipt = {'receipt_type':'pen_signal_build_worker_receipt','idempotency_key':key,'receipt_state':'BUILT_ARTIFACTS','evidence_state':'PARTIAL','created_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_job_path':str(f),'artifacts':{'schema_sql':f'artifacts/signals/sql/{key}.schema.sql','scoring_contract':f'artifacts/signals/worker/{key}.scoring-contract.json','dashboard_artifact':f'artifacts/signals/dashboard/{key}.dashboard.md'},'observed':{'job_file_present':True,'job_json_valid':True,'artifacts_written':True,'receipt_written':True},'not_yet_verified':['Supabase migration executed','live telemetry ingestion running','Command Centre deployed against live data','audit.evidence_register row inserted']}
+          pathlib.Path(f'receipts/runtime/{key}.build.receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True)+'\n')
+          PY
+          done
+      - name: Commit build artifacts
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add artifacts/signals receipts/runtime
+          if git diff --cached --quiet; then echo "No artifact changes"; exit 0; fi
+          git commit -m "PEN build: signal telemetry artifacts"
+          git push
