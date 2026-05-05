@@ -1,0 +1,288 @@
+openapi: 3.1.0
+info:
+  title: AI Tradies Operating System API
+  version: 1.0.0
+  description: >
+    API contract for the AI Tradies operating system. This exposes the core lifecycle:
+    capture lead, qualify job, create quote draft, book job, run agent, log event,
+    attach evidence, and update commercial state.
+servers:
+  - url: https://api.ai4tradies.app/v1
+    description: Production target
+  - url: https://dev-api.ai4tradies.app/v1
+    description: Development target
+security:
+  - bearerAuth: []
+paths:
+  /businesses:
+    post:
+      summary: Create or register a tradie business
+      operationId: createTradieBusiness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradieBusinessCreate'
+      responses:
+        '201':
+          description: Business created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradieBusiness'
+  /jobs/intake:
+    post:
+      summary: Capture a customer enquiry and create a job intake record
+      operationId: createJobIntake
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobIntake'
+      responses:
+        '201':
+          description: Job intake captured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradieJob'
+  /jobs/{jobId}/qualify:
+    post:
+      summary: Qualify and score a job using the Analyse layer
+      operationId: qualifyJob
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: Qualification complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentRunResult'
+  /jobs/{jobId}/quote-draft:
+    post:
+      summary: Generate a quote draft using the Write layer
+      operationId: createQuoteDraft
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pricing_mode:
+                  type: string
+                  enum: [range, fixed, premium, emergency]
+                include_terms:
+                  type: boolean
+                  default: true
+      responses:
+        '200':
+          description: Quote draft generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentRunResult'
+  /jobs/{jobId}/book:
+    post:
+      summary: Book a qualified job into the calendar/schedule layer
+      operationId: bookJob
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [scheduled_at]
+              properties:
+                scheduled_at:
+                  type: string
+                  format: date-time
+                technician_id:
+                  type: string
+                customer_confirmation_channel:
+                  type: string
+                  enum: [sms, email, phone, whatsapp]
+      responses:
+        '200':
+          description: Job booked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradieJob'
+  /agents/{agentCode}/runs:
+    post:
+      summary: Run a named lifecycle agent
+      operationId: runTradieAgent
+      parameters:
+        - name: agentCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [business_id, input]
+              properties:
+                business_id:
+                  type: string
+                  format: uuid
+                job_id:
+                  type: string
+                  format: uuid
+                input:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '202':
+          description: Agent run queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentRun'
+  /events:
+    post:
+      summary: Log a lifecycle event
+      operationId: logTradieEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradieEvent'
+      responses:
+        '201':
+          description: Event logged
+  /evidence:
+    post:
+      summary: Attach evidence to a run or commercial task
+      operationId: attachEvidence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvidenceRecord'
+      responses:
+        '201':
+          description: Evidence attached
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  parameters:
+    JobId:
+      name: jobId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    TradieBusinessCreate:
+      type: object
+      required: [name, trade_type]
+      properties:
+        name: { type: string }
+        trade_type: { type: string }
+        region: { type: string }
+        phone: { type: string }
+        email: { type: string }
+        website: { type: string }
+        plan_code:
+          type: string
+          enum: [starter, growth, pro, enterprise]
+    TradieBusiness:
+      allOf:
+        - $ref: '#/components/schemas/TradieBusinessCreate'
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+            status: { type: string }
+            created_at: { type: string, format: date-time }
+    JobIntake:
+      type: object
+      required: [business_id, job_type, description]
+      properties:
+        business_id: { type: string, format: uuid }
+        customer:
+          type: object
+          properties:
+            full_name: { type: string }
+            phone: { type: string }
+            email: { type: string }
+            address: { type: string }
+            suburb: { type: string }
+        job_type: { type: string }
+        urgency:
+          type: string
+          enum: [low, normal, urgent, emergency]
+        source_channel: { type: string }
+        description: { type: string }
+        media_urls:
+          type: array
+          items: { type: string }
+    TradieJob:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        business_id: { type: string, format: uuid }
+        customer_id: { type: string, format: uuid }
+        job_type: { type: string }
+        status: { type: string }
+        urgency: { type: string }
+        quoted_amount: { type: number }
+        actual_amount: { type: number }
+        scheduled_at: { type: string, format: date-time }
+    AgentRun:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        agent_code: { type: string }
+        status: { type: string }
+        created_at: { type: string, format: date-time }
+    AgentRunResult:
+      type: object
+      properties:
+        run_id: { type: string, format: uuid }
+        status: { type: string }
+        output:
+          type: object
+          additionalProperties: true
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvidenceRecord'
+    TradieEvent:
+      type: object
+      required: [event_type, payload]
+      properties:
+        business_id: { type: string, format: uuid }
+        job_id: { type: string, format: uuid }
+        event_type: { type: string }
+        payload:
+          type: object
+          additionalProperties: true
+        source: { type: string }
+    EvidenceRecord:
+      type: object
+      required: [type, value]
+      properties:
+        type:
+          type: string
+          enum: [api_response, db_result, cli_output, commit_id, url, hash, repro_steps, log]
+        value: { type: string }
+        metadata:
+          type: object
+          additionalProperties: true
