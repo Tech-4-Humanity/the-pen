@@ -1,0 +1,29 @@
+{
+  "task": "ai_tradies_full_build",
+  "intent": "Deploy AI Tradies system end-to-end",
+  "components": [
+    "supabase_schema",
+    "stripe_products",
+    "api_layer",
+    "vercel_site",
+    "agent_runtime"
+  ],
+  "execution": {
+    "mode": "auto",
+    "no_hitl": true
+  },
+  "expected_outputs": [
+    "database tables created",
+    "stripe products active",
+    "api responding",
+    "site live",
+    "agents executing"
+  ],
+  "evidence_required": [
+    "db_result",
+    "api_response",
+    "url",
+    "logs"
+  ],
+  "status": "READY_FOR_BRIDGE"
+}
