@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "T4H Companion",
+  "version": "1.0",
+  "permissions": ["sidePanel", "activeTab", "storage", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "action": {
+    "default_title": "Open T4H"
+  }
+}
