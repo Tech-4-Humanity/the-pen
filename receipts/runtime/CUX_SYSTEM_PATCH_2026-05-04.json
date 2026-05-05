@@ -1,0 +1,16 @@
+{
+  "id": "CUX_SYSTEM_PATCH_2026-05-04",
+  "status": "PARTIAL",
+  "ts": 1714780800,
+  "changes": [
+    "Added GitHub Actions workflow for inbox dispatch",
+    "Added persistent-style dispatcher worker (GitHub-run loop)",
+    "Added retry and dead-letter handling",
+    "Enforced receipt writing for every job"
+  ],
+  "remaining_gaps": [
+    "External persistent worker (EC2/Lambda) not yet bound",
+    "Bridge endpoint secret may be missing",
+    "Heartbeat and queue metrics not yet wired to Supabase"
+  ]
+}
