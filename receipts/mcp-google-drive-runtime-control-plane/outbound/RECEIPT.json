@@ -1,0 +1,32 @@
+{
+  "receipt_type": "dispatch",
+  "direction": "outbound",
+  "system": "MCP",
+  "job_key": "mcp_google_drive_runtime_control_plane_20260506",
+  "source_repository": "ChatGPT/session",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "ChatGPT",
+  "receiver": "Pen/Bridge",
+  "status": "ACTIVE",
+  "documents": [
+    "handoffs/mcp-google-drive-runtime-control-plane-20260506.md"
+  ],
+  "commits": [
+    "d06bfeff92fa757b2e9d8a790e810d2ab4ef5b28"
+  ],
+  "evidence": [
+    "GitHub commit receipt created via available connector path"
+  ],
+  "blockers": [
+    "Private MCP bridge runtime not invokable from this ChatGPT environment"
+  ],
+  "created_at_utc": "2026-05-06T15:10:00Z",
+  "updated_at_utc": "2026-05-06T15:10:00Z",
+  "search_tags": [
+    "mcp",
+    "google-drive",
+    "runtime-control-plane",
+    "connector-health",
+    "secret-registry"
+  ]
+}
