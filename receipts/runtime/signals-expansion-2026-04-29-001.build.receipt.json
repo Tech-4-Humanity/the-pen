@@ -1,0 +1,25 @@
+{
+  "artifacts": {
+    "dashboard_artifact": "artifacts/signals/dashboard/signals-expansion-2026-04-29-001.dashboard.md",
+    "schema_sql": "artifacts/signals/sql/signals-expansion-2026-04-29-001.schema.sql",
+    "scoring_contract": "artifacts/signals/worker/signals-expansion-2026-04-29-001.scoring-contract.json"
+  },
+  "created_at": "2026-05-05T01:39:21.292978+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "signals-expansion-2026-04-29-001",
+  "not_yet_verified": [
+    "Supabase migration executed",
+    "live telemetry ingestion running",
+    "Command Centre deployed against live data",
+    "audit.evidence_register row inserted"
+  ],
+  "observed": {
+    "artifacts_written": true,
+    "job_file_present": true,
+    "job_json_valid": true,
+    "receipt_written": true
+  },
+  "receipt_state": "BUILT_ARTIFACTS",
+  "receipt_type": "pen_signal_build_worker_receipt",
+  "source_job_path": "inbox/signals-expansion-2026-04-29-001.json"
+}
