@@ -1,0 +1,33 @@
+Total: 32
+CORE     | augmented-humanity-coach       | PARTIAL  | PARTIAL  | 
+CORE     | holoorg                        | PARTIAL  | PARTIAL  | 
+CORE     | tech-for-humanity              | PARTIAL  | PARTIAL  | 
+CORE     | workfamilyai                   | PARTIAL  | PARTIAL  | 
+FUN      | ai-oopsies                     | PRETEND  | PRETEND  | 
+FUN      | apex-predator-insurance        | PRETEND  | PRETEND  | 
+FUN      | extreme-spotto                 | PRETEND  | PRETEND  | 
+FUN      | girlmath                       | PRETEND  | PRETEND  | 
+FUN      | rhythm-method                  | PRETEND  | PRETEND  | 
+MISSION  | aquame                         | PRETEND  | PRETEND  | 
+MISSION  | factors                        | PARTIAL  | PRETEND  | 
+MISSION  | medledger                      | PARTIAL  | PARTIAL  | 
+MISSION  | mission-critical               | PRETEND  | PRETEND  | 
+MISSION  | outcome-ready                  | PARTIAL  | PARTIAL  | 
+MISSION  | smartpark                      | PRETEND  | PRETEND  | 
+MISSION  | VALDOC                         | PARTIAL  | PARTIAL  | https://valdocco-merch.vercel.app
+NEW      | belle-deco-primary             | PRETEND  | PRETEND  | 
+NEW      | tradie-ai                      | PARTIAL  | PARTIAL  | 
+RETAIL   | apac-just-walk-out             | PRETEND  | PRETEND  | 
+RETAIL   | enter-australia                | PRETEND  | PRETEND  | 
+RETAIL   | house-of-biscuits              | PRETEND  | PRETEND  | 
+RETAIL   | justpoint                      | PRETEND  | PRETEND  | 
+RETAIL   | vuon-troi                      | PRETEND  | PRETEND  | 
+RETAIL   | xces                           | PRETEND  | PRETEND  | 
+SIGNAL   | ai-olympics                    | PRETEND  | PRETEND  | 
+SIGNAL   | consentx                       | PARTIAL  | PARTIAL  | 
+SIGNAL   | far-cage                       | PRETEND  | PRETEND  | 
+SIGNAL   | gc-bat-core                    | PRETEND  | PRETEND  | 
+SIGNAL   | lifegraph                      | PRETEND  | PRETEND  | 
+SIGNAL   | myneuralsignal                 | PRETEND  | PRETEND  | 
+SIGNAL   | neuropak                       | PRETEND  | PRETEND  | 
+SIGNAL   | ratpak                         | PRETEND  | PRETEND  | 
