@@ -1,14 +1,14 @@
 {
   "request_id": "req-20260505-summary",
   "task_id": "inbox-dispatch",
-  "timestamp_utc": "2026-05-05T14:27:28.030Z",
+  "timestamp_utc": "2026-05-05T19:48:23.458Z",
   "source": "pen-executor",
   "status": "PASS",
   "reality_classification": "REAL",
   "summary": {
-    "passed": 3,
+    "passed": 0,
     "failed": 0,
-    "skipped": 36,
+    "skipped": 39,
     "total": 39
   },
   "results": [
@@ -111,8 +111,7 @@
     {
       "file": "daily-brief-v2-retry-2026-04-26-002.json",
       "key": "daily-brief-v2-retry-2026-04-26-002",
-      "status": "PASS",
-      "job_id": "81ab978d-5fb1-42bb-b98e-d6fe6adeb156"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "data-extract-insight-action-20260504.json",
@@ -141,8 +140,7 @@
     {
       "file": "launch-system-bootstrap-2026-04-27-001.json",
       "key": "launch-system-bootstrap-2026-04-27-001",
-      "status": "PASS",
-      "job_id": "e2e3f302-a19b-407a-8840-8b70e3abb352"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "mac-storage-offload-audit-2026-05-04.json",
@@ -201,8 +199,7 @@
     {
       "file": "synal-backbone-pack-v1.json",
       "key": "synal-backbone-pack-v1",
-      "status": "PASS",
-      "job_id": "b788ec76-0513-4f74-a2f3-82193227add5"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "synal-place-of-places-sticky-entry-20260429-001.json",
