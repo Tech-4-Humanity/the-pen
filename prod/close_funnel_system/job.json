@@ -1,0 +1,73 @@
+{
+  "promoted_from": "bridge_jobs/close_funnel_system.json",
+  "promoted_at_utc": "2026-05-06T00:00:00Z",
+  "env": "prod",
+  "status": "PROMOTED_TO_PROD",
+  "action": "invoke_function",
+  "function_name": "troy-orchestrator",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "job": "close_funnel_system",
+    "mode": "AUTONOMOUS",
+    "chain": [
+      {
+        "name": "deploy_webhook",
+        "function": "troy-lambda-deployer",
+        "args": {
+          "function_name": "t4h-lead-webhook",
+          "runtime": "nodejs18.x",
+          "entry": "backend/webhook.js",
+          "route": "/api/lead"
+        }
+      },
+      {
+        "name": "apply_supabase",
+        "function": "troy-sql-executor",
+        "args": {
+          "sql": "create table if not exists public.leads (id uuid primary key default gen_random_uuid(), business text, offer text, name text, email text, payload jsonb, status text default 'new', created_at timestamptz default now())"
+        }
+      },
+      {
+        "name": "register_stripe_webhook",
+        "function": "troy-stripe-executor",
+        "args": {
+          "event": "checkout.session.completed",
+          "endpoint": "/api/lead"
+        }
+      },
+      {
+        "name": "test_payment",
+        "function": "troy-stripe-executor",
+        "args": {
+          "price_id": "price_1TPXHrD6fFdhmypRl0fmEGMu",
+          "mode": "live"
+        }
+      },
+      {
+        "name": "verify",
+        "function": "troy-sql-executor",
+        "args": {
+          "sql": "select * from public.leads order by created_at desc limit 1"
+        }
+      }
+    ],
+    "metadata": {
+      "request_id": "close-funnel-system-001-prod",
+      "source": "bridge_jobs",
+      "promoted_by": "MCP_BRIDGE",
+      "timestamp_utc": "2026-05-06T00:00:00Z"
+    },
+    "control": {
+      "execute": true,
+      "dry_run": false,
+      "approval_required": false
+    }
+  },
+  "gaps_closed": [
+    "Stripe mode set to live for prod",
+    "Lambda webhook deployment spec complete",
+    "Supabase leads table DDL included",
+    "Stripe webhook registration configured",
+    "Verification query included as final gate"
+  ]
+}

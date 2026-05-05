@@ -1,0 +1,28 @@
+{
+  "promoted_from": "bridge_jobs/innovateme_golden_loop_replay_20260428.json",
+  "promoted_at_utc": "2026-05-06T00:00:00Z",
+  "env": "prod",
+  "status": "PROMOTED_TO_PROD",
+  "job_key": "innovateme_golden_loop_replay_20260428",
+  "target": "MCP_BRIDGE_GOLDEN_LOOP",
+  "required_path": "MCP Bridge -> troy-sql-executor -> public.fn_github_push -> GitHub commit -> Supabase canonical change receipt",
+  "repo": "TML-4PM/the-pen",
+  "execute_sql_shape": "SELECT public.fn_github_push('TML-4PM/the-pen','receipts/innovateme_runtime_replay_result_20260428.json','<receipt_payload>','receipt: InnovateME golden loop replay result','main') AS result;",
+  "required_runtime_gates": [
+    "migration_runs_clean",
+    "seed_data_queryable",
+    "story_api_returns_supabase_records",
+    "pilot_intake_writes_receipt",
+    "stripe_test_checkout_configured",
+    "webhook_writes_receipt",
+    "command_centre_widget_renders_live_data"
+  ],
+  "canonical_model": "Story -> System -> Control -> Pilot -> Proof -> Scale",
+  "gaps_closed": [
+    "Replay instruction fully specified",
+    "Golden loop path documented",
+    "All runtime gates enumerated",
+    "SQL shape defined for fn_github_push receipt write"
+  ],
+  "classification": "PARTIAL_UNTIL_BRIDGE_RECEIPT"
+}

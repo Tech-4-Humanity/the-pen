@@ -1,0 +1,37 @@
+{
+  "promoted_from": "bridge_jobs/innovateme_master_operating_model_closeout_20260428.json",
+  "promoted_at_utc": "2026-05-06T00:00:00Z",
+  "env": "dev",
+  "status": "PROMOTED_TO_DEV",
+  "receipt_key": "innovatememe_master_operating_model_closeout_20260428",
+  "biz_key": "innovatememe",
+  "autonomy_tier": "AUTONOMOUS",
+  "rdti_flag": true,
+  "canonical_model": "Story -> System -> Control -> Pilot -> Proof -> Scale",
+  "actions_to_execute": [
+    {"id":"IMO-001","action":"create_supabase_migration_for_innovateme_schema","status":"QUEUED"},
+    {"id":"IMO-002","action":"seed_first_six_story_objects","status":"QUEUED"},
+    {"id":"IMO-003","action":"seed_pilot_offer_ladder","status":"QUEUED"},
+    {"id":"IMO-004","action":"seed_objection_clusters","status":"QUEUED"},
+    {"id":"IMO-005","action":"create_command_centre_widget_innovateme_pilot_engine","status":"QUEUED"},
+    {"id":"IMO-006","action":"create_nextjs_story_pages_from_story_object","status":"QUEUED"},
+    {"id":"IMO-007","action":"create_pricing_page_and_checkout_flow","status":"QUEUED"},
+    {"id":"IMO-008","action":"create_stripe_seed_script_and_webhook_handlers","status":"QUEUED"},
+    {"id":"IMO-009","action":"create_reality_ledger_receipts_for_all_generated_assets","status":"QUEUED"}
+  ],
+  "proof_gates": [
+    "migration_runs_clean",
+    "seed_data_queryable",
+    "widget_renders_from_supabase",
+    "checkout_session_can_be_created_in_test_mode",
+    "webhook_handler_writes_receipt",
+    "story_pages_render_from_story_object",
+    "reality_ledger_status_defaults_to_PRETEND_until_runtime_evidence_exists"
+  ],
+  "gaps_closed": [
+    "All 9 actions enumerated with IDs and QUEUED status",
+    "Proof gates mapped to execution actions",
+    "Rollback spec preserved",
+    "RDTI flag set for audit trail"
+  ]
+}

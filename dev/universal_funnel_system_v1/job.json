@@ -1,0 +1,11 @@
+{
+  "promoted_from": "bridge_jobs/universal_funnel_system_v1.json",
+  "promoted_at_utc": "2026-05-06T00:00:00Z",
+  "env": "dev",
+  "status": "PROMOTED_TO_DEV",
+  "job_key": "universal_funnel_system_v1",
+  "gaps_closed": [
+    "Promoted from bridge holding state",
+    "Ready for dev execution and runtime gate validation"
+  ]
+}

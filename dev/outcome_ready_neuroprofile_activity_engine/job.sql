@@ -1,0 +1,7 @@
+-- promoted_from: bridge_jobs/outcome_ready_neuroprofile_activity_engine_20260429.sql
+-- promoted_at_utc: 2026-05-06T00:00:00Z
+-- env: dev
+-- status: PROMOTED_TO_DEV
+-- Execute this SQL in Supabase dev environment via troy-sql-executor
+-- Source file: bridge_jobs/outcome_ready_neuroprofile_activity_engine_20260429.sql
+-- Must run BEFORE outcome_ready_activity_seed_pack_10_more_20260429.sql

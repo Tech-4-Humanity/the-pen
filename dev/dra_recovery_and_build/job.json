@@ -1,0 +1,29 @@
+{
+  "promoted_from": "bridge_jobs/dra_recovery_and_build_20260424.json",
+  "promoted_at_utc": "2026-05-06T00:00:00Z",
+  "env": "dev",
+  "status": "PROMOTED_TO_DEV",
+  "job_id": "dra_recovery_and_build_20260424",
+  "owner": "Troy Latter / Tech 4 Humanity",
+  "intent": "Recover, consolidate, and operationalise the Drug Resilience Atlas across Notion, GitHub, Supabase, and atlas web surfaces.",
+  "execution_tasks": [
+    {"id":"DRA-001","status":"QUEUED","name":"Search all available stores","output_targets":["receipts/dra_discovery_report.md","receipts/dra_source_inventory.json"]},
+    {"id":"DRA-002","status":"QUEUED","name":"Build canonical data model","output_targets":["supabase/migrations/20260424_dra_core.sql"]},
+    {"id":"DRA-003","status":"QUEUED","name":"Seed V1 substance matrix","output_targets":["supabase/seeds/dra_seed_v1.json"]},
+    {"id":"DRA-004","status":"QUEUED","name":"Populate Notion DRA Master Index","output_targets":["receipts/dra_notion_update_receipt.json"]},
+    {"id":"DRA-005","status":"QUEUED","name":"Wire atlas web surface","output_targets":["web/dra_routes_and_components"]},
+    {"id":"DRA-006","status":"QUEUED","name":"Create research expansion loop","output_targets":["receipts/dra_research_loop_spec.md"]},
+    {"id":"DRA-007","status":"QUEUED","name":"Proof and receipts","output_targets":["receipts/dra_recovery_and_build_20260424.md"]}
+  ],
+  "supabase_minimum_tables": ["dra_sources","dra_substances","dra_populations","dra_neurochemical_pathways","dra_observations","dra_hypotheses","dra_hypothesis_tests","dra_ingestion_queue","dra_reality_ledger"],
+  "completion_gates": [
+    "Discovery report committed",
+    "Supabase migration committed and executable",
+    "Seed data committed",
+    "Notion page update receipt written",
+    "Web route/component pack committed",
+    "Reality Ledger entries written",
+    "Smoke test proves queryable substance x population matrix"
+  ],
+  "classification": "PARTIAL_UNTIL_EXECUTED_AND_PROVEN"
+}
