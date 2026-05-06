@@ -1,0 +1,71 @@
+version: '1.0'
+name: RAM Agent System
+status: PARTIAL
+
+agents:
+  - name: RAM Scout
+    role: discover assets
+    outputs:
+      - ram_assets
+      - ram_asset_locations
+
+  - name: RAM Janitor
+    role: normalize filenames and package stems
+    outputs:
+      - normalized canonical names
+      - manifest injection
+
+  - name: RAM Validator
+    role: validate evidence and runtime status
+    outputs:
+      - ram_asset_validation
+      - evidence state
+
+  - name: RAM Curator
+    role: create summaries and portfolio cards
+    outputs:
+      - ram_portfolio_cards
+
+  - name: RAM Miner
+    role: extract reusable components
+    outputs:
+      - ram_reuse_components
+
+  - name: RAM Packager
+    role: build deterministic packages and receipts
+    outputs:
+      - ram_packages
+
+  - name: RAM Watcher
+    role: monitor drift and orphan assets
+    outputs:
+      - ram_watch_events
+
+  - name: RAM Historian
+    role: reconstruct lineage and receipts
+    outputs:
+      - ram_asset_lineage
+      - ram_asset_evidence
+
+execution_loop:
+  - discover
+  - classify
+  - normalize
+  - dedupe
+  - validate
+  - evidence-bind
+  - uplift
+  - package
+  - report
+  - dev-inspect
+  - prod-promote
+
+reality_ledger_binding:
+  required: true
+  statuses:
+    - REAL
+    - PARTIAL
+    - BLOCKED
+
+completion_rule:
+  condition: internal ecosystem data ingested, validated, reportable, and promoted with receipts
