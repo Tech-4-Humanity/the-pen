@@ -1,0 +1,123 @@
+{
+  "job_id": "portfolio-domain-prelock-evidence-matrix-v1",
+  "created_at": "2026-05-06T00:00:00Z",
+  "requested_by": "Troy Latter",
+  "mode": "PROD_OPERATOR",
+  "intent": "Complete portfolio domain evidence matrix, send through Pen/Bridge, get receipt, and close once downstream checks attach evidence.",
+  "source_context": {
+    "current_workbook": "portfolio_domain_operating_lock_sheet.xlsx",
+    "current_status": "PARTIAL evidence only; not lockable yet",
+    "known_drive_evidence": [
+      {
+        "title": "Domain Storage Usage Nameservers Health Last Change",
+        "url": "https://docs.google.com/document/d/1nZIh-IT_O8v6aDinRJICVf44WUftUyyO79XrzQnX_AA",
+        "coverage": "Migadu/domain control snapshot plus pasted DNS/SES audit narrative",
+        "evidence_level": "PARTIAL_COVERAGE_REAL_SOURCE"
+      },
+      {
+        "title": "Completed COAX Bookmark Audit Register",
+        "url": "https://drive.google.com/file/d/1_WbtmoB4vZsoKd5MG5z1ZZR0WQrjbtD2",
+        "coverage": "Bookmark/URL audit register; classification-first; runtime URL validation not performed",
+        "evidence_level": "PARTIAL_INPUT_ONLY"
+      }
+    ]
+  },
+  "required_output": {
+    "primary_artifact": "single portfolio domain operating lock sheet",
+    "format": "Google Sheet or XLSX export",
+    "one_row_per": "domain/surface/project touchpoint, with canonical roll-up fields",
+    "sort_order": "top-down portfolio: umbrella, core, platform, commercial, mission, ventures, media, parked, retire-review",
+    "lock_gate": "No row becomes LOCKED until evidence columns are checked and approval state is set."
+  },
+  "required_columns": [
+    "portfolio_order",
+    "tier",
+    "brand_or_business_name",
+    "canonical_domain",
+    "domain_variant",
+    "surface_url",
+    "business_status",
+    "shipping_status",
+    "operational_status",
+    "gtm_status",
+    "email_status",
+    "dns_status",
+    "vercel_status",
+    "github_status",
+    "lovable_status",
+    "runtime_status",
+    "missing_core",
+    "missing_infra",
+    "missing_gtm",
+    "missing_assets",
+    "next_fix_action",
+    "fix_owner_or_agent",
+    "expected_launch_date",
+    "launch_window",
+    "marketing_ready_date",
+    "product_lock_required",
+    "price_lock_required",
+    "asset_lock_required",
+    "approval_state",
+    "locked_state",
+    "change_control_required",
+    "evidence_level",
+    "evidence_refs",
+    "last_checked_at",
+    "checked_by",
+    "notes"
+  ],
+  "evidence_checks_required": [
+    {
+      "name": "Drive source check",
+      "description": "Find and attach source sheets/docs that mention domain inventory, URL inventory, Vercel/GitHub/Lovable exports, business registry, product/pricing/assets."
+    },
+    {
+      "name": "Route53/DNS check",
+      "description": "Export hosted zones and record sets where available; run public DNS checks for canonical domains and variants."
+    },
+    {
+      "name": "Vercel check",
+      "description": "Export projects/domains/deployments and map to domain rows."
+    },
+    {
+      "name": "GitHub check",
+      "description": "List repos under TML-4PM and map source repos to domains/surfaces where names or deployment config match."
+    },
+    {
+      "name": "Lovable check",
+      "description": "Export Lovable projects/sites and map public surfaces to domain rows."
+    },
+    {
+      "name": "Runtime check",
+      "description": "HTTP status, redirects, title/description capture, screenshot or response proof, broken-link flag."
+    },
+    {
+      "name": "Email check",
+      "description": "MX, SPF, DKIM, DMARC, SES identity status, Migadu mailbox/alias posture where accessible."
+    },
+    {
+      "name": "GTM check",
+      "description": "Offer, CTA, pricing, lead capture, follow-up, campaign assets, analytics."
+    }
+  ],
+  "status_taxonomy": {
+    "business_status": ["LIVE", "READY", "STABILISING", "IN_DEV", "WIP", "BLOCKED", "DORMANT", "RETIRE_REVIEW", "DUPLICATE", "SHADOW"],
+    "shipping_status": ["SHIPPED", "READY_NOT_SHIPPED", "IN_DEV", "WIP", "NOT_STARTED", "BLOCKED"],
+    "gtm_status": ["READY", "MISSING_GTM", "PARTIAL", "NOT_REQUIRED", "BLOCKED"],
+    "evidence_level": ["REAL", "PARTIAL", "PRETEND_REJECTED"],
+    "approval_state": ["DRAFT", "PRE_LOCK_REVIEW", "APPROVED_TO_LOCK", "LOCKED", "CHANGE_REQUESTED"],
+    "locked_state": ["UNLOCKED", "PENDING_LOCK", "LOCKED", "CHANGE_CONTROL"]
+  },
+  "execution_rules": [
+    "Do not delete or retire anything automatically.",
+    "Archive is allowed only as a recommendation unless approval is attached.",
+    "Anything on the final lock sheet is subject to approval workflow before changes.",
+    "Use REAL evidence where runtime/source checks are available; otherwise mark PARTIAL; reject PRETEND.",
+    "Return a receipt file under receipts/runtime/ with counts by status and evidence level."
+  ],
+  "downstream_receipt_expected": {
+    "path_prefix": "receipts/runtime/portfolio-domain-prelock-evidence-matrix-v1",
+    "minimum_fields": ["job_id", "status", "artifact_urls", "rows_total", "counts_by_status", "counts_by_evidence", "checks_completed", "checks_blocked", "next_actions", "completed_at"]
+  }
+}
