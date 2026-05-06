@@ -1,0 +1,144 @@
+{
+  "job_id": "portfolio-operating-graph-canonical-build-v1",
+  "created_by": "chatgpt-prod-operator",
+  "created_at": "2026-05-06T00:00:00+10:00",
+  "mode": "PROD_OPERATOR",
+  "priority": "P0",
+  "status": "ENQUEUED",
+  "evidence_target": "REAL",
+  "source_context": {
+    "uploaded_file": "Pasted text(55).txt",
+    "source_summary": "Canonical registry, portfolio operating graph, data preservation, QA, autonomous sweep, LLM/browser extraction, commercial, research, runtime and governance layers."
+  },
+  "objective": "Build the Portfolio Operating Graph without data loss: preserve existing registry content, convert it into canonical schema/code, enqueue bridge execution, produce receipt, then route to dev for test/validation and prod promotion gating.",
+  "non_negotiables": [
+    "Do not delete existing data",
+    "Archive rather than delete",
+    "Idempotent migrations only",
+    "REAL/PARTIAL/PRETEND evidence binding",
+    "No prod promotion without validation receipt",
+    "Every entity requires canonical_slug, owner, lifecycle, environment, evidence_level",
+    "No orphan entities",
+    "All writes must emit receipt/audit event"
+  ],
+  "deliverables": {
+    "sql": [
+      "supabase/migrations/001_portfolio_operating_graph_core.sql",
+      "supabase/migrations/002_portfolio_operating_graph_governance.sql",
+      "supabase/migrations/003_portfolio_operating_graph_indexes_views.sql"
+    ],
+    "workers": [
+      "workers/portfolio_ingest/index.ts",
+      "workers/browser_llm_extract/index.ts",
+      "workers/portfolio_daily_sweep/index.ts",
+      "workers/evidence_bind/index.ts"
+    ],
+    "schemas": [
+      "schemas/portfolio_entity.schema.json",
+      "schemas/ingestion_job.schema.json",
+      "schemas/evidence_receipt.schema.json"
+    ],
+    "tests": [
+      "tests/schema_integrity.test.sql",
+      "tests/no_orphans.test.sql",
+      "tests/evidence_required.test.sql",
+      "tests/archive_not_delete.test.sql",
+      "tests/sweep_fixture.test.ts"
+    ],
+    "docs": [
+      "docs/PORTFOLIO_OPERATING_GRAPH.md",
+      "docs/DEV_TO_PROD_PROMOTION.md",
+      "docs/DATA_PRESERVATION_RULES.md"
+    ],
+    "receipts": [
+      "receipts/runtime/portfolio-operating-graph-canonical-build-v1.json"
+    ]
+  },
+  "build_plan": [
+    {
+      "phase": 1,
+      "name": "Canonical spine",
+      "actions": [
+        "Create canonical_entities table",
+        "Create entity_relationships table",
+        "Create ownership and source_lineage tables",
+        "Create archive tables/views",
+        "Add updated_at triggers"
+      ],
+      "done_when": "Existing and new entities can be inserted idempotently without overwriting source data."
+    },
+    {
+      "phase": 2,
+      "name": "Governance enforcement",
+      "actions": [
+        "Add lifecycle transition guard",
+        "Add no_prod_without_real_evidence guard",
+        "Add archive_not_delete policy",
+        "Add no_orphans validation view",
+        "Add canonical_slug uniqueness"
+      ],
+      "done_when": "Invalid transitions and prod without evidence are blocked."
+    },
+    {
+      "phase": 3,
+      "name": "Extraction and ingestion",
+      "actions": [
+        "Add browser_sessions table",
+        "Add llm_conversations table",
+        "Add extracted_actions, extracted_ideas, snippets, contradiction_registry and merge_candidates",
+        "Add ingestion_jobs and receipts"
+      ],
+      "done_when": "Browser/LLM content can be stored, parsed, linked and traced to source."
+    },
+    {
+      "phase": 4,
+      "name": "Research and commercial layers",
+      "actions": [
+        "Add datasets, studies, papers, posters, simulations, claims",
+        "Add offers, pricing, campaigns, analytics",
+        "Bind public claims to evidence"
+      ],
+      "done_when": "Research claims and commercial offers are parent-linked and evidence-bound."
+    },
+    {
+      "phase": 5,
+      "name": "QA and telemetry",
+      "actions": [
+        "Add qa_results and telemetry_events",
+        "Add smoke/regression test receipts",
+        "Add runtime health views",
+        "Add Command Centre-ready views"
+      ],
+      "done_when": "Runtime status, drift and evidence are visible as queryable views."
+    },
+    {
+      "phase": 6,
+      "name": "Dev handoff and prod promotion",
+      "actions": [
+        "Open/update dev issue or PR payload",
+        "Run schema tests",
+        "Generate validation receipt",
+        "Promote only after REAL evidence"
+      ],
+      "done_when": "Dev has complete code bundle and prod promotion gate criteria."
+    }
+  ],
+  "bridge_instructions": {
+    "preferred_path": "Bridge worker reads this PEN inbox payload, builds bundle in dev, runs validations, writes receipt to receipts/runtime/portfolio-operating-graph-canonical-build-v1.json, then opens/updates dev PR for promotion gating.",
+    "fallback_path": "If bridge is unavailable, create dev issue with full payload and mark evidence PARTIAL until receipt file exists.",
+    "write_policy": "No destructive operations. All schema changes must be additive/idempotent."
+  },
+  "expected_receipt": {
+    "job_id": "portfolio-operating-graph-canonical-build-v1",
+    "status": "COMPLETE|BLOCKED|PARTIAL",
+    "evidence_level": "REAL|PARTIAL",
+    "commit_sha": "required_if_built",
+    "validation": {
+      "schema_applied": true,
+      "tests_passed": true,
+      "no_data_loss_verified": true,
+      "dev_handoff_created": true,
+      "prod_gate_ready": true
+    }
+  }
+}
