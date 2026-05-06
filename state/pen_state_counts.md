@@ -1,6 +1,6 @@
 # PEN State Counts
 
-Generated: 2026-05-06T00:02:10.169191+00:00
+Generated: 2026-05-06T00:31:03.920384+00:00
 
 | State | Count |
 | --- | ---: |
@@ -13,6 +13,6 @@ Generated: 2026-05-06T00:02:10.169191+00:00
 | partial | 0 |
 | blocked | 1 |
 | failed | 0 |
-| archived | 39 |
+| archived | 40 |
 
 Prod-minimum is test-gated and evidence-bound, not blind promotion.

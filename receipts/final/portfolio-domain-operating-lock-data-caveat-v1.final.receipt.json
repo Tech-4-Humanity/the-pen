@@ -1,0 +1,15 @@
+{
+  "blocker": "BRIDGE_INVOKE_URL or BRIDGE_API_KEY secret missing",
+  "commit_sha": "b3a37a17da3350900bf7a411f718642db2f33526",
+  "created_at": "2026-05-06T00:31:03.920384+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "portfolio-domain-operating-lock-data-caveat-v1",
+  "impact": "Autonomous dispatch cannot run without bridge endpoint/key.",
+  "next": "Set GitHub Actions secrets BRIDGE_INVOKE_URL and BRIDGE_API_KEY, then rerun.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/portfolio-domain-operating-lock-data-caveat-v1.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25409943981"
+}
