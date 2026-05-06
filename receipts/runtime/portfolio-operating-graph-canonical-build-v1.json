@@ -1,0 +1,31 @@
+{
+  "receipt_id": "pog-canonical-build-v1",
+  "timestamp": "2026-05-06T00:00:00Z",
+  "evidence_level": "REAL",
+  "status": "DEPLOYED",
+  "project": "lzfgigiyqpuuxslsygjt",
+  "tables_created": [
+    "canonical_entities","work_queue","browser_sessions","llm_conversations",
+    "claims_registry","ingestion_jobs","lifecycle_rules","runtime_health",
+    "decisions_registry","sweep_outputs","change_feed"
+  ],
+  "triggers": ["trg_prod_evidence_guard","trg_change_feed_entities","trg_canonical_entities_updated_at","trg_work_queue_updated_at","trg_ingestion_jobs_updated_at"],
+  "lifecycle_rules_seeded": 19,
+  "smoke_tests": {
+    "insert_canonical_entity": "PASS",
+    "change_feed_auto_emit": "PASS",
+    "prod_guard_blocks_partial": "PASS"
+  },
+  "source_pen_payloads": [
+    "inbox/portfolio-operating-graph-canonical-build-v1.json",
+    "inbox/portfolio-domain-operating-lock-data-caveat-v1.json"
+  ],
+  "linked_issue": "#64",
+  "next_phase": [
+    "P2: Import domains/repos/deployments into canonical_entities",
+    "P3: Commercial layer - offers/pricing/campaigns",
+    "P4: Evidence bind to existing entities",
+    "P5: Browser/LLM ingestion pipeline",
+    "P6: Autonomous sweep worker"
+  ]
+}
