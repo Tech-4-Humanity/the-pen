@@ -1,0 +1,70 @@
+{
+  "job_id": "portfolio-domain-operating-lock-data-caveat-v1",
+  "created_by": "chatgpt-prod-operator",
+  "created_at": "2026-05-06T00:00:00+10:00",
+  "parent_job_id": "portfolio-operating-graph-canonical-build-v1",
+  "status": "ENQUEUED",
+  "evidence_level": "PARTIAL",
+  "project": "Portfolio Domain Operating Lock",
+  "source_file": "portfolio_domain_operating_lock_sheet(2).xlsx",
+  "operator_note": "The data in the attached workbook has NOT been validated as 100 percent accurate. It may be used as provisional source material while the file is reviewed, but must not be treated as canonical truth or locked production data without independent validation.",
+  "data_policy": {
+    "source_treatment": "provisional_snapshot",
+    "canonical_truth": false,
+    "allow_import": true,
+    "allow_overwrite": false,
+    "allow_delete": false,
+    "archive_original": true,
+    "row_fingerprinting_required": true,
+    "lineage_required": true,
+    "review_required_before_lock": true,
+    "fresh_data_allowed": true,
+    "external_validation_allowed": true
+  },
+  "execution_instruction": "Use workbook data only as a starting point. Continue build using other verified data sources or fresh scans where available. Preserve workbook rows as source_snapshot records with confidence below canonical threshold. Do not promote any workbook-derived row to LOCKED until reviewed or validated against runtime/DNS/deployment/GTM evidence.",
+  "required_handling": [
+    "Import attached workbook as raw source snapshot only",
+    "Add data_confidence field to each imported row",
+    "Set validation_status = unvalidated for workbook-derived rows",
+    "Set evidence_level = PARTIAL unless independent proof exists",
+    "Prevent workbook-derived records from becoming canonical without review or external proof",
+    "Allow downstream workers to enrich from Route53, Vercel, GitHub, Supabase, live URL smoke tests, analytics and known registry records",
+    "Keep original values, normalised values and corrected values separately",
+    "Never overwrite original workbook fields",
+    "Generate merge candidates rather than automatic replacements",
+    "Record contradictions for review"
+  ],
+  "schema_requirements": {
+    "new_fields": [
+      "source_snapshot_id",
+      "source_row_hash",
+      "source_confidence",
+      "validation_status",
+      "validated_by",
+      "validated_at",
+      "canonical_candidate",
+      "canonical_lock_allowed",
+      "original_value_json",
+      "normalised_value_json",
+      "verified_value_json",
+      "contradiction_flags"
+    ],
+    "default_values": {
+      "source_confidence": "provisional",
+      "validation_status": "unvalidated",
+      "canonical_candidate": true,
+      "canonical_lock_allowed": false,
+      "evidence_level": "PARTIAL"
+    }
+  },
+  "promotion_gate": {
+    "lock_state_allowed_only_when": [
+      "review_complete = true OR external_validation_passed = true",
+      "evidence_level = REAL",
+      "runtime_or_source_receipt_exists = true",
+      "no_open_contradictions = true"
+    ],
+    "prod_promotion": "blocked_until_real_validation_receipt"
+  },
+  "expected_receipt_path": "receipts/runtime/portfolio-domain-operating-lock-data-caveat-v1.json"
+}
