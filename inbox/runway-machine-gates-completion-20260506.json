@@ -1,0 +1,89 @@
+{
+  "job_id": "runway-machine-gates-completion-20260506",
+  "mode": "PROD_OPERATOR",
+  "source": "chatgpt",
+  "submitted_at": "2026-05-06",
+  "evidence_source": "uploaded_context:file_00000000369071f89636244e3c235bd5",
+  "intent": "validate, plan, build, and pass to bridge/dev for completion",
+  "status": "ENQUEUED",
+  "evidence_level": "PARTIAL",
+  "why_partial": "GitHub/PEN deposit is real, but downstream runtime execution, Supabase migration, dashboard deployment, and bridge receipt are not yet observed in this chat.",
+  "canonical_model": {
+    "layers": ["runway_stage", "automation_level", "evidence_level", "governance_level"],
+    "rule": "Runway stage measures business maturity. Automation level is an operational choice. Evidence determines reality. Governance is mandatory.",
+    "runway_stages": ["PRE-INTAKE", "INTAKE", "SIGNAL-WIRED", "OFFER-READY", "MARKET-READY", "PARTIAL", "REAL"],
+    "automation_levels": ["MANUAL", "ASSISTED", "HYBRID", "AUTOMATED", "AUTONOMOUS"],
+    "evidence_levels": ["PRETEND", "PARTIAL", "REAL"],
+    "governance_levels": ["NONE", "BASIC", "CONTROLLED", "GOVERNED"]
+  },
+  "build_scope": {
+    "supabase": [
+      "Add runway_stage, automation_level, evidence_level, governance_level to public.mcp_business_registry",
+      "Add target dates, blockers, owner, remediation_plan, verification timestamps, telemetry/revenue/governance booleans, automation_score, hitl_dependency, prod_readiness, real_gate_passed, stale_after, auto_remediate, validation_state, smoke_test_status, remediation_attempts, auto_regress_enabled, machine_passable, evidence_bound",
+      "Create enum constraints or lookup tables for stages/levels",
+      "Create promotion gate function",
+      "Create auto-regression function",
+      "Create audit/evidence binding function",
+      "Create stale-stage sweeper view/table"
+    ],
+    "workers": [
+      "validation_worker",
+      "smoke_test_runner",
+      "telemetry_sweeper",
+      "lifecycle_engine",
+      "evidence_binder",
+      "auto_remediation_worker",
+      "stale_detector",
+      "governance_auditor",
+      "promotion_engine"
+    ],
+    "dashboard": [
+      "Command Centre runway dashboard",
+      "Portfolio heatmap by runway stage",
+      "Stalled entity panel",
+      "Evidence quality panel",
+      "Automation level panel",
+      "Governance level panel",
+      "Time-to-REAL forecast panel"
+    ]
+  },
+  "validation_gates": [
+    {"from":"PRE-INTAKE","to":"INTAKE","gate":"registry_validator","pass":"canonical ID + owner + metadata"},
+    {"from":"INTAKE","to":"SIGNAL-WIRED","gate":"telemetry_validator","pass":"events flowing + heartbeat valid"},
+    {"from":"SIGNAL-WIRED","to":"OFFER-READY","gate":"commercial_validator","pass":"products + pricing + scorecard valid"},
+    {"from":"OFFER-READY","to":"MARKET-READY","gate":"funnel_validator","pass":"funnel + automation responding"},
+    {"from":"MARKET-READY","to":"PARTIAL","gate":"revenue_validator","pass":"real revenue event or traceable commercial proof"},
+    {"from":"PARTIAL","to":"REAL","gate":"governance_validator","pass":"runtime receipts + audit + telemetry + revenue traceability + lifecycle observability + governance"}
+  ],
+  "illegal_transitions": [
+    "PRE-INTAKE->REAL",
+    "INTAKE->PARTIAL",
+    "MARKET-READY->REAL",
+    "REAL without evidence",
+    "REAL without governance",
+    "PARTIAL without revenue proof"
+  ],
+  "remediation_rules": [
+    {"failure":"missing_telemetry","action":"restart collectors or create telemetry work item; do not promote"},
+    {"failure":"dead_funnel","action":"redeploy endpoint or freeze MARKET-READY"},
+    {"failure":"missing_receipts","action":"rerun workflow and bind receipt"},
+    {"failure":"stalled_queue","action":"reenqueue and log attempt"},
+    {"failure":"broken_dns","action":"reconcile Route53/Vercel and attach evidence"},
+    {"failure":"failed_smoke_test","action":"rollback or retry; freeze promotion"},
+    {"failure":"revenue_disconnected","action":"reconnect Stripe/webhooks or downgrade revenue proof"},
+    {"failure":"governance_failure","action":"freeze REAL promotion"}
+  ],
+  "acceptance_criteria": [
+    "Idempotent SQL migration exists and can be safely re-run",
+    "Registry columns and constraints are present",
+    "Promotion and regression functions are tested",
+    "Evidence binding creates audit row and evidence register row",
+    "Workers emit runtime receipts",
+    "Dashboard reads canonical fields",
+    "No stage advances on PRETEND evidence",
+    "Automation level is configurable and not required for REAL",
+    "REAL requires evidence, revenue traceability, governance, ownership, continuity and observability",
+    "Final receipt written to receipts/runtime/ and audit.log"
+  ],
+  "downstream_instruction": "Execute through bridge/dev. Build idempotently. Validate with runtime evidence. Promote only after machine-passable gates. Return final receipt path, commit SHA, audit row id, and evidence classification. Do not mark COMPLETE without REAL or clearly labelled PARTIAL evidence."
+}
