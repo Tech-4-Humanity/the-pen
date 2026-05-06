@@ -1,0 +1,15 @@
+{
+  "blocker": "safety gate: destructive/payment/credential/iam-like operation requires explicit controlled path",
+  "commit_sha": "e09fd373ca874a0e1a06814a99db6c2e71d9ab78",
+  "created_at": "2026-05-06T00:02:10.169191+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "portfolio-operating-graph-canonical-build-v1",
+  "impact": "Job not dispatched because it tripped a hard gate.",
+  "next": "Create dry-run or approved gated execution payload.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/portfolio-operating-graph-canonical-build-v1.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25409060267"
+}
