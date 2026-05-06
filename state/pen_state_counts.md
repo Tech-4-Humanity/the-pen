@@ -1,6 +1,6 @@
 # PEN State Counts
 
-Generated: 2026-05-06T04:47:10.756823+00:00
+Generated: 2026-05-06T09:41:02.533809+00:00
 
 | State | Count |
 | --- | ---: |
@@ -11,7 +11,7 @@ Generated: 2026-05-06T04:47:10.756823+00:00
 | prod_minimum | 0 |
 | real | 0 |
 | partial | 0 |
-| blocked | 0 |
+| blocked | 2 |
 | failed | 0 |
 | archived | 41 |
 
