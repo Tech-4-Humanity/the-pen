@@ -1,0 +1,19 @@
+{
+  "receipt_id": "pog-sweep-activated-v1",
+  "timestamp": "2026-05-06T00:00:00Z",
+  "evidence_level": "REAL",
+  "status": "ACTIVE",
+  "canonical_entities": {
+    "agent": 49, "domain": 35, "worker": 4, "deployment": 1, "system": 1, "total": 90
+  },
+  "work_queue": {"queued": 8},
+  "ingestion_jobs": {"queued": 7},
+  "sweep_outputs_initial": {"agent.needs_evidence": 49, "domain.needs_verification": 35},
+  "change_feed_events": 92,
+  "cron_schedule": "pog-daily-sweep @ 0 20 * * * UTC",
+  "sweep_function": "pog_daily_sweep()",
+  "governance_active": ["trg_prod_evidence_guard","trg_change_feed_entities","set_updated_at"],
+  "linked_issue": "#64",
+  "worker_contract": "workers/pog/CONTRACT.md",
+  "phase": "SWEEPERS_ACTIVE_WORKERS_ASSIGNED"
+}
