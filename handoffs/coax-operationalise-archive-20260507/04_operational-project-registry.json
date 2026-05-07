@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-05-07T10:30:00Z",
+  "classification_rules": {
+    "REAL": ["runtime_url","telemetry","ledger_binding","economic_linkage"],
+    "PARTIAL": ["structured","identified","not_runtime_verified"],
+    "BLOCKED": ["dependency_missing","credentials_missing"],
+    "PRETEND": ["claim_without_evidence"]
+  },
+  "projects": [
+    {
+      "name": "COAX",
+      "domain": "orchestration",
+      "classification": "PARTIAL",
+      "maturity_score": 8.1,
+      "next_action": "bind runtime telemetry and bridge execution"
+    },
+    {
+      "name": "MCP Bridge",
+      "domain": "execution",
+      "classification": "PARTIAL",
+      "maturity_score": 7.8,
+      "next_action": "attach operational receipts and lambda telemetry"
+    },
+    {
+      "name": "AI Sweet Spots",
+      "domain": "research",
+      "classification": "PARTIAL",
+      "maturity_score": 5.4,
+      "next_action": "connect calculator, telemetry and public funnel"
+    },
+    {
+      "name": "Connected Living",
+      "domain": "ambient systems",
+      "classification": "PRETEND",
+      "maturity_score": 3.2,
+      "next_action": "define executable runtime architecture"
+    }
+  ]
+}
