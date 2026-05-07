@@ -1,28 +1,55 @@
 {
-  "task_id": "synal-github-bulk-dispatch",
-  "intent": "Install GitHub bulk dispatch as reusable Synal/PEN fallback primitive",
-  "execution": "documentation_and_receipt_committed",
+  "task_id": "fd4c8f96-c0c5-4995-9a2e-5018e816dbd3",
+  "intent": "Install GitHub bulk dispatch as reusable Synal/PEN fallback primitive — runtime validated",
+  "execution": "docs_committed + receipt_committed + runtime_dispatch_executed + reality_ledger_written",
   "output": [
     "docs/bulk-dispatch.md",
-    "receipts/synal-github-bulk-dispatch-receipt.json"
+    "receipts/synal-github-bulk-dispatch-receipt.json",
+    "receipts/runtime-proofs/github-bulk-dispatch-RUN-20260507T083933Z.json"
   ],
-  "status": "PARTIAL",
+  "status": "REAL",
   "evidence": {
-    "documentation_commit_sha": "ebbde995649e81747bf600a59d1500eae2a7b274",
+    "runtime_dispatch_commit_sha": "433c2500fb037959d1ea72e1cfffdc2f5afaa3fb",
+    "runtime_dispatch_commit_url": "https://github.com/TML-4PM/the-pen/commit/433c2500fb037959d1ea72e1cfffdc2f5afaa3fb",
+    "runtime_dispatch_blob_sha": "3c0c05c3f51844cb500d135adef0e5f2278aa174",
+    "docs_blob_sha": "519e600309a38b276a0c9ab3f9a1275acabf43e8",
+    "prior_receipt_blob_sha": "ff3013a09b1f9e0898555453761c5ae528d13bcc",
+    "reality_ledger_id": "9b84e29b-8d11-4789-8a7e-13aca4ef3171",
+    "reality_ledger_table": "public.reality_ledger",
+    "reality_ledger_status": "REAL",
+    "verified_via": "github_file_read + supabase_sql_read roundtrip",
     "repository": "TML-4PM/the-pen",
-    "branch": "main"
+    "branch": "main",
+    "primitive": "T4H Remote MCP Clean:github_bulk_dispatch",
+    "request_id": "github-bulk-dispatch-RUN-20260507T083933Z",
+    "evidence_types": ["commit_id", "url", "api_response", "database_result"]
   },
   "gaps": [
-    "browser execution helper JS blocked by connector safety gate",
-    "runtime dispatch validation pending",
-    "Bridge runtime receipt pending"
+    "audit.log PostgREST 404 — known open item, schema not exposed; mitigated by writing public.reality_ledger directly",
+    "browser-side widget JS still pending — held back deliberately until GitHub-App / short-lived token path replaces PAT-based helper"
   ],
-  "next_action": "Commit browser-safe widget bundle through approved path and execute runtime validation against fixture repository.",
-  "elevation": "GitHub becomes deterministic fallback execution rail for Synal/PEN file operations.",
+  "next_action": "Replace PAT-based browser helper with GitHub App or short-lived token path; ship widget bundle through approved repo path. Resolve audit.log schema exposure as part of PostgREST gap closure.",
+  "elevation": {
+    "new_value_created": "GitHub Bulk Dispatch primitive validated as deterministic execution rail — Synal/PEN/Command-Centre file ops now have a runtime-proven fallback that does not depend on Lambda or Bridge availability",
+    "reusable_pattern": "Self-validating dispatch: a primitive proves itself by emitting its own runtime-proof file via the same primitive — pattern reusable for any execution rail (Lambda, Bridge, MCP)",
+    "system_integration": "the-pen + reality_ledger + github_bulk_dispatch + supabase_sql_write_gated bound into a single receipt-evidenced loop"
+  },
   "pressure_flags": [
     "prevents dead queued jobs",
     "reduces approval-loop drag",
-    "requires runtime proof before REAL"
+    "GitHub-as-execution-backbone strategically unblocked",
+    "Lambda/Bridge dependency reducible for file-based work"
   ],
-  "score": 0.71
+  "score": {
+    "value_score": 0.92,
+    "confidence": 0.95,
+    "economic_potential": 0.7,
+    "reasoning": "execution=0.30 + evidence=0.20 + economic=0.175 + reuse=0.15 + delta=0.10 - no penalties = 0.925"
+  },
+  "upgraded_from": {
+    "prior_status": "PARTIAL",
+    "prior_receipt_sha": "ff3013a09b1f9e0898555453761c5ae528d13bcc",
+    "prior_score": 0.71
+  },
+  "timestamp_utc": "2026-05-07T08:40:07Z"
 }
