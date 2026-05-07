@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-05-07T01:47:00Z",
+  "updated_by": "perplexity-mcp-bridge",
+  "pen": 0,
+  "dev": 28,
+  "prod": 0,
+  "blocked": 1,
+  "failed": 0,
+  "archived": 0,
+  "total": 29,
+  "queue_schema_applied": false,
+  "queue_seeded": false,
+  "bridge_path_proven": false,
+  "google_drive_probe": "UNKNOWN",
+  "notes": "Queue schema + seed SQL committed. Awaiting troy-orchestrator to apply migrations and begin execution.",
+  "next_action": "troy-orchestrator: supabase/migrations/20260507_queue_control_plane_v1.sql THEN 20260507_queue_seed_all_jobs.sql",
+  "handover_doc": "bridge/AUTONOMOUS_EXECUTOR_HANDOVER_20260507.md"
+}
