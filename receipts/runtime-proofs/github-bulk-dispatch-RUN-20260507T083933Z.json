@@ -1,0 +1,19 @@
+{
+  "task_id": "fd4c8f96-c0c5-4995-9a2e-5018e816dbd3",
+  "request_id": "github-bulk-dispatch-RUN-20260507T083933Z",
+  "intent": "Runtime validation of GitHub Bulk Dispatch primitive — flip PARTIAL→REAL by self-dispatching this proof",
+  "dispatched_at_utc": "20260507T083933Z",
+  "owner": "TML-4PM",
+  "repo": "the-pen",
+  "branch": "main",
+  "source": "synal",
+  "execution_mode": "direct",
+  "primitive": "T4H Remote MCP Clean:github_bulk_dispatch",
+  "fallback_role": "Primary deterministic execution rail when MCP/Bridge/Lambda paths degrade",
+  "schema_version": "1.0",
+  "guardrails": [
+    "no PAT in repo or logs",
+    "GitHub App / short-lived tokens preferred over PATs",
+    "REAL only after commit SHA returned"
+  ]
+}
