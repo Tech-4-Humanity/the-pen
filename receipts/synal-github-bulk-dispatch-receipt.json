@@ -1,0 +1,28 @@
+{
+  "task_id": "synal-github-bulk-dispatch",
+  "intent": "Install GitHub bulk dispatch as reusable Synal/PEN fallback primitive",
+  "execution": "documentation_and_receipt_committed",
+  "output": [
+    "docs/bulk-dispatch.md",
+    "receipts/synal-github-bulk-dispatch-receipt.json"
+  ],
+  "status": "PARTIAL",
+  "evidence": {
+    "documentation_commit_sha": "ebbde995649e81747bf600a59d1500eae2a7b274",
+    "repository": "TML-4PM/the-pen",
+    "branch": "main"
+  },
+  "gaps": [
+    "browser execution helper JS blocked by connector safety gate",
+    "runtime dispatch validation pending",
+    "Bridge runtime receipt pending"
+  ],
+  "next_action": "Commit browser-safe widget bundle through approved path and execute runtime validation against fixture repository.",
+  "elevation": "GitHub becomes deterministic fallback execution rail for Synal/PEN file operations.",
+  "pressure_flags": [
+    "prevents dead queued jobs",
+    "reduces approval-loop drag",
+    "requires runtime proof before REAL"
+  ],
+  "score": 0.71
+}
