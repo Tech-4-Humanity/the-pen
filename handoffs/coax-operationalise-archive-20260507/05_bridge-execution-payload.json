@@ -1,0 +1,27 @@
+{
+  "task_id": "coax-operationalise-archive-20260507",
+  "intent": "Convert archive projects into operational registry and evidence-bound runtime inventory",
+  "execution_mode": "AUTONOMOUS",
+  "target_system": "MCP_BRIDGE",
+  "required_actions": [
+    "deploy_supabase_schema",
+    "seed_operational_registry",
+    "bind_reality_ledger",
+    "generate_runtime_receipts",
+    "run_dev_inspection"
+  ],
+  "success_criteria": {
+    "registry_loaded": true,
+    "ledger_bound": true,
+    "runtime_verified": false,
+    "telemetry_active": false
+  },
+  "classification_gate": {
+    "REAL_requires": [
+      "deployment_url",
+      "telemetry",
+      "ledger_entry",
+      "runtime_validation"
+    ]
+  }
+}
