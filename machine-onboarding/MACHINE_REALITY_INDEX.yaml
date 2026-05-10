@@ -1,0 +1,179 @@
+# MACHINE REALITY INDEX
+# Root cognition graph. Every onboarded machine MUST load this file first.
+# Compressed runtime truth — expand to canonical/ subdirectories on demand.
+
+meta:
+  version: "1.0"
+  status: ACTIVE
+  canonical_owner: The Pen
+  canonical_path: machine-onboarding/MACHINE_REALITY_INDEX.yaml
+  supersedes: []
+  last_updated: "2026-05-11"
+
+# ──────────────────────────────────────────────────────────────────
+# AUTHORITY ROOTS
+# ──────────────────────────────────────────────────────────────────
+authority:
+  canonical_runtime:
+    name: The Pen
+    repo: TML-4PM/the-pen
+    role: intake gate, rules, receipts, routing
+    status: REAL
+  organisation:
+    legal_entity: Tech 4 Humanity Pty Ltd
+    abn: "70 666 271 272"
+    sole_director: Troy Latter
+    jurisdiction: Australia
+  cognition_layers:
+    L1_house_rules_engine:
+      status: ACTIVE
+      governs: behaviour, writeback, escalation
+    L2_bootstrap_system:
+      status: ACTIVE
+      governs: session cognition loading sequence
+    L3_standard_knowledge_system:
+      status: ACTIVE
+      governs: canonical runtime constants
+      runtime_view: ops.v_standard_knowledge_active
+      primary_table: ops.standard_knowledge_register
+    L4_reality_ledger:
+      status: ACTIVE
+      governs: proof, evidence, classification
+      primary_table: public.reality_ledger
+
+# ──────────────────────────────────────────────────────────────────
+# RUNTIME ANCHORS
+# ──────────────────────────────────────────────────────────────────
+runtime:
+  bridge:
+    endpoint: https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke
+    auth: dual_header  # x-api-key + Authorization Bearer
+    deprecated_endpoint: m5oqj21chd
+    canonical_executor: troy-sql-executor
+    envelope_key: fn
+    nested_payload_for: [troy-sql-executor]
+    top_level_payload_for: [troy-lambda-deploy, cfn-deployer, forge]
+  supabase:
+    S1:
+      project: lzfgigiyqpuuxslsygjt
+      role: all_writes
+      region: ap-southeast-2
+    S2:
+      project: pflisxkcxbzboxwidywf
+      role: read_only
+      note: ALSO hosts ops.standard_knowledge_register per SKS canonical runtime model
+  github:
+    org: TML-4PM
+    canonical_write_fn: fn_github_push
+    invocation: troy-sql-executor (NESTED, 7-arg)
+  vercel:
+    org: t4h
+  mcp:
+    canonical_server: t4h-remote-mcp-server-clean.vercel.app
+    version: v3.5.0
+
+# ──────────────────────────────────────────────────────────────────
+# PORTFOLIO ROOT (LIVE — do not hardcode counts)
+# ──────────────────────────────────────────────────────────────────
+portfolio:
+  source: t4h_business_registry
+  groups: [CORE, SIGNAL, MISSION, RETAIL, FUN]
+  resolution_rule: query live, never assume
+
+# ──────────────────────────────────────────────────────────────────
+# CANONICAL REGISTRY POINTERS
+# ──────────────────────────────────────────────────────────────────
+canonical_registries:
+  systems:        canonical/systems/
+  businesses:     canonical/businesses/
+  products:       canonical/products/
+  assets:         canonical/assets/
+  atomic_elements: canonical/atomic-elements/
+  environments:   canonical/runtime-environments/
+  repos:          canonical/repos/
+  domains:        canonical/domains/
+  doctrine:       canonical/doctrine/
+  receipts:       canonical/receipts/
+  telemetry:      canonical/telemetry/
+  relationships:  canonical/relationships/
+
+# ──────────────────────────────────────────────────────────────────
+# DOCTRINE BINDINGS
+# ──────────────────────────────────────────────────────────────────
+doctrine:
+  wave_10:
+    required_components: 8
+    rule: any_missing_equals_PARTIAL
+  rdti:
+    tag_at_creation: true
+    fields: [is_rd, project_code]
+    rate: 0.435
+  rls:
+    rule: all_writes_RLS_enabled
+  archive_policy:
+    rule: archive_never_delete
+  stamp:
+    schema: stamp
+    runway_gate: public.fn_runway_stamp_gate
+    threshold_secret: STAMP_RUNWAY_THRESHOLD
+
+# ──────────────────────────────────────────────────────────────────
+# EVIDENCE STANDARD (compressed — full file at EVIDENCE_STANDARD.yaml)
+# ──────────────────────────────────────────────────────────────────
+evidence:
+  typed_only: true
+  allowed_types:
+    - commit_id
+    - bridge_receipt
+    - api_response
+    - cli_output
+    - hash
+    - repro_steps
+    - deployment_url
+    - telemetry_snapshot
+    - database_result
+    - issue_id
+    - PR_id
+    - url
+  forbidden:
+    - screenshot_only
+    - narrative_only
+    - confidence_without_proof
+
+# ──────────────────────────────────────────────────────────────────
+# TRUST STATES
+# ──────────────────────────────────────────────────────────────────
+trust_states:
+  allowed: [REAL, PARTIAL, BLOCKED]
+  forbidden: [PRETEND]
+  invalid_class: INVALID  # for false REAL claims
+
+# ──────────────────────────────────────────────────────────────────
+# LOAD ORDER FOR ONBOARDING
+# ──────────────────────────────────────────────────────────────────
+onboarding_load_order:
+  1: MACHINE_REALITY_INDEX.yaml  # this file
+  2: SESSION_REQUIREMENTS.md
+  3: HOUSE_RULES_INTEGRATION.md
+  4: EVIDENCE_STANDARD.yaml
+  5: BRIDGE_HANDOFF_STANDARD.yaml
+  6: ONBOARDING_ACCEPTANCE_TESTS.yaml
+  7: canonical/doctrine/  # active doctrine versions
+  8: canonical/systems/   # only those relevant to current task
+  9: t4h_business_registry  # live portfolio resolution
+
+# ──────────────────────────────────────────────────────────────────
+# RELATIONSHIP GRAPH SEED
+# ──────────────────────────────────────────────────────────────────
+relationship_seed:
+  - [system, owns, repo]
+  - [system, deploys_to, environment]
+  - [system, depends_on, system]
+  - [business, owns, product]
+  - [product, runs_on, system]
+  - [product, surfaces_at, domain]
+  - [agent, executes, workflow]
+  - [workflow, produces, asset]
+  - [asset, recorded_in, ledger]
+  - [receipt, evidences, execution]
+  - [doctrine, governs, system]
