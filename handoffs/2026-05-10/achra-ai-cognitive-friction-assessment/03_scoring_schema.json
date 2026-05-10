@@ -1,0 +1,70 @@
+{
+  "assessment": "ACHRA",
+  "version": "1.0",
+  "dimensions": [
+    {
+      "key": "ai_trust_control",
+      "weight": 0.12,
+      "reverse_items": [4,7]
+    },
+    {
+      "key": "cognitive_load_response",
+      "weight": 0.14,
+      "reverse_items": [12,15]
+    },
+    {
+      "key": "identity_status_friction",
+      "weight": 0.11,
+      "reverse_items": [22]
+    },
+    {
+      "key": "workflow_adaptability",
+      "weight": 0.1,
+      "reverse_items": []
+    },
+    {
+      "key": "experimentation_learning_velocity",
+      "weight": 0.08,
+      "reverse_items": [31]
+    },
+    {
+      "key": "verification_discipline",
+      "weight": 0.14,
+      "reverse_items": []
+    },
+    {
+      "key": "automation_dependency_risk",
+      "weight": 0.12,
+      "reverse_items": [41]
+    },
+    {
+      "key": "executive_function_support_fit",
+      "weight": 0.09,
+      "reverse_items": []
+    },
+    {
+      "key": "emotional_social_safety",
+      "weight": 0.05,
+      "reverse_items": [54]
+    },
+    {
+      "key": "human_agent_symbiosis",
+      "weight": 0.05,
+      "reverse_items": []
+    }
+  ],
+  "derived_scores": [
+    "ai_cognitive_friction_score",
+    "human_agent_symbiosis_index",
+    "ai_burnout_risk",
+    "verification_discipline_score",
+    "automation_dependency_risk",
+    "workflow_integration_readiness"
+  ],
+  "bands": {
+    "low": [0, 39],
+    "moderate": [40, 69],
+    "high": [70, 84],
+    "critical": [85, 100]
+  }
+}
