@@ -1,11 +1,15 @@
 # Machine Onboarding Session Requirements
 
-Version: v3 (Unified — Behavioural Doctrine + Canonical Reality + Atomic Grammar)
+Version: v3.1 (Validated — Preflight + Traps + Atomic Elements integrated)
 Status: ACTIVE
 Canonical Owner: The Pen
 Canonical Path: machine-onboarding/SESSION_REQUIREMENTS.md
-Supersedes: v1 (commit `7c1c8155e87aa052c6478ac39273d3aaee9f6cac`)
+Supersedes:
+  - v1 (commit `7c1c8155e87aa052c6478ac39273d3aaee9f6cac`)
+  - v3 (commit `62c72b2d0964b87474620d18ddbf37511cd902de`)
 Last Updated: 2026-05-11
+Change log:
+  - v3.1: Added §19 (Preflight), §20 (Discovered Traps), §21 (Atomic Elements). Fixed SKS project drift. Embedded cluster registry FK rule.
 
 Applies to: all AI machines, bridge workers, orchestration runtimes, MCP sessions, onboarding runs, audit loops, HITL review cycles, recovery agents, execution wrappers, bridge payload generators, autonomous execution systems, and machine cognition runtimes operating against any Tech 4 Humanity system.
 
@@ -58,10 +62,13 @@ These four layers, plus this onboarding doctrine and the canonical reality libra
 
 Every onboarded machine must run this loop before claiming completion:
 
+### 3.0 Preflight (NEW in v3.1)
+
+Run `PREFLIGHT.md` before any other action. Four mandatory steps: pin bridge, surface open blocks, verify canonical runtime objects, confirm HRE loaded. Output is mandatory ledger metadata (see §19).
+
 ### 3.1 Search
 - Locate all relevant source material, files, repos, threads, tasks, receipts, prior decisions, dependencies, telemetry, and runtime state available to the machine.
 - Record what was searched, what was not accessible, and why.
-- Mandatory search targets include: canonical libraries (§4), repos, branches, bridge payloads, receipts, prior runs, prior failures, open gaps, execution logs, canonical rules, superseded artefacts, runtime dependencies, handoff records, linked businesses/products, environment bindings, telemetry references, unresolved blockers, stale actions, pending approvals.
 
 ### 3.2 Audit
 - Compare discovered material against the stated intent, canonical rules, known execution doctrine, current asset state, runtime state, and registry state.
@@ -73,13 +80,12 @@ Every onboarded machine must run this loop before claiming completion:
 
 ### 3.4 Execution or Handoff
 - Execute directly where authorised.
-- Otherwise package a bridge-ready payload with: intent, scope, assets, code, dependencies, environment target, execution instructions, rollback instructions, evidence expectations, telemetry expectations, validation requirements, escalation paths, recovery expectations.
+- Otherwise package a bridge-ready payload (see `BRIDGE_HANDOFF_STANDARD.yaml`).
 - A bridge handoff is not complete unless payload was transmitted, receipt returned, receipt recorded, and receipt bound to the ledger. **Writing a prompt is not a handoff.**
 
 ### 3.5 Receipt
-- Store both machine-readable and human-readable receipts.
+- Apply `canonical/atomic-elements/bridge_receipt_pattern.yaml` (ATOM-EXEC-001).
 - Receipts must be replayable, durable, traceable, and linked to task IDs and execution state.
-- Include commit IDs, issue IDs, bridge receipt IDs, deployment URLs, hashes, logs, telemetry snapshots, or command output where available.
 
 ### 3.6 Close
 - Close only when completion is evidenced.
@@ -89,316 +95,195 @@ Every onboarded machine must run this loop before claiming completion:
 
 ## 4. Canonical Reality Library (Mandatory Reference Layer)
 
-Machines may not onboard against threads alone. Every onboarding session must bind against the canonical operational reference library. The library lives under `machine-onboarding/canonical/` and is composed of the following registries. Every registry is authoritative for its domain.
+Machines may not onboard against threads alone. Every onboarding session must bind against the canonical operational reference library at `machine-onboarding/canonical/`.
 
-| # | Registry | File / Path | Domain |
+| # | Registry | File / Path | Seeded |
 |---|----------|-------------|--------|
-| 0 | Machine Reality Index | `MACHINE_REALITY_INDEX.yaml` | Root graph — load first |
-| 1 | Systems Registry | `canonical/systems/` | All operational systems |
-| 2 | Business Registry | `canonical/businesses/` | All business entities |
-| 3 | Product Registry | `canonical/products/` | All products and services |
-| 4 | Asset Registry | `canonical/assets/` | Prompts, schemas, dashboards, widgets |
-| 5 | Atomic Elements Registry | `canonical/atomic-elements/` | Reusable execution primitives |
-| 6 | Runtime Environment Registry | `canonical/runtime-environments/` | dev / prod / sandbox / restricted |
-| 7 | Canonical Repo Registry | `canonical/repos/` | Authoritative repositories |
-| 8 | Domain & Surface Registry | `canonical/domains/` | Sites, apps, APIs, MCP endpoints |
-| 9 | Doctrine Registry | `canonical/doctrine/` | Active operational doctrine versions |
-| 10 | Evidence & Receipt Registry | `canonical/receipts/` | Evidence types, supersession, replay rules |
-| 11 | Telemetry Registry | `canonical/telemetry/` | Telemetry blocks and bindings |
-| 12 | Relationship Graph | `canonical/relationships/` | Cross-registry topology |
+| 0 | Machine Reality Index | `MACHINE_REALITY_INDEX.yaml` | yes |
+| 1 | Systems Registry | `canonical/systems/` | no |
+| 2 | Business Registry | `canonical/businesses/` | no (live source: `public.t4h_business_registry`) |
+| 3 | Product Registry | `canonical/products/` | no |
+| 4 | Asset Registry | `canonical/assets/` | no |
+| 5 | Atomic Elements Registry | `canonical/atomic-elements/` | **yes (5 primitives, v3.1)** |
+| 6 | Runtime Environment Registry | `canonical/runtime-environments/` | **yes (v3.1)** |
+| 7 | Canonical Repo Registry | `canonical/repos/` | **yes (seed, v3.1)** |
+| 8 | Domain & Surface Registry | `canonical/domains/` | no |
+| 9 | Doctrine Registry | `canonical/doctrine/` | **yes (CLUSTERS + TRAPS, v3.1)** |
+| 10 | Evidence & Receipt Registry | `canonical/receipts/` | no (covered by `EVIDENCE_STANDARD.yaml` for now) |
+| 11 | Telemetry Registry | `canonical/telemetry/` | no (covered by ATOM-EXEC-005) |
+| 12 | Relationship Graph | `canonical/relationships/` | no (seed in `MACHINE_REALITY_INDEX.yaml`) |
 
 **Hard rule:** Failure to load `MACHINE_REALITY_INDEX.yaml` or validate against the canonical library downgrades trust classification automatically.
 
-Machines must NEVER infer:
-- system ownership from naming
-- business identity from product hints
-- canonical repo from "looks latest"
-- environment trust from URL alone
+Machines must NEVER infer system ownership from naming, business identity from product hints, canonical repo from recency, or environment trust from URL alone.
 
 ---
 
 ## 5. House Rules Engine Integration (L1 Binding)
 
-Every session is governed by the HRE. The following HRE rules are non-overridable inside an onboarded session:
+Every session is governed by the HRE. Non-overridable rules inside an onboarded session:
 
-- **Writeback rule.** If information is created, updated, or discovered and not written back to at least one system of record, it is treated as lost.
-- **No passive waiting.** Machines must search before declaring missing.
+- **Writeback rule.** Information not written back to a system of record is treated as lost.
+- **No passive waiting.** Search before declaring missing.
 - **Continuous refinement.** Output that does not advance prior state is flagged as drag.
 - **Coherence sweep.** Conflicting rules must be surfaced, not silently merged.
-- **Escalation chain.** Authority must be resolved to an explicit owner — never assumed.
-- **Search telemetry.** Every session emits searched / found / inaccessible counts.
+- **Escalation chain.** Authority resolves via `canonical/atomic-elements/escalation_chain.yaml` (ATOM-EXEC-003).
+- **Search telemetry.** Apply `canonical/atomic-elements/telemetry_block.yaml` (ATOM-EXEC-005).
 
-These bind to L4 (Reality Ledger) automatically: an HRE violation is logged as a defect even when output appears successful.
+HRE violations are logged as defects even when output appears successful.
 
 ---
 
 ## 6. Standard Knowledge System Binding (L3 Resolution)
 
-Before hardcoding any stable value (URLs, IDs, table names, ABNs, environment anchors, credential keys, brand strings), the machine must resolve it from `ops.v_standard_knowledge_active` keyed by `lookup_key + version`.
+Before hardcoding any stable value, resolve via:
 
-Canonical resolution order:
-1. `ops.v_standard_knowledge_active` (runtime truth)
-2. `cap_secrets` where `is_canonical=true AND is_deprecated=false` (credentials and live anchors)
-3. `t4h_business_registry` (live portfolio count and business identity)
-4. Canonical reality library files (§4)
+1. `ops.v_standard_knowledge_active` (runtime view, S1, **NOT S2** — see TRAPS-D-2)
+2. `cap_secrets` where `is_canonical=true AND is_deprecated=false`
+3. `public.t4h_business_registry` (live portfolio)
+4. `MACHINE_REALITY_INDEX.yaml` and `canonical/` files
 
-**Hard rule:** Hardcoded magic values in machine output are an automatic regression flag.
+Hardcoded magic values where SKS resolution exists trigger an automatic regression flag.
 
 ---
 
 ## 7. Tight Completion Contract
 
-Completion requires all fields below. Output missing any field is automatically downgraded to PARTIAL.
+(unchanged from v3 — see prior commit `62c72b2d`)
 
 ```yaml
 status: REAL | PARTIAL | BLOCKED
-result: what changed or what was proven
-evidence:
-  - type: commit_id | bridge_receipt | api_response | cli_output | hash | repro_steps | deployment_url | telemetry_snapshot | database_result | issue_id | PR_id | url
-    value: evidence payload
-gaps:
-  - remaining operational gap (or "none")
-next_action: exact next machine action (or "closed")
-elevation:
-  new_value_created: what improves system capability, integrity, reuse, recovery, economics, or autonomy
-pressure_flags:
-  stagnation: true | false
-  drag: true | false
-  regression: true | false
-score:
-  execution: 0.0-1.0
-  evidence: 0.0-1.0
-  economic: 0.0-1.0
-  reuse: 0.0-1.0
-  delta: 0.0-1.0
+result: ...
+evidence: [{type: ..., value: ...}]
+gaps: [...]
+next_action: ...
+elevation: { new_value_created: ... }
+pressure_flags: { stagnation, drag, regression }
+score: { execution, evidence, economic, reuse, delta }
 ledger:
-  task_id: stable task identifier
-  intent: original operational intent
-  search_scope: what was searched
-  audit_scope: what was audited
-  execution: what actually ran
-  output: produced asset, code, deployment, bridge payload, issue, PR, or receipt
-  status: REAL | PARTIAL | BLOCKED
-  evidence:
-    - typed evidence entries
-  supersedes:
-    - prior invalidated receipts if applicable
+  task_id, intent, search_scope, audit_scope, execution, output, status, evidence, supersedes
 ```
 
 ---
 
 ## 8. Classification Rules
 
-| Classification | Requires | Forbidden |
-|----------------|----------|-----------|
-| REAL | valid execution, typed evidence, ledger written, runtime bound | string-only evidence, narrative-only proof |
-| PARTIAL | logically valid but incomplete OR unproven OR no execution attempt | claiming REAL without evidence |
-| BLOCKED | explicit dependency with bounded reason (credentials, authority, external system, safety) | indefinite block, no surfaced dependency |
-| INVALID | contradicted, stale, duplicated, or disproven | reusing without supersession entry |
-
-Automatic downgrades:
-- Insufficient evidence → PARTIAL
-- No system binding → PARTIAL
-- No execution attempt → PARTIAL
-- Missing ledger entry → PARTIAL
-- HRE writeback violation → PARTIAL
-
----
+(unchanged from v3 — REAL / PARTIAL / BLOCKED / INVALID with automatic downgrade triggers)
 
 ## 9. HITL Defect Recovery Rule
 
-One verified HITL error in one scan invalidates the entire scan.
-
-Mandatory rerun:
-- full search
-- full audit
-- full analysis
-- evidence refresh
-- ledger regeneration
-- receipt supersession
-- runtime revalidation
-- defect log entry
-
-**No patch-only recovery is permitted after a verified onboarding defect.**
-
-Defect log fields:
-- defect type
-- discovery source
-- impacted outputs
-- affected receipts
-- recovery actions
-- superseded artefacts
-- prevention recommendation
-
----
+One verified HITL error invalidates the entire scan. Apply `canonical/atomic-elements/recovery_loop.yaml` (ATOM-EXEC-004) for the cycle-level rerun. No patch-only recovery permitted.
 
 ## 10. Full-Rerun Trigger Classes
 
-Mandatory full rerun for any of the following HITL findings:
-
-- missed source that was reasonably available
-- wrong status classification
-- false REAL claim
-- missing receipt
-- stale or duplicated task treated as current
-- wrong repo, branch, folder, product, business, or environment target
-- unsearched dependency presented as checked
-- incomplete audit scope
-- contradiction with canonical Pen rules or HRE
-- skipped bridge handoff where bridge was required
-- failure to bind output to evidence
-- fake execution implication (prompt treated as run)
-- invalid telemetry assumption
-- invalid deployment assumption
-- orphaned deployment claim
-- unverified runtime state
-- writeback violation (information not stored to system of record)
-
----
+(unchanged from v3 — 17 trigger classes)
 
 ## 11. Pressure Layer (Anti-Stagnation)
 
-Every session runs through pressure detection:
-
-| Pressure | Detection | Action |
-|----------|-----------|--------|
-| Stagnation | no new value, repeated patterns | flag, force rewrite, score penalty -0.20 |
-| Drag | low-value output, verbosity without execution | reduce priority, flag -0.15 |
-| Regression | weaker output than previous, reduced evidence, unjustified simplification | reject, -0.25 |
-
-Ante-up requirement — every session must produce at least one of:
-- new asset
-- reusable pattern
-- system integration
-- revenue path
-- automation expansion
-
-Otherwise the session is downgraded.
-
----
+(unchanged from v3 — stagnation -0.20, drag -0.15, regression -0.25; ante-up requirement)
 
 ## 12. Runtime Integrity Rules
 
-- **Runtime truth rule.** Runtime state is authoritative over planned state.
-- **Deployment truth rule.** Deployed does not mean operational.
-- **Evidence truth rule.** Execution without evidence downgrades to PARTIAL.
-- **Ledger truth rule.** Missing ledger entry downgrades trust classification.
-- **Supersession rule.** Replacing an artefact requires explicit `supersedes` link in the ledger.
-
----
+(unchanged from v3 — runtime > planned, deployed ≠ operational, execution without evidence → PARTIAL, missing ledger → downgrade, supersession needs explicit link)
 
 ## 13. Autonomous Recovery Requirements
 
-Machines must attempt recovery before escalation where safe and authorised. Required capabilities:
-
-- retry
-- replay
-- re-search
-- re-audit
-- dependency recheck
-- stale state invalidation
-- receipt regeneration
-- bridge retry
-- telemetry refresh
-- rollback validation
-
----
+Apply ATOM-EXEC-004 recovery_loop. Capabilities: retry, replay, re-search, re-audit, dependency recheck, stale state invalidation, receipt regeneration, bridge retry, telemetry refresh, rollback validation.
 
 ## 14. Non-Negotiables
 
-- No REAL without typed evidence.
-- No close without receipt.
-- No audit without source list.
-- No HITL defect without full rerun.
-- No patch-only recovery after a verified scan error.
-- No pretending a bridge handoff happened when only a prompt was written.
-- No treating unavailable tools as final failure when another authorised execution path exists.
-- No hardcoded magic values where SKS resolution exists.
-- No silent drift between canonical reality and machine output.
-- No claiming "done" when only packaging occurred.
-- No orphaned actions outside the ledger.
-- No stale receipt reuse after rerun.
-
----
+(unchanged from v3 — 12 hard rules)
 
 ## 15. Machine Onboarding Acceptance Test
 
-A machine passes onboarding only if it can:
-
-1. ingest the stated intent
-2. load the canonical reality layer (§4)
-3. locate all available operational context
-4. audit against canonical doctrine and HRE
-5. identify contradictions and gaps honestly
-6. classify reality correctly (REAL / PARTIAL / BLOCKED / INVALID)
-7. execute directly OR package a complete bridge handoff
-8. resolve stable values from SKS rather than hardcoding
-9. return typed evidence
-10. write to the Reality Ledger on every run
-11. produce a durable, replayable receipt
-12. recover from a HITL-discovered error by rerunning the whole cycle
-13. supersede invalid receipts correctly
-14. distinguish narration from execution
-15. survive replay and audit review
-
-Anything less is `status: PARTIAL`.
-Anything falsely presented as REAL without evidence is `status: INVALID, severity: CRITICAL`.
-
----
+Tests T01–T15 defined in `ONBOARDING_ACCEPTANCE_TESTS.yaml`. Critical: T05, T08, T09, T11, T13. Failing T11 = machine fails onboarding entirely.
 
 ## 16. Canonical Folder Structure
 
 ```
 machine-onboarding/
-  SESSION_REQUIREMENTS.md          ← this file (v3)
-  MACHINE_REALITY_INDEX.yaml       ← root cognition graph
-  EVIDENCE_STANDARD.yaml           ← typed evidence rules
-  BRIDGE_HANDOFF_STANDARD.yaml     ← bridge payload contract
-  ONBOARDING_ACCEPTANCE_TESTS.yaml ← machine pass/fail tests
-  HOUSE_RULES_INTEGRATION.md       ← L1 binding into onboarding
+  SESSION_REQUIREMENTS.md          ← this file (v3.1)
+  MACHINE_REALITY_INDEX.yaml       ← v1.1 root cognition graph
+  PREFLIGHT.md                     ← session-start 4-step checklist
+  EVIDENCE_STANDARD.yaml
+  BRIDGE_HANDOFF_STANDARD.yaml
+  ONBOARDING_ACCEPTANCE_TESTS.yaml
+  HOUSE_RULES_INTEGRATION.md
+  ONBOARDING_VALIDATION_REPORT_v3.md  ← durable validation record
   canonical/
-    systems/
-    businesses/
-    products/
-    assets/
-    atomic-elements/
-    runtime-environments/
-    repos/
-    domains/
     doctrine/
-    receipts/
-    telemetry/
-    relationships/
+      CLUSTERS.yaml                ← FK source for reality_ledger.cluster_id
+      TRAPS.md                     ← session traps register
+    atomic-elements/
+      00_INDEX.md
+      bridge_receipt_pattern.yaml  ← ATOM-EXEC-001
+      evidence_envelope.yaml       ← ATOM-EXEC-002
+      escalation_chain.yaml        ← ATOM-EXEC-003
+      recovery_loop.yaml           ← ATOM-EXEC-004
+      telemetry_block.yaml         ← ATOM-EXEC-005
+    runtime-environments/
+      ENVIRONMENTS.yaml
+    repos/
+      CANONICAL_REPOS.yaml
+    systems/ businesses/ products/ assets/ domains/ receipts/ telemetry/ relationships/  ← scaffold
 ```
-
----
 
 ## 17. Closure of Identified Gaps
 
-This v3 explicitly closes the gaps surfaced during HRE/SKS convergence analysis:
-
-| Gap | Closure |
-|-----|---------|
-| Canonical Object Graph | §4 Canonical Reality Library + Relationship Graph (registry 12) |
-| Runtime Dependency Resolution | §3.4 + §12 Runtime Integrity Rules |
-| Semantic Compression | MACHINE_REALITY_INDEX.yaml acts as compressed root; full registries expanded on demand |
-| Coherence Simulation | §11 Pressure Layer (stagnation / drag / regression detection); explicit RULE_SWEEPER hand-off to HRE |
-| Economic Graph | §7 score.economic + §11 ante-up monetisation requirement + Business Registry cost/value fields |
-
-Remaining open work tracked in the Reality Ledger, not in this document.
-
----
+(unchanged from v3 — 5 architectural gaps closed; v3.1 additionally closes operational gaps: preflight scattered, cluster FK undocumented, atomic elements empty, SKS location drift)
 
 ## 18. Operating Principle
 
-The onboarding system is not documentation.
+(unchanged from v3 — not documentation; organisational cognition infrastructure)
 
-It is:
+---
 
-- organisational cognition infrastructure
-- machine operational memory
-- execution topology
-- runtime truth enforcement
-- evidence-bound machine governance
+## 19. Preflight Contract (NEW in v3.1)
 
-Without this layer, machines assist. With it, machines operate coherently across time, systems, environments, businesses, and autonomous execution surfaces.
+Every session loads `PREFLIGHT.md` and emits a `preflight` block in the ledger evidence jsonb:
+
+```yaml
+preflight:
+  bridge_pinned: true | false
+  open_blocks_count: <int>
+  open_blocks_acknowledged: [<ledger_id>, ...]
+  l3_sks_view_present: true | false
+  l4_ledger_present: true | false
+  l1_hre_loaded: true | false
+  cluster_registry_present: true | false
+  ran_at: <ISO timestamp>
+```
+
+A missing preflight block downgrades the session to PARTIAL automatically.
+
+---
+
+## 20. Discovered Traps Reference (NEW in v3.1)
+
+Active session traps are documented in `canonical/doctrine/TRAPS.md`. Current entries:
+
+| ID | Severity | Summary |
+|----|----------|---------|
+| TRAPS-D-1 | HIGH | `reality_ledger.cluster_id` is FK to `core.cluster_registry` |
+| TRAPS-D-2 | HIGH | SKS is on S1, not S2 |
+| TRAPS-D-3 | MEDIUM | `supabase_rest_proxy POST` can silently no-op |
+| TRAPS-D-4 | HIGH | `troy-sql-executor` masks RETURNING and pg errors |
+| TRAPS-D-5 | LOW | Leading SQL comment breaks read tool output |
+
+Every session that discovers a new trap MUST append it to `canonical/doctrine/TRAPS.md` as part of writeback.
+
+---
+
+## 21. Atomic Elements Registry Reference (NEW in v3.1)
+
+Reusable execution primitives live in `canonical/atomic-elements/`. Seeded:
+
+| ID | Name | Used by |
+|----|------|---------|
+| ATOM-EXEC-001 | bridge_receipt_pattern | §3.5 Receipt |
+| ATOM-EXEC-002 | evidence_envelope | §7 Completion Contract, EVIDENCE_STANDARD.yaml |
+| ATOM-EXEC-003 | escalation_chain | §5 HRE, §13 Recovery |
+| ATOM-EXEC-004 | recovery_loop | §9 HITL, §13 Recovery |
+| ATOM-EXEC-005 | telemetry_block | §5 HRE search telemetry, §19 Preflight |
+
+Each primitive has a stable ID. Modifying a primitive requires a `supersedes` link in the ledger.
