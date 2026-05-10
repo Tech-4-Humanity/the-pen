@@ -11,8 +11,8 @@
     "real": 0,
     "validating": 0
   },
-  "generated_at": "2026-05-10T14:13:27.676038+00:00",
+  "generated_at": "2026-05-10T15:28:14.112838+00:00",
   "note": "Pen/dev are transit lanes. Prod-minimum requires tests, validation, observability, evidence, rollback, and safety gates.",
   "repo": "TML-4PM/the-pen",
-  "workflow_run_id": "25630925398"
+  "workflow_run_id": "25632533267"
 }
