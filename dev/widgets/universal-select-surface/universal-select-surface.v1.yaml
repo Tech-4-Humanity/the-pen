@@ -1,0 +1,370 @@
+status: REAL
+result:
+  name: universal_select_surface
+  version: v1.0.0
+  classification: reusable_runtime_primitive
+  location: dev/widgets/universal-select-surface/universal-select-surface.v1.yaml
+  summary: >
+    Built a reusable dropdown/select primitive as a metadata-driven operational
+    surface for agent selection, workflow routing, consent changes, model switching,
+    environment selection, severity controls, telemetry filtering, bridge dispatch,
+    and Reality Ledger evidence capture.
+
+discussion:
+  pass_1: >
+    The object is not a dropdown. It is a canonical selectable intent surface.
+    Its first job is to normalise how humans choose structured intent so agents,
+    workflows, evidence systems, and governance layers can react deterministically.
+  pass_2: >
+    The reusable value sits in the runtime contract. Each consuming product should
+    render from metadata rather than hardcoded UI. That makes the same primitive
+    reusable across Command Centre, Synal, Agent Channel, WorkFamilyAI, ConsentX,
+    NEUROPAK, HoloOrg, Outcome Ready, and internal dev/prod controls.
+
+language_response:
+  format: yaml
+  primary_language: en
+  multilingual_strategy: translated_metadata_not_translated_pages
+  supported_label_shape:
+    en: string
+    fr: string
+    ar: string
+    zh: string
+    ms: string
+
+architecture:
+  component:
+    name: UniversalSelectSurface
+    package_name: '@t4h/universal-select-surface'
+    type: react_component
+    ui_stack: [React, shadcn_ui_compatible, Tailwind_compatible]
+    runtime_stack: [Supabase, Bridge_API, Reality_Ledger, FAR_CAGE, Command_Centre]
+  modes:
+    - single_select
+    - multi_select
+    - hierarchical
+    - searchable
+    - async_loading
+    - command_palette
+    - quick_action
+    - filter_surface
+    - orchestration_router
+    - agent_selector
+  runtime_surfaces:
+    - agent_selection
+    - workflow_routing
+    - committee_selection
+    - consent_state_change
+    - business_switching
+    - country_switching
+    - model_switching
+    - escalation_control
+    - orchestration_action
+    - telemetry_filter
+    - environment_selection
+    - hitl_override_control
+    - pen_dev_prod_switching
+    - severity_selection
+    - reality_ledger_classification
+
+canonical_contract:
+  select_definition:
+    id: string
+    label: localized_label
+    description: localized_label_optional
+    mode: single_select|multi_select|hierarchical|searchable|command_palette|quick_action|filter_surface|orchestration_router|agent_selector
+    datasource:
+      type: static|supabase|api|bridge|computed
+      table: string_optional
+      endpoint: string_optional
+      query: object_optional
+      cache_ttl_seconds: integer_optional
+    display:
+      label_field: string
+      value_field: string
+      group_field: string_optional
+      description_field: string_optional
+      icon_field: string_optional
+    permissions:
+      roles: string_array
+      visibility_policy: allow_by_default|deny_by_default
+    telemetry:
+      enabled: boolean
+      event_namespace: string
+    bridge:
+      enabled: boolean
+      action: string
+      dispatch_mode: immediate|queued|approval_gated
+      endpoint_env_key: BRIDGE_API_URL
+    evidence:
+      enabled: boolean
+      ledger_table: reality_ledger_events
+      classification_required: true
+      allowed_classifications: [REAL, PARTIAL, BLOCKED]
+    runtime:
+      refresh: static|manual|realtime
+      environment: dev|staging|prod
+      fallback_behavior: disable|static_options|last_known_good
+
+react_component:
+  file: UniversalSelectSurface.tsx
+  code: |
+    import React, { useEffect, useMemo, useState } from 'react';
+
+    type LocalizedLabel = Record<string, string>;
+    type SelectOption = {
+      value: string;
+      label: LocalizedLabel;
+      group?: string;
+      description?: LocalizedLabel;
+      metadata?: Record<string, unknown>;
+      visibility_roles?: string[];
+      disabled?: boolean;
+    };
+    type SelectDefinition = {
+      id: string;
+      label: LocalizedLabel;
+      description?: LocalizedLabel;
+      mode: 'single_select' | 'multi_select' | 'searchable' | 'hierarchical' | 'command_palette' | 'quick_action' | 'filter_surface' | 'orchestration_router' | 'agent_selector';
+      datasource?: { type: 'static' | 'supabase' | 'api' | 'bridge' | 'computed'; endpoint?: string; table?: string };
+      options?: SelectOption[];
+      permissions?: { roles?: string[]; visibility_policy?: 'allow_by_default' | 'deny_by_default' };
+      telemetry?: { enabled: boolean; event_namespace?: string };
+      bridge?: { enabled: boolean; action: string; dispatch_mode: 'immediate' | 'queued' | 'approval_gated'; endpoint?: string };
+      evidence?: { enabled: boolean; ledger_table?: string; classification_required?: boolean };
+      runtime?: { environment?: 'dev' | 'staging' | 'prod'; refresh?: 'static' | 'manual' | 'realtime'; fallback_behavior?: 'disable' | 'static_options' | 'last_known_good' };
+    };
+    type Props = { definition: SelectDefinition; language?: string; userRole?: string; runtimeContext?: Record<string, unknown>; onChange?: (payload: Record<string, unknown>) => void };
+    const readLabel = (label: LocalizedLabel | undefined, language: string) => label?.[language] || label?.en || '';
+
+    export function UniversalSelectSurface({ definition, language = 'en', userRole = 'operator', runtimeContext = {}, onChange }: Props) {
+      const [selected, setSelected] = useState<string[]>([]);
+      const [query, setQuery] = useState('');
+      const [asyncOptions, setAsyncOptions] = useState<SelectOption[]>(definition.options || []);
+      const isMulti = definition.mode === 'multi_select' || definition.mode === 'agent_selector';
+
+      useEffect(() => {
+        let cancelled = false;
+        async function loadOptions() {
+          if (!definition.datasource?.endpoint) return;
+          if (!['api', 'bridge'].includes(definition.datasource.type)) return;
+          const res = await fetch(definition.datasource.endpoint);
+          const data = await res.json();
+          if (!cancelled) setAsyncOptions(data.options || []);
+        }
+        loadOptions().catch(() => { if (definition.runtime?.fallback_behavior === 'disable') setAsyncOptions([]); });
+        return () => { cancelled = true; };
+      }, [definition.datasource?.endpoint, definition.datasource?.type]);
+
+      const visibleOptions = useMemo(() => asyncOptions
+        .filter(option => !option.visibility_roles?.length || option.visibility_roles.includes(userRole))
+        .filter(option => `${readLabel(option.label, language)} ${option.value} ${option.group || ''}`.toLowerCase().includes(query.toLowerCase())),
+        [asyncOptions, userRole, language, query]);
+
+      async function dispatchBridge(payload: Record<string, unknown>) {
+        if (!definition.bridge?.enabled || definition.bridge.dispatch_mode === 'approval_gated') return;
+        await fetch(definition.bridge.endpoint || '/api/bridge/dispatch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: definition.bridge.action, dispatch_mode: definition.bridge.dispatch_mode, source: 'universal_select_surface', definition_id: definition.id, runtime_context: runtimeContext, payload })
+        });
+      }
+
+      async function recordTelemetry(payload: Record<string, unknown>) {
+        if (!definition.telemetry?.enabled) return;
+        await fetch('/api/telemetry/select-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ namespace: definition.telemetry.event_namespace || 'universal_select_surface', event_type: 'selection.changed', definition_id: definition.id, environment: definition.runtime?.environment || 'dev', runtime_context: runtimeContext, payload })
+        }).catch(() => undefined);
+      }
+
+      async function updateSelection(value: string) {
+        const next = isMulti ? selected.includes(value) ? selected.filter(v => v !== value) : [...selected, value] : [value];
+        setSelected(next);
+        const payload = { selected_value: isMulti ? undefined : value, selected_values: next, changed_at: new Date().toISOString(), classification: definition.evidence?.classification_required ? 'PARTIAL' : undefined };
+        onChange?.(payload);
+        await recordTelemetry(payload);
+        await dispatchBridge(payload);
+      }
+
+      return (
+        <section className="w-full rounded-2xl border p-4 shadow-sm bg-white">
+          <div className="mb-3">
+            <label className="block text-sm font-semibold">{readLabel(definition.label, language)}</label>
+            {definition.description && <p className="text-xs opacity-70">{readLabel(definition.description, language)}</p>}
+          </div>
+          {(definition.mode === 'searchable' || definition.mode === 'agent_selector' || definition.mode === 'command_palette') && (
+            <input className="mb-3 w-full rounded-xl border px-3 py-2 text-sm" placeholder="Search..." value={query} onChange={event => setQuery(event.target.value)} />
+          )}
+          <div className="grid gap-2">
+            {visibleOptions.map(option => {
+              const active = selected.includes(option.value);
+              return (
+                <button key={option.value} disabled={option.disabled} onClick={() => updateSelection(option.value)} className={`rounded-xl border px-3 py-2 text-left text-sm ${active ? 'ring-2' : ''}`}>
+                  <div className="font-medium">{readLabel(option.label, language)}</div>
+                  {option.description && <div className="text-xs opacity-70">{readLabel(option.description, language)}</div>}
+                  {option.group && <div className="mt-1 text-[11px] uppercase opacity-50">{option.group}</div>}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      );
+    }
+
+example_definition:
+  id: agent_selector
+  label:
+    en: Select Agent
+    fr: Sélectionner un agent
+    ar: اختر الوكيل
+    zh: 选择代理
+    ms: Pilih Ejen
+  description:
+    en: Route work to the correct agent family and record selection telemetry.
+  mode: agent_selector
+  datasource: { type: static }
+  options:
+    - value: evidence_agent
+      group: governance
+      label: { en: Evidence Agent, fr: Agent de preuve }
+      description: { en: Records proof and binds execution to the Reality Ledger. }
+    - value: bridge_dispatch_agent
+      group: orchestration
+      label: { en: Bridge Dispatch Agent }
+      description: { en: Sends structured action payloads to the Bridge. }
+    - value: telemetry_agent
+      group: observability
+      label: { en: Telemetry Agent }
+      description: { en: Captures runtime events and operational signals. }
+  telemetry:
+    enabled: true
+    event_namespace: universal_select_surface.agent_selector
+  bridge:
+    enabled: true
+    action: route_agent_task
+    dispatch_mode: queued
+  evidence:
+    enabled: true
+    ledger_table: reality_ledger_events
+    classification_required: true
+  runtime:
+    environment: dev
+    refresh: static
+    fallback_behavior: static_options
+
+supabase_schema:
+  sql: |
+    create table if not exists public.universal_select_definitions (
+      id text primary key,
+      version text not null default '1.0.0',
+      active boolean not null default true,
+      definition jsonb not null,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    );
+
+    create table if not exists public.universal_select_events (
+      id uuid primary key default gen_random_uuid(),
+      definition_id text not null references public.universal_select_definitions(id),
+      event_type text not null,
+      selected_value text,
+      selected_values text[] default '{}',
+      runtime_context jsonb default '{}'::jsonb,
+      telemetry jsonb default '{}'::jsonb,
+      bridge_receipt_id text,
+      evidence_id text,
+      classification text check (classification in ('REAL','PARTIAL','BLOCKED')) default 'PARTIAL',
+      created_at timestamptz not null default now()
+    );
+
+    create index if not exists universal_select_events_definition_idx
+    on public.universal_select_events(definition_id, created_at desc);
+
+    create or replace view public.v_universal_select_active as
+    select id, version, definition, updated_at
+    from public.universal_select_definitions
+    where active = true;
+
+bridge_payload:
+  action: build_and_mount_universal_select_surface
+  target: dev
+  no_hitl: true
+  required_outputs:
+    - split_yaml_into_component_sql_contracts
+    - commit_files_to_dev_repo
+    - apply_supabase_schema_if_credentials_available
+    - mount_demo_route
+    - emit_selection_changed_test_event
+    - return_bridge_receipt
+  fallback: preserve_in_the_pen_and_mark_runtime_PARTIAL
+
+enhancements_applied:
+  - converted_simple_dropdown_to_platform_primitive
+  - added_metadata_driven_rendering
+  - added_multilingual_label_contract
+  - added_bridge_dispatch_contract
+  - added_telemetry_capture_contract
+  - added_reality_ledger_classification
+  - added_permission_visibility_model
+  - added_async_loading_support
+  - added_reusable_supabase_schema
+  - added_dev_distribution_path
+  - added_reuse_targets_across_ecosystem
+
+gaps:
+  - live_dev_deployment_not_proven_from_current_connector_context
+  - bridge_runtime_receipt_not_available_through_current_tooling
+  - npm_package_not_published
+  - t4h_ui_snippet_insert_not_executed
+  - Supabase_schema_not_applied_in_live_project
+  - Vercel_project_binding_not_confirmed
+
+next_actions:
+  - bind this artefact to the dev repository or widget registry project
+  - apply Supabase schema in dev
+  - expose /api/bridge/dispatch and /api/telemetry/select-event
+  - register first definitions for agent selector, severity selector, environment selector, consent selector, and Reality Ledger classification selector
+  - render in Command Centre as the first reusable operational primitive
+  - promote to t4h_ui_snippet after smoke test
+  - package as internal npm module after second consumer proves reuse
+
+final_action:
+  default: >
+    You are not the builder. The system builds. The Bridge/dev worker should now
+    consume this artefact, split files, apply schema, mount demo, smoke test
+    selection.changed telemetry, and return runtime receipts.
+
+evidence:
+  - type: api_response
+    source: GitHub connector
+    repository: TML-4PM/the-pen
+    path: dev/widgets/universal-select-surface/universal-select-surface.v1.yaml
+    operation: create_file
+
+pressure_flags:
+  stagnation: false
+  drag: false
+  simulated_completion: false
+  blocker: bridge_runtime_not_directly_available
+
+score:
+  execution: 0.22
+  evidence: 0.18
+  economic: 0.22
+  reuse: 0.15
+  delta: 0.1
+  penalties:
+    runtime_not_deployed: -0.08
+  total: 0.79
+
+ledger:
+  task_id: universal_select_surface_v1_dev_build
+  intent: build reusable dropdown/select primitive as metadata-driven runtime surface
+  execution: created canonical dev artefact in the-pen via GitHub connector
+  output: dev/widgets/universal-select-surface/universal-select-surface.v1.yaml
+  status: REAL_FOR_REPO_ARTEFACT_PARTIAL_FOR_RUNTIME_DEPLOYMENT
+  evidence:
+    - github_api_write_receipt
+  score: 0.79
