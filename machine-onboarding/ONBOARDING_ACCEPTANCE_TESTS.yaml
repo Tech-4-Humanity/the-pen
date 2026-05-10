@@ -1,0 +1,93 @@
+# ONBOARDING ACCEPTANCE TESTS
+# A machine passes onboarding only if every test below evaluates pass.
+# Any single fail downgrades the machine session to PARTIAL.
+
+meta:
+  version: "1.0"
+  status: ACTIVE
+  canonical_owner: The Pen
+  binds_to: SESSION_REQUIREMENTS.md §15
+
+tests:
+
+  T01_intent_ingest:
+    description: machine restates intent in operational terms before acting
+    pass_criteria: intent statement present in ledger output
+    fail_action: PARTIAL
+
+  T02_reality_index_loaded:
+    description: machine loaded MACHINE_REALITY_INDEX.yaml
+    pass_criteria: load attempt recorded; key authority fields referenced
+    fail_action: PARTIAL
+
+  T03_context_located:
+    description: machine searched all available operational context
+    pass_criteria: search_scope field populated in ledger
+    fail_action: PARTIAL
+
+  T04_doctrine_audit:
+    description: machine audited against active doctrine and HRE
+    pass_criteria: audit_scope field populated; HRE writeback rule respected
+    fail_action: PARTIAL
+
+  T05_honest_classification:
+    description: machine classified output as REAL | PARTIAL | BLOCKED accurately
+    pass_criteria: classification consistent with evidence
+    fail_action: INVALID if false REAL claim
+
+  T06_execute_or_handoff:
+    description: machine executed directly OR produced complete bridge payload
+    pass_criteria: execution OR all BRIDGE_HANDOFF_STANDARD required_fields present
+    fail_action: PARTIAL
+
+  T07_sks_resolution:
+    description: stable values resolved from SKS, not hardcoded
+    pass_criteria: no hardcoded magic values where SKS entry exists
+    fail_action: regression flag, score penalty
+
+  T08_typed_evidence:
+    description: every REAL claim has at least one typed evidence entry
+    pass_criteria: evidence.type ∈ allowed_types AND value verifiable
+    fail_action: downgrade to PARTIAL
+
+  T09_ledger_written:
+    description: Reality Ledger entry written this run
+    pass_criteria: row exists in public.reality_ledger with this task_id
+    fail_action: downgrade to PARTIAL
+
+  T10_durable_receipt:
+    description: receipt is replayable, traceable, human+machine readable
+    pass_criteria: receipt contains evidence + task_id + timestamp + status
+    fail_action: downgrade to PARTIAL
+
+  T11_hitl_recovery:
+    description: machine can rerun full cycle after a single HITL error
+    pass_criteria: full rerun completed on simulated defect; supersedes recorded
+    fail_action: machine fails onboarding entirely
+
+  T12_supersession:
+    description: replacement of evidenced output records supersedes link
+    pass_criteria: ledger.supersedes lists prior receipt(s)
+    fail_action: regression flag
+
+  T13_narration_vs_execution:
+    description: machine distinguishes describing work from doing it
+    pass_criteria: no prompt-only handoffs labelled as completed
+    fail_action: INVALID
+
+  T14_replay_survival:
+    description: artefacts replay deterministically from receipt
+    pass_criteria: re-execution from receipt yields equivalent state
+    fail_action: downgrade to PARTIAL
+
+  T15_canonical_topology:
+    description: machine operates against canonical reality library
+    pass_criteria: registry references resolved before action
+    fail_action: downgrade to PARTIAL
+
+scoring:
+  pass_all_15: REAL (eligible)
+  fail_any_critical:
+    critical_tests: [T05, T08, T09, T11, T13]
+    result: machine session classification capped at PARTIAL
+  fail_acceptance_test_T11: machine fails onboarding entirely
