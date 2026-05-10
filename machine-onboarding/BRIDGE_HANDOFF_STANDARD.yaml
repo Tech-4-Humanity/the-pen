@@ -1,0 +1,121 @@
+# BRIDGE HANDOFF STANDARD
+# Contract for any bridge-ready payload produced by an onboarded machine.
+
+meta:
+  version: "1.0"
+  status: ACTIVE
+  canonical_owner: The Pen
+  binds_to:
+    - SESSION_REQUIREMENTS.md §3.4
+    - MACHINE_REALITY_INDEX.yaml runtime.bridge
+
+# ──────────────────────────────────────────────────────────────────
+# CORE RULE
+# ──────────────────────────────────────────────────────────────────
+core_rule: |
+  A bridge handoff is NOT complete unless:
+    1. payload was transmitted
+    2. receipt was returned
+    3. receipt was recorded
+    4. receipt was bound to the Reality Ledger
+  Writing a prompt that describes a handoff is NOT a handoff.
+
+# ──────────────────────────────────────────────────────────────────
+# REQUIRED PAYLOAD FIELDS
+# ──────────────────────────────────────────────────────────────────
+required_fields:
+  intent:
+    description: original operational intent in plain language
+  scope:
+    description: bounded scope of what bridge should execute
+  assets:
+    description: list of asset references (code, data, config)
+  code:
+    description: executable code or SQL where applicable
+  dependencies:
+    description: explicit list of upstream systems and credentials needed
+  environment_target:
+    description: dev | prod | sandbox | staging
+    must_match: canonical/runtime-environments/
+  execution_instructions:
+    description: ordered, deterministic execution steps
+  rollback_instructions:
+    description: how to undo on failure
+  evidence_expectations:
+    description: typed evidence the caller expects back
+  telemetry_expectations:
+    description: metrics/logs to be emitted
+  validation_requirements:
+    description: post-execution validation queries or checks
+  escalation_paths:
+    description: who/what to notify on failure or ambiguity
+  recovery_expectations:
+    description: retry, replay, or rollback expectations
+
+# ──────────────────────────────────────────────────────────────────
+# BRIDGE ENVELOPE
+# ──────────────────────────────────────────────────────────────────
+envelope:
+  key: fn
+  auth:
+    headers:
+      x-api-key: BRIDGE_ROUTER_KEY  # 40c, wGqgmm5E prefix
+      Authorization: Bearer BRIDGE_API_KEY  # 57c, bk_gfTUR prefix
+    rule: dual_header_required
+    deprecated: "bk_tOH8 (since 2026-04-17) — always rejected"
+  routing:
+    troy-sql-executor:
+      payload_style: NESTED
+      payload_path: payload.sql
+      strict: minimal_payload_only  # extra fields trigger 400
+    troy-lambda-deploy:
+      payload_style: TOP_LEVEL
+    cfn-deployer:
+      payload_style: TOP_LEVEL
+    forge:
+      payload_style: TOP_LEVEL
+    troy-code-pusher:
+      payload_style: TOP_LEVEL
+      restriction: UPDATE_only
+      not_for: GitHub file pushes
+
+# ──────────────────────────────────────────────────────────────────
+# SQL EXECUTION VIA BRIDGE
+# ──────────────────────────────────────────────────────────────────
+sql_execution:
+  only_callable_fn: troy-sql-executor
+  is_callable_check: true
+  multi_statement: forbidden  # split atomic; no BEGIN/COMMIT via bridge
+  trailing_semicolon: forbidden  # returns rows:[]
+  plpgsql:
+    via: SB_URL/rest/v1/rpc/run_sql
+    quoting: $$
+  writes_to_S2: forbidden
+  postgrest_writeback_verification:
+    rule: |
+      troy-sql-executor masks both pg errors AND RETURNING clauses.
+      Always verify writes via direct PostgREST read after execution.
+
+# ──────────────────────────────────────────────────────────────────
+# RECEIPT BINDING
+# ──────────────────────────────────────────────────────────────────
+receipt_binding:
+  on_success:
+    - record receipt_id in Reality Ledger
+    - bind to task_id
+    - emit telemetry
+  on_failure:
+    - record failure in Reality Ledger with status BLOCKED or PARTIAL
+    - capture exact error
+    - surface dependency
+
+# ──────────────────────────────────────────────────────────────────
+# FORBIDDEN PATTERNS
+# ──────────────────────────────────────────────────────────────────
+forbidden:
+  - single_header_auth  # always 401
+  - extra_fields_to_troy-sql-executor  # triggers 400
+  - prompt_only_handoff  # not a handoff
+  - prod_write_without_explicit_authorisation
+  - silent_retry_loop_without_telemetry
+  - using_troy-code-pusher_for_github_files
