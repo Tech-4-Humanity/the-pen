@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "rule_key": "high_friction_low_trust",
+      "trigger": {
+        "ai_cognitive_friction_score": ">70",
+        "verification_discipline_score": "<40"
+      },
+      "actions": [
+        "reduce_ai_surface_area",
+        "introduce_guided_verification",
+        "assign_small_task_trials"
+      ]
+    },
+    {
+      "rule_key": "high_burnout_risk",
+      "trigger": {
+        "ai_burnout_risk": ">75"
+      },
+      "actions": [
+        "reduce_notification_frequency",
+        "enable_summary_mode",
+        "recommend_focus_windows"
+      ]
+    },
+    {
+      "rule_key": "high_symbiosis_potential",
+      "trigger": {
+        "human_agent_symbiosis_index": ">80"
+      },
+      "actions": [
+        "advanced_agent_workflows",
+        "automation_training",
+        "cross_tool_memory_enablement"
+      ]
+    },
+    {
+      "rule_key": "identity_protection_needed",
+      "trigger": {
+        "identity_status_friction": ">65"
+      },
+      "actions": [
+        "augmentation_language_only",
+        "expertise_preservation_coaching",
+        "human_review_mandate"
+      ]
+    }
+  ]
+}
