@@ -1,0 +1,108 @@
+# EVIDENCE STANDARD
+# Defines typed evidence rules for all machine output.
+
+meta:
+  version: "1.0"
+  status: ACTIVE
+  canonical_owner: The Pen
+
+principle: |
+  REAL classification requires at least one typed evidence entry.
+  String-only, narrative-only, or screenshot-only evidence is rejected.
+
+# ──────────────────────────────────────────────────────────────────
+# TYPED EVIDENCE CATALOGUE
+# ──────────────────────────────────────────────────────────────────
+types:
+
+  commit_id:
+    format: "40-char hex SHA"
+    validation: "matches /^[a-f0-9]{40}$/"
+    replay: "git show <sha>"
+    example: "7c1c8155e87aa052c6478ac39273d3aaee9f6cac"
+
+  bridge_receipt:
+    format: "JSON object with receipt_id, lambda_name, status, output_ref"
+    validation: "receipt_id matches /^rcpt_[a-z0-9]+$/"
+    replay: "bridge receipt lookup"
+
+  api_response:
+    format: "HTTP status + canonical response body"
+    validation: "status 2xx and body parseable"
+    replay: "re-issue request with same params"
+
+  cli_output:
+    format: "stdout/stderr capture with exit code"
+    validation: "exit_code documented"
+    replay: "re-run command"
+
+  hash:
+    format: "algorithm:digest"
+    validation: "sha256 or sha512 only"
+    replay: "recompute and compare"
+
+  repro_steps:
+    format: "ordered list of executable steps"
+    validation: "each step is executable and deterministic"
+    replay: "follow steps in order"
+
+  deployment_url:
+    format: "https URL with verifiable runtime"
+    validation: "HEAD returns 2xx; content fingerprint logged"
+    replay: "fetch and compare fingerprint"
+
+  telemetry_snapshot:
+    format: "timestamped metric or log payload"
+    validation: "source system + metric name + timestamp present"
+    replay: "query source system for window"
+
+  database_result:
+    format: "schema.table + query + rowcount + sample"
+    validation: "query reproducible, rowcount matches"
+    replay: "re-run query"
+
+  issue_id:
+    format: "owner/repo#number or external tracker id"
+    validation: "issue exists, status documented"
+    replay: "open issue link"
+
+  PR_id:
+    format: "owner/repo#number"
+    validation: "PR exists, state documented (open|merged|closed)"
+    replay: "open PR link"
+
+  url:
+    format: "canonical https URL"
+    validation: "fetch returns expected content"
+    replay: "fetch URL"
+    note: "Lowest-strength evidence type; pair with another type for REAL"
+
+# ──────────────────────────────────────────────────────────────────
+# SUPERSESSION RULES
+# ──────────────────────────────────────────────────────────────────
+supersession:
+  rule: |
+    Replacement of an evidenced output requires an explicit `supersedes`
+    field listing the prior receipt(s). Silent overwrite is forbidden.
+  ledger_field: supersedes
+  example:
+    supersedes:
+      - "commit:7c1c8155e87aa052c6478ac39273d3aaee9f6cac"
+
+# ──────────────────────────────────────────────────────────────────
+# EXPIRY
+# ──────────────────────────────────────────────────────────────────
+expiry:
+  deployment_url: "revalidate every 7 days"
+  telemetry_snapshot: "valid for declared window only"
+  api_response: "valid until upstream contract change"
+  others: "no expiry; receipt persists"
+
+# ──────────────────────────────────────────────────────────────────
+# DOWNGRADE TRIGGERS
+# ──────────────────────────────────────────────────────────────────
+downgrade_to_partial:
+  - no_typed_evidence
+  - evidence_unreplayable
+  - evidence_pointer_404
+  - evidence_belongs_to_different_task
