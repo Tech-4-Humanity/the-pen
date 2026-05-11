@@ -1,0 +1,48 @@
+# CANONICAL REPOSITORY REGISTRY
+# Authoritative for: canonical repo identity, branch authority, forbidden duplicates.
+
+meta:
+  version: "1.0"
+  status: ACTIVE
+  canonical_owner: The Pen
+  last_updated: "2026-05-11"
+  source_of_truth: github_api
+
+repositories:
+
+  the-pen:
+    repo_id: REP-001
+    full_name: TML-4PM/the-pen
+    classification: canonical
+    authoritative_for:
+      - onboarding doctrine
+      - HRE rules
+      - canonical reality library
+      - session receipts
+      - execution doctrine
+      - acceptance harness source
+    default_branch: main
+    visibility: private
+    push_permission_required: true
+    forbidden_duplicates: [bridge-dev-rules, the-pen-old, pen-rules]
+    notes: Universal intake gate for all T4H systems. Captures, receipts, and routes all work across dev and prod. Nothing bypasses it.
+
+rules:
+  - Canonical = explicitly listed here. Latest commit timestamp does NOT imply canonical.
+  - Forks must declare their parent; orphan forks are INVALID.
+  - Migration between canonical repos requires ledger row tagged CL_BRIDGE_PEN with both source and target SHAs.
+  - Forbidden duplicates surfaced in this registry MUST be archived, not deleted (HRE archive_never_delete).
+
+expansion_queue:
+  - resolve_canonical: command-centre repo
+  - resolve_canonical: mcp-bridge repo
+  - resolve_canonical: t4h-remote-mcp-server-clean repo
+  - resolve_canonical: AI4Tradies operating system repo
+  - resolve_canonical: AI Sweet Spots research repo
+  - resolve_canonical: ConsentX repo
+  - resolve_canonical: Drug Resilience Atlas repo
+
+policy: |
+  Repositories are added to this registry only after a machine has verified
+  read+write permissions via github_repo_inspect AND found at least one
+  cross-reference from the-pen.
