@@ -1,0 +1,13 @@
+cost_id,description,amount,source,rdti_treatment,mao_link,evidence_state,risk,notes
+COST-001,Director labour 12 invoices FY24-25 Troy Latter to Tech 4 Humanity,$1592250,maat_invoice_register (12 rows confirmed),CLAIM_CORE,ALL MAO experiments,CONFIRMED,LOW,Exact match: 3184.52h x $500/hr = $1592250; invoices in Supabase
+COST-002,Bank R&D expenditure total,$544541,maat_transactions (R&D categorised),REVIEW REQUIRED,TBC,PARTIAL,HIGH,Needs payee-level review; contractor sub-bucket unsafe; exclude director inflows
+COST-003,AI/LLM services Anthropic/OpenAI,$57559,maat_transactions,CLAIM_SUPPORTING if linked to experiments,MAO-005 MAO-008,PARTIAL,LOW,Anthropic API key confirmed; Claude Pro payments in MAAT; download invoices from billing portals
+COST-004,Cloud infrastructure AWS,$44703,maat_transactions,CLAIM_SUPPORTING if test environment,MAO-003 MAO-007 MAO-008,PARTIAL,LOW,Lambda/CloudWatch logs support; need invoice export from AWS billing
+COST-005,Development tools,$28377,maat_transactions,CLAIM_SUPPORTING if R&D tools,MAO-001 to MAO-008,PARTIAL,MEDIUM,Identify tool names; confirm R&D vs general business use
+COST-006,R&D research costs,$18300,maat_transactions,CLAIM_SUPPORTING if literature/state-of-art,MAO-005 MAO-006,PARTIAL,MEDIUM,Need payee names and connection to specific MAO experiments
+COST-007,Legal/IP costs,$49300,maat_transactions,HOLD - eligibility uncertain,HOLD,PARTIAL,HIGH,IP filing may not be eligible R&D expenditure; legal advice costs require apportionment
+COST-008,Hardware/equipment,$4983,maat_transactions,CLAIM_SUPPORTING if used in experiments,TBC,PARTIAL,MEDIUM,Identify items; confirm R&D use
+COST-009,Contractor-labelled bucket RECLASSIFIED,$344500,internal truth table (superseded),RECLASSIFY - do not claim as contractor,N/A,STALE,HIGH,Likely director labour already in COST-001 or tool costs in COST-003-006; do not double-count
+COST-010,Troy Latter inflow transactions REMOVE,$21500,maat_transactions,REMOVE,N/A,STALE,HIGH,Wrong direction - Troy to company; not R&D expenditure
+COST-011,Vercel hosting,TBC,maat_transactions,CLAIM_SUPPORTING if test deployment,MAO-003,PARTIAL,LOW,Vercel Pro confirmed; need billing portal invoices
+COST-012,Supabase database,TBC,maat_transactions,CLAIM_SUPPORTING - R&D runtime database,MAO-007 MAO-008,PARTIAL,LOW,lzfgigiyqpuuxslsygjt confirmed; need billing invoices
