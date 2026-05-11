@@ -39,14 +39,14 @@ Synal UI
 ## Files
 
 - `app/index.html` — V2 multi-party UI (localStorage + API stubs)
-- `schema/01_tables.sql` — Supabase DDL (deployed to `doolittle.*` on 2026-05-08)
+- `schema/01_tables.sql` — Supabase DDL (deployed to `doolittle.*` 2026-05-08)
 - `schema/02_seed.sql` — canonical parties + default tenant + 3 spaces
 - `api/routes.md` — backend route contracts
 - `doctrine/CROUX_REGISTRY.md` — provider routing
 - `doctrine/WAVE10_BINDING.md` — 8-component check
 - `bridge/ledger_entry.json` — reality ledger payload
 
-## Wave10 Binding
+## Wave10 Binding (Overall: PARTIAL)
 
 | Component | Status | Evidence |
 |-----------|--------|----------|
@@ -59,13 +59,11 @@ Synal UI
 | evidence | REAL | reality_ledger entry written |
 | lifecycle | REAL | thread/space/decision state machines |
 
-Overall: **PARTIAL** — flips to REAL when backend route + Vercel deploy are bound and a live CROUX call returns evidence.
-
 ## Persistence Modes
 
 | Mode | Behaviour |
 |------|-----------|
-| OFF | session memory only (was V1 default) |
+| OFF | session memory only (V1 default) |
 | LOCAL | browser `localStorage` (V2 default) |
 | PROJECT | Supabase `doolittle.*` write-through |
 | PROOF | Supabase + GitHub receipt + Reality Ledger |
@@ -79,19 +77,8 @@ Overall: **PARTIAL** — flips to REAL when backend route + Vercel deploy are bo
 | Pro | CROUX routing, model calls, decision logs |
 | Team | Shared spaces, roles, branded exports |
 | Enterprise | White-label, custom domains, SSO, audit |
-| Sovereign | Bridge + Reality Ledger + dedicated infra (T4H default tier) |
+| Sovereign | Bridge + Reality Ledger + dedicated infra (T4H default) |
 
 ## Acceptance Gate
 
-V2 passes when a user can:
-
-1. Create a project space
-2. Invite CROUX-G + CROUX-P + CROUX-X + F-COAX
-3. Attach an image
-4. Ask for translation
-5. Allocate model/resource budget
-6. Record a Federated COAX decision
-7. Export the thread
-8. See logs
-9. Recover the session later
-10. Bridge writes a Reality Ledger entry
+V2 passes when a user can: create a space → invite CROUX-G + CROUX-P + CROUX-X + F-COAX → attach an image → ask for translation → allocate budget → record a F-COAX decision → export the thread → see logs → recover the session → Bridge writes a Reality Ledger entry.
