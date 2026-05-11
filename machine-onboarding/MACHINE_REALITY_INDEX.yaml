@@ -3,16 +3,16 @@
 # Compressed runtime truth — expand to canonical/ subdirectories on demand.
 
 meta:
-  version: "1.0"
+  version: "1.1"
   status: ACTIVE
   canonical_owner: The Pen
   canonical_path: machine-onboarding/MACHINE_REALITY_INDEX.yaml
-  supersedes: []
+  supersedes:
+    - "blob:a156f5dce7f8334cbce75758b9873c4a0617e212"  # v1.0
   last_updated: "2026-05-11"
+  change_log:
+    - "v1.1: fix SKS project (S1 not S2); add preflight pointer; add atomic-elements seeded status; add cluster registry pointer"
 
-# ──────────────────────────────────────────────────────────────────
-# AUTHORITY ROOTS
-# ──────────────────────────────────────────────────────────────────
 authority:
   canonical_runtime:
     name: The Pen
@@ -31,23 +31,26 @@ authority:
     L2_bootstrap_system:
       status: ACTIVE
       governs: session cognition loading sequence
+      preflight: machine-onboarding/PREFLIGHT.md
     L3_standard_knowledge_system:
       status: ACTIVE
       governs: canonical runtime constants
       runtime_view: ops.v_standard_knowledge_active
       primary_table: ops.standard_knowledge_register
+      project: lzfgigiyqpuuxslsygjt   # S1 — verified via to_regclass 2026-05-11
+      note: "HRE PDF recommended pflisxkcxbzboxwidywf (S2); actual deployment is S1. Always trust to_regclass."
     L4_reality_ledger:
       status: ACTIVE
       governs: proof, evidence, classification
       primary_table: public.reality_ledger
+      cluster_fk_target: core.cluster_registry  # CRITICAL — cluster_id must exist
+      canonical_table_note: "public.reality_ledger is canonical; ops.reality_ledger and core.reality_ledger exist but core is DEPRECATED 2026-05-02"
+      acceptance_harness: public.fn_onboarding_acceptance_score()
 
-# ──────────────────────────────────────────────────────────────────
-# RUNTIME ANCHORS
-# ──────────────────────────────────────────────────────────────────
 runtime:
   bridge:
     endpoint: https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke
-    auth: dual_header  # x-api-key + Authorization Bearer
+    auth: dual_header
     deprecated_endpoint: m5oqj21chd
     canonical_executor: troy-sql-executor
     envelope_key: fn
@@ -58,48 +61,56 @@ runtime:
       project: lzfgigiyqpuuxslsygjt
       role: all_writes
       region: ap-southeast-2
+      hosts:
+        - public.reality_ledger
+        - public.fn_onboarding_acceptance_score
+        - ops.standard_knowledge_register
+        - ops.v_standard_knowledge_active
+        - public.t4h_business_registry
+        - public.cap_secrets
+        - core.cluster_registry
     S2:
       project: pflisxkcxbzboxwidywf
       role: read_only
-      note: ALSO hosts ops.standard_knowledge_register per SKS canonical runtime model
   github:
     org: TML-4PM
     canonical_write_fn: fn_github_push
     invocation: troy-sql-executor (NESTED, 7-arg)
+    bulk_dispatch_tool: T4H Remote MCP Clean:github_bulk_dispatch
   vercel:
     org: t4h
   mcp:
     canonical_server: t4h-remote-mcp-server-clean.vercel.app
     version: v3.5.0
 
-# ──────────────────────────────────────────────────────────────────
-# PORTFOLIO ROOT (LIVE — do not hardcode counts)
-# ──────────────────────────────────────────────────────────────────
 portfolio:
-  source: t4h_business_registry
+  source: public.t4h_business_registry
   groups: [CORE, SIGNAL, MISSION, RETAIL, FUN]
   resolution_rule: query live, never assume
 
-# ──────────────────────────────────────────────────────────────────
-# CANONICAL REGISTRY POINTERS
-# ──────────────────────────────────────────────────────────────────
-canonical_registries:
-  systems:        canonical/systems/
-  businesses:     canonical/businesses/
-  products:       canonical/products/
-  assets:         canonical/assets/
-  atomic_elements: canonical/atomic-elements/
-  environments:   canonical/runtime-environments/
-  repos:          canonical/repos/
-  domains:        canonical/domains/
-  doctrine:       canonical/doctrine/
-  receipts:       canonical/receipts/
-  telemetry:      canonical/telemetry/
-  relationships:  canonical/relationships/
+clusters:
+  source: core.cluster_registry
+  active_count: 12
+  snapshot: machine-onboarding/canonical/doctrine/CLUSTERS.yaml
+  fk_target_warning: |
+    INSERT into public.reality_ledger with invalid cluster_id fails with
+    sqlstate 23503. Either supply an existing cluster_id from CLUSTERS.yaml
+    or leave cluster_id NULL.
 
-# ──────────────────────────────────────────────────────────────────
-# DOCTRINE BINDINGS
-# ──────────────────────────────────────────────────────────────────
+canonical_registries:
+  systems:         { path: canonical/systems/,             seeded: false }
+  businesses:      { path: canonical/businesses/,          seeded: false, source: public.t4h_business_registry }
+  products:        { path: canonical/products/,            seeded: false }
+  assets:          { path: canonical/assets/,              seeded: false }
+  atomic_elements: { path: canonical/atomic-elements/,     seeded: true, count: 6 }
+  environments:    { path: canonical/runtime-environments/, seeded: true }
+  repos:           { path: canonical/repos/,               seeded: true }
+  domains:         { path: canonical/domains/,             seeded: false }
+  doctrine:        { path: canonical/doctrine/,            seeded: true, files: [CLUSTERS.yaml, TRAPS.md] }
+  receipts:        { path: canonical/receipts/,            seeded: false }
+  telemetry:       { path: canonical/telemetry/,           seeded: false }
+  relationships:   { path: canonical/relationships/,       seeded: false }
+
 doctrine:
   wave_10:
     required_components: 8
@@ -116,10 +127,14 @@ doctrine:
     schema: stamp
     runway_gate: public.fn_runway_stamp_gate
     threshold_secret: STAMP_RUNWAY_THRESHOLD
+  traps_d:
+    location: canonical/doctrine/TRAPS.md
+    last_updated: "2026-05-11"
+  acceptance_harness:
+    source: machine-onboarding/ACCEPTANCE_HARNESS.sql
+    deployed_fn: public.fn_onboarding_acceptance_score()
+    invocation: SELECT public.fn_onboarding_acceptance_score()
 
-# ──────────────────────────────────────────────────────────────────
-# EVIDENCE STANDARD (compressed — full file at EVIDENCE_STANDARD.yaml)
-# ──────────────────────────────────────────────────────────────────
 evidence:
   typed_only: true
   allowed_types:
@@ -140,31 +155,25 @@ evidence:
     - narrative_only
     - confidence_without_proof
 
-# ──────────────────────────────────────────────────────────────────
-# TRUST STATES
-# ──────────────────────────────────────────────────────────────────
 trust_states:
   allowed: [REAL, PARTIAL, BLOCKED]
   forbidden: [PRETEND]
-  invalid_class: INVALID  # for false REAL claims
+  invalid_class: INVALID
 
-# ──────────────────────────────────────────────────────────────────
-# LOAD ORDER FOR ONBOARDING
-# ──────────────────────────────────────────────────────────────────
 onboarding_load_order:
-  1: MACHINE_REALITY_INDEX.yaml  # this file
-  2: SESSION_REQUIREMENTS.md
-  3: HOUSE_RULES_INTEGRATION.md
-  4: EVIDENCE_STANDARD.yaml
-  5: BRIDGE_HANDOFF_STANDARD.yaml
-  6: ONBOARDING_ACCEPTANCE_TESTS.yaml
-  7: canonical/doctrine/  # active doctrine versions
-  8: canonical/systems/   # only those relevant to current task
-  9: t4h_business_registry  # live portfolio resolution
+  1: MACHINE_REALITY_INDEX.yaml
+  2: PREFLIGHT.md
+  3: SESSION_REQUIREMENTS.md
+  4: HOUSE_RULES_INTEGRATION.md
+  5: EVIDENCE_STANDARD.yaml
+  6: BRIDGE_HANDOFF_STANDARD.yaml
+  7: ONBOARDING_ACCEPTANCE_TESTS.yaml
+  8: canonical/doctrine/CLUSTERS.yaml
+  9: canonical/doctrine/TRAPS.md
+  10: canonical/atomic-elements/
+  11: t4h_business_registry
+  12: SELECT public.fn_onboarding_acceptance_score()  # final self-check
 
-# ──────────────────────────────────────────────────────────────────
-# RELATIONSHIP GRAPH SEED
-# ──────────────────────────────────────────────────────────────────
 relationship_seed:
   - [system, owns, repo]
   - [system, deploys_to, environment]
@@ -177,3 +186,4 @@ relationship_seed:
   - [asset, recorded_in, ledger]
   - [receipt, evidences, execution]
   - [doctrine, governs, system]
+  - [ledger_row, belongs_to, cluster]
