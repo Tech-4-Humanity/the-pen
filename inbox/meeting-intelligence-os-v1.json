@@ -1,0 +1,83 @@
+{
+  "idempotency_key": "meeting-intelligence-os-v1-20260511",
+  "title": "Build Meeting Intelligence OS from meeting science paper",
+  "origin": "chatgpt",
+  "destination": "bridge",
+  "status": "ENQUEUED",
+  "evidence_state": "PARTIAL",
+  "source_asset": {
+    "type": "pdf",
+    "title": "Thirty Years of Meeting Science: Lessons Learned and the Road Ahead",
+    "source_context": "User uploaded PDF in chat; used as product/architecture trigger"
+  },
+  "doctrine": {
+    "execution_path": "PEN -> Bridge -> worker -> receipt -> evidence",
+    "no_pretend": true,
+    "archive_not_delete": true,
+    "requires_receipt": true,
+    "definition_of_done": [
+      "canonical schema drafted and applied",
+      "meeting signal engine spec committed",
+      "public acquisition tools scaffolded",
+      "worker queue job created",
+      "runtime receipt returned",
+      "evidence registered"
+    ]
+  },
+  "build_scope": {
+    "product_name": "Meeting Intelligence OS",
+    "positioning": "Organisational intelligence infrastructure, not meeting summaries",
+    "core_modules": [
+      "meeting telemetry layer",
+      "meeting signal engine",
+      "meeting quality scorer",
+      "fatigue and overload detector",
+      "participation equity detector",
+      "leadership behaviour analytics",
+      "decision lineage tracker",
+      "autonomous action follow-through worker",
+      "public meeting health check acquisition tool"
+    ]
+  },
+  "canonical_schema": {
+    "tables": [
+      "ops.meeting_events",
+      "ops.meeting_attendees",
+      "ops.meeting_signals",
+      "ops.meeting_actions",
+      "audit.meeting_evidence_register"
+    ],
+    "required_fields": [
+      "uuid primary keys",
+      "org_id",
+      "meeting_id",
+      "source_ref",
+      "evidence_state",
+      "created_at",
+      "updated_at",
+      "idempotency_key"
+    ],
+    "rls_required": true
+  },
+  "signals": [
+    "dominance_score",
+    "silence_ratio",
+    "participation_entropy",
+    "fatigue_risk",
+    "meeting_debt",
+    "decision_count",
+    "unresolved_topic_count",
+    "action_decay_risk",
+    "leader_mood_contagion",
+    "psychological_safety_proxy",
+    "async_candidate"
+  ],
+  "worker_contract": {
+    "lane": "research_to_product",
+    "priority": "P1",
+    "action": "build_and_register",
+    "close_signal": true,
+    "expected_receipt_path": "receipts/runtime/meeting-intelligence-os-v1-20260511.json"
+  },
+  "handoff_notes": "Build from uploaded meeting science PDF. Do not create generic meeting summariser. Treat meetings as operational sensor networks and organisational intelligence exhaust. First deliverable is schema + scoring engine + public health-check funnel + autonomous follow-through worker registration. Evidence remains PARTIAL until bridge/worker runtime receipt exists."
+}
