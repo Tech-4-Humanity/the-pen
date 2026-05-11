@@ -4,13 +4,13 @@ Wave10 requires 8 components. Any missing component = PARTIAL.
 
 | # | Component | Status | Evidence |
 |---|-----------|--------|----------|
-| 1 | runtime | REAL | `doolittle.*` schema deployed; 12 tables; RLS enabled; HTML app shipped to `TML-4PM/the-pen` |
+| 1 | runtime | REAL | `doolittle.*` schema deployed; 12 tables; RLS enabled; HTML app + doctrine staged |
 | 2 | value-loop | PARTIAL | Parties + decisions + resource_allocations tables exist; no live LLM call yet returning evidence |
 | 3 | revenue | PARTIAL | `tenants` + `tenant_limits` model defined with 6 tiers (Free → Sovereign); Stripe products not wired |
-| 4 | distribution | PARTIAL | GitHub commit (this pack); Vercel deploy of `app/index.html` pending; `/api/*` routes pending |
+| 4 | distribution | PARTIAL | Pack staged for `TML-4PM/the-pen`; Vercel deploy of `app/index.html` pending; `/api/*` routes pending |
 | 5 | observability | REAL | `messages`, `evidence_logs`, `decisions`, `resource_allocations`, `exports` tables with RLS |
 | 6 | recovery | REAL | `archived_at` columns on tenants/spaces/threads/messages; no DELETE policy; archive-not-delete |
-| 7 | evidence | REAL | `public.reality_ledger` entry written for this build |
+| 7 | evidence | REAL | `public.reality_ledger` entry payload defined (`bridge/ledger_entry.json`) |
 | 8 | lifecycle | REAL | Status enums: tenant.status, space.status, thread.status, message.status, decision.status |
 
 ## Overall: PARTIAL
@@ -25,7 +25,3 @@ Wave10 requires 8 components. Any missing component = PARTIAL.
 6. First Federated COAX decision logged with evidence binding
 7. First export written to object storage with retrievable URL
 8. Stripe products + `/api/billing/usage` for tenant metering (revenue → REAL)
-
-## Reality Ledger entry
-
-See `bridge/ledger_entry.json` for the canonical payload shape.
