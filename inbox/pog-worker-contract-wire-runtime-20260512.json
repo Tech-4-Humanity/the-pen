@@ -1,0 +1,70 @@
+{
+  "idempotency_key": "pog-worker-contract-wire-runtime-20260512",
+  "submitted_at": "2026-05-12T00:00:00Z",
+  "origin": "chatgpt",
+  "target": "bridge",
+  "lane": "runtime_ops",
+  "priority": "P1",
+  "title": "Make POG Worker Contract real and wired",
+  "status": "ENQUEUED",
+  "evidence_state": "PARTIAL",
+  "contract": {
+    "name": "POG Worker Contract",
+    "generated": "2026-05-06",
+    "status": "ACTIVE",
+    "purpose": "Autonomous portfolio operations backbone, governance contract, and machine work queue"
+  },
+  "worker_registry": [
+    {"worker": "finance_worker_primary", "lambda": "autonomy-worker-financeops", "lane": "finance_ops", "required_status": "ACTIVE"},
+    {"worker": "website_worker_primary", "lambda": "autonomy-worker-websiteops", "lane": "website_ops", "required_status": "ACTIVE"},
+    {"worker": "data_worker_primary", "lambda": "autonomy-worker-dataops", "lane": "data_ops", "required_status": "ACTIVE"},
+    {"worker": "task_worker_primary", "lambda": "autonomy-worker-taskops", "lane": "task_ops", "required_status": "ACTIVE"}
+  ],
+  "runtime_schema_required": {
+    "ops.worker_registry": "registered workers, lambda binding, lane, status, heartbeat, last_run_at",
+    "ops.work_queue": "priority jobs with idempotency_key, owner, lane, payload, status, receipts",
+    "ops.ingestion_jobs": "source scans for route53, vercel, github, supabase, stripe, llm_export, browser_export",
+    "ops.canonical_entities": "canonical tracked objects with type, lifecycle_state, evidence_level, source, current_ref",
+    "audit.evidence_register": "receipts, runtime logs, health checks, deploy results, source refs",
+    "audit.reality_ledger": "truth-state summary and REAL/PARTIAL/PRETEND classification",
+    "audit.change_feed": "append-only entity mutation events"
+  },
+  "work_queue": [
+    {"priority": 1, "work_type": "sweep.domain_lock_normalise", "owner": "website_worker_primary", "description": "Normalise 60-row provisional domain lock workbook; DNS probe 35 domains; set evidence_level=REAL only where externally verified"},
+    {"priority": 2, "work_type": "sweep.evidence_bind", "owner": "data_worker_primary", "description": "Bind evidence_register.source_table and source_ref to canonical_entities"},
+    {"priority": 3, "work_type": "sweep.commercial", "owner": "finance_worker_primary", "description": "Scan Stripe live products/prices and create canonical commercial entities/offers"},
+    {"priority": 4, "work_type": "sweep.ingestion", "owner": "task_worker_primary", "description": "Wire source ingestion jobs and dispatch workers"},
+    {"priority": 5, "work_type": "sweep.autonomous", "owner": "task_worker_primary", "description": "Deploy daily sweep worker and schedule pog-daily-sweep"},
+    {"priority": 6, "work_type": "sweep.telemetry_qa", "owner": "data_worker_primary", "description": "Wire telemetry, QA, heartbeat and failure alerts"},
+    {"priority": 7, "work_type": "sweep.research_lineage", "owner": "data_worker_primary", "description": "Map research/IP lineage to canonical entities and evidence"},
+    {"priority": 8, "work_type": "sweep.recommendations", "owner": "task_worker_primary", "description": "Generate autonomous remediation recommendations from drift and missing evidence"}
+  ],
+  "ingestion_jobs": [
+    {"source": "route53", "region": "ap-southeast-2", "action": "scan_dns_records"},
+    {"source": "vercel", "scope": "team_IKIr2Kcs38KGo8Zs60yNtm7Y", "action": "scan_deployments"},
+    {"source": "github", "scope": "TML-4PM", "action": "scan_repos"},
+    {"source": "supabase", "project": "lzfgigiyqpuuxslsygjt", "action": "scan_tables_schemas"},
+    {"source": "stripe", "mode": "live", "action": "scan_products_prices"},
+    {"source": "llm_export", "scope": "claude.ai", "action": "ingest_conversations"},
+    {"source": "browser_export", "scope": "manual", "action": "ingest_browser_sessions"}
+  ],
+  "governance": {
+    "prod_guard": "ACTIVE: no lifecycle_state=prod without evidence_level=REAL",
+    "change_feed": "ACTIVE: every canonical_entity mutation emits event",
+    "updated_at": "ACTIVE: auto-managed",
+    "archive_not_delete": "POLICY: archived_at soft-delete only",
+    "pretend_rejected": true,
+    "real_requires": ["runtime receipt", "source scan result", "worker heartbeat", "evidence_register row", "reality_ledger update"]
+  },
+  "acceptance_checks": [
+    "All four workers are registered and heartbeat-capable",
+    "P1-P8 jobs inserted into ops.work_queue with idempotency keys",
+    "Seven ingestion jobs inserted and dispatchable",
+    "pog-daily-sweep scheduled at 0 20 * * * UTC",
+    "prod_guard blocks prod without REAL evidence",
+    "change_feed emits mutation event",
+    "receipt written to receipts/runtime and audit.evidence_register",
+    "Issue #64 can be closed only after runtime receipt exists"
+  ],
+  "close_instruction": "Do not mark REAL until bridge/runtime receipts, telemetry heartbeat, and evidence rows exist. Return receipt path, commit SHA, worker result, and reality_ledger state."
+}
