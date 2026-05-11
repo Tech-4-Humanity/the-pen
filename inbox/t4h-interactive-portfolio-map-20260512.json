@@ -1,0 +1,78 @@
+{
+  "idempotency_key": "t4h-interactive-portfolio-map-20260512",
+  "origin": "chatgpt",
+  "destination": "bridge",
+  "lane": "portfolio_surface",
+  "priority": "P1",
+  "title": "Build interactive T4H portfolio map from static infographic",
+  "requested_by": "Troy Latter",
+  "evidence_state": "PARTIAL",
+  "summary": "Convert the Tech 4 Humanity static portfolio infographic into a live interactive portfolio, research, product, telemetry, and evidence surface.",
+  "current_asset_interpretation": {
+    "purpose": "Position T4H as a research-to-real-world AI ecosystem with core engines, compounding research, three horizons, and ecosystem pathways.",
+    "current_state": "Static strategic infographic; high narrative value, low operational utility.",
+    "target_state": "Live operational graph and control-plane front end."
+  },
+  "required_build": {
+    "frontend": [
+      "React/Next interactive map",
+      "clickable nodes for every engine, research area, horizon product, sector, and partner pathway",
+      "zoom levels: overview, category, product/system, evidence/runtime",
+      "role-based journeys for investor, government, school, clinician, employer, parent, partner, and internal operator",
+      "search and semantic navigation",
+      "mobile responsive version"
+    ],
+    "data_model": [
+      "portfolio_nodes table",
+      "portfolio_edges table",
+      "node_status table",
+      "evidence_links table",
+      "commercial_offers table",
+      "assessment_links table",
+      "telemetry_rollups table"
+    ],
+    "runtime": [
+      "Supabase persistence",
+      "REAL/PARTIAL/PRETEND status overlay",
+      "evidence ledger binding",
+      "assessment/event counters",
+      "deployment and uptime status",
+      "queue-backed updates",
+      "worker receipts"
+    ],
+    "content": [
+      "AHC, WFAI, HOLO engine pages",
+      "AI Sweet Spots live assessment linkage",
+      "SM Ban Research evidence page",
+      "Neurodivergence and Inclusion pathway",
+      "Workforce Systems and Safety pathway",
+      "Human-AI Wellbeing pathway",
+      "AI Ethics/Governance/Trust pathway",
+      "Social Impact and Economics pathway",
+      "Horizon 1, 2, 3 product roadmaps",
+      "ecosystem sector landing pages"
+    ],
+    "governance": [
+      "canonical node IDs",
+      "approval state machine before Synapse promotion",
+      "receipt required for all runtime claims",
+      "no PRETEND status allowed to display as live",
+      "daily drift check against registry and deployed surfaces"
+    ]
+  },
+  "definition_of_done": [
+    "public URL reachable",
+    "all major infographic nodes clickable",
+    "Supabase-backed registry populated",
+    "evidence state shown per node",
+    "at least one live assessment/action link attached per eligible node",
+    "telemetry counters connected or explicitly marked PARTIAL",
+    "GitHub receipt written",
+    "Bridge execution receipt returned",
+    "Gatekeeper-ready promotion packet produced"
+  ],
+  "classification": {
+    "now": "PARTIAL",
+    "real_when": "live deployed interactive surface with persistence, telemetry, receipts, and evidence-bound node status"
+  }
+}
