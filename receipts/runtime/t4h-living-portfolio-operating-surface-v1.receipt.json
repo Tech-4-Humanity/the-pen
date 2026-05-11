@@ -3,7 +3,7 @@
   "commit_sha": "5e6bc71e872e7ffb661906b5d794533125f42365",
   "created_at": "2026-05-11T05:32:18.047213+00:00",
   "evidence_state": "PARTIAL",
-  "idempotency_key": "browser-tab-extraction-machine-v1-2026-05-05",
+  "idempotency_key": "t4h-living-portfolio-operating-surface-v1",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
   "job_type": null,
   "next": "Downstream worker should process accepted job and append final REAL/PARTIAL receipt.",
@@ -18,14 +18,14 @@
     "job_json_valid": true,
     "receipt_written": true
   },
-  "priority": null,
+  "priority": "P1",
   "receipt_state": "ACCEPTED",
   "receipt_type": "pen_runtime_receipt",
   "repo": "TML-4PM/the-pen",
   "rollback": "Archive the inbox job and receipt if superseded; do not delete evidence.",
-  "source_job_path": "inbox/browser-tab-extraction-machine-v1.json",
-  "source_sha256": "ec872acc8769a017941d88f4a149ff868ec6a2f31e57388f04c1ba3758f0f4b1",
-  "title": null,
+  "source_job_path": "inbox/t4h-living-portfolio-operating-surface-v1.json",
+  "source_sha256": "17708163b42e6da946fae3bde440e7b1173cb5bc16e3ac59c430eb207e84263c",
+  "title": "Build T4H Living Portfolio Operating Surface from static strategic graphic",
   "workflow_run_attempt": "1",
   "workflow_run_id": "25652203918"
 }
