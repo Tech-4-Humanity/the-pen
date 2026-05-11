@@ -1,0 +1,42 @@
+{
+  "idempotency_key": "signaltechbox-force-execute-20260512",
+  "title": "Force execute SignalTechBox Supabase bundle and write runtime receipt",
+  "origin": "chatgpt",
+  "destination": "pen_bridge",
+  "env": "dev",
+  "priority": "P1",
+  "evidence_state": "PARTIAL",
+  "requested_at": "2026-05-12",
+  "work_type": "supabase.force_execute_bundle",
+  "depends_on": [
+    "signaltechbox-package-deploy-smoketest-20260512",
+    "signaltechbox-supabase-bundle-20260512"
+  ],
+  "required_action": "Execute now via available bridge/Supabase worker path; do not wait for manual HITL. If credentials or env vars missing, write REAL failure receipt with exact error.",
+  "runtime_receipt_required": true,
+  "receipt_path_prefix": "receipts/runtime/signaltechbox-force-execute-20260512",
+  "must_run": [
+    "create/materialise bundle tree",
+    "run SQL DDL/config/meaningful-events/rollup/views in order",
+    "load seed CSV catalogues",
+    "insert synthetic events",
+    "run public.fn_rollup_features_daily",
+    "query validation views/functions",
+    "commit runtime receipt with outputs"
+  ],
+  "validation_queries": [
+    "select public.fn_threshold_num('MEANINGFUL_COMPLETION_PCT', 60);",
+    "select * from public.fn_threshold_group('state_transition');",
+    "select count(*) from public.v_meaningful_events;",
+    "select public.fn_rollup_features_daily((now() at time zone 'utc')::date);",
+    "select count(*) from public.t4h_feature_daily;",
+    "select count(*) from public.t4h_capability_def;",
+    "select count(*) from public.t4h_signal_def;",
+    "select count(*) from public.t4h_bundle_def;"
+  ],
+  "evidence_rules": {
+    "success": "REAL only if SQL outputs and receipt exist",
+    "failure": "REAL failure if exact runtime error captured",
+    "no_receipt": "PARTIAL and blocked"
+  }
+}
