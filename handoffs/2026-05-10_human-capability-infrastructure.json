@@ -1,0 +1,30 @@
+{
+  "task_id": "HCI-BRIDGE-HANDOFF-2026-05-10",
+  "date": "2026-05-10",
+  "issue": 74,
+  "status": "PARTIAL",
+  "category": "Human Capability Infrastructure",
+  "category_statement": "Tech 4 Humanity is building Human Capability Infrastructure: an AI-orchestrated ecosystem that enables personalised learning, adaptive support, longitudinal evidence, and lifelong augmentation across education, workforce, community, and human development systems.",
+  "core_promise": "Every human deserves adaptive support, capability memory, and evidence-linked progress once reserved for the wealthy.",
+  "proof_model": "Signal → intervention → outcome → evidence",
+  "moat": ["signal","consent","orchestration","capability memory","evidence","adaptive pathways","outcome telemetry","teacher/provider monetisation","government-grade reporting","lifelong augmentation"],
+  "economic_engine": ["subscriptions","school/provider licensing","government procurement","professional packs","creator monetisation","analytics","implementation services","partner distribution"],
+  "portfolio_surfaces": ["Outcome Ready","Reading Buddy","SchoolFamilyAI","CommunityFamilyAI","WorkFamilyAI","Tech 4 Humanity","MyNeuralSignal","ConsentX","LifeGraph+","Reality Ledger"],
+  "ip_candidates": [
+    "Human Capability Infrastructure category frame",
+    "Capability memory layer",
+    "Signal-intervention-outcome-evidence chain",
+    "Teacher/provider contribution economy",
+    "Augmentation-not-replacement narrative",
+    "Capability OS for institutions",
+    "Evidence-linked learning marketplace",
+    "Government-grade human development telemetry",
+    "Lifelong augmentation companion model",
+    "Portfolio unification spine"
+  ],
+  "deployment_targets": ["Outcome Ready positioning layer","Reading Buddy product narrative","SchoolFamilyAI landing/product copy","CommunityFamilyAI narrative","WorkFamilyAI capability framework","Tech 4 Humanity ecosystem overview","investor/partner briefing pack","government capability infrastructure narrative","Command Centre strategy register"],
+  "receipt_path": "receipts/human-capability-infrastructure/2026-05-10/outbound/",
+  "commit_sha": "fb459f045fb6ee5edac709a7399256576121be2b",
+  "classification": "PARTIAL",
+  "next_action": "write receipts, close #74"
+}
