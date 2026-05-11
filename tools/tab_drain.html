@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRAIN — Session Controller</title>
+<style>
+:root {
+  --bg: #0f0f0e;
+  --surface: #161614;
+  --surface2: #1c1b19;
+  --border: #2a2926;
+  --text: #cdccc8;
+  --muted: #6b6a67;
+  --faint: #3a3937;
+  --primary: #4f98a3;
+  --kill: #dd6974;
+  --checkpoint: #6daa45;
+  --handoff: #e8af34;
+  --archive: #6b6a67;
+  --register: #a86fdf;
+  --library: #5591c7;
+  --blocked: #a13544;
+  --radius: 6px;
+  --font: 'Inter', system-ui, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:14px;}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+}
+/* HEADER */
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.logo{font-size:15px;font-weight:700;letter-spacing:.06em;color:var(--text);}
+.logo span{color:var(--primary);}
+.stats{
+  display:flex;
+  gap:16px;
+  font-size:12px;
+  color:var(--muted);
+}
+.stat{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.stat-val{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text);}
+.stat-val.red{color:var(--kill);}
+.stat-val.yellow{color:var(--handoff);}
+.header-right{display:flex;gap:8px;align-items:center;}
+/* MAIN */
+main{
+  display:grid;
+  grid-template-columns:220px 1fr;
+  overflow:hidden;
+}
+/* SIDEBAR */
+nav{
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  padding:12px 0;
+  overflow-y:auto;
+}
+.nav-section{
+  padding:4px 12px 2px;
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:8px;
+}
+.nav-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 16px;
+  cursor:pointer;
+  border-radius:0;
+  font-size:13px;
+  color:var(--muted);
+  transition:background .15s,color .15s;
+  border-left:3px solid transparent;
+}
+.nav-item:hover{background:var(--surface2);color:var(--text);}
+.nav-item.active{background:var(--surface2);color:var(--text);border-left-color:var(--primary);}
+.nav-item .badge{
+  font-size:11px;
+  background:var(--faint);
+  border-radius:99px;
+  padding:1px 7px;
+  font-variant-numeric:tabular-nums;
+}
+.nav-item.kill .badge{background:color-mix(in oklch,var(--kill) 20%,transparent);color:var(--kill);}
+.nav-item.checkpoint .badge{background:color-mix(in oklch,var(--checkpoint) 20%,transparent);color:var(--checkpoint);}
+.nav-item.handoff .badge{background:color-mix(in oklch,var(--handoff) 20%,transparent);color:var(--handoff);}
+.nav-item.archive .badge{background:var(--faint);color:var(--muted);}
+.nav-item.register .badge{background:color-mix(in oklch,var(--register) 20%,transparent);color:var(--register);}
+.nav-item.library .badge{background:color-mix(in oklch,var(--library) 20%,transparent);color:var(--library);}
+.nav-item.blocked-nav .badge{background:color-mix(in oklch,var(--blocked) 25%,transparent);color:var(--kill);}
+/* CANVAS */
+.canvas{
+  overflow-y:auto;
+  padding:16px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+/* BLOCKED PANEL */
+.blocked-panel{
+  background:color-mix(in oklch,var(--blocked) 12%,var(--surface));
+  border:1px solid color-mix(in oklch,var(--blocked) 40%,transparent);
+  border-radius:var(--radius);
+  padding:12px 16px;
+}
+.blocked-panel h3{
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--kill);
+  margin-bottom:8px;
+}
+.blocked-item{
+  font-size:12px;
+  color:var(--kill);
+  padding:4px 0;
+  border-bottom:1px solid color-mix(in oklch,var(--blocked) 20%,transparent);
+}
+.blocked-item:last-child{border-bottom:none;}
+.blocked-item code{background:var(--faint);padding:1px 5px;border-radius:3px;font-size:11px;}
+/* SECTION HEADER */
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:4px 0;
+}
+.section-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* ITEM CARD */
+.item-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  transition:border-color .15s;
+}
+.item-card.is-blocked{border-color:color-mix(in oklch,var(--blocked) 50%,transparent);}
+.item-card.is-real{border-left:3px solid var(--checkpoint);}
+.item-card.is-partial{border-left:3px solid var(--handoff);}
+.item-card.is-blocked-status{border-left:3px solid var(--kill);}
+.item-top{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.item-label{
+  flex:1;
+  font-size:13px;
+  font-weight:500;
+  color:var(--text);
+}
+.item-meta{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.chip{
+  font-size:10px;
+  padding:2px 8px;
+  border-radius:99px;
+  border:1px solid var(--border);
+  color:var(--muted);
+}
+.chip.mode-kill{border-color:var(--kill);color:var(--kill);}
+.chip.mode-checkpoint{border-color:var(--checkpoint);color:var(--checkpoint);}
+.chip.mode-handoff{border-color:var(--handoff);color:var(--handoff);}
+.chip.mode-register{border-color:var(--register);color:var(--register);}
+.chip.mode-library{border-color:var(--library);color:var(--library);}
+.chip.status-real{background:color-mix(in oklch,var(--checkpoint) 15%,transparent);border-color:var(--checkpoint);color:var(--checkpoint);}
+.chip.status-partial{background:color-mix(in oklch,var(--handoff) 15%,transparent);border-color:var(--handoff);color:var(--handoff);}
+.chip.status-blocked{background:color-mix(in oklch,var(--blocked) 15%,transparent);border-color:var(--kill);color:var(--kill);}
+.chip.imp-critical{border-color:var(--kill);color:var(--kill);}
+.chip.imp-strategic{border-color:var(--handoff);color:var(--handoff);}
+/* EVIDENCE */
+.evidence-row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.evidence-row input{
+  flex:1;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:5px 9px;
+  font-size:12px;
+  color:var(--text);
+  font-family:var(--font);
+}
+.evidence-row input:focus{outline:none;border-color:var(--primary);}
+.evidence-row input::placeholder{color:var(--muted);}
+/* RECEIPT ROW */
+.receipt-row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  background:color-mix(in oklch,var(--handoff) 8%,var(--surface2));
+  border:1px solid color-mix(in oklch,var(--handoff) 30%,transparent);
+  border-radius:4px;
+  padding:6px 10px;
+}
+.receipt-row label{font-size:11px;color:var(--handoff);white-space:nowrap;}
+.receipt-row input{
+  flex:1;
+  background:transparent;
+  border:none;
+  font-size:12px;
+  color:var(--text);
+  font-family:var(--font);
+}
+.receipt-row input:focus{outline:none;}
+.receipt-row input::placeholder{color:var(--muted);}
+/* BUTTONS */
+btn,button{cursor:pointer;border:none;}
+.btn{
+  font-size:11px;
+  padding:5px 12px;
+  border-radius:4px;
+  font-family:var(--font);
+  font-weight:500;
+  cursor:pointer;
+  transition:opacity .15s,background .15s;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--muted);
+}
+.btn:hover{color:var(--text);border-color:var(--text);}
+.btn.primary{background:var(--primary);color:#0f0f0e;border-color:var(--primary);}
+.btn.primary:hover{opacity:.85;}
+.btn.danger{background:color-mix(in oklch,var(--kill) 20%,var(--surface2));color:var(--kill);border-color:var(--kill);}
+.btn.success{background:color-mix(in oklch,var(--checkpoint) 20%,var(--surface2));color:var(--checkpoint);border-color:var(--checkpoint);}
+.btn:disabled{opacity:.35;cursor:not-allowed;}
+/* ADD ITEM */
+.add-row{
+  display:flex;
+  gap:8px;
+  padding:8px 0 0;
+}
+.add-row input{
+  flex:1;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:7px 11px;
+  font-size:13px;
+  color:var(--text);
+  font-family:var(--font);
+}
+.add-row input:focus{outline:none;border-color:var(--primary);}
+.add-row input::placeholder{color:var(--muted);}
+.add-row select{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:7px 8px;
+  font-size:12px;
+  color:var(--text);
+  font-family:var(--font);
+}
+/* FOOTER */
+footer{
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  padding:10px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:11px;
+  color:var(--muted);
+}
+.close-gate{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.gate-status{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;}
+.gate-open{background:color-mix(in oklch,var(--checkpoint) 20%,transparent);color:var(--checkpoint);}
+.gate-closed{background:color-mix(in oklch,var(--blocked) 20%,transparent);color:var(--kill);}
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">DRAIN <span>controller</span></div>
+  <div class="stats">
+    <div class="stat"><span class="stat-val" id="stat-total">0</span><span>total</span></div>
+    <div class="stat"><span class="stat-val" id="stat-real" style="color:var(--checkpoint)">0</span><span>REAL</span></div>
+    <div class="stat"><span class="stat-val red" id="stat-gaps">0</span><span>gaps</span></div>
+    <div class="stat"><span class="stat-val yellow" id="stat-evid">0</span><span>no evid</span></div>
+  </div>
+  <div class="header-right">
+    <span id="session-id" style="font-size:11px;color:var(--muted);"></span>
+    <button class="btn" onclick="exportSession()">Export JSON</button>
+  </div>
+</header>
+
+<main>
+  <nav>
+    <div class="nav-section">Buckets</div>
+    <div class="nav-item blocked-nav active" data-bucket="BLOCKED" onclick="switchBucket('BLOCKED')">
+      <span>⛔ BLOCKED</span>
+      <span class="badge" id="cnt-BLOCKED">0</span>
+    </div>
+    <div class="nav-item kill" data-bucket="KILL" onclick="switchBucket('KILL')">
+      <span>🗑 KILL</span>
+      <span class="badge" id="cnt-KILL">0</span>
+    </div>
+    <div class="nav-item checkpoint" data-bucket="CHECKPOINT" onclick="switchBucket('CHECKPOINT')">
+      <span>✅ CHECKPOINT</span>
+      <span class="badge" id="cnt-CHECKPOINT">0</span>
+    </div>
+    <div class="nav-item handoff" data-bucket="HANDOFF" onclick="switchBucket('HANDOFF')">
+      <span>🤝 HANDOFF</span>
+      <span class="badge" id="cnt-HANDOFF">0</span>
+    </div>
+    <div class="nav-item archive" data-bucket="ARCHIVE" onclick="switchBucket('ARCHIVE')">
+      <span>📦 ARCHIVE</span>
+      <span class="badge" id="cnt-ARCHIVE">0</span>
+    </div>
+    <div class="nav-item register" data-bucket="REGISTER" onclick="switchBucket('REGISTER')">
+      <span>📝 REGISTER</span>
+      <span class="badge" id="cnt-REGISTER">0</span>
+    </div>
+    <div class="nav-item library" data-bucket="LIBRARY" onclick="switchBucket('LIBRARY')">
+      <span>📚 LIBRARY</span>
+      <span class="badge" id="cnt-LIBRARY">0</span>
+    </div>
+    <div class="nav-section" style="margin-top:16px;">Filters</div>
+    <div class="nav-item" onclick="filterByStatus('REAL')"><span>● REAL only</span></div>
+    <div class="nav-item" onclick="filterByStatus('PARTIAL')"><span>◑ PARTIAL only</span></div>
+    <div class="nav-item" onclick="filterByStatus('BLOCKED')"><span>✕ BLOCKED only</span></div>
+    <div class="nav-item" onclick="clearFilter()"><span>↺ Clear filter</span></div>
+  </nav>
+
+  <div class="canvas" id="canvas">
+    <!-- rendered by JS -->
+  </div>
+</main>
+
+<footer>
+  <div>bridge: <strong id="bridge-id">zdgnab3py0</strong> &nbsp;|&nbsp; session: <strong id="sess-ts"></strong></div>
+  <div class="close-gate">
+    <span class="gate-status gate-closed" id="gate-label">GATE CLOSED</span>
+    <button class="btn danger" id="close-btn" disabled onclick="closeSession()">Close Session</button>
+  </div>
+</footer>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+const SESSION_ID = 'DRAIN-' + Date.now();
+const SESSION_TS = new Date().toISOString().slice(0,19).replace('T',' ');
+let currentBucket = 'BLOCKED';
+let activeFilter = null;
+
+document.getElementById('session-id').textContent = SESSION_ID;
+document.getElementById('sess-ts').textContent = SESSION_TS;
+
+let items = [
+  // --- pre-loaded from this session ---
+  {
+    id: 'd1',
+    label: 'DRAIN_DOCTRINE.md',
+    bucket: 'CHECKPOINT',
+    mode: 'CHECKPOINT',
+    status: 'REAL',
+    importance: 'STRATEGIC',
+    evidence: 'Staged in sandbox — push pending commit_sha',
+    bridge_id: 'zdgnab3py0',
+    receipt_ref: '',
+    target_ref: 'doctrine/DRAIN_DOCTRINE.md',
+    notes: 'Canonical doctrine: REAL/PARTIAL/ARCHIVE rules and invariants'
+  },
+  {
+    id: 'd2',
+    label: 'drain.schema.v2.json',
+    bucket: 'CHECKPOINT',
+    mode: 'CHECKPOINT',
+    status: 'REAL',
+    importance: 'STRATEGIC',
+    evidence: 'Staged in sandbox — push pending commit_sha',
+    bridge_id: 'zdgnab3py0',
+    receipt_ref: '',
+    target_ref: 'schema/drain.schema.v2.json',
+    notes: 'Machine-readable drain schema with validators and status enforcement'
+  },
+  {
+    id: 'd3',
+    label: 'tab_drain.html',
+    bucket: 'HANDOFF',
+    mode: 'HANDOFF',
+    status: 'PARTIAL',
+    importance: 'STRATEGIC',
+    evidence: 'Built in session — pending push + receipt',
+    bridge_id: 'zdgnab3py0',
+    receipt_ref: '',
+    target_ref: 'tools/tab_drain.html',
+    notes: 'Production-ready drain UI — validators wired, receipt flow, close gate'
+  },
+  {
+    id: 'd4',
+    label: 'issue #74 checkpoint comment',
+    bucket: 'HANDOFF',
+    mode: 'HANDOFF',
+    status: 'PARTIAL',
+    importance: 'STRATEGIC',
+    evidence: 'Pending commit_sha receipt',
+    bridge_id: 'zdgnab3py0',
+    receipt_ref: '',
+    target_ref: 'github:TML-4PM/the-pen#74',
+    notes: 'Post receipt comment with commit_sha on issue #74'
+  }
+];
+
+// ── VALIDATORS ─────────────────────────────────────────────────────────────
+const VALIDATORS = [
+  {
+    id: 'V1',
+    label: 'ARCHIVE requires status=REAL',
+    check: i => i.bucket === 'ARCHIVE' && i.status !== 'REAL',
+    fix: 'Set status to REAL with typed evidence before archiving'
+  },
+  {
+    id: 'V2',
+    label: 'KILL blocked on CRITICAL/STRATEGIC without evidence',
+    check: i => i.bucket === 'KILL' && ['CRITICAL','STRATEGIC'].includes(i.importance) && !i.evidence,
+    fix: 'Provide evidence or demote importance before killing'
+  },
+  {
+    id: 'V3',
+    label: 'HANDOFF PARTIAL until receipt confirmed',
+    check: i => i.bucket === 'HANDOFF' && !i.receipt_ref,
+    fix: 'Enter receipt_ref to promote to REAL'
+  },
+  {
+    id: 'V4',
+    label: 'CRITICAL/STRATEGIC requires typed evidence',
+    check: i => ['CRITICAL','STRATEGIC'].includes(i.importance) && !i.evidence,
+    fix: 'Add commit_sha, url, or api_response as evidence'
+  },
+  {
+    id: 'V5',
+    label: 'HANDOFF requires bridge_id',
+    check: i => i.bucket === 'HANDOFF' && !i.bridge_id,
+    fix: 'Add bridge_id to enable handoff routing'
+  },
+  {
+    id: 'V6',
+    label: 'REGISTER requires target_ref',
+    check: i => i.bucket === 'REGISTER' && !i.target_ref,
+    fix: 'Set target_ref (repo path or system ref) before registering'
+  }
+];
+
+function getViolations(item) {
+  return VALIDATORS.filter(v => v.check(item));
+}
+
+function deriveStatus(item) {
+  const viols = getViolations(item);
+  if (viols.length === 0) {
+    if (item.evidence && item.receipt_ref) return 'REAL';
+    if (item.bucket === 'CHECKPOINT' && item.evidence) return 'REAL';
+    if (item.bucket === 'KILL') return 'REAL';
+    if (item.bucket === 'LIBRARY' && item.evidence) return 'REAL';
+    if (item.bucket === 'REGISTER' && item.target_ref) return 'PARTIAL';
+    return item.status || 'PARTIAL';
+  }
+  const blocking = viols.filter(v => ['V1','V2'].includes(v.id));
+  if (blocking.length) return 'BLOCKED';
+  return 'PARTIAL';
+}
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+function render() {
+  // update statuses
+  items.forEach(i => { i.status = deriveStatus(i); });
+
+  // counts
+  const buckets = ['KILL','CHECKPOINT','HANDOFF','ARCHIVE','REGISTER','LIBRARY'];
+  buckets.forEach(b => {
+    document.getElementById('cnt-' + b).textContent = items.filter(i => i.bucket === b).length;
+  });
+  const blockedItems = items.filter(i => {
+    return getViolations(i).length > 0;
+  });
+  document.getElementById('cnt-BLOCKED').textContent = blockedItems.length;
+
+  // stats
+  document.getElementById('stat-total').textContent = items.length;
+  document.getElementById('stat-real').textContent = items.filter(i => i.status === 'REAL').length;
+  document.getElementById('stat-gaps').textContent = items.filter(i => i.status !== 'REAL').length;
+  document.getElementById('stat-evid').textContent = items.filter(i => !i.evidence).length;
+
+  // gate
+  const hasBlockers = blockedItems.length > 0 || items.filter(i => i.bucket === 'HANDOFF' && !i.receipt_ref).length > 0;
+  const closeBtn = document.getElementById('close-btn');
+  const gateLabel = document.getElementById('gate-label');
+  if (hasBlockers) {
+    closeBtn.disabled = true;
+    gateLabel.textContent = 'GATE CLOSED';
+    gateLabel.className = 'gate-status gate-closed';
+  } else {
+    closeBtn.disabled = false;
+    gateLabel.textContent = 'GATE OPEN';
+    gateLabel.className = 'gate-status gate-open';
+  }
+
+  // render canvas
+  const canvas = document.getElementById('canvas');
+  canvas.innerHTML = '';
+
+  let viewItems;
+  if (currentBucket === 'BLOCKED') {
+    viewItems = blockedItems;
+    if (viewItems.length === 0) {
+      canvas.innerHTML = '<div style="color:var(--muted);text-align:center;padding:40px;font-size:13px;">No blocked items ✓</div>';
+      return;
+    }
+    // blocked panel
+    const bp = document.createElement('div');
+    bp.className = 'blocked-panel';
+    bp.innerHTML = '<h3>⛔ Violations — must resolve before close</h3>' +
+      blockedItems.map(i => {
+        const viols = getViolations(i);
+        return viols.map(v => `<div class="blocked-item"><code>${v.id}</code> ${i.label} — ${v.fix}</div>`).join('');
+      }).join('');
+    canvas.appendChild(bp);
+  } else {
+    viewItems = items.filter(i => i.bucket === currentBucket);
+    if (activeFilter) viewItems = viewItems.filter(i => i.status === activeFilter);
+  }
+
+  if (viewItems.length === 0) {
+    canvas.innerHTML += '<div style="color:var(--muted);text-align:center;padding:40px;font-size:13px;">Empty bucket</div>';
+    if (currentBucket !== 'BLOCKED') addItemForm(canvas);
+    return;
+  }
+
+  const modeColors = {KILL:'kill',CHECKPOINT:'checkpoint',HANDOFF:'handoff',ARCHIVE:'archive',REGISTER:'register',LIBRARY:'library'};
+
+  viewItems.forEach(item => {
+    const viols = getViolations(item);
+    const statusClass = item.status === 'REAL' ? 'is-real' : item.status === 'PARTIAL' ? 'is-partial' : 'is-blocked-status';
+    const card = document.createElement('div');
+    card.className = 'item-card ' + statusClass + (viols.length ? ' is-blocked' : '');
+    card.dataset.id = item.id;
+
+    card.innerHTML = `
+      <div class="item-top">
+        <div class="item-label">${item.label}</div>
+        <div class="item-meta">
+          <span class="chip mode-${(modeColors[item.bucket]||'')}">${ item.bucket }</span>
+          <span class="chip status-${item.status.toLowerCase()}">${item.status}</span>
+          ${item.importance ? `<span class="chip imp-${item.importance.toLowerCase()}">${item.importance}</span>` : ''}
+        </div>
+      </div>
+      ${item.notes ? `<div style="font-size:12px;color:var(--muted);">${item.notes}</div>` : ''}
+      <div class="evidence-row">
+        <input type="text" placeholder="evidence (commit_sha / url / api_response)" value="${item.evidence||''}" oninput="setField('${item.id}','evidence',this.value)" />
+      </div>
+      ${item.bucket === 'HANDOFF' ? `
+      <div class="receipt-row">
+        <label>receipt_ref:</label>
+        <input type="text" placeholder="paste commit_sha or receipt token" value="${item.receipt_ref||''}" oninput="setField('${item.id}','receipt_ref',this.value)" />
+        ${!item.receipt_ref ? `<button class="btn success" onclick="promptReceipt('${item.id}')">+ receipt</button>` : '<span style="color:var(--checkpoint);font-size:11px;">✓ receipted</span>'}
+      </div>` : ''}
+      ${viols.length ? `<div style="font-size:11px;color:var(--kill);">${viols.map(v=>`${v.id}: ${v.fix}`).join(' · ')}</div>` : ''}
+      <div style="display:flex;gap:6px;justify-content:flex-end;">
+        <select style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-size:11px;color:var(--muted);" onchange="moveBucket('${item.id}',this.value)">
+          <option value="">move to…</option>
+          ${['KILL','CHECKPOINT','HANDOFF','ARCHIVE','REGISTER','LIBRARY'].filter(b=>b!==item.bucket).map(b=>`<option value="${b}">${b}</option>`).join('')}
+        </select>
+        <button class="btn danger" onclick="removeItem('${item.id}')">remove</button>
+      </div>
+    `;
+    canvas.appendChild(card);
+  });
+
+  if (currentBucket !== 'BLOCKED') addItemForm(canvas);
+}
+
+function addItemForm(canvas) {
+  const row = document.createElement('div');
+  row.className = 'add-row';
+  row.innerHTML = `
+    <input type="text" id="new-label" placeholder="add item label…" />
+    <select id="new-importance">
+      <option value="">importance</option>
+      <option value="CRITICAL">CRITICAL</option>
+      <option value="STRATEGIC">STRATEGIC</option>
+      <option value="OPERATIONAL">OPERATIONAL</option>
+      <option value="REFERENCE">REFERENCE</option>
+    </select>
+    <button class="btn primary" onclick="addItem()">+ Add</button>
+  `;
+  canvas.appendChild(row);
+}
+
+// ── ACTIONS ─────────────────────────────────────────────────────────────────
+function setField(id, field, value) {
+  const item = items.find(i => i.id === id);
+  if (item) { item[field] = value; render(); }
+}
+
+function moveBucket(id, bucket) {
+  if (!bucket) return;
+  const item = items.find(i => i.id === id);
+  if (item) { item.bucket = bucket; item.mode = bucket; render(); }
+}
+
+function removeItem(id) {
+  items = items.filter(i => i.id !== id);
+  render();
+}
+
+function promptReceipt(id) {
+  const ref = prompt('Paste receipt_ref (commit_sha or token):');
+  if (ref && ref.trim()) setField(id, 'receipt_ref', ref.trim());
+}
+
+function addItem() {
+  const label = document.getElementById('new-label').value.trim();
+  const importance = document.getElementById('new-importance').value;
+  if (!label) return;
+  items.push({
+    id: 'i' + Date.now(),
+    label,
+    bucket: currentBucket === 'BLOCKED' ? 'CHECKPOINT' : currentBucket,
+    mode: currentBucket === 'BLOCKED' ? 'CHECKPOINT' : currentBucket,
+    status: 'PARTIAL',
+    importance: importance || 'OPERATIONAL',
+    evidence: '',
+    bridge_id: 'zdgnab3py0',
+    receipt_ref: '',
+    target_ref: '',
+    notes: ''
+  });
+  render();
+}
+
+function switchBucket(b) {
+  currentBucket = b;
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.bucket === b);
+  });
+  render();
+}
+
+function filterByStatus(s) { activeFilter = s; render(); }
+function clearFilter() { activeFilter = null; render(); }
+
+function exportSession() {
+  const payload = {
+    session_id: SESSION_ID,
+    bridge_id: 'zdgnab3py0',
+    ts: new Date().toISOString(),
+    items,
+    stats: {
+      total: items.length,
+      real: items.filter(i => i.status === 'REAL').length,
+      partial: items.filter(i => i.status === 'PARTIAL').length,
+      blocked: items.filter(i => getViolations(i).length > 0).length
+    }
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = SESSION_ID + '.json';
+  a.click();
+}
+
+function closeSession() {
+  const viols = items.filter(i => getViolations(i).length > 0);
+  if (viols.length) { alert('Cannot close — ' + viols.length + ' blocked item(s) remain.'); return; }
+  const unreceipted = items.filter(i => i.bucket === 'HANDOFF' && !i.receipt_ref);
+  if (unreceipted.length) { alert('Cannot close — ' + unreceipted.length + ' HANDOFF item(s) missing receipt_ref.'); return; }
+  exportSession();
+  document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;background:var(--bg);color:var(--checkpoint);font-family:var(--font);">
+    <div style="font-size:32px;">✓</div>
+    <div style="font-size:18px;font-weight:700;">SESSION CLOSED</div>
+    <div style="font-size:13px;color:var(--muted);">${SESSION_ID}</div>
+    <div style="font-size:12px;color:var(--muted);">Receipt exported. Bridge: zdgnab3py0</div>
+  </div>`;
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
