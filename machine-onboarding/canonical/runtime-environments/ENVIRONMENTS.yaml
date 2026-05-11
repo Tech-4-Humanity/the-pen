@@ -8,7 +8,6 @@ meta:
   last_updated: "2026-05-11"
 
 environments:
-
   prod:
     environment_id: ENV-PROD-001
     name: production
@@ -19,8 +18,7 @@ environments:
     rollback_required: true
     linked_systems: [the-pen, mcp-bridge, command-centre, supabase-S1]
     linked_supabase: lzfgigiyqpuuxslsygjt
-    notes: All canonical writes land here. Even SELECTs against prod must be efficient and rate-aware.
-
+    notes: All canonical writes land here. Even SELECTs must be efficient and rate-aware.
   dev:
     environment_id: ENV-DEV-001
     name: development
@@ -30,7 +28,6 @@ environments:
     validation_required: false
     rollback_required: false
     notes: Sandbox for experimental work. Nothing dev-only should be claimed as REAL in any cross-environment context.
-
   staging:
     environment_id: ENV-STG-001
     name: staging
@@ -40,7 +37,6 @@ environments:
     validation_required: true
     rollback_required: true
     notes: Pre-prod gate. Required for any deployment that will hit prod within the same session.
-
   sandbox:
     environment_id: ENV-SBX-001
     name: sandbox
@@ -48,8 +44,7 @@ environments:
     write_access: open
     requires_authorisation: false
     validation_required: false
-    notes: Machine-only scratch. Not user-visible. Used by recovery loops for replay verification.
-
+    notes: Machine-only scratch. Used by recovery loops for replay verification.
   restricted:
     environment_id: ENV-RST-001
     name: restricted
@@ -62,9 +57,9 @@ environments:
 
 rules:
   - Environment trust is NEVER inferred from URL alone.
-  - Cross-environment writes require an explicit ledger row tagged with both source and target environment.
-  - Dev → prod promotion requires staging pass.
-  - Prod → dev backflow requires data-classification check (no PII/credentials).
+  - Cross-environment writes require explicit ledger row tagged with both source and target environment.
+  - Dev to prod promotion requires staging pass.
+  - Prod to dev backflow requires data-classification check (no PII/credentials).
   - Restricted environment access requires audit log entry; missing log = ledger row classified BLOCKED.
 
 bridge_handoff_target_validation:
