@@ -157,5 +157,28 @@ alter table doolittle.resource_allocations enable row level security;
 alter table doolittle.decisions enable row level security;
 alter table doolittle.exports enable row level security;
 
--- service_role bypass policies (per-table; idempotent)
--- (12 svc_all policies — see deployment log for exact create policy statements)
+-- service_role bypass policies (idempotent, per-table)
+drop policy if exists svc_all on doolittle.tenants;
+create policy svc_all on doolittle.tenants for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.tenant_limits;
+create policy svc_all on doolittle.tenant_limits for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.project_spaces;
+create policy svc_all on doolittle.project_spaces for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.threads;
+create policy svc_all on doolittle.threads for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.parties;
+create policy svc_all on doolittle.parties for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.thread_parties;
+create policy svc_all on doolittle.thread_parties for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.messages;
+create policy svc_all on doolittle.messages for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.attachments;
+create policy svc_all on doolittle.attachments for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.evidence_logs;
+create policy svc_all on doolittle.evidence_logs for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.resource_allocations;
+create policy svc_all on doolittle.resource_allocations for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.decisions;
+create policy svc_all on doolittle.decisions for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
+drop policy if exists svc_all on doolittle.exports;
+create policy svc_all on doolittle.exports for all using (auth.role() = 'service_role') with check (auth.role() = 'service_role');
