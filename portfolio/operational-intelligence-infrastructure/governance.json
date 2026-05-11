@@ -1,0 +1,52 @@
+{
+  "$schema": "https://github.com/TML-4PM/the-pen/raw/main/portfolio/operational-intelligence-infrastructure/schemas/governance.schema.json",
+  "governance_version": "1.0.0",
+  "kernel_alignment": "GLOBAL_RULE_KERNEL_V6",
+  "valid_classifications": ["REAL", "PARTIAL", "BLOCKED"],
+  "forbidden_classifications": ["PRETEND"],
+  "classification_promotion_rules": {
+    "to_REAL": {"requires_all": ["executed","replayable","receipted","ledger_written","telemetry_verified","runtime_observed","economically_validated"]},
+    "to_PARTIAL_conditions": ["incomplete_execution","weak_evidence","degraded_runtime","unresolved_drift","missing_recovery_proof"],
+    "to_BLOCKED_requires": ["explicit_dependency","bounded_reason","unresolved_authority","external_constraint"]
+  },
+  "per_sku_acceptance_gates": {
+    "ai_front_desk": ["intake_endpoint_health_check_200","intake_event_written_to_event_stream","evidence_register_row_created","telemetry_snapshot_attached","reality_ledger_row_REAL_when_one_real_intake_processed"],
+    "ai_proposal_desk": ["proposal_draft_endpoint_health_check_200","approval_gate_enforced_on_send","version_chain_persisted","evidence_register_row_created"],
+    "ai_booking_desk": ["calendar_integration_handshake_ok","booking_event_written","reminder_dispatch_telemetry_emitted","no_show_recovery_path_validated"],
+    "ai_growth_desk": ["send_per_policy_enforced","spend_governance_threshold_active","attribution_trace_persisted"],
+    "ai_evidence_desk": ["obligation_extraction_executed","evidence_pack_generated_with_hash","audit_export_path_validated","retention_policy_active"],
+    "ai_ops_dashboard": ["kpi_data_source_connected","alert_rule_loaded","drilldown_to_evidence_validated"],
+    "ai_retention_desk": ["lifecycle_segments_loaded","renewal_orchestration_test_message_dispatched","churn_scoring_executed_against_sample"],
+    "ai_workforce_desk": ["approval_chain_validated_on_test_workflow","escalation_target_reachable","task_trace_persisted"],
+    "ai_memory_desk": ["decision_capture_executed","rationale_retrieval_test_passed","handover_pack_assembly_validated"],
+    "full_vertical_ai_os": ["all_included_skus_REAL","wrapper_terminology_applied","shared_telemetry_validated","shared_evidence_ledger_validated"]
+  },
+  "drift_policy": {
+    "detection": ["infrastructure_drift","policy_drift","schema_drift","dependency_drift","orchestration_drift","runtime_drift","prompt_drift","identity_drift"],
+    "response": ["reconcile","rollback","quarantine","escalate","recover"],
+    "rules": ["unresolved_drift_demotes_to_PARTIAL","drift_event_must_emit_telemetry","three_consecutive_drift_events_force_reclassification"]
+  },
+  "recovery_policy": {
+    "strategies": ["retry","rollback","compensation","reroute","isolate","degrade","reconcile"],
+    "max_retry_attempts_default": 3,
+    "unrecoverable_state_requires": "escalation_to_human_oversight",
+    "recovery_attempts_must_log": true
+  },
+  "economic_self_regulation": {
+    "review_window_days": 14,
+    "orphan_timeout_hours": 24,
+    "rules": ["low_value_execution_must_decay","profitable_patterns_must_replicate","orphaned_compute_must_terminate","cost_growth_requires_justification","zombie_agents_forbidden"]
+  },
+  "freshness_policy": {
+    "evidence_expiry_default_days": 30,
+    "stale_truth_cannot_remain_REAL": true,
+    "expired_evidence_requires_revalidation": true
+  },
+  "human_override": {
+    "override_path_required": true,
+    "emergency_stop_required_global": true,
+    "appeal_path_required": true,
+    "hitl_default": "forbidden",
+    "hitl_permitted_only_for": ["legal_boundary","destructive_action","financial_authority_threshold","credential_issuance","regulatory_submission","ethical_override"]
+  }
+}
