@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI for Tradies — Never Miss a Job</title>
+<meta name="description" content="AI receptionist, lead capture, quote follow-up and review generation, built for Australian trade businesses.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%2290%22 font-size=%2290%22>🛠️</text></svg>">
+<style>
+  :root{
+    --ink:#0c1622; --paper:#fff; --muted:#5b6b7c; --line:#e6ecf2;
+    --accent:#ff6a3d; --accent-ink:#fff;
+    --soft:#f6f9fc;
+    --max:1100px;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink); background:var(--paper); line-height:1.55;
+       -webkit-font-smoothing:antialiased}
+  a{color:var(--ink); text-decoration:none}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 24px}
+
+  header{padding:20px 0; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(255,255,255,.92); backdrop-filter:saturate(140%) blur(8px); z-index:10}
+  header .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px}
+  .brand .mark{width:28px; height:28px; border-radius:8px; background:var(--ink); color:#fff; display:grid; place-items:center; font-size:16px}
+  .nav{display:flex; gap:22px; color:var(--muted); font-size:14px}
+  .nav a:hover{color:var(--ink)}
+  .cta-top{background:var(--ink); color:#fff; padding:10px 16px; border-radius:10px; font-weight:600; font-size:14px}
+
+  .hero{padding:64px 0 36px}
+  .hero h1{font-size:clamp(34px, 5vw, 56px); line-height:1.05; letter-spacing:-.02em; margin:0 0 18px; font-weight:800}
+  .hero h1 em{font-style:normal; color:var(--accent)}
+  .hero p.lede{font-size:19px; color:var(--muted); max-width:680px; margin:0 0 26px}
+  .row{display:flex; flex-wrap:wrap; gap:14px}
+  .btn{display:inline-flex; align-items:center; justify-content:center; padding:14px 22px; border-radius:12px; font-weight:600; font-size:15px; border:1px solid transparent; cursor:pointer; transition:transform .08s ease, background .15s ease}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent); color:var(--accent-ink)}
+  .btn.primary:hover{background:#ef5b30}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+  .btn.ghost:hover{background:var(--soft)}
+  .badges{display:flex; gap:18px; flex-wrap:wrap; margin-top:22px; color:var(--muted); font-size:13px}
+  .badges span:before{content:"●"; color:#2ecc71; margin-right:8px}
+
+  section{padding:56px 0; border-top:1px solid var(--line)}
+  section h2{font-size:32px; margin:0 0 8px; letter-spacing:-.01em}
+  section p.sub{color:var(--muted); margin:0 0 28px; max-width:680px}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:18px}
+  .card{background:var(--soft); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+  .card h3{font-size:17px; margin:0 0 6px}
+  .card p{margin:0; color:var(--muted); font-size:14.5px}
+  .card .ico{width:30px; height:30px; border-radius:8px; background:var(--ink); color:#fff; display:grid; place-items:center; font-size:16px; margin-bottom:12px}
+
+  .lifecycle{display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:10px}
+  .lifecycle div{padding:12px 10px; text-align:center; border:1px solid var(--line); border-radius:10px; font-size:13px; font-weight:600; background:var(--paper)}
+  .lifecycle div small{display:block; font-weight:500; color:var(--muted); margin-top:4px}
+  @media (max-width:720px){ .lifecycle{grid-template-columns:repeat(2,1fr)} }
+
+  .pricing{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:14px}
+  @media (max-width:880px){ .pricing{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:520px){ .pricing{grid-template-columns:1fr} }
+  .tier{background:var(--paper); border:1px solid var(--line); border-radius:var(--r); padding:22px}
+  .tier.featured{border-color:var(--ink); box-shadow:0 6px 0 var(--ink); transform:translateY(-2px)}
+  .tier h3{font-size:18px; margin:0}
+  .tier .price{font-size:30px; font-weight:800; margin:8px 0 6px}
+  .tier .price small{font-size:13px; color:var(--muted); font-weight:500}
+  .tier ul{margin:14px 0 0; padding:0; list-style:none; color:var(--muted); font-size:14px}
+  .tier ul li{padding:6px 0; border-top:1px dashed var(--line)}
+  .tier ul li:first-child{border-top:0}
+
+  form{background:var(--paper); border:1px solid var(--line); border-radius:var(--r); padding:22px; max-width:640px}
+  form .field{display:flex; flex-direction:column; gap:6px; margin-bottom:14px}
+  form label{font-weight:600; font-size:13px}
+  form input, form select, form textarea{font:inherit; padding:11px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink)}
+  form input:focus, form select:focus, form textarea:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+  form .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  @media (max-width:520px){ form .row2{grid-template-columns:1fr} }
+  form .submit-row{display:flex; align-items:center; gap:14px; margin-top:8px}
+  #intake-status{font-size:14px; color:var(--muted)}
+  #intake-status.ok{color:#1c7a3e}
+  #intake-status.err{color:#b3261e}
+
+  footer{padding:36px 0 60px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); margin-top:40px}
+  footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="/" class="brand"><span class="mark">🛠</span><span>AI for Tradies</span></a>
+    <nav class="nav">
+      <a href="#how">How it works</a>
+      <a href="#agents">120 agents</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <a href="#start" class="cta-top">Start free</a>
+  </div>
+</header>
+
+<section class="hero" style="border-top:none">
+  <div class="wrap">
+    <h1>Never miss a job again — <em>your AI runs the front office</em>.</h1>
+    <p class="lede">120 AI agents answer your phone, qualify leads, send quotes, chase reviews, and book the next job — so you can stay on the tools. Built for Australian plumbers, sparkies, builders, and roofers.</p>
+    <div class="row">
+      <a href="#start" class="btn primary">Start free — no credit card</a>
+      <a href="#how" class="btn ghost">See how it works</a>
+    </div>
+    <div class="badges">
+      <span>Answers calls 24/7</span>
+      <span>Quotes in minutes</span>
+      <span>BAS-friendly invoicing</span>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>The full tradie lifecycle, on autopilot.</h2>
+    <p class="sub">Ten domains. 120 specialist agents. One loop that compounds every job.</p>
+    <div class="lifecycle" aria-label="AI Tradies lifecycle">
+      <div>Analyse<small>12 agents</small></div>
+      <div>Write<small>12 agents</small></div>
+      <div>Distribute<small>12 agents</small></div>
+      <div>Convert<small>12 agents</small></div>
+      <div>Execute<small>12 agents</small></div>
+      <div>Track<small>12 agents</small></div>
+      <div>Optimise<small>12 agents</small></div>
+      <div>Retain<small>12 agents</small></div>
+      <div>Govern<small>12 agents</small></div>
+      <div>Loop<small>12 agents</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <h2>What the agents actually do</h2>
+    <p class="sub">Six examples, out of 120. Each runs on event triggers, writes to your reality ledger, and improves over time.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">📞</div><h3>AI Receptionist</h3><p>Answers every call 24/7. Captures the job, the urgency, the address, and books in your calendar.</p></div>
+      <div class="card"><div class="ico">📷</div><h3>Image Diagnosis</h3><p>Customer sends a photo; agent identifies likely issue, scope, and parts so quote prep takes minutes not hours.</p></div>
+      <div class="card"><div class="ico">💬</div><h3>Quote Follow-up</h3><p>Chases every unsent and unaccepted quote on a cadence that wins more jobs without nagging.</p></div>
+      <div class="card"><div class="ico">⭐</div><h3>Review Request</h3><p>Asks happy customers for a Google review at the right moment; flags unhappy ones early.</p></div>
+      <div class="card"><div class="ico">📊</div><h3>Pipeline Tracker</h3><p>Shows leads → quotes → jobs → paid, where money is stuck, and what to do today.</p></div>
+      <div class="card"><div class="ico">🔁</div><h3>Maintenance Reminder</h3><p>Turns one job into recurring revenue. Reminds the right customer at the right time, every year.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2>Pricing</h2>
+    <p class="sub">Pay for outcomes, not seats. Cancel anytime. AUD, GST-exclusive.</p>
+    <div class="pricing">
+      <div class="tier"><h3>Starter</h3><div class="price">$99<small>/month</small></div><ul><li>50 AI interactions / month</li><li>AI Receptionist</li><li>Quote follow-up</li><li>Review requests</li></ul></div>
+      <div class="tier featured"><h3>Growth</h3><div class="price">$299<small>/month</small></div><ul><li>500 AI interactions / month</li><li>Everything in Starter</li><li>Google + Facebook posting</li><li>Maintenance reminders</li></ul></div>
+      <div class="tier"><h3>Pro</h3><div class="price">$799<small>/month</small></div><ul><li>2,000 AI interactions / month</li><li>Everything in Growth</li><li>Compliance / SWMS docs</li><li>KPI dashboards</li></ul></div>
+      <div class="tier"><h3>Enterprise</h3><div class="price">$1,999<small>/month</small></div><ul><li>Unlimited AI interactions</li><li>Everything in Pro</li><li>Multi-team routing</li><li>Custom integrations</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <h2>Tell us about your first job</h2>
+    <p class="sub">No credit card. We will route it to a tradie in your area and confirm the booking by SMS.</p>
+    <form id="intake-form" novalidate>
+      <div class="row2">
+        <div class="field"><label for="full_name">Your name</label><input id="full_name" name="full_name" autocomplete="name" required></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="suburb">Suburb</label><input id="suburb" name="suburb" autocomplete="address-level2" required></div>
+        <div class="field"><label for="urgency">Urgency</label>
+          <select id="urgency" name="urgency"><option value="normal">Normal</option><option value="urgent">Urgent — same week</option><option value="emergency">Emergency — today</option><option value="low">Low — when convenient</option></select>
+        </div>
+      </div>
+      <div class="field"><label for="job_type">Job type</label><input id="job_type" name="job_type" placeholder="e.g. Burst pipe, switchboard upgrade, roof leak" required></div>
+      <div class="field"><label for="description">What's happening?</label><textarea id="description" name="description" rows="4" placeholder="Tell us anything that helps us send the right tradie"></textarea></div>
+      <div class="submit-row">
+        <button type="submit" class="btn primary">Get my callback</button>
+        <span id="intake-status" aria-live="polite"></span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="yr"></span> Tech 4 Humanity Pty Ltd — ABN 70 666 271 272</div>
+    <div><a href="#how">How it works</a> · <a href="#pricing">Pricing</a> · <a href="mailto:hello@tech4humanity.com.au">hello@tech4humanity.com.au</a></div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const INTAKE_URL  = window.AI_TRADIES_INTAKE_URL  || null;
+  const BUSINESS_ID = window.AI_TRADIES_BUSINESS_ID || null;
+
+  const $form   = document.getElementById('intake-form');
+  const $status = document.getElementById('intake-status');
+
+  $form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $status.className = '';
+    $status.textContent = 'Sending…';
+
+    const fd = new FormData($form);
+    const payload = {
+      business_id:    BUSINESS_ID,
+      source_channel: 'web',
+      urgency:        fd.get('urgency') || 'normal',
+      job_type:       (fd.get('job_type') || '').trim(),
+      description:    (fd.get('description') || '').trim(),
+      customer: {
+        full_name:    (fd.get('full_name') || '').trim(),
+        phone:        (fd.get('phone') || '').trim(),
+        suburb:       (fd.get('suburb') || '').trim(),
+        customer_type:'residential',
+      },
+    };
+
+    if (!INTAKE_URL || !BUSINESS_ID) {
+      $status.className = 'ok';
+      $status.textContent = 'Demo mode: would have sent your enquiry. Configure INTAKE_URL and BUSINESS_ID to go live.';
+      console.info('AI Tradies intake payload (demo):', payload);
+      return;
+    }
+
+    try {
+      const r = await fetch(INTAKE_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body:    JSON.stringify(payload),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (r.ok && data.ok) {
+        $status.className = 'ok';
+        $status.textContent = "Got it. We'll text you back shortly. Ref: " + (data.job_id || '').slice(0, 8);
+        $form.reset();
+      } else {
+        $status.className = 'err';
+        $status.textContent = (data && data.error) || 'Something went wrong. Please call us instead.';
+      }
+    } catch (err) {
+      $status.className = 'err';
+      $status.textContent = 'Network error. Please call us instead.';
+    }
+  });
+</script>
+
+</body>
+</html>
