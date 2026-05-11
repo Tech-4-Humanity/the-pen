@@ -1,0 +1,15 @@
+rd_project_code,total_hours,row_count,mao_mapping,rd_classification,risk_flag
+R01,2299.88,60,MAO-005 (human-AI interaction intensity),CLAIM_CORE,HIGH - confirm 52% allocation basis
+R03,165.50,60,MAO-007 and MAO-008 (recovery + cross-tool orchestration),CLAIM_CORE,LOW
+R02,144.25,60,MAO-001 to MAO-003 (task allocation + coordination + scaling),CLAIM_CORE,LOW
+R08,119.89,2,HOLD - not in lodged application core activity,HOLD,HIGH - activity not in PKK0VJBBH
+R05,80.00,1,HOLD - not in lodged application core activity,HOLD,HIGH
+R09,80.00,60,MAO-006 (signal-to-outcome mapping - assessment),SUPPORTING,MEDIUM
+R10,60.00,1,HOLD,HOLD,HIGH
+R04,57.50,1,HOLD,HOLD,HIGH
+R11,50.00,1,MAO-007 (constraint enforcement = evidence gating),SUPPORTING,MEDIUM
+R12,40.00,1,HOLD - drone/physical claims distraction,HOLD,HIGH
+R13,37.50,50,SUPPORTING - infrastructure moat,SUPPORTING,LOW
+R07,25.00,1,HOLD - maps to 7D-DCP not core MAO,HOLD,MEDIUM
+R06,25.00,1,HOLD,HOLD,MEDIUM
+TOTAL,3184.52,299,All codes,REVIEW - remove HOLD codes before final claim,HIGH - 781h in HOLD codes
