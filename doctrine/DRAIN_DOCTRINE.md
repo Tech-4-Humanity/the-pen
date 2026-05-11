@@ -1,123 +1,119 @@
-# DRAIN DOCTRINE v1.0
+# DRAIN DOCTRINE v1
 
-> Status enforcement rules for all drain.atom entries across The Pen ecosystem.
-
----
-
-## Core Contract
-
-Every item in drain has a `status` of one of:
-- `REAL` — executed, evidence confirmed, receipt on file
-- `PARTIAL` — started or handed off, awaiting confirmation
-- `BLOCKED` — cannot proceed (missing credential, dependency, access)
-- `ARCHIVE` — closed with full evidence chain
-
-**PRETEND is not a valid status.** Any item without typed evidence defaults to PARTIAL, never REAL.
+> Canonical rules governing the DRAIN system. This file is the source of truth for all validator logic, UI enforcement, and agent behaviour.
 
 ---
 
-## Status Transition Rules
+## 1. What is DRAIN?
 
-| From | To | Required |
+DRAIN is the session-close and work-unit resolution protocol for all TML-4PM operational sessions. Every unit of work created in a session must be explicitly drained before the session closes.
+
+DRAIN is **not a backlog**. It is a forcing function. Every item must resolve — it cannot accumulate.
+
+---
+
+## 2. Modes
+
+| Mode | Meaning | Invariant |
 |---|---|---|
-| any | REAL | typed evidence (api_response, commit_id, url, hash, cli_output) |
-| any | ARCHIVE | status must already be REAL + receipt_ref present |
-| any | BLOCKED | reason + dependency named |
-| PARTIAL | REAL | evidence added + validated |
-| BLOCKED | PARTIAL | blocker resolved |
+| `KILL` | Discard — confirmed not worth continuing | Blocked on IP or STRATEGIC importance |
+| `CHECKPOINT` | Pause — work continues in a future session | Must have evidence before REAL |
+| `HANDOFF` | Pass to bridge or external agent | Requires `bridge_id`; PARTIAL until `receipt_ref` received |
+| `ARCHIVE` | Close permanently — work is complete | Requires `status=REAL` and `evidence` |
+| `REGISTER` | Log as a discovered asset or entity | Requires `target_ref` |
+| `LIBRARY` | Promote to reusable knowledge or pattern | Free-form; encourage `evidence` |
 
 ---
 
-## Validator Rules (V1–V6)
+## 3. Status States
 
-| Rule | Trigger | Effect |
-|---|---|---|
-| V1 | ARCHIVE without REAL status | BLOCKED |
-| V2 | KILL on IP or STRATEGIC item | BLOCKED |
-| V3 | HANDOFF without receipt_ref | PARTIAL |
-| V4 | IP/STRATEGIC without typed evidence | PARTIAL |
-| V5 | HANDOFF without bridge_id | BLOCKED |
-| V6 | REGISTER without target_ref | BLOCKED |
+| Status | Meaning |
+|---|---|
+| `REAL` | Verified complete. Evidence confirmed. |
+| `PARTIAL` | In progress or unverified. Cannot close session. |
+| `BLOCKED` | Validator rule violated. Cannot proceed until resolved. |
+| `ARCHIVED` | Closed and immutable. Timestamp set. |
 
----
-
-## Mode Buckets
-
-| Mode | Purpose | Close condition |
-|---|---|---|
-| KILL | Permanent removal — no recovery | Not IP/STRATEGIC |
-| CHECKPOINT | Snapshot in time — version and save | evidence written |
-| HANDOFF | Pass to another agent/bridge | receipt_ref confirmed |
-| ARCHIVE | Close with full evidence chain | REAL + receipt |
-| REGISTER | Bind to external target | target_ref present |
-| LIBRARY | Store as reference — no action required | always allowed |
+**REAL is the only acceptable terminal state for ARCHIVE mode.**
 
 ---
 
-## Evidence Types
+## 4. Validators (V-Rules)
 
-At least one of the following must be present for REAL status:
+These rules are enforced in real-time by the UI and must be enforced by any agent or script processing drain atoms.
 
-- `api_response` — raw HTTP/JSON response from a real API call
-- `database_result` — query result, row count, or record ID
-- `cli_output` — terminal output including exit code
-- `commit_id` — full 40-char SHA from a real commit
-- `url` — live URL returning a valid response
-- `hash` — content hash from a verifiable operation
-- `reproducible_steps` — steps another agent can follow to reproduce the result
-
-String-only evidence is rejected.
-
----
-
-## Session Close Gate
-
-Session close is hard-blocked while any of the following are true:
-
-1. Any item has status BLOCKED
-2. Any HANDOFF item has no receipt_ref
-3. Any REGISTER item has no target_ref
-4. Any ARCHIVE item was not previously REAL
-
----
-
-## Receipt Protocol
-
-All HANDOFF completions must write a receipt:
-
-```json
-{
-  "receipt_ref": "<bridge_id>-<timestamp>",
-  "bridge_id": "<bridge_id>",
-  "item_id": "<drain_item_id>",
-  "status_at_close": "REAL",
-  "evidence": { "type": "commit_id", "value": "<sha>" },
-  "closed_at": "<iso8601>"
-}
+```
+V1  ARCHIVE requires status=REAL and evidence present.
+V2  KILL is blocked if importance=IP or importance=STRATEGIC.
+V3  HANDOFF is PARTIAL until receipt_ref is confirmed.
+V4  IP or STRATEGIC importance items are PARTIAL until evidence is typed.
+V5  HANDOFF requires bridge_id to be set.
+V6  REGISTER requires target_ref to be set.
 ```
 
-Receipts are stored in `RECEIPTS/` and referenced by `receipt_ref` on the drain item.
+---
+
+## 5. Evidence Format
+
+Evidence must be a typed reference string:
+
+```
+commit:{sha}          — git commit SHA
+receipt:{bridge_id}   — bridge receipt reference
+issue:{number}        — GitHub issue number
+file:{path}           — file path in repo
+notion:{page_id}      — Notion page ID
+pr:{number}           — Pull request number
+```
+
+Freeform text is not valid evidence. Validators check for the `{type}:` prefix.
 
 ---
 
-## Idempotency
+## 6. Session Close Gate
 
-All drain operations are idempotent:
-- Re-running the same ARCHIVE on an already-archived item is a no-op
-- Re-running REGISTER on an already-registered item updates target_ref only
-- Re-running CHECKPOINT creates a new snapshot without invalidating prior ones
+A session **cannot close** while:
+- Any item has `status=BLOCKED`
+- Any HANDOFF item is missing `receipt_ref`
+- Any PARTIAL item in ARCHIVE mode exists
 
----
-
-## Invariants
-
-1. `status=REAL` requires `evidence != null && evidence.type in allowed_types`
-2. `mode=ARCHIVE` requires `status=REAL && receipt_ref != null`
-3. `mode=HANDOFF` requires `bridge_id != null`
-4. `mode=KILL && importance in [IP, STRATEGIC]` → hard BLOCK
-5. `mode=REGISTER` requires `target_ref != null`
-6. PRETEND state is invalid — any item without evidence is PARTIAL
+The close button is hard-disabled in the UI while these conditions hold.
 
 ---
 
-_Doctrine version: 1.0 | Written: 2026-05-11 | Repo: TML-4PM/the-pen_
+## 7. Idempotency
+
+- Item `id` is immutable after creation.
+- `status=ARCHIVED` items cannot be modified.
+- `closed_at` is set exactly once, at the moment of ARCHIVE transition.
+- Replaying a drain operation on an already-ARCHIVED item is a no-op.
+
+---
+
+## 8. Economic Invariant
+
+Work drained at `REAL` contributes to the session's economic score.
+Work drained at `PARTIAL` or `BLOCKED` is gap debt — it reduces the session score.
+
+Target: `evidence_debt / total_items < 0.15` per session.
+
+---
+
+## 9. Bridge Protocol
+
+When draining via HANDOFF:
+
+1. Set `mode=HANDOFF`, `bridge_id={session_id}`
+2. Pass to bridge
+3. Bridge returns `receipt_ref`
+4. Enter `receipt_ref` in the item
+5. Item auto-promotes to `status=REAL`
+6. Session close gate clears for this item
+
+---
+
+## 10. Changelog
+
+| Version | Date | Notes |
+|---|---|---|
+| v1 | 2026-05-12 | Initial doctrine. 6 modes, 4 states, 6 validators. |

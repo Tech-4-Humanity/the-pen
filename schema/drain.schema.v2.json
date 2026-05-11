@@ -1,93 +1,96 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "drain.schema.v2",
-  "title": "DRAIN Atom Schema v2",
-  "description": "Schema for a single DRAIN item — used in tab_drain.html and wave10 sweep payloads.",
-  "version": "2.0.0",
-  "bridge_ref": "zdgnab3py0",
+  "title": "Drain Atom",
+  "description": "Schema for a single drain item in the DRAIN system. Each item is a work unit with typed status, mode, evidence, and invariant enforcement.",
   "type": "object",
-  "required": ["id", "label", "bucket", "status"],
+  "required": ["id", "label", "mode", "status", "importance"],
   "properties": {
     "id": {
       "type": "string",
-      "description": "Unique item identifier (e.g. d1, i1234567890)"
+      "description": "Unique drain item identifier. Format: drain-{slug}-{epoch_ms}",
+      "pattern": "^drain-[a-z0-9-]+-[0-9]+$"
     },
     "label": {
       "type": "string",
-      "description": "Human-readable item name or description"
-    },
-    "bucket": {
-      "type": "string",
-      "enum": ["KILL", "CHECKPOINT", "HANDOFF", "ARCHIVE", "REGISTER", "LIBRARY"],
-      "description": "Mode bucket — determines routing and validator rules"
+      "description": "Human-readable label for the drain item.",
+      "minLength": 3,
+      "maxLength": 120
     },
     "mode": {
       "type": "string",
       "enum": ["KILL", "CHECKPOINT", "HANDOFF", "ARCHIVE", "REGISTER", "LIBRARY"],
-      "description": "Alias for bucket (kept for legacy compatibility)"
+      "description": "Operational mode governing what happens to this item."
     },
     "status": {
       "type": "string",
-      "enum": ["REAL", "PARTIAL", "BLOCKED"],
-      "description": "Execution status — derived by validators at runtime"
+      "enum": ["REAL", "PARTIAL", "BLOCKED", "ARCHIVED"],
+      "description": "Execution truth state. REAL = verified complete. PARTIAL = in progress or unverified. BLOCKED = validator rule violation. ARCHIVED = closed and immutable."
     },
     "importance": {
       "type": "string",
-      "enum": ["CRITICAL", "STRATEGIC", "OPERATIONAL", "REFERENCE"],
-      "description": "Item importance — affects validator strictness"
+      "enum": ["IP", "STRATEGIC", "OPERATIONAL", "MAINTENANCE"],
+      "description": "Priority classification. IP and STRATEGIC require evidence before ARCHIVE."
     },
     "evidence": {
       "type": "string",
-      "description": "Typed proof: commit_sha, url, api_response, cli_output, hash"
+      "description": "Typed evidence string. Required for REAL status and for IP/STRATEGIC importance. Format: {type}:{ref} e.g. commit:abc123, receipt:zdgnab3py0, issue:74"
     },
     "bridge_id": {
       "type": "string",
-      "description": "Bridge session identifier for routing"
+      "description": "Required for HANDOFF mode. Bridge session identifier.",
+      "pattern": "^[a-z0-9]{8,}$"
     },
     "receipt_ref": {
       "type": "string",
-      "description": "Receipt token or commit_sha confirming HANDOFF delivery"
+      "description": "Receipt reference returned by bridge after successful HANDOFF. Required to promote HANDOFF from PARTIAL to REAL."
     },
     "target_ref": {
       "type": "string",
-      "description": "Destination reference: repo path, github issue, system endpoint"
+      "description": "Required for REGISTER mode. Target entity reference (repo, issue, file path, etc)."
     },
     "notes": {
       "type": "string",
-      "description": "Optional human notes"
+      "description": "Optional freeform notes. Not used in validation.",
+      "maxLength": 1000
     },
-    "ts_created": {
+    "created_at": {
       "type": "string",
       "format": "date-time",
-      "description": "ISO timestamp of item creation"
+      "description": "ISO8601 creation timestamp."
     },
-    "ts_updated": {
+    "updated_at": {
       "type": "string",
       "format": "date-time",
-      "description": "ISO timestamp of last update"
+      "description": "ISO8601 last-updated timestamp."
+    },
+    "closed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO8601 close timestamp. Set when status transitions to ARCHIVED."
     }
   },
-  "validators": [
-    {"id": "V1", "rule": "ARCHIVE requires status=REAL", "check": "bucket==ARCHIVE && status!=REAL", "action": "BLOCK"},
-    {"id": "V2", "rule": "KILL on CRITICAL/STRATEGIC requires evidence", "check": "bucket==KILL && importance in [CRITICAL,STRATEGIC] && !evidence", "action": "BLOCK"},
-    {"id": "V3", "rule": "HANDOFF PARTIAL until receipt_ref set", "check": "bucket==HANDOFF && !receipt_ref", "action": "PARTIAL"},
-    {"id": "V4", "rule": "CRITICAL/STRATEGIC requires typed evidence", "check": "importance in [CRITICAL,STRATEGIC] && !evidence", "action": "PARTIAL"},
-    {"id": "V5", "rule": "HANDOFF requires bridge_id", "check": "bucket==HANDOFF && !bridge_id", "action": "PARTIAL"},
-    {"id": "V6", "rule": "REGISTER requires target_ref", "check": "bucket==REGISTER && !target_ref", "action": "PARTIAL"}
+  "allOf": [
+    {
+      "if": { "properties": { "mode": { "const": "ARCHIVE" } }, "required": ["mode"] },
+      "then": { "required": ["evidence"], "properties": { "status": { "const": "REAL" } } },
+      "description": "V1: ARCHIVE requires status=REAL and evidence."
+    },
+    {
+      "if": { "properties": { "mode": { "const": "KILL" }, "importance": { "enum": ["IP", "STRATEGIC"] } }, "required": ["mode", "importance"] },
+      "then": { "properties": { "status": { "not": { "const": "REAL" } } } },
+      "description": "V2: KILL blocked on IP/STRATEGIC importance items."
+    },
+    {
+      "if": { "properties": { "mode": { "const": "HANDOFF" } }, "required": ["mode"] },
+      "then": { "required": ["bridge_id"] },
+      "description": "V6: HANDOFF requires bridge_id."
+    },
+    {
+      "if": { "properties": { "mode": { "const": "REGISTER" } }, "required": ["mode"] },
+      "then": { "required": ["target_ref"] },
+      "description": "V6b: REGISTER requires target_ref."
+    }
   ],
-  "session_close_gate": {
-    "description": "Session cannot close if any of these are true",
-    "rules": [
-      "Any item has active V1 or V2 BLOCK violations",
-      "Any HANDOFF item has empty receipt_ref"
-    ]
-  },
-  "presets": {
-    "HANDOFF": {"requires": ["bridge_id", "receipt_ref", "target_ref"], "status_floor": "PARTIAL"},
-    "CHECKPOINT": {"requires": ["evidence"], "status_on_evidence": "REAL"},
-    "ARCHIVE": {"requires": ["status=REAL", "evidence"], "blocks_without": "V1"},
-    "KILL": {"blocks_if_critical_without_evidence": true},
-    "REGISTER": {"requires": ["target_ref"]},
-    "LIBRARY": {"requires": ["evidence"]}
-  }
+  "additionalProperties": false
 }
