@@ -1,0 +1,53 @@
+SCOPE CONTROL MEMO
+Tech 4 Humanity Pty Ltd | ABN 70 666 271 272
+RDTI FY2024-25 | Tracking ID PYV4R3VPW
+Date: 2026-05-12
+
+1. CONTROLLING STRUCTURE
+The controlling registration for this examination response is:
+
+  Project:       AI-Orchestrated Multi-Agent Systems for Human-AI Performance Optimisation
+  Project ref:   PTPKCR0JN
+  Core activity: Multi-Agent AI Orchestration
+  Activity ref:  PKK0VJBBH
+  Period:        1 July 2024 - 30 June 2025
+  Lodged R&D expenditure: $2,136,791
+  Independent contractors: 0
+
+All evidence and sub-experiments are indexed under this structure only.
+
+2. INTERNAL LABEL MAPPING
+Internal working files used labels R01-R13 as evidence-stream designators.
+These are not separate registered activities. The mapping is:
+
+  Internal label              | MAO sub-experiment | Treatment
+  ----------------------------|--------------------|-----------
+  Neural Ennead / 729-agent   | MAO-001/002/003    | Core evidence stream
+  MCP Bridge ecosystem        | MAO-007/008        | Core evidence stream
+  AI Sweet Spots / ASS        | MAO-005/006        | Core evidence stream (human-AI)
+  Assessment tool dev         | MAO-006            | Supporting evidence
+  ConsentX consent state      | MAO-004            | Supporting - state consistency
+  HoloOrg 10K agents          | MAO-002/003        | Only if scaling tests exist
+  Evidence gating / no-pretend| MAO-007            | Core evidence stream
+  R05 R07 R08 R10 R12         | Not in core activity| HOLD or EXCLUDE
+  RDTI artefact pack          | Evidence system     | Supporting only
+
+3. TERMINOLOGY CLARIFICATION
+The company's R&D records were maintained across Supabase, GitHub, AWS,
+Google Drive, and operational notebooks. Different labels across internal
+files reflect working terminology, not new registered activities.
+
+4. WHAT IS NOT CHANGING
+The company is not amending the claim. The registered project, core activity,
+expenditure figure, and period are unchanged. This response explains and
+substantiates the registered activity with its sub-experiments and evidence.
+
+5. PRIMARY DEFENCE
+The registered activity was not routine software development or internal
+administration software. It was experimental research to determine whether
+a multi-agent AI orchestration system could coordinate interdependent tasks
+while maintaining scalability, consistency, performance, and measurable
+human-AI interaction outcomes - under conditions of genuine technical uncertainty.
+
+Signed: Troy Latter, Director, Tech 4 Humanity Pty Ltd
+Date: 2026-05-12
