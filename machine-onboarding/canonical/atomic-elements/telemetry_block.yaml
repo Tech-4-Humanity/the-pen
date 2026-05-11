@@ -1,0 +1,75 @@
+atomic_id: ATOM-EXEC-005
+name: telemetry_block
+status: REAL
+canonical: true
+reusable: true
+last_updated: "2026-05-11"
+
+purpose: |
+  Standard metric emission shape for any executed action. Pairs with the
+  HRE 'Search telemetry' rule and the BRIDGE_HANDOFF_STANDARD
+  telemetry_expectations field.
+
+shape:
+  telemetry:
+    session_id: <uuid>
+    task_id: <stable id>
+    timestamp: <ISO>
+    counters:
+      searched: <int>
+      found: <int>
+      inaccessible: <int>
+      contradicted: <int>
+      tool_calls: <int>
+      writes: <int>
+      writes_verified: <int>
+      retries: <int>
+      escalations: <int>
+    durations_ms:
+      preflight: <int>
+      search: <int>
+      audit: <int>
+      analysis: <int>
+      execution: <int>
+      validation: <int>
+      total: <int>
+    classifications:
+      real: <int>
+      partial: <int>
+      blocked: <int>
+      invalid: <int>
+    pressure_flags:
+      stagnation: bool
+      drag: bool
+      regression: bool
+
+emission_targets:
+  primary:
+    - public.reality_ledger.evidence.telemetry
+  secondary:
+    - command_centre_widget
+    - mcp_session_log
+
+invariants:
+  - "writes_verified MUST be <= writes."
+  - "If writes_verified < writes, session classification capped at PARTIAL."
+  - "If retries > 0, recovery_loop telemetry MUST be linked."
+  - "If escalations > 0, escalation_chain payloads MUST be linked."
+
+failure_modes:
+  - id: F1
+    when: telemetry block missing from ledger row
+    action: ledger row downgraded to PARTIAL automatically
+  - id: F2
+    when: counters fields contain negative values
+    action: reject; classify INVALID
+
+example:
+  telemetry:
+    session_id: "auto-generated"
+    task_id: machine-onboarding-v3.1-enhancement
+    timestamp: "2026-05-11T00:00:00Z"
+    counters: { searched: 8, found: 7, inaccessible: 1, contradicted: 3, tool_calls: 14, writes: 12, writes_verified: 12, retries: 1, escalations: 0 }
+    durations_ms: { preflight: 200, search: 4000, audit: 2000, analysis: 3000, execution: 12000, validation: 1500, total: 22700 }
+    classifications: { real: 1, partial: 0, blocked: 0, invalid: 0 }
+    pressure_flags: { stagnation: false, drag: false, regression: false }
