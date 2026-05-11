@@ -1,0 +1,23 @@
+{
+  "$schema": "https://github.com/TML-4PM/the-pen/raw/main/portfolio/operational-intelligence-infrastructure/schemas/deployment.schema.json",
+  "deployment_template_version": "1.0.0",
+  "purpose": "Profile to clone a new wrapper without touching the runtime",
+  "required_inputs": ["wrapper_slug","wrapper_name","route","buyer","hero","default_skus","required_integrations","terminology_overrides","compliance_packs"],
+  "optional_inputs": ["parent_wrapper","verticals_within","case_study_anchor","evidence_packs"],
+  "automated_steps": [
+    {"step":"register_wrapper","action":"INSERT INTO oii.wrappers"},
+    {"step":"seed_workflow_bindings","action":"associate workflow modules from workflows.json by used_by_wrappers match"},
+    {"step":"provision_pricing","action":"ensure pricing tiers active for wrapper"},
+    {"step":"create_stripe_products","action":"for each tier and SKU mapped to wrapper, ensure Stripe product+price exists"},
+    {"step":"deploy_landing_route","action":"render wrapper landing from samples template with wrapper config substitution"},
+    {"step":"register_api_routes","action":"wire /api/v1/{intake,proposal,booking,evidence} with wrapper context"},
+    {"step":"emit_deployment_event","action":"INSERT INTO oii.events with event_type='runtime.classification_changed' classification='PARTIAL'"},
+    {"step":"write_reality_ledger","action":"public.reality_ledger row: status='PARTIAL' until first real intake observed"}
+  ],
+  "promotion_to_REAL_requires": ["first_real_intake_processed","evidence_register_row_created_for_intake","telemetry_event_round_trip_validated","billing_test_charge_succeeded","recovery_path_simulated_and_passed"],
+  "rollback_steps": ["set oii.wrappers.is_active = false","set oii.tenant_classification_ledger.classification = 'BLOCKED' with reason='wrapper_rolled_back'","emit runtime.quarantined event"],
+  "estimated_clone_time_minutes": 30,
+  "examples": [
+    {"wrapper_slug":"consultants","wrapper_name":"AI for Consultants","route":"/professionals/consultants","parent_wrapper":"professionals","buyer":"advisory and management consulting firms","hero":"Turn fragmented client work into operational intelligence.","default_skus":["ai_front_desk","ai_proposal_desk","ai_evidence_desk","ai_memory_desk","ai_ops_dashboard"],"required_integrations":["email","document_storage","calendar"],"terminology_overrides":{"client":"client","engagement":"engagement","deliverable":"deliverable"},"compliance_packs":["professional_indemnity_evidence"]}
+  ]
+}
