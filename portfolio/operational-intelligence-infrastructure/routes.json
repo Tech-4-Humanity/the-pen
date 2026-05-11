@@ -1,0 +1,52 @@
+{
+  "$schema": "https://github.com/TML-4PM/the-pen/raw/main/portfolio/operational-intelligence-infrastructure/schemas/routes.schema.json",
+  "routes_version": "1.0.0",
+  "master_brand": {
+    "name": "Tech 4 Humanity",
+    "category_brand": "Operational Intelligence Infrastructure",
+    "primary_domain_options": ["tech4humanity.ai", "operationalintelligence.ai", "vertical-os.ai"],
+    "principle": "Master brand surfaces the category. Wrappers surface the verticals. Same engine underneath."
+  },
+  "global_shell_components": [
+    "header_with_vertical_selector",
+    "footer_with_governance_links",
+    "trust_strip_with_evidence_anchors",
+    "live_status_widget",
+    "logged_in_workspace_shell"
+  ],
+  "routes": [
+    {"path":"/","page":"master_brand_home","purpose":"Category narrative for operational intelligence infrastructure","sections":["hero_ai_native_operational_infrastructure","category_demands_strip","factor_gateway_mri_explainer","wrapper_selector_grid","live_proof_strip_hales_redden","governance_evidence_section","pricing_overview_by_maturity"]},
+    {"path":"/professionals","page":"wrapper_landing","wrapper_slug":"professionals","purpose":"White-collar professional firm operating system","child_routes":["/professionals/accountants","/professionals/lawyers","/professionals/consultants","/professionals/financial-planners","/professionals/architects","/professionals/engineers","/professionals/brokers","/professionals/agencies"]},
+    {"path":"/professionals/accountants","page":"wrapper_landing","wrapper_slug":"accountants"},
+    {"path":"/professionals/lawyers","page":"wrapper_landing","wrapper_slug":"lawyers"},
+    {"path":"/professionals/consultants","page":"wrapper_landing","wrapper_slug":"consultants_pending"},
+    {"path":"/professionals/financial-planners","page":"wrapper_landing","wrapper_slug":"financial_planners_pending"},
+    {"path":"/professionals/architects","page":"wrapper_landing","wrapper_slug":"architects_pending"},
+    {"path":"/professionals/engineers","page":"wrapper_landing","wrapper_slug":"engineers_pending"},
+    {"path":"/professionals/brokers","page":"wrapper_landing","wrapper_slug":"brokers_pending"},
+    {"path":"/professionals/agencies","page":"wrapper_landing","wrapper_slug":"agencies_pending"},
+    {"path":"/tradies","page":"wrapper_landing","wrapper_slug":"tradies"},
+    {"path":"/self-employed","page":"wrapper_landing","wrapper_slug":"self-employed"},
+    {"path":"/outcome-ready","page":"wrapper_landing","wrapper_slug":"outcome-ready"},
+    {"path":"/health","page":"wrapper_landing","wrapper_slug":"health"},
+    {"path":"/education","page":"wrapper_landing","wrapper_slug":"education"},
+    {"path":"/enter-australia","page":"wrapper_landing","wrapper_slug":"enter-australia"},
+    {"path":"/factor","page":"platform_layer","purpose":"Factor — operational data intelligence layer"},
+    {"path":"/gateway","page":"platform_layer","purpose":"Gateway — connections and integrations layer"},
+    {"path":"/mri","page":"platform_layer","purpose":"MRI — reporting and evidence outputs layer"},
+    {"path":"/governance","page":"trust_layer","purpose":"Auditability, REAL/PARTIAL/BLOCKED, evidence, telemetry"},
+    {"path":"/pricing","page":"pricing_overview","purpose":"Tiers by operational maturity"},
+    {"path":"/find-your-fit","page":"ai_sweet_spots_router","purpose":"Routes prospects to the right wrapper and tier"},
+    {"path":"/case-studies","page":"case_studies_index"},
+    {"path":"/case-studies/hales-redden","page":"case_study","wrapper_slug":"accountants"},
+    {"path":"/login","page":"auth_login"},
+    {"path":"/app","page":"workspace_shell","auth_required":true,"child_routes":["/app/dashboard","/app/front-desk","/app/proposal-desk","/app/booking-desk","/app/growth-desk","/app/evidence-desk","/app/retention-desk","/app/workforce-desk","/app/memory-desk","/app/settings","/app/billing","/app/governance"]},
+    {"path":"/api/health","page":"api_endpoint","purpose":"Health check returning runtime + telemetry status"},
+    {"path":"/api/v1/intake","page":"api_endpoint","purpose":"AI Front Desk intake endpoint"},
+    {"path":"/api/v1/proposal","page":"api_endpoint","purpose":"AI Proposal Desk endpoint"},
+    {"path":"/api/v1/booking","page":"api_endpoint","purpose":"AI Booking Desk endpoint"},
+    {"path":"/api/v1/evidence","page":"api_endpoint","purpose":"AI Evidence Desk endpoint"},
+    {"path":"/api/v1/telemetry","page":"api_endpoint","purpose":"Universal telemetry intake"},
+    {"path":"/api/v1/ledger","page":"api_endpoint","purpose":"Reality ledger reads and gated writes"}
+  ]
+}
