@@ -1,0 +1,23 @@
+{
+  "receipt_type": "DEPLOY",
+  "project": "T4H Remote MCP",
+  "component": "SSE Transport",
+  "timestamp": "2026-05-11",
+  "version": "3.6.0",
+  "root_cause": "Claude MCP connector uses SSE transport (GET /sse → text/event-stream). Server was on StreamableHTTP only (POST /mcp + Mcp-Session-Id). Vercel serverless = stateless per request, so session state never persisted between tool calls.",
+  "fix": "Added SSEServerTransport on GET /sse and POST /messages?sessionId=X alongside existing StreamableHTTP on POST /mcp",
+  "commit": "e6255187a562",
+  "deploy_id": "dpl_FbQ1TuJBQQmFvfXWJbaYGGVuRysw",
+  "deploy_state": "READY",
+  "evidence": {
+    "root_endpoint": "version: 3.6.0, endpoints includes sse + messages",
+    "sse_content_type": "text/event-stream — 200 OK",
+    "mcp_streamable_http": "200 OK — unchanged",
+    "messages_404": "expected — no active session in test"
+  },
+  "connector_action_required": {
+    "current_url": "https://t4h-remote-mcp-server-clean.vercel.app/mcp",
+    "required_url": "https://t4h-remote-mcp-server-clean.vercel.app/sse",
+    "action": "Update T4H Remote MCP connector URL in claude.ai Settings → Integrations from /mcp to /sse"
+  }
+}
