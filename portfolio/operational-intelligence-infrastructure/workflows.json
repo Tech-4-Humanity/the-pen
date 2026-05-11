@@ -1,0 +1,85 @@
+{
+  "$schema": "https://github.com/TML-4PM/the-pen/raw/main/portfolio/operational-intelligence-infrastructure/schemas/workflows.schema.json",
+  "workflows_version": "1.0.0",
+  "principle": "Workflows are composable modules. Same workflow, different terminology and evidence per wrapper.",
+  "workflow_modules": [
+    {
+      "id": "intake_to_quote",
+      "label": "Intake → Quote",
+      "trigger": "intake.captured",
+      "steps": ["intake.qualified","intake.routed","proposal.drafted","proposal.sent"],
+      "agents_involved": ["receptionist","intake_qualifier","router","scope_analyst","quote_builder","proposal_writer"],
+      "required_skus": ["ai_front_desk","ai_proposal_desk"],
+      "acceptance_gate": "proposal.sent classification REAL with receipt"
+    },
+    {
+      "id": "quote_to_booking",
+      "label": "Quote → Booking",
+      "trigger": "proposal.accepted",
+      "steps": ["booking.created","booking.confirmed","booking.reminded","booking.attended"],
+      "agents_involved": ["scheduler","reminder_dispatcher"],
+      "required_skus": ["ai_booking_desk"],
+      "acceptance_gate": "booking.attended OR booking.rescheduled"
+    },
+    {
+      "id": "delivery_to_evidence",
+      "label": "Delivery → Evidence",
+      "trigger": "booking.attended",
+      "steps": ["evidence.document_classified","evidence.obligation_mapped","evidence.pack_generated"],
+      "agents_involved": ["document_classifier","obligation_mapper","evidence_packager"],
+      "required_skus": ["ai_evidence_desk"],
+      "acceptance_gate": "evidence.pack_generated with hash + retention policy"
+    },
+    {
+      "id": "delivery_to_review",
+      "label": "Delivery → Review",
+      "trigger": "booking.attended",
+      "steps": ["growth.review_received"],
+      "agents_involved": ["review_requester"],
+      "required_skus": ["ai_growth_desk"],
+      "acceptance_gate": "growth.review_received OR opt-out captured"
+    },
+    {
+      "id": "review_to_retention",
+      "label": "Review → Retention",
+      "trigger": "growth.review_received",
+      "steps": ["retention.renewal_due","retention.renewed"],
+      "agents_involved": ["renewal_dispatcher"],
+      "required_skus": ["ai_retention_desk"],
+      "acceptance_gate": "retention.renewed OR retention.churned with reason"
+    },
+    {
+      "id": "decision_to_memory",
+      "label": "Decision → Memory",
+      "trigger": "any_significant_decision",
+      "steps": ["memory.decision_captured","memory.rationale_stored"],
+      "agents_involved": ["decision_capturer","timeline_assembler"],
+      "required_skus": ["ai_memory_desk"],
+      "acceptance_gate": "memory.decision_captured with actor + rationale + evidence link"
+    },
+    {
+      "id": "anomaly_to_alert",
+      "label": "Anomaly → Alert",
+      "trigger": "ops.anomaly_detected",
+      "steps": ["ops.alert_raised","workforce.escalated"],
+      "agents_involved": ["anomaly_watcher","escalation_handler"],
+      "required_skus": ["ai_ops_dashboard","ai_workforce_desk"],
+      "acceptance_gate": "ops.alert_raised reaches assigned human within SLA"
+    },
+    {
+      "id": "escalation_with_approval",
+      "label": "Escalation with Approval",
+      "trigger": "workforce.escalated",
+      "steps": ["workforce.approval_granted","workforce.approval_denied"],
+      "agents_involved": ["approval_recorder"],
+      "required_skus": ["ai_workforce_desk"],
+      "acceptance_gate": "approval recorded with actor + rationale + timestamp"
+    }
+  ],
+  "governance_rules": [
+    "every_workflow_must_have_acceptance_gate",
+    "every_step_must_emit_event",
+    "unresolved_workflow_must_recover_or_quarantine",
+    "workflow_must_be_replayable_from_trigger"
+  ]
+}
