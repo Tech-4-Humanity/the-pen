@@ -1,0 +1,216 @@
+# Canonical Object Schema
+
+version: v1.0
+status: ACTIVE
+canonical_owner: The Pen
+canonical_path: machine-onboarding/OBJECT_SCHEMA.yaml
+purpose: >
+  Defines the universal object identity model used by machine onboarding, relationship graph runtime,
+  authority resolution, telemetry correlation, recovery topology, and economic cognition.
+
+object_contract:
+  object_id:
+    required: true
+    type: string
+    pattern: "OBJ-[TYPE]-[NNNNNN]"
+    examples:
+      - OBJ-SYS-000001
+      - OBJ-BUS-000001
+      - OBJ-PROD-000001
+      - OBJ-ASSET-000001
+      - OBJ-RUNTIME-000001
+      - OBJ-DOCTRINE-000001
+
+  object_type:
+    required: true
+    allowed_values:
+      - system
+      - business
+      - product
+      - asset
+      - runtime_environment
+      - repository
+      - domain_surface
+      - doctrine
+      - receipt
+      - telemetry_stream
+      - atomic_element
+      - relationship
+      - authority_model
+      - recovery_path
+      - economic_unit
+
+  canonical_name:
+    required: true
+    type: string
+
+  aliases:
+    required: false
+    type: list
+
+  description:
+    required: true
+    type: string
+
+  truth_state:
+    required: true
+    allowed_values:
+      - REAL
+      - PARTIAL
+      - BLOCKED
+      - INVALID
+      - DEPRECATED
+
+  lifecycle_state:
+    required: true
+    allowed_values:
+      - proposed
+      - active
+      - validating
+      - operational
+      - degraded
+      - retired
+      - superseded
+
+  authority:
+    required: true
+    fields:
+      canonical_owner: string
+      operational_owner: string
+      technical_owner: string
+      business_owner: string
+      escalation_owner: string
+      write_authority: autonomous | gated | blocked | read_only
+      approval_thresholds:
+        money_aud: number
+        destructive_action: gated | blocked
+        legal_action: gated | blocked
+        credential_action: gated | blocked
+
+  source_of_truth:
+    required: true
+    fields:
+      primary_location: string
+      secondary_locations:
+        - string
+      runtime_source: string
+      evidence_required: true | false
+
+  environment_binding:
+    required: false
+    fields:
+      environment_id: string
+      environment_name: dev | staging | prod | sandbox | experimental | deprecated
+      criticality: low | medium | high | critical
+      write_access: autonomous | gated | blocked | read_only
+
+  repo_binding:
+    required: false
+    fields:
+      repository_full_name: string
+      branch: string
+      canonical_path: string
+      current_commit: string
+
+  runtime_state:
+    required: false
+    fields:
+      health: unknown | healthy | degraded | failing | offline
+      last_validated_at: datetime
+      deployment_hash: string
+      telemetry_status: unknown | active | stale | missing
+      drift_detected: true | false
+      queue_depth: number
+
+  temporal_truth:
+    required: true
+    fields:
+      valid_from: datetime
+      valid_to: datetime | null
+      superseded_at: datetime | null
+      runtime_epoch: string
+      receipt_epoch: string
+
+  supersession:
+    required: true
+    fields:
+      supersedes:
+        - object_id
+      superseded_by:
+        - object_id
+      deprecation_reason: string | null
+
+  relationships:
+    required: false
+    fields:
+      related_objects:
+        - object_id
+      relationship_graph_ref: string
+
+  telemetry_binding:
+    required: false
+    fields:
+      telemetry_stream_ids:
+        - object_id
+      required_snapshots:
+        - preflight
+        - execution
+        - closure
+      sync_required: true | false
+
+  recovery_binding:
+    required: false
+    fields:
+      recovery_path_ids:
+        - object_id
+      rollback_required: true | false
+      replay_supported: true | false
+
+  economic_binding:
+    required: false
+    fields:
+      economic_unit_id: string
+      cost_center: string
+      revenue_path: string
+      value_score: number
+      risk_cost: number
+      monetisation_stage: none | concept | offer | live | scaling
+
+  evidence:
+    required: true
+    item_schema:
+      type: commit_id | url | api_response | cli_output | bridge_receipt | hash | repro_steps | document | deployment_url | telemetry_snapshot | database_result | issue_id | PR_id
+      value: string
+      captured_at: datetime
+
+validation_rules:
+  - id: OBJ-VAL-001
+    rule: every object must have stable object_id and object_type
+  - id: OBJ-VAL-002
+    rule: REAL objects must include typed evidence
+  - id: OBJ-VAL-003
+    rule: PARTIAL objects must include exact gap and next machine action
+  - id: OBJ-VAL-004
+    rule: BLOCKED objects must include authority, credential, dependency, safety, legal, money, or destructive-action blocker
+  - id: OBJ-VAL-005
+    rule: superseded objects must point to superseding object_id
+  - id: OBJ-VAL-006
+    rule: runtime objects must include runtime_state and telemetry_binding
+  - id: OBJ-VAL-007
+    rule: business and product objects must include economic_binding where monetisation is relevant
+  - id: OBJ-VAL-008
+    rule: no machine may infer canonical ownership from naming alone
+
+runtime_use:
+  loaded_by:
+    - SESSION_REQUIREMENTS.md
+    - RESPONSE_TEMPLATE.yaml
+    - MACHINE_REALITY_INDEX.yaml
+    - canonical/relationships/RELATIONSHIP_GRAPH.yaml
+  enables:
+    - topology runtime
+    - graph cognition
+    - authority resolution
+    - telemetry coherence
+    - recovery routing
+    - economic optimisation
