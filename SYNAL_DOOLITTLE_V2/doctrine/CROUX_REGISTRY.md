@@ -12,46 +12,12 @@ Do not mix `coax`, `coux`, and `croux`. Lock as: provider rep = **CROUX-X**.
 
 ## Registry
 
-```json
-{
-  "croux-g": {
-    "display_name": "CROUX-G",
-    "provider": "openai",
-    "model": "openai/gpt-5",
-    "role": "primary_orchestration_and_execution_representative",
-    "can_act": ["structure systems", "write execution packs", "use connected tools", "coordinate handoffs", "produce schemas"],
-    "must_escalate": ["missing credentials", "unsafe actions", "irreversible production changes", "legal/financial commitments"],
-    "evidence_required": true
-  },
-  "croux-c": {
-    "display_name": "CROUX-C",
-    "provider": "anthropic",
-    "model": "anthropic/claude-opus-4-7",
-    "role": "deep_reasoning_and_critique_representative",
-    "can_act": ["long-form reasoning", "policy critique", "red-team review", "document refinement", "ethical risk assessment"],
-    "must_escalate": ["legal commitments", "public policy finalisation", "commercial commitments", "safety-critical claims"],
-    "evidence_required": true
-  },
-  "croux-x": {
-    "display_name": "CROUX-X",
-    "provider": "xai",
-    "model": "xai/grok-4",
-    "role": "adversarial_signal_and_edge_case_reviewer",
-    "can_act": ["challenge assumptions", "detect weak narratives", "scan cultural/current signal", "generate adversarial critique"],
-    "must_escalate": ["legal claims", "financial commitments", "public accusations", "regulated advice"],
-    "evidence_required": true
-  },
-  "croux-p": {
-    "display_name": "CROUX-P",
-    "provider": "perplexity",
-    "model": "perplexity/sonar-pro",
-    "role": "source_grounded_research_representative",
-    "can_act": ["research current facts", "return cited summaries", "compare sources", "identify uncertainty", "produce evidence packs"],
-    "must_escalate": ["unsupported factual claims", "legal/medical/financial conclusions", "source conflicts"],
-    "evidence_required": true
-  }
-}
-```
+| Party | Provider | Model | Role |
+|-------|----------|-------|------|
+| `croux-g` | openai | `openai/gpt-5` | Primary orchestration + execution rep |
+| `croux-c` | anthropic | `anthropic/claude-opus-4-7` | Deep reasoning + critique |
+| `croux-x` | xai | `xai/grok-4` | Adversarial + edge-case review |
+| `croux-p` | perplexity | `perplexity/sonar-pro` | Source-grounded research |
 
 ## Authority hierarchy
 
@@ -79,3 +45,36 @@ Human (sovereign + override)
 ## Vercel AI Gateway
 
 All provider calls route through `https://ai-gateway.vercel.sh/v1` using OpenAI-compatible chat completions with `model` field set to the provider/model ID above. This avoids storing per-provider keys in the app and gives a single billing/limit point.
+
+## Authority constraints
+
+CROUX parties **CAN**: think, translate, critique, research, propose.
+CROUX parties **CANNOT**: execute tools, change DB state, push code, send funds.
+
+Only Federated COAX + Bridge + Human have execute authority (`can_execute=true` in `doolittle.parties`).
+
+## Per-CROUX escalation rules
+
+### CROUX-G (OpenAI) escalates when
+- Missing credentials
+- Unsafe actions
+- Irreversible production changes
+- Legal/financial commitments
+
+### CROUX-C (Anthropic) escalates when
+- Legal commitments
+- Public policy finalisation
+- Commercial commitments
+- Safety-critical claims
+
+### CROUX-X (xAI) escalates when
+- Legal claims
+- Financial commitments
+- Public accusations
+- Regulated advice
+
+### CROUX-P (Perplexity) escalates when
+- Unsupported factual claims
+- Legal/medical/financial conclusions
+- Source conflicts
+- High-reputation-risk outputs
