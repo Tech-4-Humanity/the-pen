@@ -1,0 +1,48 @@
+{
+  "atom_id": "drain.atom.v1",
+  "name": "tab_drain",
+  "purpose": "Turn volatile browser tabs and LLM threads into typed work units routed into the Pen / Org Atom / Bridge ecosystem. Enforce REAL/PARTIAL/BLOCKED state against evidence. Prevent fake archive.",
+  "schema_version": "1.0",
+  "inputs": {
+    "url":            { "type": "string", "required": true },
+    "title":          { "type": "string", "required": false, "default": "(no title)" },
+    "source":         { "type": "enum", "values": ["chatgpt", "claude", "perplexity", "github", "docs", "internal", "other"] },
+    "content_type":   { "type": "enum", "values": ["llm_thread", "spec", "doc", "issue", "repo", "ip_asset", "task_queue", "receipt", "other"], "required": true },
+    "importance":     { "type": "enum", "values": ["BLAND", "IP", "STRATEGIC", "TASKS"], "required": true },
+    "mode":           { "type": "enum", "values": ["KILL", "CHECKPOINT", "HANDOFF", "ARCHIVE"], "required": true },
+    "evidence_required": { "type": "boolean", "default": true },
+    "evidence":       { "type": "array", "items": { "type": "string", "value": "string" } },
+    "gaps":           { "type": "array", "items": "string" },
+    "next_action":    { "type": "array", "items": "string", "max": 5 },
+    "session_id":     { "type": "string", "required": false }
+  },
+  "outputs": {
+    "status":         { "type": "enum", "values": ["REAL", "PARTIAL", "BLOCKED"] },
+    "drain_event":    { "type": "object" },
+    "receipt_ref":    { "type": "string" },
+    "commit_sha":     { "type": "string" }
+  },
+  "trigger": "manual per tab | bulk sweep | nightly wave10",
+  "owner": "troy",
+  "interfaces": ["tab_drain UI", "Pen Bridge", "fn_github_push", "wave10 nightly"],
+  "invariants": [
+    "status=REAL requires commit_id or receipt_ref evidence AND empty gaps",
+    "mode=ARCHIVE forbidden unless status=REAL",
+    "importance=IP or STRATEGIC forces evidence_required=true",
+    "mode=KILL valid only for BLAND + evidence_required=false",
+    "HANDOFF items remain open until receipt returned",
+    "text with Outstanding tasks or Next action chain defaults to PARTIAL"
+  ],
+  "idempotency": "re-draining same url+mode+importance must not create duplicate receipts",
+  "periodic_properties": {
+    "autonomy": "low",
+    "coupling": "medium",
+    "reversibility": "KILL is irreversible for local close; ARCHIVE can be reopened"
+  },
+  "presets": {
+    "bland_kill":        { "importance": "BLAND",     "mode": "KILL",       "evidence_required": false },
+    "ip_checkpoint":     { "importance": "IP",        "mode": "CHECKPOINT", "evidence_required": true  },
+    "strategic_handoff": { "importance": "STRATEGIC", "mode": "HANDOFF",    "evidence_required": true  },
+    "real_archive":      { "importance": "IP",        "mode": "ARCHIVE",    "evidence_required": true  }
+  }
+}
