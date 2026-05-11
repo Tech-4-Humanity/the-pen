@@ -44,7 +44,9 @@ Returns: list of threads.
   "subject": "dog",
   "message": "...",
   "confidence": 0.95,
-  "attachments": [{ "file_name": "x.jpg", "file_type": "image/jpeg", "file_size": 1234, "data_url": "data:..." }]
+  "attachments": [
+    { "file_name": "x.jpg", "file_type": "image/jpeg", "file_size": 1234, "data_url": "data:..." }
+  ]
 }
 ```
 
@@ -61,10 +63,11 @@ Returns: ordered list of messages with attachments.
   "from": "human",
   "message": "...",
   "required_outputs": ["translation", "confidence", "risks", "next_action"],
-  "mode": "ask_selected | debate | research_then_synthesise | red_team"
+  "mode": "ask_one | ask_selected | debate | research_then_synthesise | red_team | translate_signal | decide_and_route"
 }
 ```
-Gateway: routes via Vercel AI Gateway base `https://ai-gateway.vercel.sh/v1` using each party's `provider/model` ID.
+
+Implementation: routes via Vercel AI Gateway base `https://ai-gateway.vercel.sh/v1` using each party's `provider/model` ID from `doolittle.parties`. Single OpenAI-compatible endpoint, fan-out to selected parties in parallel.
 
 Returns:
 ```json
@@ -74,7 +77,11 @@ Returns:
     { "party": "croux-p", "status": "complete", "summary": "...", "evidence": [...] },
     { "party": "croux-x", "status": "complete", "summary": "...", "evidence": [...] },
     { "party": "croux-g", "status": "complete", "summary": "...", "evidence": [...] }
-  ]
+  ],
+  "federated_coax_decision": {
+    "classification": "PARTIAL | REAL | BLOCKED",
+    "reason": "..."
+  }
 }
 ```
 
@@ -88,7 +95,7 @@ Returns:
   "decided_by": "f-coax",
   "decision": "Route to CROUX-P + CROUX-X.",
   "reason": "...",
-  "risk_class": "medium",
+  "risk_class": "low | medium | high | critical",
   "evidence_required": true
 }
 ```
@@ -105,8 +112,8 @@ Returns:
   "allocated_by": "human",
   "allocation_reason": "Research grounding for animal behaviour interpretation",
   "budget_amount": 20,
-  "budget_unit": "calls",
-  "priority": "normal"
+  "budget_unit": "calls | tokens | minutes | dollars",
+  "priority": "low | normal | urgent | sovereign"
 }
 ```
 
