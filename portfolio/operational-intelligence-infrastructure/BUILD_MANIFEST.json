@@ -1,0 +1,48 @@
+{
+  "build_manifest_version": "1.0.0",
+  "generated_at_utc": "2026-05-12",
+  "category": "operational-intelligence-infrastructure",
+  "repo": "TML-4PM/the-pen",
+  "base_path": "portfolio/operational-intelligence-infrastructure",
+  "prior_commits": [
+    {"sha": "68674be6af0effacf78e4964092bbb9f1494e341", "path": "README.md"},
+    {"sha": "5b17bdf57054e8346dd3c866310559462cb243dd", "path": "bridge_execution_envelope.json"}
+  ],
+  "files_in_this_wave": [
+    "ARCHITECTURE.md",
+    "products.json",
+    "wrappers.json",
+    "pricing.json",
+    "agents.json",
+    "routes.json",
+    "events.schema.json",
+    "workflows.json",
+    "governance.json",
+    "deployment.template.json",
+    "migrations/001_oii_canonical_schema.sql",
+    "samples/professionals_landing_v1.html"
+  ],
+  "configuration_completeness": {
+    "product_catalogue": "REAL",
+    "wrapper_definitions": "REAL",
+    "pricing_tiers": "REAL",
+    "agent_registry": "REAL",
+    "site_routes": "REAL",
+    "event_schema": "REAL",
+    "workflow_modules": "REAL",
+    "governance_policy": "REAL",
+    "deployment_template": "REAL",
+    "supabase_migration_sql": "REAL_AS_SQL_PARTIAL_AS_APPLIED",
+    "sample_wrapper_surface": "REAL"
+  },
+  "runtime_state_after_this_wave": {
+    "category_architecture": "REAL",
+    "machine_readable_configs": "REAL",
+    "bridge_payload": "REAL",
+    "schema_seeded_in_canonical_db": "PARTIAL",
+    "stripe_provisioned": "PARTIAL",
+    "endpoints_deployed": "PARTIAL",
+    "first_real_intake_processed": "BLOCKED_UNTIL_DEPLOYMENT"
+  },
+  "next_action_for_bridge_runner": "Apply migrations/001_oii_canonical_schema.sql via run_sql RPC, then seed products/wrappers/agents from the JSON catalogues, then deploy Vercel wrapper routes, then provision Stripe."
+}
