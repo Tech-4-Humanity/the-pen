@@ -1,0 +1,502 @@
+# Canonical Object Graph
+
+version: v1.0
+status: ACTIVE
+canonical_owner: The Pen
+canonical_path: machine-onboarding/OBJECT_GRAPH.yaml
+schema_ref: machine-onboarding/OBJECT_SCHEMA.yaml
+purpose: >
+  Seeds the first machine-readable organisational object graph for onboarding, runtime topology,
+  graph cognition, authority resolution, telemetry coherence, recovery routing, and economic optimisation.
+
+truth_note: >
+  This is a canonical seed graph. Objects marked REAL require typed evidence. Objects marked PARTIAL are structurally valid
+  but require runtime validation, telemetry binding, or population from canonical registries before operational closure.
+
+objects:
+  - object_id: OBJ-SYS-000001
+    object_type: system
+    canonical_name: The Pen
+    aliases:
+      - Pen
+      - TML-4PM/the-pen
+    description: Canonical intent, rules, doctrine, onboarding, and execution contract repository.
+    truth_state: REAL
+    lifecycle_state: operational
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: TML-4PM/the-pen
+      secondary_locations:
+        - machine-onboarding/SESSION_REQUIREMENTS.md
+      runtime_source: GitHub
+      evidence_required: true
+    repo_binding:
+      repository_full_name: TML-4PM/the-pen
+      branch: main
+      canonical_path: machine-onboarding/
+      current_commit: ad0ab258c9773952a1a0af72734277c969b42dbd
+    runtime_state:
+      health: healthy
+      last_validated_at: '2026-05-11T00:00:00Z'
+      deployment_hash: ad0ab258c9773952a1a0af72734277c969b42dbd
+      telemetry_status: partial
+      drift_detected: false
+      queue_depth: 0
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: pen-onboarding-v3
+      receipt_epoch: object-schema-foundation
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-DOCTRINE-000001
+        - OBJ-ASSET-000001
+        - OBJ-ASSET-000002
+        - OBJ-REPO-000001
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    telemetry_binding:
+      telemetry_stream_ids:
+        - OBJ-TEL-000001
+      required_snapshots:
+        - preflight
+        - execution
+        - closure
+      sync_required: true
+    recovery_binding:
+      recovery_path_ids:
+        - OBJ-RECOVERY-000001
+      rollback_required: true
+      replay_supported: true
+    economic_binding:
+      economic_unit_id: OBJ-ECO-000001
+      cost_center: Tech4Humanity/CoreOps
+      revenue_path: platform-operating-system
+      value_score: 0.98
+      risk_cost: 0.2
+      monetisation_stage: scaling
+    evidence:
+      - type: commit_id
+        value: ad0ab258c9773952a1a0af72734277c969b42dbd
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-DOCTRINE-000001
+    object_type: doctrine
+    canonical_name: Machine Onboarding Session Requirements
+    aliases:
+      - SESSION_REQUIREMENTS.md
+      - onboarding doctrine
+    description: Canonical behavioural and runtime trust standard for onboarded machine sessions.
+    truth_state: REAL
+    lifecycle_state: operational
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: machine-onboarding/SESSION_REQUIREMENTS.md
+      secondary_locations:
+        - machine-onboarding/MACHINE_REALITY_INDEX.yaml
+      runtime_source: GitHub
+      evidence_required: true
+    repo_binding:
+      repository_full_name: TML-4PM/the-pen
+      branch: main
+      canonical_path: machine-onboarding/SESSION_REQUIREMENTS.md
+      current_commit: 22b7c23f25746851b2ecc8d6dc3b6e5b5d08b981
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: onboarding-v3.1
+      receipt_epoch: onboarding-response-template-runtime-enforcement
+    supersession:
+      supersedes:
+        - v1:7c1c8155e87aa052c6478ac39273d3aaee9f6cac
+        - v3:62c72b2d0964b87474620d18ddbf37511cd902de
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-SYS-000001
+        - OBJ-ASSET-000001
+        - OBJ-ASSET-000002
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: url
+        value: https://github.com/TML-4PM/the-pen/blob/main/machine-onboarding/SESSION_REQUIREMENTS.md
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-ASSET-000001
+    object_type: asset
+    canonical_name: Machine Onboarding Response Template
+    aliases:
+      - RESPONSE_TEMPLATE.yaml
+      - operational response grammar
+    description: Mandatory machine response grammar enforcing gaps, actions, evidence, ledger, and non-builder execution framing.
+    truth_state: REAL
+    lifecycle_state: operational
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: machine-onboarding/RESPONSE_TEMPLATE.yaml
+      secondary_locations: []
+      runtime_source: GitHub
+      evidence_required: true
+    repo_binding:
+      repository_full_name: TML-4PM/the-pen
+      branch: main
+      canonical_path: machine-onboarding/RESPONSE_TEMPLATE.yaml
+      current_commit: ad74c271075946cb9a28a79bf636a96b3cfdc39c
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: response-template-v1
+      receipt_epoch: onboarding-response-template-runtime-enforcement
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-SYS-000001
+        - OBJ-DOCTRINE-000001
+        - OBJ-ASSET-000002
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: commit_id
+        value: ad74c271075946cb9a28a79bf636a96b3cfdc39c
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-ASSET-000002
+    object_type: asset
+    canonical_name: Canonical Object Schema
+    aliases:
+      - OBJECT_SCHEMA.yaml
+      - universal object identity substrate
+    description: Universal object identity schema used by graph cognition and runtime topology.
+    truth_state: REAL
+    lifecycle_state: operational
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: machine-onboarding/OBJECT_SCHEMA.yaml
+      secondary_locations: []
+      runtime_source: GitHub
+      evidence_required: true
+    repo_binding:
+      repository_full_name: TML-4PM/the-pen
+      branch: main
+      canonical_path: machine-onboarding/OBJECT_SCHEMA.yaml
+      current_commit: ad0ab258c9773952a1a0af72734277c969b42dbd
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: object-schema-v1
+      receipt_epoch: canonical-object-schema-foundation
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-SYS-000001
+        - OBJ-ASSET-000001
+        - OBJ-REL-000001
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: commit_id
+        value: ad0ab258c9773952a1a0af72734277c969b42dbd
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-REPO-000001
+    object_type: repository
+    canonical_name: TML-4PM/the-pen
+    aliases:
+      - the-pen
+    description: Canonical GitHub repository for rules, doctrine, execution contracts, onboarding, and machine reality assets.
+    truth_state: REAL
+    lifecycle_state: operational
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: https://github.com/TML-4PM/the-pen
+      secondary_locations: []
+      runtime_source: GitHub
+      evidence_required: true
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: github-main
+      receipt_epoch: canonical-object-schema-foundation
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-SYS-000001
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: url
+        value: https://github.com/TML-4PM/the-pen
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-REL-000001
+    object_type: relationship
+    canonical_name: Machine Onboarding Relationship Graph
+    aliases:
+      - RELATIONSHIP_GRAPH.yaml
+      - topology runtime seed
+    description: Canonical relationship edge registry connecting objects into traversable topology.
+    truth_state: PARTIAL
+    lifecycle_state: validating
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+      secondary_locations:
+        - machine-onboarding/OBJECT_GRAPH.yaml
+      runtime_source: GitHub
+      evidence_required: true
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: relationship-graph-v1
+      receipt_epoch: pending-relationship-graph-commit
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-ASSET-000002
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: document
+        value: relationship graph object declared; relationship file must be committed next
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-TEL-000001
+    object_type: telemetry_stream
+    canonical_name: Onboarding Telemetry Block
+    aliases:
+      - ATOM-EXEC-005
+      - telemetry_block.yaml
+    description: Atomic telemetry primitive for preflight, execution, search, and closure snapshots.
+    truth_state: PARTIAL
+    lifecycle_state: validating
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: machine-onboarding/canonical/atomic-elements/telemetry_block.yaml
+      secondary_locations: []
+      runtime_source: GitHub
+      evidence_required: true
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: atom-exec-005
+      receipt_epoch: onboarding-v3.1
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-SYS-000001
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: document
+        value: referenced by SESSION_REQUIREMENTS.md v3.1 atomic elements registry
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-RECOVERY-000001
+    object_type: recovery_path
+    canonical_name: Onboarding Recovery Loop
+    aliases:
+      - ATOM-EXEC-004
+      - recovery_loop.yaml
+    description: Atomic recovery primitive for HITL defect rerun, re-search, re-audit, re-analysis, evidence refresh, and receipt supersession.
+    truth_state: PARTIAL
+    lifecycle_state: validating
+    authority:
+      canonical_owner: The Pen
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: machine-onboarding/canonical/atomic-elements/recovery_loop.yaml
+      secondary_locations: []
+      runtime_source: GitHub
+      evidence_required: true
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: atom-exec-004
+      receipt_epoch: onboarding-v3.1
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-SYS-000001
+        - OBJ-DOCTRINE-000001
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: document
+        value: referenced by SESSION_REQUIREMENTS.md v3.1 atomic elements registry
+        captured_at: '2026-05-11T00:00:00Z'
+
+  - object_id: OBJ-ECO-000001
+    object_type: economic_unit
+    canonical_name: Organisational Cognition Infrastructure
+    aliases:
+      - machine operating system
+      - organisational runtime infrastructure
+    description: Economic unit representing the reusable platform capability created by Pen, onboarding, graph cognition, enforcement, telemetry, and runtime orchestration.
+    truth_state: PARTIAL
+    lifecycle_state: validating
+    authority:
+      canonical_owner: Tech 4 Humanity
+      operational_owner: Troy Latter
+      technical_owner: machine execution layer
+      business_owner: Tech 4 Humanity
+      escalation_owner: Troy Latter
+      write_authority: autonomous
+      approval_thresholds:
+        money_aud: 500
+        destructive_action: gated
+        legal_action: gated
+        credential_action: gated
+    source_of_truth:
+      primary_location: machine-onboarding/OBJECT_GRAPH.yaml
+      secondary_locations:
+        - machine-onboarding/RESPONSE_TEMPLATE.yaml
+      runtime_source: GitHub
+      evidence_required: true
+    temporal_truth:
+      valid_from: '2026-05-11T00:00:00Z'
+      valid_to: null
+      superseded_at: null
+      runtime_epoch: economic-cognition-v1
+      receipt_epoch: object-graph-v1
+    supersession:
+      supersedes: []
+      superseded_by: []
+      deprecation_reason: null
+    relationships:
+      related_objects:
+        - OBJ-SYS-000001
+        - OBJ-ASSET-000002
+      relationship_graph_ref: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+    evidence:
+      - type: document
+        value: economic unit seeded for runtime optimisation; requires portfolio binding next
+        captured_at: '2026-05-11T00:00:00Z'
+
+validation_summary:
+  total_seed_objects: 9
+  real_objects: 5
+  partial_objects: 4
+  blocked_objects: 0
+  invalid_objects: 0
+
+next_population_targets:
+  - MCP Bridge
+  - Command Centre
+  - Reality Ledger
+  - Standard Knowledge System
+  - House Rules Engine
+  - Bootstrap System
+  - business registry objects
+  - product registry objects
+  - domain and surface objects
+  - runtime environment objects
