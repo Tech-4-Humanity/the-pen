@@ -1,8 +1,8 @@
 {
-  "ts": "2026-05-11T10:42:49.957Z",
+  "ts": "2026-05-11T15:27:42.785Z",
   "passed": 0,
   "failed": 0,
-  "skipped": 47,
+  "skipped": 50,
   "results": [
     {
       "file": "ace-bootstrap-20260429-0001.json",
@@ -165,6 +165,12 @@
       "reason": "unknown fn: undefined"
     },
     {
+      "file": "pog-worker-contract-wire-runtime-20260512.json",
+      "key": "pog-worker-contract-wire-runtime-20260512",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
       "file": "portfolio-control-surface-validate-enhance-20260511.json",
       "key": "portfolio-control-surface-validate-enhance-20260511",
       "status": "SKIPPED",
@@ -185,6 +191,12 @@
     {
       "file": "portfolio-operating-graph-canonical-build-v1.json",
       "key": "portfolio-operating-graph-canonical-build-v1",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "rdti-pyv4r3vpw-evidence-pack-20260512.json",
+      "key": "rdti-pyv4r3vpw-evidence-pack-20260512",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     },
@@ -227,6 +239,12 @@
     {
       "file": "signals-expansion-2026-04-29-001.json",
       "key": "signals-expansion-2026-04-29-001",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "signaltechbox-supabase-bundle-20260512.json",
+      "key": "signaltechbox-supabase-bundle-20260512",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     },
