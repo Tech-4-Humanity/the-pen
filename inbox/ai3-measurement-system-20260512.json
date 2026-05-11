@@ -1,0 +1,57 @@
+{
+  "idempotency_key": "ai3-measurement-system-20260512",
+  "title": "Build AI3 Augmented Institutional Intelligence measurement system",
+  "classification": "PARTIAL",
+  "created_by": "chatgpt",
+  "target_system": "PEN_BRIDGE_WORKER",
+  "priority": "P1",
+  "summary": "AI3 must launch as an institutional intelligence measurement system, not a survey-only readiness tool. It must include survey signals, operational telemetry, workflow observation, governance evidence, knowledge-system data, and worker/runtime traces from day one.",
+  "core_positioning": "AI3 measures the ability of humans, AI systems, organisational structures, and worker/runtime systems to think, coordinate, adapt, recover, govern, and improve together.",
+  "measurement_layers": [
+    "human_layer",
+    "ai_layer",
+    "organisation_layer",
+    "interaction_layer",
+    "operational_data_layer",
+    "knowledge_memory_layer",
+    "governance_evidence_layer",
+    "worker_runtime_layer",
+    "survivability_layer",
+    "institutional_learning_layer"
+  ],
+  "required_outputs": [
+    "AI3 canonical data model",
+    "AI3 survey instrument v1",
+    "AI3 telemetry event schema",
+    "AI3 worker/729-worker trace schema",
+    "AI3 governance evidence register",
+    "AI3 scoring model",
+    "AI3 friction map model",
+    "AI3 maturity levels",
+    "AI3 dashboard specification",
+    "AI3 bridge ingestion contract",
+    "AI3 public assessment flow",
+    "AI3 enterprise observation flow"
+  ],
+  "data_sources": {
+    "survey": ["human self-report", "team survey", "manager/governance survey"],
+    "observation": ["workflow shadowing", "task diaries", "handoff review", "meeting/decision review"],
+    "telemetry": ["AI task attempts", "completion time", "handoff latency", "error/retry rate", "approval latency", "retrieval success", "evidence attachment rate"],
+    "systems": ["work queues", "knowledge bases", "CRM/project tools", "ticketing", "calendar/email metadata where consented", "Supabase/runtime logs"],
+    "governance": ["policies", "approvals", "audit trails", "risk registers", "exception logs", "evidence receipts"],
+    "workers": ["729-worker registry", "worker status", "worker outputs", "worker failures", "worker recovery", "worker economic linkage"]
+  },
+  "minimum_real_standard": {
+    "not_sufficient": "Survey-only score",
+    "partial": "Survey plus declared process evidence",
+    "real": "Survey plus telemetry plus governance receipts plus operational traces plus worker/runtime evidence"
+  },
+  "requested_worker_actions": [
+    "Create Supabase-ready schema for AI3 measurement objects and events",
+    "Create CSV/question bank for human, AI, organisation, governance, telemetry and worker layers",
+    "Create scoring and maturity model with evidence weighting",
+    "Create dashboard/widget spec for AI3 Index, friction maps, worker health and governance maturity",
+    "Bind AI3 to portfolio worker model, including the 729-worker layer as measurable institutional execution fabric",
+    "Return GitHub receipt and evidence classification"
+  ]
+}
