@@ -1,0 +1,82 @@
+{
+  "$schema": "https://github.com/TML-4PM/the-pen/raw/main/portfolio/operational-intelligence-infrastructure/schemas/agents.schema.json",
+  "registry_version": "1.0.0",
+  "principle": "Agents are runtime-bound roles. Same agent, different terminology per wrapper. Authority and evidence are mandatory.",
+  "agent_classes": [
+    {
+      "class": "intake",
+      "agents": [
+        {"id":"receptionist","label_default":"Receptionist","label_overrides":{"tradies":"Phone Answerer","health":"Patient Intake","education":"Enrolment Greeter","outcome-ready":"Participant Intake","professionals":"Client Receptionist"},"default_skus":["ai_front_desk"],"required_capabilities":["intent_classification","qualification_questions","evidence_capture_at_first_touch"],"required_authority":"intake_capture_only","escalation_target":"human_or_router"},
+        {"id":"intake_qualifier","label_default":"Qualifier","default_skus":["ai_front_desk"],"required_capabilities":["qualification_questions","scoring"],"required_authority":"intake_capture_only","escalation_target":"router"},
+        {"id":"router","label_default":"Triage Router","default_skus":["ai_front_desk"],"required_capabilities":["triage_routing_to_human_or_agent"],"required_authority":"route_only","escalation_target":"human"}
+      ]
+    },
+    {
+      "class": "revenue",
+      "agents": [
+        {"id":"scope_analyst","label_default":"Scope Analyst","default_skus":["ai_proposal_desk"],"required_capabilities":["structured_brief_to_proposal","scope_clarification_loop"],"required_authority":"draft_only","escalation_target":"human_approver"},
+        {"id":"quote_builder","label_default":"Quote Builder","default_skus":["ai_proposal_desk"],"required_capabilities":["pricing_logic_application"],"required_authority":"draft_only_with_approval_gate","escalation_target":"human_approver"},
+        {"id":"proposal_writer","label_default":"Proposal Writer","label_overrides":{"lawyers":"Engagement Letter Drafter","tradies":"Quote Writer"},"default_skus":["ai_proposal_desk"],"required_capabilities":["structured_brief_to_proposal","version_history"],"required_authority":"draft_only_with_approval_gate","escalation_target":"human_approver"},
+        {"id":"renewal_dispatcher","label_default":"Renewal Dispatcher","default_skus":["ai_retention_desk"],"required_capabilities":["renewal_orchestration"],"required_authority":"send_per_policy","escalation_target":"human_when_threshold_exceeded"}
+      ]
+    },
+    {
+      "class": "delivery",
+      "agents": [
+        {"id":"scheduler","label_default":"Scheduler","default_skus":["ai_booking_desk"],"required_capabilities":["availability_resolution","multi_resource_scheduling"],"required_authority":"book_within_policy"},
+        {"id":"reminder_dispatcher","label_default":"Reminder Dispatcher","default_skus":["ai_booking_desk","ai_retention_desk"],"required_capabilities":["reminder_cadence"],"required_authority":"send_per_policy"},
+        {"id":"recovery_agent","label_default":"No-Show Recovery","default_skus":["ai_booking_desk"],"required_capabilities":["no_show_recovery"],"required_authority":"follow_up_per_policy"}
+      ]
+    },
+    {
+      "class": "trust",
+      "agents": [
+        {"id":"document_classifier","label_default":"Document Classifier","default_skus":["ai_evidence_desk","ai_memory_desk"],"required_capabilities":["document_ingestion_classification"],"required_authority":"classify_and_tag_only"},
+        {"id":"obligation_mapper","label_default":"Obligation Mapper","default_skus":["ai_evidence_desk"],"required_capabilities":["obligation_extraction"],"required_authority":"draft_only"},
+        {"id":"evidence_packager","label_default":"Evidence Packager","default_skus":["ai_evidence_desk"],"required_capabilities":["evidence_pack_generation","audit_trail_assembly"],"required_authority":"assemble_only_with_approval_gate_for_export"},
+        {"id":"auditor","label_default":"Audit Reviewer","default_skus":["ai_evidence_desk"],"required_capabilities":["audit_trail_assembly"],"required_authority":"read_only"}
+      ]
+    },
+    {
+      "class": "intelligence",
+      "agents": [
+        {"id":"metric_curator","label_default":"Metric Curator","default_skus":["ai_ops_dashboard"],"required_capabilities":["live_kpi_surfaces"],"required_authority":"read_and_publish_dashboard"},
+        {"id":"anomaly_watcher","label_default":"Anomaly Watcher","default_skus":["ai_ops_dashboard"],"required_capabilities":["anomaly_detection","alerting_rules"],"required_authority":"alert_per_policy"},
+        {"id":"briefing_writer","label_default":"Briefing Writer","default_skus":["ai_ops_dashboard","ai_memory_desk"],"required_capabilities":["exec_briefing_export"],"required_authority":"draft_only"},
+        {"id":"decision_capturer","label_default":"Decision Capturer","default_skus":["ai_memory_desk"],"required_capabilities":["decision_capture"],"required_authority":"write_to_memory_register"},
+        {"id":"timeline_assembler","label_default":"Timeline Assembler","default_skus":["ai_memory_desk"],"required_capabilities":["project_timeline_assembly"],"required_authority":"assemble_only"}
+      ]
+    },
+    {
+      "class": "growth",
+      "agents": [
+        {"id":"content_writer","label_default":"Content Writer","default_skus":["ai_growth_desk"],"required_capabilities":["campaign_generation"],"required_authority":"draft_only"},
+        {"id":"followup_dispatcher","label_default":"Follow-up Dispatcher","default_skus":["ai_growth_desk"],"required_capabilities":["drip_followup"],"required_authority":"send_per_policy"},
+        {"id":"review_requester","label_default":"Review Requester","default_skus":["ai_growth_desk"],"required_capabilities":["review_request_orchestration"],"required_authority":"send_per_policy"},
+        {"id":"attribution_analyst","label_default":"Attribution Analyst","default_skus":["ai_growth_desk","ai_ops_dashboard"],"required_capabilities":["channel_attribution"],"required_authority":"read_only"}
+      ]
+    },
+    {
+      "class": "augmentation",
+      "agents": [
+        {"id":"role_pair_router","label_default":"Role Pair Router","default_skus":["ai_workforce_desk"],"required_capabilities":["role_pairing_human_with_agent"],"required_authority":"route_only"},
+        {"id":"task_delegator","label_default":"Task Delegator","default_skus":["ai_workforce_desk"],"required_capabilities":["task_delegation"],"required_authority":"delegate_within_policy"},
+        {"id":"escalation_handler","label_default":"Escalation Handler","default_skus":["ai_workforce_desk"],"required_capabilities":["escalation_chains"],"required_authority":"escalate_per_chain"},
+        {"id":"approval_recorder","label_default":"Approval Recorder","default_skus":["ai_workforce_desk"],"required_capabilities":["approval_workflows"],"required_authority":"record_only"}
+      ]
+    },
+    {
+      "class": "bundle",
+      "agents": [
+        {"id":"bundle_orchestrator","label_default":"Bundle Orchestrator","default_skus":["full_vertical_ai_os"],"required_capabilities":["all_desks_active"],"required_authority":"coordinate_only","escalation_target":"tier_specific_human_approver"}
+      ]
+    }
+  ],
+  "governance_rules": [
+    "every_agent_must_have_required_authority",
+    "every_agent_action_must_emit_telemetry_event",
+    "destructive_actions_require_approval_gate",
+    "agents_without_evidence_emission_cannot_be_REAL",
+    "agents_failing_recovery_must_quarantine"
+  ]
+}
