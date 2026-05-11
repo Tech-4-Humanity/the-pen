@@ -1,0 +1,40 @@
+{
+  "idempotency_key": "signaltechbox-supabase-bundle-20260512",
+  "title": "Create and deploy T4H SignalTechBox Supabase bundle",
+  "origin": "chatgpt",
+  "destination": "pen_bridge",
+  "env": "dev",
+  "evidence_state": "PARTIAL",
+  "requested_at": "2026-05-12",
+  "work_type": "supabase.bundle_deploy",
+  "bundle_path": "t4h-signaltechbox-supabase-bundle/",
+  "required_tree": {
+    "root": ["00_README.md", "01_DDL.sql", "02_CONFIG_THRESHOLDS.sql", "03_MEANINGFUL_EVENTS.sql", "04_ROLLUP_FUNCTION.sql", "05_VIEWS.sql", "06_RLS_TEMPLATE.sql"],
+    "seeds": ["capabilities.csv", "formats.csv", "density.csv", "guidance.csv", "event_types.csv", "feature_defs.csv", "signal_defs.csv", "state_defs.csv", "action_defs.csv", "safety_profiles.csv", "agent_roles.csv", "agent_role_capabilities.csv", "agent_role_safety.csv", "bundles.csv", "bundle_capabilities.csv", "bundle_safety.csv", "tools.csv"],
+    "smoke_tests": ["01_insert_test_events.sql", "02_run_rollup.sql", "03_validate_views.sql"],
+    "docs": ["signaltechbox_spec.md", "faq.md", "architecture_summary.md", "infographic.png"]
+  },
+  "execution_steps": [
+    "Create bundle files under repo or worker artifact store",
+    "Run 01_DDL.sql against Supabase dev",
+    "Run 02_CONFIG_THRESHOLDS.sql and seed config thresholds",
+    "Seed catalogue CSVs into matching tables",
+    "Run 03_MEANINGFUL_EVENTS.sql",
+    "Run 04_ROLLUP_FUNCTION.sql",
+    "Run 05_VIEWS.sql",
+    "Run smoke_tests/01_insert_test_events.sql",
+    "Run smoke_tests/02_run_rollup.sql",
+    "Run smoke_tests/03_validate_views.sql",
+    "Write runtime receipt with commit SHA, SQL results, object counts, smoke test outputs, and errors if any"
+  ],
+  "definition_of_done": [
+    "GitHub inbox commit receipt exists",
+    "Supabase schema objects exist or failure is captured with real error",
+    "CSV catalogues seeded or failure captured",
+    "Synthetic event inserted",
+    "fn_rollup_features_daily returns a row count",
+    "v_meaningful_events and dashboard views return rows or empty verified outputs",
+    "receipt written to receipts/runtime and audit/evidence ledger"
+  ],
+  "notes": "Hosted LLM cannot directly execute bridge/Supabase. This payload is the canonical PEN handoff for worker execution. Evidence remains PARTIAL until runtime receipt returns."
+}
