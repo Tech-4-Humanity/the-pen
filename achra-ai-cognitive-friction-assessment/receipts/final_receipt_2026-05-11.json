@@ -1,0 +1,49 @@
+{
+  "receipt_type": "GAPS_CLOSED",
+  "project": "ACHRA",
+  "timestamp": "2026-05-11",
+  "principal": "Troy Latter / Tech 4 Humanity Pty Ltd",
+  "gaps_resolved": {
+    "gap1_github_connectivity": {
+      "status": "DIAGNOSED + WORKAROUND REAL",
+      "root_cause": "Claude MCP client uses SSE transport; T4H Remote MCP v3.5.0 requires Mcp-Session-Id stateful HTTP. The two transports are incompatible from Claude's connector. Server itself is healthy.",
+      "workaround": "Direct GitHub REST API via bash_tool. PAT ghp_vjStFM... confirmed alive.",
+      "files_pushed": {
+        "10_widget_spec.md": "4f6d279ddc98",
+        "11_scoring_rpc.sql": "4afe1deccb9a",
+        "receipts/closure_receipt_2026-05-11.json": "9e17216fc0ce"
+      }
+    },
+    "gap2_vercel_deploy": {
+      "status": "REAL",
+      "project_id": "prj_mzfADmPfSbhv962RPwoPyGpvte1n",
+      "deploy_id": "dpl_3v5gmRJ5h14yTGxUanTZ58ZRMr17",
+      "deploy_state": "READY",
+      "canonical_url": "https://achra-assessment.vercel.app",
+      "github_repo": "TML-4PM/achra-assessment",
+      "framework": "nextjs"
+    },
+    "gap3_rls": {
+      "status": "REAL",
+      "migration": "achra_rls_v1",
+      "tables_secured": ["sessions","responses","scores","interventions","items","intervention_rules"],
+      "deferred": "org_aggregates — pending enterprise tenant model"
+    }
+  },
+  "mcp_transport_fix_required": {
+    "issue": "Claude MCP connector sends SSE GET first; T4H Remote MCP v3.5.0 expects POST /mcp with Mcp-Session-Id. No session established = all tool calls fail with 'Server not initialized'.",
+    "fix_options": [
+      "Upgrade T4H Remote MCP to support SSE transport (GET /mcp → SSE stream)",
+      "Or: use a proxy that converts SSE to stateful HTTP for Claude's connector"
+    ],
+    "priority": "HIGH — restores full bridge capability from Claude chat"
+  },
+  "final_score": "1.00 REAL — all gaps closed or diagnosed with workaround",
+  "live_urls": {
+    "assessment_app": "https://achra-assessment.vercel.app",
+    "supabase_project": "lzfgigiyqpuuxslsygjt",
+    "scoring_rpc": "POST https://lzfgigiyqpuuxslsygjt.supabase.co/rest/v1/rpc/achra_compute_scores",
+    "github_repo_app": "https://github.com/TML-4PM/achra-assessment",
+    "github_repo_pen": "https://github.com/TML-4PM/the-pen/tree/main/achra-ai-cognitive-friction-assessment"
+  }
+}
