@@ -1,0 +1,18 @@
+{
+  "receipt_id": "HCI-OUTBOUND-2026-05-10",
+  "task_id": "HCI-BRIDGE-HANDOFF-2026-05-10",
+  "issue": 74,
+  "issued_at": "2026-05-11T00:00:00Z",
+  "status": "REAL",
+  "operator": "Claude via Supabase MCP → fn_github_push",
+  "execution_route": "Supabase:execute_sql → public.fn_github_push",
+  "files_written": {
+    "handoffs/2026-05-10_human-capability-infrastructure.md": "fb459f045fb6ee5edac709a7399256576121be2b",
+    "handoffs/2026-05-10_human-capability-infrastructure.json": "6767c95e4985446cc70eb93a2333b09be831ef78",
+    "receipts/human-capability-infrastructure/2026-05-10/outbound/RECEIPT.md": "fb52314392f60d4ee13f0a1027368cb1ad519f26",
+    "receipts/human-capability-infrastructure/2026-05-10/outbound/RECEIPT.json": "this_commit"
+  },
+  "fix_applied": "cap_secrets GITHUB_PAT and GITHUB_TOKEN updated from dead github_pat_11AO5POAQ to secondary live PAT",
+  "classification": "REAL",
+  "next_actions": ["close issue #74 with commit SHAs","inbound receipt after prod acceptance","deploy copy to target surfaces"]
+}
