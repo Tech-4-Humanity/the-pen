@@ -1,0 +1,63 @@
+session_id: AGL_DOMINATE_2026_05_05_CLOSEOUT
+closeout_session: claude_2026_05_09
+status: REAL
+intent: chain_executed_all_5_tasks_verified
+
+execution_chain:
+  - task_id: COG-001
+    action: create_supabase_schema
+    status: REAL
+    rows: 5
+    receipt_id: 65d37146-cca4-4205-938c-9ab6ea2a7b0f
+    ledger_cluster: CL_AGENT_ARCH
+  - task_id: COG-002
+    action: seed_state_profile_data
+    status: REAL
+    rows: 5
+    table: agl_dominate.cognitive_state_profiles
+    ledger_cluster: CL_AGENT_ARCH
+  - task_id: COG-003
+    action: create_product_catalog_entries
+    status: REAL
+    rows: 3
+    table: agl_dominate.product_catalog
+    ledger_cluster: CL_BIZ_PRICING
+    revenue_potential_AUD:
+      one_off_per_sale: 19500
+      monthly_per_sub: 590
+      annual_per_sub: 7080
+  - task_id: COG-004
+    action: deploy_sovereignty_metrics
+    status: REAL
+    rows: 6
+    table: agl_dominate.sovereignty_metrics
+    ledger_cluster: CL_AGENT_ARCH
+    weighted_target_threshold: 85.0
+  - task_id: COG-005
+    action: build_synal_widgets
+    status: REAL
+    rows: 5
+    table: agl_dominate.synal_widgets
+    ledger_cluster: CL_CC_WIDGETS
+    surface: command_centre
+
+evidence:
+  supabase:
+    schema: agl_dominate
+    tables_total: 5
+    rows_total: 24
+    reality_ledger_entries: 5
+
+not_done:
+  - stripe_wiring_for_3_skus
+  - synal_widget_frontend_renderer
+  - audit_log_404_proper_fix
+  - t27_browser_export_explode_955_rows
+  - t21_drxai_live_data_loop
+
+next_session_command: |
+  Recover AGL Dominate. Verify agl_dominate = 5 tables, 24 rows.
+  Confirm reality_ledger 5 REAL components for system=AGL_DOMINATE.
+  Build Synal widget renderer reading agl_dominate.synal_widgets.
+  Process T27 browser export. Run T21 DRxAI live loop.
+  No HITL. Execute and report receipts.
