@@ -1,0 +1,277 @@
+# Machine Onboarding Response Template
+
+version: v1.0
+status: ACTIVE
+canonical_owner: The Pen
+canonical_path: machine-onboarding/RESPONSE_TEMPLATE.yaml
+applies_to:
+  - AI machines
+  - bridge workers
+  - onboarding runs
+  - audit loops
+  - HITL review loops
+  - execution handoffs
+  - machine closure reports
+purpose: >
+  Defines the required response/reporting grammar for machine onboarding sessions.
+  This template prevents status-only answers by forcing every machine response to expose
+  intent, execution truth, gaps, dependency order, next actions, final machine execution
+  option, evidence, pressure flags, and ledger binding.
+
+response_contract:
+  status: REAL | PARTIAL | BLOCKED | INVALID
+  result: string
+  summary: string
+
+  intent_and_action_inventory:
+    required: true
+    description: >
+      Every response must list all discovered intents and actions, including stated user intent,
+      inferred operational intent, system intent, execution intent, recovery intent, and closure intent.
+    fields:
+      - intent_id
+      - source
+      - intent
+      - required_action
+      - status
+      - evidence_required
+      - owner
+
+  views_required:
+    required: true
+    description: >
+      Responses must validate the request from multiple operational views before recommending action.
+    views:
+      - strategic_view
+      - systems_view
+      - runtime_view
+      - evidence_view
+      - governance_view
+      - economic_view
+      - recovery_view
+      - reuse_view
+
+  critical_gaps:
+    required: true
+    description: >
+      Highlight the gaps plainly, not buried in narrative. Each gap must include why it matters,
+      what it blocks, and the closure action.
+    item_schema:
+      gap: string
+      why_it_matters: string
+      blocks:
+        - string
+      closure_action: string
+      status: open | closing | closed | blocked
+
+  dependency_order:
+    required: true
+    description: >
+      Gaps must be sequenced. Machines may not treat all gaps as equal.
+    item_schema:
+      priority: integer
+      capability: string
+      must_precede:
+        - string
+      reason: string
+
+  next_actions:
+    required: true
+    strategic:
+      - string
+    operational:
+      - string
+    governance:
+      - string
+    runtime:
+      - string
+    recovery:
+      - string
+
+  final_action_option:
+    required: true
+    description: >
+      Always include a final machine-action option that recognises the user is not the builder.
+      The user owns intent and authority; the machine executes, integrates, audits, packages,
+      submits, obtains receipts, and closes unless blocked by authority, credentials, legal,
+      safety, money, or destructive action.
+    format:
+      user_position: "not_builder"
+      machine_position: "builder_integrator_auditor_operator"
+      final_action: string
+      hitl_required: false
+      bridge_required: true
+      receipt_required: true
+
+  execution_readiness:
+    required: true
+    architecture: true | false | partial
+    doctrine: true | false | partial
+    schemas_defined: true | false | partial
+    runtime_ready: true | false | partial
+    telemetry_ready: true | false | partial
+    enforcement_ready: true | false | partial
+    bridge_ready: true | false | partial
+
+  evidence:
+    required: true
+    item_schema:
+      type: commit_id | url | api_response | cli_output | bridge_receipt | hash | repro_steps | document | deployment_url | telemetry_snapshot | database_result | issue_id | PR_id
+      value: string
+
+  gaps:
+    required: true
+    default_known_open_gaps:
+      - universal object graph missing
+      - runtime telemetry sync missing
+      - executable enforcement runtime missing
+      - authority resolution layer missing
+      - economic cognition layer missing
+      - semantic compression layer missing
+      - relationship graph runtime missing
+      - recovery topology incomplete
+
+  next_action:
+    required: true
+    value: exact next machine action or closed
+
+  elevation:
+    required: true
+    description: why this improves system capability, integrity, reuse, recovery, economics, or autonomy
+
+  pressure_flags:
+    required: true
+    stagnation: true | false
+    drag: true | false
+    regression: true | false
+
+  score:
+    required: true
+    execution: 0.0-1.0
+    evidence: 0.0-1.0
+    economic: 0.0-1.0
+    reuse: 0.0-1.0
+    delta: 0.0-1.0
+
+  ledger:
+    required: true
+    task_id: string
+    intent: string
+    search_scope: string
+    audit_scope: string
+    execution: string
+    output: string
+    status: REAL | PARTIAL | BLOCKED | INVALID
+    evidence:
+      - typed evidence entries
+    supersedes:
+      - prior invalidated receipts if applicable
+
+canonical_gap_actions:
+  - gap: universal object graph missing
+    priority: 1
+    why_it_matters: >
+      Without universal object identity, machines cannot reliably join systems, businesses,
+      assets, repos, domains, telemetry, receipts, and runtime state.
+    blocks:
+      - relationship graph runtime
+      - authority resolution
+      - telemetry correlation
+      - economic ownership mapping
+    closure_action: create OBJECT_SCHEMA.yaml and OBJECT_GRAPH.yaml with stable IDs, object types, supersession, authority, and lifecycle fields
+
+  - gap: relationship graph runtime missing
+    priority: 2
+    why_it_matters: >
+      Without graph relationships, machines operate against lists rather than topology.
+    blocks:
+      - dependency traversal
+      - recovery routing
+      - cross-system audit
+    closure_action: create canonical/relationships/RELATIONSHIP_GRAPH.yaml and relationship type registry
+
+  - gap: authority resolution layer missing
+    priority: 3
+    why_it_matters: >
+      Without authority rules, multi-agent execution can target the wrong owner, repo, environment, or business.
+    blocks:
+      - safe autonomous execution
+      - escalation routing
+      - HITL minimisation
+    closure_action: create canonical/authority/AUTHORITY_MODEL.yaml with operational, technical, business, escalation, and override ownership
+
+  - gap: runtime telemetry sync missing
+    priority: 4
+    why_it_matters: >
+      Without telemetry sync, machines cannot distinguish planned state from live runtime state.
+    blocks:
+      - enforcement runtime
+      - recovery automation
+      - REAL classification
+    closure_action: create TELEMETRY_SYNC_CONTRACT.yaml and bind telemetry_block to runtime state ingestion
+
+  - gap: executable enforcement runtime missing
+    priority: 5
+    why_it_matters: >
+      Without executable enforcement, doctrine remains advisory and humans manually police trust.
+    blocks:
+      - automatic downgrade
+      - stale receipt invalidation
+      - orphan detection
+    closure_action: create ENFORCEMENT_RUNTIME_SPEC.yaml and enforcement rule tests
+
+  - gap: recovery topology incomplete
+    priority: 6
+    why_it_matters: >
+      Recovery rules exist but recovery paths are not fully mapped across systems, bridges, repos, environments, and telemetry.
+    blocks:
+      - deterministic replay
+      - rollback validation
+      - bridge retry confidence
+    closure_action: create RECOVERY_TOPOLOGY.yaml and ROLLBACK_MAP.yaml
+
+  - gap: semantic compression layer missing
+    priority: 7
+    why_it_matters: >
+      Full doctrine cannot be repeatedly loaded by every machine session without cost, drift, and context fragmentation.
+    blocks:
+      - scalable onboarding
+      - runtime cognition efficiency
+      - session consistency
+    closure_action: create ACTIVE_RUNTIME_CONTEXT.yaml and doctrine compression rules
+
+  - gap: economic cognition layer missing
+    priority: 8
+    why_it_matters: >
+      Without value, cost, risk, and revenue links, machines optimise activity rather than business outcomes.
+    blocks:
+      - monetisation routing
+      - portfolio prioritisation
+      - economic telemetry
+    closure_action: create ECONOMIC_MODEL.yaml and bind objects to cost, value, risk, owner, revenue path, and customer impact
+
+non_builder_rule:
+  statement: >
+    The user is not the builder. The user supplies intent, authority, constraints, and strategic judgement.
+    The machine builds, integrates, audits, packages, sends to Bridge, obtains receipts, records evidence,
+    and closes unless blocked by authority, credentials, external dependency, safety, legal, money, or destructive action.
+
+acceptance_tests:
+  - id: RT-001
+    test: response lists all intents and actions
+  - id: RT-002
+    test: response highlights critical gaps with closure actions
+  - id: RT-003
+    test: response sequences gaps by dependency order
+  - id: RT-004
+    test: response includes final machine execution option
+  - id: RT-005
+    test: response includes evidence and ledger fields
+  - id: RT-006
+    test: response does not imply build occurred unless evidenced
+  - id: RT-007
+    test: response distinguishes thinking, packaging, handoff, execution, receipt, and closure
+
+closure_rule: >
+  A response using this template may close only when evidence and receipt exist. If a bridge handoff is required,
+  close only after bridge receipt is returned and bound to the ledger. Otherwise classify as PARTIAL or BLOCKED.
