@@ -1,0 +1,74 @@
+atomic_id: ATOM-EXEC-004
+name: recovery_loop
+status: REAL
+canonical: true
+reusable: true
+last_updated: "2026-05-11"
+
+purpose: |
+  State machine for autonomous recovery before escalation. Implements
+  SESSION_REQUIREMENTS.md sec 13 (Autonomous Recovery Requirements) and the
+  HITL Defect Recovery Rule sec 9.
+
+states:
+  - DETECT
+  - DIAGNOSE
+  - ATTEMPT_RECOVERY
+  - VERIFY
+  - SUCCEED
+  - FAIL
+  - ESCALATE
+
+transitions:
+  DETECT -> DIAGNOSE: { on: error_observed_or_HITL_defect_logged }
+  DIAGNOSE -> ATTEMPT_RECOVERY: { on: known_failure_class AND safe_path_available }
+  DIAGNOSE -> ESCALATE: { on: unknown_failure_class OR safe_path_unsafe }
+  ATTEMPT_RECOVERY -> VERIFY: { on: recovery_action_completed }
+  VERIFY -> SUCCEED: { on: state_matches_expected }
+  VERIFY -> FAIL: { on: state_does_not_match_expected }
+  FAIL -> ATTEMPT_RECOVERY: { on: retries_remaining }
+  FAIL -> ESCALATE: { on: retries_exhausted OR cascading_failure }
+
+recovery_actions:
+  retry: { max_attempts: 3, backoff: "exponential 1s, 4s, 16s" }
+  replay: { requires: prior_ledger_row }
+  re_search: { requires: original_intent }
+  re_audit: { requires: search_scope }
+  dependency_recheck: { targets: [bridge, supabase_S1, github, mcp_server] }
+  stale_state_invalidation: { action: mark prior ledger rows as superseded }
+  receipt_regeneration: { action: rebuild receipt from execution trace }
+  bridge_retry: { requires: dual_header_auth_verified }
+  telemetry_refresh: { action: re-emit metrics for the failed window }
+  rollback_validation: { requires: rollback_plan_in_escalation_payload }
+
+hitl_rerun_binding:
+  rule: |
+    If a HITL defect is logged anywhere in the session, the recovery loop
+    is invoked at the cycle level (not the call level). The full
+    search->audit->analysis->execute->evidence loop is re-run from first
+    principles. Patch-only recovery is FORBIDDEN.
+  reference: SESSION_REQUIREMENTS.md sec 9
+
+invariants:
+  - "Every state transition MUST write a ledger event."
+  - "ESCALATE state MUST produce an ATOM-EXEC-003 escalation_chain notification."
+  - "SUCCEED state MUST update the original ledger row OR write a superseding row."
+  - "Maximum 3 retry cycles per failure class before escalation."
+
+failure_modes:
+  - id: F1
+    when: VERIFY transitions to FAIL repeatedly without state change
+    action: detect oscillation; force ESCALATE
+  - id: F2
+    when: recovery action requires authorisation not in session scope
+    action: ESCALATE immediately; do not attempt
+  - id: F3
+    when: bridge unresolvable
+    action: preflight failure - entire session is BLOCKED
+
+example:
+  trigger: "supabase_rest_proxy POST returned empty result"
+  diagnosis: TRAPS-D-3
+  recovery_action: switch to supabase_sql_write_gated
+  verify: SELECT WHERE evidence->>'task_id' = $task_id returns 1 row
+  outcome: SUCCEED
