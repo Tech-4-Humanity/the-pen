@@ -1,0 +1,73 @@
+atomic_id: ATOM-EXEC-003
+name: escalation_chain
+status: REAL
+canonical: true
+reusable: true
+last_updated: "2026-05-11"
+
+purpose: |
+  Authority resolution and HITL routing for any decision the machine
+  cannot resolve autonomously. Implements the HRE Escalation Chain rule
+  (authority must resolve to an explicit owner - never assumed).
+
+owner_resolution_order:
+  1: explicit_assignment
+  2: cluster_home_entity
+  3: system_owner
+  4: business_economic_owner
+  5: organisation_sole_director
+  6: ESCALATE_BLOCKED
+
+trigger_conditions:
+  must_escalate:
+    - prod_write_without_explicit_authorisation
+    - irreversible_action
+    - cost_above_threshold
+    - safety_or_compliance_flag
+    - rule_conflict_detected
+    - data_classification_conflict
+    - external_party_obligation
+
+may_escalate:
+  - novel_situation_not_in_doctrine
+  - confidence_below_0.6
+  - dependency_chain_unresolved
+
+format:
+  notification:
+    target: <owner_id from resolution_order>
+    severity: LOW | NORMAL | HIGH | CRITICAL
+    summary: <one_sentence>
+    payload:
+      task_id: <stable id>
+      reason: <bounded reason>
+      proposed_action: <what machine would do if authorised>
+      rollback_plan: <how to undo>
+      deadline: <ISO timestamp or null>
+      requires_response_within: <duration or null>
+
+invariants:
+  - "Escalation MUST include both the proposed action AND the rollback plan."
+  - "Escalation MUST classify the ledger row as BLOCKED until response received."
+  - "An ignored escalation does NOT convert to autonomous action - it converts to a re-escalation with increased severity."
+
+failure_modes:
+  - id: F1
+    when: owner resolution yields no candidate at any level
+    action: classify task as BLOCKED with reason 'no owner resolvable'; write ledger; surface to top-level (sole_director)
+  - id: F2
+    when: severity claimed is LOW but trigger is must_escalate
+    action: auto-upgrade severity; log mismatch
+
+example:
+  notification:
+    target: troy.latter
+    severity: HIGH
+    summary: "Onboarding doctrine v3.1 supersedes v3 - confirm before merge"
+    payload:
+      task_id: machine-onboarding-v3.1-enhancement
+      reason: rule_conflict_detected
+      proposed_action: "merge v3.1 to main, supersede v3 ledger row"
+      rollback_plan: "revert commits, restore v3 row status to REAL"
+      deadline: null
+      requires_response_within: null
