@@ -1,0 +1,96 @@
+{
+  "idempotency_key": "signaltechbox-package-deploy-smoketest-20260512",
+  "title": "Package deployment bundle, include smoke tests, prepare PEN payload, classify evidence",
+  "origin": "chatgpt",
+  "destination": "pen_bridge",
+  "env": "dev",
+  "evidence_state": "PARTIAL",
+  "requested_at": "2026-05-12",
+  "work_type": "supabase.bundle_package_deploy_smoketest",
+  "bundle_path": "t4h-signaltechbox-supabase-bundle/",
+  "bundle_contents": {
+    "root": [
+      "00_README.md",
+      "01_DDL.sql",
+      "02_CONFIG_THRESHOLDS.sql",
+      "03_MEANINGFUL_EVENTS.sql",
+      "04_ROLLUP_FUNCTION.sql",
+      "05_VIEWS.sql",
+      "06_RLS_TEMPLATE.sql"
+    ],
+    "seeds": [
+      "capabilities.csv",
+      "formats.csv",
+      "density.csv",
+      "guidance.csv",
+      "event_types.csv",
+      "feature_defs.csv",
+      "signal_defs.csv",
+      "state_defs.csv",
+      "action_defs.csv",
+      "safety_profiles.csv",
+      "agent_roles.csv",
+      "agent_role_capabilities.csv",
+      "agent_role_safety.csv",
+      "bundles.csv",
+      "bundle_capabilities.csv",
+      "bundle_safety.csv",
+      "tools.csv"
+    ],
+    "smoke_tests": [
+      "01_insert_test_events.sql",
+      "02_run_rollup.sql",
+      "03_validate_views.sql"
+    ],
+    "docs": [
+      "signaltechbox_spec.md",
+      "faq.md",
+      "architecture_summary.md",
+      "infographic.png"
+    ]
+  },
+  "smoke_tests": {
+    "insert_test_events": [
+      "insert synthetic t4h_event rows for assessment_completed, results_viewed, content_completed, action_completed, vault_saved"
+    ],
+    "run_rollup": [
+      "select public.fn_rollup_features_daily((now() at time zone 'utc')::date);"
+    ],
+    "validate_views": [
+      "select * from public.v_config_thresholds_effective order by threshold_group, threshold_key;",
+      "select public.fn_threshold_num('MEANINGFUL_COMPLETION_PCT', 60);",
+      "select * from public.fn_threshold_group('state_transition');",
+      "select * from public.v_meaningful_events limit 20;",
+      "select * from public.t4h_feature_daily order by feature_date desc limit 20;",
+      "select * from public.v_env_capability_coverage limit 20;",
+      "select * from public.v_env_bundle_readiness limit 20;",
+      "select * from public.v_partner_bundle_eligibility limit 20;"
+    ]
+  },
+  "execution_steps": [
+    "Assemble bundle tree exactly as specified",
+    "Run SQL files in numbered order against Supabase dev",
+    "Load seed CSVs into matching tables",
+    "Run smoke tests in smoke_tests order",
+    "Capture SQL outputs and object counts",
+    "Write receipt under receipts/runtime/ with execution result and evidence classification",
+    "If any step fails, write REAL failure receipt with exact error and stop before pretending success"
+  ],
+  "evidence_classification": {
+    "github_pen_receipt": "REAL after this commit exists",
+    "bundle_artifacts": "PARTIAL until worker materialises bundle in repo/artifact store",
+    "supabase_runtime": "PARTIAL until SQL execution receipt exists",
+    "telemetry_proof": "PARTIAL until synthetic event + rollup output exists",
+    "overall": "PARTIAL"
+  },
+  "definition_of_done": [
+    "PEN inbox commit receipt exists",
+    "Bundle files exist in repo/artifact store",
+    "Supabase objects created or real failure captured",
+    "Seed rows loaded or real failure captured",
+    "Synthetic events inserted",
+    "Rollup function executed",
+    "Validation queries captured",
+    "Runtime receipt committed"
+  ]
+}
