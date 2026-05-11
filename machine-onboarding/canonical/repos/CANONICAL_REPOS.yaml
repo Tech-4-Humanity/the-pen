@@ -9,7 +9,6 @@ meta:
   source_of_truth: github_api
 
 repositories:
-
   the-pen:
     repo_id: REP-001
     full_name: TML-4PM/the-pen
@@ -25,7 +24,7 @@ repositories:
     visibility: private
     push_permission_required: true
     forbidden_duplicates: [bridge-dev-rules, the-pen-old, pen-rules]
-    notes: Universal intake gate for all T4H systems. Captures, receipts, and routes all work across dev and prod. Nothing bypasses it.
+    notes: Universal intake gate for all T4H systems. Captures, receipts, and routes all work across dev and prod.
 
 rules:
   - Canonical = explicitly listed here. Latest commit timestamp does NOT imply canonical.
