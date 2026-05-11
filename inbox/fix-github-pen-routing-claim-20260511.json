@@ -1,0 +1,32 @@
+{
+  "idempotency_key": "fix-github-pen-routing-claim-20260511",
+  "created_at": "2026-05-11T20:00:00+10:00",
+  "origin": "chatgpt-github-connector",
+  "target": "PEN/bridge",
+  "lane": "ops.integrity",
+  "priority": "P1",
+  "title": "Correct false GitHub repo visibility claim and restore PEN routing path",
+  "status": "ENQUEUED",
+  "evidence_state": "REAL",
+  "observed": {
+    "installed_account": "TML-4PM",
+    "repository_full_name": "TML-4PM/the-pen",
+    "repository_visibility": "private",
+    "permissions": ["admin", "maintain", "pull", "push", "triage"],
+    "default_branch": "main",
+    "display_url": "https://github.com/TML-4PM/the-pen"
+  },
+  "correction": {
+    "bad_claim": "The connected installation exposes Augmented-Humanity/*, not TML-4PM/the-pen.",
+    "corrected_claim": "The connected GitHub installation exposes TML-4PM, and TML-4PM/the-pen is accessible with admin/push permission.",
+    "impact": "Any payload routed to Augmented-Humanity instead of TML-4PM/the-pen would be misrouted and should not be treated as a valid PEN receipt.",
+    "rollback": "Ignore any prior Augmented-Humanity handoff claim for this job. Use this PEN inbox payload as the canonical correction.",
+    "next": "Worker should ingest this payload, write runtime receipt under receipts/runtime/, and append audit.log entry confirming corrected routing."
+  },
+  "execution_policy": {
+    "archive_not_delete": true,
+    "pretend_rejected": true,
+    "done_requires_worker_receipt": true,
+    "human_in_loop_required": false
+  }
+}
