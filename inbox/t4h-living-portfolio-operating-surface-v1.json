@@ -1,0 +1,139 @@
+{
+  "idempotency_key": "t4h-living-portfolio-operating-surface-v1",
+  "title": "Build T4H Living Portfolio Operating Surface from static strategic graphic",
+  "origin": "chatgpt",
+  "destination": "bridge",
+  "lane": "dev_to_prod",
+  "env": "dev",
+  "priority": "P1",
+  "evidence_state": "PARTIAL",
+  "requested_outcome": "Convert the Tech 4 Humanity strategic infographic into a live, interactive, Supabase-backed, telemetry-aware operating surface with clickable entities, evidence badges, commercial overlays, horizon maturity, research lineage, and bridge receipts.",
+  "source_asset": {
+    "type": "image",
+    "local_ref": "/mnt/data/71782efd-706c-4808-908e-eee84256d006.png",
+    "file_id": "file_00000000af1871fdbc9869f8435e20e1",
+    "status": "available_in_chat_runtime_only"
+  },
+  "scope": {
+    "build": [
+      "React/Next interactive living portfolio surface",
+      "Supabase schema for canonical tiles/entities, horizons, evidence, commercial state, telemetry counters and lineage links",
+      "Entity detail pages for every major tile",
+      "REAL/PARTIAL/PRETEND badges with evidence references",
+      "Animated research-to-impact pathway graph",
+      "Horizon filters: now/growth/leadership",
+      "Audience filters: research, government, education, health, HR, insurance, partners",
+      "Command actions per node: inspect, enqueue remediation, attach evidence, open dashboard",
+      "Bridge receipt writer and GitHub receipt output",
+      "Dev deployment target with prod promotion gated by Gatekeeper"
+    ],
+    "do_not_do": [
+      "No delete operations",
+      "No prod deploy without Gatekeeper approval",
+      "No PRETEND completion claims",
+      "No hardcoded secrets"
+    ]
+  },
+  "canonical_entities_seed": [
+    "AHC Augmented Humanity Coach",
+    "WFAI WorkFamilyAI",
+    "HOLO HoloOrg",
+    "SM Ban Research",
+    "AI Sweet Spots",
+    "Learning and Literacy AI",
+    "Neurodivergence and Inclusion",
+    "Workforce Systems and Safety",
+    "Human-AI Wellbeing",
+    "AI Ethics Governance and Trust",
+    "Social Impact and Economics",
+    "Reading Buddy",
+    "Outcome Ready",
+    "Teacher Benefits",
+    "Neurodivergent Pathways",
+    "Family and Community AI",
+    "Workplace and HR",
+    "Health and Clinical",
+    "Education Systems",
+    "Human Potential Operating System",
+    "Sovereign and Public Infrastructure",
+    "Industry Platforms",
+    "Global Benchmarks and Insights",
+    "AI Tradies",
+    "LedgerAI",
+    "Health and Safety",
+    "Talent and HR",
+    "Allied Health",
+    "Government",
+    "Defence",
+    "Insurance",
+    "Global Partners and OEM"
+  ],
+  "supabase_contract": {
+    "schema": "ops",
+    "tables": [
+      "ops.living_portfolio_entities",
+      "ops.living_portfolio_edges",
+      "ops.living_portfolio_horizons",
+      "ops.living_portfolio_telemetry",
+      "audit.evidence_register",
+      "ops.work_queue"
+    ],
+    "required_columns": [
+      "id uuid primary key",
+      "slug text unique not null",
+      "title text not null",
+      "category text",
+      "horizon text",
+      "runway_stage text",
+      "evidence_state text check in REAL/PARTIAL/PRETEND",
+      "commercial_state text",
+      "deployment_state text",
+      "telemetry jsonb default '{}'",
+      "created_at timestamptz default now()",
+      "updated_at timestamptz default now()"
+    ],
+    "rls_required": true,
+    "pk_required": true,
+    "timestamps_required": true,
+    "idempotency_required": true
+  },
+  "ui_contract": {
+    "route": "/portfolio/living-surface",
+    "components": [
+      "LivingPortfolioSurface",
+      "EntityNodeCard",
+      "EvidenceBadge",
+      "HorizonRail",
+      "ResearchLineageGraph",
+      "TelemetryCounterStrip",
+      "CommercialOverlay",
+      "CommandActionPanel"
+    ],
+    "states": [
+      "overview",
+      "filtered",
+      "entity_detail",
+      "command_panel",
+      "evidence_view"
+    ]
+  },
+  "acceptance_criteria": [
+    "All source graphic tiles represented as canonical entities",
+    "Surface loads from Supabase data rather than static-only config",
+    "Each node has status, runway_stage, evidence_state and commercial_state",
+    "At least one evidence reference slot per entity",
+    "Clickable graph opens entity detail panel",
+    "Filters work by horizon, audience, category and evidence_state",
+    "Bridge writes receipt to receipts/runtime and audit evidence register",
+    "Dev deployment URL returned",
+    "Prod promotion remains gated until Gatekeeper approval"
+  ],
+  "receipt_required": {
+    "github_receipt_path": "receipts/runtime/t4h-living-portfolio-operating-surface-v1.json",
+    "audit_log": true,
+    "runtime_log": true,
+    "deployment_url": true,
+    "evidence_state_final": "REAL or PARTIAL only; PRETEND rejected"
+  },
+  "status": "ENQUEUED"
+}
