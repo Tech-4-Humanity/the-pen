@@ -1,0 +1,73 @@
+atomic_id: ATOM-EXEC-002
+name: evidence_envelope
+status: REAL
+canonical: true
+reusable: true
+last_updated: "2026-05-11"
+
+purpose: |
+  Typed evidence wrapper for any operational claim. Pairs with EVIDENCE_STANDARD.yaml.
+  Used by every primitive that emits or consumes evidence.
+
+shape:
+  evidence:
+    - type: <enum from allowed_types>
+      value: <evidence payload>
+      captured_at: <ISO timestamp>
+      replay_hint: <how to re-verify>
+
+allowed_types:
+  - commit_id
+  - bridge_receipt
+  - api_response
+  - cli_output
+  - hash
+  - repro_steps
+  - deployment_url
+  - telemetry_snapshot
+  - database_result
+  - issue_id
+  - PR_id
+  - url
+
+invariants:
+  - "Every REAL claim MUST carry at least one typed evidence entry."
+  - "url is the weakest type; pair with another type for REAL."
+  - "Narrative-only and screenshot-only entries are REJECTED at validation."
+
+composition_rules:
+  minimum_for_REAL: 1
+  minimum_for_REAL_with_url_only: 2
+  minimum_for_BLOCKED: 0
+  minimum_for_PARTIAL: 0
+
+failure_modes:
+  - id: F1
+    when: evidence.type is not in allowed_types
+    action: reject; classify INVALID
+  - id: F2
+    when: evidence.value is empty string or null
+    action: reject; classify PARTIAL
+  - id: F3
+    when: replay_hint missing for type in {api_response, telemetry_snapshot}
+    action: warn; downgrade to PARTIAL after expiry window
+
+expiry:
+  api_response: until_upstream_contract_change
+  telemetry_snapshot: declared_window_only
+  deployment_url: 7_days
+  commit_id: never
+  hash: never
+  bridge_receipt: never
+  database_result: until_schema_change
+
+example:
+  evidence:
+    - type: commit_id
+      value: "62c72b2d0964b87474620d18ddbf37511cd902de"
+      captured_at: "2026-05-11T00:00:00Z"
+      replay_hint: "git show 62c72b2d in TML-4PM/the-pen"
+    - type: database_result
+      value: "public.reality_ledger row 0f853075-1c2c-4fe7-88a4-451f5fce9e3b"
+      captured_at: "2026-05-11T00:00:00Z"
+      replay_hint: "SELECT * FROM public.reality_ledger WHERE id = '0f853075-1c2c-4fe7-88a4-451f5fce9e3b'"
