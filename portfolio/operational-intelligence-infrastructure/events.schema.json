@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/TML-4PM/the-pen/raw/main/portfolio/operational-intelligence-infrastructure/schemas/events.schema.json",
+  "title": "Universal Operational Event",
+  "description": "Every action across every wrapper emits this envelope. Conformance is the contract for telemetry, evidence, recovery, and replay.",
+  "type": "object",
+  "required": ["event_id","event_type","occurred_at","actor_id","tenant_id","execution_id","runtime_id","session_id","execution_nonce","wrapper_slug","sku","classification","payload"],
+  "properties": {
+    "event_id": {"type":"string","description":"UUID v4. Globally unique. Idempotency key."},
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "intake.captured","intake.qualified","intake.routed",
+        "proposal.drafted","proposal.sent","proposal.accepted","proposal.declined",
+        "booking.created","booking.confirmed","booking.reminded","booking.attended","booking.no_show","booking.rescheduled",
+        "growth.campaign_sent","growth.reply_received","growth.review_received",
+        "evidence.document_classified","evidence.obligation_mapped","evidence.pack_generated","evidence.exported",
+        "retention.renewal_due","retention.renewed","retention.churned",
+        "workforce.task_delegated","workforce.escalated","workforce.approval_granted","workforce.approval_denied",
+        "memory.decision_captured","memory.rationale_stored","memory.handover_packaged",
+        "ops.alert_raised","ops.anomaly_detected","ops.briefing_generated",
+        "runtime.classification_changed","runtime.drift_detected","runtime.recovery_attempted","runtime.quarantined","runtime.replayed",
+        "billing.usage_recorded","billing.invoice_generated"
+      ]
+    },
+    "occurred_at": {"type":"string","format":"date-time","description":"ISO 8601 with timezone. Monotonic per execution_id."},
+    "received_at": {"type":"string","format":"date-time"},
+    "actor_id": {"type":"string","description":"human:<user_id> | agent:<agent_id> | system:<service> | tenant:<tenant_id>"},
+    "tenant_id": {"type":"string"},
+    "execution_id": {"type":"string","description":"Stable across retries within a single logical execution."},
+    "runtime_id": {"type":"string","description":"Identifies the runtime instance — survives migration."},
+    "session_id": {"type":"string"},
+    "orchestration_id": {"type":"string","description":"Optional. Present when part of a multi-step orchestration."},
+    "execution_nonce": {"type":"string","description":"Required for any state-mutating event."},
+    "wrapper_slug": {"type":"string","description":"Wrapper this event was emitted under (e.g. tradies, professionals, health)."},
+    "sku": {"type":"string","description":"Product SKU emitting the event."},
+    "agent_id": {"type":"string","description":"Present when the actor is an agent."},
+    "classification": {"type":"string","enum":["REAL","PARTIAL","BLOCKED"]},
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type","value"],
+        "properties": {
+          "type": {"type":"string","enum":["api_response","database_result","cli_output","commit_id","url","receipt","runtime_hash","telemetry_snapshot","execution_trace","recovery_log"]},
+          "value": {"type":"string"},
+          "hash": {"type":"string"},
+          "expires_at": {"type":"string","format":"date-time"}
+        }
+      }
+    },
+    "causal_parent_event_id": {"type":"string","description":"For causal chain reconstruction. Forms a DAG."},
+    "recovery": {
+      "type": "object",
+      "properties": {
+        "attempts": {"type":"integer"},
+        "strategy": {"type":"string","enum":["retry","rollback","compensation","reroute","isolate","degrade","reconcile"]},
+        "outcome": {"type":"string","enum":["recovered","still_failing","quarantined","escalated"]}
+      }
+    },
+    "economics": {
+      "type": "object",
+      "properties": {
+        "compute_ms": {"type":"integer"},
+        "tokens_in": {"type":"integer"},
+        "tokens_out": {"type":"integer"},
+        "tools_called": {"type":"integer"},
+        "estimated_cost_aud": {"type":"number"},
+        "value_signal": {"type":"string","enum":["high","medium","low","orphan"]}
+      }
+    },
+    "payload": {"type":"object","description":"Event-type-specific body. Validated against per-event-type sub-schemas."}
+  },
+  "additionalProperties": false
+}
