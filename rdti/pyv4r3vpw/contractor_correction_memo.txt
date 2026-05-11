@@ -1,0 +1,39 @@
+CONTRACTOR CORRECTION MEMO
+Tech 4 Humanity Pty Ltd | ABN 70 666 271 272
+RDTI FY2024-25 | Tracking ID PYV4R3VPW
+Date: 2026-05-12
+
+ISSUE
+Internal RDTI working files used the label R&D Contractor as a cost-category descriptor
+for different types of director work. This created a false impression of 6 independent
+contractors and 38 contractor transactions totalling $344,500.
+
+CORRECTION
+1. The AusIndustry application correctly records: independent contractors = 0.
+2. All contractor-labelled transactions are director labour or supplier costs - not
+   payments to independent contractors.
+3. The $344,500 contractor bucket is reclassified as follows:
+
+   a. Director labour already captured in maat_invoice_register:
+      Total invoiced FY24-25 = $1,592,250 (12 invoices, Troy Latter to Tech 4 Humanity Ltd)
+      This is the only director labour figure to be relied on.
+
+   b. Third-party tool/service costs:
+      These are captured in the bank R&D expenditure of $544,541 and should be
+      assessed at payee/invoice level as supporting R&D expenditure.
+
+   c. $21,500 Payment from Troy Latter transactions:
+      These flow the wrong direction (Troy to company, not company to contractor).
+      REMOVED from R&D expenditure entirely.
+
+4. No claim will be made for independent contractor R&D expenditure unless an external
+   payee, invoice, ABN, and direct connection to core activity PKK0VJBBH can be verified.
+
+CANONICAL POSITION
+- Independent contractors: 0
+- Director labour: $1,592,250 (12 invoices, 3,184.52 hours, $500/hr)
+- Bank R&D supporting expenditure: under reconciliation
+- Contractor-labelled bucket: SUPERSEDED / do not rely on
+
+Signed: Troy Latter, Director, Tech 4 Humanity Pty Ltd
+Date: 2026-05-12
