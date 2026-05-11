@@ -1,73 +1,123 @@
-# drain doctrine
+# DRAIN DOCTRINE v1.0
 
-**One rule: a thing is either REAL or it is not. PARTIAL is the default. ARCHIVE is earned.**
-
----
-
-## status values
-
-| status | meaning |
-|---|---|
-| `REAL` | execution happened, evidence exists, no unresolved gaps |
-| `PARTIAL` | progress made, receipts missing or gaps open |
-| `BLOCKED` | cannot continue from this context — dependency on another actor or environment |
-
-Default everything to `PARTIAL`. Upgrade to `REAL` only when evidence criteria are met.
+> Status enforcement rules for all drain.atom entries across The Pen ecosystem.
 
 ---
 
-## what counts as REAL
+## Core Contract
 
-All of these must be true:
+Every item in drain has a `status` of one of:
+- `REAL` — executed, evidence confirmed, receipt on file
+- `PARTIAL` — started or handed off, awaiting confirmation
+- `BLOCKED` — cannot proceed (missing credential, dependency, access)
+- `ARCHIVE` — closed with full evidence chain
 
-- At least one `evidence` item is of type `commit_id`, `receipt_ref`, or a verified live URL with smoke result
-- `gaps` is empty — or each remaining gap is explicitly marked `accepted: true` with a stated reason
-- No text in the item contains "Outstanding tasks", "Next action", or "Gaps" unless those items are struck-through or marked completed
-
-If `evidence_required: true` and there is no `commit_id` or `receipt_ref` → REAL is **forbidden**.
-
----
-
-## what ARCHIVE means
-
-ARCHIVE ≠ summarised. ARCHIVE ≠ long and detailed.
-
-You may only ARCHIVE when:
-
-- `status: REAL`
-- `evidence_required: false` **or** all required evidence is recorded
-- No unresolved `next_action` items
-- No unresolved `gaps`
-
-If the text contains "Outstanding tasks", "Next action chain", or "Gaps" → `mode` must be `CHECKPOINT` or `HANDOFF`, never `ARCHIVE`.
+**PRETEND is not a valid status.** Any item without typed evidence defaults to PARTIAL, never REAL.
 
 ---
 
-## mode values
+## Status Transition Rules
 
-| mode | when to use |
-|---|---|
-| `CHECKPOINT` | capture state + next actions; keep active; no execution complete |
-| `HANDOFF` | PARTIAL/BLOCKED with a clear next-action chain; stays open until another actor produces evidence |
-| `ARCHIVE` | REAL only; execution done; receipts written; no open tasks |
-
----
-
-## example classifications
-
-| item | correct status | correct mode | why |
-|---|---|---|---|
-| Org Atom table with outstanding cells, no wave10 evidence, no receipt | `PARTIAL` | `CHECKPOINT` | IP mature but no execution evidence |
-| DRA deploy with HTML not at root, env vars not confirmed, no reality_ledger row | `PARTIAL` | `HANDOFF` | Build live but finish-line not crossed |
-| ChatGPT thread, no title, no useful content | skip | `KILL` | BLAND — discard without evidence requirement |
-| Any item with commit SHA + receipt_ref + smoke result | `REAL` | `ARCHIVE` | All criteria met |
+| From | To | Required |
+|---|---|---|
+| any | REAL | typed evidence (api_response, commit_id, url, hash, cli_output) |
+| any | ARCHIVE | status must already be REAL + receipt_ref present |
+| any | BLOCKED | reason + dependency named |
+| PARTIAL | REAL | evidence added + validated |
+| BLOCKED | PARTIAL | blocker resolved |
 
 ---
 
-## invariants (never break these)
+## Validator Rules (V1–V6)
 
-1. Long narratives and detailed summaries do not qualify as REAL without execution evidence.
-2. A `HANDOFF` stays open until the next actor returns a receipt. Do not auto-close.
-3. `kill` / discard is valid only for items with `importance: BLAND` and `evidence_required: false`.
-4. If `importance` is `IP` or `STRATEGIC`, `evidence_required` is always `true`.
-5. Re-processing the same item with the same parameters must not create duplicate receipts (idempotency).
+| Rule | Trigger | Effect |
+|---|---|---|
+| V1 | ARCHIVE without REAL status | BLOCKED |
+| V2 | KILL on IP or STRATEGIC item | BLOCKED |
+| V3 | HANDOFF without receipt_ref | PARTIAL |
+| V4 | IP/STRATEGIC without typed evidence | PARTIAL |
+| V5 | HANDOFF without bridge_id | BLOCKED |
+| V6 | REGISTER without target_ref | BLOCKED |
+
+---
+
+## Mode Buckets
+
+| Mode | Purpose | Close condition |
+|---|---|---|
+| KILL | Permanent removal — no recovery | Not IP/STRATEGIC |
+| CHECKPOINT | Snapshot in time — version and save | evidence written |
+| HANDOFF | Pass to another agent/bridge | receipt_ref confirmed |
+| ARCHIVE | Close with full evidence chain | REAL + receipt |
+| REGISTER | Bind to external target | target_ref present |
+| LIBRARY | Store as reference — no action required | always allowed |
+
+---
+
+## Evidence Types
+
+At least one of the following must be present for REAL status:
+
+- `api_response` — raw HTTP/JSON response from a real API call
+- `database_result` — query result, row count, or record ID
+- `cli_output` — terminal output including exit code
+- `commit_id` — full 40-char SHA from a real commit
+- `url` — live URL returning a valid response
+- `hash` — content hash from a verifiable operation
+- `reproducible_steps` — steps another agent can follow to reproduce the result
+
+String-only evidence is rejected.
+
+---
+
+## Session Close Gate
+
+Session close is hard-blocked while any of the following are true:
+
+1. Any item has status BLOCKED
+2. Any HANDOFF item has no receipt_ref
+3. Any REGISTER item has no target_ref
+4. Any ARCHIVE item was not previously REAL
+
+---
+
+## Receipt Protocol
+
+All HANDOFF completions must write a receipt:
+
+```json
+{
+  "receipt_ref": "<bridge_id>-<timestamp>",
+  "bridge_id": "<bridge_id>",
+  "item_id": "<drain_item_id>",
+  "status_at_close": "REAL",
+  "evidence": { "type": "commit_id", "value": "<sha>" },
+  "closed_at": "<iso8601>"
+}
+```
+
+Receipts are stored in `RECEIPTS/` and referenced by `receipt_ref` on the drain item.
+
+---
+
+## Idempotency
+
+All drain operations are idempotent:
+- Re-running the same ARCHIVE on an already-archived item is a no-op
+- Re-running REGISTER on an already-registered item updates target_ref only
+- Re-running CHECKPOINT creates a new snapshot without invalidating prior ones
+
+---
+
+## Invariants
+
+1. `status=REAL` requires `evidence != null && evidence.type in allowed_types`
+2. `mode=ARCHIVE` requires `status=REAL && receipt_ref != null`
+3. `mode=HANDOFF` requires `bridge_id != null`
+4. `mode=KILL && importance in [IP, STRATEGIC]` → hard BLOCK
+5. `mode=REGISTER` requires `target_ref != null`
+6. PRETEND state is invalid — any item without evidence is PARTIAL
+
+---
+
+_Doctrine version: 1.0 | Written: 2026-05-11 | Repo: TML-4PM/the-pen_

@@ -1,48 +1,105 @@
 {
-  "atom_id": "drain.atom.v1",
-  "name": "tab_drain",
-  "purpose": "Turn volatile browser tabs and LLM threads into typed work units routed into the Pen / Org Atom / Bridge ecosystem. Enforce REAL/PARTIAL/BLOCKED state against evidence. Prevent fake archive.",
-  "schema_version": "1.0",
-  "inputs": {
-    "url":            { "type": "string", "required": true },
-    "title":          { "type": "string", "required": false, "default": "(no title)" },
-    "source":         { "type": "enum", "values": ["chatgpt", "claude", "perplexity", "github", "docs", "internal", "other"] },
-    "content_type":   { "type": "enum", "values": ["llm_thread", "spec", "doc", "issue", "repo", "ip_asset", "task_queue", "receipt", "other"], "required": true },
-    "importance":     { "type": "enum", "values": ["BLAND", "IP", "STRATEGIC", "TASKS"], "required": true },
-    "mode":           { "type": "enum", "values": ["KILL", "CHECKPOINT", "HANDOFF", "ARCHIVE"], "required": true },
-    "evidence_required": { "type": "boolean", "default": true },
-    "evidence":       { "type": "array", "items": { "type": "string", "value": "string" } },
-    "gaps":           { "type": "array", "items": "string" },
-    "next_action":    { "type": "array", "items": "string", "max": 5 },
-    "session_id":     { "type": "string", "required": false }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TML-4PM/the-pen/schema/drain.atom.json",
+  "title": "drain.atom",
+  "description": "Typed schema for a single drain item in The Pen ecosystem. Enforces status, mode, evidence, and receipt rules per DRAIN_DOCTRINE v1.0.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["id", "label", "status", "mode", "importance", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this drain item. Format: drain-<slug>-<timestamp>."
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable name for this item."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["REAL", "PARTIAL", "BLOCKED", "ARCHIVE"],
+      "description": "Execution status. PRETEND is not valid."
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["KILL", "CHECKPOINT", "HANDOFF", "ARCHIVE", "REGISTER", "LIBRARY"],
+      "description": "Operational mode — determines close conditions and validator rules."
+    },
+    "importance": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH", "STRATEGIC", "IP"],
+      "description": "Priority weight. IP and STRATEGIC items are protected from KILL."
+    },
+    "evidence": {
+      "type": ["object", "null"],
+      "description": "Typed proof of execution. Required for REAL status.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["api_response", "database_result", "cli_output", "commit_id", "url", "hash", "reproducible_steps"]
+        },
+        "value": {
+          "type": "string",
+          "description": "The actual evidence content — SHA, URL, response body, etc."
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["type", "value"]
+    },
+    "bridge_id": {
+      "type": ["string", "null"],
+      "description": "Required for HANDOFF mode. Bridge identifier for the receiving agent."
+    },
+    "receipt_ref": {
+      "type": ["string", "null"],
+      "description": "Receipt reference written on HANDOFF completion. Required to promote to ARCHIVE."
+    },
+    "target_ref": {
+      "type": ["string", "null"],
+      "description": "External binding reference. Required for REGISTER mode."
+    },
+    "blocked_reason": {
+      "type": ["string", "null"],
+      "description": "Human-readable reason for BLOCKED status."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Optional classification tags."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "closed_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Set when status transitions to ARCHIVE."
+    }
   },
-  "outputs": {
-    "status":         { "type": "enum", "values": ["REAL", "PARTIAL", "BLOCKED"] },
-    "drain_event":    { "type": "object" },
-    "receipt_ref":    { "type": "string" },
-    "commit_sha":     { "type": "string" }
-  },
-  "trigger": "manual per tab | bulk sweep | nightly wave10",
-  "owner": "troy",
-  "interfaces": ["tab_drain UI", "Pen Bridge", "fn_github_push", "wave10 nightly"],
-  "invariants": [
-    "status=REAL requires commit_id or receipt_ref evidence AND empty gaps",
-    "mode=ARCHIVE forbidden unless status=REAL",
-    "importance=IP or STRATEGIC forces evidence_required=true",
-    "mode=KILL valid only for BLAND + evidence_required=false",
-    "HANDOFF items remain open until receipt returned",
-    "text with Outstanding tasks or Next action chain defaults to PARTIAL"
-  ],
-  "idempotency": "re-draining same url+mode+importance must not create duplicate receipts",
-  "periodic_properties": {
-    "autonomy": "low",
-    "coupling": "medium",
-    "reversibility": "KILL is irreversible for local close; ARCHIVE can be reopened"
-  },
-  "presets": {
-    "bland_kill":        { "importance": "BLAND",     "mode": "KILL",       "evidence_required": false },
-    "ip_checkpoint":     { "importance": "IP",        "mode": "CHECKPOINT", "evidence_required": true  },
-    "strategic_handoff": { "importance": "STRATEGIC", "mode": "HANDOFF",    "evidence_required": true  },
-    "real_archive":      { "importance": "IP",        "mode": "ARCHIVE",    "evidence_required": true  }
-  }
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "REAL" } }, "required": ["status"] },
+      "then": { "required": ["evidence"] }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "ARCHIVE" } }, "required": ["mode"] },
+      "then": { "required": ["evidence", "receipt_ref"] }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "HANDOFF" } }, "required": ["mode"] },
+      "then": { "required": ["bridge_id"] }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "REGISTER" } }, "required": ["mode"] },
+      "then": { "required": ["target_ref"] }
+    }
+  ]
 }
