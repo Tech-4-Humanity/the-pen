@@ -3,7 +3,7 @@
   "commit_sha": "ccd50920b51b1cd60b9ba1de073c2946d0d77657",
   "created_at": "2026-05-11T23:09:39.387595+00:00",
   "evidence_state": "PARTIAL",
-  "idempotency_key": "human-pressure-signal-index-v0-1",
+  "idempotency_key": "ai3-measurement-system-20260512",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
   "job_type": null,
   "next": "Downstream worker should process accepted job and append final REAL/PARTIAL receipt.",
@@ -18,14 +18,14 @@
     "job_json_valid": true,
     "receipt_written": true
   },
-  "priority": null,
+  "priority": "P1",
   "receipt_state": "ACCEPTED",
   "receipt_type": "pen_runtime_receipt",
   "repo": "TML-4PM/the-pen",
   "rollback": "Archive the inbox job and receipt if superseded; do not delete evidence.",
-  "source_job_path": "inbox/human-pressure-signal-index-v0-1.json",
-  "source_sha256": "d853f9a5a1b25276fe492bb88150a8071c3c14cda22c42ffe7a8300786a28502",
-  "title": "Build Human Pressure Signal Index v0.1",
+  "source_job_path": "inbox/ai3-measurement-system-20260512.json",
+  "source_sha256": "a194ab389e989a8c029e780a2f080090c5b3394169cd0d0feb8a06267a31b2d0",
+  "title": "Build AI3 Augmented Institutional Intelligence measurement system",
   "workflow_run_attempt": "1",
   "workflow_run_id": "25702715792"
 }

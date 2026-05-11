@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "5423ab0a45757f99e92ec60baa00ec6e96e6c54d",
-  "created_at": "2026-05-11T16:28:18.039791+00:00",
+  "commit_sha": "ccd50920b51b1cd60b9ba1de073c2946d0d77657",
+  "created_at": "2026-05-11T23:09:39.387595+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "t4h-living-portfolio-operating-surface-v1",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "17708163b42e6da946fae3bde440e7b1173cb5bc16e3ac59c430eb207e84263c",
   "title": "Build T4H Living Portfolio Operating Surface from static strategic graphic",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25683048639"
+  "workflow_run_id": "25702715792"
 }
