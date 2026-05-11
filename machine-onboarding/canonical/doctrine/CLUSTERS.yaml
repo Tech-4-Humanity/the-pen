@@ -1,7 +1,6 @@
 # CANONICAL CLUSTER REGISTRY SNAPSHOT
 # Mirror of core.cluster_registry as of 2026-05-11.
-# This is the FK target for public.reality_ledger.cluster_id.
-# Invalid cluster_id on INSERT → sqlstate 23503.
+# FK target for public.reality_ledger.cluster_id. Invalid value → sqlstate 23503.
 
 meta:
   version: "1.0"
@@ -12,83 +11,18 @@ meta:
   refresh_policy: re-snapshot whenever a new cluster is added or activated
 
 clusters:
-
-  CL_BIZ_PRICING:
-    name: Business / product / pricing audits
-    priority: P0
-    home_schema: core
-    description: AI4Tradies, OutcomeReady, AHC roles, product catalogues, pricing gaps
-
-  CL_BRIDGE_PEN:
-    name: Bridge / Pen / execution spine
-    priority: P0
-    home_schema: runtime
-    description: MCP bridge, Pen handoff, receipts, GitHub commits, queue runners, execution ledger
-
-  CL_CC_WIDGETS:
-    name: Command Centre / widgets / Supabase
-    priority: P0
-    home_schema: cc
-    description: widgets, dashboards, schema, UI snippets, registries, control plane
-
-  CL_SITES:
-    name: Site builds / Vercel / Lovable / frontend fixes
-    priority: P0
-    home_schema: runtime
-    description: live sites, missing CTAs, broken funnels, deployment checks
-
-  CL_AGENT_ARCH:
-    name: Agent architecture / COAX / Neural Ennead
-    priority: P1
-    home_schema: runtime
-    description: agent contracts, 727/1000 agents, operating rules, assignment engine
-
-  CL_CIVIC_KERNEL:
-    name: Civic Kernel / constitutional layer / synthetic institutional memory
-    priority: P1
-    home_schema: core
-    description: |
-      Entity #32 + governance subsystems (Ontology Enforcer, Strategic Immune
-      System, Metabolic Economics Engine, World State Simulator, Executable
-      Digital Twin). Source: kernel-v3-proposal-2026-05-06.
-
-  CL_CONTENT_IP:
-    name: Content / books / LinkedIn / IP
-    priority: P1
-    home_schema: content
-    description: articles, book outlines, narrative assets, publication systems
-
-  CL_CTO_POCKET:
-    name: CTO in Your Pocket
-    priority: P1
-    home_schema: cip
-    description: |
-      Solo CTO Control Layer productised for founders and SMBs:
-      probe>remediate>validate>ledger; engine under CTO in Your Pocket brand.
-
-  CL_DRIVE_DOCS:
-    name: Google Drive / docs / sheets recovery
-    priority: P1
-    home_schema: ops
-    description: source docs, spreadsheets, pasted specs, lost files
-
-  CL_OPS_INFRA:
-    name: Ops / cost / infra / security
-    priority: P1
-    home_schema: ops
-    description: IAM, service accounts, API keys, cost calculators, Render/Vercel/Supabase ops
-
-  CL_RESEARCH:
-    name: Research / AI Sweet Spots / DRA / AISS2
-    priority: P1
-    home_schema: research
-    description: studies, atlas, neurodivergence, drug resilience, evidence models
-
-  CL_NOISE:
-    name: Noise / duplicated shell links
-    priority: P3
-    home_schema: archive
-    description: repeat bookmarks with low metadata, search result pages, stale references
+  CL_BIZ_PRICING:  { name: Business / product / pricing audits, priority: P0, home_schema: core, description: "AI4Tradies, OutcomeReady, AHC roles, product catalogues, pricing gaps" }
+  CL_BRIDGE_PEN:   { name: Bridge / Pen / execution spine, priority: P0, home_schema: runtime, description: "MCP bridge, Pen handoff, receipts, GitHub commits, queue runners, execution ledger" }
+  CL_CC_WIDGETS:   { name: Command Centre / widgets / Supabase, priority: P0, home_schema: cc, description: "widgets, dashboards, schema, UI snippets, registries, control plane" }
+  CL_SITES:        { name: Site builds / Vercel / Lovable / frontend fixes, priority: P0, home_schema: runtime, description: "live sites, missing CTAs, broken funnels, deployment checks" }
+  CL_AGENT_ARCH:   { name: Agent architecture / COAX / Neural Ennead, priority: P1, home_schema: runtime, description: "agent contracts, 727/1000 agents, operating rules, assignment engine" }
+  CL_CIVIC_KERNEL: { name: Civic Kernel / constitutional layer, priority: P1, home_schema: core, description: "Entity #32 + governance subsystems" }
+  CL_CONTENT_IP:   { name: Content / books / LinkedIn / IP, priority: P1, home_schema: content, description: "articles, book outlines, narrative assets, publication systems" }
+  CL_CTO_POCKET:   { name: CTO in Your Pocket, priority: P1, home_schema: cip, description: "Solo CTO Control Layer productised for founders and SMBs" }
+  CL_DRIVE_DOCS:   { name: Google Drive / docs / sheets recovery, priority: P1, home_schema: ops, description: "source docs, spreadsheets, pasted specs, lost files" }
+  CL_OPS_INFRA:    { name: Ops / cost / infra / security, priority: P1, home_schema: ops, description: "IAM, service accounts, API keys, cost calculators, Render/Vercel/Supabase ops" }
+  CL_RESEARCH:     { name: Research / AI Sweet Spots / DRA / AISS2, priority: P1, home_schema: research, description: "studies, atlas, neurodivergence, drug resilience, evidence models" }
+  CL_NOISE:        { name: Noise / duplicated shell links, priority: P3, home_schema: archive, description: "repeat bookmarks with low metadata, search result pages, stale references" }
 
 selection_guidance:
   onboarding_doctrine:        CL_BRIDGE_PEN
