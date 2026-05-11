@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "idempotency_key": "portfolio-control-surface-validate-enhance-20260511",
+  "created_at": "2026-05-11T20:45:00+10:00",
+  "origin": "chatgpt-github-connector",
+  "requested_by": "Troy Latter",
+  "target": "PEN/bridge",
+  "destination": "canonical_pen_inbox",
+  "lane": "website_ops",
+  "priority": "P1",
+  "title": "Validate and enhance T4H portfolio control surface, then execute via bridge",
+  "status": "ENQUEUED",
+  "evidence_state": "PARTIAL",
+  "non_destructive": true,
+  "archive_not_delete": true,
+  "routing_correction_ref": {
+    "repo": "TML-4PM/the-pen",
+    "path": "inbox/fix-github-pen-routing-claim-20260511.json",
+    "commit": "ef75d7d33f308a9d6285ee9814fd034d0cb419ec",
+    "evidence_state": "REAL"
+  },
+  "summary": "The T4H portfolio should be treated as a live ecosystem control surface, not a static brochure. It must explain the businesses, expose runtime/project health, connect canonical registry data, and make the business graph usable by humans, agents, commercial workflows, and downstream governance.",
+  "validated_intent": {
+    "why_built": [
+      "Make 30-50+ businesses understandable from one surface.",
+      "Replace static project lists with a live ecosystem map.",
+      "Give investors, partners, staff, agents, and customers a coherent view of what exists.",
+      "Create an operational registry surface linked to deployment status, canonical mappings, project pages, APIs, and automation.",
+      "Move from brochure to command/control surface for portfolio reality."
+    ],
+    "core_use_cases": [
+      "Public portfolio and credibility layer",
+      "Internal orientation and navigation",
+      "Portfolio governance and canonical project registry",
+      "Commercial offer discovery",
+      "Runtime status dashboard",
+      "Agent-readable business/project graph",
+      "Launch coordination and remediation queue source"
+    ],
+    "problem_statement": "Current portfolio/project pages are visually weak, hard to understand, static, and not consistently connected to runtime evidence. The enhanced system should explain what all businesses are, show live/real status, and become a reusable source for downstream operations."
+  },
+  "enhancement_requirements": {
+    "must_have": [
+      "Single canonical project/business data model with slug, title, category, lifecycle_state, evidence_state, domain, repo, Vercel project, description, offer status, owner, last_checked_at.",
+      "Visual category system for core, mission, signal, fun, research, infrastructure, governance, and commercial layers.",
+      "Grid/card view for fast human scanning.",
+      "Galaxy/map view for ecosystem relationships.",
+      "Project detail pages that do not fail when slug is missing; must route to directory fallback.",
+      "Live or cached status checks for Vercel/domain/runtime, with checked_at timestamps.",
+      "Supabase-ready schema and ingestion path; no pretend data promoted as REAL.",
+      "Bridge receipt written after worker execution.",
+      "Evidence classification: REAL only with runtime/API proof; PARTIAL for committed payload; PRETEND rejected."
+    ],
+    "fixes_required": [
+      "Remove direct project-detail.html failure mode. Missing slug must show directory/search, not terminal Project not found UX.",
+      "Replace hardcoded-only data with registry-backed JSON/Supabase source, while retaining static fallback.",
+      "Add missing asset strategy: screenshots, logos, category icons, OG/social images.",
+      "Check domain/project mismatches and create remediation jobs rather than hiding failures.",
+      "Separate public portfolio from internal operational dashboard where sensitive ops data may appear."
+    ]
+  },
+  "bridge_execution_plan": [
+    {
+      "step": 1,
+      "action": "Inspect available repo/site artefacts for current portfolio files, project-directory, project-detail, API handlers, deployment scripts, and generated payloads.",
+      "expected_evidence": "File list, commit SHAs, repo path, detected app framework."
+    },
+    {
+      "step": 2,
+      "action": "Normalise data model into portfolio_entities.json and Supabase-ready SQL migration with PK slug, timestamps, lifecycle_state, evidence_state, canonical flag, source refs.",
+      "expected_evidence": "Generated JSON plus SQL migration committed."
+    },
+    {
+      "step": 3,
+      "action": "Patch project detail routing so direct open without slug shows directory/search fallback and never throws Project not found as terminal UX.",
+      "expected_evidence": "Before/after route test receipt."
+    },
+    {
+      "step": 4,
+      "action": "Add status-check worker contract for domains, Vercel projects, repos, and public URLs; store status with checked_at and evidence URL/log ref.",
+      "expected_evidence": "Runtime/check logs or simulated dry-run output if credentials absent."
+    },
+    {
+      "step": 5,
+      "action": "Create remediation queue rows for mismatches/failures: gcbat-org deploy error, missing/incorrect custom domains, stale mappings, missing assets.",
+      "expected_evidence": "Queue insert receipt or GitHub issue/JSON receipt."
+    },
+    {
+      "step": 6,
+      "action": "Return bridge receipt with status, touched files, commit SHA, runtime proof, blockers, rollback path, and next execution target.",
+      "expected_evidence": "Receipt file in receipts/runtime or equivalent audit log entry."
+    }
+  ],
+  "quality_gates": {
+    "idempotent": true,
+    "pk_required": "slug or job_id",
+    "timestamps_required": ["created_at", "updated_at", "last_checked_at"],
+    "rls_required_for_supabase": true,
+    "no_deletes": true,
+    "archive_instead_of_delete": true,
+    "evidence_priority": ["REAL", "PARTIAL", "PRETEND_REJECTED"],
+    "done_definition": "Verified runtime/status evidence plus receipt. Commit alone remains PARTIAL."
+  },
+  "current_receipt_expectation": {
+    "receipt_type": "pen_inbox_commit_then_worker_receipt",
+    "commit_evidence_state": "PARTIAL",
+    "worker_evidence_state_required_for_done": "REAL",
+    "reason": "Payload lodged to canonical PEN inbox. Full bridge/runtime worker receipt still required for REAL completion."
+  },
+  "rollback": {
+    "strategy": "Archive or supersede this JSON payload with a replacement idempotency_key; do not delete."
+  }
+}
