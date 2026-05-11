@@ -1,8 +1,8 @@
 {
-  "ts": "2026-05-11T10:18:49.603Z",
-  "passed": 3,
+  "ts": "2026-05-11T10:42:49.957Z",
+  "passed": 0,
   "failed": 0,
-  "skipped": 42,
+  "skipped": 47,
   "results": [
     {
       "file": "ace-bootstrap-20260429-0001.json",
@@ -103,12 +103,17 @@
     {
       "file": "daily-brief-v2-retry-2026-04-26-002.json",
       "key": "daily-brief-v2-retry-2026-04-26-002",
-      "status": "PASS",
-      "job_id": "9e2d12b2-117b-4875-bca0-c74a123e7c0b"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "data-extract-insight-action-20260504.json",
       "key": "data-extract-insight-action-20260504",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "fix-github-pen-routing-claim-20260511.json",
+      "key": "fix-github-pen-routing-claim-20260511",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     },
@@ -133,8 +138,7 @@
     {
       "file": "launch-system-bootstrap-2026-04-27-001.json",
       "key": "launch-system-bootstrap-2026-04-27-001",
-      "status": "PASS",
-      "job_id": "a9ab4da1-24bd-4a70-a8d5-f20aff7b2105"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "mac-storage-offload-audit-2026-05-04.json",
@@ -157,6 +161,12 @@
     {
       "file": "pen-signal-loop-worker-bundle-20260429-001.json",
       "key": "pen-signal-loop-worker-bundle-20260429-001",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
+      "file": "portfolio-control-surface-validate-enhance-20260511.json",
+      "key": "portfolio-control-surface-validate-enhance-20260511",
       "status": "SKIPPED",
       "reason": "unknown fn: undefined"
     },
@@ -223,8 +233,7 @@
     {
       "file": "synal-backbone-pack-v1.json",
       "key": "synal-backbone-pack-v1",
-      "status": "PASS",
-      "job_id": "6fe1aefa-5c8d-42be-8c00-e460bdd139a3"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "synal-place-of-places-sticky-entry-20260429-001.json",
