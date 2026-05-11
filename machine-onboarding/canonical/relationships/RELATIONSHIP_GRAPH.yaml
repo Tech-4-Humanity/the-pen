@@ -1,0 +1,152 @@
+# Canonical Relationship Graph
+
+version: v1.0
+status: ACTIVE
+canonical_owner: The Pen
+canonical_path: machine-onboarding/canonical/relationships/RELATIONSHIP_GRAPH.yaml
+schema_ref: machine-onboarding/OBJECT_SCHEMA.yaml
+object_graph_ref: machine-onboarding/OBJECT_GRAPH.yaml
+purpose: >
+  Defines traversable topology relationships between systems, doctrine, assets, telemetry,
+  recovery, repositories, economics, runtime environments, and future portfolio objects.
+
+relationship_types:
+  - owns
+  - governs
+  - depends_on
+  - emits_telemetry_to
+  - recovers_via
+  - supersedes
+  - binds_to
+  - executes_against
+  - sourced_from
+  - monetises
+  - validates
+  - orchestrates
+  - reports_to
+  - references
+  - protects
+  - escalates_to
+
+edges:
+  - edge_id: EDGE-000001
+    source: OBJ-SYS-000001
+    target: OBJ-DOCTRINE-000001
+    relationship_type: governs
+    authority_strength: canonical
+    dependency_weight: critical
+    runtime_binding: true
+    description: The Pen governs the onboarding doctrine.
+
+  - edge_id: EDGE-000002
+    source: OBJ-DOCTRINE-000001
+    target: OBJ-ASSET-000001
+    relationship_type: governs
+    authority_strength: canonical
+    dependency_weight: high
+    runtime_binding: true
+    description: Session doctrine governs the response/reporting grammar.
+
+  - edge_id: EDGE-000003
+    source: OBJ-ASSET-000002
+    target: OBJ-SYS-000001
+    relationship_type: validates
+    authority_strength: canonical
+    dependency_weight: critical
+    runtime_binding: true
+    description: Object schema validates machine cognition topology.
+
+  - edge_id: EDGE-000004
+    source: OBJ-ASSET-000002
+    target: OBJ-REL-000001
+    relationship_type: governs
+    authority_strength: canonical
+    dependency_weight: critical
+    runtime_binding: true
+    description: Object schema governs relationship graph runtime structure.
+
+  - edge_id: EDGE-000005
+    source: OBJ-REL-000001
+    target: OBJ-SYS-000001
+    relationship_type: references
+    authority_strength: canonical
+    dependency_weight: high
+    runtime_binding: true
+    description: Relationship graph references The Pen topology.
+
+  - edge_id: EDGE-000006
+    source: OBJ-SYS-000001
+    target: OBJ-TEL-000001
+    relationship_type: emits_telemetry_to
+    authority_strength: operational
+    dependency_weight: high
+    runtime_binding: true
+    description: Onboarding sessions emit telemetry snapshots through telemetry block primitives.
+
+  - edge_id: EDGE-000007
+    source: OBJ-SYS-000001
+    target: OBJ-RECOVERY-000001
+    relationship_type: recovers_via
+    authority_strength: operational
+    dependency_weight: high
+    runtime_binding: true
+    description: HITL defect reruns and onboarding recovery use the recovery loop primitive.
+
+  - edge_id: EDGE-000008
+    source: OBJ-SYS-000001
+    target: OBJ-REPO-000001
+    relationship_type: sourced_from
+    authority_strength: canonical
+    dependency_weight: critical
+    runtime_binding: true
+    description: The Pen system is sourced from the canonical GitHub repository.
+
+  - edge_id: EDGE-000009
+    source: OBJ-SYS-000001
+    target: OBJ-ECO-000001
+    relationship_type: monetises
+    authority_strength: strategic
+    dependency_weight: medium
+    runtime_binding: false
+    description: Organisational cognition infrastructure becomes a monetisable operating platform.
+
+  - edge_id: EDGE-000010
+    source: OBJ-ASSET-000001
+    target: OBJ-ECO-000001
+    relationship_type: enables
+    authority_strength: strategic
+    dependency_weight: medium
+    runtime_binding: false
+    description: Response grammar enables reusable governance-grade reporting structures.
+
+runtime_rules:
+  - REL-RULE-001
+    rule: every REAL object must connect to at least one governing or validating object
+
+  - REL-RULE-002
+    rule: every telemetry-enabled object must bind to a telemetry stream
+
+  - REL-RULE-003
+    rule: every recovery-capable object must bind to a recovery path
+
+  - REL-RULE-004
+    rule: canonical systems must connect to canonical repositories
+
+  - REL-RULE-005
+    rule: monetisable systems must connect to economic units
+
+  - REL-RULE-006
+    rule: doctrine objects must govern at least one executable or reporting asset
+
+  - REL-RULE-007
+    rule: orphaned objects automatically downgrade to PARTIAL
+
+future_runtime_targets:
+  - live graph traversal engine
+  - topology-aware onboarding
+  - dependency-aware execution routing
+  - authority-aware orchestration
+  - runtime telemetry coherence
+  - graph-based recovery automation
+  - economic optimisation routing
+  - executable enforcement runtime
