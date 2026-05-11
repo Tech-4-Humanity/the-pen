@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI for Professionals — Tech 4 Humanity</title>
+  <meta name="description" content="AI infrastructure for professional firms. Connect every system. Structure operational data. Generate evidence-bound outputs.">
+  <style>
+    :root {
+      --ink: #0b0d10;
+      --ink-2: #14171c;
+      --paper: #f7f5f0;
+      --paper-2: #ecebe5;
+      --gold: #b8924a;
+      --gold-2: #8f6f33;
+      --muted: #6b7079;
+      --line: #e3dfd4;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.5; }
+    a { color: inherit; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    header.site { padding: 20px 0; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--paper); z-index: 10; }
+    header.site .row { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-weight: 700; letter-spacing: -.01em; }
+    .brand small { font-weight: 500; color: var(--muted); margin-left: 8px; }
+    nav.verticals { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+    nav.verticals a { text-decoration: none; }
+    nav.verticals a:hover { color: var(--ink); }
+    .cta { background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 14px; }
+    .hero { padding: 96px 0 64px; }
+    .eyebrow { color: var(--gold-2); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; }
+    h1 { font-size: clamp(36px, 5vw, 64px); line-height: 1.05; letter-spacing: -.02em; margin: 16px 0 20px; }
+    .sub { font-size: 20px; color: var(--muted); max-width: 720px; }
+    .hero-ctas { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+    .btn { padding: 12px 18px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 14px; display: inline-block; }
+    .btn.primary { background: var(--ink); color: var(--paper); }
+    .btn.ghost { border: 1px solid var(--ink); }
+    .trust-strip { padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper-2); }
+    .trust-strip .row { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+    .trust-strip strong { color: var(--ink); }
+    section { padding: 72px 0; border-bottom: 1px solid var(--line); }
+    h2 { font-size: clamp(28px, 3.5vw, 42px); letter-spacing: -.015em; margin: 0 0 12px; }
+    h3 { font-size: 18px; margin: 0 0 8px; }
+    p.lead { color: var(--muted); max-width: 720px; margin: 0 0 32px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+    .card.dark { background: var(--ink); color: var(--paper); border-color: var(--ink-2); }
+    .card .tag { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-2); font-weight: 700; }
+    .card.dark .tag { color: var(--gold); }
+    .layer-cake { background: var(--ink); color: var(--paper); padding: 96px 0; }
+    .layer-cake h2 { color: var(--paper); }
+    .layer-cake .layer { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: start; padding: 18px 0; border-top: 1px solid var(--ink-2); }
+    .layer-cake .layer:first-child { border-top: 0; }
+    .layer .label { color: var(--gold); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 12px; }
+    .layer .body { color: var(--paper); opacity: .85; font-size: 15px; }
+    .verticals-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    @media (max-width: 900px) { .verticals-grid { grid-template-columns: 1fr 1fr; } }
+    .vtile { border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: var(--paper); text-decoration: none; color: inherit; }
+    .vtile:hover { border-color: var(--ink); }
+    .vtile strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .vtile span { color: var(--muted); font-size: 13px; }
+    .proof { padding: 64px 0; background: var(--paper-2); }
+    .proof blockquote { font-size: 20px; line-height: 1.4; margin: 0; max-width: 820px; }
+    .proof cite { color: var(--muted); font-style: normal; font-size: 14px; display: block; margin-top: 12px; }
+    .gates { background: var(--paper); padding: 24px; border-radius: 14px; border: 1px solid var(--line); }
+    .gates ul { margin: 0; padding-left: 20px; }
+    .gates li { margin: 6px 0; }
+    footer { padding: 48px 0; background: var(--ink); color: var(--paper); }
+    footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; font-size: 13px; }
+    footer a { color: var(--paper); opacity: .8; text-decoration: none; margin-right: 16px; }
+    .status-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--paper); color: var(--ink); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #1f9d55; display: inline-block; }
+  </style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container row">
+    <div class="brand">Tech 4 Humanity <small>· AI for Professionals</small></div>
+    <nav class="verticals">
+      <a href="/professionals/accountants">Accountants</a>
+      <a href="/professionals/lawyers">Lawyers</a>
+      <a href="/professionals/consultants">Consultants</a>
+      <a href="/professionals/architects">Architects</a>
+      <a href="/professionals/engineers">Engineers</a>
+      <a href="/professionals/financial-planners">Financial planners</a>
+      <a href="/professionals/brokers">Brokers</a>
+      <a href="/professionals/agencies">Agencies</a>
+    </nav>
+    <a href="/find-your-fit" class="cta">Find your fit</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Operational Intelligence Infrastructure</div>
+    <h1>AI infrastructure for professional firms.</h1>
+    <p class="sub">Connect every system. Structure operational data. Generate evidence-bound outputs. Build institutional memory. Run audit-grade reporting. Deploy autonomous agents safely.</p>
+    <div class="hero-ctas">
+      <a class="btn primary" href="/find-your-fit">Find your fit</a>
+      <a class="btn ghost" href="/case-studies/hales-redden">See it live — accounting firm</a>
+    </div>
+    <p style="margin-top:24px;"><span class="status-pill"><span class="dot"></span> Already live in accounting firms</span></p>
+  </div>
+</section>
+
+<section class="trust-strip">
+  <div class="container row">
+    <span><strong>Evidence-bound.</strong> Every output traces back to typed evidence.</span>
+    <span><strong>Telemetry-native.</strong> Every action emits an event.</span>
+    <span><strong>REAL / PARTIAL / BLOCKED.</strong> Nothing is REAL without proof.</span>
+    <span><strong>Run continuity.</strong> Survives sessions, devices, and outages.</span>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Pains we resolve</h2>
+    <p class="lead">Most professional firms are drowning in fragmented operational evidence. The cost of recovery from staff turnover, compliance burden, and reporting drag compounds silently.</p>
+    <div class="grid-3">
+      <div class="card"><div class="tag">Fragmented evidence</div><h3>Every client, every system</h3><p>Email, drive, practice management, accounting, billing — unified into one operational truth.</p></div>
+      <div class="card"><div class="tag">Knowledge loss</div><h3>Memory that outlives staff</h3><p>Decisions, rationale, and project history captured at the point of action.</p></div>
+      <div class="card"><div class="tag">Compliance drag</div><h3>Evidence packs on demand</h3><p>Audit-grade exports assembled automatically with retention policy enforced.</p></div>
+      <div class="card"><div class="tag">Reporting time</div><h3>Briefings in minutes</h3><p>Live KPIs with drill-down to the receipts behind them.</p></div>
+      <div class="card"><div class="tag">Workflow chaos</div><h3>Orchestration, not chatbots</h3><p>Multi-step workflows with recovery, retry, and replay built in.</p></div>
+      <div class="card"><div class="tag">AI risk</div><h3>Governance you can show a regulator</h3><p>Classification, drift detection, human override, telemetry, audit trail.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="layer-cake">
+  <div class="container">
+    <h2>One engine. Many wrappers. One truth.</h2>
+    <p style="opacity:.7;max-width:720px;">The same runtime serves every profession. What changes is terminology, workflows, integrations, and compliance — not the engine.</p>
+    <div class="layer"><div class="label">Wrapper</div><div class="body">Profession-specific language, workflows, integrations, and compliance packs.</div></div>
+    <div class="layer"><div class="label">Desks</div><div class="body">Front · Proposal · Booking · Growth · Evidence · Ops · Retention · Workforce · Memory.</div></div>
+    <div class="layer"><div class="label">Factor · Gateway · MRI</div><div class="body">Operational intelligence · system connections · reporting and evidence outputs.</div></div>
+    <div class="layer"><div class="label">Runtime</div><div class="body">Agents, orchestration, queues, workflows, billing.</div></div>
+    <div class="layer"><div class="label">Governance</div><div class="body">REAL / PARTIAL / BLOCKED · telemetry · evidence ledger · drift · recovery · human stop.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Built for every white-collar firm</h2>
+    <p class="lead">Same engine underneath. Profession-specific surface on top.</p>
+    <div class="verticals-grid">
+      <a class="vtile" href="/professionals/accountants"><strong>Accountants</strong><span>BAS, RDTI, audit, evidence</span></a>
+      <a class="vtile" href="/professionals/lawyers"><strong>Lawyers</strong><span>Matters, obligations, discovery</span></a>
+      <a class="vtile" href="/professionals/consultants"><strong>Consultants</strong><span>Engagements, IP, recurrence</span></a>
+      <a class="vtile" href="/professionals/financial-planners"><strong>Financial planners</strong><span>Client intel, SOAs, compliance</span></a>
+      <a class="vtile" href="/professionals/architects"><strong>Architects</strong><span>Projects, approvals, consultants</span></a>
+      <a class="vtile" href="/professionals/engineers"><strong>Engineers</strong><span>Compliance, evidence, sign-off</span></a>
+      <a class="vtile" href="/professionals/brokers"><strong>Brokers</strong><span>Pipeline, lender, compliance</span></a>
+      <a class="vtile" href="/professionals/agencies"><strong>Agencies</strong><span>Campaigns, delivery, attribution</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="container">
+    <div class="eyebrow">Pilot partner</div>
+    <h2 style="margin-top:6px;">Hales Redden</h2>
+    <blockquote>"It's not another AI tool — it's the operational layer underneath. Every output ties back to typed evidence we can show to the regulator."</blockquote>
+    <cite>— Pilot accounting firm, AU</cite>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Acceptance gates before anything is REAL</h2>
+    <p class="lead">We do not mark a system live until it has passed real receipts. Promotion to REAL is a function — not a claim.</p>
+    <div class="gates">
+      <ul>
+        <li>Endpoint health check returns 200 against a real input</li>
+        <li>Event written to the universal event stream with classification</li>
+        <li>Typed evidence row written to the evidence register</li>
+        <li>Telemetry snapshot attached to the event</li>
+        <li>Recovery path validated or marked unnecessary with reason</li>
+        <li>Economic value signal is not "orphan"</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Tiered by operational maturity</h2>
+    <p class="lead">Not feature gates. Tiers reflect how deep the trust runs.</p>
+    <div class="grid-4">
+      <div class="card"><div class="tag">Foundation · $199/mo</div><h3>Connect & capture</h3><p>Shared multitenant. Basic telemetry. 12-month evidence retention.</p></div>
+      <div class="card"><div class="tag">Structured · $599/mo</div><h3>Workflow automation</h3><p>Standard telemetry, audit export, 36-month retention.</p></div>
+      <div class="card dark"><div class="tag">Autonomous · $1,799/mo</div><h3>Multi-agent orchestration</h3><p>Full telemetry, REAL/PARTIAL/BLOCKED enforcement, 84-month retention.</p></div>
+      <div class="card"><div class="tag">Enterprise · from $4,999/mo</div><h3>Policy engine at scale</h3><p>Dedicated database, approval chains, 120-month retention.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container row">
+    <div>
+      <strong>Tech 4 Humanity Pty Ltd</strong><br>
+      <span style="opacity:.6;">ABN 70 666 271 272 · Sydney, AU</span>
+    </div>
+    <div>
+      <a href="/governance">Governance</a>
+      <a href="/factor">Factor</a>
+      <a href="/gateway">Gateway</a>
+      <a href="/mri">MRI</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/case-studies">Case studies</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
