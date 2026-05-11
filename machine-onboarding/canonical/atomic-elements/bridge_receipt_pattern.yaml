@@ -1,0 +1,66 @@
+atomic_id: ATOM-EXEC-001
+name: bridge_receipt_pattern
+status: REAL
+canonical: true
+reusable: true
+last_updated: "2026-05-11"
+
+purpose: |
+  Standard pattern for binding a bridge execution to a Reality Ledger row.
+  Every bridge call should produce one receipt and one ledger entry.
+
+inputs:
+  required:
+    - bridge_response
+    - intent
+    - task_id
+  optional:
+    - cluster_id
+    - supersedes
+
+outputs:
+  - receipt
+  - ledger_row_id
+
+invariants:
+  - "Receipt MUST contain task_id, status, timestamp, and at least one typed evidence entry."
+  - "Ledger row status MUST match receipt status."
+  - "If bridge_response indicates write success but read-back returns empty, status MUST be BLOCKED with bounded reason."
+  - "supersedes list MUST reference verifiable prior receipts (commit SHAs, ledger UUIDs, or bridge receipt IDs)."
+
+steps:
+  1: capture_bridge_response
+  2: classify_outcome
+  3: build_evidence_envelope
+  4: resolve_cluster
+  5: write_ledger_row
+  6: verify_writeback
+  7: emit_telemetry
+  8: return_receipt
+
+failure_modes:
+  - id: F1
+    when: ledger writeback verification returns no row
+    action: classify as BLOCKED, re-attempt via direct SQL (not REST), log defect
+  - id: F2
+    when: cluster_id rejected with sqlstate 23503
+    action: see TRAPS-D-1; use NULL or pick from CLUSTERS.yaml
+  - id: F3
+    when: bridge response has no receipt_id but reports success
+    action: classify PARTIAL, surface dependency, do not claim REAL
+
+replay:
+  rule: "Given a receipt, re-execute by re-invoking the bridge with the same payload and asserting the new ledger row supersedes the prior one."
+
+example_receipt:
+  task_id: machine-onboarding-v3-unified-doctrine
+  status: REAL
+  cluster_id: CL_BRIDGE_PEN
+  ledger_row_id: "0f853075-1c2c-4fe7-88a4-451f5fce9e3b"
+  evidence:
+    - type: commit_id
+      value: "62c72b2d0964b87474620d18ddbf37511cd902de"
+    - type: database_result
+      value: "public.reality_ledger row verified via SQL read"
+  supersedes:
+    - "commit:7c1c8155e87aa052c6478ac39273d3aaee9f6cac"
