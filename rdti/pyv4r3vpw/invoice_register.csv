@@ -1,0 +1,14 @@
+invoice_number,period,fy,total_hours,rate_per_hour,amount_ex_gst,amount_inc_gst,status,from_entity,to_entity,mao_allocation_note
+TL-2024JUL,Jul 2024,FY24-25,354.4,500,177200,194920,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2024AUG,Aug 2024,FY24-25,177.2,500,88600,97460,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2024SEP,Sep 2024,FY24-25,171.6,500,85800,94380,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2024OCT,Oct 2024,FY24-25,177.2,500,88600,97460,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2024NOV,Nov 2024,FY24-25,171.6,500,85800,94380,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2024DEC,Dec 2024,FY24-25,354.4,500,177200,194920,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2025JAN,Jan 2025,FY24-25,354.4,500,177200,194920,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2025FEB,Feb 2025,FY24-25,160.0,500,80000,88000,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2025MAR,Mar 2025,FY24-25,310.1,500,155050,170555,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2025APR,Apr 2025,FY24-25,300.3,500,150150,165165,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2025MAY,May 2025,FY24-25,310.1,500,155050,170555,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TL-2025JUN,Jun 2025,FY24-25,343.2,500,171600,188760,Issued,Troy Latter,Tech 4 Humanity Ltd,All hours director R&D labour - 100% R&D eligible
+TOTAL,,,,500,1592250,,,,CONFIRMED: 3184.5h x $500 = $1592250 exact match
