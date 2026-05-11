@@ -8,16 +8,15 @@ meta:
   canonical_owner: The Pen
   canonical_path: machine-onboarding/MACHINE_REALITY_INDEX.yaml
   supersedes:
-    - "blob:a156f5dce7f8334cbce75758b9873c4a0617e212"  # v1.0
+    - "blob:a156f5dce7f8334cbce75758b9873c4a0617e212"
   last_updated: "2026-05-11"
   change_log:
-    - "v1.1: fix SKS project (S1 not S2); add preflight pointer; add atomic-elements seeded status; add cluster registry pointer"
+    - "v1.1: fix SKS project (S1 not S2); add preflight pointer; add atomic-elements seeded; add cluster registry pointer; add acceptance_harness binding"
 
 authority:
   canonical_runtime:
     name: The Pen
     repo: TML-4PM/the-pen
-    role: intake gate, rules, receipts, routing
     status: REAL
   organisation:
     legal_entity: Tech 4 Humanity Pty Ltd
@@ -25,33 +24,28 @@ authority:
     sole_director: Troy Latter
     jurisdiction: Australia
   cognition_layers:
-    L1_house_rules_engine:
-      status: ACTIVE
-      governs: behaviour, writeback, escalation
+    L1_house_rules_engine: { status: ACTIVE, governs: behaviour/writeback/escalation }
     L2_bootstrap_system:
       status: ACTIVE
       governs: session cognition loading sequence
       preflight: machine-onboarding/PREFLIGHT.md
     L3_standard_knowledge_system:
       status: ACTIVE
-      governs: canonical runtime constants
       runtime_view: ops.v_standard_knowledge_active
       primary_table: ops.standard_knowledge_register
-      project: lzfgigiyqpuuxslsygjt   # S1 — verified via to_regclass 2026-05-11
+      project: lzfgigiyqpuuxslsygjt
       note: "HRE PDF recommended pflisxkcxbzboxwidywf (S2); actual deployment is S1. Always trust to_regclass."
     L4_reality_ledger:
       status: ACTIVE
-      governs: proof, evidence, classification
       primary_table: public.reality_ledger
-      cluster_fk_target: core.cluster_registry  # CRITICAL — cluster_id must exist
-      canonical_table_note: "public.reality_ledger is canonical; ops.reality_ledger and core.reality_ledger exist but core is DEPRECATED 2026-05-02"
+      cluster_fk_target: core.cluster_registry
       acceptance_harness: public.fn_onboarding_acceptance_score()
+      canonical_table_note: "public.reality_ledger is canonical; ops.reality_ledger and core.reality_ledger exist but core is DEPRECATED 2026-05-02"
 
 runtime:
   bridge:
     endpoint: https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke
     auth: dual_header
-    deprecated_endpoint: m5oqj21chd
     canonical_executor: troy-sql-executor
     envelope_key: fn
     nested_payload_for: [troy-sql-executor]
@@ -69,16 +63,11 @@ runtime:
         - public.t4h_business_registry
         - public.cap_secrets
         - core.cluster_registry
-    S2:
-      project: pflisxkcxbzboxwidywf
-      role: read_only
+    S2: { project: pflisxkcxbzboxwidywf, role: read_only }
   github:
     org: TML-4PM
     canonical_write_fn: fn_github_push
-    invocation: troy-sql-executor (NESTED, 7-arg)
     bulk_dispatch_tool: T4H Remote MCP Clean:github_bulk_dispatch
-  vercel:
-    org: t4h
   mcp:
     canonical_server: t4h-remote-mcp-server-clean.vercel.app
     version: v3.5.0
@@ -94,8 +83,7 @@ clusters:
   snapshot: machine-onboarding/canonical/doctrine/CLUSTERS.yaml
   fk_target_warning: |
     INSERT into public.reality_ledger with invalid cluster_id fails with
-    sqlstate 23503. Either supply an existing cluster_id from CLUSTERS.yaml
-    or leave cluster_id NULL.
+    sqlstate 23503. Use existing cluster_id or NULL.
 
 canonical_registries:
   systems:         { path: canonical/systems/,             seeded: false }
@@ -112,24 +100,12 @@ canonical_registries:
   relationships:   { path: canonical/relationships/,       seeded: false }
 
 doctrine:
-  wave_10:
-    required_components: 8
-    rule: any_missing_equals_PARTIAL
-  rdti:
-    tag_at_creation: true
-    fields: [is_rd, project_code]
-    rate: 0.435
-  rls:
-    rule: all_writes_RLS_enabled
-  archive_policy:
-    rule: archive_never_delete
-  stamp:
-    schema: stamp
-    runway_gate: public.fn_runway_stamp_gate
-    threshold_secret: STAMP_RUNWAY_THRESHOLD
-  traps_d:
-    location: canonical/doctrine/TRAPS.md
-    last_updated: "2026-05-11"
+  wave_10: { required_components: 8, rule: any_missing_equals_PARTIAL }
+  rdti: { tag_at_creation: true, fields: [is_rd, project_code], rate: 0.435 }
+  rls: { rule: all_writes_RLS_enabled }
+  archive_policy: { rule: archive_never_delete }
+  stamp: { schema: stamp, runway_gate: public.fn_runway_stamp_gate, threshold_secret: STAMP_RUNWAY_THRESHOLD }
+  traps_d: { location: canonical/doctrine/TRAPS.md, last_updated: "2026-05-11", entries: 7 }
   acceptance_harness:
     source: machine-onboarding/ACCEPTANCE_HARNESS.sql
     deployed_fn: public.fn_onboarding_acceptance_score()
@@ -137,23 +113,8 @@ doctrine:
 
 evidence:
   typed_only: true
-  allowed_types:
-    - commit_id
-    - bridge_receipt
-    - api_response
-    - cli_output
-    - hash
-    - repro_steps
-    - deployment_url
-    - telemetry_snapshot
-    - database_result
-    - issue_id
-    - PR_id
-    - url
-  forbidden:
-    - screenshot_only
-    - narrative_only
-    - confidence_without_proof
+  allowed_types: [commit_id, bridge_receipt, api_response, cli_output, hash, repro_steps, deployment_url, telemetry_snapshot, database_result, issue_id, PR_id, url]
+  forbidden: [screenshot_only, narrative_only, confidence_without_proof]
 
 trust_states:
   allowed: [REAL, PARTIAL, BLOCKED]
