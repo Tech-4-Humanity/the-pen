@@ -1,0 +1,124 @@
+{
+  "idempotency_key": "cognitive-ergonomics-runtime-build-20260512",
+  "submitted_at": "2026-05-12T00:00:00+10:00",
+  "origin": "chatgpt_uploaded_strategy_text",
+  "destination": "PEN_TO_BRIDGE_TO_SYMBIO_DEV",
+  "classification": "PARTIAL_UNTIL_RUNTIME_RECEIPTS",
+  "title": "Build Cognitive Ergonomics runtime research and commercial platform",
+  "summary": "Convert Cognitive Ergonomics from strategy/research register into an executable platform: portfolio register, public assessments, telemetry loop, evidence ledger, research protocols, commercial pilots, and governance gates.",
+  "source_basis": {
+    "core_thesis": "AI should adapt to human cognitive profile, biology, timing, emotional state, stress and social context rather than forcing one standard interaction model.",
+    "major_programs": [
+      "Platform Data Engine",
+      "Theoretical Foundations",
+      "Biological and Temporal Calibration",
+      "Clinical and Underserved Populations",
+      "Social Commercial Ecosystem"
+    ],
+    "priority_themes": [
+      "Negative Responders",
+      "AI Sweet Spots",
+      "Prosthetic PFC",
+      "System 3 cognition",
+      "Allostatic Load calibration",
+      "Empowerment versus Disempowerment",
+      "Multi-agent cognition",
+      "Cognitive drift",
+      "Temporal calibration",
+      "Biological modulation"
+    ]
+  },
+  "required_build_outputs": [
+    {
+      "name": "research_portfolio_registry",
+      "description": "Canonical table for all research ideas, domains, programs, priority tiers, evidence state, commercial path, owner, dependencies, protocol status and next gate.",
+      "target": "Supabase ops/research schema"
+    },
+    {
+      "name": "assessment_runtime",
+      "description": "Public survey/assessment runtime for AI Sweet Spots, Negative Responders, Cognitive Ergonomics baseline, Prosthetic PFC, Allostatic Load and multi-agent workflow studies.",
+      "target": "Web app plus Supabase persistence"
+    },
+    {
+      "name": "telemetry_ledger",
+      "description": "Event model capturing participant consent, interaction context, AI intensity, task type, timestamps, self-report, performance proxy, wellbeing proxy and follow-up drift markers.",
+      "target": "audit.evidence_register plus research.telemetry_events"
+    },
+    {
+      "name": "protocol_pack",
+      "description": "One-page protocol template per study with research question, construct map, inclusion/exclusion, consent text, ethics risk, variables, data dictionary and publication/commercial output.",
+      "target": "docs plus database rows"
+    },
+    {
+      "name": "commercial_widget_layer",
+      "description": "Map research outputs to sellable widgets: enterprise pilot, team calibration, burnout prevention, AI adoption audit, AI intensity profile, longitudinal diagnostics and certification.",
+      "target": "commercial widgets registry"
+    },
+    {
+      "name": "dashboard",
+      "description": "Portfolio and runtime dashboard showing idea stage, evidence state, participant counts, active assessments, data quality, drift signals, commercial readiness and next actions.",
+      "target": "Command centre widget"
+    }
+  ],
+  "execution_sequence": [
+    "Create Supabase DDL for research.programs, research.ideas, research.protocols, research.assessments, research.telemetry_events, research.participant_consents, research.outputs and research_commercial_map.",
+    "Seed the 5 programs and priority themes from the uploaded strategy text.",
+    "Create stage-gate state machine: intake, evaluate, design_gate, execute, deliver_integrate, quarterly_review, locked.",
+    "Create evidence states: PRETEND, PARTIAL, REAL with REAL requiring live assessment URL, persistence proof, telemetry rows, dashboard visibility, export, and governance receipt.",
+    "Build public assessment scaffold with consent-first flow and assessment slug routing.",
+    "Implement event ledger writes for assessment_started, consent_granted, question_answered, assessment_completed, score_generated, followup_due and export_generated.",
+    "Build dashboards and CSV exports for research register, protocol gaps, assessment metrics, evidence gaps and commercial widget map.",
+    "Run smoke tests inserting seed programs, one Negative Responders protocol, one AI Sweet Spots assessment, telemetry events and evidence rows.",
+    "Return bridge receipt, commit SHA, runtime URL if deployed, and evidence classification."
+  ],
+  "governance_gates": {
+    "no_pretend_claims": true,
+    "requires_consent_before_public_data_capture": true,
+    "requires_protocol_before_live_study_claim": true,
+    "requires_telemetry_for_real": true,
+    "requires_exportable_data_dictionary": true,
+    "requires_gatekeeper_for_synapse_prod": true
+  },
+  "first_priority_jobs": [
+    {
+      "priority": 1,
+      "slug": "negative-responders",
+      "reason": "Urgent and high-value; identifies users harmed or disempowered by AI interaction."
+    },
+    {
+      "priority": 2,
+      "slug": "cognitive-ergonomics-manifesto",
+      "reason": "Defines field and IP frame."
+    },
+    {
+      "priority": 3,
+      "slug": "ai-sweet-spots-public-assessment",
+      "reason": "Existing public research direction; converts static work into live data capture."
+    },
+    {
+      "priority": 4,
+      "slug": "allostatic-load-calibration",
+      "reason": "Strong health, workforce and commercial relevance."
+    },
+    {
+      "priority": 5,
+      "slug": "enterprise-pilot-calibration",
+      "reason": "Revenue bridge into professional services and workplace optimisation."
+    }
+  ],
+  "acceptance_tests": [
+    "DDL applies cleanly and is idempotent.",
+    "Seed data creates five programs and priority themes without duplicates.",
+    "Assessment can be started, completed and scored with consent captured.",
+    "Telemetry rows are written for each lifecycle event.",
+    "Evidence register contains proof rows linked to assessment and protocol IDs.",
+    "Dashboard reads from canonical tables only.",
+    "CSV exports generate for register, evidence gaps and commercial map.",
+    "No item is classified REAL unless runtime URL, persistence, telemetry and receipt exist."
+  ],
+  "expected_receipt": {
+    "repo": "TML-4PM/the-pen",
+    "receipt_path": "receipts/runtime/cognitive-ergonomics-runtime-build-20260512.json",
+    "must_include": ["commit_sha", "worker_id", "status", "runtime_urls", "supabase_objects", "smoke_test_results", "evidence_state"]
+  }
+}
