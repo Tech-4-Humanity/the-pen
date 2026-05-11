@@ -1,0 +1,77 @@
+{
+  "task_id": "campaign-board-hitl-expanded-20260511",
+  "source_issue": "https://github.com/TML-4PM/the-pen/issues/81",
+  "status": "PARTIAL",
+  "created_utc": "2026-05-11T12:15:00Z",
+  "intent": "Make the May-Nov 2026 marketing campaign board operational, starting 2026-05-12, with HITL controls, 30-business portfolio coverage, evidence capture, and Reality Ledger binding.",
+  "source_artifact": {
+    "name": "MKT_CampaignBoard_REAL_HITL_Expanded_20260511.xlsx",
+    "local_chat_path": "/mnt/data/MKT_CampaignBoard_REAL_HITL_Expanded_20260511.xlsx",
+    "format": "xlsx",
+    "notes": "Workbook enhanced in chat runtime. Needs runtime ingestion or Drive-native conversion by Bridge/Symbio actor."
+  },
+  "required_tables": [
+    "campaign_board",
+    "campaign_daily_schedule",
+    "campaign_portfolio",
+    "campaign_hitl_tests",
+    "campaign_decision_notes",
+    "campaign_evidence_log"
+  ],
+  "canonical_business_count": 30,
+  "first_sprint": [
+    "AI 4 Tradies",
+    "GirlMath",
+    "Outcome Ready",
+    "Augmented Humanity Coach",
+    "WorkFamilyAI"
+  ],
+  "status_values": [
+    "REAL",
+    "PARTIAL",
+    "BLOCKED",
+    "READY_FOR_HITL",
+    "NEEDS_DECISION",
+    "DONE"
+  ],
+  "hitl_policy": {
+    "autonomous_by_default": true,
+    "hitl_required_for": [
+      "brand merge decision",
+      "brand kill decision",
+      "public go-live decision",
+      "material spend",
+      "legal or regulatory commitment",
+      "destructive archive/delete action"
+    ]
+  },
+  "execution_steps": [
+    "Import workbook into runtime-accessible storage.",
+    "Materialise workbook tabs into required campaign tables.",
+    "Validate 30-business portfolio coverage.",
+    "Bind each row to Reality Ledger state and evidence requirement.",
+    "Generate first-sprint campaign queue.",
+    "Run smoke tests for row counts, required columns, validation lists, and receipt fields.",
+    "Return Bridge/Symbio receipt with execution IDs, table counts, and evidence links."
+  ],
+  "evidence_required": [
+    "runtime table row counts",
+    "ingestion log",
+    "Reality Ledger insertion IDs",
+    "first sprint queue IDs",
+    "Drive or storage URL if workbook mirrored",
+    "GitHub issue or commit receipt"
+  ],
+  "gaps": [
+    "Direct bridge execution tool not exposed in this chat session.",
+    "Google Drive native conversion blocked by connector metadata requirement.",
+    "Supabase/runtime ingestion not executed here."
+  ],
+  "score": {
+    "execution": 0.66,
+    "evidence": 0.70,
+    "economic": 0.86,
+    "reuse": 0.84,
+    "delta": 0.78
+  }
+}
