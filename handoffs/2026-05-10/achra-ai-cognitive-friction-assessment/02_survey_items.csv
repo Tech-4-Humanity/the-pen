@@ -1,0 +1,13 @@
+question_key,dimension,item_text,scale
+Q1,ai_trust_control,I trust AI outputs without checking every detail,1-7
+Q2,ai_trust_control,I prefer AI suggestions that explain reasoning,1-7
+Q3,cognitive_load_response,AI tools reduce my mental workload,1-7
+Q4,cognitive_load_response,Using multiple AI tools leaves me mentally exhausted,1-7
+Q5,identity_status_friction,I worry AI reduces the value of my expertise,1-7
+Q6,workflow_adaptability,I can integrate AI into my normal workflow easily,1-7
+Q7,experimentation_learning_velocity,I enjoy experimenting with new AI workflows,1-7
+Q8,verification_discipline,I verify AI-generated facts before using them in important work,1-7
+Q9,automation_dependency_risk,I sometimes rely on AI outputs without fully understanding them,1-7
+Q10,executive_function_support_fit,AI helps me sequence and complete tasks more effectively,1-7
+Q11,emotional_social_safety,I feel judged when using AI around peers or managers,1-7
+Q12,human_agent_symbiosis,AI and human collaboration improves my outcomes,1-7
