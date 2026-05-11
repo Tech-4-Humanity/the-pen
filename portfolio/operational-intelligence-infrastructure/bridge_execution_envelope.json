@@ -1,0 +1,165 @@
+{
+  "idempotency_key": "operational-intelligence-infrastructure-runtime-20260512",
+  "title": "Deploy Operational Intelligence Infrastructure Core",
+  "status": "BRIDGE_READY",
+  "classification": "PARTIAL",
+  "requested_by": "Troy Latter",
+  "origin": "chatgpt",
+  "destination": "bridge/runtime",
+  "no_hitl_required": true,
+  "category": "AI-native operational infrastructure for human organisations",
+  "core_demands": [
+    "operational_intelligence",
+    "auditability",
+    "orchestration",
+    "governance",
+    "evidence",
+    "workforce_augmentation",
+    "institutional_memory"
+  ],
+  "portfolio_wrappers": [
+    "AI for Tradies",
+    "AI for Professionals",
+    "AI for Self-Employed",
+    "Health AI OS",
+    "Education AI OS",
+    "Outcome Ready OS",
+    "Enter Australia OS",
+    "WorkFamilyAI",
+    "AHC Transformation Desk",
+    "AI Sweet Spots Fit Finder",
+    "Factor Gateway MRI"
+  ],
+  "canonical_products": [
+    {
+      "sku": "ai_front_desk",
+      "name": "AI Front Desk",
+      "function": "intake, enquiry capture, triage, routing"
+    },
+    {
+      "sku": "ai_proposal_desk",
+      "name": "AI Proposal Desk",
+      "function": "quote, proposal, SOW, estimate generation"
+    },
+    {
+      "sku": "ai_booking_desk",
+      "name": "AI Booking Desk",
+      "function": "scheduling, reminders, calendar orchestration"
+    },
+    {
+      "sku": "ai_growth_desk",
+      "name": "AI Growth Desk",
+      "function": "campaigns, content, follow-up, review generation"
+    },
+    {
+      "sku": "ai_evidence_desk",
+      "name": "AI Evidence Desk",
+      "function": "records, compliance, audit trails, evidence packs"
+    },
+    {
+      "sku": "ai_ops_dashboard",
+      "name": "AI Ops Dashboard",
+      "function": "metrics, alerts, revenue, capacity, workflow visibility"
+    },
+    {
+      "sku": "ai_retention_desk",
+      "name": "AI Retention Desk",
+      "function": "renewals, lifecycle, reminders, repeat revenue"
+    },
+    {
+      "sku": "ai_workforce_desk",
+      "name": "AI Workforce Desk",
+      "function": "human-agent role support and workforce augmentation"
+    },
+    {
+      "sku": "ai_memory_desk",
+      "name": "AI Memory Desk",
+      "function": "institutional memory, project history, decision trail"
+    },
+    {
+      "sku": "full_vertical_ai_os",
+      "name": "Full Vertical AI OS",
+      "function": "complete wrapper-specific operational intelligence deployment"
+    }
+  ],
+  "deployment_wave": [
+    {
+      "wrapper": "AI for Professionals",
+      "priority": 1,
+      "route": "/professionals",
+      "buyer": "white collar professional firms",
+      "positioning": "operational intelligence for professional services"
+    },
+    {
+      "wrapper": "AI for Tradies",
+      "priority": 2,
+      "route": "/tradies",
+      "buyer": "trade and field service businesses",
+      "positioning": "answer, quote, book, deliver, review, retain"
+    },
+    {
+      "wrapper": "Outcome Ready OS",
+      "priority": 3,
+      "route": "/outcome-ready",
+      "buyer": "regulated providers and care/service organisations",
+      "positioning": "evidence-bound provider operations"
+    },
+    {
+      "wrapper": "Health AI OS",
+      "priority": 4,
+      "route": "/health",
+      "buyer": "clinics, allied health, health admin teams",
+      "positioning": "patient/admin operations with consent and auditability"
+    },
+    {
+      "wrapper": "Education AI OS",
+      "priority": 5,
+      "route": "/education",
+      "buyer": "schools, tutors, training providers",
+      "positioning": "enrolment, learning evidence, parent/student operations"
+    },
+    {
+      "wrapper": "Enter Australia OS",
+      "priority": 6,
+      "route": "/enter-australia",
+      "buyer": "international founders and companies entering Australia",
+      "positioning": "market entry operating system"
+    }
+  ],
+  "runtime_requirements": {
+    "database": "supabase",
+    "billing": "stripe_or_equivalent",
+    "frontend": "vercel_or_equivalent",
+    "api": "serverless_or_edge_runtime",
+    "telemetry": "audit.reality_ledger + operational event stream",
+    "queue": "ops.work_queue or bridge-compatible queue",
+    "evidence": "audit.evidence_register",
+    "governance": "REAL/PARTIAL/PRETEND classification with promotion gates"
+  },
+  "acceptance_gates": [
+    "site_routes_deployed",
+    "product_catalogue_seeded",
+    "pricing_seeded",
+    "stripe_product_price_ids_returned",
+    "supabase_schema_execution_receipt_returned",
+    "api_health_check_returned",
+    "telemetry_event_written",
+    "evidence_register_row_written",
+    "reality_ledger_row_written",
+    "recovery_or_retry_path_validated"
+  ],
+  "expected_receipts": [
+    "deployment_url",
+    "commit_sha",
+    "stripe_product_ids",
+    "stripe_price_ids",
+    "supabase_migration_id_or_sql_receipt",
+    "api_health_response",
+    "telemetry_event_id",
+    "evidence_register_id",
+    "reality_ledger_id",
+    "bridge_execution_log_url_or_id"
+  ],
+  "definition_of_done": "REAL only after live deployment, telemetry, evidence, billing, governance, and recovery receipts are attached.",
+  "next_action": "Bridge runner to execute this envelope and return receipts. Do not mark REAL until runtime proof exists."
+}
