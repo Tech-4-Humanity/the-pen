@@ -1,0 +1,16 @@
+{
+  "task_id": "AISS-DRXAI-COMPLETE-20260511",
+  "intent": "analyse_enhance_compile_send_to_bridge_complete_on_receipt",
+  "status": "PARTIAL",
+  "required_execution": [
+    "Create aiss claim/evidence tables in target Supabase project after credential resolution.",
+    "Seed normalized claims with PARTIAL/HYPOTHESIS states, not REAL.",
+    "Patch aisweetspots.com canonical metadata and public copy.",
+    "Add /evidence and /drxai routes.",
+    "Wrap all high-risk quantified claims in ClaimGuard component.",
+    "Add pharmaceutical intervention category as first-class, alongside AI and psychedelics.",
+    "Generate receipts: GitHub commit SHA, Supabase migration result, deployment URL, evidence table row counts."
+  ],
+  "reality_state": "PARTIAL",
+  "next_action": "Executor applies schema, patches site, deploys, returns receipts."
+}
