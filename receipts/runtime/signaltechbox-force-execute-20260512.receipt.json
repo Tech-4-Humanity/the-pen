@@ -3,7 +3,7 @@
   "commit_sha": "5423ab0a45757f99e92ec60baa00ec6e96e6c54d",
   "created_at": "2026-05-11T16:28:18.039791+00:00",
   "evidence_state": "PARTIAL",
-  "idempotency_key": "runway-machine-gates-completion-20260506",
+  "idempotency_key": "signaltechbox-force-execute-20260512",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
   "job_type": null,
   "next": "Downstream worker should process accepted job and append final REAL/PARTIAL receipt.",
@@ -18,14 +18,14 @@
     "job_json_valid": true,
     "receipt_written": true
   },
-  "priority": null,
+  "priority": "P1",
   "receipt_state": "ACCEPTED",
   "receipt_type": "pen_runtime_receipt",
   "repo": "TML-4PM/the-pen",
   "rollback": "Archive the inbox job and receipt if superseded; do not delete evidence.",
-  "source_job_path": "inbox/runway-machine-gates-completion-20260506.json",
-  "source_sha256": "4f8140a1213a203c9840b3b002bf7fbabfe551c21f05373ebb5d81623eceb2a7",
-  "title": null,
+  "source_job_path": "inbox/signaltechbox-force-execute-20260512.json",
+  "source_sha256": "18402f5da5d50dc941a0d07dddfe0d0242c2d1ae6fa307816e98626302002149",
+  "title": "Force execute SignalTechBox Supabase bundle and write runtime receipt",
   "workflow_run_attempt": "1",
   "workflow_run_id": "25683048639"
 }
