@@ -1,0 +1,104 @@
+{
+  "idempotency_key": "social-signal-intelligence-engine-20260512",
+  "created_at": "2026-05-12T00:00:00+10:00",
+  "origin": "chatgpt",
+  "destination": "bridge",
+  "lane": "wip_to_pen",
+  "evidence_state": "PARTIAL",
+  "title": "Build Social Signal Intelligence Engine beyond CSV extraction",
+  "summary": "Create a cross-platform social intelligence system that monitors selected public creator/company/person profiles, extracts engagement signals where compliant, enriches and scores audience entities, builds graph intelligence, and routes commercial/operational actions through governed workflows.",
+  "doctrine": {
+    "not_a_scraper": true,
+    "core_value": "Signal intelligence, graph memory, scoring, routing, workflow action, telemetry and attribution.",
+    "commodity_layer": ["profile monitoring", "engagement extraction", "CSV export"],
+    "value_layer": ["entity graph", "topic affinity", "intent scoring", "commercial routing", "institutional memory", "evidence ledger", "workflow closure", "revenue attribution"],
+    "done_requires": ["runtime worker", "data persistence", "evidence receipts", "rate limits", "manual review queue", "export pack", "dashboard", "workflow actions"]
+  },
+  "phase_1_proof": {
+    "duration_target": "1-3 days once runtime credentials/tools are available",
+    "scope": "Track 10 public LinkedIn creator/company/person profiles, extract visible engagement metadata, export CSV, run manual review, classify usefulness.",
+    "watchlist_slots": [
+      {"slot": 1, "segment": "NDIS / disability / workforce", "profile_type": "NDIS provider CEO or executive", "signals": ["workforce shortage", "documentation load", "participant coordination", "compliance pain"]},
+      {"slot": 2, "segment": "NDIS / disability / workforce", "profile_type": "NDIS consultant or compliance advisor", "signals": ["audit readiness", "provider governance", "quality safeguards", "operational burden"]},
+      {"slot": 3, "segment": "NDIS / disability / workforce", "profile_type": "disability employment or inclusion advocate", "signals": ["employment pathways", "accessibility", "participant outcomes", "policy change"]},
+      {"slot": 4, "segment": "work + family + AI", "profile_type": "future-of-work / HR transformation voice", "signals": ["AI augmentation", "work redesign", "productivity", "burnout"]},
+      {"slot": 5, "segment": "work + family + AI", "profile_type": "caregiving / women-at-work / flexibility voice", "signals": ["invisible labour", "family load", "flexibility", "AI support"]},
+      {"slot": 6, "segment": "work + family + AI", "profile_type": "AI for professionals / workplace AI practitioner", "signals": ["professional services AI", "governance", "implementation friction", "team adoption"]},
+      {"slot": 7, "segment": "augmented humanity / institutional intelligence", "profile_type": "AI governance / enterprise transformation leader", "signals": ["institutional memory", "operational intelligence", "agentic systems", "auditability"]},
+      {"slot": 8, "segment": "augmented humanity / institutional intelligence", "profile_type": "systems thinker / cognitive augmentation voice", "signals": ["human-machine teaming", "decision friction", "knowledge work", "organisational learning"]},
+      {"slot": 9, "segment": "signal discovery wildcard", "profile_type": "policy, education, local government or behavioural economics voice", "signals": ["public sector AI", "trust", "service delivery", "social impact"]},
+      {"slot": 10, "segment": "signal discovery wildcard", "profile_type": "health, neuroscience, productivity or workforce analytics voice", "signals": ["measurement", "wellbeing", "performance", "human systems"]}
+    ]
+  },
+  "canonical_objects": [
+    {"object": "person", "fields": ["person_id", "name", "platform_profile_url", "role", "organisation_id", "geo", "confidence", "source_refs"]},
+    {"object": "organisation", "fields": ["organisation_id", "name", "domain", "sector", "size_band", "geo", "source_refs"]},
+    {"object": "platform_profile", "fields": ["profile_id", "platform", "url", "owner_type", "owner_id", "watchlist_status"]},
+    {"object": "post", "fields": ["post_id", "platform", "author_profile_id", "url", "published_at", "text_hash", "topic_tags"]},
+    {"object": "engagement", "fields": ["engagement_id", "post_id", "person_id", "engagement_type", "observed_at", "evidence_url", "raw_payload_ref"]},
+    {"object": "topic", "fields": ["topic_id", "name", "taxonomy", "parent_topic_id"]},
+    {"object": "signal", "fields": ["signal_id", "person_id", "organisation_id", "topic_id", "signal_type", "strength", "recency", "evidence_ids"]},
+    {"object": "score", "fields": ["score_id", "entity_id", "score_type", "score", "reason_codes", "model_version"]},
+    {"object": "workflow_action", "fields": ["action_id", "entity_id", "action_type", "owner", "status", "payload", "outcome"]},
+    {"object": "evidence", "fields": ["evidence_id", "source", "evidence_type", "uri", "hash", "captured_at", "classification"]}
+  ],
+  "csv_outputs": [
+    "watchlist_profiles.csv",
+    "observed_posts.csv",
+    "engagements_raw.csv",
+    "people_entities.csv",
+    "organisation_entities.csv",
+    "topic_affinity_scores.csv",
+    "intent_signals.csv",
+    "graph_edges.csv",
+    "workflow_actions.csv",
+    "manual_review_queue.csv",
+    "evidence_register.csv"
+  ],
+  "scoring_model": {
+    "fit_score": ["role relevance", "sector match", "organisation size", "geography", "buyer proximity"],
+    "intent_score": ["topic match", "engagement depth", "repeat engagement", "recency", "cross-topic overlap"],
+    "influence_score": ["network centrality", "creator overlap", "comment quality", "follower/reaction proxy", "organisation authority"],
+    "action_score": ["fit_score", "intent_score", "influence_score", "existing relationship", "offer match"]
+  },
+  "workflow_routing": [
+    {"route": "NDIS", "offers": ["AI operations audit", "documentation burden reduction", "provider governance intelligence", "workforce augmentation map"]},
+    {"route": "WorkFamilyAI", "offers": ["AI workload assessment", "family-work cognitive load survey", "organisation readiness report"]},
+    {"route": "AugmentedHumanity", "offers": ["institutional intelligence assessment", "AI governance operating model", "agentic workforce blueprint"]},
+    {"route": "WildcardDiscovery", "offers": ["market intelligence brief", "ecosystem map", "partner signal report"]}
+  ],
+  "compliance_controls": [
+    "Use public data only unless explicit consent/API permission exists.",
+    "Respect platform terms and rate limits; do not bypass authentication or access controls.",
+    "No sensitive personal attribute inference without lawful basis and explicit need.",
+    "Keep manual review gate before outbound activation.",
+    "Store evidence and source references for all derived signals.",
+    "Mark unverifiable enrichment as PARTIAL, never REAL.",
+    "Provide suppression/do-not-contact controls for outreach workflows."
+  ],
+  "runtime_requirements": {
+    "database": "Supabase/Postgres canonical signal graph tables",
+    "workers": ["watchlist_monitor", "engagement_ingestor", "entity_resolver", "enrichment_worker", "scoring_worker", "workflow_router", "export_worker"],
+    "telemetry": ["job_start", "job_success", "job_failure", "records_seen", "records_created", "dedupe_hits", "manual_review_required"],
+    "evidence": ["raw capture reference", "normalised row hash", "score reason codes", "workflow action receipt"],
+    "dashboards": ["watchlist status", "signal heatmap", "entity graph", "manual review queue", "workflow conversion", "evidence state"]
+  },
+  "bridge_tasks": [
+    "Create Supabase schema for social_signal_intelligence objects.",
+    "Create seed CSV templates listed in csv_outputs.",
+    "Create 10-slot watchlist loader with blank profile_url fields for user/manual selection.",
+    "Create scoring config JSON for NDIS, WorkFamilyAI, AugmentedHumanity and WildcardDiscovery.",
+    "Create manual review queue and export pack.",
+    "Create runtime worker skeletons with idempotency_key support and evidence writes.",
+    "Create dashboard spec for command centre widget.",
+    "Return receipt with created files, schema status, worker status and evidence classification."
+  ],
+  "acceptance_criteria": [
+    "10 watchlist slots exist and are segment-tagged.",
+    "CSV schemas exist for ingestion/export/review.",
+    "Data model supports people, orgs, posts, engagements, topics, signals, scores, workflows and evidence.",
+    "No outbound automation runs without manual review approval.",
+    "Every derived score stores reason codes and evidence refs.",
+    "Evidence state remains PARTIAL until live runtime and first monitored run are verified."
+  ]
+}
