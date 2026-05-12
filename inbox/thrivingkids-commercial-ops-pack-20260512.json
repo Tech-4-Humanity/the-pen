@@ -1,0 +1,157 @@
+{
+  "idempotency_key": "thrivingkids-commercial-ops-pack-20260512",
+  "parent_payload": "inbox/thrivingkids-nohitl-endstatepack-20260512.json",
+  "action": "commercial_runtime_hardening",
+  "bundle_name": "ThrivingKids_Commercial_OpsPack_20260512",
+  "biz_key": "OUTCOME_READY",
+  "domain_key": "THRIVING_KIDS",
+  "mode": "AUTONOMOUS_WITH_POLICY_GUARDS",
+  "objective": "Extend the existing Thriving Kids operating unit with governed commercial operations: product catalogue, pricing bands, promotions, sales workflow, resources, reporting, revenue collection, policy guardrails, evidence, and close-loop receipts.",
+  "evidence_policy": {
+    "classification_priority": ["REAL", "PARTIAL", "PRETEND"],
+    "pretend_allowed": false,
+    "runtime_execution_state": "PARTIAL_UNTIL_BRIDGE_RECEIPT",
+    "revenue_collection_state": "PARTIAL_UNTIL_PAYMENT_OR_INVOICE_ROUTE_VERIFIED",
+    "required_receipts": [
+      "policy_guard_tables_created",
+      "product_catalogue_seeded",
+      "pricing_seeded",
+      "promotion_registry_seeded",
+      "sales_pipeline_created",
+      "resource_registry_seeded",
+      "reporting_views_compiled",
+      "revenue_tables_created",
+      "payment_or_invoice_route_verified_or_blocked",
+      "smoke_test_results",
+      "reality_ledger_bindings_written"
+    ]
+  },
+  "policy_boundaries": {
+    "runtime_hitl": false,
+    "policy_guard_required_before": ["public_publish", "outbound_send", "proposal_send", "paid_entitlement_activation"],
+    "blocked_claim_categories": [
+      "health diagnosis",
+      "legal advice",
+      "financial advice",
+      "eligibility certainty",
+      "official endorsement without evidence",
+      "unsupported outcome guarantee",
+      "unsupported urgency or scarcity",
+      "fabricated testimonials",
+      "fabricated program details"
+    ],
+    "required_disclaimer": "Information and operational support only. Not medical, legal, financial, eligibility, or official program advice. Current official sources must be checked before relying on program details.",
+    "rule": "No copy, proposal, offer, promotion, or outbound item can move to send/publish unless policy_guard_status is PASS. Blocked items create fail signals and reality ledger entries."
+  },
+  "product_catalogue_seed": [
+    {
+      "product_code": "TK_PUBLIC_BRIEF",
+      "name": "Thriving Kids Public Brief",
+      "segment": "public",
+      "output": "Plain-English explainer and updates summary.",
+      "delivery_mode": "web_report",
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "product_code": "TK_FAMILY_PATHWAY_CHECK",
+      "name": "Family Pathway Check",
+      "segment": "families",
+      "output": "Structured checklist, questions to ask, evidence organiser, next-step summary.",
+      "delivery_mode": "guided_report",
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "product_code": "TK_PROVIDER_READINESS_PACK",
+      "name": "Provider Readiness Pack",
+      "segment": "providers",
+      "output": "Readiness scorecard, service gaps, referral flow, operating checklist.",
+      "delivery_mode": "assessment_brief",
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "product_code": "TK_PRACTITIONER_RESOURCE_KIT",
+      "name": "Practitioner Resource Kit",
+      "segment": "practitioners",
+      "output": "Client-safe explainer, referral-safe language blocks, briefing resources.",
+      "delivery_mode": "resource_pack",
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "product_code": "TK_ORG_IMPLEMENTATION_SPRINT",
+      "name": "Organisation Implementation Sprint",
+      "segment": "organisations",
+      "output": "Operating model, intake form, reporting dashboard, safe messaging, launch checklist.",
+      "delivery_mode": "implementation_sprint",
+      "evidence_state": "PARTIAL"
+    }
+  ],
+  "pricing_seed": [
+    {"plan_code": "TK_PUBLIC_BRIEF_FREE", "product_code": "TK_PUBLIC_BRIEF", "billing_mode": "free", "price_aud_low": 0, "price_aud_high": 0},
+    {"plan_code": "TK_FAMILY_REPORT_SINGLE", "product_code": "TK_FAMILY_PATHWAY_CHECK", "billing_mode": "one_off", "price_aud_low": 49, "price_aud_high": 149},
+    {"plan_code": "TK_PROVIDER_READINESS_BASE", "product_code": "TK_PROVIDER_READINESS_PACK", "billing_mode": "one_off", "price_aud_low": 750, "price_aud_high": 2500},
+    {"plan_code": "TK_PRACTITIONER_RESOURCE_LICENSE", "product_code": "TK_PRACTITIONER_RESOURCE_KIT", "billing_mode": "monthly_or_annual", "price_aud_low": 99, "price_aud_high": 499},
+    {"plan_code": "TK_ORG_SPRINT", "product_code": "TK_ORG_IMPLEMENTATION_SPRINT", "billing_mode": "project", "price_aud_low": 5000, "price_aud_high": 25000}
+  ],
+  "promotion_seed": [
+    {"promo_code": "TK_PUBLIC_BRIEF_WAITLIST_202605", "segment": "public", "channel": "web_email_linkedin", "requires_policy_check": true},
+    {"promo_code": "TK_PROVIDER_READINESS_202605", "segment": "providers", "channel": "email_linkedin_web", "requires_policy_check": true},
+    {"promo_code": "TK_PRACTITIONER_RESOURCE_202605", "segment": "practitioners", "channel": "email_web", "requires_policy_check": true}
+  ],
+  "sales_pipeline": {
+    "tables_required": ["tk.tk_lead", "tk.tk_account", "tk.tk_opportunity", "tk.tk_sales_activity", "tk.tk_proposal", "tk.tk_contract_state"],
+    "stages": ["captured", "qualified", "needs_mapped", "proposal_generated", "proposal_sent", "commercial_review", "won_pending_payment", "won_paid", "lost", "nurture"],
+    "rules": [
+      "No proposal_sent without policy_guard_status PASS.",
+      "No won_paid without invoice or payment receipt.",
+      "No paid entitlement activation without verified revenue event.",
+      "All stage changes write reality ledger bindings."
+    ]
+  },
+  "resources": {
+    "tables_required": ["tk.tk_resource_registry", "tk.tk_delivery_template", "tk.tk_capacity_plan", "tk.tk_fulfilment_task"],
+    "minimum_per_product": ["landing_copy", "pricing_plan", "safe_outbound_sequence", "proposal_template", "fulfilment_checklist", "report_output", "revenue_route_state", "reality_ledger_binding"]
+  },
+  "reporting": {
+    "views_required": ["tk.v_tk_commercial_kpis", "tk.v_tk_pipeline_health", "tk.v_tk_revenue_health", "tk.v_tk_policy_block_summary", "tk.v_tk_product_readiness", "tk.v_tk_fulfilment_health"],
+    "widgets_required": ["tk-commercial-kpis", "tk-product-readiness", "tk-pricing-entitlements", "tk-promotion-health", "tk-sales-pipeline", "tk-revenue-health", "tk-policy-blocks", "tk-resource-readiness", "tk-fulfilment-health"],
+    "kpis": ["leads", "qualified_leads", "proposals", "wins_pending_payment", "paid_wins", "gross_revenue_aud", "outstanding_invoice_aud", "policy_blocks", "open_fail_signals", "product_readiness", "fulfilment_backlog"]
+  },
+  "revenue_collection": {
+    "tables_required": ["tk.tk_invoice", "tk.tk_payment_event", "tk.tk_revenue_ledger", "tk.tk_entitlement_activation"],
+    "provider_options": ["stripe", "xero_invoice", "manual_invoice_receipt", "bridge_payment_route"],
+    "rule": "Revenue is not REAL until payment event or invoice receipt exists. Entitlements stay blocked or pending until verified."
+  },
+  "workers_required": [
+    {"worker_code": "TK_POLICY_GUARD", "lambda_name": "troy-lambda-thrivingkids-policy-guard", "actions": ["claim_scan", "copy_pass", "copy_block"]},
+    {"worker_code": "TK_PRODUCT_PRICING", "lambda_name": "troy-lambda-thrivingkids-product-pricing", "actions": ["product_readiness_score", "pricing_validate", "entitlement_map"]},
+    {"worker_code": "TK_SALES_OPS", "lambda_name": "troy-lambda-thrivingkids-sales-ops", "actions": ["lead_score", "opportunity_progress", "proposal_generate", "followup_schedule"]},
+    {"worker_code": "TK_REVENUE_OPS", "lambda_name": "troy-lambda-thrivingkids-revenue-ops", "actions": ["invoice_prepare", "payment_receipt_bind", "entitlement_activate"]},
+    {"worker_code": "TK_REPORTING", "lambda_name": "troy-lambda-thrivingkids-reporting", "actions": ["kpi_rollup", "command_centre_refresh", "revenue_report"]}
+  ],
+  "scheduler_additions_disabled_first": ["tk-policy-guard-5min", "tk-product-pricing-15min", "tk-sales-ops-15min", "tk-revenue-ops-hourly", "tk-reporting-hourly"],
+  "smoke_tests": [
+    "policy guard blocks unsafe health/legal/eligibility/endorsement claims",
+    "product catalogue has at least 5 active products",
+    "each active product has pricing or explicit free plan",
+    "each paid product has revenue route state verified or blocked",
+    "promotion cannot publish unless policy_guard_status PASS",
+    "lead can progress captured to proposal_generated with receipts",
+    "opportunity cannot progress to won_paid without payment or invoice receipt",
+    "commercial reporting views compile",
+    "policy block widget displays blocked items",
+    "reality ledger receives commercial binding rows"
+  ],
+  "activation_order": [
+    "apply policy guard tables",
+    "seed boundaries and disclaimers",
+    "apply product/pricing/promotion/resource/sales/revenue tables",
+    "seed products, price bands and promotions",
+    "apply reporting views and widgets",
+    "register commercial workers",
+    "add schedules disabled first",
+    "run policy/product/sales/revenue smoke tests",
+    "enable schedules only after guard pass",
+    "write final reality ledger close receipt"
+  ],
+  "bridge_instruction": "/ready /dominate ThrivingKids_Commercial_OpsPack_20260512 biz_key=OUTCOME_READY domain=THRIVING_KIDS mode=AUTONOMOUS_WITH_POLICY_GUARDS. Extend runtime with product, pricing, promotion, sales, resource, reporting and revenue layers. Enforce policy guard before publish/send/proposal/entitlement. Do not mark revenue REAL until payment or invoice route is verified. Return execution receipt, smoke results, blocked items, table/view/worker counts and final evidence classification."
+}
