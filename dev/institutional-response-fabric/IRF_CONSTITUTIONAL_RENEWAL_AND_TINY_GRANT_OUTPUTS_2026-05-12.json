@@ -1,0 +1,155 @@
+{
+  "payload_id": "irf_constitutional_renewal_tiny_grants_2026_05_12_v1",
+  "extends": [
+    "irf_dev_deploy_2026_05_12_v1",
+    "irf_product_stack_extension_2026_05_12_v1",
+    "irf_product_routes_readiness_2026_05_12_v1"
+  ],
+  "title": "IRF Constitutional Renewal + Tiny Grant Output Strategy",
+  "status": "POSTED_TO_DEV",
+  "evidence_state": "PARTIAL",
+  "reason_for_renewal": "User supplied strengthened boundary constitution and clarified that first two grants due by date are small-dollar, small-response opportunities requiring lightweight wrappers rather than heavy response packs.",
+  "canonical_update": {
+    "runtime_identity": "constitutionally bounded autonomous runtime",
+    "not": "unrestricted autonomous agent",
+    "principle": "No-HITL means execution continuity without manual dependency inside immutable policy boundaries, not unconstrained authority.",
+    "separation": {
+      "autonomous_execution": "Runtime may execute operational tasks continuously within policy envelopes.",
+      "autonomous_authority": "Runtime may not independently expand authority over communications, identity, claims, finance, destructive operations, governance, credentials, health/legal interpretation, or production mutation."
+    }
+  },
+  "boundary_domains": [
+    {"domain":"Autonomy Classification","rule":"AUTONOMOUS_WITH_POLICY_GUARDS is a runtime state, not marketing language.","enforcement":"All workers inherit policy envelopes before execution; no worker executes outside declared scope.","failure":"PRETEND if unrestricted autonomy exists."},
+    {"domain":"Runtime HITL","rule":"runtime_hitl:false applies to operational execution, not governance override authority.","enforcement":"Humans define policy/legal/emergency/strategic constraints but are not required for normal runtime continuity.","failure":"PARTIAL if execution pauses awaiting humans."},
+    {"domain":"Destructive Operations","rule":"Delete, overwrite, revoke, purge, disable, financial mutation, credential mutation, irreversible publication blocked by default.","enforcement":"Explicit policy unlock, evidence receipt, and rollback path required.","failure":"FAIL if destructive actions execute silently."},
+    {"domain":"Credential Governance","rule":"bridge_secret_store_only with immutable credential provenance.","enforcement":"Workers cannot create/export/print secrets or inject undeclared credentials.","failure":"CRITICAL if secrets appear in logs, prompts, queues, or artifacts."},
+    {"domain":"Identity Propagation","rule":"Every worker action carries signed actor lineage.","enforcement":"Queue job -> worker -> bridge -> outbound event preserves immutable execution identity.","failure":"PARTIAL if lineage breaks."},
+    {"domain":"Outbound Communications","rule":"External send paths limited to approved channels, bounded templates, verified domains, and policy-scanned payloads.","enforcement":"SES/mail/SMS/webhook/social publishing must pass policy_guard, evidence_guard, provenance_guard.","failure":"BLOCKED if route or policy proof absent."},
+    {"domain":"Claim Safety","rule":"Runtime may not invent claims, statistics, approvals, diagnoses, guarantees, outcomes, affiliations, or timelines.","enforcement":"Externally visible assertions require evidence binding or provenance reference.","failure":"PRETEND if unsupported claims are emitted."},
+    {"domain":"Medical / Child Safety","rule":"Child-development, mental-health, educational, behavioural, or neuro-related content defaults to informational only.","enforcement":"No diagnosis, treatment instruction, crisis advice, or therapeutic certainty.","failure":"HARD_BLOCK."},
+    {"domain":"Legal / Funding Safety","rule":"No eligibility guarantees, legal interpretations, compliance certainty, or funding promises.","enforcement":"Only describe pathways and public guidance with evidence-backed references.","failure":"HARD_BLOCK."},
+    {"domain":"Economic Integrity","rule":"Revenue, invoices, entitlements, grants, or funding flows require ledger-backed traceability.","enforcement":"No synthetic revenue events or assumed monetisation states.","failure":"PRETEND if economic state lacks receipts."},
+    {"domain":"Evidence Constitution","rule":"REAL requires executable runtime, telemetry continuity, receipts, and recovery proof.","enforcement":"Docs/specs/slides/code alone remain PARTIAL.","failure":"PARTIAL until runtime evidence exists."},
+    {"domain":"Telemetry Integrity","rule":"No invisible execution permitted.","enforcement":"Every state transition, failure, retry, outbound action, and recovery event emits telemetry.","failure":"FAIL if blind execution occurs."},
+    {"domain":"Silent Failure Prevention","rule":"Runtime prohibited from fake-complete, suppress-error, no-op-complete, or hidden retry exhaustion.","enforcement":"Failures surface into queues, dead letters, alerts, and evidence ledgers.","failure":"CRITICAL if false-success occurs."},
+    {"domain":"Recovery Governance","rule":"Deterministic recovery mandatory.","enforcement":"Queue replay, worker resurrection, state reconciliation, idempotent retry paths required.","failure":"PARTIAL if restart loses continuity."},
+    {"domain":"Archive Doctrine","rule":"Archive-not-delete enforced platform-wide.","enforcement":"Historical queues, evidence, metrics, receipts, outbound logs, and ledger state preserved immutably.","failure":"FAIL if operational history can be erased."},
+    {"domain":"Runtime Isolation","rule":"Workers may not self-modify policy, governance, or execution constraints.","enforcement":"Governance plane isolated from worker execution plane.","failure":"CRITICAL if worker can alter constitutional rules."},
+    {"domain":"Tool Constraints","rule":"Runtime may only invoke allowlisted tools/routes.","enforcement":"No arbitrary shell, unrestricted HTTP, uncontrolled model chaining, or undeclared connectors.","failure":"BLOCKED if route not declared."},
+    {"domain":"Model Behaviour Controls","rule":"LLMs are bounded reasoning engines, not sovereign actors.","enforcement":"Hosted models cannot directly execute infra mutations without bridge mediation.","failure":"PRETEND if model claims direct execution without receipts."},
+    {"domain":"Queue Constitution","rule":"Queue-first execution mandatory.","enforcement":"No hidden side-channel execution outside canonical work queue and evidence ledger.","failure":"PARTIAL if orphan execution exists."},
+    {"domain":"Human Protection","rule":"Runtime cannot manipulate, pressure, deceive, impersonate, or socially engineer users.","enforcement":"Persuasive or authority-based coercion prohibited.","failure":"HARD_BLOCK."},
+    {"domain":"Data Governance","rule":"Runtime defaults to minimum necessary access.","enforcement":"Sensitive data segmented by role, policy, and environment.","failure":"FAIL if unrestricted cross-domain access exists."},
+    {"domain":"Environment Promotion","rule":"Dev -> Pen -> Synapse promotion requires receipts and Gatekeeper policy validation.","enforcement":"Runtime cannot self-promote into production without constitutional checks.","failure":"PARTIAL if promotion bypass exists."},
+    {"domain":"Survivability Standard","rule":"Runtime must prove unattended continuity.","enforcement":"72h survivability requires recovery, telemetry continuity, queue drain behaviour, bounded degradation.","failure":"PARTIAL until demonstrated."},
+    {"domain":"Reality Ledger Integrity","rule":"Reality Ledger is canonical truth surface.","enforcement":"State escalates PRETEND -> PARTIAL -> REAL only through evidence transitions.","failure":"FAIL if classifications mutable without evidence."},
+    {"domain":"Governance Locking","rule":"Canonical policy bundles versioned and immutable once promoted.","enforcement":"Runtime references signed policy manifests.","failure":"CRITICAL if runtime policy drifts silently."},
+    {"domain":"Dependency Awareness","rule":"External APIs/services are survivability dependencies.","enforcement":"Runtime degrades safely if providers fail.","failure":"PARTIAL if dependency loss causes uncontrolled behaviour."},
+    {"domain":"Autonomous Publishing","rule":"Autonomous content publication restricted to bounded domains and verified inventories.","enforcement":"No live-generation publishing without moderation and provenance binding.","failure":"BLOCKED by default."},
+    {"domain":"Observability Standard","rule":"Every runtime capability exposes health, queue depth, retries, cost, latency, evidence state.","enforcement":"Command Centre visibility mandatory.","failure":"PARTIAL if opaque."},
+    {"domain":"Constitutional Override","rule":"Emergency stop and governance freeze only through explicit constitutional authority.","enforcement":"Overrides logged immutably with actor attribution.","failure":"FAIL if overrides invisible."}
+  ],
+  "updated_evidence_classification": {
+    "Constitutional runtime boundaries": "REAL_AS_SPEC",
+    "Queue-first autonomous orchestration design": "REAL_AS_SPEC",
+    "Policy constitution defined": "REAL_AS_SPEC",
+    "Outbound safety constraints defined": "REAL_AS_SPEC",
+    "Runtime policy enforcement live": "PARTIAL",
+    "Recovery replay validated": "PENDING",
+    "Telemetry continuity validated": "PENDING",
+    "72h survivability proven": "PENDING",
+    "External comms smoke-tested": "PENDING",
+    "Reality ledger reconciliation verified": "PENDING",
+    "Production constitutional lock enforcement": "PENDING"
+  },
+  "grant_output_strategy_update": {
+    "note": "First two grants due by close date are small-dollar and small-response. Do not overbuild. Use tiny wrappers and reuse blocks.",
+    "tiny_grant_rule": "For grants under approximately AUD 10k or short council/community forms, output must be lightweight: 1-page project summary, 1-page budget, 1-page evidence/impact note, attachment checklist only if required.",
+    "avoid": ["long enterprise architecture", "full runtime explanation", "heavy technical stack", "unsupported impact claims", "oversized budget model"],
+    "use": ["plain community need", "small pilot activity", "local inclusion / carer support / accessibility outcome", "low-risk delivery", "evidence classification", "short sustainability note"],
+    "first_two_due_by_date": [
+      {
+        "grant_slot": "G1",
+        "expected_type": "small local disability/inclusion grant",
+        "expected_value": "tiny / up to about AUD 10k",
+        "wrapper": "tiny_grant_wrapper",
+        "recommended_project": "Inclusive Community Intelligence Pilot",
+        "outputs": ["250-word summary", "activities table", "simple budget", "outcome measures", "evidence note"]
+      },
+      {
+        "grant_slot": "G2",
+        "expected_type": "small carers / inclusive environment / awareness grant",
+        "expected_value": "tiny / small response",
+        "wrapper": "tiny_grant_wrapper",
+        "recommended_project": "Carer Companion and Family Support Intelligence Micro-Pilot",
+        "outputs": ["250-word summary", "activities table", "simple budget", "outcome measures", "evidence note"]
+      }
+    ]
+  },
+  "tiny_grant_wrapper_template": {
+    "wrapper_id": "wrap_tiny_grant",
+    "purpose": "Small-dollar grant response wrapper for short applications and fast close dates.",
+    "max_pack_size": "3-5 pages total unless funder demands more",
+    "sections": [
+      {"section":"Project title","length":"1 line"},
+      {"section":"Short summary","length":"150-250 words"},
+      {"section":"Need","length":"100-150 words"},
+      {"section":"Who benefits","length":"bullet list"},
+      {"section":"Activities","length":"3-5 rows"},
+      {"section":"Budget","length":"simple table"},
+      {"section":"Outcomes","length":"3-5 measures"},
+      {"section":"Safeguarding / governance","length":"short plain-English note"},
+      {"section":"Evidence status","length":"REAL/PARTIAL/SYNTHETIC notation"}
+    ],
+    "default_povs": ["pov_community", "pov_governance", "pov_operations", "pov_evidence"],
+    "claim_policy": "No unsupported statistics, no guaranteed outcomes, no diagnosis/treatment, no eligibility certainty."
+  },
+  "tiny_output_blueprints": [
+    {
+      "output_id": "tiny_grant_g1_inclusive_community_intelligence_v1",
+      "title": "Inclusive Community Intelligence Pilot",
+      "buyer_funder": "local disability/inclusion funder",
+      "core_offer": "A small, low-risk community pilot that helps people with disability, families and local services identify access barriers, practical support needs, and simple inclusion improvements using structured feedback and evidence-backed reporting.",
+      "activities": ["community/access needs scan", "accessible feedback form", "small workshop or interview round", "plain-English inclusion report", "reuse-ready evidence pack"],
+      "budget_categories": ["facilitation", "accessibility review", "participant/community engagement", "reporting", "lightweight digital setup"],
+      "outcome_measures": ["number of participants engaged", "barriers identified", "practical recommendations produced", "community/service actions prioritised", "reuse evidence pack created"],
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "output_id": "tiny_grant_g2_carer_companion_micro_pilot_v1",
+      "title": "Carer Companion and Family Support Intelligence Micro-Pilot",
+      "buyer_funder": "carer support / community awareness / inclusion funder",
+      "core_offer": "A small support and awareness pilot that helps carers capture needs, reduce navigation burden, and produce a simple support pathway/resource pack without making clinical, legal, or funding promises.",
+      "activities": ["carer needs intake", "support diary template", "resource/pathway map", "micro-workshop or guided session", "plain-English findings note"],
+      "budget_categories": ["facilitation", "resource design", "participant engagement", "accessibility/plain-English review", "reporting"],
+      "outcome_measures": ["carers engaged", "common support needs identified", "resource pack produced", "self-reported usefulness", "next-step referrals/pathways documented"],
+      "evidence_state": "PARTIAL"
+    }
+  ],
+  "product_route_review": {
+    "keep_priority": ["Provider Command Centre", "Reality Ledger", "AI Sweet Spots", "ConsentX", "Grant Intelligence Platform"],
+    "defer_heavy_runtime_products_until_after_tiny_grants": ["Autonomous Recovery Runtime", "Synapse Runtime", "SignalTechBox", "full Portfolio Operating System"],
+    "reason": "Near-deadline tiny grants should create evidence and relationships, not carry the full stack. Heavy runtime stays in dev/offers/tenders."
+  },
+  "bridge_manifest": {
+    "idempotency_key": "irf_constitutional_renewal_tiny_grants_2026_05_12_v1",
+    "dedupe_key": "institutional_response_fabric_constitutional_renewal_tiny_grants_v1",
+    "target_env": "dev",
+    "target_path": "/dev/institutional-response-fabric/",
+    "requested_action": "Renew IRF deployment with constitutional boundary rules, update evidence classifications, add tiny_grant_wrapper, and generate first two small grant output blueprints without overbuilding.",
+    "receipt_required": true,
+    "close_when": [
+      "payload committed to dev path",
+      "tiny grant wrapper queued or materialised",
+      "first two tiny grant blueprints available to output generator",
+      "boundary rules added to policy constitution queue",
+      "receipt ledger updated"
+    ]
+  },
+  "prior_receipt_lineage": [
+    {"path":"TML-4PM/the-pen/inbox/thrivingkids-nohitl-endstatepack-20260512.json","commit":"64c0f816dd6bcdc2b2c77deb171e173f6b517b31"},
+    {"path":"dev/institutional-response-fabric/IRF_DEV_DEPLOYMENT_PAYLOAD_2026-05-12.json","commit":"a1922b4511944f5c14492c4f81564430f9aa7673"},
+    {"path":"dev/institutional-response-fabric/IRF_PRODUCT_ROUTES_AND_READINESS_2026-05-12.json","commit":"e35714c62a28eba80d10cf0b2907d319e642852e"}
+  ],
+  "close_state": "POSTED_TO_DEV_FOR_DEPLOYMENT"
+}
