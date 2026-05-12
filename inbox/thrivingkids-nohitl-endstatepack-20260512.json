@@ -1,0 +1,212 @@
+{
+  "idempotency_key": "thrivingkids-nohitl-endstatepack-20260512",
+  "action": "master_autonomous_deploy",
+  "biz_key": "OUTCOME_READY",
+  "domain_key": "THRIVING_KIDS",
+  "bundle_name": "ThrivingKids_NoHITL_EndStatePack_20260512",
+  "source_file": "Pasted markdown.md",
+  "source_basis": "User-provided final one-shot build pack covering ExecutionPack, SchedulerPack, CommandCentrePack, RealityLedgerPack, OutboundOpsPack, ObservabilityPack, SecurityPolicyPack, MasterBridgeManifest, activation order, rollback/death path.",
+  "autonomy_tier": "AUTONOMOUS_WITH_POLICY_GUARDS",
+  "human_runtime_path": "NONE",
+  "approval_policy": {
+    "runtime_hitl": false,
+    "destructive_actions": "blocked_by_default",
+    "credential_changes": "bridge_secret_store_only",
+    "external_send_activation": "requires preconfigured bridge route and policy guard; no runtime human approval loop"
+  },
+  "evidence_policy": {
+    "classification_priority": ["REAL", "PARTIAL", "PRETEND"],
+    "pretend_allowed": false,
+    "archive_not_delete": true,
+    "required_receipts": [
+      "schema_apply_result",
+      "worker_registry_seed_result",
+      "scheduler_apply_result",
+      "smoke_test_result",
+      "queue_health_snapshot",
+      "fail_only_dashboard_snapshot",
+      "reality_ledger_binding_snapshot",
+      "artifact_outbound_worker_receipt"
+    ]
+  },
+  "sql_bundles": [
+    "ThrivingKids_L23_RuntimePack_20260512",
+    "ThrivingKids_NoHITL_ControlPlane_20260512",
+    "ThrivingKids_NoHITL_AgentRuntimePack_20260512",
+    "ThrivingKids_NoHITL_IntelligencePack_20260512",
+    "ThrivingKids_NoHITL_ExecutionPack_20260512",
+    "ThrivingKids_NoHITL_RealityLedgerPack_20260512",
+    "ThrivingKids_NoHITL_ObservabilityPack_20260512",
+    "ThrivingKids_NoHITL_SecurityPolicyPack_20260512",
+    "ThrivingKids_NoHITL_CommandCentrePack_20260512"
+  ],
+  "code_bundles": [
+    "ThrivingKids_NoHITL_LambdaCodePack_20260512",
+    "ThrivingKids_NoHITL_IntelligenceWorkers_20260512",
+    "ThrivingKids_NoHITL_ArtifactOutboundWorkers_20260512"
+  ],
+  "scheduler_bundle": "ThrivingKids_NoHITL_SchedulerPack_20260512",
+  "enhancements_applied": [
+    "Date normalised from 20260316 to 20260512 for current receipt chain.",
+    "Autonomy labelled as AUTONOMOUS_WITH_POLICY_GUARDS rather than unbounded no-HITL.",
+    "External mail/publish activation gated by bridge credential and route existence.",
+    "Outbound content restricted to pre-generated bounded content only.",
+    "Medical, legal, government endorsement, guaranteed eligibility, diagnosis, fabricated funding/date claims hard-blocked.",
+    "Archive-not-delete rollback/death path retained.",
+    "REAL evidence requires deployed runtime receipt, not specification alone."
+  ],
+  "packs": {
+    "ExecutionPack": {
+      "tables": ["tk.tk_outbound_send_queue", "tk.tk_publish_artifact", "tk.tk_fail_signal"],
+      "views": ["tk.v_tk_fail_only_dashboard", "tk.v_tk_outbound_queue", "tk.v_tk_publish_artifacts_latest"],
+      "workers": ["TK_ARTIFACT", "TK_OUTBOUND"],
+      "status": "ready_for_bridge_apply"
+    },
+    "SchedulerPack": {
+      "rules": [
+        "tk-dispatcher-5min",
+        "tk-asset-ingest-5min",
+        "tk-gap-score-5min",
+        "tk-retry-5min",
+        "tk-product-15min",
+        "tk-widget-15min",
+        "tk-evidence-15min",
+        "tk-degraded-15min",
+        "tk-market-hourly",
+        "tk-pilot-hourly",
+        "tk-campaign-hourly",
+        "tk-adapt-hourly",
+        "tk-outbound-hourly",
+        "tk-artifact-hourly",
+        "tk-daily-source-sweep"
+      ],
+      "timezone_note": "Sydney daily sweep must be normalised by scheduler layer to UTC/EventBridge expression.",
+      "status": "ready_for_bridge_apply"
+    },
+    "CommandCentrePack": {
+      "widget_slugs": [
+        "tk-runtime-fail-only",
+        "tk-runtime-intelligence",
+        "tk-runtime-outbound",
+        "tk-runtime-artifacts"
+      ],
+      "status": "ready_for_bridge_apply"
+    },
+    "RealityLedgerPack": {
+      "table": "tk.tk_reality_ledger_binding",
+      "rpc": "tk.rpc_bind_reality_ledger",
+      "required_worker_completion_binding": true,
+      "status": "ready_for_bridge_apply"
+    },
+    "OutboundOpsPack": {
+      "lambda": "troy-lambda-thrivingkids-outbound",
+      "campaign_promotion_rpc": "tk.rpc_promote_campaigns_to_send_queue",
+      "send_policy": "pre_generated_bounded_content_only",
+      "external_send_dependency": "bridge mail route/SES or selected sender credentials must exist",
+      "status": "partial_until_external_sender_route_verified"
+    },
+    "ObservabilityPack": {
+      "view": "tk.v_tk_operating_kpis",
+      "rpc": "tk.rpc_refresh_fail_signals",
+      "fail_only": true,
+      "status": "ready_for_bridge_apply"
+    },
+    "SecurityPolicyPack": {
+      "actions": ["artifact_generate", "page_publish", "outbound_send"],
+      "validation_contracts": ["VAL_ARTIFACT_GENERATE", "VAL_PAGE_PUBLISH", "VAL_OUTBOUND_SEND"],
+      "hard_blocks": [
+        "guaranteed NDIS eligibility",
+        "government approved by us",
+        "invented government endorsement",
+        "diagnosis claims",
+        "legal certainty language",
+        "fabricated program dates",
+        "fabricated funding claims",
+        "invented endorsements"
+      ],
+      "status": "ready_for_bridge_apply"
+    }
+  },
+  "activation_order": [
+    "runtime pack",
+    "control plane pack",
+    "agent runtime pack",
+    "intelligence pack",
+    "execution pack",
+    "reality ledger pack",
+    "observability pack",
+    "security policy pack",
+    "command centre widget pack",
+    "lambda code pack",
+    "intelligence worker overrides",
+    "artifact/outbound workers",
+    "scheduler pack",
+    "seed source watchlist",
+    "enqueue initial SOURCE_CHANGED and SCHEDULED_MARKET_REFRESH events",
+    "run smoke sequence",
+    "turn on recurring schedules"
+  ],
+  "bootstrap_sql": [
+    "select tk.rpc_enqueue_event('SOURCE_CHANGED','BOOTSTRAP',jsonb_build_object('source_url','https://www.health.gov.au/our-work/thriving-kids','source_name','Department of Health - Thriving Kids'),10,now());",
+    "select tk.rpc_enqueue_event('SCHEDULED_MARKET_REFRESH','BOOTSTRAP',jsonb_build_object('reason','initial_market_seed'),20,now());",
+    "select tk.rpc_promote_campaigns_to_send_queue();",
+    "select tk.rpc_refresh_fail_signals();"
+  ],
+  "ready_checks": [
+    "tk.rpc_tk_smoke returns ok=true",
+    "tk.rpc_runtime_smoke returns ok=true",
+    "tk.rpc_intelligence_smoke returns ok=true",
+    "worker_registry_count >= 14",
+    "widget_slugs present",
+    "event queue / job queue views compile",
+    "fail-only dashboard view compiles",
+    "reality ledger binding table exists",
+    "outbound queue table exists",
+    "publish artifact table exists",
+    "v_tk_operating_kpis compiles",
+    "policy hard-block strings enforced before send/publish"
+  ],
+  "smoke_sequence": [
+    "select tk.rpc_tk_smoke();",
+    "select tk.rpc_runtime_smoke();",
+    "select tk.rpc_intelligence_smoke();",
+    "select * from tk.v_tk_queue_health;",
+    "select * from tk.v_tk_worker_health;",
+    "select * from tk.v_tk_intelligence_health;",
+    "select * from tk.v_tk_fail_only_dashboard;",
+    "select * from tk.v_tk_operating_kpis;",
+    "enqueue SOURCE_CHANGED MANUAL_SMOKE",
+    "invoke dispatcher, asset_ingest, gap_score, product_mutate, market_map, campaign, widget, evidence, retry, degraded, artifact, outbound, adapt"
+  ],
+  "failure_model": {
+    "first_failure": "retry_queue",
+    "repeated_failure": "dead_letter",
+    "low_confidence_output": "degraded_queue",
+    "systemic_pressure": "fail_signal",
+    "adaptive_response": "adjust thresholds/polling/concurrency",
+    "forbidden": ["ask_human", "silently_drop_work", "delete_evidence", "overwrite_audit", "fake_completion"]
+  },
+  "rollback": {
+    "mode": "archive_not_delete",
+    "steps": [
+      "disable scheduler rules",
+      "set tk_worker_registry.enabled=false",
+      "stop outbound sends",
+      "set watch_enabled=false where applicable",
+      "archive staged artifacts",
+      "preserve queues, dead letters, degraded items, evidence, artifacts, metrics, widgets, reality ledger bindings"
+    ]
+  },
+  "death_path": {
+    "delete_allowed": false,
+    "final_signal": {
+      "signal_code": "DOMAIN_ARCHIVED",
+      "severity": "critical",
+      "signal_title": "DOMAIN_ARCHIVED",
+      "status": "OPEN"
+    }
+  },
+  "bridge_instruction": "/ready /rocket ThrivingKids_NoHITL_EndStatePack_20260512 biz_key=OUTCOME_READY mode=AUTONOMOUS_WITH_POLICY_GUARDS rollback=archive_not_delete. Apply schema bundles first, then code bundles, then scheduler bundle. Run ready checks. Bootstrap initial events. Confirm via fail-only dashboard, queue health, intelligence health, outbound queue, artifact list, and reality ledger bindings. Return receipt with commit, execution run id, smoke results, and evidence classification.",
+  "expected_evidence_state_after_lodgement": "PARTIAL",
+  "expected_evidence_state_after_bridge_execution": "REAL if all ready checks pass and receipts are attached"
+}
