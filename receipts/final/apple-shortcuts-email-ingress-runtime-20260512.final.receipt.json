@@ -1,0 +1,15 @@
+{
+  "blocker": "safety gate: destructive/payment/credential/iam-like operation requires explicit controlled path",
+  "commit_sha": "ca4a774296cd28c0e9a55557984eb38bf338ed64",
+  "created_at": "2026-05-12T01:27:46.655268+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "apple-shortcuts-email-ingress-runtime-20260512",
+  "impact": "Job not dispatched because it tripped a hard gate.",
+  "next": "Create dry-run or approved gated execution payload.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/apple-shortcuts-email-ingress-runtime-20260512.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25707578809"
+}
