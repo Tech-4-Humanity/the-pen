@@ -1,0 +1,99 @@
+# 20_ram_agent_specs.yaml
+# Retro Assets Moderniser runtime agents. All agents are stateless,
+# replayable, evidence-binding, and Reality-Ledger compatible.
+# Default mode: autonomous. HITL only on legal/destructive/financial gates.
+
+version: "1.0"
+runtime_target: "lambda + supabase + bridge"
+default_mode: "autonomous"
+hitl_required: false
+
+agents:
+
+  - name: ram_scout
+    role: "Discover assets across configured sources"
+    sources: [github, drive, local, bridge_payloads, supabase, vercel]
+    outputs: [ram_assets, ram_asset_locations]
+    evidence_required: [api_response, commit_id, url]
+    schedule: "hourly + on-demand"
+    safety: [read_only, rate_limited, dedupe_by_hash]
+
+  - name: ram_janitor
+    role: "Normalise filenames, inject manifests, add sidecars"
+    outputs: [ram_asset_lineage, canonical_name, sidecar_meta_json]
+    rules:
+      - kebab-case
+      - NN_ prefix per semantic range (00-09 meta, 10-19 schema, 20-29 api, 30-39 runtime, 40-49 ui, 50-59 automation, 60-69 deploy, 70-79 evidence, 80-89 reports, 90-99 archive)
+      - no spaces, no special chars except _ - .
+      - never "final", "v2-real-final", "untitled"
+      - increment version only on regeneration
+    safety: [reversible_via_lineage, never_overwrite_without_hash_match]
+
+  - name: ram_validator
+    role: "Run typed checks against assets"
+    checks: [link_liveness, repo_exists, deploy_probe, screenshot_freshness, hash_dedupe, naming_compliance, evidence_presence, environment_tag_present]
+    outputs: [ram_asset_validation, ram_asset_evidence]
+    evidence_required: [api_response, db_result, url, hash]
+    schedule: "every 6h + on-demand"
+
+  - name: ram_curator
+    role: "Generate executive/operational summaries"
+    audiences: [exec, cto, gov, partner, investor, standards, humanitarian]
+    outputs: [ram_portfolio_cards]
+    rules: ["no claim without typed evidence", "never invent metrics", "cite source_uri inline"]
+    safety: ["portfolio surfaces only show evidence_state=REAL"]
+
+  - name: ram_miner
+    role: "Extract reusable components"
+    component_types: [widget, prompt, schema, offer, phrase, automation, role_card]
+    outputs: [ram_reuse_components]
+    evidence_required: [commit_id, hash]
+
+  - name: ram_packager
+    role: "Build PKG_* zip bundles with manifest + receipts"
+    rules:
+      - package only if >5 files
+      - flat delivery for <=5 files
+      - include 00_manifest.json
+      - include 90_recovery_instructions.md
+      - mirror receipt stem (RCPT_*)
+
+  - name: ram_revenue
+    role: "Map validated assets to commercial offers"
+    outputs: [ram_portfolio_cards, ram_revenue_opportunities]
+    safety: ["never publish to external surfaces directly", "HITL gate before external pricing publication"]
+
+  - name: ram_watcher
+    role: "Continuous drift, ghost, orphan, dead-link detection"
+    outputs: [ram_watch_events]
+    severity_map: { orphan: warning, dead_link: warning, duplicate: info, missing_receipt: warning, schema_drift: critical, identity_drift: critical }
+    schedule: "nightly"
+
+  - name: ram_historian
+    role: "Reconstruct lineage and missing receipts from git history, deploy logs, supabase records"
+    outputs: [ram_asset_lineage, ram_asset_evidence]
+    confidence_required: true
+
+  - name: ram_porter
+    role: "Hand off packages to Pen / dev / prod"
+    routes:
+      - { target: pen,  action: github_bulk_dispatch }
+      - { target: dev,  action: "ram_dev_inspections insert + bridge notify" }
+      - { target: prod, action: "ram_prod_promotions insert (only if dev=REAL)" }
+
+orchestration:
+  modes: [normal, degraded, isolated, recovery, quarantine]
+  rules:
+    - failed_agent_quarantined_after_3_consecutive_failures
+    - all_actions_write_to_audit_log
+    - all_state_transitions_write_to_reality_ledger
+    - no_hitl_unless_gate_explicit
+
+evidence_binding:
+  every_agent_action_emits: [audit_log_row, ram_asset_evidence_row, status_REAL_PARTIAL_BLOCKED]
+  forbidden_states: [PRETEND]
+
+economic_self_regulation:
+  orphan_timeout_hours: 24
+  review_window_days: 14
+  zombie_agents_forbidden: true
