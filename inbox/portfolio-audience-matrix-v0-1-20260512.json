@@ -1,0 +1,47 @@
+{
+  "idempotency_key": "portfolio-audience-matrix-v0-1-20260512",
+  "job_type": "audience_matrix.ingest_and_seed",
+  "title": "Ingest T4H Master Portfolio Audience Matrix bundle",
+  "created_at": "2026-05-12T04:47:03.836254+00:00",
+  "origin": "chatgpt",
+  "destination": "PEN/Bridge/Supabase",
+  "repo_target": "TML-4PM/the-pen",
+  "evidence_state": "PARTIAL",
+  "classification": "PARTIAL until runtime receipts prove DDL, CSV ingestion, row counts, and evidence register write",
+  "bundle_files": [
+    "README.md",
+    "csv/01_master_portfolio_audience_matrix.csv",
+    "csv/02_acquisition_archetypes.csv",
+    "csv/03_cohort_taxonomy.csv",
+    "csv/04_source_registry.csv",
+    "csv/05_scoring_model.csv",
+    "csv/06_intelligence_layers.csv",
+    "csv/07_graph_nodes.csv",
+    "csv/08_graph_edges.csv",
+    "csv/09_activation_playbooks.csv",
+    "csv/10_pricing_derivation.csv",
+    "csv/11_website_derivation.csv",
+    "csv/12_gap_register.csv",
+    "csv/13_brand_intake_template.csv",
+    "plans/implementation_plan.md",
+    "schemas/bundle_manifest.json",
+    "sql/01_supabase_ddl.sql"
+  ],
+  "actions": [
+    "write bundle contents to durable repo/artifact storage",
+    "apply sql/01_supabase_ddl.sql to Supabase",
+    "ingest csv files into audience schema staging/canonical tables",
+    "write row-count and checksum receipt",
+    "write audit.evidence_register entry",
+    "return GitHub commit SHA and Supabase evidence ID"
+  ],
+  "acceptance_criteria": [
+    "audience.portfolio_audience_matrix exists",
+    "at least 15 seed brand rows ingested",
+    "12 acquisition archetypes ingested",
+    "source registry, scoring model and graph edges ingested",
+    "receipt includes row counts and checksums",
+    "no PRETEND evidence accepted"
+  ],
+  "notes": "Bundle codifies conversation: matrix not perfect but full enough to expose gaps; supports adding all other brands via zero-filled intake template."
+}
