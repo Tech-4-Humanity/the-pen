@@ -1,0 +1,15 @@
+{
+  "blocker": "BRIDGE_INVOKE_URL or BRIDGE_API_KEY secret missing",
+  "commit_sha": "871a1848ca15ca076618b7ed667616e3e7c715cc",
+  "created_at": "2026-05-12T12:21:52.474169+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "thrivingkids-commercial-ops-pack-20260512",
+  "impact": "Autonomous dispatch cannot run without bridge endpoint/key.",
+  "next": "Set GitHub Actions secrets BRIDGE_INVOKE_URL and BRIDGE_API_KEY, then rerun.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/thrivingkids-commercial-ops-pack-20260512.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25734075592"
+}
