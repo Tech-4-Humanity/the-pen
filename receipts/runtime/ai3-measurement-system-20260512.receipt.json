@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "ccd50920b51b1cd60b9ba1de073c2946d0d77657",
-  "created_at": "2026-05-11T23:09:39.387595+00:00",
+  "commit_sha": "45250dd85fa8addea096de0582e72bd932767366",
+  "created_at": "2026-05-12T00:04:39.822779+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "ai3-measurement-system-20260512",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -24,8 +24,8 @@
   "repo": "TML-4PM/the-pen",
   "rollback": "Archive the inbox job and receipt if superseded; do not delete evidence.",
   "source_job_path": "inbox/ai3-measurement-system-20260512.json",
-  "source_sha256": "a194ab389e989a8c029e780a2f080090c5b3394169cd0d0feb8a06267a31b2d0",
-  "title": "Build AI3 Augmented Institutional Intelligence measurement system",
+  "source_sha256": "0f9eba33d787e89c72bfd50d38ea9b5324538053d36cf45972ea458578393edc",
+  "title": "Build AI3 Augmented Institutional Intelligence product, assessment, reporting and runtime system",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25702715792"
+  "workflow_run_id": "25704744276"
 }
