@@ -1,0 +1,31 @@
+{
+  "entity_name": "RAM",
+  "entity_full_name": "Retro Assets Modernisation",
+  "entity_group": "MISSION",
+  "current_status": "PARTIAL",
+  "forbidden_states": ["PRETEND"],
+  "valid_states": ["REAL", "PARTIAL", "BLOCKED"],
+  "evidence_rule": "REAL requires typed evidence: commit_id, api_response, db_result, receipt, hash, log, or url with 2xx.",
+  "ledger_table": "public.reality_ledger",
+  "ops_extension": "ops.reality_ledger accepts BLOCKED and failed states",
+  "promotion_path": [
+    { "from": "PARTIAL", "to": "REAL", "requires": ["dev_inspection=REAL","prod_promotion_receipt","internal_data_ingested","portfolio_card_real_count>=1"] },
+    { "from": "REAL",    "to": "PARTIAL", "requires": ["drift_event","stale_evidence","unresolved_dependency"] },
+    { "from": "PARTIAL", "to": "BLOCKED", "requires": ["explicit_dependency","external_constraint"] }
+  ],
+  "session_start_protocol": "Read public.reality_ledger WHERE status='BLOCKED' before executing RAM work in any session.",
+  "evidence_objects": {
+    "github_commits": ["ram/00_ram_dogfood-first_execution-plan.md", "ram/01_ram_schema.sql"],
+    "package_stem": "ram_dogfood-first_20260512",
+    "receipt_stems": ["RCPT_ram_pen-push_20260512","RCPT_ram_dev-inspection_pending","RCPT_ram_prod-promotion_blocked"]
+  },
+  "binding_rules": [
+    "Every RAM package emits a reality_ledger row at prod promotion only.",
+    "PARTIAL rows are emitted at dev inspection submission.",
+    "BLOCKED rows are emitted when dev inspection finds violations.",
+    "No reality_ledger row may have status=PRETEND.",
+    "Every reality_ledger row references at least one ram_asset_evidence row."
+  ],
+  "telemetry_streams": ["execution","economics","recovery","authority","drift","latency","failure","orchestration","classification","runtime_health"],
+  "rdti": { "is_rd": true, "project_code": "RAM-DGF-2026Q4" }
+}
