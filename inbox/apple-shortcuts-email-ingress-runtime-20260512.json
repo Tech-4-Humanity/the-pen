@@ -1,0 +1,134 @@
+{
+  "idempotency_key": "apple-shortcuts-email-ingress-runtime-20260512",
+  "title": "Build Apple Shortcuts, email and share-sheet ingress runtime",
+  "origin": "chatgpt",
+  "destination": "PEN_BRIDGE",
+  "env": "dev_to_prod_candidate",
+  "priority": "P1",
+  "requested_by": "Troy Latter",
+  "evidence_state": "PARTIAL",
+  "classification": "runtime_ingress_build",
+  "summary": "Build the full Apple/macOS/iOS ingress layer: Share Sheet shortcuts, email ingestion, folder watchers, normalised JSON payloads, queue routing, receipts, telemetry and recovery.",
+  "scope": {
+    "channels": [
+      "macOS/iOS Share Sheet",
+      "Shortcuts",
+      "Apple Mail/Gmail forwarding",
+      "folder actions/watch folders",
+      "clipboard/browser quick capture",
+      "manual file/link/text/audio/photo capture"
+    ],
+    "targets": [
+      "GitHub PEN inbox fallback",
+      "Bridge endpoint when reachable",
+      "Supabase ops.work_queue when bridge confirms write path",
+      "audit.evidence_register for receipts/evidence"
+    ]
+  },
+  "build_outputs_required": [
+    {
+      "name": "Shortcut Pack",
+      "items": [
+        "Send to PEN",
+        "Research Capture",
+        "Evidence Receipt",
+        "Portfolio Intake",
+        "Domain Capture",
+        "Meeting Memory",
+        "R&D Evidence",
+        "AI4Professionals Lead"
+      ]
+    },
+    {
+      "name": "Payload normaliser",
+      "details": "Accepts file, URL, text, image, audio, email body and attachments; adds hash, source, timestamps, tags, worker_type, lifecycle_state, evidence_type and receipt_required."
+    },
+    {
+      "name": "Email ingress",
+      "details": "Dedicated inbox/rules pattern: intake@, research@, receipts@, ideas@ or Gmail labels. Parse message, attachments and sender context into canonical JSON."
+    },
+    {
+      "name": "Folder watcher pack",
+      "paths": [
+        "~/Desktop/TO_PROCESS",
+        "~/Downloads/Research",
+        "~/Desktop/Evidence"
+      ],
+      "details": "Folder Actions trigger Shortcut/shell wrapper, produce queue payload, archive originals after receipt."
+    },
+    {
+      "name": "Receipt writer",
+      "details": "Every ingress event writes a receipt with idempotency_key, payload_hash, accepted_at, route_result, worker_destination and evidence_state."
+    },
+    {
+      "name": "Telemetry hooks",
+      "details": "Track accepted, rejected, duplicate, failed, retried and completed events; dashboard-ready counters."
+    },
+    {
+      "name": "Recovery behaviour",
+      "details": "If Bridge/Supabase unavailable, write to GitHub PEN inbox; if GitHub unavailable, local outbox retries; never silently drops."
+    }
+  ],
+  "canonical_payload_template": {
+    "idempotency_key": "apple-shortcuts-<source>-<timestamp>-<hash>",
+    "source": "share_sheet|email|folder_action|clipboard|browser|manual",
+    "artifact_type": "file|url|text|image|audio|email|pdf|json|unknown",
+    "worker_type": "research|evidence|portfolio|domain|meeting|rd|lead|general",
+    "business_slug": null,
+    "title": null,
+    "summary": null,
+    "content_ref": null,
+    "payload_hash": null,
+    "tags": [],
+    "lifecycle_state": "queued",
+    "evidence_type": "runtime_log",
+    "evidence_state": "PARTIAL",
+    "receipt_required": true,
+    "created_at": "ISO-8601",
+    "origin_device": "macos|ios|unknown",
+    "route_preference": ["bridge", "supabase", "github_pen", "local_outbox"]
+  },
+  "database_contract": {
+    "required_tables": [
+      "ops.work_queue",
+      "audit.evidence_register",
+      "runtime.ingress_events",
+      "runtime.ingress_receipts",
+      "runtime.ingress_dead_letter"
+    ],
+    "required_behaviour": [
+      "idempotency_key unique",
+      "payload_hash stored",
+      "append-only receipts",
+      "retry_count/max_retries",
+      "dead-letter after repeated failure",
+      "status transition validation"
+    ]
+  },
+  "shortcut_contract": {
+    "shortcuts_should_only": [
+      "collect input",
+      "normalise metadata",
+      "calculate/hash payload where possible",
+      "POST/write to canonical ingress",
+      "show receipt or failure state"
+    ],
+    "shortcuts_must_not": [
+      "own orchestration",
+      "own retries beyond local outbox handoff",
+      "mutate production directly",
+      "silently drop failed events"
+    ]
+  },
+  "definition_of_done": [
+    "At least one Shortcut accepts Share Sheet file/url/text and creates a real PEN inbox receipt.",
+    "Email rule path tested with a sample message and attachment.",
+    "Folder watcher path tested with one sample PDF/image/text file.",
+    "Duplicate idempotency key is rejected or safely no-oped.",
+    "Bridge/Supabase route attempted where credentials/runtime are present; GitHub PEN fallback works.",
+    "Receipts written and linked back to source event.",
+    "Evidence classified REAL only after live run receipts exist."
+  ],
+  "handoff_instruction": "Bridge worker should build repo/package assets, create Shortcut import docs or .shortcut placeholders where possible, implement normaliser/serverless endpoint if Bridge/Supabase credentials are present, and return receipts/runtime evidence. No HITL unless destructive permissions or missing credentials block production writes.",
+  "close_signal": true
+}
