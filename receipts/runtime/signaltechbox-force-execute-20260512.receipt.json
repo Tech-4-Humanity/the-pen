@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "45250dd85fa8addea096de0582e72bd932767366",
-  "created_at": "2026-05-12T00:04:39.822779+00:00",
+  "commit_sha": "eb732e1505cec6940ee7d4a103828925a6ca77ec",
+  "created_at": "2026-05-12T00:22:51.883036+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "signaltechbox-force-execute-20260512",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "18402f5da5d50dc941a0d07dddfe0d0242c2d1ae6fa307816e98626302002149",
   "title": "Force execute SignalTechBox Supabase bundle and write runtime receipt",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25704744276"
+  "workflow_run_id": "25705362899"
 }

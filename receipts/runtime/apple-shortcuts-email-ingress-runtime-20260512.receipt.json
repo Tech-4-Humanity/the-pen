@@ -3,7 +3,7 @@
   "commit_sha": "eb732e1505cec6940ee7d4a103828925a6ca77ec",
   "created_at": "2026-05-12T00:22:51.883036+00:00",
   "evidence_state": "PARTIAL",
-  "idempotency_key": "t4h-living-portfolio-operating-surface-v1",
+  "idempotency_key": "apple-shortcuts-email-ingress-runtime-20260512",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
   "job_type": null,
   "next": "Downstream worker should process accepted job and append final REAL/PARTIAL receipt.",
@@ -23,9 +23,9 @@
   "receipt_type": "pen_runtime_receipt",
   "repo": "TML-4PM/the-pen",
   "rollback": "Archive the inbox job and receipt if superseded; do not delete evidence.",
-  "source_job_path": "inbox/t4h-living-portfolio-operating-surface-v1.json",
-  "source_sha256": "17708163b42e6da946fae3bde440e7b1173cb5bc16e3ac59c430eb207e84263c",
-  "title": "Build T4H Living Portfolio Operating Surface from static strategic graphic",
+  "source_job_path": "inbox/apple-shortcuts-email-ingress-runtime-20260512.json",
+  "source_sha256": "07a1f095d1cdfdbe78eaca44aa4623e918500e870cd93bf378b125fd3de4c73a",
+  "title": "Build Apple Shortcuts, email and share-sheet ingress runtime",
   "workflow_run_attempt": "1",
   "workflow_run_id": "25705362899"
 }
