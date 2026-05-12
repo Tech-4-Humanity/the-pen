@@ -1,0 +1,54 @@
+{
+  "idempotency_key": "portfolio-audience-matrix-close-20260512",
+  "job_type": "bridge.close_with_artifacts",
+  "title": "Close Master Portfolio Audience Matrix v0.1 with compiled artifacts",
+  "created_at": "2026-05-12T00:00:00Z",
+  "origin": "chatgpt",
+  "destination": "PEN/Bridge/Supabase",
+  "status": "submitted_to_pen",
+  "prior_payload": {
+    "path": "inbox/portfolio-audience-matrix-v0-1-20260512.json",
+    "commit_sha": "e34b8ca745d077ad7388bbd95c8aca08666cfa5c"
+  },
+  "local_artifact": {
+    "filename": "t4h-master-portfolio-audience-matrix-bundle.zip",
+    "chat_path": "/mnt/data/t4h-master-portfolio-audience-matrix-bundle.zip",
+    "contents": [
+      "README.md",
+      "csv/01_master_portfolio_audience_matrix.csv",
+      "csv/02_acquisition_archetypes.csv",
+      "csv/03_cohort_taxonomy.csv",
+      "csv/04_source_registry.csv",
+      "csv/05_scoring_model.csv",
+      "csv/06_intelligence_layers.csv",
+      "csv/07_graph_nodes.csv",
+      "csv/08_graph_edges.csv",
+      "csv/09_activation_playbooks.csv",
+      "csv/10_pricing_derivation.csv",
+      "csv/11_website_derivation.csv",
+      "csv/12_gap_register.csv",
+      "csv/13_brand_intake_template.csv",
+      "plans/implementation_plan.md",
+      "schemas/bundle_manifest.json",
+      "sql/01_supabase_ddl.sql"
+    ]
+  },
+  "bridge_actions_required": [
+    "fetch or reconstruct artifact bundle from committed payload and chat artifact reference",
+    "write artifact set to durable runtime artifact store",
+    "apply Supabase DDL for audience schema if not present",
+    "ingest CSV tables into canonical/staging tables",
+    "validate row counts: 15 seed brands, 12 archetypes, cohort taxonomy, scoring model, graph nodes/edges, source registry, activation playbooks, pricing and website derivation, gap register, intake template",
+    "write audit.evidence_register row with evidence_state PARTIAL or REAL according to runtime proof",
+    "write receipt under receipts/runtime/portfolio-audience-matrix-close-20260512.json",
+    "return receipt with commit SHA, row counts, checksums, Supabase evidence ID, and any blocked items"
+  ],
+  "closure_definition": {
+    "chat_compilation": "COMPLETE",
+    "artifact_bundle": "COMPLETE_LOCAL",
+    "pen_submission": "COMPLETE",
+    "runtime_ingestion": "PENDING_BRIDGE_RECEIPT",
+    "evidence_state": "PARTIAL_UNTIL_RUNTIME_RECEIPT"
+  },
+  "notes": "Close request for the Master Portfolio Audience Matrix. This codifies the abstraction layer, archetypes, scoring, graph intelligence, brand intake template, and implementation plan for adding all other brands even with zero-filled unknowns. No PRETEND closure accepted."
+}
