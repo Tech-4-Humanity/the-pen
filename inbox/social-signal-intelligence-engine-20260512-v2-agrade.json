@@ -1,0 +1,167 @@
+{
+  "idempotency_key": "social-signal-intelligence-engine-20260512-v2-agrade",
+  "supersedes": "social-signal-intelligence-engine-20260512",
+  "created_at": "2026-05-12T22:35:00+10:00",
+  "origin": "chatgpt",
+  "destination": "bridge",
+  "lane": "wip_to_pen_to_bridge",
+  "evidence_state": "PARTIAL",
+  "quality_grade": "A-READY_FOR_BRIDGE_EXECUTION",
+  "title": "A-grade Social Signal Intelligence Engine: cross-platform signal graph, commercial routing and revenue attribution",
+  "validation_of_v1": {
+    "verdict": "Useful scaffold, not A-grade.",
+    "kept": ["10-slot watchlist", "canonical objects", "basic scoring", "compliance controls", "bridge tasks"],
+    "weaknesses_fixed": [
+      "Added named product ladder and pricing assumptions.",
+      "Added post-CSV intelligence loop and derived outputs.",
+      "Added reusable asset registry requirements.",
+      "Added command-centre widget specification.",
+      "Added revenue attribution and sales workflow states.",
+      "Added cross-platform abstraction beyond LinkedIn.",
+      "Added exact CSV headers, schemas and table plan.",
+      "Added 30/60/90 day rollout path.",
+      "Added evidence classification and receipt contract.",
+      "Added unsafe automation boundaries for scraping/outbound/contact risk."
+    ]
+  },
+  "thesis": {
+    "commodity": "Engagement extraction and CSV export are commodity features.",
+    "defensible_business": "The defensible system is a governed signal graph that turns public engagement events into market intelligence, lead prioritisation, offer routing, sales actions, partner mapping, content strategy and revenue attribution.",
+    "operating_principle": "Do not stop at data. Convert every observed signal into one or more governed downstream assets: entity, relationship, topic, score, workflow, offer, report, dashboard, sales action, suppression rule or evidence item."
+  },
+  "platform_abstraction": {
+    "supported_targets": ["LinkedIn", "X/Twitter", "YouTube", "TikTok", "Instagram", "Facebook pages/groups where permitted", "Reddit", "podcast/show pages", "newsletter/comment communities", "company blogs", "public event/webinar pages"],
+    "target_types": ["person", "creator", "company", "organisation", "media outlet", "community", "event", "topic", "hashtag", "post", "video", "article"],
+    "normalised_event_types": ["post_published", "comment", "reaction", "share", "repost", "mention", "follow", "subscribe_proxy", "webinar_registration_proxy", "download_proxy", "link_click_proxy", "reply", "thread_participation"]
+  },
+  "first_10_watchlist_slots": [
+    {"slot": 1, "cluster": "NDIS", "target_type": "provider CEO/executive", "why": "Buyer pain and operational authority", "primary_offer_route": "NDIS Provider AI Ops Audit", "signal_terms": ["workforce shortage", "documentation", "compliance", "support coordination", "provider governance"]},
+    {"slot": 2, "cluster": "NDIS", "target_type": "NDIS compliance consultant", "why": "Advisory amplifier and partner channel", "primary_offer_route": "Provider Governance Intelligence Report", "signal_terms": ["audit", "quality safeguards", "registration", "risk", "documentation burden"]},
+    {"slot": 3, "cluster": "NDIS", "target_type": "disability employment/inclusion leader", "why": "Outcome and workforce adjacency", "primary_offer_route": "Workforce Augmentation Map", "signal_terms": ["employment pathway", "accessibility", "participant outcomes", "capacity building"]},
+    {"slot": 4, "cluster": "WorkFamilyAI", "target_type": "HR/future-of-work leader", "why": "Organisation buyer and workplace transformation signal", "primary_offer_route": "AI Workload and Readiness Assessment", "signal_terms": ["hybrid work", "burnout", "AI adoption", "productivity", "work redesign"]},
+    {"slot": 5, "cluster": "WorkFamilyAI", "target_type": "caregiving/work/family voice", "why": "High-empathy audience and survey/research distribution", "primary_offer_route": "Family-Work Cognitive Load Survey", "signal_terms": ["invisible labour", "caregiving", "flexibility", "mental load", "family systems"]},
+    {"slot": 6, "cluster": "AI4Professionals", "target_type": "professional services AI practitioner", "why": "White-collar market route for AI4Professionals", "primary_offer_route": "Professional Services AI Ops Audit", "signal_terms": ["professional services", "AI governance", "client workflow", "auditability", "knowledge work"]},
+    {"slot": 7, "cluster": "AugmentedHumanity", "target_type": "AI governance / enterprise transformation leader", "why": "Strategic buyer signal for institutional intelligence", "primary_offer_route": "Institutional Intelligence Assessment", "signal_terms": ["agentic systems", "institutional memory", "governance", "orchestration", "decision intelligence"]},
+    {"slot": 8, "cluster": "AugmentedHumanity", "target_type": "systems thinker / human augmentation voice", "why": "Category design and concept validation", "primary_offer_route": "Human-System Intelligence Map", "signal_terms": ["human-machine teaming", "cognitive load", "decision friction", "organisational learning"]},
+    {"slot": 9, "cluster": "WildcardDiscovery", "target_type": "public sector/policy/education voice", "why": "Government and institutional adoption signal", "primary_offer_route": "Public Sector AI Signal Brief", "signal_terms": ["public service", "trust", "education", "policy", "service delivery"]},
+    {"slot": 10, "cluster": "WildcardDiscovery", "target_type": "health/neuroscience/productivity analytics voice", "why": "Measurement and human performance adjacency", "primary_offer_route": "Human Performance Signal Brief", "signal_terms": ["wellbeing", "measurement", "performance", "cognition", "workforce analytics"]}
+  ],
+  "product_ladder": [
+    {"product": "Signal Snapshot", "buyer": "small org, consultant, campaign owner", "output": "CSV + 2-page insight brief from 10 watchlist targets", "price_aud": "750-1500", "delivery": "one-off", "evidence_level": "PARTIAL allowed if source refs present"},
+    {"product": "Market Signal Brief", "buyer": "provider, advisory firm, association", "output": "topic heatmap, top entities, audience clusters, content opportunities, partner list", "price_aud": "2500-5000", "delivery": "monthly or campaign", "evidence_level": "PARTIAL to REAL after repeated runs"},
+    {"product": "Ecosystem Graph Report", "buyer": "enterprise, government, sector program", "output": "person/org/topic graph, influence nodes, relationship pathways, sector gaps", "price_aud": "7500-20000", "delivery": "quarterly", "evidence_level": "REAL requires persisted graph and evidence ledger"},
+    {"product": "Autonomous Signal Ops Retainer", "buyer": "growth team, founder, sales org", "output": "ongoing watchlists, scoring, CRM routing, content prompts, outreach queue, weekly reporting", "price_aud": "3000-12000 per month", "delivery": "retainer", "evidence_level": "REAL requires telemetry and workflow receipts"},
+    {"product": "Institutional Intelligence Layer", "buyer": "large org / public sector / transformation program", "output": "cross-channel signals integrated with internal CRM, surveys, operational telemetry and governance dashboards", "price_aud": "30000-150000+", "delivery": "implementation + managed runtime", "evidence_level": "REAL only"}
+  ],
+  "after_data_operating_loop": [
+    "capture compliant public event",
+    "normalise to canonical event",
+    "resolve person/org/topic",
+    "dedupe and confidence-score identity",
+    "attach source/evidence reference",
+    "update graph edge",
+    "calculate topic affinity and buyer-fit scores",
+    "classify commercial route",
+    "generate bounded next-best-action",
+    "send to manual review or safe CRM queue",
+    "track action outcome",
+    "feed conversion/outcome back into scoring model",
+    "report heatmap, ecosystem movement and revenue attribution"
+  ],
+  "database_schema_plan": {
+    "schema": "signal_intel",
+    "tables": {
+      "watchlist_targets": ["target_id uuid pk", "platform text", "target_type text", "url text", "cluster text", "status text", "priority int", "created_at timestamptz", "last_checked_at timestamptz"],
+      "raw_events": ["raw_event_id uuid pk", "target_id uuid", "platform text", "event_type text", "event_url text", "observed_at timestamptz", "payload jsonb", "payload_hash text unique", "evidence_id uuid"],
+      "people": ["person_id uuid pk", "name text", "profile_url text", "role text", "organisation_id uuid", "geo text", "confidence numeric", "source_count int"],
+      "organisations": ["organisation_id uuid pk", "name text", "domain text", "sector text", "size_band text", "geo text", "confidence numeric"],
+      "topics": ["topic_id uuid pk", "topic_name text", "taxonomy text", "parent_topic_id uuid"],
+      "engagements": ["engagement_id uuid pk", "raw_event_id uuid", "person_id uuid", "post_url text", "engagement_type text", "observed_at timestamptz", "topic_ids uuid[]"],
+      "graph_edges": ["edge_id uuid pk", "from_type text", "from_id uuid", "to_type text", "to_id uuid", "edge_type text", "weight numeric", "evidence_ids uuid[]", "last_seen_at timestamptz"],
+      "entity_scores": ["score_id uuid pk", "entity_type text", "entity_id uuid", "score_type text", "score numeric", "reason_codes text[]", "model_version text", "evidence_ids uuid[]", "created_at timestamptz"],
+      "workflow_actions": ["action_id uuid pk", "entity_type text", "entity_id uuid", "route text", "offer text", "action_type text", "status text", "owner text", "payload jsonb", "outcome text", "created_at timestamptz", "closed_at timestamptz"],
+      "evidence_register": ["evidence_id uuid pk", "source text", "evidence_type text", "uri text", "hash text", "classification text", "captured_at timestamptz"],
+      "revenue_attribution": ["attribution_id uuid pk", "entity_id uuid", "workflow_action_id uuid", "opportunity_value numeric", "stage text", "source_signal_ids uuid[]", "created_at timestamptz", "closed_at timestamptz"]
+    }
+  },
+  "csv_templates_with_headers": {
+    "watchlist_targets.csv": ["slot", "cluster", "platform", "target_type", "target_name", "target_url", "priority", "status", "notes"],
+    "raw_events.csv": ["raw_event_id", "platform", "target_url", "event_type", "event_url", "observed_at", "payload_hash", "evidence_uri"],
+    "people_entities.csv": ["person_id", "name", "profile_url", "role", "organisation", "geo", "confidence", "source_count", "manual_review_status"],
+    "organisation_entities.csv": ["organisation_id", "name", "domain", "sector", "size_band", "geo", "confidence"],
+    "topic_affinity_scores.csv": ["entity_id", "entity_type", "topic", "score", "reason_codes", "evidence_ids", "model_version"],
+    "intent_signals.csv": ["signal_id", "person_id", "organisation_id", "cluster", "signal_type", "strength", "recency", "evidence_ids", "recommended_route"],
+    "graph_edges.csv": ["edge_id", "from_type", "from_id", "to_type", "to_id", "edge_type", "weight", "evidence_ids", "last_seen_at"],
+    "workflow_actions.csv": ["action_id", "entity_id", "route", "offer", "action_type", "status", "owner", "next_step", "outcome"],
+    "manual_review_queue.csv": ["review_id", "entity_id", "reason", "risk_level", "recommended_action", "approve", "reviewer", "reviewed_at"],
+    "revenue_attribution.csv": ["attribution_id", "entity_id", "workflow_action_id", "opportunity_value", "stage", "source_signal_ids", "closed_value", "closed_at"],
+    "asset_register.csv": ["asset_id", "asset_type", "cluster", "name", "status", "source", "storage_uri", "evidence_state", "owner", "last_verified_at"]
+  },
+  "asset_registry_outputs": [
+    {"asset_type": "watchlist_template", "name": "10-slot seed watchlist", "reuse": "all social platforms and verticals"},
+    {"asset_type": "scoring_config", "name": "NDIS scoring model", "reuse": "NDIS provider/provider-advisor GTM"},
+    {"asset_type": "scoring_config", "name": "WorkFamilyAI scoring model", "reuse": "survey, content, HR, family-work programs"},
+    {"asset_type": "scoring_config", "name": "AugmentedHumanity scoring model", "reuse": "institutional intelligence and AI governance offers"},
+    {"asset_type": "report_template", "name": "Market Signal Brief", "reuse": "monthly paid product"},
+    {"asset_type": "report_template", "name": "Ecosystem Graph Report", "reuse": "quarterly strategic product"},
+    {"asset_type": "dashboard_widget", "name": "Signal Heatmap", "reuse": "command centre"},
+    {"asset_type": "dashboard_widget", "name": "Manual Review Queue", "reuse": "safe outbound governance"},
+    {"asset_type": "workflow_template", "name": "Signal to Offer Route", "reuse": "CRM and sales routing"},
+    {"asset_type": "governance_policy", "name": "Social Signal Compliance Boundary", "reuse": "all social intelligence systems"}
+  ],
+  "command_centre_widgets": [
+    {"widget": "Watchlist Monitor", "shows": ["targets", "last checked", "events found", "failures", "evidence state"]},
+    {"widget": "Signal Heatmap", "shows": ["cluster", "topic", "volume", "recency", "momentum", "commercial route"]},
+    {"widget": "Entity Graph", "shows": ["people", "organisations", "topics", "edges", "influence nodes", "bridges"]},
+    {"widget": "Manual Review Queue", "shows": ["recommended action", "risk", "evidence", "approve/reject/suppress"]},
+    {"widget": "Offer Router", "shows": ["lead/entity", "route", "offer", "next step", "owner", "status"]},
+    {"widget": "Revenue Attribution", "shows": ["source signal", "workflow", "opportunity", "stage", "value", "closed outcome"]},
+    {"widget": "Evidence Ledger", "shows": ["evidence uri", "hash", "classification", "captured_at", "linked object"]}
+  ],
+  "scoring_detail": {
+    "fit_score_0_100": {"role_relevance": 25, "sector_match": 20, "organisation_match": 20, "buyer_proximity": 25, "geo_channel_fit": 10},
+    "intent_score_0_100": {"topic_match": 25, "engagement_depth": 20, "repeat_engagement": 20, "recency": 20, "cross_topic_overlap": 15},
+    "influence_score_0_100": {"network_bridge_value": 25, "creator_overlap": 20, "comment_quality": 20, "organisation_authority": 20, "audience_proxy": 15},
+    "action_score_formula": "0.35*fit + 0.35*intent + 0.15*influence + 0.15*relationship_or_offer_match",
+    "routing_thresholds": {"0_39": "observe only", "40_59": "content audience", "60_74": "manual review", "75_89": "sales-ready review", "90_100": "priority account intelligence"}
+  },
+  "workflow_states": ["observed", "resolved", "scored", "review_required", "approved_for_action", "queued_to_crm", "contacted", "responded", "meeting_booked", "proposal_sent", "won", "lost", "suppressed", "archived"],
+  "safety_and_compliance_boundaries": {
+    "blocked": ["bypassing access controls", "scraping private data", "credential sharing", "fake accounts", "unbounded automated messaging", "sensitive personal inference", "medical/legal/eligibility claims", "contacting suppressed entities"],
+    "requires_manual_review": ["outbound messaging", "high-volume export", "sensitive-sector routing", "uncertain identity match", "public-sector or child/family-related claims"],
+    "allowed": ["compliant public signal capture", "normalisation", "dedupe", "evidence logging", "internal scoring", "manual review queue", "aggregated reporting"]
+  },
+  "bridge_execution_tasks": [
+    {"task": "create_asset_bundle", "outputs": ["README", "DDL SQL", "CSV templates", "scoring configs", "dashboard spec", "governance policy"]},
+    {"task": "create_supabase_schema", "schema": "signal_intel", "required_tables": ["watchlist_targets", "raw_events", "people", "organisations", "topics", "engagements", "graph_edges", "entity_scores", "workflow_actions", "evidence_register", "revenue_attribution"]},
+    {"task": "seed_watchlist_templates", "clusters": ["NDIS", "WorkFamilyAI", "AI4Professionals", "AugmentedHumanity", "WildcardDiscovery"]},
+    {"task": "create_worker_skeletons", "workers": ["watchlist_monitor", "event_ingestor", "entity_resolver", "topic_classifier", "score_calculator", "graph_updater", "workflow_router", "export_packager", "report_builder"]},
+    {"task": "create_command_centre_widget_specs", "widgets": ["Watchlist Monitor", "Signal Heatmap", "Entity Graph", "Manual Review Queue", "Offer Router", "Revenue Attribution", "Evidence Ledger"]},
+    {"task": "create_receipt", "receipt_must_include": ["files created", "tables created or migration prepared", "worker skeleton locations", "seed CSV paths", "evidence state", "blocked items", "next runtime command"]}
+  ],
+  "rollout": {
+    "day_1_to_3": ["create bundle", "seed 10 targets", "manual/public capture proof", "generate first CSV and signal brief"],
+    "day_4_to_14": ["enrichment", "scoring", "manual review", "first Market Signal Brief product", "CRM/action queue"],
+    "day_15_to_30": ["dashboard widgets", "graph reporting", "revenue attribution", "repeatable monthly product"],
+    "day_31_to_90": ["cross-platform expansion", "verticalised offer packs", "paid retainer", "institutional intelligence integration"]
+  },
+  "acceptance_criteria": [
+    "A reusable asset bundle exists and is registered.",
+    "A complete schema plan or migration exists for signal_intel.",
+    "10 watchlist slots exist across NDIS, WorkFamilyAI, AI4Professionals, AugmentedHumanity and WildcardDiscovery.",
+    "CSV templates include exact headers.",
+    "Scoring model has weights, thresholds and reason-code evidence.",
+    "Command-centre widget specs exist.",
+    "Product ladder and pricing are captured.",
+    "Revenue attribution table/workflow exists.",
+    "Unsafe automation boundaries are explicit.",
+    "Bridge receipt is returned with evidence classification."
+  ],
+  "classification_rules": {
+    "PRETEND": "No persisted artifact, no source refs, no runtime path or no receipt.",
+    "PARTIAL": "Bundle exists and can be executed but live ingestion/telemetry not yet proven.",
+    "REAL": "Live run completed, data persisted, evidence ledger written, dashboard visible, workflow receipt returned and revenue/action attribution path proven."
+  },
+  "current_classification": "PARTIAL",
+  "reason": "A-grade bridge payload created, but live runtime execution and telemetry receipt still required for REAL."
+}
