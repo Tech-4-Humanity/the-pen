@@ -1,0 +1,48 @@
+{
+  "receipt_type": "source_basis_closeout",
+  "receipt_id": "thrivingkids-constitutional-boundary-source-basis-20260512",
+  "status": "CLOSED_WITH_SOURCE_BASIS",
+  "domain_key": "THRIVING_KIDS",
+  "bundle_name": "ThrivingKids_Constitutional_NoHITL_BoundarySupplement_20260512",
+  "source_basis_completed": true,
+  "source_basis": {
+    "primary_user_source": "Pasted text(80).txt uploaded in ChatGPT conversation on 2026-05-12",
+    "source_summary": "Expanded unsafe/no-HITL constitutional boundary table covering autonomy classification, runtime HITL, destructive operations, credential governance, identity propagation, outbound communications, claim safety, child/sensitive content, legal/funding safety, economic integrity, evidence, telemetry, silent failure prevention, recovery, archive doctrine, runtime isolation, tool constraints, model behaviour, queue constitution, human protection, data governance, environment promotion, survivability, reality ledger integrity, governance locking, dependency awareness, autonomous publishing, observability and constitutional override.",
+    "canonical_position": "No-HITL means operational continuity without manual dependency inside immutable constitutional policy boundaries. It does not mean unrestricted authority.",
+    "runtime_identity": "Policy-bound autonomous operational infrastructure with constitutional governance, evidence-backed truth classification, deterministic recovery, survivability enforcement, bounded execution authority, telemetry integrity and immutable operational lineage."
+  },
+  "linked_payloads_and_receipts": [
+    {
+      "path": "inbox/thrivingkids-nohitl-endstatepack-20260512.json",
+      "commit": "64c0f816dd6bcdc2b2c77deb171e173f6b517b31",
+      "role": "Original no-HITL runtime end-state pack"
+    },
+    {
+      "path": "inbox/thrivingkids-commercial-ops-pack-20260512.json",
+      "commit": "2ed7caf2d897d9e0d6e1b107cfbd52bb150a013b",
+      "role": "Commercial operations hardening pack"
+    },
+    {
+      "path": "receipts/runtime/commercial-ops-template-v1-register-20260512.json",
+      "commit": "c3752db6db4defaf0b6c2fbdcec3bfd6e941e439",
+      "role": "Reusable commercial operations template registration"
+    },
+    {
+      "path": "inbox/thrivingkids-constitutional-boundary-supplement-20260512.json",
+      "commit": "8d21587fa9c668a0fee7bfc420f474baa0203879",
+      "role": "Constitutional unsafe/no-HITL boundary supplement lodged to PEN"
+    }
+  ],
+  "evidence_classification": {
+    "source_basis_recorded": "REAL",
+    "constitutional_boundary_design": "REAL",
+    "pen_lodgement": "REAL",
+    "runtime_enforcement_live": "PARTIAL",
+    "telemetry_continuity_validated": "PENDING",
+    "recovery_replay_validated": "PENDING",
+    "seventy_two_hour_survivability_proven": "PENDING",
+    "production_lock_enforced": "PENDING"
+  },
+  "closeout_note": "Source basis was missing from the final user-facing summary. This receipt completes the lineage by explicitly linking the uploaded constitutional boundary source to the PEN supplement and prior runtime/commercial/template receipts.",
+  "next_runtime_receipt_required": "Bridge execution receipt proving tables/views/functions/workers/policy guards/telemetry/survivability checks were applied and smoke-tested."
+}
