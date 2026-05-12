@@ -1,0 +1,65 @@
+{
+  "idempotency_key": "asset-register-commercial-ops-template-20260512",
+  "action": "asset_register_upsert",
+  "asset_key": "commercial_ops_template_v1",
+  "asset_name": "Reusable Commercial Operations Template v1",
+  "asset_type": "reusable_runtime_template",
+  "origin_domain": "THRIVING_KIDS",
+  "origin_payloads": [
+    "inbox/thrivingkids-nohitl-endstatepack-20260512.json",
+    "inbox/thrivingkids-commercial-ops-pack-20260512.json"
+  ],
+  "purpose": "Reusable portfolio-wide scaffold for turning a domain or brand into a governed commercial operating unit.",
+  "components": [
+    "policy_gate",
+    "product_catalogue",
+    "pricing_plans",
+    "promotion_registry",
+    "sales_pipeline",
+    "resource_registry",
+    "reporting_views",
+    "revenue_events",
+    "entitlement_activation",
+    "evidence_binding",
+    "fail_only_dashboard",
+    "commercial_workers",
+    "disabled_first_schedules",
+    "smoke_tests"
+  ],
+  "reuse_parameters": [
+    "biz_key",
+    "domain_key",
+    "brand_name",
+    "audience_segments",
+    "product_codes",
+    "price_bands",
+    "copy_rules",
+    "disclaimers",
+    "payment_or_invoice_route",
+    "fulfilment_templates",
+    "widget_prefix"
+  ],
+  "evidence_rules": {
+    "template_status": "ACTIVE_TEMPLATE",
+    "template_evidence_state": "REAL_AS_REGISTERED_ASSET",
+    "target_deployment_state": "PARTIAL_UNTIL_RUNTIME_RECEIPTS",
+    "pretend_allowed": false,
+    "receipt_required_for_REAL_TARGET_USE": true
+  },
+  "source_receipts": [
+    "commit:64c0f816dd6bcdc2b2c77deb171e173f6b517b31",
+    "commit:2ed7caf2d897d9e0d6e1b107cfbd52bb150a013b"
+  ],
+  "recommended_asset_registry_row": {
+    "asset_key": "commercial_ops_template_v1",
+    "asset_name": "Reusable Commercial Operations Template v1",
+    "asset_type": "runtime_template",
+    "canonical": true,
+    "status": "ACTIVE_TEMPLATE",
+    "origin": "Thriving Kids commercial ops pack",
+    "reuse_scope": "portfolio_wide",
+    "evidence_state": "REAL_AS_REGISTERED_ASSET",
+    "deployment_evidence_state": "PARTIAL_UNTIL_TARGET_RUNTIME_RECEIPTS"
+  },
+  "bridge_instruction": "/ready /asset-register commercial_ops_template_v1. Save as reusable portfolio-wide commercial operations template. Link to Thriving Kids source payloads and receipts. Make discoverable for future brand/domain builds. Return registry receipt and asset id."
+}
