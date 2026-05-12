@@ -1,0 +1,15 @@
+{
+  "blocker": "safety gate: destructive/payment/credential/iam-like operation requires explicit controlled path",
+  "commit_sha": "64c0f816dd6bcdc2b2c77deb171e173f6b517b31",
+  "created_at": "2026-05-12T11:36:20.739574+00:00",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "thrivingkids-nohitl-endstatepack-20260512",
+  "impact": "Job not dispatched because it tripped a hard gate.",
+  "next": "Create dry-run or approved gated execution payload.",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "rollback": "No runtime side effect executed.",
+  "source_job_path": "inbox/thrivingkids-nohitl-endstatepack-20260512.json",
+  "state": "BLOCKED",
+  "workflow_run_id": "25731864762"
+}
