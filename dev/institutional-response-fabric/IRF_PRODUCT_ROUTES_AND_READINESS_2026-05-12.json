@@ -1,0 +1,153 @@
+{
+  "payload_id": "irf_product_routes_readiness_2026_05_12_v1",
+  "extends": [
+    "irf_dev_deploy_2026_05_12_v1",
+    "irf_product_stack_extension_2026_05_12_v1"
+  ],
+  "title": "Product Routes, Readiness Gates and First Output Build Plan",
+  "status": "POSTED_TO_DEV",
+  "evidence_state": "PARTIAL",
+  "purpose": "Convert the outcome-ready product catalogue into actionable opportunity routes, wrapper outputs, readiness gates, and first dev build targets.",
+  "routing_model": {
+    "principle": "Every product must map to at least one buyer segment, one capability, one wrapper, one evidence requirement, and one revenue or funding pathway.",
+    "route_pattern": "product -> buyer_segment -> pain -> capability -> evidence -> wrapper -> output -> receipt -> reuse"
+  },
+  "readiness_gates": [
+    {
+      "gate_id": "G0_CATALOGUED",
+      "name": "Catalogued",
+      "criteria": ["product named", "buyer segment identified", "primary outcome stated"],
+      "allowed_external_use": "internal only"
+    },
+    {
+      "gate_id": "G1_OFFER_DEFINED",
+      "name": "Offer Defined",
+      "criteria": ["problem statement", "buyer", "deliverable", "scope", "starting price or funding use", "delivery path"],
+      "allowed_external_use": "soft proposal / exploratory conversation"
+    },
+    {
+      "gate_id": "G2_EVIDENCE_BOUND",
+      "name": "Evidence Bound",
+      "criteria": ["linked REAL or PARTIAL evidence", "claims classified", "synthetic/demo content labelled", "evidence gaps logged"],
+      "allowed_external_use": "grant/proposal with caveats"
+    },
+    {
+      "gate_id": "G3_DEMO_READY",
+      "name": "Demo Ready",
+      "criteria": ["live or clickable demo", "screenshots/assets", "basic user flow", "known limits documented"],
+      "allowed_external_use": "sales demo / grant attachment"
+    },
+    {
+      "gate_id": "G4_PILOT_READY",
+      "name": "Pilot Ready",
+      "criteria": ["implementation plan", "budget", "risk controls", "data/consent position", "support process", "success metrics"],
+      "allowed_external_use": "paid pilot / funded pilot"
+    },
+    {
+      "gate_id": "G5_REAL",
+      "name": "REAL",
+      "criteria": ["live deployment", "runtime receipt", "telemetry", "user/customer evidence", "recoverability", "commercial or funded pathway"],
+      "allowed_external_use": "full external claim"
+    }
+  ],
+  "priority_product_routes": [
+    {
+      "route_id": "route_provider_command_centre",
+      "product": "Provider Command Centre",
+      "buyer_segment": "Providers",
+      "pain": "NDIS/provider reform pressure: admin burden, governance gaps, evidence pressure, workforce strain.",
+      "capabilities": ["Disability Operations Intelligence", "Reality Ledger", "Institutional Memory Engine"],
+      "wrappers": ["grant", "income_offer", "tender", "content"],
+      "first_outputs": [
+        "Provider pilot one-pager",
+        "NDIS/disability grant wrapper",
+        "implementation brief",
+        "evidence gap report"
+      ],
+      "readiness_gate_target": "G2_EVIDENCE_BOUND",
+      "missing_evidence": ["live provider demo", "partner letter", "budget model", "baseline KPI template"]
+    },
+    {
+      "route_id": "route_reality_ledger",
+      "product": "Reality Ledger",
+      "buyer_segment": "Providers/Public/Government/Practitioners",
+      "pain": "Claims, operational work and AI outputs are hard to verify; funders and boards need evidence-backed proof.",
+      "capabilities": ["Reality Ledger Evidence System", "Autonomous Evidence Engine", "Governance and Gatekeeper Runtime"],
+      "wrappers": ["grant", "tender", "income_offer", "investor", "research"],
+      "first_outputs": ["evidence-led governance one-pager", "audit trail spec", "grant evidence section", "AI assurance content piece"],
+      "readiness_gate_target": "G2_EVIDENCE_BOUND",
+      "missing_evidence": ["ledger screenshots", "sample receipts", "audit schema", "deployment proof"]
+    },
+    {
+      "route_id": "route_ai_sweet_spots",
+      "product": "AI Sweet Spots",
+      "buyer_segment": "Participants/Public/Government/Practitioners",
+      "pain": "AI adoption is being measured by productivity rather than human capability, trust, overload and cognitive fit.",
+      "capabilities": ["AI Sweet Spots Assessment", "Cognitive Accessibility Modes", "Augmented Humanity Assessments"],
+      "wrappers": ["research", "course", "grant", "content", "income_offer"],
+      "first_outputs": ["assessment offer", "course outline", "research abstract", "grant wrapper for cognitive accessibility"],
+      "readiness_gate_target": "G2_EVIDENCE_BOUND",
+      "missing_evidence": ["dataset verification", "scoring model status", "public assessment flow", "ethics/privacy note"]
+    },
+    {
+      "route_id": "route_consentx",
+      "product": "ConsentX",
+      "buyer_segment": "Public/Government/Providers/Participants",
+      "pain": "Consent is fragmented across people, systems, contexts and jurisdictions, especially in health, disability, child safety and high-risk AI.",
+      "capabilities": ["ConsentX Dynamic Consent", "Integrity Stack Governance", "ID Exchange"],
+      "wrappers": ["grant", "tender", "policy", "income_offer", "research"],
+      "first_outputs": ["consent governance one-pager", "privacy/identity grant wrapper", "policy brief", "technical architecture brief"],
+      "readiness_gate_target": "G2_EVIDENCE_BOUND",
+      "missing_evidence": ["demo flow", "consent taxonomy", "audit example", "data handling model"]
+    }
+  ],
+  "first_dev_outputs_to_generate": [
+    {
+      "output_id": "out_provider_command_centre_onepager_v1",
+      "title": "Provider Command Centre - Pilot One-Pager",
+      "wrapper": "income_offer",
+      "buyer": "NDIS and human services providers",
+      "sections": ["problem", "offer", "what is included", "pilot pathway", "evidence required", "success metrics", "next step"]
+    },
+    {
+      "output_id": "out_disability_ops_grant_wrapper_v1",
+      "title": "Disability Operations Intelligence - Grant Wrapper",
+      "wrapper": "grant",
+      "buyer": "funders / government / philanthropy",
+      "sections": ["need", "target cohort", "project activities", "outcomes", "evaluation", "governance", "sustainability", "budget logic"]
+    },
+    {
+      "output_id": "out_ai_sweet_spots_course_outline_v1",
+      "title": "AI Sweet Spots - Cognitive Accessibility Course Outline",
+      "wrapper": "course",
+      "buyer": "workforce, education, public sector, professional teams",
+      "sections": ["learner promise", "modules", "activities", "assessment", "evidence base", "accessibility modes"]
+    },
+    {
+      "output_id": "out_consentx_policy_brief_v1",
+      "title": "ConsentX - Multi-Actor Consent Policy Brief",
+      "wrapper": "policy/research",
+      "buyer": "government, health, education, disability, child safety",
+      "sections": ["problem", "model", "use cases", "governance", "auditability", "implementation pathway", "limitations"]
+    }
+  ],
+  "required_dev_actions": [
+    "Create product_registry table or queue DDL generation.",
+    "Import product family and segment seed records with evidence_state=PARTIAL.",
+    "Create product_readiness_gate enum or lookup table.",
+    "Create route records for Provider Command Centre, Reality Ledger, AI Sweet Spots, and ConsentX.",
+    "Generate first four dev outputs as markdown/json artefacts.",
+    "Create evidence_gap_register rows for every missing proof item.",
+    "Log receipt_ledger row for each generated output.",
+    "Do not classify any product REAL until linked evidence and runtime receipts exist."
+  ],
+  "bridge_manifest": {
+    "idempotency_key": "irf_product_routes_readiness_2026_05_12_v1",
+    "dedupe_key": "institutional_response_fabric_product_routes_readiness_v1",
+    "target_env": "dev",
+    "target_path": "/dev/institutional-response-fabric/",
+    "requested_action": "Add product readiness gates, priority routes, first output build plan, and evidence gap creation requirements to dev deployment queue.",
+    "receipt_required": true
+  },
+  "close_state": "POSTED_TO_DEV_FOR_DEPLOYMENT"
+}
