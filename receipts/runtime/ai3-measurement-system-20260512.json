@@ -1,0 +1,43 @@
+{
+  "receipt_id": "ai3-build-receipt-20260512",
+  "pen_ref": "inbox/ai3-measurement-system-20260512.json",
+  "executed_by": "troy-claude",
+  "executed_at": "2026-05-12T00:00:00Z",
+  "evidence_state": "PARTIAL",
+  "files_created": [
+    "ai3 schema (Supabase migration: ai3_schema_v1)",
+    "ai3 views + scoring function (migration: ai3_views_and_scoring_v1)",
+    "receipts/runtime/ai3-measurement-system-20260512.json"
+  ],
+  "ddl_status": "APPLIED — 17 tables, ai3 schema, indexes",
+  "seed_status": "APPLIED — demo-t4h org, 3 teams",
+  "question_bank_status": "PARTIAL — 72 questions seeded across 10 layers; target 160",
+  "views_deployed": [
+    "ai3.v_org_ai3_summary",
+    "ai3.v_team_layer_scores",
+    "ai3.v_evidence_state_summary",
+    "ai3.v_friction_hotspots",
+    "ai3.v_worker_runtime_health",
+    "ai3.v_governance_assurance",
+    "ai3.v_report_ready_assessments"
+  ],
+  "scoring_function": "ai3.compute_scores(uuid) — DEPLOYED",
+  "ux_status": "NOT STARTED — queued in work_queue",
+  "report_template_status": "NOT STARTED — queued",
+  "communication_template_status": "NOT STARTED — queued",
+  "smoke_test_status": "NOT RUN",
+  "score_test_result": "NOT RUN",
+  "work_queue_job": "submitted — dedupe_key: ai3-build-contract-20260512",
+  "gaps": [
+    "Question bank needs 88 more questions to reach 160 target",
+    "Public assessment UX not built",
+    "Report templates not generated",
+    "Communication templates not generated",
+    "Command-centre widget not built",
+    "Smoke test not run",
+    "Evidence bindings empty — evidence_state remains PARTIAL",
+    "Telemetry ingestion not wired",
+    "Worker traces not flowing into ai3.worker_traces"
+  ],
+  "next_runtime_action": "Execute queued work_queue job: build UX, expand question bank to 160, generate report/comms templates, run smoke test, wire telemetry ingestion"
+}
