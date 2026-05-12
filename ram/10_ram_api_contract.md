@@ -1,70 +1,62 @@
-# RAM API Contract
+# 10_ram_api_contract.md
 
-All routes go through the T4H bridge. Writes require `allowWrite=true` and `dryRun=false`. Reads default to `service_role` PostgREST. Receipts mirror the package stem.
+RAM API surface. All endpoints route through the T4H bridge and require dual-auth (x-api-key + Authorization: Bearer).
 
-## Conventions
+## Ingest
+POST /ram/ingest
+- body: { source_system, source_uri, asset_type?, original_name?, metadata? }
+- effect: insert into ram_assets, emit ram_watch_events(event_type='asset_discovered', severity='info').
+- returns: { asset_id, canonical_name, evidence_state }
 
-- Path style: `/ram/<noun>/<verb>`
-- All bodies are JSON
-- All responses include `status`, `evidence_state`, and `receipt_stem`
-- All write endpoints write to `audit.log` and (where applicable) `public.reality_ledger`
-- Idempotency via `dedupe_key` on enqueue
+## Normalize
+POST /ram/normalize
+- body: { asset_id }
+- effect: compute canonical_name (NN_topic-slug per semantic range), update ram_assets, write ram_asset_lineage.
+- returns: { canonical_name, lineage_id }
 
-## Endpoints
+## Validate
+POST /ram/validate
+- body: { asset_id, checks?: [link_liveness, repo_exists, deploy_probe, hash_dedupe, naming_compliance, evidence_presence] }
+- effect: insert ram_asset_validation row per check, attach ram_asset_evidence.
+- returns: { validation_score, status }
 
-### POST /ram/ingest
-Discover and register a single asset (or batch).
+## Uplift
+POST /ram/uplift
+- body: { asset_id, audience: [exec,cto,gov,partner,investor,standards,humanitarian] }
+- effect: generate ram_portfolio_cards bound to evidence_state=REAL only.
 
-Request body fields: source_system, source_uri, asset_type, original_name, metadata.
-Response fields: status, asset_id, canonical_name, evidence_state, receipt_stem.
+## Package
+POST /ram/package
+- body: { package_stem, purpose, asset_ids[], environment }
+- effect: insert ram_packages row, mirror receipt stem.
 
-### POST /ram/normalize
-Apply canonical naming. Deterministic, reversible via lineage. Body: asset_id, force. Response includes previous_name, canonical_name, lineage_id.
+## Portfolio
+GET /ram/portfolio/:brand
+- returns: portfolio_cards for brand where evidence_state='REAL'.
 
-### POST /ram/validate
-Run typed checks: link liveness, repo presence, deploy probe, hash dedupe, naming compliance. Body: asset_id, checks[]. Response: validation_score, status, checks{}, evidence[].
+## Reuse
+POST /ram/reuse
+- body: { asset_id, component_type, component_name, reuse_target? }
+- effect: insert ram_reuse_components.
 
-### POST /ram/uplift
-Generate enriched companion artifacts (manifest, sidecar meta, summary) without modifying the original.
+## Watch
+GET /ram/watch
+- returns: ram_watch_events ordered desc, filter by severity.
 
-### POST /ram/package
-Build a PKG_<project>_<purpose>_<YYYYMMDD-HHMM>.zip against listed asset ids.
+## Dev Inspect
+POST /ram/dev/inspect
+- body: { package_stem, findings, status }
+- effect: insert ram_dev_inspections, attach receipt_uri.
 
-### POST /ram/portfolio/generate
-Emit one or more ram_portfolio_cards from validated assets. Body: brand, audience.
+## Prod Promote
+POST /ram/prod/promote
+- body: { package_stem }
+- gate: requires latest ram_dev_inspections.status='REAL' for stem.
+- effect: insert ram_prod_promotions, status='REAL' if gate passes else 'BLOCKED'.
 
-### POST /ram/reuse/mine
-Extract reusable components (widgets, prompts, schemas, sales phrases) from validated assets.
+## Reality State
+GET /ram/reality/:entity_name
+- proxies t4h_reality_state classifier.
 
-### POST /ram/watch/scan
-Nightly orphan/drift/ghost/dead-link sweep. Writes to ram_watch_events.
-
-### GET /ram/assets
-List assets with filter: source_system, evidence_state, asset_type, package_stem.
-
-### GET /ram/portfolio/:brand
-Return portfolio cards for a brand. Public surface uses v_ram_portfolio_real only.
-
-### GET /ram/evidence/:asset_id
-Return full evidence trail and validation history.
-
-### POST /ram/dev/inspect
-Submit a package for dev inspection. Body: package_stem, checks[]. Writes to ram_dev_inspections. Returns RCPT_ram_dev-inspection_<stem>.
-
-### POST /ram/prod/promote
-Promote a package to prod. Requires prior REAL ram_dev_inspections row. Writes to ram_prod_promotions and public.reality_ledger (status=REAL).
-
-## Envelope rules
-
-- troy-sql-executor calls use NESTED envelope
-- All other RAM bridge calls use TOP-LEVEL envelope
-- Multi-statement SQL forbidden; use run_sql RPC for DDL
-- Verify writes via PostgREST direct read; troy-sql-executor masks pg errors and RETURNING
-
-## Status semantics
-
-- REAL: executed, receipted, ledger-written, telemetry-verified
-- PARTIAL: scaffolded but unproven against internal data
-- BLOCKED: explicit dependency, bounded reason
-
-The RAM API will return PARTIAL for any endpoint until dogfood completion.
+## Evidence rule
+No write path produces evidence_state='REAL' without typed evidence (commit_id, api_response, db_result, hash, log, or receipt).
