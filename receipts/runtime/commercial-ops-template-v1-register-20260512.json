@@ -1,0 +1,58 @@
+{
+  "receipt_type": "asset_registration_receipt",
+  "receipt_id": "commercial-ops-template-v1-register-20260512",
+  "asset_key": "commercial_ops_template_v1",
+  "asset_name": "Reusable Commercial Operations Template v1",
+  "status": "REGISTERED",
+  "canonical": true,
+  "reuse_scope": "portfolio_wide",
+  "origin_domain": "THRIVING_KIDS",
+  "linked_payloads": [
+    "inbox/thrivingkids-nohitl-endstatepack-20260512.json",
+    "inbox/thrivingkids-commercial-ops-pack-20260512.json"
+  ],
+  "registered_components": [
+    "policy_gate",
+    "product_catalogue",
+    "pricing_plans",
+    "promotion_registry",
+    "sales_pipeline",
+    "resource_registry",
+    "reporting_views",
+    "revenue_events",
+    "entitlement_activation",
+    "evidence_binding",
+    "fail_only_dashboard",
+    "commercial_workers",
+    "disabled_first_schedules",
+    "smoke_tests"
+  ],
+  "reuse_parameters": [
+    "biz_key",
+    "domain_key",
+    "brand_name",
+    "audience_segments",
+    "product_codes",
+    "price_bands",
+    "copy_rules",
+    "disclaimers",
+    "payment_or_invoice_route",
+    "fulfilment_templates",
+    "widget_prefix"
+  ],
+  "evidence_state": {
+    "template_asset": "REAL_AS_REGISTERED_ASSET",
+    "target_runtime_use": "PARTIAL_UNTIL_RUNTIME_RECEIPTS"
+  },
+  "source_receipts": [
+    "64c0f816dd6bcdc2b2c77deb171e173f6b517b31",
+    "2ed7caf2d897d9e0d6e1b107cfbd52bb150a013b"
+  ],
+  "notes": [
+    "Reusable commercial operating scaffold saved for future brands/domains.",
+    "Archive-not-delete doctrine inherited.",
+    "Policy-guard-before-publish/send inherited.",
+    "Reality Ledger evidence binding inherited.",
+    "No deployment may claim REAL without runtime receipts."
+  ]
+}
