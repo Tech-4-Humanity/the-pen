@@ -1,0 +1,77 @@
+{
+  "fn": "enqueue_job",
+  "action": "tax.rd_reconstruct_from_supabase",
+  "idempotency_key": "t4h-rd-tax-fy23-fy25-supabase-maat-factors-reconstruction-20260512",
+  "priority": 1,
+  "payload": {
+    "jurisdiction": "AU",
+    "entity": "Tech for Humanity",
+    "scope": {
+      "financial_years": ["FY23", "FY24", "FY25_current"],
+      "revenue_profile": "none",
+      "research_intensity_assertion": ">90%",
+      "accounting_state": "mixed_many_missing_but_supabase_contains_maat_factors_records"
+    },
+    "canonical_sources_to_inspect": [
+      {
+        "system": "Supabase",
+        "project_hint": "lzfgigiyqpuuxslsygjt",
+        "schemas_or_domains": ["public", "ops", "audit", "commercial", "runtime"],
+        "search_terms": ["MAAT", "maat", "Factors", "factors", "Factor", "research", "R&D", "rd", "tax", "ATO", "AusIndustry", "grant", "expense", "cost", "invoice", "program", "ledger", "evidence"]
+      },
+      {
+        "system": "GitHub",
+        "repositories": ["TML-4PM/the-pen", "TML-4PM/mcp-command-centre", "TML-4PM/ops-dashboard"],
+        "search_terms": ["MAAT", "Factors", "R&D", "research", "tax", "ATO", "AusIndustry", "ledger", "evidence"]
+      }
+    ],
+    "program_register_seed": [
+      {"program_id": "P01", "name": "Marketplace Theory Engine"},
+      {"program_id": "P02", "name": "Skills Graph and Matching Logic"},
+      {"program_id": "P03", "name": "Multi-LLM Orchestration"},
+      {"program_id": "P04", "name": "PLMOS and Control Plane Research"},
+      {"program_id": "P05", "name": "Research Infrastructure Architecture"},
+      {"program_id": "P06", "name": "UX Experimental Systems"},
+      {"program_id": "P07", "name": "Labour Market Modelling"}
+    ],
+    "required_outputs": [
+      "discover_existing_maat_factors_tax_research_tables_views_records",
+      "create_or_update_rd_program_register_from_existing_records",
+      "create_or_update_rd_ledger_fy23_fy25_from_supabase_records",
+      "map_costs_to_programs_with_confidence",
+      "produce_gap_register_for_missing_evidence",
+      "produce_summary_by_fy_with_total_spend_eligible_spend_estimated_refund",
+      "write_audit_evidence_register_entries",
+      "write_receipt_to_receipts/runtime/",
+      "return_queue_state_and_audit_row_ids"
+    ],
+    "target_tables_preferred": {
+      "programs": "tax.rd_programs",
+      "ledger": "tax.rd_ledger",
+      "evidence": "tax.rd_evidence",
+      "summary_view": "tax.rd_summary_by_fy",
+      "gap_register": "tax.rd_gap_register"
+    },
+    "classification_rules": {
+      "salary": 0.9,
+      "contractor": 0.95,
+      "cloud_ai": 1.0,
+      "software_tools": 0.85,
+      "admin_general_default": 0.3
+    },
+    "compliance_constraints": [
+      "No destructive schema changes without gated approval",
+      "No legal lodgement or tax filing without explicit human/professional approval",
+      "Mark estimates as PARTIAL until matched to source records",
+      "REAL requires source record/evidence, audit row, queue state, and receipt"
+    ],
+    "deliverable_summary": "Complete and wire what is possible from Supabase MAAT/Factors records into the FY23-FY25 AU R&D tax reconstruction package. Produce receipts and gap register."
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "llm",
+    "ts": "2026-05-12T20:00:00+10:00",
+    "evidence_state_on_submit": "PARTIAL",
+    "reason": "Payload committed to PEN inbox; runtime execution and Supabase receipts pending."
+  }
+}
