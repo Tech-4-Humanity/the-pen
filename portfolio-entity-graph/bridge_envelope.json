@@ -1,0 +1,31 @@
+{
+  "action": "invoke_function",
+  "function_name": "troy-sql-executor",
+  "invocation_type": "async",
+  "payload": {
+    "task_id": "portfolio-entity-graph-v1-build",
+    "mode": "execute",
+    "sql_assets": [
+      "portfolio-entity-graph/schema.sql",
+      "portfolio-entity-graph/scoring.sql"
+    ],
+    "expected_outputs": [
+      "portfolio_inventory_raw",
+      "portfolio_entities",
+      "portfolio_entity_relationships",
+      "portfolio_entity_stage_history",
+      "portfolio_duplicate_candidates",
+      "portfolio_sell_readiness",
+      "portfolio_whitelabel_readiness",
+      "portfolio_entity_graph_runs",
+      "portfolio_entity_graph_summary",
+      "portfolio_autonomous_priority_queue"
+    ]
+  },
+  "metadata": {
+    "source": "the-pen",
+    "system": "portfolio-entity-graph-v1",
+    "reality_ledger_required": true,
+    "status_floor": "PARTIAL_UNTIL_RUNTIME_EXECUTION"
+  }
+}
