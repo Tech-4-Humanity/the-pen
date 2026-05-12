@@ -1,19 +1,211 @@
 {
   "idempotency_key": "ai3-measurement-system-20260512",
-  "schema_version": "1.1",
-  "title": "Build AI3 Augmented Institutional Intelligence measurement system",
+  "schema_version": "1.2",
+  "title": "Build AI3 Augmented Institutional Intelligence product, assessment, reporting and runtime system",
   "classification": "PARTIAL",
   "priority": "P1",
   "created_by": "chatgpt",
   "target_system": "PEN_BRIDGE_WORKER",
-  "updated_reason": "Enhanced from concept payload into executable bridge contract with schemas, scoring, telemetry, evidence gates, worker bindings, and acceptance criteria.",
+  "updated_reason": "Expanded beyond runtime infrastructure to include assessment UX, survey/question bank, reporting, communication flows, organisational data model, dashboard/product requirements, database persistence, and evidence-bound acceptance criteria.",
   "doctrine": {
     "product_name": "AI3 — Augmented Institutional Intelligence",
     "index_name": "AI3 Index",
     "category": "institutional cognition measurement infrastructure",
     "core_positioning": "AI3 measures the ability of humans, AI systems, organisational structures, knowledge systems, governance layers, and worker/runtime systems to think, coordinate, adapt, recover, govern, and improve together.",
+    "experience_standard": "Must feel like a serious executive-grade assessment product, not an internal survey form.",
     "rejection": "Survey-only readiness assessment is insufficient and must be classified PARTIAL at best.",
-    "minimum_real_claim": "REAL requires survey + operational telemetry + governance evidence + knowledge-system traces + worker/runtime receipts + scoring outputs + dashboard visibility."
+    "minimum_real_claim": "REAL requires usable assessment UX + database persistence + survey/question bank + reporting outputs + operational telemetry + governance evidence + knowledge-system traces + worker/runtime receipts + scoring outputs + dashboard visibility."
+  },
+  "product_stack": {
+    "public_product": "AI3 Index public/lead assessment",
+    "enterprise_product": "AI3 Enterprise diagnostic and operating intelligence dashboard",
+    "governance_product": "AI3 Assurance evidence and audit layer",
+    "telemetry_product": "AI3 Runtime/Signal operational analytics",
+    "training_product": "AI3 Workforce augmentation recommendations",
+    "certification_product": "AI3 maturity certification pathway"
+  },
+  "user_experience_required": {
+    "assessment_modes": [
+      {"mode": "public_quick_scan", "duration": "6-8 minutes", "audience": "individual/public lead capture", "outputs": ["personal AI3 profile", "top friction areas", "recommended next step"]},
+      {"mode": "professional_profile", "duration": "15-20 minutes", "audience": "professionals and managers", "outputs": ["human augmentation profile", "delegation/trust pattern", "role-specific recommendations"]},
+      {"mode": "team_diagnostic", "duration": "25-35 minutes", "audience": "teams", "outputs": ["team AI3 score", "collaboration/friction map", "handoff and governance gaps"]},
+      {"mode": "enterprise_index", "duration": "multi-source", "audience": "organisation", "outputs": ["AI3 Index", "layer scores", "benchmark pack", "risk register", "roadmap", "evidence state"]},
+      {"mode": "runtime_observed", "duration": "continuous", "audience": "instrumented organisations", "outputs": ["live telemetry", "worker traces", "governance assurance", "maturity deltas"]}
+    ],
+    "participant_journey": [
+      "Landing page explains humans + AI + organisation in plain English.",
+      "Consent and privacy screen explains survey, optional operational data, and evidence use.",
+      "Participant selects role, team, sector, AI usage level and assessment mode.",
+      "Adaptive assessment asks concise questions by layer and avoids repetitive form fatigue.",
+      "Micro-activities collect operational examples, not just opinions.",
+      "Evidence upload/link prompts appear only where valuable.",
+      "Immediate result page gives score, profile, top friction points, and next actions.",
+      "Organisation admin dashboard aggregates team/org data without exposing sensitive individual details by default.",
+      "Follow-up communication invites deeper diagnostic, training, governance review or telemetry integration."
+    ],
+    "ux_principles": [
+      "Plain language first; expert model underneath.",
+      "No survey fatigue; progressive disclosure.",
+      "Every score explains what it means and what to do next.",
+      "Separate individual insight from organisational governance reporting.",
+      "Make evidence state visible: self-report, document-backed, telemetry-backed, receipt-backed.",
+      "Make the organisation data amazing: benchmarks, heatmaps, trends, risks, interventions."
+    ]
+  },
+  "assessment_instrument_required": {
+    "minimum_questions": 160,
+    "short_scan_questions": 36,
+    "professional_profile_questions": 72,
+    "enterprise_question_bank": 160,
+    "minimum_per_layer": 12,
+    "response_types": ["likert_1_5", "frequency_1_5", "evidence_yes_no", "numeric_metric", "forced_choice", "ranking", "free_text", "activity_upload"],
+    "question_design": {
+      "must_include": ["positive and reverse-scored items", "confidence markers", "role context", "evidence prompts", "behavioural examples", "recent-event anchoring"],
+      "avoid": ["generic AI optimism questions", "tool adoption vanity metrics", "questions that cannot drive action"]
+    },
+    "core_sections": [
+      "Human Augmentation",
+      "AI Operational Capability",
+      "Organisational Intelligence",
+      "Human-AI-Organisation Coordination",
+      "Operational Data and Workflow Flow",
+      "Knowledge and Memory",
+      "Governance and Evidence",
+      "Worker/Runtime Execution",
+      "Survivability and Recovery",
+      "Institutional Learning"
+    ],
+    "activity_prompts_required": [
+      "Map one AI-supported workflow from request to completion.",
+      "Identify the last three AI outputs accepted into operational use and attach evidence.",
+      "Record one failed AI/human handoff and the recovery path.",
+      "Trace one decision back to sources, approvals and final outcome.",
+      "Run a knowledge retrieval test against a prior decision.",
+      "Replay one worker/runtime failure and validate recovery evidence.",
+      "Measure one approval chain from request to resolution.",
+      "Identify duplicate work caused by missing institutional memory.",
+      "Map one policy exception and its evidence trail.",
+      "Calculate time-to-value for one AI-mediated task.",
+      "List one process where AI creates more friction than value and explain why.",
+      "Identify one task currently blocked by unclear ownership between human, AI and organisation."
+    ],
+    "sample_questions_to_generate": {
+      "human_layer": [
+        "I can decide which work should be delegated to AI and which should remain human-led.",
+        "AI tools reduce my cognitive load rather than adding another layer of work.",
+        "I can verify AI outputs before using them in important decisions.",
+        "I know how to recover when an AI-supported workflow fails."
+      ],
+      "ai_layer": [
+        "AI systems are embedded in real workflows, not just used as side tools.",
+        "AI-generated outputs are reliable enough for defined operational use cases.",
+        "AI systems preserve useful context across tasks and time.",
+        "Failures in AI systems are visible and recoverable."
+      ],
+      "organisation_layer": [
+        "Roles and responsibilities for AI-supported work are clear.",
+        "Governance improves AI use without blocking useful work unnecessarily.",
+        "The organisation has a clear process for approving high-risk AI outputs.",
+        "Incentives support responsible automation rather than hidden workarounds."
+      ],
+      "interaction_layer": [
+        "Handoffs between humans, AI systems and teams are clear and efficient.",
+        "AI reduces decision friction rather than creating extra approval loops.",
+        "Escalation pathways are clear when AI cannot complete a task.",
+        "Human judgement and AI output are combined in a useful way."
+      ],
+      "governance_evidence_layer": [
+        "Important AI-supported decisions have evidence trails.",
+        "We can audit how an AI-supported outcome was produced.",
+        "Policy exceptions are recorded and reviewed.",
+        "Evidence requirements are proportionate to risk."
+      ],
+      "worker_runtime_layer": [
+        "Automated workers produce receipts for completed work.",
+        "Worker failures are detected quickly.",
+        "Queued work can be recovered without manual reconstruction.",
+        "Runtime activity is visible to the organisation."
+      ]
+    }
+  },
+  "reporting_required": {
+    "individual_report": {
+      "sections": ["AI3 personal score", "augmentation profile", "trust/delegation pattern", "cognitive friction areas", "recommended next actions", "evidence confidence"],
+      "tone": "plain English, constructive, performance-oriented, non-judgemental"
+    },
+    "team_report": {
+      "sections": ["team AI3 score", "layer heatmap", "workflow friction map", "handoff bottlenecks", "governance pain points", "team training recommendations", "quick wins"]
+    },
+    "organisation_report": {
+      "sections": ["executive summary", "AI3 Index", "maturity level", "layer scores", "benchmark position", "evidence state", "operational telemetry findings", "knowledge/memory findings", "governance assurance findings", "worker/runtime findings", "risk register", "90-day roadmap", "investment priorities"]
+    },
+    "board_report": {
+      "sections": ["institutional intelligence risk", "AI governance posture", "resilience/survivability", "material operational bottlenecks", "assurance status", "recommended decisions"]
+    },
+    "data_exports": ["CSV", "JSON", "PDF", "dashboard views", "Supabase tables", "API-ready scoring output"],
+    "communication_assets_required": [
+      "landing page copy",
+      "assessment invite email",
+      "participant completion email",
+      "manager/team summary email",
+      "executive report cover note",
+      "sales one-pager",
+      "privacy/consent explainer",
+      "FAQ"
+    ]
+  },
+  "organisational_data_model_required": {
+    "entities": [
+      "organisation", "business_unit", "team", "role", "participant", "assessment", "response", "activity", "workflow", "decision", "ai_system", "knowledge_asset", "governance_policy", "evidence", "worker", "job", "score", "report", "recommendation", "benchmark"
+    ],
+    "relationships": [
+      "organisation has many teams",
+      "team has many participants",
+      "participant completes assessments",
+      "assessment generates responses and activities",
+      "activities link to workflows, decisions, evidence and policies",
+      "telemetry events link to workflows, ai systems, workers and jobs",
+      "scores aggregate across participant, team, organisation and period",
+      "reports materialise selected scores, findings and recommendations"
+    ],
+    "privacy_defaults": [
+      "individual responses private by default",
+      "team/org reports use aggregation thresholds",
+      "sensitive evidence stored as reference not raw content where possible",
+      "consent captured for optional telemetry ingestion",
+      "role-based access required for admin views"
+    ]
+  },
+  "supabase_schema_required": {
+    "schemas": ["ai3", "audit", "runtime", "ops"],
+    "tables": [
+      {"name": "ai3.organisations", "purpose": "Customer/org account registry.", "required_columns": ["org_id text pk", "name text", "sector text", "size_band text", "country text", "plan text", "created_at timestamptz", "updated_at timestamptz"]},
+      {"name": "ai3.teams", "purpose": "Business units and teams.", "required_columns": ["team_id text pk", "org_id text", "name text", "parent_team_id text", "function text", "created_at timestamptz"]},
+      {"name": "ai3.participants", "purpose": "Assessment participants with privacy controls.", "required_columns": ["participant_id uuid pk", "org_id text", "team_id text", "role_title text", "seniority text", "consent_version text", "consented_at timestamptz", "created_at timestamptz"]},
+      {"name": "ai3.assessments", "purpose": "One assessment instance per person/team/org/time window.", "required_columns": ["assessment_id uuid pk", "org_id text", "team_id text", "participant_id uuid", "subject_type text", "subject_ref text", "assessment_mode text", "status text", "evidence_state text", "started_at timestamptz", "completed_at timestamptz", "created_at timestamptz"]},
+      {"name": "ai3.question_bank", "purpose": "Canonical question and activity library.", "required_columns": ["question_id text pk", "layer text", "dimension text", "section text", "prompt text", "response_type text", "scale_min int", "scale_max int", "reverse_scored bool", "evidence_weight numeric", "mode_tags text[]", "active bool"]},
+      {"name": "ai3.responses", "purpose": "Survey and structured observation responses.", "required_columns": ["response_id uuid pk", "assessment_id uuid", "question_id text", "participant_id uuid", "value numeric", "text_value text", "confidence numeric", "source_type text", "created_at timestamptz"]},
+      {"name": "ai3.activities", "purpose": "Micro-activities and evidence tasks completed during assessment.", "required_columns": ["activity_id uuid pk", "assessment_id uuid", "activity_type text", "title text", "description text", "status text", "evidence_ref text", "created_at timestamptz", "completed_at timestamptz"]},
+      {"name": "ai3.workflows", "purpose": "Mapped operational workflows used for diagnostics.", "required_columns": ["workflow_id uuid pk", "org_id text", "team_id text", "name text", "owner_role text", "ai_involvement_level text", "risk_level text", "created_at timestamptz"]},
+      {"name": "ai3.telemetry_events", "purpose": "Operational event stream for workflow, AI, governance and worker telemetry.", "required_columns": ["event_id uuid pk", "assessment_id uuid", "org_id text", "team_id text", "workflow_id uuid", "actor_type text", "actor_ref text", "event_type text", "layer text", "dimension text", "value numeric", "unit text", "payload jsonb", "source_system text", "occurred_at timestamptz", "ingested_at timestamptz"]},
+      {"name": "ai3.worker_traces", "purpose": "729-worker execution evidence mapped into AI3.", "required_columns": ["trace_id uuid pk", "worker_id text", "worker_group text", "job_id text", "event_type text", "status text", "duration_ms int", "retry_count int", "proof_ref text", "economic_ref text", "payload jsonb", "occurred_at timestamptz"]},
+      {"name": "ai3.evidence_bindings", "purpose": "Links survey claims and telemetry events to receipts/evidence.", "required_columns": ["binding_id uuid pk", "assessment_id uuid", "object_type text", "object_ref text", "evidence_type text", "evidence_ref text", "evidence_state text", "verified_at timestamptz", "verifier text"]},
+      {"name": "ai3.scores", "purpose": "Materialised scores by layer, dimension and total index.", "required_columns": ["score_id uuid pk", "assessment_id uuid", "org_id text", "team_id text", "participant_id uuid", "score_scope text", "layer text", "dimension text", "raw_score numeric", "weighted_score numeric", "evidence_multiplier numeric", "confidence numeric", "maturity_level text", "computed_at timestamptz"]},
+      {"name": "ai3.friction_maps", "purpose": "Derived bottleneck and intervention map.", "required_columns": ["map_id uuid pk", "assessment_id uuid", "org_id text", "team_id text", "friction_type text", "severity numeric", "affected_layer text", "root_cause text", "recommended_action text", "owner_lane text", "created_at timestamptz"]},
+      {"name": "ai3.recommendations", "purpose": "Prioritised actions generated from scores and evidence.", "required_columns": ["recommendation_id uuid pk", "assessment_id uuid", "priority text", "title text", "description text", "target_layer text", "expected_impact text", "effort text", "owner_lane text", "status text", "created_at timestamptz"]},
+      {"name": "ai3.reports", "purpose": "Generated report registry.", "required_columns": ["report_id uuid pk", "assessment_id uuid", "report_type text", "audience text", "status text", "artifact_ref text", "created_at timestamptz"]},
+      {"name": "ai3.maturity_snapshots", "purpose": "Longitudinal maturity history.", "required_columns": ["snapshot_id uuid pk", "org_id text", "period_start date", "period_end date", "ai3_index numeric", "maturity_level text", "delta numeric", "evidence_state text", "created_at timestamptz"]}
+    ],
+    "views_required": [
+      "ai3.v_org_ai3_summary",
+      "ai3.v_team_layer_scores",
+      "ai3.v_evidence_state_summary",
+      "ai3.v_friction_hotspots",
+      "ai3.v_worker_runtime_health",
+      "ai3.v_governance_assurance",
+      "ai3.v_report_ready_assessments"
+    ],
+    "database_quality_rules": ["uuid primary keys", "created_at/updated_at where relevant", "indexes on org_id/team_id/assessment_id/layer/event_type", "RLS-ready", "no raw sensitive evidence required in public report tables", "append-only telemetry events"]
   },
   "measurement_layers": [
     {"layer": "human_layer", "purpose": "Measure individual and team augmentation capability.", "signals": ["AI fluency", "delegation", "verification", "cognitive load", "orchestration", "trust calibration", "adaptability"]},
@@ -27,21 +219,8 @@
     {"layer": "survivability_layer", "purpose": "Measure continuity under failure, stress, staff change, tool outage and workflow disruption.", "signals": ["recovery time", "fallback coverage", "72h unattended runtime", "redundancy", "single-point dependency", "continuity validation"]},
     {"layer": "institutional_learning_layer", "purpose": "Measure whether the organisation learns and improves from operation.", "signals": ["feedback loops", "experiment cadence", "delta improvement", "lessons captured", "process updates", "model/workflow optimisation"]}
   ],
-  "supabase_schema_required": {
-    "schemas": ["ai3", "audit", "runtime", "ops"],
-    "tables": [
-      {"name": "ai3.assessments", "purpose": "One assessment instance per person/team/org/time window.", "required_columns": ["assessment_id uuid pk", "org_id text", "team_id text", "subject_type text", "subject_ref text", "assessment_mode text", "status text", "evidence_state text", "started_at timestamptz", "completed_at timestamptz", "created_at timestamptz"]},
-      {"name": "ai3.question_bank", "purpose": "Canonical question and activity library.", "required_columns": ["question_id text pk", "layer text", "dimension text", "prompt text", "response_type text", "scale_min int", "scale_max int", "reverse_scored bool", "evidence_weight numeric", "active bool"]},
-      {"name": "ai3.responses", "purpose": "Survey and structured observation responses.", "required_columns": ["response_id uuid pk", "assessment_id uuid", "question_id text", "respondent_ref text", "value numeric", "text_value text", "confidence numeric", "created_at timestamptz"]},
-      {"name": "ai3.telemetry_events", "purpose": "Operational event stream for workflow, AI, governance and worker telemetry.", "required_columns": ["event_id uuid pk", "assessment_id uuid", "org_id text", "actor_type text", "actor_ref text", "event_type text", "layer text", "dimension text", "value numeric", "unit text", "payload jsonb", "source_system text", "occurred_at timestamptz", "ingested_at timestamptz"]},
-      {"name": "ai3.worker_traces", "purpose": "729-worker execution evidence mapped into AI3.", "required_columns": ["trace_id uuid pk", "worker_id text", "worker_group text", "job_id text", "event_type text", "status text", "duration_ms int", "retry_count int", "proof_ref text", "economic_ref text", "payload jsonb", "occurred_at timestamptz"]},
-      {"name": "ai3.evidence_bindings", "purpose": "Links survey claims and telemetry events to receipts/evidence.", "required_columns": ["binding_id uuid pk", "assessment_id uuid", "object_type text", "object_ref text", "evidence_type text", "evidence_ref text", "evidence_state text", "verified_at timestamptz", "verifier text"]},
-      {"name": "ai3.scores", "purpose": "Materialised scores by layer, dimension and total index.", "required_columns": ["score_id uuid pk", "assessment_id uuid", "score_scope text", "layer text", "dimension text", "raw_score numeric", "weighted_score numeric", "evidence_multiplier numeric", "confidence numeric", "maturity_level text", "computed_at timestamptz"]},
-      {"name": "ai3.friction_maps", "purpose": "Derived bottleneck and intervention map.", "required_columns": ["map_id uuid pk", "assessment_id uuid", "friction_type text", "severity numeric", "affected_layer text", "root_cause text", "recommended_action text", "owner_lane text", "created_at timestamptz"]},
-      {"name": "ai3.maturity_snapshots", "purpose": "Longitudinal maturity history.", "required_columns": ["snapshot_id uuid pk", "org_id text", "period_start date", "period_end date", "ai3_index numeric", "maturity_level text", "delta numeric", "evidence_state text", "created_at timestamptz"]}
-    ]
-  },
   "telemetry_event_catalog": [
+    "assessment.started", "assessment.completed", "report.generated", "recommendation.created",
     "task.created", "task.started", "task.completed", "task.failed", "task.blocked", "task.recovered",
     "ai.invoked", "ai.output.accepted", "ai.output.rejected", "ai.output.corrected", "ai.hallucination_detected",
     "handoff.created", "handoff.accepted", "handoff.failed", "handoff.escalated",
@@ -82,23 +261,6 @@
       {"level": "L6", "name": "Survivable", "range": "92-100", "meaning": "72h unattended, recoverable, governed, economically linked augmented institution."}
     ]
   },
-  "question_bank_seed_requirements": {
-    "minimum_questions": 120,
-    "minimum_per_layer": 10,
-    "response_types": ["likert_1_5", "frequency_1_5", "evidence_yes_no", "numeric_metric", "free_text"],
-    "activity_prompts_required": [
-      "Map one AI-supported workflow from request to completion.",
-      "Identify the last three AI outputs accepted into operational use and attach evidence.",
-      "Record one failed AI/human handoff and the recovery path.",
-      "Trace one decision back to sources, approvals and final outcome.",
-      "Run a knowledge retrieval test against a prior decision.",
-      "Replay one worker/runtime failure and validate recovery evidence.",
-      "Measure one approval chain from request to resolution.",
-      "Identify duplicate work caused by missing institutional memory.",
-      "Map one policy exception and its evidence trail.",
-      "Calculate time-to-value for one AI-mediated task."
-    ]
-  },
   "729_worker_binding": {
     "role": "Treat worker fabric as observable institutional execution layer.",
     "worker_groups_expected": ["research", "data", "governance", "website", "commercial", "ops", "finance", "knowledge", "runtime"],
@@ -108,30 +270,39 @@
   "dashboard_requirements": [
     "AI3 Index composite score",
     "Layer scores",
+    "Assessment completion funnel",
     "Evidence state split REAL/PARTIAL/PRETEND",
-    "Friction map by layer",
+    "Friction map by layer/team/workflow",
     "Decision latency chart",
     "Governance approval bottlenecks",
     "Knowledge retrieval success",
     "Worker health and queue drain",
     "Survivability/recovery status",
     "Longitudinal maturity delta",
+    "Report generation queue",
     "Recommended interventions"
   ],
   "bridge_worker_actions": [
-    "Generate Supabase SQL DDL for ai3 schema and tables above with uuid PKs, timestamps, constraints and indexes.",
-    "Generate seed CSVs for question_bank, telemetry_event_catalog, maturity_levels and worker_metrics.",
+    "Generate Supabase SQL DDL for ai3 schema and tables above with uuid PKs, timestamps, constraints, indexes and RLS-ready structure.",
+    "Generate seed CSVs for organisations demo data, question_bank, telemetry_event_catalog, maturity_levels, report_templates, communication_templates and worker_metrics.",
+    "Generate the full AI3 question bank with at least 160 questions and mark short_scan/professional/enterprise tags.",
+    "Generate assessment UX specification and public landing page copy.",
     "Generate scoring SQL/view/function to compute layer scores and AI3 composite index.",
-    "Generate ingestion contract for survey responses, telemetry_events and worker_traces.",
-    "Generate smoke tests: insert assessment, responses, telemetry, worker traces, evidence bindings, compute score, create friction map.",
+    "Generate report templates for individual, team, organisation and board outputs.",
+    "Generate communication templates for invite, completion, executive summary, privacy/consent and sales follow-up.",
+    "Generate ingestion contract for survey responses, activities, telemetry_events and worker_traces.",
+    "Generate smoke tests: create org/team/participant, start assessment, submit responses, attach activity evidence, ingest telemetry, ingest worker traces, compute score, create friction map, create report registry row.",
     "Generate dashboard/widget spec for command centre integration.",
     "Bind outputs to GitHub receipt and audit.evidence_register row if bridge has Supabase access.",
-    "Classify result REAL only if DDL, seeds, smoke tests, scoring and receipt evidence exist. Otherwise PARTIAL."
+    "Classify result REAL only if DDL, seeds, question bank, report templates, comms templates, smoke tests, scoring and receipt evidence exist. Otherwise PARTIAL."
   ],
   "acceptance_criteria": {
     "partial": [
       "AI3 DDL generated",
       "question bank generated",
+      "assessment UX specified",
+      "communication templates generated",
+      "report templates generated",
       "telemetry schema generated",
       "scoring model generated",
       "dashboard spec generated"
@@ -139,6 +310,8 @@
     "real": [
       "AI3 schema applied to Supabase",
       "seed data inserted",
+      "public assessment flow can persist a completed response set",
+      "report registry can generate or reference an individual/team/org report",
       "smoke tests passed",
       "score computed from mixed survey + telemetry + worker evidence",
       "evidence bindings written",
@@ -147,6 +320,9 @@
     ],
     "pretend_conditions": [
       "Survey-only output presented as AI3",
+      "No database persistence",
+      "No report templates",
+      "No communication flow",
       "No evidence multipliers",
       "No telemetry schema",
       "No worker/runtime binding",
@@ -156,6 +332,6 @@
   },
   "requested_receipt": {
     "write_to": "receipts/runtime/ai3-measurement-system-20260512.json",
-    "include": ["files_created", "ddl_status", "seed_status", "smoke_test_status", "score_test_result", "evidence_state", "gaps", "next_runtime_action"]
+    "include": ["files_created", "ddl_status", "seed_status", "question_bank_status", "ux_status", "report_template_status", "communication_template_status", "smoke_test_status", "score_test_result", "evidence_state", "gaps", "next_runtime_action"]
   }
 }
