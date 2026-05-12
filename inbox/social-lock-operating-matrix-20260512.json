@@ -1,0 +1,50 @@
+{
+  "idempotency_key": "social-lock-operating-matrix-20260512",
+  "title": "Social Lock Operating Matrix bridge handoff",
+  "requested_by": "Troy Latter",
+  "evidence_state": "PARTIAL",
+  "runtime_state": "READY_FOR_BRIDGE",
+  "created_at": "2026-05-12",
+  "objective": "Ingest, verify, extend, and operationalise the portfolio social/domain lock matrix for public and commercial brands only.",
+  "starter_brands": [
+    "AI4Tradies",
+    "AI4Professionals / Own Your AI",
+    "Outcome Ready",
+    "Enter Australia",
+    "Own Your AI",
+    "AI Oopsies",
+    "ExtremeSpotto",
+    "Apex Predator Insurance",
+    "Girl Math",
+    "WorkFamilyAI"
+  ],
+  "required_outputs": [
+    "Create or update Supabase tables for brands, social accounts, platforms, evidence, assets, automation readiness, comments, and verification history.",
+    "Ingest attached workbook/CSV package when available to bridge runtime.",
+    "Normalise matrix into row-per-brand and row-per-platform records.",
+    "Support adding more brands/domains without schema changes.",
+    "Support adding more social/platform columns via platform catalog rather than hardcoded workbook-only columns.",
+    "Create evidence rows for every verified account, handle, domain, asset, and automation state.",
+    "Classify unverified entries as PARTIAL or PRETEND, never REAL.",
+    "Return a receipt with commit/file paths, validation results, table names, row counts, and any blockers."
+  ],
+  "recommended_schema": {
+    "ops.brand_registry": "canonical brand/domain/business/near-business registry",
+    "ops.social_platform_catalog": "extensible platform definitions and required fields",
+    "ops.social_account_lock": "brand-platform account status, handle, URL, admin, MFA, vault, BM, pixel, CRM, lead capture, automation",
+    "audit.social_lock_evidence": "evidence/proof receipts for social/domain/account states",
+    "ops.social_content_queue": "launch posts, reels, CTAs, approval state and posting schedule",
+    "ops.brand_asset_register": "logos, bios, colours, link-in-bio, media, templates"
+  },
+  "status_model": ["IDEA", "RESERVED", "WIRED", "READY", "LIVE", "ACTIVE", "GOVERNED", "REAL"],
+  "evidence_model": ["REAL", "PARTIAL", "PRETEND", "BLOCKED"],
+  "bridge_notes": "Workbook, CSV, platform catalog, JSON payload, SQL and normaliser package were prepared in the ChatGPT sandbox. This PEN payload logs the execution request and required runtime receipt. Bridge must fetch/receive artifacts, persist a copy, run validation, and return receipt.",
+  "acceptance_criteria": [
+    "All starter brands present.",
+    "Internal systems excluded from commercial social matrix.",
+    "Matrix remains extensible for new brands and new platforms.",
+    "Tables/data/code/assets covered by handoff.",
+    "No unverified social account is marked REAL.",
+    "Receipt includes evidence classification and next blockers."
+  ]
+}
