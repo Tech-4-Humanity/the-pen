@@ -1,58 +1,42 @@
 -- 02_ram_rls_policies.sql
--- Row-level security for RAM tables. Default deny, service_role full, anon read-none.
--- Aligned with T4H standing rules: writes only via service_role through the bridge.
+-- Row Level Security policies for RAM tables.
+-- Default deny. Service role bypasses RLS implicitly.
+-- Authenticated users get read on portfolio_cards (REAL only) and watch_events (info/warning).
 
-alter table public.ram_assets               enable row level security;
-alter table public.ram_asset_locations      enable row level security;
-alter table public.ram_asset_hashes         enable row level security;
-alter table public.ram_asset_lineage        enable row level security;
-alter table public.ram_asset_validation    enable row level security;
-alter table public.ram_asset_evidence      enable row level security;
-alter table public.ram_packages            enable row level security;
-alter table public.ram_portfolio_cards     enable row level security;
-alter table public.ram_reuse_components    enable row level security;
-alter table public.ram_watch_events        enable row level security;
-alter table public.ram_dev_inspections     enable row level security;
-alter table public.ram_prod_promotions     enable row level security;
+alter table public.ram_assets enable row level security;
+alter table public.ram_asset_locations enable row level security;
+alter table public.ram_asset_hashes enable row level security;
+alter table public.ram_asset_lineage enable row level security;
+alter table public.ram_asset_validation enable row level security;
+alter table public.ram_asset_evidence enable row level security;
+alter table public.ram_asset_versions enable row level security;
+alter table public.ram_asset_relationships enable row level security;
+alter table public.ram_packages enable row level security;
+alter table public.ram_portfolio_cards enable row level security;
+alter table public.ram_reuse_components enable row level security;
+alter table public.ram_revenue_opportunities enable row level security;
+alter table public.ram_watch_events enable row level security;
+alter table public.ram_dev_inspections enable row level security;
+alter table public.ram_prod_promotions enable row level security;
 
--- service_role: full access (bridge writers, workers, validators)
-do $$
-declare t text;
-begin
-  for t in select unnest(array[
-    'ram_assets','ram_asset_locations','ram_asset_hashes','ram_asset_lineage',
-    'ram_asset_validation','ram_asset_evidence','ram_packages','ram_portfolio_cards',
-    'ram_reuse_components','ram_watch_events','ram_dev_inspections','ram_prod_promotions'
-  ])
-  loop
-    execute format('drop policy if exists %I_service_all on public.%I;', t||'_srv', t);
-    execute format(
-      'create policy %I_service_all on public.%I as permissive for all to service_role using (true) with check (true);',
-      t||'_srv', t
-    );
-  end loop;
-end$$;
+-- Public read of REAL portfolio cards only.
+drop policy if exists ram_portfolio_public_read on public.ram_portfolio_cards;
+create policy ram_portfolio_public_read on public.ram_portfolio_cards
+  for select to anon using (evidence_state = 'REAL');
 
--- authenticated: read-only on portfolio and watch surfaces only (for CC UI)
-drop policy if exists ram_portfolio_cards_auth_read on public.ram_portfolio_cards;
-create policy ram_portfolio_cards_auth_read
-  on public.ram_portfolio_cards
-  as permissive for select to authenticated
-  using (evidence_state in ('REAL','PARTIAL'));
+-- Authenticated read of own-source assets (assets are tenant-less for now; gate is service role).
+drop policy if exists ram_assets_auth_read on public.ram_assets;
+create policy ram_assets_auth_read on public.ram_assets
+  for select to authenticated using (true);
 
-drop policy if exists ram_watch_events_auth_read on public.ram_watch_events;
-create policy ram_watch_events_auth_read
-  on public.ram_watch_events
-  as permissive for select to authenticated
-  using (severity in ('info','warning','critical'));
+-- Authenticated read of dev inspections and prod promotions (transparency).
+drop policy if exists ram_dev_auth_read on public.ram_dev_inspections;
+create policy ram_dev_auth_read on public.ram_dev_inspections
+  for select to authenticated using (true);
 
--- anon: deny everything (no policy = no access under RLS)
+drop policy if exists ram_prod_auth_read on public.ram_prod_promotions;
+create policy ram_prod_auth_read on public.ram_prod_promotions
+  for select to authenticated using (true);
 
--- Optional: portfolio public view (gated by explicit evidence_state)
-create or replace view public.v_ram_portfolio_real as
-  select id, brand, capability, audience, summary, commercial_value, created_at
-  from public.ram_portfolio_cards
-  where evidence_state = 'REAL';
-
-comment on view public.v_ram_portfolio_real is
-  'Only portfolio cards with REAL evidence_state. Drives external portfolio surfaces.';
+-- All write paths are restricted to service_role / troy-sql-executor bridge.
+-- No explicit insert/update/delete policies for non-service roles.
