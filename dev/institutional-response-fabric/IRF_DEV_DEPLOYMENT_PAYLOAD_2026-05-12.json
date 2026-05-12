@@ -1,0 +1,184 @@
+{
+  "payload_id": "irf_dev_deploy_2026_05_12_v1",
+  "title": "Institutional Response Fabric + Constitutional Cognitive Mesh - Dev Deployment Payload",
+  "status": "POSTED_TO_DEV",
+  "evidence_state": "PARTIAL",
+  "classification_reason": "Compiled and posted to dev repository with machine-readable deployment payload. Runtime execution, Supabase table creation, bridge worker run, and live receipts remain to be validated by dev/bridge.",
+  "created_at": "2026-05-12",
+  "owner": "Tech 4 Humanity / Troy Latter",
+  "destination": "/dev/institutional-response-fabric/",
+  "canonical_runtime_loop": [
+    "Opportunity intake",
+    "Fit score",
+    "Capability match",
+    "Evidence check",
+    "Gap register",
+    "POV review",
+    "Wrapper output",
+    "Receipt",
+    "Reuse"
+  ],
+  "mission": "Maintain one evidence-backed institutional memory that turns proven capabilities into grants, proposals, research outputs, books, courses, tenders, content and investor material through thin wrappers and POV review.",
+  "external_positioning": "Tech 4 Humanity builds evidence-backed AI and human-integrity infrastructure for disability, workforce, digital health, governance and public-interest systems.",
+  "architecture": {
+    "runtime_first": [
+      "opportunity_registry",
+      "capability_registry",
+      "evidence_registry",
+      "output_registry",
+      "receipt_ledger",
+      "evidence_gap_register"
+    ],
+    "intelligence_enhancement": [
+      "asset_registry",
+      "narrative_blocks",
+      "pov_registry",
+      "wrapper_templates",
+      "relationship_edges",
+      "scoring_model",
+      "agent_registry"
+    ],
+    "canonical_name": "Institutional Response Fabric + Constitutional Cognitive Mesh",
+    "runtime_name": "Evidence-to-Opportunity Runtime"
+  },
+  "core_registries": {
+    "opportunity_registry": {
+      "purpose": "Tracks grants, tenders, publishing calls, income opportunities, courses, partnerships, research calls, content opportunities and investor pathways.",
+      "columns": ["opportunity_id", "type", "title", "source", "domain", "audience", "value_type", "value_estimate", "deadline", "requirements", "scoring_criteria", "evidence_required", "status", "priority", "reuse_score"]
+    },
+    "capability_registry": {
+      "purpose": "Tracks what T4H, WorkFamilyAI, MAAT, Factors, Integrity Stack and portfolio entities can credibly do, sell, teach, research or deploy.",
+      "columns": ["capability_id", "name", "category", "description", "maturity", "owner", "linked_evidence", "linked_assets", "reusable_for", "commercial_status", "research_status"]
+    },
+    "evidence_registry": {
+      "purpose": "Tracks proof, receipts, outcomes, telemetry, deployments, datasets, pilots, research, impact, screenshots and governance proof.",
+      "columns": ["evidence_id", "title", "evidence_type", "description", "source_url", "asset_ref", "capability_ref", "evidence_state", "confidence", "last_verified_at"]
+    },
+    "asset_registry": {
+      "purpose": "Tracks reusable PDFs, posters, datasets, diagrams, videos, screenshots, reports, forms, decks and websites.",
+      "columns": ["asset_id", "title", "asset_type", "location", "description", "linked_capability", "linked_evidence", "reusable_for", "status"]
+    },
+    "narrative_blocks": {
+      "purpose": "Stores reusable language primitives for grants, books, courses, proposals, content, tenders and research.",
+      "columns": ["block_id", "block_type", "title", "audience", "tone", "text", "linked_evidence", "reusable_for", "maturity"]
+    },
+    "pov_registry": {
+      "purpose": "Stores WorkFamilyAI executive cognition nodes as institutional POV lenses, not fictional personas.",
+      "columns": ["pov_id", "leader", "function", "core_question", "optimises_for", "risks_seen", "evidence_preference", "comment_style", "reusable_for"]
+    },
+    "wrapper_templates": {
+      "purpose": "Defines thin channel wrappers that render the same evidence/capability base into different output formats.",
+      "columns": ["wrapper_id", "wrapper_type", "output_format", "required_sections", "default_povs", "required_evidence", "scoring_weights"]
+    },
+    "scoring_model": {
+      "purpose": "Scores fit, value, evidence strength, reuse value, delivery readiness, deadline risk and conversion probability.",
+      "columns": ["score_id", "score_name", "description", "weight", "scale", "threshold_action"]
+    },
+    "output_registry": {
+      "purpose": "Tracks every generated artefact and final rendering.",
+      "columns": ["output_id", "output_type", "title", "source_opportunity", "linked_capabilities", "linked_evidence", "wrapper_used", "status", "created_at", "receipt_ref"]
+    },
+    "evidence_gap_register": {
+      "purpose": "Tracks missing proof needed to promote claims to REAL.",
+      "columns": ["gap_id", "related_opportunity", "related_capability", "missing_evidence", "importance", "owner", "status", "next_action"]
+    },
+    "receipt_ledger": {
+      "purpose": "Tracks build, post, submit, publish and validation receipts.",
+      "columns": ["receipt_id", "receipt_type", "target", "status", "proof_url", "hash", "created_at", "notes"]
+    }
+  },
+  "seed_capabilities": [
+    {"capability_id": "cap_disability_ops_intel", "name": "Disability Operations Intelligence", "domains": ["NDIS", "carers", "providers", "support coordination"], "maturity": "PARTIAL", "reusable_for": ["grants", "income", "courses", "content", "research"]},
+    {"capability_id": "cap_carer_companion", "name": "Carer Companion and Family Support Intelligence", "domains": ["carers", "families", "early childhood", "Thriving Kids"], "maturity": "PARTIAL", "reusable_for": ["grants", "income", "content", "course"]},
+    {"capability_id": "cap_ai_sweet_spots", "name": "AI Sweet Spots Assessment", "domains": ["neurodiversity", "workforce", "education", "digital wellbeing"], "maturity": "PARTIAL", "reusable_for": ["research", "courses", "grants", "enterprise proposals", "content"]},
+    {"capability_id": "cap_cognitive_accessibility_modes", "name": "Cognitive Accessibility Modes", "domains": ["accessibility", "neurodiversity", "education", "workforce"], "maturity": "PARTIAL", "reusable_for": ["grants", "product", "courses", "policy"]},
+    {"capability_id": "cap_consentx", "name": "ConsentX Dynamic Consent", "domains": ["privacy", "child safety", "health", "disability rights", "digital identity"], "maturity": "PARTIAL", "reusable_for": ["grants", "tenders", "research", "enterprise proposals"]},
+    {"capability_id": "cap_integrity_stack", "name": "Human Integrity Stack Governance", "domains": ["digital health", "neurotech", "bioethics", "AI governance"], "maturity": "PARTIAL", "reusable_for": ["grants", "research", "book", "course", "policy"]},
+    {"capability_id": "cap_reality_ledger", "name": "Reality Ledger Evidence System", "domains": ["AI assurance", "auditability", "governance", "receipts"], "maturity": "PARTIAL", "reusable_for": ["all outputs"]},
+    {"capability_id": "cap_workfamily_pov", "name": "WorkFamilyAI POV Review", "domains": ["institutional intelligence", "deliberation", "governance", "output review"], "maturity": "PARTIAL", "reusable_for": ["grants", "courses", "proposals", "books", "content"]},
+    {"capability_id": "cap_ai4professionals", "name": "AI4Professionals", "domains": ["professional services", "workforce augmentation", "SME digitisation"], "maturity": "PARTIAL", "reusable_for": ["income", "courses", "grants", "content"]},
+    {"capability_id": "cap_ai4tradies", "name": "AI4Tradies", "domains": ["trades", "SME digitisation", "agent-task mapping"], "maturity": "PARTIAL", "reusable_for": ["income", "courses", "grants", "content"]},
+    {"capability_id": "cap_digital_child_protection", "name": "Digital Child Protection", "domains": ["online safety", "age assurance", "family digital boundaries", "child wellbeing"], "maturity": "PARTIAL", "reusable_for": ["grants", "policy", "content", "research"]},
+    {"capability_id": "cap_adhd_access_gap", "name": "ADHD Desert and Access Gap Intelligence", "domains": ["health equity", "mental health", "ADHD", "workforce"], "maturity": "PARTIAL", "reusable_for": ["research", "grants", "policy", "content"]}
+  ],
+  "funding_theses": [
+    "Disability and Care Intelligence",
+    "Cognitive Accessibility and AI Sweet Spots",
+    "Human Integrity and Digital Health",
+    "Consent, Identity and Trust Infrastructure",
+    "AI Governance and Evidence Assurance",
+    "Workforce Augmentation and SME Productivity",
+    "Child, Family and Community Digital Safety"
+  ],
+  "pov_lenses": [
+    {"pov_id": "pov_strategy", "function": "Strategy and Vision", "core_question": "Does this build long-term leverage?", "optimises_for": ["defensibility", "ecosystem control", "future value"], "risks_seen": ["fragmentation", "short-termism", "tactical distraction"]},
+    {"pov_id": "pov_research", "function": "Research and Evidence", "core_question": "Can we prove this?", "optimises_for": ["methodological validity", "reproducibility", "evidence quality"], "risks_seen": ["overclaiming", "weak datasets", "unverifiable assertions"]},
+    {"pov_id": "pov_governance", "function": "Ethics and Governance", "core_question": "Is this safe, fair and accountable?", "optimises_for": ["consent", "transparency", "auditability", "fairness"], "risks_seen": ["misuse", "surveillance", "opacity", "governance failure"]},
+    {"pov_id": "pov_operations", "function": "Operations", "core_question": "Can this actually run?", "optimises_for": ["delivery", "continuity", "process", "resourcing"], "risks_seen": ["operational collapse", "hidden complexity", "scaling failure"]},
+    {"pov_id": "pov_product", "function": "Product and Experience", "core_question": "Will people use it?", "optimises_for": ["UX", "onboarding", "accessibility", "clarity"], "risks_seen": ["friction", "abandonment", "confusion"]},
+    {"pov_id": "pov_community", "function": "Community and Human Impact", "core_question": "Does this help real people?", "optimises_for": ["inclusion", "wellbeing", "accessibility", "lived experience"], "risks_seen": ["exclusion", "inequity", "institutional harm"]},
+    {"pov_id": "pov_commercial", "function": "Commercial and Revenue", "core_question": "Can this sustain itself?", "optimises_for": ["revenue", "margin", "pricing", "sustainability"], "risks_seen": ["unsustainable funding", "dependency", "weak pricing"]},
+    {"pov_id": "pov_comms", "function": "Communications and Influence", "core_question": "Will anyone understand it?", "optimises_for": ["clarity", "distribution", "engagement", "persuasion"], "risks_seen": ["complexity", "invisibility", "weak narrative"]},
+    {"pov_id": "pov_systems", "function": "Systems and Intelligence", "core_question": "Will the machine learn and compound?", "optimises_for": ["telemetry", "interoperability", "graph memory", "reuse"], "risks_seen": ["siloing", "entropy", "knowledge loss"]}
+  ],
+  "wrapper_templates": [
+    {"wrapper_id": "wrap_grant", "wrapper_type": "grant", "required_sections": ["eligibility", "need", "project", "activities", "outcomes", "budget", "evaluation", "governance", "sustainability"]},
+    {"wrapper_id": "wrap_income_offer", "wrapper_type": "income_offer", "required_sections": ["buyer pain", "offer", "outcome", "package", "pricing", "proof", "next step"]},
+    {"wrapper_id": "wrap_research", "wrapper_type": "research", "required_sections": ["abstract", "research question", "method", "dataset", "ethics", "limitations", "translation pathway"]},
+    {"wrapper_id": "wrap_book", "wrapper_type": "book", "required_sections": ["premise", "audience", "argument map", "chapter arc", "case studies", "author POV", "market fit"]},
+    {"wrapper_id": "wrap_course", "wrapper_type": "course", "required_sections": ["promise", "learner", "modules", "lessons", "activities", "assessment", "outcomes"]},
+    {"wrapper_id": "wrap_content", "wrapper_type": "content", "required_sections": ["hook", "problem", "insight", "example", "CTA", "reuse links"]},
+    {"wrapper_id": "wrap_tender", "wrapper_type": "tender", "required_sections": ["capability", "compliance", "method", "implementation", "risk", "pricing", "evidence"]},
+    {"wrapper_id": "wrap_investor", "wrapper_type": "investor", "required_sections": ["market", "problem", "solution", "traction", "defensibility", "business model", "ask"]}
+  ],
+  "evidence_rules": {
+    "REAL": "Verified and reusable as proof.",
+    "DEIDENTIFIED_REAL": "Real data stripped of identifiers; usable where lawful and ethical.",
+    "PARTIAL": "Exists but incomplete; usable only with qualification.",
+    "SYNTHETIC": "Demo/interface/testing only; excluded from impact claims.",
+    "HYBRID": "Demo/training only unless real and synthetic components are separated.",
+    "INFERRED": "Planning and modelling only; not observed evidence.",
+    "PRETEND": "Claim only; do not use externally."
+  },
+  "first_proof_case": {
+    "capability": "Disability Operations Intelligence",
+    "outputs_to_generate": [
+      "grant wrapper for NDIS/carers/inclusion funding",
+      "income offer for provider pilot package",
+      "research wrapper for disability operations intelligence study",
+      "course outline for support coordinators/provider operations",
+      "content pack on NDIS reform pressure and evidence-backed operations"
+    ],
+    "success_criteria": [
+      "same evidence base reused across all five outputs",
+      "unsupported claims flagged in evidence_gap_register",
+      "all generated outputs logged in output_registry",
+      "receipt ledger entry created for build/post event"
+    ]
+  },
+  "dev_tasks": [
+    {"task_id": "irf_dev_001", "title": "Create Supabase tables", "lane": "dev", "priority": "P1", "acceptance": "All runtime-first registries exist with PKs, timestamps, evidence_state checks, and import-safe text/json fields."},
+    {"task_id": "irf_dev_002", "title": "Seed canonical capabilities", "lane": "dev", "priority": "P1", "acceptance": "12 seed capabilities inserted with evidence_state PARTIAL unless verified REAL."},
+    {"task_id": "irf_dev_003", "title": "Seed POV registry", "lane": "dev", "priority": "P1", "acceptance": "9 POV lenses inserted as review functions, not fictional persona outputs."},
+    {"task_id": "irf_dev_004", "title": "Seed wrapper templates", "lane": "dev", "priority": "P1", "acceptance": "8 channel wrappers inserted for grant, income, research, book, course, content, tender, investor."},
+    {"task_id": "irf_dev_005", "title": "Create first proof output set", "lane": "dev", "priority": "P1", "acceptance": "Disability Operations Intelligence generates 5 outputs from one evidence base and logs output + receipt rows."},
+    {"task_id": "irf_dev_006", "title": "Build evidence gap report", "lane": "dev", "priority": "P2", "acceptance": "Missing live proof, partner letters, budgets, ethics, datasets and runtime receipts listed by capability/opportunity."},
+    {"task_id": "irf_dev_007", "title": "Prepare bridge promotion packet", "lane": "dev", "priority": "P2", "acceptance": "Payload packaged for bridge worker with idempotency_key, dedupe_key, target schema and receipt path."}
+  ],
+  "bridge_manifest": {
+    "idempotency_key": "irf_dev_deploy_2026_05_12_v1",
+    "dedupe_key": "institutional_response_fabric_dev_payload_v1",
+    "target_env": "dev",
+    "target_path": "/dev/institutional-response-fabric/",
+    "requested_action": "Create dev deployment package, tables, seeds, first proof outputs, evidence gap report, and receipt ledger entry.",
+    "receipt_required": true,
+    "close_when": [
+      "payload committed to dev path",
+      "dev worker has accepted or queued deployment",
+      "receipt exists with proof URL/hash",
+      "evidence state updated from PARTIAL only if runtime validation completes"
+    ]
+  },
+  "close_state": "POSTED_TO_DEV_FOR_DEPLOYMENT",
+  "next_required_receipt": "Bridge/dev runtime receipt proving worker execution, table creation/seed/import, and generated first proof outputs."
+}
