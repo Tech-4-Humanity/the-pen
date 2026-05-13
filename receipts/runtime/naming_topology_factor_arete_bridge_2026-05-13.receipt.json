@@ -3,7 +3,7 @@
   "commit_sha": "db8bfe639b0bde6154b4da3a867382d49dcebe0b",
   "created_at": "2026-05-13T02:17:21.768830+00:00",
   "evidence_state": "PARTIAL",
-  "idempotency_key": "fix-github-pen-routing-claim-20260511",
+  "idempotency_key": "naming_topology_factor_arete_bridge_2026-05-13",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
   "job_type": null,
   "next": "Downstream worker should process accepted job and append final REAL/PARTIAL receipt.",
@@ -18,14 +18,14 @@
     "job_json_valid": true,
     "receipt_written": true
   },
-  "priority": "P1",
+  "priority": null,
   "receipt_state": "ACCEPTED",
   "receipt_type": "pen_runtime_receipt",
   "repo": "TML-4PM/the-pen",
   "rollback": "Archive the inbox job and receipt if superseded; do not delete evidence.",
-  "source_job_path": "inbox/fix-github-pen-routing-claim-20260511.json",
-  "source_sha256": "884eb54e2a171f0f627c08575809374325036a71018f4fde4c821b908519c172",
-  "title": "Correct false GitHub repo visibility claim and restore PEN routing path",
+  "source_job_path": "inbox/naming_topology_factor_arete_bridge_2026-05-13.json",
+  "source_sha256": "0039c427194e61c0e4bfd68669ae1fb744d0676624cd6d8b10b9cdcb1f4f5f1e",
+  "title": "Canonical T4H runtime naming topology: Bridge, COUX, Arete, Factor, packs and agents",
   "workflow_run_attempt": "1",
   "workflow_run_id": "25774136522"
 }
