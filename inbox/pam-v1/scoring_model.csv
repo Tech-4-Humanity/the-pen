@@ -1,0 +1,7 @@
+dimension,slug,weight,description,0_score,1_score,2_score,3_score
+Data Quality,data_quality,0.20,Reliability and completeness of source data,No data,Unverified/scraped,Verified directory,Official registry
+Contactability,contactability,0.20,Ability to reach individual directly,Anonymous,Social only,Phone/website,Direct email/phone
+Acquisition Difficulty,acquisition_difficulty,0.15,Effort to acquire at scale,Blocked/impossible,Manual only,Semi-automated,Fully automatable
+Legal Risk,legal_risk,0.15,Compliance exposure of acquisition method,High exposure,Medium exposure,Low exposure,No exposure
+Signal Richness,signal_richness,0.15,Depth of behavioural/intent signal,No signal,Weak signal,Intent signal,Strong intent+behaviour
+Monetisation Fit,monetisation_fit,0.15,Alignment with brand monetisation model,No fit,Weak fit,Moderate fit,Strong fit
