@@ -1,0 +1,16 @@
+gap_id,brand_slug,gap_type,description,severity,blocker,recommended_action
+G001,all,schema,Supabase PAM schema not yet deployed,critical,yes,Deploy DDL immediately
+G002,all,ingestion,No CSV ingestion pipeline to Supabase,critical,yes,Build ingestion Lambda
+G003,all,enrichment,No enrichment pipeline (Hunter/Apollo) wired,high,no,Wire enrichment tools to pipeline
+G004,all,graph,Graph tables not deployed; edges unlinked,high,no,Deploy graph DDL + seed edges
+G005,all,telemetry,Telemetry schema absent; L9 unimplemented,medium,no,Define telemetry event schema
+G006,extreme-spotters,cohort,Practitioner cohort absent; expansion gap,medium,no,Define educator/researcher cohort
+G007,apex-predator,institutional,No institutional cohort; broker channel absent,medium,no,Add insurance broker as partner cohort
+G008,consentx,customer,Consumer cohort absent; B2C expansion undefined,medium,no,Define direct consumer consent pathway
+G009,augmented-memories,scrape,Consumer scraping legally prohibited; inbound gap,high,yes,Build inbound/SEO funnel instead
+G010,lifegraph,all,All cohorts and acquisition methods undefined,high,yes,Complete brand definition
+G011,gems,all,Status=idea; no acquisition or cohort detail,medium,no,Conduct brand definition workshop
+G012,all,activation,No outreach automation wired; manual only,critical,yes,Wire GMass/Brevo/Twilio to pipeline
+G013,all,evidence,No receipt/engagement tracking in Supabase,high,yes,Deploy evidence tables
+G014,all,suppression,No suppression registry; Spam Act risk,high,yes,Deploy suppression table; implement opt-out
+G015,all,identity,Cross-brand identity graph not implemented,medium,no,Deploy graph nodes + identity linkage
