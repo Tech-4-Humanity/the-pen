@@ -1,8 +1,8 @@
 {
-  "ts": "2026-05-13T02:29:18.040Z",
-  "passed": 4,
+  "ts": "2026-05-13T02:31:16.771Z",
+  "passed": 0,
   "failed": 0,
-  "skipped": 65,
+  "skipped": 69,
   "results": [
     {
       "file": "ace-bootstrap-20260429-0001.json",
@@ -133,8 +133,7 @@
     {
       "file": "daily-brief-v2-retry-2026-04-26-002.json",
       "key": "daily-brief-v2-retry-2026-04-26-002",
-      "status": "PASS",
-      "job_id": "8aede42d-8ad7-4935-943f-28b4ee980c14"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "data-extract-insight-action-20260504.json",
@@ -175,8 +174,7 @@
     {
       "file": "launch-system-bootstrap-2026-04-27-001.json",
       "key": "launch-system-bootstrap-2026-04-27-001",
-      "status": "PASS",
-      "job_id": "9d672b4b-5ba3-4a35-b813-df22c0d61511"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "mac-storage-offload-audit-2026-05-04.json",
@@ -337,8 +335,7 @@
     {
       "file": "synal-backbone-pack-v1.json",
       "key": "synal-backbone-pack-v1",
-      "status": "PASS",
-      "job_id": "200cb9ab-b872-4529-9044-70b2cfdcb4d0"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "synal-place-of-places-sticky-entry-20260429-001.json",
@@ -379,8 +376,7 @@
     {
       "file": "t4h-rd-tax-fy23-fy25-supabase-maat-factors-reconstruction-20260512.json",
       "key": "t4h-rd-tax-fy23-fy25-supabase-maat-factors-reconstruction-20260512",
-      "status": "PASS",
-      "job_id": "c96f6586-8d4a-48fb-a60c-867d4afcdcfa"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "thrivingkids-commercial-ops-pack-20260512.json",
