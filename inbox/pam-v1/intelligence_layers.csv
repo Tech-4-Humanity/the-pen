@@ -1,0 +1,11 @@
+layer_slug,layer_name,description,data_inputs,outputs,priority,status
+L1,Raw Acquisition,Initial entity discovery from source,directories;registries;social,business_name;contact;category;source,P1,active
+L2,Enrichment,Append missing fields via tools,raw entities,email;phone;website;abn;social_handles,P1,partial
+L3,Segmentation,Classify into cohort and audience bucket,enriched entities,cohort_slug;brand_slug;ai_readiness_score,P1,partial
+L4,Intent Signal,Overlay behavioural intent evidence,social;search;forum,intent_score;pain_category;readiness_flag,P2,idea
+L5,Graph Linkage,Connect entities across brands and cohorts,all layers,shared_identity;cross-brand flags;family/org linkages,P2,idea
+L6,Activation,Outreach sequencing and campaign management,segmented+enriched,outreach_stage;channel;message;response,P1,partial
+L7,Evidence,Track engagement receipts and outcomes,activation,opens;replies;demos;converts;revenue,P1,partial
+L8,Suppression,Legal compliance and opt-out management,activation+L7,suppression_flags;gdpr;spam-act compliance,P1,idea
+L9,Telemetry,Live signal harvesting (weather;events;sensors),external feeds,live_signal_events;geo_cluster;spike_alerts,P3,idea
+L10,Portfolio Graph,Cross-brand identity and relationship graph,all layers,person_node;brand_memberships;lifecycle_state,P3,idea
