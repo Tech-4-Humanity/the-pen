@@ -1,0 +1,9 @@
+cohort_slug,display_name,description,acquisition_priority,outreach_channel,lifecycle_entry,lifecycle_exit
+practitioner,Practitioner,Licensed or certified individual delivering service,high,email/linkedin,credential discovery,retirement/churn
+provider,Provider,Organisation delivering services at scale,high,email/direct,directory/registry,closure/churn
+customer,Customer,End consumer or beneficiary,medium,social/seo/sms,inbound/ads,churn/upgrade
+partner,Partner,Aligned organisation with referral or distribution capacity,high,email/linkedin,partner outreach,disengagement
+community,Community Member,Interest-aligned individual not yet commercial,low,social/content,organic discovery,upgrade/churn
+enterprise,Enterprise,Large institutional buyer with procurement process,high,direct/events,enterprise outreach,contract end
+creator,Creator,Content producer in brand-adjacent niche,medium,social/dm,creator discovery,churn
+investor,Investor,Capital or strategic alignment seeker,low,direct/network,inbound/referral,close
