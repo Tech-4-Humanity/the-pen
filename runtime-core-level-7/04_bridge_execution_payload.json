@@ -1,0 +1,30 @@
+{
+  "action": "invoke_function",
+  "function_name": "troy-sql-executor",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "execution_mode": "runtime-core-bootstrap",
+    "migration_file": "runtime-core-level-7/01_runtime_core_schema.sql",
+    "seed_file": "runtime-core-level-7/02_runtime_core_seed.sql",
+    "smoke_test_file": "runtime-core-level-7/05_smoke_tests.sql",
+    "required_receipts": [
+      "schema_applied",
+      "seed_applied",
+      "object_created",
+      "event_written",
+      "telemetry_emitted",
+      "reality_ledger_written",
+      "smoke_tests_passed"
+    ]
+  },
+  "metadata": {
+    "request_id": "runtime-core-level-7-bootstrap",
+    "source": "the-pen",
+    "timestamp_utc": "2026-05-13T00:00:00Z",
+    "auth_context": "bridge-runtime"
+  },
+  "control": {
+    "dry_run": false,
+    "approval_required": false
+  }
+}
