@@ -1,0 +1,190 @@
+{
+  "idempotency_key": "naming_topology_factor_arete_bridge_2026-05-13",
+  "submitted_by": "chatgpt",
+  "submitted_for": "troy@tech4humanity.com.au",
+  "evidence_state": "PARTIAL",
+  "requested_action": "record_and_route_to_bridge",
+  "title": "Canonical T4H runtime naming topology: Bridge, COUX, Arete, Factor, packs and agents",
+  "summary": "Codifies the updated naming and layer separation for T4H runtime, orchestration, governance, environments, cognition, economic truth, capability packs and agent workforce taxonomy.",
+  "canonical_topology": {
+    "runtime_execution_layer": [
+      {
+        "name": "The Bridge",
+        "role": "Runtime transport, repair, execution fabric and continuity substrate",
+        "notes": "Owns all-time repair, transport, runtime continuity, callable execution and evidence-producing runtime pathways."
+      },
+      {
+        "name": "Orchestrator",
+        "role": "Active orchestration actor / execution orchestrator",
+        "notes": "Use Orchestrator, not Conductor. Conductor is not canonical for this layer."
+      },
+      {
+        "name": "COUX",
+        "role": "Orchestration engine",
+        "notes": "Routes, coordinates and sequences operational execution."
+      },
+      {
+        "name": "FED-COUX",
+        "role": "Federated orchestration",
+        "notes": "Coordinates multi-runtime, multi-agent and cross-environment orchestration."
+      },
+      {
+        "name": "Trojan Oz",
+        "role": "HITL embodied endpoint behind the Bridge",
+        "notes": "Represents Troy/HITL as endpoint behind bridge, not the generic orchestrator."
+      }
+    ],
+    "agent_workforce_taxonomy": [
+      {
+        "name": "Neural Ennead",
+        "scale": 729,
+        "role": "Work-family cognition network",
+        "notes": "Strategic cognition collective and high-level work-family intelligence topology."
+      },
+      {
+        "name": "Named 1000",
+        "scale": 1000,
+        "role": "Named specialist work crew",
+        "notes": "Named specialist operational crew above anonymous worker agents."
+      },
+      {
+        "name": "10K Agents",
+        "scale": 10000,
+        "role": "Worker agents",
+        "notes": "Autonomous execution workers used for distributed workload execution."
+      }
+    ],
+    "environment_governance_layer": [
+      {
+        "name": "The Pen",
+        "role": "Ingress and upgrade path",
+        "notes": "Canonical ingress, intake, upgrade and write-forward path."
+      },
+      {
+        "name": "Free-zer",
+        "role": "Promotion governance",
+        "notes": "Gatekeeper equivalent; freezes, validates and governs promotion."
+      },
+      {
+        "name": "Symbio",
+        "role": "Development environment",
+        "notes": "Development/runtime factory and messy build environment."
+      },
+      {
+        "name": "Synapse",
+        "role": "Production environment",
+        "notes": "Production cognition and locked runtime environment."
+      }
+    ],
+    "cognitive_institutional_layer": [
+      {
+        "name": "ThrivingOS",
+        "role": "Institutional operating system",
+        "notes": "Operational cognition OS, not a narrow orchestration layer."
+      },
+      {
+        "name": "Arete",
+        "role": "Portfolio state graph and excellence topology",
+        "notes": "Replaces Atlas. Arete means excellence of any kind / living up to full potential. Used for graph intelligence, maturity state, portfolio topology and capability progression."
+      },
+      {
+        "name": "Control Tower",
+        "role": "Operational oversight surface",
+        "notes": "Oversight and monitoring interface, not the execution engine."
+      },
+      {
+        "name": "Command Centre",
+        "role": "Operator interaction surface",
+        "notes": "Human/operator control and visibility surface."
+      },
+      {
+        "name": "Reality Ledger",
+        "role": "Truth and evidence state",
+        "notes": "Evidence-backed reality state and current truth ledger."
+      },
+      {
+        "name": "MRI",
+        "role": "Reasoning, reporting and intelligence outputs",
+        "notes": "Produces reports, recommendations, intelligence packs and executive outputs."
+      },
+      {
+        "name": "Factor",
+        "role": "Canonical data, finance, research, grant and economic truth home",
+        "notes": "Factor is broader than a data layer. It may own finance, research, grants, evidence linkage, economic proof, portfolio economics, telemetry and canonical truth."
+      }
+    ],
+    "capability_packs_runtime_modules": {
+      "classification": "Needs further refinement but accepted as the working category for deployable capabilities and runtime modules.",
+      "examples": [
+        {
+          "name": "NeuroPack",
+          "role": "Capability pack / runtime module",
+          "notes": "Neuroscience/cognitive capability domain."
+        },
+        {
+          "name": "RatPak",
+          "role": "Capability pack / runtime module",
+          "notes": "Correct spelling is RatPak, not RadPack."
+        },
+        {
+          "name": "ResearchPack",
+          "role": "Capability pack / runtime module",
+          "notes": "Research execution and evidence capability."
+        },
+        {
+          "name": "RevenuePack",
+          "role": "Capability pack / runtime module",
+          "notes": "Revenue operations capability."
+        },
+        {
+          "name": "ExecPack",
+          "role": "Capability pack / runtime module",
+          "notes": "Executive workflow and operating capability."
+        },
+        {
+          "name": "ObservabilityPack",
+          "role": "Capability pack / runtime module",
+          "notes": "Telemetry, monitoring and operational visibility capability."
+        }
+      ],
+      "boundary_rule": "Packs are not orchestration engines. COUX/FED-COUX orchestrate; packs provide deployable capability domains."
+    }
+  },
+  "canonical_sentence": "The Bridge carries execution and repair; COUX and FED-COUX orchestrate; the Orchestrator acts; Trojan Oz represents HITL behind the Bridge; The Pen ingresses; Free-zer governs promotion; Symbio builds; Synapse runs production; Factor holds economic and canonical truth; MRI reasons and reports; Arete maps portfolio excellence; ThrivingOS binds the institutional operating system.",
+  "non_canonical_or_replaced_terms": [
+    {
+      "term": "Gateway",
+      "status": "deprecated_or_secondary",
+      "replacement": "The Bridge for runtime transport; COUX/FED-COUX for orchestration; Orchestrator for active execution actor"
+    },
+    {
+      "term": "Conductor",
+      "status": "not_canonical_for_orchestrator",
+      "replacement": "Orchestrator"
+    },
+    {
+      "term": "Gatekeeper",
+      "status": "renamed",
+      "replacement": "Free-zer"
+    },
+    {
+      "term": "Atlas",
+      "status": "renamed",
+      "replacement": "Arete"
+    },
+    {
+      "term": "RadPack",
+      "status": "incorrect_spelling",
+      "replacement": "RatPak"
+    }
+  ],
+  "bridge_instruction": "Record this naming topology into the canonical asset/system registry. Route to Bridge for governance processing. Create/update registry rows for each named layer, mark evidence_state PARTIAL until Supabase registry/evidence receipt and Free-zer validation are produced. Do not promote to Synapse until Free-zer confirms no naming collisions and canonical references are updated.",
+  "required_receipts": [
+    "GitHub inbox commit receipt",
+    "Bridge processing receipt",
+    "Supabase registry update receipt",
+    "Evidence ledger entry",
+    "Free-zer validation result"
+  ],
+  "created_at": "2026-05-13T00:00:00Z"
+}
