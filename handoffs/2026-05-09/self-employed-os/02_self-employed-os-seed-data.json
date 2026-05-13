@@ -1,0 +1,49 @@
+{
+  "task_id": "SEO-SELFEMP-OS-20260509-001",
+  "segments": [
+    {"id":"SEG_TRADIES","name":"Tradies","slug":"tradies","first_offer":"Tradie Back Office Starter","market_priority":1},
+    {"id":"SEG_CARE","name":"Care Providers","slug":"care-providers","first_offer":"Provider Readiness Pack","market_priority":2},
+    {"id":"SEG_BEAUTY","name":"Beauty and Wellness","slug":"beauty-wellness","first_offer":"Local Growth Pack","market_priority":3},
+    {"id":"SEG_MOBILE","name":"Mobile Services","slug":"mobile-services","first_offer":"Mobile Operator Pack","market_priority":4},
+    {"id":"SEG_CREATORS","name":"Creators and Consultants","slug":"creators-consultants","first_offer":"Solo Expert Pack","market_priority":5},
+    {"id":"SEG_HOSPITALITY","name":"Hospitality Operators","slug":"hospitality-operators","first_offer":"Small Venue Pack","market_priority":6},
+    {"id":"SEG_RURAL","name":"Rural and Farm Services","slug":"rural-farm-services","first_offer":"Rural Operator Pack","market_priority":7},
+    {"id":"SEG_RETAIL","name":"Local Retail","slug":"local-retail","first_offer":"Local Retail Pack","market_priority":8},
+    {"id":"SEG_PROFESSIONAL","name":"Professional Services","slug":"professional-services","first_offer":"Professional Back Office Pack","market_priority":9},
+    {"id":"SEG_SIDEHUSTLE","name":"Side Hustles","slug":"side-hustles","first_offer":"Side Hustle Launch Pack","market_priority":10}
+  ],
+  "modules": [
+    {"id":"MOD_ABN","module_name":"ABN Setup Assistant","layer":"START"},
+    {"id":"MOD_GST","module_name":"GST Threshold Tracker","layer":"START"},
+    {"id":"MOD_INSURANCE","module_name":"Insurance Checklist","layer":"START"},
+    {"id":"MOD_QUOTES","module_name":"AI Quote Builder","layer":"OPERATE"},
+    {"id":"MOD_INVOICE","module_name":"Invoice Generator","layer":"OPERATE"},
+    {"id":"MOD_PAYMENT","module_name":"Payment Chaser","layer":"OPERATE"},
+    {"id":"MOD_RECEPTION","module_name":"AI Receptionist","layer":"OPERATE"},
+    {"id":"MOD_RENEWALS","module_name":"Licence Renewal Wallet","layer":"CERTIFY"},
+    {"id":"MOD_CPD","module_name":"CPD Tracker","layer":"CERTIFY"},
+    {"id":"MOD_CERTS","module_name":"Certificate Vault","layer":"CERTIFY"},
+    {"id":"MOD_SAFETY","module_name":"Safety Microlearning","layer":"LEARN"},
+    {"id":"MOD_RTO","module_name":"RTO Matcher","layer":"LEARN"},
+    {"id":"MOD_SWMS","module_name":"SWMS Generator","layer":"COMPLY"},
+    {"id":"MOD_AUDIT","module_name":"Audit Evidence Pack","layer":"COMPLY"},
+    {"id":"MOD_SIGNOFF","module_name":"Customer Signoff","layer":"COMPLY"},
+    {"id":"MOD_SEO","module_name":"Local SEO Generator","layer":"GROW"},
+    {"id":"MOD_REVIEWS","module_name":"Review Request Engine","layer":"GROW"},
+    {"id":"MOD_SOCIAL","module_name":"Social Content Generator","layer":"GROW"},
+    {"id":"MOD_LEADS","module_name":"Lead Capture Funnel","layer":"GROW"},
+    {"id":"MOD_CRM","module_name":"Customer Memory CRM","layer":"OPERATE"},
+    {"id":"MOD_ROUTE","module_name":"Route Optimiser","layer":"SCALE"},
+    {"id":"MOD_APPRENTICE","module_name":"Apprentice Onboarding","layer":"SCALE"},
+    {"id":"MOD_HIRE","module_name":"First Hire Checklist","layer":"SCALE"},
+    {"id":"MOD_SOP","module_name":"SOP Generator","layer":"SCALE"},
+    {"id":"MOD_BURNOUT","module_name":"Burnout Guard","layer":"GROW"}
+  ],
+  "offers": [
+    {"id":"OFF_STARTER","name":"Self-Employed Starter Passport","price_low":49,"price_high":149},
+    {"id":"OFF_BACKOFFICE","name":"AI Back Office Lite","price_low":29,"price_high":79},
+    {"id":"OFF_RENEWAL","name":"Licence and Renewal Wallet","price_low":9,"price_high":29},
+    {"id":"OFF_VERTICAL","name":"Vertical Pro Pack","price_low":299,"price_high":999},
+    {"id":"OFF_AHC","name":"Done-With-You Upgrade","price_low":2500,"price_high":12000}
+  ]
+}
