@@ -1,0 +1,13 @@
+code,archetype,description,primary_signal,typical_sources,contactability,compliance_risk
+1,Business Directory,Registered businesses with ABN/listing,directory listing,yellowpages/trulocal/hipages,direct,low
+2,Professional Registry,Licensed practitioners with credentials,credential registry,ahpra/cpaa/lawsociety,direct,medium
+3,SEO Intent,Users searching specific problem signals,search behaviour,google/bing/youtube,inbound,low
+4,Marketplace Mining,Listings in transactional marketplaces,transaction listing,gumtree/realestate/boats,semi-direct,medium
+5,Social Community,Members of interest-based communities,community membership,facebook/reddit/discord,indirect,medium
+6,Geo-Interest,Location + activity signal clusters,geo-tagged activity,instagram/tiktok/meetup,indirect,low
+7,Behavioural Signal,Actions revealing intent or identity,behavioural trace,ecommerce/forums/events,indirect,medium
+8,Creator/Influencer,Content creators in niche verticals,content production,youtube/tiktok/instagram,semi-direct,low
+9,Telemetry/Event,Real-time data from live events or sensors,live signal,weather/iot/satellite,inbound,low
+10,Enterprise/Institutional,Organisations with procurement authority,org registry,linkedIn/govt/tenders,direct,high
+11,Partner Ecosystem,Referral through aligned business network,partner referral,accountants/advisors/ngos,direct,low
+12,Referral/Viral,Word of mouth or incentivised sharing,viral loop,app/email/sms,inbound,low
