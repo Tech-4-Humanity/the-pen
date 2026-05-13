@@ -1,0 +1,81 @@
+{
+  "idempotency_key": "cognitive-ergonomics-runtime-build-20260512",
+  "receipt_for": "inbox/cognitive-ergonomics-runtime-build-20260512.json",
+  "source_pen_blob_sha": "03680f7f08a9a28a3c1b481775115922a17c5a58",
+  "status": "PARTIAL",
+  "completed_at": "2026-05-13T00:29:36Z",
+  "worker_id": "mcp.bridge.claude.session.2026-05-13",
+  "evidence_state": "PARTIAL",
+  "evidence_state_reason": "Database surface (schema + seeds + view + smoke lifecycle) is REAL. Live public assessment URL, real participant telemetry rows, ethics submission lodgements, and dashboard rendering remain pending — REAL classification withheld per governance kernel.",
+  "supabase_objects": {
+    "tables_created": ["research.programs","research.program_studies","research.protocols","research.commercial_widget_map","research.stage_gate_history"],
+    "views_created": ["research.v_cog_erg_register"],
+    "indexes_created": 8,
+    "rows_inserted": {"research.programs": 5, "research.program_studies": 13, "research.protocols": 5, "research.commercial_widget_map": 7, "research.stage_gate_history": 6},
+    "smoke_lifecycle_rows": {"assm.subject": 1, "assm.consent_grant": 1, "assm.assessment_run": 1, "assm.telemetry_span": 1},
+    "ops_telemetry": {"execution_id": "cog-erg-runtime-build-20260512", "event_type": "build.completed", "biz_key": "cognitive_ergonomics"},
+    "reality_ledger": {"system": "t4h.research.cognitive_ergonomics", "component": "runtime_build_20260512", "status": "PARTIAL", "cluster_id": "CL_RESEARCH"}
+  },
+  "priority_protocols_seeded": [
+    {"priority": 1, "slug": "negative-responders", "study_id": "NEG-RESP", "program_id": "PROG-CUP", "stage_gate": "design_gate", "ethics_status": "drafting"},
+    {"priority": 2, "slug": "cognitive-ergonomics-manifesto", "study_id": "COG-ERG", "program_id": "PROG-TF", "stage_gate": "execute", "ethics_status": "exempt"},
+    {"priority": 3, "slug": "ai-sweet-spots-public-assessment", "study_id": "ASS-1", "program_id": "PROG-PDE", "stage_gate": "execute", "ethics_status": "approved"},
+    {"priority": 4, "slug": "allostatic-load-calibration", "study_id": "ALT-SS", "program_id": "PROG-BTC", "stage_gate": "design_gate", "ethics_status": "drafting"},
+    {"priority": 5, "slug": "enterprise-pilot-calibration", "study_id": "ASS-CDI-001", "program_id": "PROG-SCE", "stage_gate": "execute", "ethics_status": "submitted"}
+  ],
+  "commercial_widgets_registered": ["WID-AISS-PUB","WID-NEGRESP-AUDIT","WID-TEAM-CAL","WID-BURNOUT-PREV","WID-AII-PROFILE","WID-LONGI-DIAG","WID-CE-CERT"],
+  "smoke_test_results": {
+    "lifecycle": "PASS",
+    "lifecycle_steps": ["subject_created","consent_granted","assessment_run_completed","telemetry_span_emitted"],
+    "subject_id": "a55e55ed-c0e7-4001-8000-000000000001",
+    "consent_id": "c01115ed-c0e7-4001-8000-000000000001",
+    "run_id": "a55e0000-c0e7-4001-8000-000000000001",
+    "span_id": "57a90000-c0e7-4001-8000-000000000001",
+    "assessment_bound": "AI_SWEETSPOTS_PUBLIC v1.0.0",
+    "channel": "mcp_smoke",
+    "campaign": "cog-erg-runtime-smoke",
+    "verified_via": "rpc:run_sql cross-read of subject + run + telemetry_span post-write"
+  },
+  "acceptance_tests": {
+    "ddl_applies_cleanly_idempotent": "PASS",
+    "seed_5_programs_no_duplicates": "PASS",
+    "assessment_started_completed_scored": "PARTIAL - lifecycle inserted, scoring engine not in scope",
+    "telemetry_rows_written_per_lifecycle_event": "PASS",
+    "evidence_register_linked_to_assessment_and_protocol": "PASS",
+    "dashboard_reads_from_canonical_tables_only": "PENDING - view created, widget not wired",
+    "csv_exports_for_register_evidence_gaps_commercial_map": "PENDING",
+    "no_REAL_without_runtime_url_persistence_telemetry_receipt": "PASS - classified PARTIAL"
+  },
+  "governance_gates_status": {
+    "no_pretend_claims": "PASS",
+    "requires_consent_before_public_data_capture": "PASS - consent_grant inserted before assessment_run",
+    "requires_protocol_before_live_study_claim": "PASS - 5 protocols seeded with construct maps + ethics state",
+    "requires_telemetry_for_real": "PARTIAL - telemetry_span and ops.telemetry_event present; participant telemetry pending",
+    "requires_exportable_data_dictionary": "PASS - data_dictionary jsonb populated per protocol",
+    "requires_gatekeeper_for_synapse_prod": "N/A this build"
+  },
+  "evidence_hashes_chain": {
+    "ddl": ["6d4fdbe5e2eb783403942ee07174abbaa6e6746c1cc7ee37c9bb5fe4c785f484","182a6388b995be97989f7cbf091ac4cf7a804d10b4a325e96eef0cc4ed1cd7e2","55a7e7b6e42f2ee708ebc28feda8b24d0612f1ea13eb0c9fdaf7728c834df4a3","565115eec8eb8d65c148dedea5f5738577b2f837d5dbf35d0040f33efb6c1574","2c3eae1f26836594e5a0ffd9fae418348aac35b01d74e007dc65f1c24509fb44","8b839ae5869d832cd01a2321ba207f2cf27b4dc84e3cd05cfc2a88ebcd48f52a"],
+    "seeds": ["d319e1d443af70dc074c9d6b83c7b050838cd51557f516ed48e93b90c74a4a1a","8c77ecb7a6682ed2cd7ef396f321585acb24722f8bf82acc730e4ba517e20b70","c482faa90c48ddd634c8c795343c03301fa6d5af07349a9e8c999034005729d5","1dc49084ab666eed55f27f33b59a32cc962ff1eb68508ffc85c937e0936e68f8","0f07d4e7627ccb98ceece3c8b59f4a8a1287afcd3568e65e1e2de41b8720f755","5c2d981a5bd2f5d4eaee9766ab4bec7aaf5a86e4974a0d688737c7c877f37072","4d78847cef783ac8a65332dccfa39ba3e4b148ef9dce7b6f0e71b577f496152f"],
+    "reality_ledger_insert": "8f77a76b46fbf531cb2399b852a8a336439895bfcf2ce399c3826d96fa788b5a",
+    "telemetry_event_insert": "c78cb567312dad901bef25944b9ae6a362cc3fdf162a40d2255316d412fec597",
+    "smoke_subject": "0a90472ae81b4ae0dfd75a2307e0db66db13e86a1bf05f391fcfad66ea78f223",
+    "smoke_consent": "9f84a18433a4d87ab4c1a9cf79a746bcdb857fcc4294b36fc3acb4596bf9d522",
+    "smoke_run": "90efb48dce9aa9194ab04e3da6b16bed17c1f3085d5164dc73abc06b245e3117",
+    "smoke_span": "eb6931470b046d002bc7e99710df46f7ee7f33916f74a6af6273a80fb3e4e4ac",
+    "reality_ledger_update": "8d5d2892f77979324fe708380a1ae849976aab9ca7aec400c3fa1b71bae5e23b"
+  },
+  "remaining_for_REAL": [
+    "Bind PROTO-AISS-PUBLIC-001 to a public-facing URL",
+    "Real (non-smoke) participant telemetry rows in assm.assessment_run",
+    "Ethics submission packages lodged for design_gate protocols",
+    "Dashboard widget on Command Centre reading research.v_cog_erg_register",
+    "CSV export endpoints",
+    "First enterprise pilot partner signed for PROTO-ENTPILOT-001"
+  ],
+  "runtime_urls": {"live_assessment": null, "dashboard": null, "exports": null},
+  "correction_to_prior_agent_claim": {
+    "prior_claim": "Payload + execution contract + governance now REAL. Commit f6a0b9bae15...",
+    "verified": "PEN payload at inbox/cognitive-ergonomics-runtime-build-20260512.json EXISTS at blob sha 03680f7f08a9a28a3c1b481775115922a17c5a58. The 'governance REAL' claim was overstated — payload was a spec, not an executed build. This receipt records the actual build (DDL + seeds + smoke + telemetry + reality_ledger) that has now closed the gap to PARTIAL. Prior commit SHA f6a0b9bae15 was not verifiable as HEAD of TML-4PM/the-pen at receipt time (HEAD was 10ab0a6f); treated as unverifiable."
+  }
+}
