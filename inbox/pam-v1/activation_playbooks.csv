@@ -1,0 +1,7 @@
+playbook_slug,brand_slug,cohort_slug,channel,step_1,step_2,step_3,step_4,kpi_target,tools
+tradie-email,ai4tradies,tradie-smb,email,Scrape + enrich 10k tradies,Segment by trade + state,Send pain-point cold email (admin/quotes),Follow up SMS day 5,100 demos,gmass;brevo;twilio
+professional-linkedin,ai4professionals,accountant,linkedin,Build verified CPA/CA list,LinkedIn connect + message,Share AI ROI content,Invite to webinar,50 demos,linkedin;apollo
+ndis-direct,outcome-ready,ndis-provider,email,Scrape NDIS finder all providers,Enrich with contact details,Send compliance pitch,Follow up with case study,30 demos,brevo;hunter
+storm-community,extreme-spotters,storm-chaser,social,Harvest Instagram/TikTok storm hashtags,Build leaderboard + sightings map,Engage top posters,Invite to community,1000 community members,instagram;tiktok
+adventure-ads,apex-predator,adventure-traveller,ads,Build Facebook/IG interest audiences (fishing/4WD/boats),Run awareness campaign,Retarget with cover offer,Convert to lead,500 leads,meta-ads
+practitioner-registry,augmented-memories,psychologist,email,Scrape AHPRA psychology registry,Enrich with clinic details,Send practitioner pitch,Follow up with demo,50 practitioners,hunter;brevo
