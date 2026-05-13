@@ -1,0 +1,65 @@
+{
+  "widget_name": "self_employed_os_portfolio_status",
+  "status": "BASE_REAL",
+  "purpose": "Track vertical segments, offers, modules, evidence states, launch readiness, and revenue posture for the Self-Employed OS ecosystem.",
+  "surfaces": [
+    "mcp-command-centre",
+    "master-dashboard",
+    "symbio-dev-control-plane"
+  ],
+  "cards": [
+    {
+      "name": "Segment Status",
+      "metrics": [
+        "total_segments",
+        "segments_live",
+        "segments_partial",
+        "segments_blocked"
+      ]
+    },
+    {
+      "name": "Offer Readiness",
+      "metrics": [
+        "offers_defined",
+        "offers_priced",
+        "offers_with_landing_pages",
+        "offers_with_payment_paths"
+      ]
+    },
+    {
+      "name": "Reality Ledger",
+      "metrics": [
+        "real_items",
+        "partial_items",
+        "pretend_items",
+        "blocked_items"
+      ]
+    },
+    {
+      "name": "Commercial Pulse",
+      "metrics": [
+        "lead_capture_status",
+        "stripe_binding_status",
+        "revenue_events",
+        "conversion_rate"
+      ]
+    }
+  ],
+  "required_tables": [
+    "operator_segments",
+    "operator_modules",
+    "operator_offers",
+    "operator_workflows",
+    "operator_evidence_events",
+    "self_employed_os_reality_ledger"
+  ],
+  "promotion_logic": {
+    "BASE_REAL_to_RUNTIME_REAL": [
+      "schema_executed",
+      "seed_data_inserted",
+      "widget_rendered",
+      "landing_page_live",
+      "bridge_receipt_returned"
+    ]
+  }
+}
