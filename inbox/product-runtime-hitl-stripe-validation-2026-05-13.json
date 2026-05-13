@@ -1,0 +1,108 @@
+{
+  "idempotency_key": "product-runtime-hitl-stripe-validation-2026-05-13",
+  "submitted_at": "2026-05-13T00:00:00Z",
+  "submitted_by": "chatgpt_connector",
+  "origin": "chatgpt",
+  "destination": "bridge",
+  "evidence_state": "PARTIAL",
+  "priority": "high",
+  "title": "Build product runtime HITL and Stripe validation system",
+  "classification": "bridge_intake_payload",
+  "doctrine": {
+    "queue_first": true,
+    "receipt_required": true,
+    "hitl_required": true,
+    "real_requires_runtime_evidence": true,
+    "pretend_rejected": true
+  },
+  "objective": "Convert the product governance framework into executable runtime assets: product registry, pricing matrix, Stripe walkthrough validation, delivery validation, HITL signoff, billing lifecycle, support, upsells, recovery, and REAL/PARTIAL/PRETEND evidence classification.",
+  "scope": {
+    "products_source": "T4H 50 automated products via agents CSV uploaded in ChatGPT session; bridge worker should ingest canonical product list from asset/source registry if present, otherwise request attachment sync.",
+    "required_customer_journey": [
+      "choice",
+      "purchase",
+      "first_use",
+      "ongoing_operations",
+      "billing",
+      "support",
+      "issues",
+      "upsells",
+      "downgrade",
+      "cancellation",
+      "refund",
+      "recovery"
+    ],
+    "commercial_configurations": [
+      "T4H margin/value default stack",
+      "customer choice stack: Microsoft, Google, AWS, Azure, OpenAI, Claude, Gemini, Supabase, Vercel as applicable",
+      "bespoke mixed stack with custom pricing and operational support"
+    ]
+  },
+  "required_build": {
+    "schemas": [
+      "ops.product_registry",
+      "commercial.product_pricing",
+      "commercial.customer_entitlements",
+      "audit.product_validation_runs",
+      "runtime.product_provisioning_jobs",
+      "runtime.subscription_events",
+      "runtime.failed_billing_events",
+      "support.customer_incidents",
+      "audit.product_reality_ledger"
+    ],
+    "workers": [
+      "stripe_checkout_validator",
+      "provisioning_validator",
+      "entitlement_auditor",
+      "billing_reconciler",
+      "recovery_validator",
+      "onboarding_flow_tester",
+      "support_escalation_tester",
+      "margin_analyzer"
+    ],
+    "dashboards": [
+      "cc.product_ops_dashboard",
+      "cc.hitl_product_signoff_dashboard",
+      "cc.billing_reconciliation_dashboard",
+      "cc.product_reality_ledger_view"
+    ],
+    "documents": [
+      "docs/PRODUCT_RUNTIME_HITL_STRIPE_VALIDATION_FRAMEWORK.md",
+      "docs/PRODUCT_PURCHASE_USE_SCENARIO_PLAYBOOK.md",
+      "docs/PRODUCT_COMMERCIAL_CONFIGURATION_MATRIX.md"
+    ]
+  },
+  "acceptance_criteria": [
+    "Every product has a canonical registry row.",
+    "Every product has delivery mode classified as downloadable_asset, saas_runtime, managed_service, api, report, assessment, or bespoke_mix.",
+    "Every product has Stripe product/price/payment-link/subscription mapping or explicit blocker.",
+    "Every product has customer journey scenarios from choice to cancellation.",
+    "Every product has HITL approval state with machine-readable rejection reasons.",
+    "Every product has runtime validation records and evidence references.",
+    "REAL/PARTIAL/PRETEND classification is calculated from evidence, not manually asserted.",
+    "Bridge writes receipt to receipts/runtime/ and audit.log/reality ledger where available."
+  ],
+  "definition_of_done": {
+    "real": [
+      "Stripe purchase tested",
+      "delivery/provisioning tested",
+      "first-use path tested",
+      "billing lifecycle tested",
+      "support path tested",
+      "upsell/downgrade/cancel/refund path tested",
+      "telemetry captured",
+      "HITL signed off",
+      "receipt emitted"
+    ],
+    "partial": "Any missing runtime, billing, HITL, support, recovery, or telemetry evidence.",
+    "pretend": "Static claims, untested pages, missing billing proof, missing delivery proof, or no receipts."
+  },
+  "bridge_actions_requested": [
+    "ingest_payload",
+    "create_or_update_docs",
+    "create_schema_migrations",
+    "create_validation_worker_specs",
+    "enqueue_product_validation_jobs",
+    "emit_receipt"
+  ]
+}
