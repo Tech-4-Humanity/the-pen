@@ -1,0 +1,55 @@
+{
+  "action": "invoke_function",
+  "function_name": "troy-sql-executor",
+  "invocation_type": "request_response",
+  "payload": {
+    "task_id": "SEO-SELFEMP-OS-20260509-001",
+    "intent": "Execute Self-Employed OS SQL schema, seed records, render Command Centre widget spec, prepare landing page and lead capture binding, and return runtime receipt.",
+    "execution_mode": "execute_if_safe",
+    "source_repo": "TML-4PM/the-pen",
+    "source_paths": [
+      "handoffs/2026-05-09/self-employed-os/00_self-employed-os-bridge-handoff.md",
+      "handoffs/2026-05-09/self-employed-os/01_self-employed-os-schema.sql",
+      "handoffs/2026-05-09/self-employed-os/02_self-employed-os-seed-data.json",
+      "handoffs/2026-05-09/self-employed-os/03_self-employed-os-widget-spec.json"
+    ],
+    "required_runtime_actions": [
+      "execute_supabase_sql_migration",
+      "insert_seed_records",
+      "create_or_update_product_registry_entries",
+      "create_or_update_offer_registry_entries",
+      "render_command_centre_widget_spec",
+      "prepare_ai4tradies_landing_page_update",
+      "bind_lead_capture_endpoint_or_declare_blocker",
+      "write_reality_ledger_receipt",
+      "return_runtime_receipt"
+    ],
+    "promotion_gate": {
+      "from": "PARTIAL",
+      "to": "REAL",
+      "requires": [
+        "schema_execution_receipt",
+        "seed_insert_receipt",
+        "widget_render_or_commit_receipt",
+        "landing_page_commit_or_deploy_receipt",
+        "lead_capture_binding_receipt",
+        "reality_ledger_receipt"
+      ]
+    },
+    "human_gate_required": false,
+    "destructive_action_allowed": false,
+    "spend_allowed": false,
+    "runtime_targets": {
+      "supabase": "existing Tech 4 Humanity/Self-Employed OS runtime if configured",
+      "command_centre": ["mcp-command-centre", "master-dashboard", "symbio-dev-control-plane"],
+      "vercel": ["ai4tradies", "outcome-ready", "mcp-command-centre"]
+    },
+    "fallback_policy": "If credentials or runtime endpoints are missing, write BLOCKED receipt with exact missing dependency and keep all generated assets in repo."
+  },
+  "metadata": {
+    "request_id": "SEO-SELFEMP-OS-20260509-001-RUNTIME",
+    "source": "the-pen",
+    "timestamp_utc": "2026-05-13T00:00:00Z",
+    "auth_context": "existing_bridge_runtime"
+  }
+}
