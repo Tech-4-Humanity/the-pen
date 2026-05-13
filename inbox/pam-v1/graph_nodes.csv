@@ -1,0 +1,10 @@
+node_type,slug,description,key_properties,primary_edges
+Person,person,Individual human entity,id;name;email;phone;location;age_band;interests,has_cohort;member_of;works_at;engaged_with
+Organisation,organisation,Business or institution,id;name;abn;category;location;size;website,employs;has_cohort;registered_as
+Brand,brand,T4H portfolio brand,id;slug;name;portfolio_group;status,targets_cohort;acquires_from;activates_to
+Cohort,cohort,Audience classification bucket,id;slug;brand_slug;audience_type,contains_person;contains_org;acquired_via
+Source,source,Acquisition data source,id;slug;source_type;geography;quality_score,yields_entity;powers_cohort
+Signal,signal,Behavioural or intent event,id;type;entity_ref;timestamp;strength,emitted_by;triggers_activation
+ActivationRun,activation_run,Outreach campaign instance,id;brand_slug;cohort_slug;channel;launched_at;status,targets_cohort;generates_receipt
+Receipt,receipt,Evidence of engagement or outcome,id;activation_run_id;entity_ref;event_type;timestamp,proves_engagement;advances_lifecycle
+GeoCluster,geo_cluster,Geographic signal cluster,id;region;state;interest_type;density,contains_signal;targets_cohort
