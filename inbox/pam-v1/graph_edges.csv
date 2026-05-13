@@ -1,0 +1,14 @@
+edge_type,from_node,to_node,description,cardinality,evidence_required
+has_cohort,Person,Cohort,Person is classified in a cohort,M:M,segmentation record
+has_cohort,Organisation,Cohort,Org is classified in a cohort,M:M,segmentation record
+member_of,Person,Organisation,Person works at or belongs to org,M:M,enrichment record
+targets_cohort,Brand,Cohort,Brand targets this cohort,M:M,matrix row
+acquired_via,Cohort,Source,Cohort entities sourced from here,M:M,ingestion receipt
+emitted_by,Signal,Person,Signal emitted by person,M:1,signal event
+emitted_by,Signal,Organisation,Signal emitted by org,M:1,signal event
+triggers_activation,Signal,ActivationRun,Signal cluster triggers outreach,M:M,activation record
+targets_cohort,ActivationRun,Cohort,Run targets this cohort,M:1,activation record
+generates_receipt,ActivationRun,Receipt,Run produces engagement evidence,1:M,receipt record
+proves_engagement,Receipt,Person,Receipt attributed to person,M:1,receipt record
+proves_engagement,Receipt,Organisation,Receipt attributed to org,M:1,receipt record
+contains_signal,GeoCluster,Signal,Geo cluster aggregates signals,1:M,telemetry record
