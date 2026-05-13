@@ -1,0 +1,21 @@
+source_slug,display_name,source_type,target_cohorts,geography,data_quality,scrape_difficulty,legal_risk,primary_fields,notes
+yellowpages-au,Yellow Pages Australia,directory,tradie;smb;professional,national,medium,medium,low,name;phone;address;category,Core mass-volume source
+hipages,hipages,marketplace,tradie,national,high,medium,low,name;trade;location;reviews,Tradie-specific; high quality
+trulocal,True Local,directory,smb;tradie,national,medium,medium,low,name;phone;address;category,Supplement to yellowpages
+servicecomau,Service.com.au,directory,tradie;professional,national,medium,easy,low,name;category;location,Easy scrape
+hotfrog,Hotfrog Australia,directory,smb,national,low,easy,low,name;phone;email;category,Low quality but volume
+ahpra,AHPRA,registry,practitioner,national,high,easy,low,name;registration;specialty;location,Gold standard for health practitioners
+healthdirect,Healthdirect,registry,practitioner,national,high,medium,low,name;specialty;location;availability,Consumer-facing health finder
+ndis-finder,NDIS Provider Finder,registry,provider,national,high,easy,low,name;location;services;registration,Outcome Ready primary source
+cpaa,CPA Australia,registry,accountant,national,high,easy,low,name;location;contact,Accounting professionals
+caanz,CA ANZ,registry,accountant,national,high,easy,low,name;location;contact,Chartered accountants
+xero-directory,Xero Advisor Directory,registry,accountant;bookkeeper,national,high,easy,low,name;specialty;location,Accounting + bookkeeper advisors
+lawsociety-nsw,Law Society NSW,registry,lawyer,nsw,high,easy,medium,name;specialty;location,NSW lawyers; replicate per state
+instagram,Instagram,social,community;consumer,national,medium,hard,medium,handle;bio;location;hashtags,Geo-tag + hashtag harvest
+tiktok,TikTok,social,consumer;creator,national,medium,hard,medium,handle;content;hashtags,Interest + geo signal
+reddit,Reddit,social,community;consumer,national,medium,medium,low,username;community;posts,Community signal harvest
+facebook-groups,Facebook Groups,social,tradie;community;consumer,national,medium,hard,medium,group;member;interest,High-value for tradies and niche interests
+linkedin,LinkedIn,professional,professional;enterprise;provider,national,high,hard,medium,name;title;company;location,Best for professionals + enterprise
+marine-registries,Marine/Boat Registries,public-data,adventure;boater,national,high,medium,low,name;vessel;location,Apex Predator primary
+abs-datasets,ABS Datasets,public-data,geo-interest;demographic,national,high,easy,low,geography;demographics;industry,Geo + demographic enrichment
+gumtree,Gumtree,marketplace,consumer;tradie,national,medium,medium,low,name;category;location,Behavioural signal source
