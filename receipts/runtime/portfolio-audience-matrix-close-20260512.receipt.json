@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "239dd6e61550c037835ef38143b9e9774cce9dfb",
-  "created_at": "2026-05-14T03:46:55.258936+00:00",
+  "commit_sha": "5b49c962a02faaadceb2296997223136567a2ca6",
+  "created_at": "2026-05-14T03:51:33.240828+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "portfolio-audience-matrix-close-20260512",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "3ef190e3f8435354ce8a0cd3a7611ea3aa4f6838d4ec473c69bf7b094c9c3200",
   "title": "Close Master Portfolio Audience Matrix v0.1 with compiled artifacts",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25840457610"
+  "workflow_run_id": "25840587663"
 }
