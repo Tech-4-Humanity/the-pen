@@ -2,10 +2,10 @@
 
 ```yaml
 doc:
-  version: "3.4"
-  supersedes: "3.3, 3.2, 3.0-LOCKDOWN, 2.0"
+  version: "3.5"
+  supersedes: "3.4, 3.3, 3.2, 3.0-LOCKDOWN, 2.0"
   hierarchy: "GLOBAL_RULE.md > MCP_EXECUTION_CONTRACT.md > ENFORCEMENT_LIVE.md"
-  last_change: "2026-05-05"
+  last_change: "2026-05-15"
   baseline: "Wave-10 (8 components)"
   status_on_commit: "PARTIAL until receipt logged in t4h_canonical_changes"
 ```
@@ -53,8 +53,8 @@ Missing any component → entity classified PARTIAL. No exceptions.
 ## 4. Execution Tiers
 
 ```yaml
-AUTO:    [SELECT, view read, RPC read, registry inspect, drift detect]
-LOG:     [INSERT, UPDATE, email send, scratchpad write]   # HITL log line required
+AUTO:    [SELECT, view read, RPC read, registry inspect, drift detect, freshness probe, gap reconciliation]
+LOG:     [INSERT, UPDATE, email send, scratchpad write, gap status correction]   # HITL log line required
 GATED:   [DELETE, DROP, RLS change, deploy, IAM mutation] # dry-run → exec
 BLOCKED: [payments, DNS mutation, credential issuance, legal sign-off]
 ```
@@ -155,6 +155,8 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 - **Reality Ledger gaps are execution backlog, not commentary** — every disclosed gap must immediately create/trigger a hunt action unless already hard-blocked.
 - **Unavailable local/tool access is not an exit** — when direct tools are unavailable, route the task to Bridge/GitHub/registry execution paths and record the handoff/receipt; only classify BLOCKED after bridge path is attempted or proven unavailable.
 - **No human return loop for ordinary gaps** — do not stop at “not yet validated”, “not yet audited”, “not yet researched”, or “tool unavailable”; inspect, delegate, queue, or recover automatically.
+- **Stale truth is operational failure** — any status register, gap table, issue board, command-centre widget, or house-rule row older than its freshness SLA must be treated as suspect, not trusted.
+- **A green runtime must automatically close or downgrade stale red records** — health evidence outranks old manually-entered status text.
 
 ---
 
@@ -176,10 +178,86 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 14. `t4h_canonical_changes` is **23 cols**, not the 6 implied by older docs. NOT-NULL = `change_type, title, summary, affected, author, broadcast_to, broadcast_ok, severity` — missing any → 23514. `affected` and `broadcast_to` are `text[]` arrays. Use `memory_key` as the natural idempotency key (NOT EXISTS guard).
 15. `fn_github_push` is **7 args**, not 5. The two trailing defaults — `p_caller_llm`, `p_caller_session` — must always be passed for attribution. Calls without them log `unknown` and lose the cross-LLM trail.
 16. Reality Ledger “gaps” are not passive output. Each gap must have `attempted_action`, `delegated_bridge_action`, `receipt_or_blocker`, and `next_loop`. A gap with no hunt action is a failed response.
+17. Gap/status registers without `last_checked_at`, `evidence_ref`, `freshness_sla_hours`, `next_probe_at`, and `owner_runtime` are non-compliant and must be treated as PARTIAL.
+18. A CRITICAL/DOWN row older than 24h with no fresh probe is not a valid fact; it is an overdue incident and must alert.
+19. A service marked DOWN must have an active probe, incident, or blocker. If the latest probe returns UP, the stale DOWN row must be corrected in the same loop and logged.
+20. Manual status tables are display caches only. Runtime health, probe receipts, and ledger evidence are the source of truth.
 
 ---
 
-## 9. Decision Loop
+## 9. Gap Register Freshness Contract
+
+```yaml
+gap_register_contract:
+  applies_to:
+    - house_rules_gap_register
+    - command_centre_status_widgets
+    - github_issue_backlog
+    - bridge_queue_backlog
+    - lambda_health_tables
+    - product_runway_tables
+    - any table or markdown file claiming status, severity, blocker, down/up, open/closed, or criticality
+  required_fields:
+    - gap_id
+    - system_key
+    - claimed_state
+    - severity
+    - last_checked_at
+    - evidence_ref
+    - freshness_sla_hours
+    - next_probe_at
+    - owner_runtime
+    - reconciliation_action
+    - stale_after_at
+  freshness_sla:
+    CRITICAL: 1h
+    HIGH: 4h
+    NORMAL: 24h
+    LOW: 72h
+  hard_rules:
+    - no status row may be displayed without age_seconds and freshness_state
+    - freshness_state enum = FRESH | STALE | EXPIRED | CONTRADICTED | BLOCKED
+    - CRITICAL plus STALE triggers immediate probe and alert
+    - DOWN plus latest_probe=UP triggers same-loop correction
+    - UP plus latest_probe=DOWN triggers incident creation
+    - missing evidence_ref downgrades row to PARTIAL
+    - stale CRITICAL older than 24h becomes governance incident
+    - stale CRITICAL older than 7d becomes systemic failure requiring root-cause record
+```
+
+### 9.1 Mandatory reconciliation loop
+
+Every runtime/status surface must run this loop:
+
+```
+read register → calculate row age → compare with SLA → probe live system
+→ compare claimed_state vs observed_state → update row or open incident
+→ write receipt → write t4h_canonical_changes evidence → refresh widget/cache
+```
+
+### 9.2 Display rule
+
+No UI, report, markdown register, or command-centre card may show `CRITICAL`, `DOWN`, `BLOCKED`, `OPEN`, or `READY` without also showing:
+
+```
+last_checked_at | evidence_ref | age | freshness_state | next_probe_at
+```
+
+### 9.3 T4H Remote MCP Clean correction
+
+As of 2026-05-15, any register row still showing `T4H Remote MCP Clean = CRITICAL — DOWN` with `last_checked_at <= 2026-04-25` is invalid stale truth. Required action:
+
+```
+probe live endpoint/runtime → if UP, update claimed_state=UP/RECOVERED
+→ severity=NORMAL or CLOSED depending on recovery evidence
+→ attach probe receipt → create stale-truth incident referencing the two-week silence
+```
+
+The stale-row incident remains open until the reconciliation loop is automated across all status-bearing surfaces.
+
+---
+
+## 10. Decision Loop
 
 ```
 inspect → diff vs canonical → identify gap → hunt/delegate/queue action with tier
@@ -190,7 +268,7 @@ inspect → diff vs canonical → identify gap → hunt/delegate/queue action wi
 
 ---
 
-## 10. Output Contract
+## 11. Output Contract
 
 Every operator response binds to:
 ```
@@ -203,7 +281,7 @@ Missing any field with a non-null target → output is PARTIAL.
 
 ---
 
-## 11. Success — locked
+## 12. Success — locked
 
 ```yaml
 success:
