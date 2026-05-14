@@ -2,8 +2,8 @@
 
 ```yaml
 doc:
-  version: "3.5"
-  supersedes: "3.4, 3.3, 3.2, 3.0-LOCKDOWN, 2.0"
+  version: "3.6"
+  supersedes: "3.5, 3.4, 3.3, 3.2, 3.0-LOCKDOWN, 2.0"
   hierarchy: "GLOBAL_RULE.md > MCP_EXECUTION_CONTRACT.md > ENFORCEMENT_LIVE.md"
   last_change: "2026-05-15"
   baseline: "Wave-10 (8 components)"
@@ -33,7 +33,105 @@ Everything below is mechanism for that rule. No paraphrases.
 
 ---
 
-## 3. Wave-10 Components (all 8 required)
+## 3. Session Boot / Daily Refresh Gate
+
+No agent may execute from memory alone when live instructions are reachable.
+
+```yaml
+session_refresh_gate:
+  applies_to:
+    - every open chat session
+    - every bridge worker
+    - every LLM agent
+    - every scheduled runner
+    - every handoff from Pen, Bridge, Symbio, Synapse, Command Centre, GitHub, Drive, Notion, Slack, or email
+  required_at:
+    - session_start
+    - first tool use
+    - before any write/mutation/deploy/send
+    - once per calendar day for any still-open session
+    - after any connector failure
+    - after any stale-memory contradiction
+  canonical_sources:
+    - TML-4PM/the-pen/GLOBAL_RULE.md
+    - TML-4PM/the-pen/MCP_EXECUTION_CONTRACT.md
+    - TML-4PM/the-pen/ENFORCEMENT_LIVE.md
+    - active house-rules register if exposed through Bridge/Supabase
+    - live gap/status register if exposed through Bridge/Supabase
+  required_receipt:
+    - refresh_attempted_at
+    - sources_checked
+    - source_commit_sha_or_row_version
+    - instruction_age_seconds
+    - memory_age_seconds
+    - memory_allowed: true|false
+    - result: CURRENT|STALE|CONTRADICTED|BLOCKED
+```
+
+### 3.1 Memory authority rule
+
+Memory is context, not authority.
+
+```yaml
+memory_authority:
+  max_age_without_refresh:
+    CRITICAL_ops: 1h
+    active_execution: 24h
+    strategy_context: 7d
+    historical_background: allowed_but_non_authoritative
+  hard_rules:
+    - memory older than the applicable TTL is SUSPECT, not executable truth
+    - 20-day-old operational memory is invalid for execution
+    - stale memory cannot override GitHub, Bridge, Supabase, runtime probes, receipts, or current user instruction
+    - if memory and live source disagree, live source wins and stale-memory incident is logged
+    - if live source is unreachable, agent may proceed only with PARTIAL/BLOCKED classification and must create a refresh-debt item
+```
+
+### 3.2 Open-session daily sweep
+
+Every open session must self-refresh daily.
+
+```
+list open sessions / active handoffs / unresolved bridge jobs
+→ fetch canonical rules by known path, not code search
+→ record latest commit SHA / row version
+→ compare local/session memory age
+→ invalidate stale instructions
+→ refresh gap register and status surfaces
+→ continue, correct, close, or escalate
+```
+
+Required outcome states:
+
+```yaml
+session_state:
+  CURRENT: live instructions refreshed within SLA
+  STALE: session older than SLA, no mutation allowed until refresh
+  CONTRADICTED: memory conflicts with live source; memory disabled for that topic
+  BLOCKED: live source unavailable; bridge/GitHub fallback attempted and receipt required
+```
+
+### 3.3 GitHub private repo search rule
+
+Private repository code search may be unavailable or unindexed. That is not a blocker.
+
+```yaml
+github_private_repo_rule:
+  if_code_search_unindexed: true
+  required_fallbacks:
+    - fetch known canonical paths directly
+    - list repository tree where available
+    - use recent commits/issues/PRs
+    - create or update canonical guardrail by known path
+    - log search-index gap as an operational debt item
+  forbidden_response:
+    - stop because search returned empty
+    - trust absence of search result as absence of file
+```
+
+---
+
+## 4. Wave-10 Components (all 8 required)
 
 | # | Component | Canonical surface |
 |---|---|---|
@@ -50,11 +148,11 @@ Missing any component → entity classified PARTIAL. No exceptions.
 
 ---
 
-## 4. Execution Tiers
+## 5. Execution Tiers
 
 ```yaml
-AUTO:    [SELECT, view read, RPC read, registry inspect, drift detect, freshness probe, gap reconciliation]
-LOG:     [INSERT, UPDATE, email send, scratchpad write, gap status correction]   # HITL log line required
+AUTO:    [SELECT, view read, RPC read, registry inspect, drift detect, freshness probe, gap reconciliation, session refresh]
+LOG:     [INSERT, UPDATE, email send, scratchpad write, gap status correction, refresh receipt write, stale-memory incident write]   # HITL log line required
 GATED:   [DELETE, DROP, RLS change, deploy, IAM mutation] # dry-run → exec
 BLOCKED: [payments, DNS mutation, credential issuance, legal sign-off]
 ```
@@ -66,7 +164,7 @@ HITL line format (mandatory for LOG and GATED):
 
 ---
 
-## 5. Bridge Contract
+## 6. Bridge Contract
 
 ```yaml
 endpoint: "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke"
@@ -77,7 +175,7 @@ key_resolution:
 allowlist: "mcp_lambda_registry WHERE is_callable=true"
 ```
 
-### 5.1 Envelope variants (memorise — wrong shape = 400)
+### 6.1 Envelope variants (memorise — wrong shape = 400)
 
 | fn | Envelope | Example |
 |---|---|---|
@@ -87,7 +185,7 @@ allowlist: "mcp_lambda_registry WHERE is_callable=true"
 | `forge.run_trial_sweep` | **TOP-LEVEL** | `{"fn":"forge.run_trial_sweep",<params>}` (no `payload` wrapper) |
 | `troy-code-pusher` | **TOP-LEVEL** | UPDATE-only Lambda code. **NOT a GitHub file pusher.** |
 
-### 5.2 GitHub writes — canonical path
+### 6.2 GitHub writes — canonical path
 
 ```sql
 SELECT fn_github_push(
@@ -101,7 +199,7 @@ Fired through `troy-sql-executor` (NESTED envelope). Always supply `p_caller_llm
 
 ---
 
-## 6. Reality Ledger — concrete tables
+## 7. Reality Ledger — concrete tables
 
 ```yaml
 canonical_change_log:
@@ -142,7 +240,7 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 
 ---
 
-## 7. Build Principles
+## 8. Build Principles
 
 - **Rollback-first** — every write declares its undo before firing.
 - **Idempotent writes** — natural key or `ON CONFLICT` clause; replays are no-ops.
@@ -157,10 +255,11 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 - **No human return loop for ordinary gaps** — do not stop at “not yet validated”, “not yet audited”, “not yet researched”, or “tool unavailable”; inspect, delegate, queue, or recover automatically.
 - **Stale truth is operational failure** — any status register, gap table, issue board, command-centre widget, or house-rule row older than its freshness SLA must be treated as suspect, not trusted.
 - **A green runtime must automatically close or downgrade stale red records** — health evidence outranks old manually-entered status text.
+- **No stale operational memory execution** — agents with stale instructions may read, refresh, and reconcile only; they may not mutate operational state until the refresh gate passes or records a BLOCKED fallback.
 
 ---
 
-## 8. Silent Failure Traps (running list)
+## 9. Silent Failure Traps (running list)
 
 1. No trailing `;` → silent `rows:[]`
 2. S2 writes UNKNOWN → no S2 writes ever
@@ -182,10 +281,13 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 18. A CRITICAL/DOWN row older than 24h with no fresh probe is not a valid fact; it is an overdue incident and must alert.
 19. A service marked DOWN must have an active probe, incident, or blocker. If the latest probe returns UP, the stale DOWN row must be corrected in the same loop and logged.
 20. Manual status tables are display caches only. Runtime health, probe receipts, and ledger evidence are the source of truth.
+21. Private GitHub code search may return no results when repos are unindexed. Empty search is not evidence of absence. Fetch known paths directly before concluding missing.
+22. Any agent operating on 20-day-old operational memory is unsafe by default. It must enter refresh-only mode until canonical instructions and live status are reloaded.
+23. Open sessions are not exempt from drift. Every still-open session must pass the daily refresh gate before continuing operational work.
 
 ---
 
-## 9. Gap Register Freshness Contract
+## 10. Gap Register Freshness Contract
 
 ```yaml
 gap_register_contract:
@@ -225,7 +327,7 @@ gap_register_contract:
     - stale CRITICAL older than 7d becomes systemic failure requiring root-cause record
 ```
 
-### 9.1 Mandatory reconciliation loop
+### 10.1 Mandatory reconciliation loop
 
 Every runtime/status surface must run this loop:
 
@@ -235,7 +337,7 @@ read register → calculate row age → compare with SLA → probe live system
 → write receipt → write t4h_canonical_changes evidence → refresh widget/cache
 ```
 
-### 9.2 Display rule
+### 10.2 Display rule
 
 No UI, report, markdown register, or command-centre card may show `CRITICAL`, `DOWN`, `BLOCKED`, `OPEN`, or `READY` without also showing:
 
@@ -243,7 +345,7 @@ No UI, report, markdown register, or command-centre card may show `CRITICAL`, `D
 last_checked_at | evidence_ref | age | freshness_state | next_probe_at
 ```
 
-### 9.3 T4H Remote MCP Clean correction
+### 10.3 T4H Remote MCP Clean correction
 
 As of 2026-05-15, any register row still showing `T4H Remote MCP Clean = CRITICAL — DOWN` with `last_checked_at <= 2026-04-25` is invalid stale truth. Required action:
 
@@ -257,10 +359,10 @@ The stale-row incident remains open until the reconciliation loop is automated a
 
 ---
 
-## 10. Decision Loop
+## 11. Decision Loop
 
 ```
-inspect → diff vs canonical → identify gap → hunt/delegate/queue action with tier
+refresh instructions → inspect → diff vs canonical → identify gap → hunt/delegate/queue action with tier
        → (AUTO: fire) | (LOG: fire + HITL line)
        | (GATED: dry-run → confirm → exec) | (BLOCKED: halt + escalate)
        → receipt → evidence row → classification → distribute → next_loop
@@ -268,11 +370,11 @@ inspect → diff vs canonical → identify gap → hunt/delegate/queue action wi
 
 ---
 
-## 11. Output Contract
+## 12. Output Contract
 
 Every operator response binds to:
 ```
-objective | systems_touched | observed_state | drift | gaps
+objective | systems_touched | instruction_refresh | observed_state | drift | gaps
         | gap_hunt_actions | delegated_bridge_actions | execution_or_payload
         | receipt | evidence_row_id | classification | next_loop
 ```
@@ -281,10 +383,11 @@ Missing any field with a non-null target → output is PARTIAL.
 
 ---
 
-## 12. Success — locked
+## 13. Success — locked
 
 ```yaml
 success:
+  - instruction_refresh_passed: true
   - bridge_call_executed: true
   - receipt_returned: <request_id>
   - evidence_row_written: <t4h_canonical_changes.id>
