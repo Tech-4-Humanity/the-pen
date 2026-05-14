@@ -1,6 +1,6 @@
 # LANGUAGE_AND_ONTOLOGY_CONTRACT_V1
 
-**Status:** PARTIAL -> executable contract created, repository-bound, awaiting Bridge runtime ingestion and telemetry validation.  
+**Status:** PARTIAL -> executable contract created, repository-bound, awaiting Bridge runtime ingestion, connector testing, and telemetry validation.  
 **Created:** 2026-05-15  
 **Owner:** Troy Latter / Tech 4 Humanity operating stack  
 **Canonical repo:** `TML-4PM/the-pen`  
@@ -442,7 +442,329 @@ ld_0005,send,emit,deliver_and_acknowledge,MEDIUM,require_acknowledgement
 
 ---
 
-## 8. Personal vocabulary profile
+## 8. Code implementation backlog: 25 workstreams
+
+These 25 steps must not be forgotten. They are the implementation spine for turning this document into runtime infrastructure.
+
+```yaml
+implementation_steps:
+  01_nouns:
+    code: create ontology node loader for nouns
+    output: ops.ontology_nodes entries where type = noun
+    tests:
+      - rejects empty term
+      - rejects duplicate id
+      - validates owner/state/evidence fields
+
+  02_verbs:
+    code: create verb registry and canonical action resolver
+    output: verb -> canonical_action mappings
+    tests:
+      - start does not imply runtime execution
+      - close requires closure level
+      - verify requires evidence
+
+  03_states:
+    code: create state registry and state validator
+    output: allowed states and invalid transition detection
+    tests:
+      - rejects unknown states
+      - rejects illegal promotion
+      - preserves prior state in receipt
+
+  04_closure:
+    code: implement closure chain engine
+    output: closed_for_operator/bridge/runtime/human gates
+    tests:
+      - cannot claim human closure without runtime closure
+      - cannot claim bridge closure without receipt
+      - underclaims when evidence missing
+
+  05_evidence:
+    code: implement evidence type registry and validator
+    output: typed evidence enforcement
+    tests:
+      - REAL requires typed evidence
+      - url/hash/api_response/commit_id accepted
+      - unsupported evidence rejected
+
+  06_authority:
+    code: implement authority resolver
+    output: who may move which object through which state
+    tests:
+      - unauthorised state change blocked
+      - failure_owner assigned
+      - authority gap downgraded to PARTIAL/BLOCKED
+
+  07_escalation:
+    code: implement escalation rules and timeout detector
+    output: stalled/dead/blocked transition escalation
+    tests:
+      - timeout creates escalation receipt
+      - dead handoff assigned to failure_owner
+      - no silent failure allowed
+
+  08_offboarding:
+    code: implement offboarding capture and authority removal checklist
+    output: memory, ownership, authority, evidence closure
+    tests:
+      - authority removed after transfer
+      - evidence archived
+      - open obligations preserved
+
+  09_personal_vocabulary:
+    code: implement Troy vocabulary profile resolver
+    output: human_term -> canonical_term translations
+    tests:
+      - no hitl maps to autonomous execution allowed
+      - take your time maps to careful audit-grade execution
+      - done defaults to underclaimed closure
+
+  10_relationships:
+    code: implement ontology edge loader
+    output: ops.ontology_edges entries
+    tests:
+      - validates source and target exist
+      - supports maps_to/precedes/requires/enables/blocks
+      - detects cycles where forbidden
+
+  11_state_transitions:
+    code: implement transition engine
+    output: from_state -> to_state enforcement
+    tests:
+      - evidence-required transition fails without evidence
+      - failure state emitted on invalid move
+      - transition receipt written
+
+  12_runtime_surfaces:
+    code: implement surface registry
+    output: GitHub/Supabase/Command Centre/Vercel/receipt store mappings
+    tests:
+      - closure target requires matching surface
+      - missing human surface blocks human closure
+      - stale surface marked degraded
+
+  13_intents:
+    code: implement intent classifier and canonical action router
+    output: intent -> required outcome -> owner
+    tests:
+      - finish_task routes to closure engine
+      - deploy_runtime routes to runtime executor
+      - discuss does not falsely trigger execution
+
+  14_obligations:
+    code: implement obligation checker
+    output: required owner/evidence/receipt checks
+    tests:
+      - task without owner fails
+      - closure without receipt fails
+      - runtime without telemetry fails
+
+  15_receipts:
+    code: implement receipt writer and schema validator
+    output: ops.ontology_receipts rows/files
+    tests:
+      - receipt ids unique
+      - required fields enforced
+      - receipt hash optional but supported
+
+  16_failure_patterns:
+    code: implement failure classifier
+    output: false_completion/dead_handoff/runtime_missing/etc.
+    tests:
+      - operator_done_only -> PARTIAL
+      - bridge_closed_runtime_open -> PARTIAL
+      - no_activity_after_timeout -> DEAD
+
+  17_human_signal:
+    code: implement human language signal detector
+    output: frustration/doubt/urgency/blocker hints
+    tests:
+      - waiting maps to blocked/frustration
+      - recheck maps to validation_needed
+      - stuck maps to escalation
+
+  18_execution_grammar:
+    code: implement verb-to-action runtime grammar
+    output: canonical executable command forms
+    tests:
+      - send requires acknowledgement
+      - begin means running not queued
+      - close requires explicit level
+
+  19_executive_surfaces:
+    code: implement executive queries/widgets
+    output: silent_failures, operator_closed_runtime_open, economic impact
+    tests:
+      - surfaces only exceptions by default
+      - shows evidence gap
+      - shows human attention required
+
+  20_translation_map:
+    code: implement profile-aware translator
+    output: Troy-language/persona-language -> canonical language
+    tests:
+      - profile-specific mapping overrides generic mapping
+      - low confidence mapping asks resolver or underclaims
+      - drift event emitted on mismatch
+
+  21_workflow_patterns:
+    code: implement workflow pattern registry
+    output: reusable GitHub/Bridge/runtime/audit/onboarding flows
+    tests:
+      - pattern expands into ordered steps
+      - step failures assigned to owner
+      - pattern version recorded in receipt
+
+  22_ownership_graph:
+    code: implement ownership graph and failure owner resolver
+    output: current_owner,next_owner,failure_owner graph
+    tests:
+      - handoff requires next_owner
+      - failed transition not orphaned
+      - owner changes are receipted
+
+  23_closure_chain:
+    code: implement closure progression guard
+    output: sequential closure enforcement
+    tests:
+      - higher closure cannot skip lower closure
+      - evidence mismatch blocks promotion
+      - closure underclaims correctly
+
+  24_runtime_objects:
+    code: implement runtime object model
+    output: typed task/receipt/workflow/runtime/evidence objects
+    tests:
+      - required fields enforced
+      - allowed states enforced
+      - object evidence required when configured
+
+  25_language_drift:
+    code: implement drift detector and remediation queue
+    output: ontology_drift events and update suggestions
+    tests:
+      - detects multiple meanings for same term
+      - flags high-risk closure drift
+      - creates update proposal for translation map
+```
+
+---
+
+## 9. Connector test plan
+
+The new connector/access path must be tested by others, not just by the creating operator.
+
+### 9.1 Testers required
+
+```yaml
+connector_testing:
+  required_testers:
+    - Bridge operator
+    - Runtime operator or automation
+    - Human reviewer / Troy delegate
+    - External agent where available
+```
+
+### 9.2 Required connector tests
+
+```yaml
+tests:
+  github_connector:
+    - locate repo TML-4PM/the-pen
+    - fetch LANGUAGE_AND_ONTOLOGY_CONTRACT_V1.md
+    - verify blob sha
+    - create or update issue/comment receipt
+    - confirm permission level
+
+  notion_connector:
+    - confirm reachable
+    - identify valid parent page or database
+    - create human-visible status page
+    - write backlink to GitHub commit
+    - confirm page URL visible to reviewer
+
+  bridge_ingest_connector:
+    - ingest repo file
+    - parse required sections
+    - parse CSV schemas
+    - create Bridge receipt
+    - report closed_for_bridge only after receipt exists
+
+  runtime_connector:
+    - create ontology tables if absent
+    - upsert sample nodes and edges
+    - write runtime receipt
+    - expose state to query surface
+
+  command_centre_connector:
+    - surface executive status
+    - show open gaps
+    - show false-completion risks
+    - show human attention required
+```
+
+### 9.3 Acceptance criteria
+
+```yaml
+acceptance:
+  closed_for_operator:
+    requires:
+      - repo commit exists
+      - issue receipt exists
+
+  closed_for_bridge:
+    requires:
+      - Bridge ingest receipt exists
+      - parsed sections validated
+      - Bridge status surface updated
+
+  closed_for_runtime:
+    requires:
+      - ontology tables/state store updated
+      - sample transition executed
+      - runtime evidence emitted
+
+  closed_for_human:
+    requires:
+      - Command Centre or Notion page visible
+      - human-readable status shows closure level
+      - open gaps are visible
+```
+
+---
+
+## 10. Bridge receipt request
+
+```yaml
+bridge_receipt_request:
+  task_id: language_ontology_contract_v1_20260515
+  request_type: ingest_and_test
+  source:
+    repo: TML-4PM/the-pen
+    path: 04-runtime-language/LANGUAGE_AND_ONTOLOGY_CONTRACT_V1.md
+    commit_sha_latest: TO_BE_FILLED_BY_COMMIT
+  required_receipts:
+    - operator_commit_receipt
+    - bridge_ingest_receipt
+    - connector_test_receipt
+    - runtime_activation_receipt
+    - human_surface_receipt
+  required_test_assignment:
+    - assign others to test GitHub connector
+    - assign others to test Notion connector parent creation
+    - assign others to test Bridge ingest
+    - assign others to test runtime state table creation
+  closure_claim_allowed_now: closed_for_operator_only
+  closure_claim_blocked:
+    - closed_for_bridge
+    - closed_for_runtime
+    - closed_for_human
+```
+
+---
+
+## 11. Personal vocabulary profile
 
 This stack must support personalised language maps. Troy's language has operational meaning that generic corpora will miss.
 
@@ -482,7 +804,7 @@ terms:
 
 ---
 
-## 9. Bridge ingestion contract
+## 12. Bridge ingestion contract
 
 Bridge must ingest this file and create/update ontology tables or equivalent state stores.
 
@@ -502,6 +824,8 @@ bridge_ingest_contract:
     - csv_schemas_parseable
     - closure_chain_present
     - translation_map_present
+    - implementation_steps_25_present
+    - connector_test_plan_present
   processing:
     - extract_sections
     - compile_csv_schema_targets
@@ -510,9 +834,11 @@ bridge_ingest_contract:
     - upsert_translation_map
     - upsert_closure_chain
     - create_receipt
+    - assign_connector_tests
   output:
     - ontology_runtime_state_updated
     - receipt_written
+    - connector_test_receipt_created
     - command_centre_status_updated
   failure:
     - classify_as_PARTIAL
@@ -520,6 +846,7 @@ bridge_ingest_contract:
     - assign_failure_owner
   evidence:
     - commit_id
+    - github_issue_url
     - bridge_receipt_id
     - state_store_rows
     - command_centre_url
@@ -533,7 +860,7 @@ bridge_ingest_contract:
 
 ---
 
-## 10. Supabase/runtime table targets
+## 13. Supabase/runtime table targets
 
 The minimum runtime tables are:
 
@@ -603,7 +930,7 @@ create table if not exists ops.ontology_drift (
 
 ---
 
-## 11. Audit relevance
+## 14. Audit relevance
 
 This explains recurring audit and research failures:
 
@@ -619,7 +946,7 @@ This explains recurring audit and research failures:
 
 ---
 
-## 12. Reality Ledger entry
+## 15. Reality Ledger entry
 
 ```yaml
 ledger:
@@ -632,46 +959,53 @@ ledger:
   output:
     - canonical contract document
     - required CSV schema expansion 10-25
+    - 25 implementation workstreams
+    - connector test plan
     - closure semantics upgrade
     - personalised vocabulary profile
     - Bridge ingest contract
     - Supabase table targets
   status: PARTIAL
   evidence:
-    - commit_id_required_after_github_create
+    - commit_id_required_after_github_update
+    - issue_url_required_after_bridge_receipt_issue
     - notion_or_command_centre_surface_required_after_ingest
   gaps:
     - Bridge runtime ingestion not yet evidenced
     - Supabase tables not yet created by this action
     - Command Centre surface not yet updated by this action
+    - connector testing assigned but not yet performed by others
     - 72h survivability unproven
   next_action:
     - Bridge ingest file from repo
     - create ontology state tables if missing
     - upsert CSV schema definitions
     - emit Bridge receipt
+    - assign and record connector testing by others
     - expose Command Centre executive surfaces
     - run drift detector across recent LLM/GitHub/Drive corpora
   elevation:
     - converts language ambiguity into runtime-governed infrastructure
     - creates audit explanation for false completion, dead handoffs, and semantic drift
+    - converts 25 ontology files into code workstreams
   pressure_flags:
     - ontology_drift
     - false_completion
     - silent_failure
     - human_expectation_gap
+    - connector_test_gap
   score:
-    execution: 0.70
-    evidence: 0.70
-    economic: 0.82
-    reuse: 0.95
-    delta: 0.94
-    overall: 0.82
+    execution: 0.78
+    evidence: 0.76
+    economic: 0.84
+    reuse: 0.97
+    delta: 0.95
+    overall: 0.86
 ```
 
 ---
 
-## 13. Required next execution envelope
+## 16. Required next execution envelope
 
 ```json
 {
@@ -691,6 +1025,7 @@ ledger:
     "upsert_troy_translation_profile",
     "upsert_closure_chain",
     "write_reality_ledger_receipt",
+    "create_connector_test_assignments",
     "surface_command_centre_status"
   ],
   "closure_target": "closed_for_bridge",
@@ -698,13 +1033,16 @@ ledger:
   "human_target": "closed_for_human_after_command_centre_visibility",
   "evidence_required": [
     "commit_id",
+    "github_issue_url",
     "bridge_receipt_id",
+    "connector_test_receipt",
     "db_result_or_table_upsert_log",
     "command_centre_url_or_status_surface"
   ],
   "failure_owner": "Bridge",
   "timeout_policy": {
     "bridge_ingest": "5m",
+    "connector_test_assignment": "24h",
     "runtime_activation": "10m",
     "human_surface": "24h"
   }
@@ -713,7 +1051,7 @@ ledger:
 
 ---
 
-## 14. Closure statement
+## 17. Closure statement
 
 This document is `closed_for_operator` only when committed to the canonical repo and accompanied by a commit receipt.
 
