@@ -1,0 +1,16 @@
+{
+  "name":"connector-operating-system",
+  "status":"PARTIAL_REAL",
+  "runtime_pattern":"intent -> inspect -> mutate -> verify -> receipt -> ledger -> report",
+  "receipt_ledger":{
+    "google_sheet_id":"15mS5vMbV6aTHYaSFrMuQpaEAQeZhzhPG0aOua3SzaQM",
+    "notion_page_id":"36009212-4e61-81b2-9107-c62a94add79a",
+    "drive_brief_id":"1UbQOTaPH3icJ19SM7FLSnp259zJCqBpG9Mfmc2-1jI0"
+  },
+  "connectors":[
+    {"name":"GitHub","status":"REAL","receipt":"29da7df1c44576300f4b968e532151562a071e75","repeat":"create/update then fetch receipt"},
+    {"name":"Notion","status":"REAL","receipt":"36009212-4e61-81b2-9107-c62a94add79a","repeat":"search -> fetch -> update"},
+    {"name":"Google Drive","status":"REAL","receipt":"15mS5vMbV6aTHYaSFrMuQpaEAQeZhzhPG0aOua3SzaQM","repeat":"create -> metadata -> write -> read"}
+  ],
+  "safe_probe_queue":["Vercel","Stripe","Gmail","Calendar","Canva","Spotify","Tripadvisor","Booking","Lovable"]
+}
