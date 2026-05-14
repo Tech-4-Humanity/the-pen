@@ -1,0 +1,120 @@
+{
+  "idempotency_key": "apple-grade-prod-ready-product-experience-canonicalisation-2026-05-14",
+  "origin": "chatgpt",
+  "requested_by": "Troy Latter",
+  "created_at": "2026-05-14T00:00:00+10:00",
+  "classification": "PARTIAL_UNTIL_BRIDGE_RECEIPT_AND_RUNTIME_EVIDENCE",
+  "execution_mode": "bridge_first_no_human_input_until_dogfooding",
+  "priority": "P0",
+  "title": "Apple-grade product, architecture, pricing, asset, UX and dogfooding canonicalisation programme",
+  "instruction": "Complete all possible machine-side work now. Do not build new product surfaces unless required to preserve or expose canonical data. Search, extract, normalise, map, reconcile, validate, classify, and prepare dogfooding queue. Human input is not required until physical product dogfooding, Stripe walkthroughs, UX/HX validation, support testing, and executive review.",
+  "non_negotiables": [
+    "100_percent_machine_readable_outputs",
+    "no_pretend_completion",
+    "REAL_requires_receipts_evidence_runtime_or_external_confirmation",
+    "all_entities_require_canonical_id",
+    "all_findings_require_source_reference",
+    "all_unknowns_are_explicit",
+    "all_discrepancies_are_recorded_before_execution",
+    "search_before_build",
+    "experience_architecture_equal_to_runtime_architecture",
+    "customer_business_language_required",
+    "no_human_input_until_dogfooding_trigger"
+  ],
+  "scope": {
+    "product_count_expected": 50,
+    "uploaded_catalogue_hint": "T4H_50_automated_products_via_agents_only(2).csv",
+    "domains": [
+      "product_registry",
+      "pricing_registry",
+      "architecture_registry",
+      "asset_registry",
+      "runtime_registry",
+      "ux_registry",
+      "hx_registry",
+      "customer_journey_registry",
+      "vendor_registry",
+      "billing_registry",
+      "support_registry",
+      "evidence_registry",
+      "dependency_registry",
+      "dogfooding_queue"
+    ]
+  },
+  "required_streams": [
+    {
+      "stream_id": "S1_DISCOVERY",
+      "name": "Search and inventory",
+      "objective": "Find all existing product, architecture, pricing, runtime, UX, asset, support, billing and evidence artefacts before any build decision.",
+      "sources_to_search": ["GitHub", "Supabase", "Vercel", "Lovable", "Stripe", "AWS", "Google Drive", "domains", "public product sites", "PDFs", "screenshots", "chat-derived notes", "runtime logs", "support artefacts"],
+      "output_tables": ["discovery_source_register", "raw_finding_register", "missing_source_register", "search_gap_register"]
+    },
+    {
+      "stream_id": "S2_CANONICAL_PRODUCTS",
+      "name": "Product map",
+      "objective": "Create canonical machine-readable product rows for all 50 products, prioritised by internal use, customer visibility, revenue potential and dependency centrality.",
+      "required_fields": ["product_id", "canonical_name", "aliases", "status", "priority_rank", "customer_segment", "job_to_be_done", "business_outcome", "emotional_outcome", "delivery_mode", "billing_model", "runtime_required", "support_required", "owner", "source_refs", "evidence_state", "unknowns", "blockers"]
+    },
+    {
+      "stream_id": "S3_ARCHITECTURE_MAP",
+      "name": "Architecture map",
+      "objective": "Map every product to systems, repos, domains, deployments, databases, APIs, queues, credentials references, telemetry, dependencies and failure modes.",
+      "required_fields": ["architecture_id", "product_id", "repo_refs", "deployment_refs", "domain_refs", "database_refs", "api_refs", "queue_refs", "credential_ref_names_only", "telemetry_refs", "dependency_refs", "known_discrepancies", "risk_level", "evidence_state"]
+    },
+    {
+      "stream_id": "S4_PRICING_AND_BILLING",
+      "name": "Pricing and billing map",
+      "objective": "Map plan, price, Stripe product/price IDs if discoverable, margin assumptions, delivery entitlement, upgrade/downgrade/cancel/refund paths.",
+      "required_fields": ["pricing_id", "product_id", "plan_name", "price", "currency", "billing_period", "stripe_product_ref", "stripe_price_ref", "entitlements", "gross_margin_assumption", "cost_drivers", "upgrade_path", "downgrade_path", "refund_path", "billing_unknowns", "evidence_state"]
+    },
+    {
+      "stream_id": "S5_ASSET_MAP",
+      "name": "Asset map",
+      "objective": "Map all artefacts customers or operators see or receive: pages, PDFs, downloads, templates, videos, onboarding docs, support docs, images, screenshots, reports and delivery files.",
+      "required_fields": ["asset_id", "product_id", "asset_type", "asset_title", "location", "format", "customer_visible", "operator_visible", "version", "freshness", "quality_score", "missing_or_duplicate", "source_refs", "evidence_state"]
+    },
+    {
+      "stream_id": "S6_UX_HX",
+      "name": "Experience architecture map",
+      "objective": "Add the missing customer/business layer: UI, UX, human experience, emotional clarity, onboarding, trust, support and executive usability.",
+      "required_fields": ["experience_id", "product_id", "primary_user", "pre_use_emotional_state", "desired_emotional_state", "first_success_definition", "time_to_value_target", "current_time_to_value", "key_screens", "friction_points", "trust_indicators", "support_moments", "delight_moments", "executive_summary_available", "mobile_accessible", "accessibility_notes", "ux_score", "hx_score", "evidence_state"]
+    },
+    {
+      "stream_id": "S7_DOGFOODING_QUEUE",
+      "name": "Dogfooding queue",
+      "objective": "Prepare sequential internal validation runs. No human input required until queue reaches physical walkthrough stage.",
+      "required_fields": ["dogfood_run_id", "product_id", "priority_rank", "walkthrough_status", "stripe_required", "purchase_path", "delivery_path", "first_use_task", "support_test", "failure_test", "upgrade_test", "cancel_test", "human_trigger", "evidence_required", "ready_for_human_at"]
+    }
+  ],
+  "dogfooding_human_triggers": [
+    "physical_stripe_purchase",
+    "download_or_delivery_validation",
+    "first_use_experience",
+    "support_ticket_test",
+    "upgrade_downgrade_cancel_refund_test",
+    "executive_readability_review",
+    "human_confidence_score",
+    "would_recommend_score"
+  ],
+  "evidence_rules": {
+    "REAL": "Live verified evidence exists and is linked to source or runtime receipt.",
+    "PARTIAL": "Some evidence exists but runtime, billing, UX, support, or source coverage incomplete.",
+    "PRETEND": "Claim exists without sufficient evidence.",
+    "required_receipts": ["github_commit_or_file_receipt", "bridge_runtime_receipt", "source_inventory_receipt", "evidence_register_rows", "discrepancy_register_rows"]
+  },
+  "output_contract": {
+    "format": "json_and_csv_tables",
+    "must_write": [
+      "registry/product_registry.csv",
+      "registry/architecture_registry.csv",
+      "registry/pricing_registry.csv",
+      "registry/asset_registry.csv",
+      "registry/ux_hx_registry.csv",
+      "registry/dogfooding_queue.csv",
+      "registry/discrepancy_register.csv",
+      "registry/evidence_register.csv",
+      "summary/apple_grade_readiness_report.json"
+    ],
+    "close_condition": "All available sources searched, all 50 products represented or explicitly missing, all discrepancies logged, dogfooding queue prepared, bridge receipt written. Do not mark REAL until evidence supports it."
+  }
+}
