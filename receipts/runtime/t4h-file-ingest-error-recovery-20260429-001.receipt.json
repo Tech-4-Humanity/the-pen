@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "b273e0554d51c99a96008cf249c823f518a4060b",
-  "created_at": "2026-05-13T05:45:50.998170+00:00",
+  "commit_sha": "239dd6e61550c037835ef38143b9e9774cce9dfb",
+  "created_at": "2026-05-14T03:46:55.258936+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "t4h-file-ingest-error-recovery-20260429-001",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "0d388f4aa01035c078e3f9e822a18ac7e75bb74db19a302e09309da8032c5e9e",
   "title": "Recover file ingest MCP and bridge handoff path",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25780880483"
+  "workflow_run_id": "25840457610"
 }
