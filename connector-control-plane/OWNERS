@@ -1,0 +1,12 @@
+# Ownership manifest for connector-control-plane/
+# Format: <path-glob> <owner>
+
+connector-control-plane/                       @TML-4PM/owners
+connector-control-plane/cdk/                   @TML-4PM/owners
+connector-control-plane/lambda/                @TML-4PM/owners
+connector-control-plane/db/                    @TML-4PM/owners
+connector-control-plane/service-catalog/       @TML-4PM/owners
+connector-control-plane/bridge/                @TML-4PM/owners
+
+# Operational owner: troy@tech4humanity.com
+# Escalation:        ops@tech4humanity.com
