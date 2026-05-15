@@ -1,0 +1,29 @@
+{
+  "template_name": "Living Cognition Infrastructure One-Page Template",
+  "version": "1.0",
+  "created_at": "2026-05-15",
+  "created_by": "Troy Latter / Tech 4 Humanity",
+  "canonical_source": "Living cognition infrastructure for operational success.png",
+  "reuse_model": "title + subtitle + shift + why it matters + requirements + core principles + benefits + path + purpose + old-world-to-new-world diagram",
+  "sections": [
+    "THE SHIFT", "WHY THIS MATTERS", "WHAT IS REQUIRED",
+    "CORE PRINCIPLES", "MAJOR BENEFITS", "HOW WE GET THERE", "THE PURPOSE"
+  ],
+  "core_principles": [
+    "Continuity over snapshots",
+    "Operational truth over procedural confidence",
+    "Relationships create value",
+    "Unknown future relevance",
+    "Human + Machine cognition",
+    "Adaptability over rigidity"
+  ],
+  "artifacts": {
+    "pptx": "living_cognition_infrastructure_template.pptx",
+    "docx": "living_cognition_infrastructure_template.docx",
+    "pdf":  "living_cognition_infrastructure_template.pdf",
+    "source_png": "source_reference.png"
+  },
+  "governance": "PARTIAL — artifacts created as claude.ai downloads; GitHub binary commit pending",
+  "classification": "template_artifact",
+  "applicable_to": "Any programme, domain, or client context requiring a cognition infrastructure explainer"
+}
