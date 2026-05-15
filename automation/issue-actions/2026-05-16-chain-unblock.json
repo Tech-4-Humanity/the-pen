@@ -1,0 +1,89 @@
+{
+  "name": "2026-05-16 the-pen chain unblock",
+  "reason": "MCP v3.6.3 healthy on Vercel stateless; root cause #106 cleared",
+  "receipt_commit": "05552939269c0bfe9eaa25efe992d5744dadfb33",
+  "reality_ledger_intent": "chain-unblock-the-pen-2026-05-16",
+  "audit_evt_id": "ef24e01d-2ba8-41da-b6ed-db7ea0a58fa4",
+  "actions": [
+    {
+      "issue": 106,
+      "action": "close",
+      "comment": "## CLOSED — REAL\n\nMCP `t4h-remote-mcp-server-clean` v3.6.3 healthy at `https://t4h-remote-mcp-server-clean.vercel.app/mcp`. Old `m5oqj21chd` deprecated; new endpoint `zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com`.\n\nReceipt: 05552939. Ledger intent `chain-unblock-the-pen-2026-05-16` = REAL.",
+      "labels_add": ["REAL", "auto-closed"]
+    },
+    {
+      "issue": 107,
+      "action": "close",
+      "comment": "## CLOSED — REAL\n\n`audit_log_write` RPC shipped in v3.6.3; bot self-receipt path routed through gated audit. Receipt 05552939.",
+      "labels_add": ["REAL", "auto-closed"]
+    },
+    {
+      "issue": 111,
+      "action": "close",
+      "comment": "## CLOSED — REAL\n\nInspect-runtime-truth-not-memory now enforced via health_check preflight pattern (see receipt 05552939, house rule #112).",
+      "labels_add": ["REAL", "auto-closed"]
+    },
+    {
+      "issue": 112,
+      "action": "close",
+      "comment": "## CLOSED — REAL\n\nHouse rule satisfied; health-first preflight is the canonical pattern (receipt 05552939 demonstrates).",
+      "labels_add": ["REAL", "auto-closed"]
+    },
+    {
+      "issue": 116,
+      "action": "close",
+      "comment": "## CLOSED — REAL\n\nPostmortem closed; canonical docs path enforced via runtime-truth house rule (#112) and preflight policy.",
+      "labels_add": ["REAL", "auto-closed"]
+    },
+    {
+      "issue": 108,
+      "action": "comment",
+      "comment": "### UNBLOCKED — dependencies on #106/#107 resolved\n\nMCP=REAL (v3.6.3). Schema chain v1–v4 deploy proceeding via `supabase_sql_write_gated` against project `lzfgigiyqpuuxslsygjt`. See receipt 05552939.",
+      "labels_add": ["unblocked"],
+      "labels_remove": ["BLOCKED"]
+    },
+    {
+      "issue": 110,
+      "action": "comment",
+      "comment": "### UNBLOCKED\n\nMCP=REAL. Pen Runtime Operational Stack worker deployment can proceed. Receipt 05552939.",
+      "labels_add": ["unblocked"],
+      "labels_remove": ["BLOCKED"]
+    },
+    {
+      "issue": 113,
+      "action": "comment",
+      "comment": "### BRIDGE READY\n\nBridge healthy via T4H Remote MCP v3.6.3. `LANGUAGE_AND_ONTOLOGY_CONTRACT_V1` ingest can proceed. Receipt 05552939.",
+      "labels_add": ["bridge-ready"]
+    },
+    {
+      "issue": 114,
+      "action": "comment",
+      "comment": "### PATTERN DEFINED — preflight canonical\n\nPreflight policy (health_check before action) committed at `docs/policies/PREFLIGHT_POLICY.md` and enforced via this workflow. Receipt 05552939.",
+      "labels_add": ["pattern-defined"]
+    },
+    {
+      "issue": 115,
+      "action": "comment",
+      "comment": "### PATTERN PROVEN\n\nContinuity demonstrated: chain unblock executed without HITL or session dependency. Audit `ef24e01d`. Receipt 05552939.",
+      "labels_add": ["pattern-proven"]
+    },
+    {
+      "issue": 117,
+      "action": "comment",
+      "comment": "### UNBLOCKED — bridge live\n\nBridge=REAL (v3.6.3). TT-BIZ-001 True Trust operational activation can proceed. Receipt 05552939.",
+      "labels_add": ["unblocked"]
+    },
+    {
+      "issue": 100,
+      "action": "comment",
+      "comment": "### UNBLOCKED — bridge live\n\nHandoff path live via T4H Remote MCP v3.6.3. Receipt 05552939.",
+      "labels_add": ["unblocked"]
+    },
+    {
+      "issue": 98,
+      "action": "comment",
+      "comment": "### UNBLOCKED — bridge live\n\nSchoolFamilyAI Family OS Runtime build can proceed. Receipt 05552939.",
+      "labels_add": ["unblocked"]
+    }
+  ]
+}
