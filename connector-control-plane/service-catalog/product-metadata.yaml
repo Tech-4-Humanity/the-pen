@@ -1,0 +1,42 @@
+product:
+  name: connector-control-plane
+  owner: Tech 4 Humanity Pty Ltd
+  abn: "70 666 271 272"
+  description: >
+    Provisionable AWS Service Catalog product wrapping the Connector Control
+    Plane: Lambda workers, DynamoDB hot state, Supabase-canonical ledger,
+    EventBridge health probes, HTTP API for intent routing, and CloudWatch
+    SLO alarms. Multi-tenant safe, cost-tagged, observability-native.
+  support:
+    email: ops@tech4humanity.com
+    runbook: ../runbook.md
+    slo: ../SLO.md
+  versions:
+    - name: v0.1.0
+      template: ../cdk/cdk.out/ConnectorControlPlane.template.json
+      released_at: 2026-05-16
+      changelog: Initial productionised version.
+  tags:
+    Owner: tech-4-humanity
+    CostCenter: T4H-CCP
+    Product: connector-control-plane
+    Compliance: rdti-eligible
+  parameters:
+    - name: Environment
+      type: String
+      allowed: [dev, staging, prod]
+      default: prod
+    - name: SupabaseProjectRef
+      type: String
+      default: lzfgigiyqpuuxslsygjt
+launch_constraints:
+  - role: arn:aws:iam::140548542136:role/CcpServiceCatalogLaunchRole
+    description: Least-privilege launch role; provisioning only.
+governance:
+  classification_target: REAL
+  evidence_required:
+    - cdk_synth_output
+    - cloudformation_changeset
+    - deploy_receipt_json
+    - first_health_probe_receipt
+    - first_intent_receipt
