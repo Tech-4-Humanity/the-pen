@@ -1,0 +1,90 @@
+name: Process Issue Actions
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'automation/issue-actions/**.json'
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: 'Path to manifest JSON'
+        required: true
+        type: string
+
+permissions:
+  issues: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Determine changed manifests
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "files=${{ inputs.manifest }}" >> "$GITHUB_OUTPUT"
+          else
+            FILES=$(git diff --name-only HEAD~1 HEAD -- 'automation/issue-actions/*.json' | tr '\n' ' ')
+            echo "files=$FILES" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Changed manifests: $FILES"
+
+      - name: Process each manifest
+        if: steps.changed.outputs.files != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          for manifest in ${{ steps.changed.outputs.files }}; do
+            echo "::group::Processing $manifest"
+            if [ ! -f "$manifest" ]; then
+              echo "manifest not found, skipping"
+              continue
+            fi
+
+            ACTIONS=$(jq -c '.actions[]' "$manifest")
+            while IFS= read -r action; do
+              ISSUE=$(echo "$action" | jq -r '.issue')
+              ACT=$(echo "$action" | jq -r '.action')
+              COMMENT=$(echo "$action" | jq -r '.comment // empty')
+              LABELS_ADD=$(echo "$action" | jq -r '.labels_add // [] | join(",")')
+              LABELS_RM=$(echo "$action" | jq -r '.labels_remove // [] | join(",")')
+
+              echo "-- Issue #$ISSUE: $ACT"
+
+              if [ -n "$COMMENT" ]; then
+                echo "$COMMENT" | gh issue comment "$ISSUE" --repo "${{ github.repository }}" --body-file - || echo "comment failed for #$ISSUE"
+              fi
+
+              if [ -n "$LABELS_ADD" ]; then
+                gh issue edit "$ISSUE" --repo "${{ github.repository }}" --add-label "$LABELS_ADD" || echo "add-label failed for #$ISSUE"
+              fi
+
+              if [ -n "$LABELS_RM" ]; then
+                gh issue edit "$ISSUE" --repo "${{ github.repository }}" --remove-label "$LABELS_RM" || echo "rm-label failed for #$ISSUE"
+              fi
+
+              if [ "$ACT" = "close" ]; then
+                gh issue close "$ISSUE" --repo "${{ github.repository }}" --reason completed || echo "close failed for #$ISSUE"
+              fi
+            done <<< "$ACTIONS"
+            echo "::endgroup::"
+          done
+
+      - name: Mark manifest processed
+        if: steps.changed.outputs.files != ''
+        run: |
+          for manifest in ${{ steps.changed.outputs.files }}; do
+            base=$(basename "$manifest" .json)
+            dir=$(dirname "$manifest")
+            mkdir -p "$dir/processed"
+            cp "$manifest" "$dir/processed/${base}.processed.json" || true
+          done
