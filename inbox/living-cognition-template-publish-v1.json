@@ -1,0 +1,43 @@
+{
+  "idempotency_key": "living-cognition-template-publish-v1",
+  "action": "publish_latest_work_to_github_and_request_receipt",
+  "mode": "AUTO",
+  "evidence_required": true,
+  "source_assets": [
+    "living_cognition_infrastructure_template.pptx",
+    "living_cognition_infrastructure_template.docx",
+    "docx_render/living_cognition_infrastructure_template.pdf",
+    "Living cognition infrastructure for operational success.png"
+  ],
+  "work_summary": "Reusable living cognition infrastructure template created from attached visual reference. Includes PPTX editable template, DOCX landscape template, and rendered PDF check copy.",
+  "publish_targets": {
+    "preferred_repo": "TML-4PM/the-pen",
+    "artifact_paths": [
+      "artifacts/templates/living-cognition-infrastructure/living_cognition_infrastructure_template.pptx",
+      "artifacts/templates/living-cognition-infrastructure/living_cognition_infrastructure_template.docx",
+      "artifacts/templates/living-cognition-infrastructure/living_cognition_infrastructure_template.pdf",
+      "artifacts/templates/living-cognition-infrastructure/source_reference.png"
+    ],
+    "manifest_path": "artifacts/templates/living-cognition-infrastructure/manifest.json"
+  },
+  "template_contract": {
+    "name": "Living Cognition Infrastructure One-Page Template",
+    "reuse_model": "title + subtitle + shift + why it matters + requirements + core principles + benefits + path + purpose + old-world-to-new-world diagram",
+    "governance_status": "PARTIAL until GitHub artifact commit and runtime receipt exist",
+    "classification": "template_artifact",
+    "canonical_use": "repeatable one-page cognition infrastructure explainer for programmes, domains, and client contexts"
+  },
+  "receipt_expected": {
+    "path_prefix": "receipts/runtime/",
+    "must_include": [
+      "idempotency_key",
+      "artifact_commit_sha",
+      "manifest_commit_sha",
+      "files_published",
+      "file_hashes",
+      "render_check_status",
+      "reality_classification"
+    ]
+  },
+  "note": "A prior Pen payload exists for asset-matrix-activation-v1 with commit c4770851ea55493ead859bea7e7a087106f5f6d0, but no downstream runtime receipt was visible when checked. This request attempts another receipt for the latest work."
+}
