@@ -1,0 +1,55 @@
+{
+  "business_id": "TT-BIZ-001",
+  "name": "True Trust",
+  "stage": "BUSINESS_IN_DEV",
+  "status": "ACTIVE_BUILD_REQUIRED",
+  "created_at": "2026-05-16T00:00:00+10:00",
+  "owner": "Tech 4 Humanity",
+  "category": "Trust, recoverability, workforce recovery, financial pressure intervention",
+  "positioning": "Restore income, prove recoverability, coordinate partners, and protect human stability before preventable default or forced sale.",
+  "not_financial_advice": true,
+  "primary_customers": [
+    "banks",
+    "lenders",
+    "employers",
+    "recruiters",
+    "insurers",
+    "government employment programs",
+    "universities/alumni programs",
+    "veteran transition programs"
+  ],
+  "service_catalogue_prefix": "TT-SVC",
+  "journey_prefix": "TT-JM",
+  "launch_priority": "HIGH",
+  "pilot": {
+    "name": "Mortgage Stress Income Recovery Pilot",
+    "target_participants": 50,
+    "duration_days": 90,
+    "primary_partner_type": "bank hardship team",
+    "secondary_partner_type": "employer/recruiter network"
+  },
+  "reality_ledger": {
+    "status": "PARTIAL",
+    "result": "Business object registered in GitHub and Notion; runtime business execution pending.",
+    "evidence": [
+      {
+        "type": "github_commit",
+        "value": "647c745436c675c1f2b86d3b2e511827ab2b3be6"
+      },
+      {
+        "type": "notion_page",
+        "value": "https://www.notion.so/361092124e61816c9371fa0dfbfce741"
+      }
+    ],
+    "gaps": [
+      "Bridge runtime receipt pending",
+      "live DB rows not inserted",
+      "legal/privacy review not completed",
+      "pilot partners not bound",
+      "product pages not deployed",
+      "Stripe SKUs/payment links not created"
+    ],
+    "next_action": "Execute bridge work order businesses/true-trust/05_bridge-work-order.json and return receipt.",
+    "score": 0.74
+  }
+}
