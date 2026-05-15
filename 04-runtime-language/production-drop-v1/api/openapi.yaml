@@ -1,0 +1,122 @@
+openapi: 3.1.0
+info:
+  title: Runtime Language API
+  version: 1.0.0
+  description: |
+    Runtime Language Operating System — public API.
+    Resolves human language to canonical runtime grammar,
+    advances closure state with evidence, and surfaces
+    semantic exceptions.
+servers:
+  - url: https://runtime-language.tech4humanity.com
+    description: production
+paths:
+  /resolve:
+    post:
+      summary: Resolve a human term to canonical ontology terms.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [term]
+              properties:
+                term: {type: string, example: "close"}
+                profile_id: {type: string, example: "troy_runtime_language_v1"}
+      responses:
+        '200':
+          description: Resolved term
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  human_term: {type: string}
+                  canonical_term: {type: string}
+                  confidence: {type: number}
+                  profile_id: {type: string}
+                  notes: {type: string}
+  /transition:
+    post:
+      summary: Advance a task through a state transition with evidence.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [object_id, object_type, to_state]
+              properties:
+                object_id: {type: string}
+                object_type: {type: string, example: task}
+                from_state: {type: string}
+                to_state: {type: string}
+                evidence:
+                  type: object
+                  description: typed evidence payload
+      responses:
+        '200':
+          description: Transition applied
+        '409':
+          description: Illegal transition or missing evidence
+  /closure:
+    post:
+      summary: Advance closure level for a task.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [task_id, target_level]
+              properties:
+                task_id: {type: string}
+                target_level:
+                  type: string
+                  enum: [closed_for_operator, closed_for_bridge, closed_for_runtime, closed_for_human]
+                evidence: {type: object}
+      responses:
+        '200':
+          description: Closure advanced
+        '409':
+          description: Closure chain violation
+  /exceptions:
+    get:
+      summary: List active semantic exceptions.
+      responses:
+        '200':
+          description: Exception list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    object_id: {type: string}
+                    object_type: {type: string}
+                    closure_level: {type: string}
+                    exception_type: {type: string}
+  /health:
+    get:
+      summary: Runtime ontology health.
+      responses:
+        '200':
+          description: Health snapshot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nodes: {type: integer}
+                  edges: {type: integer}
+                  translations: {type: integer}
+                  transitions: {type: integer}
+                  closure_levels: {type: integer}
+                  receipts: {type: integer}
+                  active_drift: {type: integer}
+                  active_exceptions: {type: integer}
+                  healthy_connectors: {type: integer}
+                  unhealthy_connectors: {type: integer}
+                  as_of: {type: string, format: date-time}
