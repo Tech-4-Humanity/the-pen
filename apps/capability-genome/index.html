@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capability Genome Compiler</title>
+<style>
+:root{--bg:#07111f;--panel:#0e1b2d;--panel2:#13243a;--text:#eef6ff;--muted:#99aac2;--line:#27405f;--ok:#78f0b3;--warn:#ffd166;--bad:#ff6b6b;--blue:#80b7ff}*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#07111f,#0b1628 55%,#101a2c);color:var(--text);font-family:Inter,Arial,sans-serif}.wrap{max-width:1320px;margin:auto;padding:28px}h1{font-size:34px;margin:0 0 8px}.sub{color:var(--muted);max-width:950px;line-height:1.45}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:22px}.card{background:rgba(14,27,45,.92);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 18px 45px rgba(0,0,0,.25)}textarea,input,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#071421;color:var(--text);padding:12px;font-size:14px}textarea{min-height:160px;resize:vertical}button{border:0;border-radius:12px;padding:11px 14px;background:var(--blue);color:#06101e;font-weight:800;cursor:pointer;margin:6px 6px 0 0}.ghost{background:#213451;color:var(--text)}.danger{background:var(--bad);color:white}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 9px;margin:4px 4px 4px 0;color:var(--muted);font-size:12px}.score{font-size:42px;font-weight:900}.good{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{color:var(--muted);font-size:12px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;white-space:pre-wrap;background:#06101e;border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto;max-height:360px}.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.small{font-size:12px;color:var(--muted)}@media(max-width:900px){.grid,.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Capability Genome Compiler</h1>
+<div class="sub">Conversation in. Capability DNA out. This is the first working front door for the T4H signal-to-capability engine: classify a problem, match reusable genomes, render asset packs, create deployment payloads, and generate a bridge-ready execution receipt.</div>
+<div class="grid">
+<section class="card">
+<h2>1. Problem / Signal Intake</h2>
+<textarea id="signal">Independent physiotherapists are losing time to admin, bookings, follow-up messages and evidence capture. Build a reusable offer for Australia first, with website, pricing, campaign, workflow, and agent pack.</textarea>
+<div class="cols">
+<label>Country<select id="country"><option>AU</option><option>SG</option><option>UAE</option><option>UK</option><option>US</option></select></label>
+<label>Sector<select id="sector"><option>healthcare</option><option>disability_services</option><option>aged_care</option><option>education</option><option>trades</option><option>government_services</option><option>enterprise_operations</option></select></label>
+<label>Buyer<select id="buyer"><option>clinic_owner</option><option>provider_owner</option><option>government_exec</option><option>school_leader</option><option>enterprise_cio</option><option>small_business_owner</option></select></label>
+</div>
+<button onclick="compile()">Compile capability</button><button class="ghost" onclick="dailyTopFive()">Generate country top 5</button><button class="ghost" onclick="exportJSON()">Export JSON</button><button class="ghost" onclick="exportSQL()">Export SQL</button>
+<h3>Matched Capability Genomes</h3><div id="matches"></div>
+</section>
+<section class="card">
+<h2>2. Readiness</h2>
+<div id="score" class="score warn">PARTIAL</div>
+<div id="status" class="small">Compile to calculate readiness.</div>
+<div id="pills"></div>
+<h3>Execution Gates</h3><table id="gates"></table>
+</section>
+</div>
+<div class="grid">
+<section class="card">
+<h2>3. Generated Asset Pack</h2>
+<div id="assets"></div>
+</section>
+<section class="card">
+<h2>4. Bridge Payload / Receipt Draft</h2>
+<div id="payload" class="mono"></div>
+</section>
+</div>
+<section class="card" style="margin-top:18px">
+<h2>5. Country Top Five Opportunity Board</h2>
+<div id="topfive"></div>
+</section>
+</div>
+<script>
+const genomes=[
+{id:'CAP-COORD-001',name:'Appointment Coordination',class:'coordination',terms:['booking','schedule','appointment','reminder','follow-up','traffic','calendar'],reuse:.94,econ:.88,expressions:['agent','workflow','widget','managed_service','campaign']},
+{id:'CAP-INTAKE-001',name:'Service Intake',class:'intake',terms:['intake','form','triage','onboarding','qualification'],reuse:.96,econ:.86,expressions:['form','agent','dashboard','website_section']},
+{id:'CAP-EVIDENCE-001',name:'Evidence Capture',class:'evidence',terms:['evidence','audit','report','ledger','compliance','proof'],reuse:.97,econ:.91,expressions:['ledger','dashboard','report','api']},
+{id:'CAP-CAMPAIGN-001',name:'Campaign Launch',class:'marketing',terms:['campaign','promote','lead','market','website','brochure','pricing'],reuse:.92,econ:.93,expressions:['website','email','social','brochure','pricing']},
+{id:'CAP-GOV-001',name:'Consent Governance',class:'governance',terms:['consent','privacy','policy','governance','permission','trust'],reuse:.95,econ:.83,expressions:['policy_pack','audit','consent_widget']},
+{id:'CAP-DISCOVERY-001',name:'Discovery Automation',class:'consulting',terms:['discover','workshop','requirements','scope','analysis'],reuse:.91,econ:.9,expressions:['agent','template','report']},
+{id:'CAP-TRAINING-001',name:'Training Pack Generation',class:'enablement',terms:['training','course','workbook','guide','enablement'],reuse:.89,econ:.81,expressions:['course','workbook','video_script']},
+{id:'CAP-MIGRATION-001',name:'Migration Planning',class:'technology',terms:['migration','cloud','legacy','platform','integration'],reuse:.9,econ:.87,expressions:['roadmap','runbook','cloud_template']}
+];
+const countryNeeds={AU:['NDIS provider admin pack','Aged-care evidence capture','Allied health booking automation','SMB cyber readiness','School support coordination'],SG:['Fintech compliance pack','Healthcare ops coordination','Smart-city service routing','Workforce AI enablement','Logistics exception handling'],UAE:['Sovereign AI governance','Smart city capability packs','Sports event signal overlays','Energy transition workflows','Robotics service exchange'],UK:['NHS waiting-list coordination','Council service intake','Care-home evidence capture','Education support automation','Public-sector sludge reduction'],US:['Healthcare admin reduction','Insurance evidence workflows','SMB lead engine','School support coordination','Compliance readiness packs']};
+function scoreGenome(g,text){let t=text.toLowerCase();let hits=g.terms.filter(x=>t.includes(x)).length;return +(hits/g.terms.length*.65+g.reuse*.2+g.econ*.15).toFixed(2)}
+function capabilityCode(g,country,sector){let cls={coordination:'COORD',intake:'INTAKE',evidence:'EVID',marketing:'CAMP',governance:'GOV',consulting:'DISC',enablement:'TRAIN',technology:'MIG'}[g.class]||'CAP';let sec={healthcare:'HC',disability_services:'DIS',aged_care:'AGED',education:'EDU',trades:'TRD',government_services:'GOV',enterprise_operations:'ENT'}[sector]||'GEN';return `DA-${country}-${sec}-${cls}-M2`}
+function compile(){let text=document.getElementById('signal').value;let country=document.getElementById('country').value;let sector=document.getElementById('sector').value;let buyer=document.getElementById('buyer').value;let ranked=genomes.map(g=>({...g,match:scoreGenome(g,text),code:capabilityCode(g,country,sector)})).sort((a,b)=>b.match-a.match).slice(0,5);let gates=['canonical_id','owner_entity','expression_matrix','localisation','governance_rule','pricing_posture','evidence_requirement','deployment_path','rollback_rule','receipt_trail','reuse_score','economic_score'];let pass=ranked[0].match>.45?9:6;let readiness=Math.round(pass/gates.length*100);document.getElementById('score').className='score '+(readiness>85?'good':readiness>65?'warn':'bad');document.getElementById('score').innerText=readiness>85?'OFFER READY':'PARTIAL';document.getElementById('status').innerText=`${readiness}% ready. Highest match: ${ranked[0].name} (${ranked[0].code}).`;document.getElementById('pills').innerHTML=ranked.flatMap(r=>r.expressions).filter((v,i,a)=>a.indexOf(v)===i).map(x=>`<span class="pill">${x}</span>`).join('');document.getElementById('matches').innerHTML='<table><tr><th>Code</th><th>Genome</th><th>Match</th><th>Expressions</th></tr>'+ranked.map(r=>`<tr><td class="mono">${r.code}</td><td>${r.name}</td><td>${Math.round(r.match*100)}%</td><td>${r.expressions.join(', ')}</td></tr>`).join('')+'</table>';document.getElementById('gates').innerHTML='<tr><th>Gate</th><th>Status</th></tr>'+gates.map((g,i)=>`<tr><td>${g}</td><td>${i<pass?'PASS':'NEEDS RECEIPT'}</td></tr>`).join('');let assets=makeAssets(ranked,country,sector,buyer,text);document.getElementById('assets').innerHTML=assets.map(a=>`<h3>${a.title}</h3><div class="mono">${a.body}</div>`).join('');let payload={task_id:'capability-genome-runtime-compile',classification:'PARTIAL_UNTIL_BRIDGE_RECEIPT',country,sector,buyer,source_signal:text,matched_capabilities:ranked.map(r=>({id:r.id,code:r.code,name:r.name,match:r.match})),required_actions:['create landing page','create pricing pack','create campaign pack','create workflow pack','create governance pack','write evidence row','return bridge receipt'],rollback:'Archive generated assets by task_id and remove pending rows if not approved.',value_loop:'Reusable capability DNA converts live signal into deployable offer without starting from zero.'};document.getElementById('payload').innerText=JSON.stringify(payload,null,2);window.lastCompile={payload,assets,ranked}}
+function makeAssets(ranked,country,sector,buyer,text){let main=ranked[0];return[{title:'Website Hero',body:`${main.name} for ${sector.replaceAll('_',' ')}\nTurn admin friction into coordinated action. Built for ${country}. Buyer: ${buyer}.\nPrimary CTA: Book a 20-minute capability scan.`},{title:'Pricing Pack',body:`Starter: AUD 499 setup + AUD 199/mo\nGrowth: AUD 1,500 setup + AUD 750/mo\nManaged: AUD 4,500 setup + AUD 2,500/mo\nIncludes: ${ranked.slice(0,3).map(r=>r.name).join(', ')}`},{title:'Campaign Pack',body:`Audience: ${buyer}\nProblem: ${text.slice(0,220)}\nChannels: LinkedIn, email, local partner referrals, search landing page\nProof needed: time saved, reduced missed follow-up, cleaner evidence trail.`},{title:'Workflow Pack',body:`1. Capture signal\n2. Match capability genome\n3. Apply local rules\n4. Generate asset pack\n5. Deploy or handoff\n6. Capture receipt\n7. Measure outcome\n8. Reuse pattern`},{title:'Governance Pack',body:`Consent: required where personal data is used\nAudit: log every generated asset and runtime action\nHuman override: required for payment, legal, destructive, credential, or sensitive deployment actions\nReality state: PARTIAL until receipt exists`}];}
+function dailyTopFive(){let country=document.getElementById('country').value;let sector=document.getElementById('sector').value;let rows=(countryNeeds[country]||countryNeeds.AU).map((n,i)=>({rank:i+1,need:n,cap:genomes[i%genomes.length],score:(.96-i*.04).toFixed(2)}));document.getElementById('topfive').innerHTML='<table><tr><th>#</th><th>Opportunity</th><th>Matched Genome</th><th>Code</th><th>Score</th></tr>'+rows.map(r=>`<tr><td>${r.rank}</td><td>${r.need}</td><td>${r.cap.name}</td><td class="mono">${capabilityCode(r.cap,country,sector)}</td><td>${r.score}</td></tr>`).join('')+'</table>'}
+function exportJSON(){compile();navigator.clipboard&&navigator.clipboard.writeText(JSON.stringify(window.lastCompile,null,2));alert('Compile JSON copied where clipboard is available.')}function exportSQL(){let sql=`insert into capability_receipts(id,capability_id,action_type,system_target,classification) values ('receipt-${Date.now()}','${window.lastCompile?.ranked?.[0]?.id||'CAP-COORD-001'}','compile','capability-genome-app','PARTIAL');`;document.getElementById('payload').innerText=sql;navigator.clipboard&&navigator.clipboard.writeText(sql)}
+compile();dailyTopFive();
+</script>
+</body>
+</html>
