@@ -1,0 +1,8 @@
+id,step,owner,required,evidence
+off_capture_memory,capture_memory,owner,true,memory_dump
+off_capture_patterns,capture_patterns,owner,true,pattern_export
+off_transfer_ownership,transfer_ownership,owner+successor,true,ownership_log
+off_archive_evidence,archive_evidence,evidence_engine,true,archive_id
+off_remove_authority,remove_authority,governance,true,authority_revocation_log
+off_preserve_learning,preserve_learning,owner,true,learning_artifact
+off_close_obligations,close_runtime_obligations,bridge,true,closure_receipts
