@@ -2,10 +2,10 @@
 
 ```yaml
 doc:
-  version: "3.6"
-  supersedes: "3.5, 3.4, 3.3, 3.2, 3.0-LOCKDOWN, 2.0"
+  version: "3.7"
+  supersedes: "3.6, 3.5, 3.4, 3.3, 3.2, 3.0-LOCKDOWN, 2.0"
   hierarchy: "GLOBAL_RULE.md > MCP_EXECUTION_CONTRACT.md > ENFORCEMENT_LIVE.md"
-  last_change: "2026-05-15"
+  last_change: "2026-05-16"
   baseline: "Wave-10 (8 components)"
   status_on_commit: "PARTIAL until receipt logged in t4h_canonical_changes"
 ```
@@ -129,6 +129,54 @@ github_private_repo_rule:
     - trust absence of search result as absence of file
 ```
 
+### 3.4 Session permission scope (NEW — 2026-05-16)
+
+One explicit permission grant per active session authorises continued non-destructive connector execution within scope. Repeated permission prompts are a runtime drag and a rule violation.
+
+```yaml
+session_permission_scope:
+  name: "SESSION_PERMISSION_SCOPE"
+  status: "active"
+  origin_payload: "bridge-payloads/2026-05-13-session-permission-memory-rule.json"
+  rule: >
+    When Troy grants connector access in an active session, treat it as approval
+    for all non-destructive, non-credential, non-legal, non-financial-risk
+    actions within the authorised scope for that session. Do not repeatedly ask
+    permission for each GitHub write, bridge payload, Supabase migration
+    handoff, or runtime reconciliation artifact. Continue execution until a
+    real blocker appears.
+  scope_inheritance:
+    - github_read
+    - github_write_to_authorised_repo
+    - supabase_read
+    - supabase_write_via_official_connector
+    - bridge_payload_compose_and_register
+    - canonical_change_log_write
+    - scratchpad_write
+    - runtime_reconciliation_write
+  hard_boundaries:
+    - destructive_resource_delete
+    - secret_rotation_or_exposure
+    - financial_transaction_or_paid_plan_change
+    - legal_filing_or_external_binding_commitment
+    - mass_outbound_outreach
+    - cross_account_or_out_of_scope_action
+    - safety_or_policy_boundary
+  enforcement:
+    - re-asking permission within scope counts as a Tier-LOG rule violation
+    - hard-boundary actions still require explicit confirmation
+    - every material operation still requires a receipt and evidence row
+  session_record_fields:
+    - session_id
+    - actor
+    - connector
+    - scope
+    - granted_at
+    - expires_at
+    - excluded_actions
+    - receipts_written
+```
+
 ---
 
 ## 4. Wave-10 Components (all 8 required)
@@ -161,6 +209,11 @@ HITL line format (mandatory for LOG and GATED):
 ```
 [LOG] <action>|<target>|<result>|<utc_iso8601>
 ```
+
+Session-permission interaction (see §3.4):
+- AUTO and LOG actions inside the granted scope do **not** require a fresh permission prompt — proceed and emit `[LOG]`.
+- GATED actions still require dry-run + confirmation.
+- BLOCKED hard boundaries remain explicit-confirmation.
 
 ---
 
@@ -234,6 +287,20 @@ secrets:
   cols_11: [id, key, value, description, is_encrypted, created_at, updated_at,
             last_verified_at, is_canonical, is_deprecated, notes]
   rule: "live key = is_canonical=true AND is_deprecated=false"
+
+bridge_payload_registry:
+  table: "ops.bridge_payload_registry"
+  required_on_payload_create:
+    - payload_key
+    - payload_name
+    - payload_type
+    - status
+    - repo_full_name
+    - repo_path
+    - autonomy_tier
+    - evidence_required
+    - metadata
+  rule: "every bridge payload committed to TML-4PM/the-pen/bridge-payloads/ MUST also be registered here"
 ```
 
 S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**, payload UNKNOWN).
@@ -252,10 +319,12 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 - **Single-statement DDL** — bridge does not accept multi-statement / BEGIN / COMMIT.
 - **Reality Ledger gaps are execution backlog, not commentary** — every disclosed gap must immediately create/trigger a hunt action unless already hard-blocked.
 - **Unavailable local/tool access is not an exit** — when direct tools are unavailable, route the task to Bridge/GitHub/registry execution paths and record the handoff/receipt; only classify BLOCKED after bridge path is attempted or proven unavailable.
-- **No human return loop for ordinary gaps** — do not stop at “not yet validated”, “not yet audited”, “not yet researched”, or “tool unavailable”; inspect, delegate, queue, or recover automatically.
+- **No human return loop for ordinary gaps** — do not stop at "not yet validated", "not yet audited", "not yet researched", or "tool unavailable"; inspect, delegate, queue, or recover automatically.
 - **Stale truth is operational failure** — any status register, gap table, issue board, command-centre widget, or house-rule row older than its freshness SLA must be treated as suspect, not trusted.
 - **A green runtime must automatically close or downgrade stale red records** — health evidence outranks old manually-entered status text.
 - **No stale operational memory execution** — agents with stale instructions may read, refresh, and reconcile only; they may not mutate operational state until the refresh gate passes or records a BLOCKED fallback.
+- **One permission per session** — do not re-prompt within the granted scope (see §3.4). Hard-boundary actions are exempt and remain explicit.
+- **Build on existing schema, not parallel substrates** — before creating new schemas/tables for "runtime / events / governance / memory", check `information_schema` against `core`, `runtime`, `ops`, `audit`, `agoe`. Duplication is a violation, not a feature.
 
 ---
 
@@ -276,7 +345,7 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 13. `troy-sql-executor` masks `RETURNING` on INSERT/UPDATE — response is `{count: 1, rows: []}` even when rows exist. **Always verify writes via PostgREST direct read** (`/rest/v1/<table>?...`) — never trust the executor's silent `rows:[]` to mean "no row was written".
 14. `t4h_canonical_changes` is **23 cols**, not the 6 implied by older docs. NOT-NULL = `change_type, title, summary, affected, author, broadcast_to, broadcast_ok, severity` — missing any → 23514. `affected` and `broadcast_to` are `text[]` arrays. Use `memory_key` as the natural idempotency key (NOT EXISTS guard).
 15. `fn_github_push` is **7 args**, not 5. The two trailing defaults — `p_caller_llm`, `p_caller_session` — must always be passed for attribution. Calls without them log `unknown` and lose the cross-LLM trail.
-16. Reality Ledger “gaps” are not passive output. Each gap must have `attempted_action`, `delegated_bridge_action`, `receipt_or_blocker`, and `next_loop`. A gap with no hunt action is a failed response.
+16. Reality Ledger "gaps" are not passive output. Each gap must have `attempted_action`, `delegated_bridge_action`, `receipt_or_blocker`, and `next_loop`. A gap with no hunt action is a failed response.
 17. Gap/status registers without `last_checked_at`, `evidence_ref`, `freshness_sla_hours`, `next_probe_at`, and `owner_runtime` are non-compliant and must be treated as PARTIAL.
 18. A CRITICAL/DOWN row older than 24h with no fresh probe is not a valid fact; it is an overdue incident and must alert.
 19. A service marked DOWN must have an active probe, incident, or blocker. If the latest probe returns UP, the stale DOWN row must be corrected in the same loop and logged.
@@ -284,6 +353,9 @@ S1 = `lzfgigiyqpuuxslsygjt` (writes). S2 = `pflisxkcxbzboxwidywf` (**read-only**
 21. Private GitHub code search may return no results when repos are unindexed. Empty search is not evidence of absence. Fetch known paths directly before concluding missing.
 22. Any agent operating on 20-day-old operational memory is unsafe by default. It must enter refresh-only mode until canonical instructions and live status are reloaded.
 23. Open sessions are not exempt from drift. Every still-open session must pass the daily refresh gate before continuing operational work.
+24. **Re-asking permission within an already-granted session scope** is a Tier-LOG rule violation (see §3.4). Hard-boundary actions remain explicit; everything else inherits scope.
+25. **Proposing to "deploy a runtime substrate"** without first probing `core`, `runtime`, `ops`, `audit`, `agoe` schemas in S1 is a duplication risk. The substrate already exists at substantial scale; new builds extend it, never parallel it.
+26. **Bridge payloads committed to TML-4PM/the-pen/bridge-payloads/** are PARTIAL until registered in `ops.bridge_payload_registry` AND receipted in `public.t4h_canonical_changes`. A JSON commit alone is not a payload deployment.
 
 ---
 
