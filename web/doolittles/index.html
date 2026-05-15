@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doolittles by Synal — One command. Every surface. Every system.</title>
+  <meta name="description" content="Doolittles turns one instruction into coordinated action across people, agents, tools, devices and systems — with proof you can see." />
+  <style>
+    :root {
+      --bg: #f7fbff;
+      --ink: #071827;
+      --muted: #5d7184;
+      --line: rgba(7,24,39,.12);
+      --card: rgba(255,255,255,.78);
+      --cyan: #0aaee8;
+      --blue: #2357ff;
+      --mint: #20d6a3;
+      --gold: #e0aa3e;
+      --navy: #081827;
+      --shadow: 0 24px 80px rgba(28,66,110,.16);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(32,214,163,.20), transparent 28%),
+        radial-gradient(circle at 88% 8%, rgba(35,87,255,.18), transparent 30%),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 52%, #eef7ff 100%);
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(255,255,255,.74);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
+    .mark {
+      width: 36px; height: 36px; border-radius: 12px;
+      background: conic-gradient(from 180deg, var(--cyan), var(--blue), var(--mint), var(--cyan));
+      box-shadow: 0 10px 30px rgba(10,174,232,.28);
+    }
+    .nav-links { display: flex; gap: 18px; color: var(--muted); font-size: 14px; }
+    .pill {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border: 1px solid var(--line); border-radius: 999px; padding: 10px 16px;
+      background: rgba(255,255,255,.7); box-shadow: 0 8px 30px rgba(28,66,110,.06);
+      font-weight: 700;
+    }
+    .hero { max-width: 1180px; margin: 0 auto; padding: 76px 24px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
+    .eyebrow { color: #0077aa; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; margin-bottom: 18px; }
+    h1 { font-size: clamp(48px, 8vw, 92px); line-height: .9; letter-spacing: -.08em; margin: 0 0 24px; }
+    .lead { font-size: clamp(19px, 2vw, 25px); color: var(--muted); line-height: 1.42; max-width: 650px; margin: 0 0 28px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 30px; }
+    .primary { background: var(--ink); color: white; border-color: transparent; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 14px; }
+    .metrics span { background: rgba(255,255,255,.72); border: 1px solid var(--line); padding: 9px 12px; border-radius: 999px; }
+    .demo-card { position: relative; background: rgba(255,255,255,.76); border: 1px solid var(--line); border-radius: 34px; padding: 24px; box-shadow: var(--shadow); overflow: hidden; }
+    .demo-card:before { content: ""; position: absolute; inset: -90px -70px auto auto; width: 260px; height: 260px; border-radius: 50%; background: rgba(10,174,232,.18); filter: blur(8px); }
+    .command { position: relative; border-radius: 24px; background: var(--navy); color: white; padding: 24px; box-shadow: 0 20px 60px rgba(8,24,39,.22); }
+    .command small { color: #8ee9ff; text-transform: uppercase; letter-spacing: .12em; font-weight: 800; }
+    .command p { font-size: 24px; line-height: 1.25; margin: 12px 0 0; font-weight: 800; letter-spacing: -.03em; }
+    .system-grid { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .system { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 15px; backdrop-filter: blur(16px); }
+    .system b { display: block; margin-bottom: 5px; }
+    .system span { color: var(--muted); font-size: 13px; line-height: 1.35; display: block; }
+    .ok { color: #008a62; font-weight: 900; }
+    .section { max-width: 1180px; margin: 0 auto; padding: 70px 24px; }
+    .section h2 { font-size: clamp(34px, 5vw, 58px); line-height: .98; letter-spacing: -.06em; margin: 0 0 16px; }
+    .section-lead { color: var(--muted); font-size: 20px; line-height: 1.5; max-width: 760px; margin-bottom: 34px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 26px; padding: 24px; box-shadow: 0 16px 50px rgba(28,66,110,.08); }
+    .card h3 { font-size: 23px; letter-spacing: -.04em; margin: 0 0 8px; }
+    .card p { color: var(--muted); line-height: 1.55; margin: 0; }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 28px; }
+    .step { background: white; border: 1px solid var(--line); border-radius: 22px; padding: 18px; min-height: 120px; position: relative; box-shadow: 0 12px 36px rgba(28,66,110,.06); }
+    .step strong { display: block; font-size: 15px; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: 13px; line-height: 1.45; margin: 0; }
+    .dark { background: #071827; color: white; border-radius: 36px; padding: 42px; box-shadow: var(--shadow); }
+    .dark p, .dark .section-lead { color: #a7bfd5; }
+    .ledger { display: grid; gap: 10px; margin-top: 24px; }
+    .ledger-row { display: grid; grid-template-columns: 1.2fr .8fr .8fr .8fr; gap: 10px; padding: 14px; border-radius: 16px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); font-size: 14px; }
+    .tag { color: #82ffc9; font-weight: 900; }
+    .script { white-space: pre-wrap; background: #ffffff; border: 1px solid var(--line); border-radius: 24px; padding: 24px; color: #24384a; line-height: 1.55; }
+    footer { text-align: center; color: var(--muted); padding: 44px 24px 70px; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 48px; }
+      .cards, .flow { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .system-grid { grid-template-columns: 1fr; }
+      .ledger-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top"><span class="mark"></span><span>Doolittles</span></a>
+      <nav class="nav-links">
+        <a href="#demo">Demo</a>
+        <a href="#synal">Synal</a>
+        <a href="#proof">Proof</a>
+        <a href="#video">Video</a>
+      </nav>
+      <a class="pill primary" href="#demo">See work move</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Doolittles by Synal</div>
+        <h1>Systems don’t wait anymore.</h1>
+        <p class="lead">Doolittles turns one instruction into coordinated action across people, agents, tools, devices and systems — with proof you can see.</p>
+        <div class="cta-row">
+          <a class="pill primary" href="#demo">Watch the orchestration</a>
+          <a class="pill" href="#video">Use the promo script</a>
+        </div>
+        <div class="metrics">
+          <span>One command</span>
+          <span>Every surface</span>
+          <span>Every system</span>
+          <span>Evidence attached</span>
+        </div>
+      </div>
+
+      <div class="demo-card" id="demo">
+        <div class="command">
+          <small>Command received</small>
+          <p>“Due to rising fuel costs, we are restructuring. Prepare the organisation.”</p>
+        </div>
+        <div class="system-grid">
+          <div class="system"><b><span class="ok">✓</span> Finance</b><span>Cost model recalibrated. Budget scenarios prepared.</span></div>
+          <div class="system"><b><span class="ok">✓</span> HR</b><span>Workforce modelling updated. Support pathways drafted.</span></div>
+          <div class="system"><b><span class="ok">✓</span> Comms</b><span>Team announcements created and channel-ready.</span></div>
+          <div class="system"><b><span class="ok">✓</span> Meetings</b><span>Executive briefing scheduled. Stakeholders mapped.</span></div>
+          <div class="system"><b><span class="ok">✓</span> AI Agents</b><span>Tasks created. Progress tracking engaged.</span></div>
+          <div class="system"><b><span class="ok">✓</span> Proof</b><span>Reality Ledger updated. Evidence attached.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Most assistants answer. Doolittles coordinates.</h2>
+      <p class="section-lead">Siri, Alexa and copilots can respond to prompts. Organisations need something harder: translation, routing, continuity, evidence and replay across messy real systems.</p>
+      <div class="cards">
+        <div class="card"><h3>Talk naturally</h3><p>Use human language. Doolittles extracts intent, audience, urgency, dependencies and proof requirements.</p></div>
+        <div class="card"><h3>Work packets appear</h3><p>One command becomes structured work across finance, HR, IT, comms, operations and agent lanes.</p></div>
+        <div class="card"><h3>Proof remains visible</h3><p>Each action carries owner, state, source, evidence and replay history. No green theatre.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="synal">
+      <h2>Underneath is Synal.</h2>
+      <p class="section-lead">Doolittles is the experience layer. Synal is the orchestration runtime: signals, snaps, pulse, focus, flows and memory across every surface.</p>
+      <div class="flow">
+        <div class="step"><strong>1. Signal</strong><p>Something changes: a command, a risk, a meeting, a market shift.</p></div>
+        <div class="step"><strong>2. Intent</strong><p>Doolittles translates the signal into operational meaning.</p></div>
+        <div class="step"><strong>3. Work</strong><p>Synal creates tasks, queues, agents and system updates.</p></div>
+        <div class="step"><strong>4. Evidence</strong><p>Outputs are tied to proof, owner, timestamp and dependencies.</p></div>
+        <div class="step"><strong>5. Replay</strong><p>The organisation can see what happened, why, and what remains.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="proof">
+      <div class="dark">
+        <h2>Proof, not promises.</h2>
+        <p class="section-lead">The demo should never just look complete. Every action must carry runtime state and evidence.</p>
+        <div class="ledger">
+          <div class="ledger-row"><strong>Action</strong><strong>Status</strong><strong>Evidence</strong><strong>Ledger</strong></div>
+          <div class="ledger-row"><span>Executive briefing</span><span>Complete</span><span>Deck v1</span><span class="tag">REAL</span></div>
+          <div class="ledger-row"><span>HR impact map</span><span>Executing</span><span>Model draft</span><span class="tag">PARTIAL</span></div>
+          <div class="ledger-row"><span>Legal review</span><span>Waiting</span><span>Authority required</span><span>BLOCKED</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="video">
+      <h2>Promo video script.</h2>
+      <p class="section-lead">Use this as the first HeyGen or ElevenLabs cut. Keep it cinematic, clean and quick.</p>
+      <div class="script">Dr Doolittle could talk to animals.
+
+Doolittles talks to the machines — and the people, teams and systems around them.
+
+Most assistants answer questions.
+
+Doolittles coordinates outcomes.
+
+One instruction becomes work packets, system updates, communications, evidence and replay.
+
+You say: “Prepare the organisation.”
+
+Finance recalculates. HR plans. Teams are briefed. Meetings are scheduled. Agents start work. Proof is attached.
+
+You talk once.
+
+Work moves everywhere.
+
+Doolittles by Synal.
+
+One command. Every surface. Every system.</div>
+    </section>
+  </main>
+
+  <footer>
+    Tech4Humanity · Synal · Doolittles · Human systems helping humans thrive
+  </footer>
+</body>
+</html>
