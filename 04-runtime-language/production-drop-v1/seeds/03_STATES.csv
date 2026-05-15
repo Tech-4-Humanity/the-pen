@@ -1,0 +1,14 @@
+id,state,kind,description
+state_received,received,intake,Task accepted by intake.
+state_normalised,normalised,intake,Task converted to canonical shape.
+state_compiled,compiled,plan,Executable plan created.
+state_posted,posted,execution,Artifact or instruction posted to target surface.
+state_executed,executed,execution,Runtime completed action.
+state_validated,validated,validation,Evidence checked against expectation.
+state_evidenced,evidenced,evidence,Receipt written.
+state_closed_for_operator,closed_for_operator,closure,Operator handed off.
+state_closed_for_bridge,closed_for_bridge,closure,Bridge ingested with receipt.
+state_closed_for_runtime,closed_for_runtime,closure,Runtime executed with evidence.
+state_closed_for_human,closed_for_human,closure,Human-visible status exists.
+state_blocked,blocked,exception,Blocked by authority credentials legal destructive or safety gate.
+state_failed,failed,exception,Execution failed with classification FAIL.
