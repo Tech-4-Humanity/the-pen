@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TML-4PM/the-pen/programs/red-line-control-plane/receipt_lifecycle_v2.schema.json",
+  "title": "T4H Receipt Lifecycle v2",
+  "type": "object",
+  "required": [
+    "receipt_id",
+    "receipt_type",
+    "direction",
+    "system",
+    "job_key",
+    "status",
+    "reality_state",
+    "created_at_utc",
+    "evidence"
+  ],
+  "properties": {
+    "receipt_id": { "type": "string" },
+    "parent_receipt_id": { "type": ["string", "null"] },
+    "receipt_type": {
+      "type": "string",
+      "enum": ["dispatch", "acceptance", "implementation", "runtime", "closure", "blocker", "repair", "probe"]
+    },
+    "direction": { "type": "string", "enum": ["outbound", "inbound", "internal"] },
+    "system": { "type": "string" },
+    "job_key": { "type": "string" },
+    "source_repository": { "type": ["string", "null"] },
+    "target_repository": { "type": ["string", "null"] },
+    "actor": { "type": "string" },
+    "sender": { "type": ["string", "null"] },
+    "receiver": { "type": ["string", "null"] },
+    "status": { "type": "string", "enum": ["ACTIVE", "SUPERSEDED", "BLOCKED", "COMPLETE", "FAILED"] },
+    "reality_state": { "type": "string", "enum": ["REAL", "PARTIAL", "BLOCKED", "FAILED"] },
+    "execution_path": { "type": ["string", "null"] },
+    "commits": { "type": "array", "items": { "type": "string" } },
+    "files": { "type": "array", "items": { "type": "string" } },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "value"],
+        "properties": {
+          "type": { "type": "string" },
+          "value": { "type": "string" },
+          "hash_sha256": { "type": ["string", "null"] },
+          "url": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "executed": { "type": "boolean" },
+        "probe_name": { "type": ["string", "null"] },
+        "result_summary": { "type": ["string", "null"] },
+        "raw_result_ref": { "type": ["string", "null"] }
+      }
+    },
+    "repair": {
+      "type": "object",
+      "properties": {
+        "error_type": { "type": ["string", "null"] },
+        "repair_agent": { "type": ["string", "null"] },
+        "repair_status": { "type": ["string", "null"], "enum": ["queued", "running", "repaired", "blocked", "failed", "needs_human", "closed", null] },
+        "safe_to_auto_run": { "type": ["boolean", "null"] },
+        "attempt_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "created_at_utc": { "type": "string" },
+    "updated_at_utc": { "type": ["string", "null"] },
+    "search_tags": { "type": "array", "items": { "type": "string" } }
+  }
+}
