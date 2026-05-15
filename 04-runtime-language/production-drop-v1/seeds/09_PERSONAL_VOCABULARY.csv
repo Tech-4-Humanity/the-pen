@@ -1,0 +1,12 @@
+id,profile,term,canonical,confidence
+pv_troy_done,troy,done,operator_complete,0.91
+pv_troy_close,troy,close,closure_advance_to_highest_available,0.95
+pv_troy_finish,troy,finish,execute_and_close,0.96
+pv_troy_no_hitl,troy,no hitl,autonomous_execution_allowed,0.98
+pv_troy_wrap,troy,wrap,closure_advance,0.94
+pv_troy_sorted,troy,sorted,validated,0.82
+pv_troy_take_your_time,troy,take your time,careful_audit_grade_execution,0.93
+pv_troy_build_program,troy,build the program,full_production_drop_required,0.97
+pv_troy_get_receipt,troy,get receipt,obtain_typed_evidence,0.96
+pv_troy_make_it_real,troy,make it real,produce_executable_artifact_with_runtime_evidence,0.97
+pv_troy_finish_it,troy,finish it,close_to_highest_available_with_evidence,0.97
