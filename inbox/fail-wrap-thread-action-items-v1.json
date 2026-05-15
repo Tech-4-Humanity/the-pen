@@ -1,0 +1,61 @@
+{
+  "idempotency_key": "fail-wrap-thread-action-items-v1",
+  "action": "bridge_execute_or_fail_thread_action_items",
+  "mode": "AUTO_NO_HITL",
+  "classification": "FAIL_WRAP",
+  "evidence_required": true,
+  "failure_summary": "Pen inbox commits are real, but no GitHub Actions workflow runs were observed for inbox commits even after adding a smoke workflow and posting a smoke-test payload. Receipt generation and runtime execution remain absent. This is a FAIL until bridge/runtime worker completes execution and writes receipts.",
+  "observed_evidence": {
+    "asset_matrix_payload_commit": "c4770851ea55493ead859bea7e7a087106f5f6d0",
+    "living_cognition_template_payload_commit": "877691837c02e998073ae4cc80915375e43dbf09",
+    "smoke_workflow_commit": "a4f1219de4f28769b619e609d58674c7a734cede",
+    "smoke_test_payload_commit": "617a48c43696f86ad9c32a263890571251bd207c",
+    "workflow_runs_for_smoke_test_commit": 0,
+    "receipt_search_result": "none visible"
+  },
+  "required_bridge_job": {
+    "title": "Complete asset matrix and living cognition template publication with receipts",
+    "priority": "P0",
+    "no_hitl": true,
+    "tasks": [
+      "Verify GitHub Actions are enabled and allowed to run in TML-4PM/the-pen",
+      "Repair or replace Pen inbox runner so inbox/*.json payloads are consumed",
+      "Execute asset-matrix-activation-v1 payload",
+      "Patch master asset matrix component with dataType, parent, SIM-RELATIONAL row, spec weight 0, isPublishable flag",
+      "Generate Supabase schema for research.study_registry, research.study_assets, research.study_asset_matrix_runs and evidence bindings",
+      "Generate idempotent insert/upsert scripts for study registry and assets",
+      "Generate dashboard query layer for readiness, gaps, publishability and data-type separation",
+      "Generate work_queue items from missing/partial/spec assets",
+      "Bind study_registry rows to audit.evidence_register where available",
+      "Create or schedule nightly readiness recalculation if runtime supports scheduling",
+      "Publish living cognition infrastructure template artifacts to GitHub artifact paths",
+      "Publish manifest.json with hashes for PPTX, DOCX, PDF, and source image",
+      "Run render/check validation for PDF/template assets",
+      "Write receipts/runtime/asset-matrix-activation-v1.json",
+      "Write receipts/runtime/living-cognition-template-publish-v1.json",
+      "Write receipts/runtime/fail-wrap-thread-action-items-v1.json",
+      "Report final REAL/PARTIAL/FAIL classification with commit SHAs and file hashes"
+    ],
+    "must_not": [
+      "Mark complete without runtime receipt",
+      "Aggregate SIMULATED participant counts with EMPIRICAL counts",
+      "Count DERIVED rows as independent datasets unless parent/source declared",
+      "Delete archive/history"
+    ]
+  },
+  "receipt_expected": {
+    "path_prefix": "receipts/runtime/",
+    "must_include": [
+      "idempotency_key",
+      "runtime_worker",
+      "execution_status",
+      "files_changed",
+      "artifact_hashes",
+      "supabase_status",
+      "work_queue_status",
+      "evidence_register_status",
+      "failures_remaining",
+      "reality_classification"
+    ]
+  }
+}
