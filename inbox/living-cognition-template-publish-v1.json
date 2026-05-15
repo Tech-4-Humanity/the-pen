@@ -1,8 +1,10 @@
 {
-  "idempotency_key": "living-cognition-template-publish-v1",
+  "idempotency_key": "living-cognition-template-publish-v1-replay-20260515",
+  "replays": "living-cognition-template-publish-v1",
   "action": "publish_latest_work_to_github_and_request_receipt",
   "mode": "AUTO",
   "evidence_required": true,
+  "replay_reason": "Bridge tools fixed; force inbox path trigger after pen-inbox-dispatch workflow was added.",
   "source_assets": [
     "living_cognition_infrastructure_template.pptx",
     "living_cognition_infrastructure_template.docx",
@@ -38,6 +40,5 @@
       "render_check_status",
       "reality_classification"
     ]
-  },
-  "note": "A prior Pen payload exists for asset-matrix-activation-v1 with commit c4770851ea55493ead859bea7e7a087106f5f6d0, but no downstream runtime receipt was visible when checked. This request attempts another receipt for the latest work."
+  }
 }
