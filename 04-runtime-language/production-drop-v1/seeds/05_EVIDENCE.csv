@@ -1,0 +1,11 @@
+id,evidence_type,description,valid_for
+ev_api_response,api_response,HTTP response body and status,bridge|runtime
+ev_db_result,db_result,Query result with row counts,runtime
+ev_cli_output,cli_output,Command-line invocation output,operator|bridge
+ev_commit_id,commit_id,Git commit SHA,operator
+ev_url,url,Human-visible URL,human
+ev_receipt,receipt,Typed receipt object,bridge|runtime
+ev_runtime_hash,runtime_hash,Hash of runtime artifact,runtime
+ev_telemetry_snapshot,telemetry_snapshot,Telemetry stream sample,runtime
+ev_execution_trace,execution_trace,Trace of executed steps,runtime
+ev_recovery_log,recovery_log,Recovery attempt record,runtime
