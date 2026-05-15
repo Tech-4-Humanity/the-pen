@@ -1,8 +1,8 @@
 {
-  "ts": "2026-05-15T13:10:47.360Z",
-  "passed": 5,
+  "ts": "2026-05-15T15:09:43.194Z",
+  "passed": 0,
   "failed": 0,
-  "skipped": 69,
+  "skipped": 75,
   "results": [
     {
       "file": "ace-bootstrap-20260429-0001.json",
@@ -139,8 +139,7 @@
     {
       "file": "daily-brief-v2-retry-2026-04-26-002.json",
       "key": "daily-brief-v2-retry-2026-04-26-002",
-      "status": "PASS",
-      "job_id": "cacfebe9-098a-48b4-b255-65e6776f56a3"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "data-extract-insight-action-20260504.json",
@@ -187,8 +186,7 @@
     {
       "file": "launch-system-bootstrap-2026-04-27-001.json",
       "key": "launch-system-bootstrap-2026-04-27-001",
-      "status": "PASS",
-      "job_id": "3010c297-b9c5-4f10-9e3b-1c59d7ef0ac2"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "living-cognition-template-publish-v1.json",
@@ -223,8 +221,7 @@
     {
       "file": "pen-runtime-operational-stack-live-20260515.json",
       "key": "pen-runtime-operational-stack-live-20260515",
-      "status": "PASS",
-      "job_id": "7a0398dd-ea7a-4298-9086-35abba67e460"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "pen-signal-loop-worker-bundle-20260429-001.json",
@@ -323,6 +320,12 @@
       "reason": "unknown fn: undefined"
     },
     {
+      "file": "signal-synal-browser-place-setup-v1.json",
+      "key": "signal-synal-browser-place-setup-v1",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    },
+    {
       "file": "signals-expansion-2026-04-29-001.json",
       "key": "signals-expansion-2026-04-29-001",
       "status": "SKIPPED",
@@ -367,8 +370,7 @@
     {
       "file": "synal-backbone-pack-v1.json",
       "key": "synal-backbone-pack-v1",
-      "status": "PASS",
-      "job_id": "42133eb8-2af0-49db-8222-b5a4796abf7d"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "synal-place-of-places-sticky-entry-20260429-001.json",
@@ -409,8 +411,7 @@
     {
       "file": "t4h-rd-tax-fy23-fy25-supabase-maat-factors-reconstruction-20260512.json",
       "key": "t4h-rd-tax-fy23-fy25-supabase-maat-factors-reconstruction-20260512",
-      "status": "PASS",
-      "job_id": "eb15d334-c649-40cf-af56-3712bdcfd6a2"
+      "status": "SKIP_IDEMPOTENT"
     },
     {
       "file": "thrivingkids-commercial-ops-pack-20260512.json",
