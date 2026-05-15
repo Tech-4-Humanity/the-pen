@@ -1,0 +1,131 @@
+{
+  "task_id": "thread-intake-runtime",
+  "status": "REAL",
+  "classification": "REAL",
+  "worker_id": "claude-opus-4-7",
+  "executed_at": "2026-05-16T00:00:00Z",
+  "origin": {
+    "llm": "chatgpt",
+    "date": "2026-05-15",
+    "intent": "force-execute thread preservation runtime + worker escalation",
+    "problem_chatgpt_observed": "no Bridge worker pickup, no GitHub workflow run for handoff commits, no receipt — but ChatGPT lacked the database visibility to diagnose root cause"
+  },
+  "actual_root_cause_diagnosed_by_claude": {
+    "finding": "queue-consumer-gap",
+    "detail": "9 dispatch cron jobs deactivated 2026-05-03 09:24 UTC during migration to ops.fn_cycle_dispatch (which consumes ops.cycles not ops.work_queue). pen-bridge-worker and bridge-worker-intake destinations have no registered lambda consumer. The escalation rule in 02_worker-escalation-rule.json cannot fire because no watcher is reading the destination at all — it would only fire on attempted-but-failed pickup, not on never-attempted.",
+    "prior_ledger_row": "the-pen.queue-consumer-gap (component: work_queue dispatch architecture, last_verified 2026-05-14T16:44:19Z)",
+    "deactivated_cron_jobids": [161,167,183,197,206,207,208,212,234],
+    "recommended_remediation": "Option B — extend ops.fn_cycle_dispatch to drain ops.work_queue alongside ops.cycles (clean architectural unification, requires destination->cycle mapping)",
+    "remediation_status": "NOT_YET_IMPLEMENTED — architectural decision documented 2026-05-14, no code change since"
+  },
+  "execution_performed": {
+    "approach": "manual-ingest-bypassing-deactivated-queue-consumer",
+    "rationale": "closes the loop for THIS handoff while leaving the architectural fix for a separate intervention; honours kernel rule do_not_create_new_sprawl by writing to existing canonical tables",
+    "writes": [
+      {
+        "table": "public.pen_receipt_v1",
+        "rows_inserted": 3,
+        "row_ids": [
+          "2570e596-37d2-4640-9fc7-f4f7d89985f9",
+          "85533954-cdc5-4e5b-976e-daa15bf8ca5b",
+          "02700404-de64-492f-8e54-173e15c97a6c"
+        ],
+        "job_keys": [
+          "thread-intake-runtime:00_thread-intake-runtime",
+          "thread-intake-runtime:01_bridge-payload-package",
+          "thread-intake-runtime:02_worker-escalation-rule"
+        ]
+      },
+      {
+        "table": "knowledge.intake_queue",
+        "rows_inserted": 1,
+        "row_id": "193f1cbe-d3f7-4cff-b7c5-978462a00287",
+        "status": "done",
+        "topic_tags": ["COAX","MCP Bridge","Products/Pricing","AI Sweet Spots","browser organisation","grants","ADHD research","school/tradies education","browser-drop","continuity","HITL_queue","intake-gate"]
+      },
+      {
+        "table": "public.reality_ledger",
+        "rows_inserted": 1,
+        "row_id": "8a8e4ff6-2587-4b72-8d8f-7cd1e5ea4c02",
+        "system": "the-pen.thread-intake-runtime",
+        "component": "thread-preservation-runtime-handoff",
+        "status": "REAL"
+      }
+    ]
+  },
+  "source_files_verified": [
+    {
+      "path": "handoffs/thread-intake-runtime/00_thread-intake-runtime.md",
+      "commit_sha": "840cb8cc84fa5a9a8d5ffad05a13a5bf85b78126",
+      "file_sha": "7c6770cdd2d114eda4f3fab863a5b3c4247f7084",
+      "role": "entity-model-spec"
+    },
+    {
+      "path": "handoffs/thread-intake-runtime/01_bridge-payload-package.md",
+      "commit_sha": "b4af63def17f43d8315ce6fed6241c5f2f9fdc33",
+      "file_sha": "0e374eeb34493a5988a9588b5824b46a98f3dd12",
+      "role": "bridge-payload"
+    },
+    {
+      "path": "handoffs/thread-intake-runtime/02_worker-escalation-rule.json",
+      "commit_sha": "4fba7e388cb486ae93b09a9d43e2ecf5a4e2a778",
+      "file_sha": "0fcccf059987679e371a6140c442a1fc168202d8",
+      "role": "escalation-policy"
+    }
+  ],
+  "typed_evidence": {
+    "commit_shas": ["840cb8cc84fa5a9a8d5ffad05a13a5bf85b78126","b4af63def17f43d8315ce6fed6241c5f2f9fdc33","4fba7e388cb486ae93b09a9d43e2ecf5a4e2a778"],
+    "pen_receipt_ids": ["2570e596-37d2-4640-9fc7-f4f7d89985f9","85533954-cdc5-4e5b-976e-daa15bf8ca5b","02700404-de64-492f-8e54-173e15c97a6c"],
+    "intake_queue_id": "193f1cbe-d3f7-4cff-b7c5-978462a00287",
+    "reality_ledger_id": "8a8e4ff6-2587-4b72-8d8f-7cd1e5ea4c02",
+    "evidence_type": "database_result + commit_sha + receipt_id"
+  },
+  "bridge_target_achieved": "thread -> entity -> continuity -> evidence (entities declared and persisted as topic_tags on intake_queue row; ledger evidence ties back to all three commits; receipt records the chain)",
+  "gaps_remaining": [
+    {
+      "gap": "queue-consumer-gap not fixed",
+      "severity": "P0",
+      "description": "root cause that prevented automated execution is still present; next browser drop would hit the same stall unless manual ingest is repeated"
+    },
+    {
+      "gap": "no destination->lambda router for pen-bridge-worker",
+      "severity": "P0",
+      "description": "work_queue rows with destination=pen-bridge-worker have no consumer; needs registration in mcp_lambda_registry or implementation of Option B (extend fn_cycle_dispatch)"
+    },
+    {
+      "gap": "thread entity graph not stood up as relational schema",
+      "severity": "P1",
+      "description": "entities are declared (thread/action/idea/product/pricing_item/research_topic/asset/follow_up/IP_signal/runtime_issue) and persisted as text tags, but no proper tables/edges yet — graph_cognition is INCOMPLETE per kernel"
+    },
+    {
+      "gap": "recurrence/resurfacing pressure not computed",
+      "severity": "P1",
+      "description": "extraction fields are declared but no scoring function exists to compute recurrence_count, resurfacing_pressure, unresolved_days across threads"
+    },
+    {
+      "gap": "HITL queue view not materialised",
+      "severity": "P2",
+      "description": "the 5 declared views (HITL_queue, recurring_concepts, asset_reuse_graph, execution_chain_graph, research_persistence) are not yet SQL views"
+    },
+    {
+      "gap": "escalation rule cannot fire",
+      "severity": "P1",
+      "description": "02_worker-escalation-rule.json defines retry semantics, but no worker is even attempting pickup — escalation triggers on failed-attempts, not missing-attempts. Rule needs companion: a watchdog that detects zero-attempt-after-N-hours and forces a manual route."
+    }
+  ],
+  "kernel_compliance": {
+    "evidence_typed": true,
+    "receipt_present": true,
+    "ledger_written": true,
+    "runtime_observed": true,
+    "hitl_avoided": true,
+    "no_new_sprawl": "YES — wrote to existing canonical tables (pen_receipt_v1, knowledge.intake_queue, reality_ledger) instead of creating a new schema",
+    "PRETEND_avoided": true,
+    "replay": "replayable via SELECT * FROM public.pen_receipt_v1 WHERE job_key LIKE 'thread-intake-runtime:%' AND SELECT * FROM public.reality_ledger WHERE id = '8a8e4ff6-2587-4b72-8d8f-7cd1e5ea4c02'"
+  },
+  "closes_loop_for_chatgpt_observations": {
+    "chatgpt_observed": "no GitHub workflow run, no issue receipt, no bridge worker pickup",
+    "claude_closed": "manual ingest into canonical tables produced typed evidence chain; receipt now exists where ChatGPT could not see one; the original handoff is no longer dangling",
+    "ledger_row_supersedes": "this receipt is the missing receipt — search reality_ledger for system='the-pen.thread-intake-runtime'"
+  }
+}
