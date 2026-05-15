@@ -1,0 +1,76 @@
+name: ccp-deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'connector-control-plane/**'
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'synth | diff | deploy'
+        required: true
+        default: 'synth'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  cdk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: connector-control-plane/cdk
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install
+        run: npm install
+
+      - name: TypeScript typecheck
+        run: npx tsc --noEmit
+
+      - name: Configure AWS via OIDC
+        if: ${{ github.event.inputs.stage != 'synth' || github.event_name == 'push' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::140548542136:role/gha-ccp-deploy
+          aws-region: ap-southeast-2
+
+      - name: CDK synth
+        run: npx cdk synth --all
+
+      - name: CDK diff
+        if: ${{ github.event.inputs.stage == 'diff' || github.event_name == 'push' }}
+        run: npx cdk diff --all || true
+
+      - name: CDK deploy
+        if: ${{ github.event.inputs.stage == 'deploy' }}
+        run: npx cdk deploy --all --require-approval never
+
+      - name: Emit deployment receipt
+        if: success() && github.event.inputs.stage == 'deploy'
+        run: |
+          cat > deploy-receipt.json <<EOF
+          {
+            "state": "REAL",
+            "intent": "ccp.deploy",
+            "commit": "${GITHUB_SHA}",
+            "run_id": "${GITHUB_RUN_ID}",
+            "actor": "${GITHUB_ACTOR}",
+            "finished_at": "$(date -u +%FT%TZ)"
+          }
+          EOF
+          cat deploy-receipt.json
+
+      - name: Upload receipt artifact
+        if: success() && github.event.inputs.stage == 'deploy'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccp-deploy-receipt
+          path: connector-control-plane/cdk/deploy-receipt.json
