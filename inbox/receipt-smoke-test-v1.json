@@ -1,0 +1,6 @@
+{
+  "idempotency_key": "receipt-smoke-test-v1",
+  "action": "smoke_test_pen_receipt_trigger",
+  "purpose": "Verify inbox push triggers workflow and writes receipt stub",
+  "expected_receipt": "receipts/runtime/receipt-smoke-test-v1.json"
+}
