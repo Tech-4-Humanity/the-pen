@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Connector Probe Runner — daily safe-probe executor for runtime.connector_probes.
+  Reads SCHEDULED rows from Supabase, runs read-only probes, writes back REAL/BLOCKED.
+  Source of truth: runtime.connector_probes in Supabase project lzfgigiyqpuuxslsygjt.
+  Aligns with TML-4PM/the-pen House Rules §11 (Supabase = system of record),
+  §17 (REAL/PARTIAL/BLOCKED only), §20 (archive-not-delete), §24 (transport-agnostic
+  receipt contract), §25 (re-fetch-by-ID discipline).
+  Authored: Claude Opus 4.7, 2026-05-15. Audit: connector-runtime-audit-2026-05-15.
+
+Parameters:
+  SupabaseUrl:
+    Type: String
+    Default: https://lzfgigiyqpuuxslsygjt.supabase.co
+    Description: Supabase project base URL (must include https://)
+  SupabaseSecretArn:
+    Type: String
+    Description: ARN of Secrets Manager secret containing JSON {"service_role_key":"..."}
+    AllowedPattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:secret:.+$
+  ConnectorSecretsArn:
+    Type: String
+    Description: >
+      ARN of Secrets Manager secret with connector credentials as JSON, e.g.
+      {"stripe_api_key":"...","canva_access_token":"...","spotify_client_id":"...","spotify_client_secret":"..."}
+    AllowedPattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:secret:.+$
+  ScheduleExpression:
+    Type: String
+    Default: cron(5 18 * * ? *)
+    Description: Daily 5 min after pg_cron job 'connector-probe-daily' (which runs at 18:00 UTC)
+  LogRetentionDays:
+    Type: Number
+    Default: 30
+    AllowedValues: [1, 3, 7, 14, 30, 60, 90, 180, 365]
+  AlertEmail:
+    Type: String
+    Default: troy@tech4humanity.com.au
+    Description: SNS subscription email for runner failures
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 120
+    MemorySize: 256
+    Architectures: [arm64]
+    Tracing: Active
+    Environment:
+      Variables:
+        SUPABASE_URL: !Ref SupabaseUrl
+        SUPABASE_SECRET_ARN: !Ref SupabaseSecretArn
+        CONNECTOR_SECRETS_ARN: !Ref ConnectorSecretsArn
+        LOG_LEVEL: INFO
+
+Resources:
+  ConnectorProbeRunnerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/connector-probe-runner
+      RetentionInDays: !Ref LogRetentionDays
+
+  ConnectorProbeRunnerFunction:
+    Type: AWS::Serverless::Function
+    DependsOn: ConnectorProbeRunnerLogGroup
+    Properties:
+      FunctionName: connector-probe-runner
+      CodeUri: ./lambda/
+      Handler: handler.lambda_handler
+      Description: Daily connector probe runner for runtime.connector_probes ledger
+      Policies:
+        - Statement:
+            - Sid: ReadSupabaseSecret
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: !Ref SupabaseSecretArn
+            - Sid: ReadConnectorSecrets
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: !Ref ConnectorSecretsArn
+      Events:
+        DailyTrigger:
+          Type: Schedule
+          Properties:
+            Schedule: !Ref ScheduleExpression
+            Name: connector-probe-runner-daily
+            Description: Fires 5 min after pg_cron enqueue, picks up SCHEDULED rows
+            Enabled: true
+      Tags:
+        owner: troy@tech4humanity.com.au
+        system: t4h
+        pillar: 01_MCP
+        category: TASK_OPS
+        invocation_pattern: EVENTBRIDGE
+        audit: connector-runtime-audit-2026-05-15
+
+  ConnectorProbeAlertsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: connector-probe-runner-alerts
+      DisplayName: Connector Probe Runner Alerts
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref AlertEmail
+
+  ConnectorProbeFailureAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: connector-probe-runner-errors
+      AlarmDescription: connector-probe-runner Lambda had errors in the last hour
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref ConnectorProbeRunnerFunction
+      Statistic: Sum
+      Period: 3600
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref ConnectorProbeAlertsTopic
+
+  ConnectorProbeNoInvocationsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: connector-probe-runner-stale
+      AlarmDescription: connector-probe-runner did not fire in the last 26 hours (expected daily)
+      Namespace: AWS/Lambda
+      MetricName: Invocations
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref ConnectorProbeRunnerFunction
+      Statistic: Sum
+      Period: 93600  # 26h
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+      AlarmActions:
+        - !Ref ConnectorProbeAlertsTopic
+
+Outputs:
+  FunctionArn:
+    Value: !GetAtt ConnectorProbeRunnerFunction.Arn
+    Export:
+      Name: ConnectorProbeRunnerArn
+  FunctionName:
+    Value: !Ref ConnectorProbeRunnerFunction
+  LogGroupName:
+    Value: !Ref ConnectorProbeRunnerLogGroup
+  AlertsTopicArn:
+    Value: !Ref ConnectorProbeAlertsTopic
