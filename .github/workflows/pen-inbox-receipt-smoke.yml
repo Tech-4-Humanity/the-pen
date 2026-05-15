@@ -1,0 +1,82 @@
+name: Pen Inbox Receipt Smoke
+
+on:
+  push:
+    paths:
+      - 'inbox/*.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  receipt-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect inbox payloads
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p receipts/runtime
+          files=$(git diff --name-only HEAD~1 HEAD | grep '^inbox/.*\.json$' || true)
+          if [ -z "$files" ]; then
+            files=$(find inbox -maxdepth 1 -type f -name '*.json' 2>/dev/null | sort || true)
+          fi
+          printf '%s\n' "$files" > /tmp/inbox_files.txt
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          cat /tmp/inbox_files.txt >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Write receipt stubs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess, datetime, hashlib
+          files = [l.strip() for l in pathlib.Path('/tmp/inbox_files.txt').read_text().splitlines() if l.strip()]
+          commit = subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip()
+          now = datetime.datetime.utcnow().replace(microsecond=0).isoformat() + 'Z'
+          outdir = pathlib.Path('receipts/runtime')
+          outdir.mkdir(parents=True, exist_ok=True)
+          for f in files:
+              p = pathlib.Path(f)
+              raw = p.read_bytes()
+              try:
+                  payload = json.loads(raw.decode('utf-8'))
+              except Exception as e:
+                  payload = {'parse_error': str(e)}
+              key = payload.get('idempotency_key') or p.stem
+              receipt = {
+                  'idempotency_key': key,
+                  'source_path': f,
+                  'source_sha256': hashlib.sha256(raw).hexdigest(),
+                  'commit_sha': commit,
+                  'receipt_type': 'SMOKE_RECEIPT_ONLY',
+                  'status': 'RECEIVED_NOT_EXECUTED',
+                  'reality_classification': 'PARTIAL',
+                  'created_at': now,
+                  'fail_reason': 'Inbox payload was committed but no runtime worker was observed. This smoke workflow proves trigger/receipt path only; bridge/runtime execution still required.',
+                  'required_next': 'Route payload to bridge/runtime worker, publish artifacts or apply requested changes, then replace with execution receipt.'
+              }
+              (outdir / f'{key}.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          PY
+
+      - name: Commit receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- receipts/runtime; then
+            echo 'No receipt changes.'
+            exit 0
+          fi
+          git config user.name 'pen-receipt-smoke'
+          git config user.email 'actions@github.com'
+          git add receipts/runtime/*.json
+          git commit -m 'write pen inbox smoke receipt'
+          git push
