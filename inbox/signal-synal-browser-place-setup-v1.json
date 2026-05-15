@@ -1,0 +1,108 @@
+{
+  "idempotency_key": "signal-synal-browser-place-setup-v1",
+  "title": "Signal/Synal Browser Place Setup Assessment",
+  "origin": "chatgpt",
+  "destination": "pen-runtime",
+  "requested_by": "Troy Latter",
+  "requested_at_local": "2026-05-15 Australia/Sydney",
+  "approval": {
+    "human_in_loop": false,
+    "approval_scope": "Write up, post to Pen, obtain receipt, close once visible receipt is available.",
+    "status": "approved_by_user"
+  },
+  "classification": {
+    "enqueue": "REAL_ON_COMMIT",
+    "runtime_execution": "PENDING_WORKER_RECEIPT",
+    "canonical_deployment": "PARTIAL_UNTIL_WORKER_RECEIPT"
+  },
+  "document": {
+    "title": "Signal/Synal Browser or Place: Setup Work Required and Current Position",
+    "summary": "Signal/Synal should not be treated as a normal browser build. It is a signal-aware operating layer over existing browser infrastructure, combining extension shell, overlay, telemetry, Supabase state, queue/runtime execution, graph cognition, and governance receipts. The conceptual and governance layers are already strong; the remaining work is packaging, permissions, telemetry wiring, identity propagation, runtime linkage, recovery, and production hardening.",
+    "position": "The organisation is not starting from zero. Prior work already defines the core concept, widget taxonomy, telemetry doctrine, Supabase spine, queue-first runtime model, signal tiles, and governance rules. The settings/configuration layer is manageable. The harder work sits in continuity, survivability, runtime truth, identity propagation, and graph integrity.",
+    "current_state_table": [
+      {"area": "Core concept", "status": "Strong", "note": "Signal-driven operating layer already articulated."},
+      {"area": "Extension shell architecture", "status": "Mostly designed", "note": "Shared shell pattern already specified."},
+      {"area": "Widget taxonomy", "status": "Defined", "note": "Capture, Analysis, Workflow, Control, Revenue, Signal."},
+      {"area": "Telemetry doctrine", "status": "Defined", "note": "Minimal telemetry, privacy-safe summarisation, event classification."},
+      {"area": "Supabase spine", "status": "Existing", "note": "Fits Factors/Gateway/MRI and audit/evidence model."},
+      {"area": "Queue/runtime doctrine", "status": "Existing", "note": "ops.work_queue, receipts, evidence states are compatible."},
+      {"area": "Browser ingestion concepts", "status": "Existing", "note": "Browser sessions and LLM extraction already planned."},
+      {"area": "Signal tiles/sticky system", "status": "Designed", "note": "S-Tiles, overlays, routing, and context surfaces already mapped."},
+      {"area": "Governance model", "status": "Strong", "note": "REAL/PARTIAL/PRETEND and evidence ledger fit directly."},
+      {"area": "Runtime execution", "status": "Partial", "note": "Bridge/runtime linkage remains incomplete."},
+      {"area": "Production packaging", "status": "Weak", "note": "Needs extension packaging, release process, store/distribution path."},
+      {"area": "Identity propagation", "status": "Partial", "note": "Cross-surface auth/session continuity unresolved."}
+    ],
+    "recommended_architecture": {
+      "browser_base": "Existing Chromium/Chrome/Edge rather than custom browser engine.",
+      "signal_layer": "Extension family shell plus side panel and overlay.",
+      "context_capture": "Content scripts, tab/session metadata, active page summaries, user-controlled capture.",
+      "runtime": "Gateway, Lambdas, queues, Bridge workers.",
+      "truth_state": "Supabase registry, runtime tables, audit/evidence ledger.",
+      "cognition": "MRI/graph layer for continuity, relationships, unfinished loops, salience, risk, contradiction, priority, and reuse.",
+      "recovery": "Queue replay, idempotency keys, worker receipts, telemetry continuity.",
+      "ux": "Side panels, overlays, signal tiles, pinned actions, capture/reuse widgets."
+    },
+    "settings_required": [
+      "Capture permissions: tabs, activeTab, storage, optional history, clipboard only where justified.",
+      "Surface behaviour: overlay enabled, side panel enabled, signal tile mode, quiet mode.",
+      "Telemetry mode: local-only, hashed, summarised, synced, or full workspace mode.",
+      "Identity: workspace, user, session, device, browser profile, project routing.",
+      "AI routing: hosted model, local model, Bridge route, no-send private mode.",
+      "Runtime policies: auto-execute allowed, approval gate required, read-only mode, destructive-action block.",
+      "Signal retention: expiry, archive, promote-to-work, promote-to-asset, delete/archive separation.",
+      "Recovery: replay queues, restore session, retry failed execution, stale signal handling.",
+      "Sync: browser to Supabase to runtime to evidence ledger."
+    ],
+    "work_required_table": [
+      {"workstream": "Shared extension shell", "complexity": "Low", "reason": "Mostly standard extension architecture."},
+      {"workstream": "Settings framework", "complexity": "Low-Medium", "reason": "Needs clean schema and policy controls, not technically hard."},
+      {"workstream": "Identity/session propagation", "complexity": "Medium-High", "reason": "Needs reliable routing across browser, Supabase, runtime, users, devices."},
+      {"workstream": "Cross-tab context graph", "complexity": "High", "reason": "Requires relationship modelling, summarisation, dedupe, and time continuity."},
+      {"workstream": "Telemetry spine", "complexity": "Medium", "reason": "Event schema and ingestion are straightforward; governance quality matters."},
+      {"workstream": "Runtime execution bridge", "complexity": "Medium", "reason": "Existing queue doctrine fits; worker execution and receipts must be hardened."},
+      {"workstream": "Queue/recovery automation", "complexity": "Medium", "reason": "Idempotency, replay, stale detection, close signals, and worker receipts required."},
+      {"workstream": "Behavioural inference layer", "complexity": "High", "reason": "Requires safe interpretation of intent, salience, repeated patterns, and context."},
+      {"workstream": "Graph cognition continuity", "complexity": "Very High", "reason": "This is the actual strategic moat: living relationships, not static logs."},
+      {"workstream": "Privacy/governance controls", "complexity": "High", "reason": "Must avoid surveillance framing and support enterprise trust."},
+      {"workstream": "Multi-device persistence", "complexity": "Medium-High", "reason": "Needs profile/device reconciliation and careful sync boundaries."},
+      {"workstream": "Commercial hardening", "complexity": "High", "reason": "Needs permissions, policy, support, deployment, audit, and market positioning."}
+    ],
+    "mvp_path": [
+      {"phase": "P1", "deliverable": "Shared extension shell with branded side panel and popup."},
+      {"phase": "P2", "deliverable": "Signal tile overlay for capture, classify, promote, archive."},
+      {"phase": "P3", "deliverable": "Supabase telemetry ingestion with event schema and evidence states."},
+      {"phase": "P4", "deliverable": "Queue/runtime linkage through Gateway/Bridge worker and receipt generation."},
+      {"phase": "P5", "deliverable": "Browser session graph: tabs, domains, projects, signals, unfinished loops."},
+      {"phase": "P6", "deliverable": "Cross-LLM continuity via Pen/Bridge receipt path and canonical summaries."},
+      {"phase": "P7", "deliverable": "Autonomous recovery: retry, replay, stale detection, failed-run classification."},
+      {"phase": "P8", "deliverable": "Persistent cognition fabric: graph-aware continuity across people, tools, places, and runtime."}
+    ],
+    "governance_notes": [
+      "Do not build a full browser engine first; use an extension/overlay/signal operating layer over existing Chromium surfaces.",
+      "Do not collect raw browsing data by default; summarise, classify, hash, and route with user/workspace policy.",
+      "Archive is not delete; signal lifecycle must preserve governance and evidence state.",
+      "REAL requires receipts: commit, worker execution, telemetry write, recovery proof, and visible runtime evidence.",
+      "PARTIAL is acceptable for design and enqueue; PRETEND is rejected for claims of runtime completion."
+    ],
+    "definition_of_done": [
+      "Extension shell exists and loads locally or in controlled deployment.",
+      "Settings schema exists for permissions, telemetry, identity, AI routing, retention, recovery, and sync.",
+      "Events write to Supabase with evidence_state and idempotency_key.",
+      "Browser signal can create a queue job.",
+      "Worker can execute the job and write a receipt.",
+      "Receipt is linked back to the originating signal/session.",
+      "Recovery replay is tested.",
+      "Governance dashboard can show REAL/PARTIAL/PRETEND state."
+    ]
+  },
+  "receipt_requirements": {
+    "expected_worker_outputs": [
+      "receipt file under receipts/runtime/",
+      "audit row or audit-compatible receipt reference",
+      "classification update for runtime execution",
+      "visible close signal if worker completes"
+    ],
+    "close_condition": "Close only when commit receipt is visible at minimum; runtime receipt remains pending unless worker emits it."
+  }
+}
