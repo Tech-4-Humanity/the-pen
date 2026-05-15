@@ -1,0 +1,24 @@
+{
+  "name": "@tech4humanity/runtime-language",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Runtime Language Operating System — production drop v1",
+  "type": "module",
+  "main": "src/runtime-language.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test --import tsx tests/*.test.ts",
+    "validate:seeds": "node scripts/validate-seeds.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
