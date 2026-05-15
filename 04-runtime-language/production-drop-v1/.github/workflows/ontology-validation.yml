@@ -1,0 +1,64 @@
+name: ontology-validation
+
+on:
+  push:
+    paths:
+      - '04-runtime-language/production-drop-v1/**'
+  pull_request:
+    paths:
+      - '04-runtime-language/production-drop-v1/**'
+  workflow_dispatch:
+
+jobs:
+  validate-seeds:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify 30 seed CSVs present
+        run: |
+          set -euo pipefail
+          cd 04-runtime-language/production-drop-v1/seeds
+          count=$(ls -1 *.csv | wc -l)
+          if [ "$count" -lt 30 ]; then
+            echo "::error::Expected at least 30 seed CSVs, found $count"
+            exit 1
+          fi
+          echo "Found $count seed CSVs"
+      - name: Verify each CSV has a header and at least one row
+        run: |
+          set -euo pipefail
+          cd 04-runtime-language/production-drop-v1/seeds
+          for f in *.csv; do
+            lines=$(wc -l < "$f")
+            if [ "$lines" -lt 2 ]; then
+              echo "::error::$f has $lines lines (need >= 2: header + 1 row)"
+              exit 1
+            fi
+          done
+      - name: Verify SQL files are present and non-empty
+        run: |
+          set -euo pipefail
+          cd 04-runtime-language/production-drop-v1/sql
+          for f in 001_runtime_language_schema.sql 002_seed_minimal.sql; do
+            test -s "$f" || { echo "::error::$f missing or empty"; exit 1; }
+          done
+      - name: Verify Bridge envelope parses as JSON
+        run: |
+          set -euo pipefail
+          python3 -c "import json; json.load(open('04-runtime-language/production-drop-v1/bridge/bridge-execution-envelope.json'))"
+      - name: Verify OpenAPI parses as YAML
+        run: |
+          set -euo pipefail
+          python3 -c "import yaml; yaml.safe_load(open('04-runtime-language/production-drop-v1/api/openapi.yaml'))"
+
+  ts-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: TypeScript compile (no emit)
+        run: |
+          cd 04-runtime-language/production-drop-v1
+          npx --yes typescript@5.4 tsc --noEmit -p tsconfig.json
