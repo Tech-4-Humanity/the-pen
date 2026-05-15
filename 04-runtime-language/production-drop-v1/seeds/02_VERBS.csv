@@ -1,0 +1,13 @@
+id,verb,canonical_action,required_receipt,notes
+verb_start,start,queue_create,operator_or_bridge,Start is queue not execution.
+verb_begin,begin,transition_to_running,runtime,Begin implies execution started.
+verb_finish,finish,execute_and_close,closure,Continue until blocked or closed.
+verb_close,close,advance_closure_state,closure,Must name closure level.
+verb_send,send,transport_and_acknowledge,bridge,Sent is not received without ack.
+verb_verify,verify,evidence_validate,validation,Compare evidence to expectation.
+verb_deploy,deploy,runtime_execute,deployment,Requires runtime receipt.
+verb_approve,approve,authority_grant,approval,Requires authority.
+verb_review,review,assess,review,Outcome may pass or fail.
+verb_submit,submit,handoff_to_next,operator,Implies handoff not closure.
+verb_recover,recover,replay_or_compensate,runtime,Recovery must be deterministic.
+verb_escalate,escalate,route_to_higher_authority,escalation,Used when authority blocked.
