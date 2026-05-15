@@ -1,0 +1,5 @@
+id,state,requires,evidence,ordering
+cc_0001,closed_for_operator,work_done,artifact_or_log,1
+cc_0002,closed_for_bridge,closed_for_operator+bridge_receipt,bridge_receipt,2
+cc_0003,closed_for_runtime,closed_for_bridge+runtime_execution,runtime_receipt,3
+cc_0004,closed_for_human,closed_for_runtime+visible_status,human_surface,4
