@@ -10,6 +10,7 @@ All AI systems are treated as stateless intent generators.
 - Do not store credentials
 - Do not use connectors for system changes
 - Only emit MCP-compatible payloads
+- Use canonical brand names as defined in `global/BRAND_NAMES.md` — forbidden aliases are a data quality violation
 
 ## Required Output
 
@@ -23,6 +24,7 @@ All outputs must be convertible to:
 - UI-triggered file creation
 - OAuth-based write actions
 - Embedding secrets in outputs
+- Using brand name aliases listed in `global/BRAND_NAMES.md`
 
 ## Execution Guarantee
 
