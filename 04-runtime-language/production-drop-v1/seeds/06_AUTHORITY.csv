@@ -1,0 +1,9 @@
+id,actor,scope,grants,limits
+auth_operator,operator,task_handoff,write_artifact|emit_receipt,no_runtime_execution
+auth_bridge,bridge,execution_spine,ingest|route|receipt,no_unauthorised_destruction
+auth_runtime,runtime,execution,run|emit_telemetry|write_state,no_authority_grant
+auth_validator,validator,evidence_validation,validate|reject,no_state_write
+auth_command_centre,command_centre,human_surface,publish_status,no_execution
+auth_human_troy,human_troy,sovereign,override|emergency_stop|approve,unrestricted_except_legal
+auth_evidence_engine,evidence_engine,receipts,write_receipt|hash,no_authority_grant
+auth_governance,governance,policy,define_authority|escalate,no_direct_execution
