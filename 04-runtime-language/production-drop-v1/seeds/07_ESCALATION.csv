@@ -1,0 +1,7 @@
+id,trigger,from,to,timeout,notes
+esc_timeout,operator_timeout,operator,bridge_recovery,5m,Stalled operator handoff.
+esc_runtime_failed,runtime_failure,runtime,bridge_recovery,1m,Runtime emits failure.
+esc_evidence_missing,evidence_gap,bridge,evidence_engine,5m,Evidence not written within window.
+esc_human_required,authority_block,bridge,human_troy,immediate,Bridge cannot proceed without human authority.
+esc_dead_handoff,dead_handoff,any,failure_owner,15m,Handoff with no next_owner activity.
+esc_drift_critical,drift_critical,drift_detector,governance,immediate,Critical ontology drift requires governance.
