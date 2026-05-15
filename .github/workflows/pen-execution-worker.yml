@@ -23,6 +23,10 @@ on:
         options:
           - production
           - dev
+      issue_number:
+        description: GitHub issue number to receive the execution receipt comment
+        required: false
+        default: '110'
   push:
     branches: [main, dev]
     paths:
@@ -103,13 +107,40 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const path = require('path');
+
+            function readJson(p) {
+              try { return JSON.parse(fs.readFileSync(p, 'utf8')); }
+              catch { return null; }
+            }
+
             const latestPath = fs.existsSync('receipts/runtime/latest.json') ? 'receipts/runtime/latest.json' : null;
-            const body = latestPath
-              ? `Pen Execution Worker completed.\n\nLatest receipt: ${latestPath}\n\nStatus: ${JSON.parse(fs.readFileSync(latestPath,'utf8')).status}\nReality: ${JSON.parse(fs.readFileSync(latestPath,'utf8')).reality_classification}`
+            const latest = latestPath ? readJson(latestPath) : null;
+
+            let issueNumber = Number('${{ github.event.inputs.issue_number || '' }}');
+            if (!issueNumber && latest?.target_issue) issueNumber = Number(latest.target_issue);
+            if (!issueNumber && latest?.source_issue) {
+              const match = String(latest.source_issue).match(/issues\/(\d+)/);
+              if (match) issueNumber = Number(match[1]);
+            }
+            if (!issueNumber) issueNumber = 110;
+
+            const body = latestPath && latest
+              ? [
+                  'Pen Execution Worker completed.',
+                  '',
+                  `Latest receipt: ${latestPath}`,
+                  `Status: ${latest.status}`,
+                  `Reality: ${latest.reality_classification || latest.reality || 'UNKNOWN'}`,
+                  `Task: ${latest.task_id || 'UNKNOWN'}`,
+                  '',
+                  'This comment was posted to the source issue selected by workflow input or receipt metadata, not hard-coded to issue #5.'
+                ].join('\n')
               : 'Pen Execution Worker ran but no latest receipt was found.';
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: 5,
+              issue_number: issueNumber,
               body
             });
