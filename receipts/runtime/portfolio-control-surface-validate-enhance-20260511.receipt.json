@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "877691837c02e998073ae4cc80915375e43dbf09",
-  "created_at": "2026-05-15T06:28:48.857217+00:00",
+  "commit_sha": "24674d4f5829e9a87221bf9aae9da81f4f1a54ef",
+  "created_at": "2026-05-15T06:43:55.875153+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "portfolio-control-surface-validate-enhance-20260511",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "24183b25919743872771838ed686dd3d01dcc82021234aaf2c0169fbf7f74244",
   "title": "Validate and enhance T4H portfolio control surface, then execute via bridge",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25903923386"
+  "workflow_run_id": "25904431930"
 }

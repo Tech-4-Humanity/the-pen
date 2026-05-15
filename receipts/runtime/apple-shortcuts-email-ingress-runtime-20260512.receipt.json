@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "877691837c02e998073ae4cc80915375e43dbf09",
-  "created_at": "2026-05-15T06:28:48.857217+00:00",
+  "commit_sha": "24674d4f5829e9a87221bf9aae9da81f4f1a54ef",
+  "created_at": "2026-05-15T06:43:55.875153+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "apple-shortcuts-email-ingress-runtime-20260512",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -27,5 +27,5 @@
   "source_sha256": "07a1f095d1cdfdbe78eaca44aa4623e918500e870cd93bf378b125fd3de4c73a",
   "title": "Build Apple Shortcuts, email and share-sheet ingress runtime",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25903923386"
+  "workflow_run_id": "25904431930"
 }
