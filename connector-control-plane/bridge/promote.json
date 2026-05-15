@@ -1,0 +1,42 @@
+{
+  "intent": "promote_runtime_artifact",
+  "actor_id": "troy@tech4humanity.com",
+  "runtime_id": "ccp-bootstrap",
+  "artifact": {
+    "type": "service_catalog_product",
+    "name": "connector-control-plane",
+    "version": "v0.1.0",
+    "owner": "tech-4-humanity",
+    "abn": "70 666 271 272",
+    "repo": "TML-4PM/the-pen",
+    "path": "connector-control-plane/",
+    "promotion_pipeline": {
+      "stage_1_github_package": "COMPLETE",
+      "stage_2_supabase_schema_apply": "PENDING",
+      "stage_3_deploy_health_worker": "PENDING",
+      "stage_4_connector_health_receipts": "PENDING",
+      "stage_5_cloudformation_or_cdk_wrap": "READY",
+      "stage_6_aws_service_catalog_publish": "PENDING"
+    }
+  },
+  "evidence_required": [
+    "github_commit_sha",
+    "cdk_synth_output_hash",
+    "cloudformation_changeset_id",
+    "supabase_migration_id",
+    "first_health_receipt_execution_id",
+    "service_catalog_product_id"
+  ],
+  "governance": {
+    "classification": "PARTIAL",
+    "reason": "Source committed and provisionable; runtime deploy and first execution receipts still required to reach REAL.",
+    "next_action": "trigger .github/workflows/ccp-deploy.yml with stage=deploy"
+  },
+  "telemetry_streams": [
+    "ccp.health_probe",
+    "ccp.intent_routed",
+    "ccp.receipt_written",
+    "ccp.alarm.errors",
+    "ccp.alarm.dlq_depth"
+  ]
+}
