@@ -1,0 +1,42 @@
+# AWS Service Catalog launch role IAM contract.
+# Apply via CloudFormation or Terraform — this is the canonical permission spec.
+role_name: CcpServiceCatalogLaunchRole
+trust:
+  - servicecatalog.amazonaws.com
+managed_policies:
+  - AWSCloudFormationFullAccess
+inline_policies:
+  - name: ccp-launch
+    actions:
+      - lambda:*
+      - iam:PassRole
+      - iam:CreateRole
+      - iam:AttachRolePolicy
+      - iam:PutRolePolicy
+      - iam:DeleteRole
+      - apigateway:*
+      - dynamodb:CreateTable
+      - dynamodb:DescribeTable
+      - dynamodb:DeleteTable
+      - dynamodb:UpdateTable
+      - dynamodb:TagResource
+      - events:PutRule
+      - events:PutTargets
+      - events:DeleteRule
+      - events:RemoveTargets
+      - sqs:CreateQueue
+      - sqs:GetQueueAttributes
+      - sqs:DeleteQueue
+      - secretsmanager:CreateSecret
+      - secretsmanager:DescribeSecret
+      - secretsmanager:GetSecretValue
+      - cloudwatch:PutMetricAlarm
+      - cloudwatch:DescribeAlarms
+      - logs:CreateLogGroup
+      - logs:PutRetentionPolicy
+      - logs:DescribeLogGroups
+    resources:
+      - "*"
+    condition:
+      StringEquals:
+        aws:ResourceTag/Product: connector-control-plane
