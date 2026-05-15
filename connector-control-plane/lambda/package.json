@@ -1,0 +1,14 @@
+{
+  "name": "ccp-lambda",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Connector Control Plane Lambda handlers.",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.600.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.140",
+    "@types/node": "^20.11.30",
+    "typescript": "^5.4.0"
+  }
+}
