@@ -1,0 +1,60 @@
+{
+  "action": "invoke_function",
+  "function_name": "symbio-memory-and-rule-writer",
+  "invocation_type": "RequestResponse",
+  "payload": {
+    "task_id": "session_permission_memory_rule_2026_05_13",
+    "intent": "Persist the one-permission-per-session operating rule into memory and canonical GitHub rules, then wire enforcement into bridge/session runtime.",
+    "memory_update": {
+      "category": "operating_rules",
+      "title": "One permission per session is sufficient for authorised connector execution",
+      "content": "When Troy grants connector access in an active session, treat it as approval for all non-destructive, non-credential, non-legal, non-financial-risk actions within the authorised scope for that session. Do not repeatedly ask permission for each GitHub write, bridge payload, Supabase migration handoff, or runtime reconciliation artifact. Continue execution until a real blocker appears: missing credential, destructive action, legal/financial gate, safety boundary, or connector failure. Every material operation still needs receipts and evidence."
+    },
+    "github_rule_update": {
+      "repository": "TML-4PM/the-pen",
+      "canonical_paths": [
+        "GLOBAL_RULE.md",
+        "MCP_EXECUTION_CONTRACT.md",
+        "ENFORCEMENT_LIVE.md"
+      ],
+      "rule_block": {
+        "name": "SESSION_PERMISSION_SCOPE",
+        "status": "active",
+        "rule": "One explicit permission grant per active session authorises continued non-destructive connector execution within scope. Repeated permission prompts are a runtime drag and should be suppressed unless a hard boundary is reached.",
+        "hard_boundaries": [
+          "destructive_resource_delete",
+          "secret_rotation_or_exposure",
+          "financial_transaction_or_paid_plan_change",
+          "legal_filing_or_external_binding_commitment",
+          "mass_outbound_outreach",
+          "cross-account_or_out-of-scope_action",
+          "safety_or_policy_boundary"
+        ],
+        "receipt_required": true
+      }
+    },
+    "runtime_enforcement": {
+      "write_session_permission_record": true,
+      "fields": [
+        "session_id",
+        "actor",
+        "connector",
+        "scope",
+        "granted_at",
+        "expires_at",
+        "excluded_actions",
+        "receipts_written"
+      ]
+    }
+  },
+  "metadata": {
+    "request_id": "session-permission-memory-rule-2026-05-13",
+    "source": "chatgpt_connector",
+    "timestamp_utc": "2026-05-13T00:00:00Z",
+    "auth_context": "user_authorised_connector_session"
+  },
+  "control": {
+    "dry_run": false,
+    "approval_required": false
+  }
+}
