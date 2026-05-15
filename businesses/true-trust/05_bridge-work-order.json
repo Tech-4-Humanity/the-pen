@@ -1,0 +1,27 @@
+{
+  "work_order_id":"TT-WO-001",
+  "business_id":"TT-BIZ-001",
+  "priority":"HIGH",
+  "intent":"convert business-in-development into executable operational surfaces",
+  "actions":[
+    "insert business registry row",
+    "insert TT-SVC-001 through TT-SVC-010 service rows",
+    "insert TT-JM-001 journey row",
+    "create legal review task",
+    "create privacy review task",
+    "create partner outreach task",
+    "create pilot workflow",
+    "create service catalog public pages",
+    "create stripe catalog objects if payment layer exists",
+    "write receipt to Reality Ledger"
+  ],
+  "success_receipts":[
+    "registry_row_id",
+    "service_count",
+    "journey_row_id",
+    "task_ids",
+    "public_urls",
+    "reality_ledger_receipt"
+  ],
+  "fail_if":["no_receipt","partial_insert","silent_completion"]
+}
