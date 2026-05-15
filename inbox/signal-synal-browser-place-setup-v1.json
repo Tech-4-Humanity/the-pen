@@ -5,15 +5,44 @@
   "destination": "pen-runtime",
   "requested_by": "Troy Latter",
   "requested_at_local": "2026-05-15 Australia/Sydney",
+  "updated_at_local": "2026-05-15 Australia/Sydney",
+  "update_reason": "User requested update after visible enqueue receipt. Strengthened receipt status, Peter/worker close expectations, activation backlog, and next execution outputs.",
   "approval": {
     "human_in_loop": false,
-    "approval_scope": "Write up, post to Pen, obtain receipt, close once visible receipt is available.",
+    "approval_scope": "Write up, update existing Pen payload, obtain visible GitHub receipt, and close enqueue state once receipt is shown.",
     "status": "approved_by_user"
   },
+  "receipt_status": {
+    "github_enqueue_commit": {
+      "classification": "REAL",
+      "initial_commit_sha": "854aa262699f681d2090828e529ff1c2e42dd824",
+      "path": "inbox/signal-synal-browser-place-setup-v1.json"
+    },
+    "payload_update": {
+      "classification": "REAL_ON_COMMIT",
+      "path": "inbox/signal-synal-browser-place-setup-v1.json"
+    },
+    "peter_worker_receipt": {
+      "classification": "PENDING",
+      "required": true,
+      "expected_location": "receipts/runtime/",
+      "meaning": "A downstream worker/Peter receipt must confirm execution, not just GitHub enqueue."
+    },
+    "close_state": {
+      "enqueue_close": "CLOSED_ON_VISIBLE_COMMIT",
+      "runtime_close": "OPEN_UNTIL_WORKER_RECEIPT",
+      "production_close": "OPEN_UNTIL_TELEMETRY_AND_RECOVERY_PROOF"
+    }
+  },
   "classification": {
-    "enqueue": "REAL_ON_COMMIT",
+    "conceptual_writeup": "REAL",
+    "github_enqueue": "REAL",
+    "payload_update": "REAL_ON_COMMIT",
     "runtime_execution": "PENDING_WORKER_RECEIPT",
-    "canonical_deployment": "PARTIAL_UNTIL_WORKER_RECEIPT"
+    "canonical_deployment": "PARTIAL_UNTIL_WORKER_RECEIPT",
+    "telemetry_continuity": "PENDING",
+    "recovery_validation": "PENDING",
+    "survivability": "UNPROVEN"
   },
   "document": {
     "title": "Signal/Synal Browser or Place: Setup Work Required and Current Position",
@@ -29,7 +58,7 @@
       {"area": "Browser ingestion concepts", "status": "Existing", "note": "Browser sessions and LLM extraction already planned."},
       {"area": "Signal tiles/sticky system", "status": "Designed", "note": "S-Tiles, overlays, routing, and context surfaces already mapped."},
       {"area": "Governance model", "status": "Strong", "note": "REAL/PARTIAL/PRETEND and evidence ledger fit directly."},
-      {"area": "Runtime execution", "status": "Partial", "note": "Bridge/runtime linkage remains incomplete."},
+      {"area": "Runtime execution", "status": "Partial", "note": "Bridge/runtime linkage remains incomplete until worker receipt proves execution."},
       {"area": "Production packaging", "status": "Weak", "note": "Needs extension packaging, release process, store/distribution path."},
       {"area": "Identity propagation", "status": "Partial", "note": "Cross-surface auth/session continuity unresolved."}
     ],
@@ -53,6 +82,15 @@
       "Signal retention: expiry, archive, promote-to-work, promote-to-asset, delete/archive separation.",
       "Recovery: replay queues, restore session, retry failed execution, stale signal handling.",
       "Sync: browser to Supabase to runtime to evidence ledger."
+    ],
+    "activation_backlog": [
+      "Create extension manifest and shared shell package.",
+      "Create settings schema and defaults table.",
+      "Create Supabase event ingestion table or map to existing runtime/audit spine.",
+      "Create signal_to_work_queue adapter with idempotency_key.",
+      "Create Peter/worker receipt watcher for this payload.",
+      "Create dashboard row showing enqueue, worker receipt, telemetry, recovery, and close state.",
+      "Create one local test: capture page signal -> queue job -> worker receipt -> evidence ledger."
     ],
     "work_required_table": [
       {"workstream": "Shared extension shell", "complexity": "Low", "reason": "Mostly standard extension architecture."},
@@ -101,8 +139,10 @@
       "receipt file under receipts/runtime/",
       "audit row or audit-compatible receipt reference",
       "classification update for runtime execution",
-      "visible close signal if worker completes"
+      "visible close signal if worker completes",
+      "Peter/worker acknowledgement of payload processing",
+      "failure receipt if trigger does not fire"
     ],
-    "close_condition": "Close only when commit receipt is visible at minimum; runtime receipt remains pending unless worker emits it."
+    "close_condition": "GitHub enqueue and update close on visible commit. Runtime remains open until Peter/worker emits receipt. If trigger does not fire, classify as PARTIAL with missing runtime receipt and raise trigger-path repair."
   }
 }
