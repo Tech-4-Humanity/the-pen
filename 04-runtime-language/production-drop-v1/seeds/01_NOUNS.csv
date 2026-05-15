@@ -1,0 +1,13 @@
+id,term,definition,owner,domain
+noun_task,task,A unit of work with state and owner.,Bridge,core
+noun_receipt,receipt,Typed evidence of an action or transition.,Bridge,core
+noun_runtime,runtime,The system that executes verbs and emits evidence.,Runtime,core
+noun_evidence,evidence,Proof of state or transition.,Runtime,core
+noun_owner,owner,Actor accountable for a state or transition.,HumanOrAgent,core
+noun_bridge,bridge,Execution spine between intent and runtime.,Bridge,core
+noun_workflow,workflow,Ordered sequence of state transitions.,Bridge,core
+noun_state,state,Observable condition of an object.,Runtime,core
+noun_intent,intent,Declared desired outcome of a task.,Agent,core
+noun_authority,authority,Right to move object through state.,Governance,core
+noun_handoff,handoff,Transfer of ownership to next actor.,Operator,core
+noun_surface,surface,Visible publication target for state.,CommandCentre,core
