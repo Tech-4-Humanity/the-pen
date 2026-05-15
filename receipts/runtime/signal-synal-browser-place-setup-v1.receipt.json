@@ -1,7 +1,7 @@
 {
   "actor": "TML-4PM",
-  "commit_sha": "854aa262699f681d2090828e529ff1c2e42dd824",
-  "created_at": "2026-05-15T13:13:49.205503+00:00",
+  "commit_sha": "74cb79d4dda283f321ed3826f205aca3041f35ba",
+  "created_at": "2026-05-15T13:19:20.468404+00:00",
   "evidence_state": "PARTIAL",
   "idempotency_key": "signal-synal-browser-place-setup-v1",
   "impact": "PEN job has a runtime receipt and can be tracked; final build remains pending downstream execution.",
@@ -24,8 +24,8 @@
   "repo": "TML-4PM/the-pen",
   "rollback": "Archive the inbox job and receipt if superseded; do not delete evidence.",
   "source_job_path": "inbox/signal-synal-browser-place-setup-v1.json",
-  "source_sha256": "098d8e7992397fe4422d5d473db3dfa8bf3b0f8643ad9bb1f39d39d37922e703",
+  "source_sha256": "fac88f0349fcfd4813fdb0b8b681304698dd1854e32057868689809c9a804513",
   "title": "Signal/Synal Browser Place Setup Assessment",
   "workflow_run_attempt": "1",
-  "workflow_run_id": "25919740550"
+  "workflow_run_id": "25919987370"
 }
