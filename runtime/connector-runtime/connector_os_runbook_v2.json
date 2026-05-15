@@ -1,0 +1,46 @@
+{
+  "name": "connector-operating-system",
+  "version": "2.0",
+  "supersedes": "runtime/connector-runtime/connector_os_runbook.json (ref ea4cf7ee)",
+  "audited_by": "Claude Opus 4.7",
+  "audit_date": "2026-05-15",
+  "audit_artifact": "runtime/connector-runtime/01_verification_audit_2026-05-15.md",
+  "status": "PARTIAL_REAL",
+  "runtime_pattern": "intent -> inspect -> mutate -> verify -> receipt -> ledger -> report",
+  "kernel_compliance": {
+    "evidence_over_assertion": true,
+    "no_receipt_no_REAL": true,
+    "unverifiable_execution_forbidden": true,
+    "every_state_must_be_traceable": true
+  },
+  "receipt_classes": {
+    "VERIFIED_REAL": [
+      {"connector": "GitHub", "receipt_type": "commit_sha", "id": "29da7df1c44576300f4b968e532151562a071e75", "path": "runtime/connector-runtime/00_connector_runtime_memory.md", "verifier": "github_file_read at ref"},
+      {"connector": "GitHub", "receipt_type": "commit_sha", "id": "ea4cf7ee6e726b47ad9ce7c5410519e873eff865", "path": "runtime/connector-runtime/connector_os_runbook.json", "verifier": "github_file_read at ref"},
+      {"connector": "GitHub", "receipt_type": "latest_commit", "id": "9913f350b31db8b71e1e818985f472f4c4e1c8fe", "verifier": "github_repo_inspect TML-4PM/the-pen"},
+      {"connector": "Google Drive", "receipt_type": "spreadsheet_id", "id": "15mS5vMbV6aTHYaSFrMuQpaEAQeZhzhPG0aOua3SzaQM", "title": "Connector Runtime Test Receipt Ledger — 2026-05-15", "verifier": "google_drive_fetch (metadata)"},
+      {"connector": "Google Drive", "receipt_type": "document_id", "id": "1UbQOTaPH3icJ19SM7FLSnp259zJCqBpG9Mfmc2-1jI0", "title": "Cross-System Operational Runtime — Executive Brief", "verifier": "google_drive_fetch (content match)"},
+      {"connector": "Google Calendar", "receipt_type": "event_list", "id": "65hj6c1ic5hj6bb1c5hjcb9k70qmabb2coojcb9h64r6acb66gpm6e9h6k_20260515T070000Z", "sample_event": "Troy / Trang 2026-05-15T17:00 Asia/Ho_Chi_Minh", "verifier": "list_events 2026-05-15..16"},
+      {"connector": "Gmail", "receipt_type": "label_list", "sample_id": "Label_12", "sample_name": "T4H/Cleanup/Review", "verifier": "list_labels page=3 returned 38+ labels"},
+      {"connector": "Vercel", "receipt_type": "project_id", "id": "prj_VGPFRbXPULFkrjFjkkkoqYorjBZB", "project_name": "the-pen", "team_id": "team_IKIr2Kcs38KGo8Zs60yNtm7Y", "latest_deployment": "dpl_2JeWKRggmoqpuCUkVo2epWmGPKxU", "deployment_sha": "9913f350b31db8b71e1e818985f472f4c4e1c8fe", "verifier": "vercel_project_inspect"}
+    ],
+    "FABRICATED": [
+      {"connector": "Notion", "receipt_type": "page_id", "id": "36009212-4e61-81b2-9107-c62a94add79a", "reason": "notion-fetch returns 404 object_not_found; notion-search across workspace returns no page with this ID; ID pattern does not match this workspace's UUID prefix", "real_target_likely": "34d44ee8-495c-8120-be26-d1666a1d9428 (Agent House Rules — Bootstrap Contract v1.1)", "drift_artifact": "runtime/connector-runtime/connector_os_runbook.json embeds this fabricated ID and must not be treated as canonical"}
+    ],
+    "NOT_TESTED": ["Stripe", "Canva", "Spotify", "Tripadvisor", "Booking", "Lovable"]
+  },
+  "connector_probe_recipes": {
+    "GitHub": {"read": "github_file_read owner=TML-4PM repo=<r> path=<p> ref=<sha>", "write": "github_bulk_dispatch with allowWrite=true dryRun=false", "inspect": "github_repo_inspect"},
+    "Notion": {"search": "notion-search query=<terms> filters={}", "read": "notion-fetch id=<uuid_or_url>", "write": "notion-update-page page_id=<uuid> content=<markdown>", "warning": "ChatGPT wrapper returned a phantom page_id in 2026-05-14 session; always re-fetch by ID after mutation to confirm"},
+    "Google Drive": {"read_doc": "google_drive_fetch document_ids=[<id>]", "search": "google_drive_search api_query='name contains <s>' or 'fullText contains <s>'", "bridge_read": "gdrive_file_read fileId=<id> (service-account scope only)"},
+    "Google Calendar": {"read": "list_events startTime=<iso> endTime=<iso> pageSize=<n>", "write": "create_event summary=<title> startTime=<iso> endTime=<iso>"},
+    "Gmail": {"read": "list_labels pageSize=<n>", "write": "label_thread threadId=<id> labelIds=[<id>]"},
+    "Vercel": {"inspect": "vercel_project_inspect project=<name>", "list_deployments": "vercel_deployments_list", "deploy": "deploy_project"}
+  },
+  "runtime_principles": {
+    "verify_before_classify_REAL": "every receipt ID emitted by another agent must be independently re-fetched by the consuming agent before being treated as canonical",
+    "drift_isolation": "fabricated artifacts are tagged but not deleted; a superseding artifact + audit file is the canonical recovery pattern",
+    "connector_wrappers_are_untrusted": "some MCP wrappers return plausible-looking IDs on edge-case schema errors; defensively re-fetch by ID after every mutation",
+    "safe_probes_first": "prefer read-only probes (list/search/get/inspect) before any mutation; classify the connector REAL on the read receipt, then expand to mutations once trust is established"
+  }
+}
