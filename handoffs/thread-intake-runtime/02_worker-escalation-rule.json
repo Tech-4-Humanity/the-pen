@@ -1,0 +1,29 @@
+{
+  "task_id": "thread-intake-runtime",
+  "status": "FORCE_REQUEUE",
+  "source_files": [
+    "handoffs/thread-intake-runtime/00_thread-intake-runtime.md",
+    "handoffs/thread-intake-runtime/01_bridge-payload-package.md"
+  ],
+  "retry_rule": {
+    "max_attempts": 3,
+    "window_hours": 2,
+    "on_no_receipt": "PASS_TO_NEXT_WORKER",
+    "on_worker_failure": "PASS_TO_DIFFERENT_WORKER",
+    "on_duplicate_claim_without_receipt": "MARK_PARTIAL_AND_ESCALATE"
+  },
+  "required_receipt": {
+    "execution_id": true,
+    "worker_id": true,
+    "attempt_number": true,
+    "started_at": true,
+    "completed_at": true,
+    "ingested_files": true,
+    "output_paths": true,
+    "classification": "REAL_OR_PARTIAL_OR_BLOCKED",
+    "blocker_reason_if_blocked": true
+  },
+  "worker_instruction": "Do not treat this as passive documentation. Ingest the files, construct the thread entity graph, create HITL queue objects, and emit a receipt. If no receipt after 3 attempts within 2 hours, transfer to a different worker automatically.",
+  "target": "thread -> entity -> continuity -> evidence",
+  "created_for": "force worker pickup and prevent silent stall"
+}
