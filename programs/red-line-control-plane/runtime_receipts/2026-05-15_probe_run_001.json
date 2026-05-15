@@ -1,0 +1,58 @@
+{
+  "$schema": "https://github.com/TML-4PM/the-pen/programs/red-line-control-plane/receipt_lifecycle_v2.schema.json",
+  "receipt_id": "rcpt-probe-2026-05-15-001",
+  "parent_receipt_id": null,
+  "receipt_type": "probe",
+  "direction": "internal",
+  "system": "supabase-s1",
+  "job_key": "red-line/runtime_probe.sql",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": null,
+  "actor": "claude.anthropic",
+  "sender": "claude.anthropic",
+  "receiver": "supabase.s1.lzfgigiyqpuuxslsygjt",
+  "status": "COMPLETE",
+  "reality_state": "REAL",
+  "execution_path": "Supabase Official Connector (bridge keys 401, see GLOBAL_RULE memory)",
+  "commits": [
+    "05c72f1f220325e8357e67ac8abfd04b6857adc4",
+    "ca6bff58b349ace08686bb16a5315c9cb75ebb9d",
+    "321a49cc20e380b5f8190b1fd0f029dffab6a0a3"
+  ],
+  "files": [
+    "programs/red-line-control-plane/runtime_probe.sql"
+  ],
+  "evidence": [
+    { "type": "database_result", "value": "fn_github_push_exists=fn_github_push" },
+    { "type": "database_result", "value": "http_extension=http" },
+    { "type": "database_result", "value": "t4h_canonical_changes_table=t4h_canonical_changes" },
+    { "type": "database_result", "value": "cap_secrets_GITHUB_PAT=present,is_deprecated=false" },
+    { "type": "database_result", "value": "cap_secrets_GITHUB_TOKEN=present,is_deprecated=false" },
+    { "type": "database_result", "value": "pg_proc_fn_github_push_count=1" },
+    { "type": "database_result", "value": "cap_secrets_total_count=417" },
+    { "type": "database_result", "value": "fn_github_push_signature=p_repo text, p_path text, p_content text, p_message text, p_branch text, p_caller_llm text, p_caller_session text -> jsonb (3488 bytes)" },
+    { "type": "database_result", "value": "t4h_canonical_changes_volume=total:3240,last_7d:2744,most_recent:2026-05-15T21:25:00Z" },
+    { "type": "database_result", "value": "receipt_schema_drift=CONFIRMED — 26 flat columns, no lifecycle phase column" }
+  ],
+  "runtime": {
+    "executed": true,
+    "probe_name": "runtime_probe.sql + deep_receipt_drift_probe",
+    "result_summary": "4/4 runtime preconditions REAL (fn_github_push, http, receipt table, secrets). Receipt model drift confirmed: runtime writes flat rows; v2 lifecycle schema not yet enforced by t4h_canonical_changes.",
+    "raw_result_ref": "programs/red-line-control-plane/runtime_receipts/2026-05-15_probe_run_001.md"
+  },
+  "repair": {
+    "error_type": null,
+    "repair_agent": null,
+    "repair_status": null,
+    "safe_to_auto_run": null,
+    "attempt_count": 0
+  },
+  "blockers": [
+    "B-01: schema drift in t4h_canonical_changes (lifecycle columns absent)",
+    "B-02: #107 PRETEND receipt contamination — quarantine RPC not yet implemented",
+    "B-05: dispatcher loop fn_red_line_dispatcher_tick not yet implemented"
+  ],
+  "created_at_utc": "2026-05-15T21:26:26Z",
+  "updated_at_utc": "2026-05-15T21:26:26Z",
+  "search_tags": ["red-line", "runtime-probe", "supabase", "fn_github_push", "receipt-drift"]
+}
