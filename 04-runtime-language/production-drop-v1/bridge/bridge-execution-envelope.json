@@ -1,0 +1,78 @@
+{
+  "task_id": "language_ontology_contract_v1_20260515",
+  "name": "language_and_ontology_contract_v1",
+  "version": "production-drop-v1",
+  "intent": "ingest and activate runtime language ontology contract",
+  "authority": "Bridge",
+  "source": {
+    "repo": "TML-4PM/the-pen",
+    "contract_path": "04-runtime-language/LANGUAGE_AND_ONTOLOGY_CONTRACT_V1.md",
+    "production_drop_path": "04-runtime-language/production-drop-v1"
+  },
+  "runtime": {
+    "target": "supabase",
+    "project_id": "lzfgigiyqpuuxslsygjt",
+    "schema": "ops",
+    "migration": "runtime_language_production_drop_v1_schema",
+    "applied": true,
+    "applied_at": "2026-05-16"
+  },
+  "trigger": [
+    "repo_file_created_or_updated",
+    "manual_bridge_ingest",
+    "audit_recovery_run"
+  ],
+  "actions": [
+    "fetch_repo_files",
+    "validate_required_sections",
+    "parse_seed_csvs_01_to_30",
+    "upsert_ontology_nodes",
+    "upsert_ontology_edges",
+    "upsert_translation_profile",
+    "upsert_closure_chain",
+    "upsert_state_transitions",
+    "upsert_test_cases",
+    "upsert_reviewers",
+    "upsert_connectors",
+    "write_bridge_receipt",
+    "surface_command_centre_status"
+  ],
+  "validation": [
+    "file_exists",
+    "required_sections_present",
+    "csv_headers_match_seed_schema",
+    "closure_chain_count_eq_4",
+    "state_transitions_count_ge_7",
+    "translation_count_ge_10",
+    "runtime_health_view_returns_row"
+  ],
+  "closure": {
+    "current": "closed_for_runtime",
+    "chain": [
+      {"level": "closed_for_operator", "evidence": "github commit + this envelope", "status": "achieved"},
+      {"level": "closed_for_bridge", "evidence": "bridge receipt on issue #113", "status": "pending"},
+      {"level": "closed_for_runtime", "evidence": "supabase migration applied + seed loaded + health view", "status": "achieved"},
+      {"level": "closed_for_human", "evidence": "command centre surfaces v_runtime_language_*", "status": "pending"}
+    ]
+  },
+  "evidence_required": [
+    "commit_id",
+    "github_issue_url",
+    "bridge_receipt_id",
+    "db_result_or_migration_log",
+    "command_centre_url"
+  ],
+  "failure_owner": "Bridge",
+  "timeout_policy": {
+    "bridge_ingest": "5m",
+    "connector_test_assignment": "24h",
+    "runtime_activation": "10m",
+    "human_surface": "24h"
+  },
+  "reviewers": [
+    "bridge_operator",
+    "runtime_operator",
+    "human_reviewer",
+    "external_agent"
+  ]
+}
