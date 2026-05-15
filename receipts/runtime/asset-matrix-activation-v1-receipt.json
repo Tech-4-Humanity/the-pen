@@ -1,0 +1,30 @@
+{
+  "idempotency_key": "asset-matrix-activation-v1",
+  "receipt_type": "execution_receipt",
+  "executed_at": "2026-05-15T06:49:36Z",
+  "executed_by": "bridge-direct / claude-sonnet-4",
+  "reality_classification": "REAL",
+  "schema_status": "ALTERED — data_type, parent_study_id_ref, simulation_note, is_publishable added to research.t4h_study_registry",
+  "rows_upserted": 14,
+  "rows_updated": 8,
+  "rows_inserted": 6,
+  "data_type_policy_enforced": true,
+  "simulation_isolation_enforced": true,
+  "parent_linkage_applied": true,
+  "evidence_evt_ids": [
+    "34b87559-b968-4394-941d-a2fa8952a43f",
+    "a686d9e0-18b3-42e2-9e76-3f41e98f20f8",
+    "03465154-9c4e-4920-9995-12b698f2c237",
+    "f8f1fdb0-fe1f-46fe-9b40-37a33d7c96b0"
+  ],
+  "work_queue_items": "pending — gap analysis not yet run; study_assets table not yet created",
+  "evidence_register_rows": "pending — audit.evidence_register binding not yet wired",
+  "gaps": [
+    "research.study_assets table not created (deferred — not in existing schema)",
+    "isPublishable computed trigger not yet wired",
+    "nightly readiness recalculation cron not yet scheduled",
+    "audit.evidence_register binding deferred"
+  ],
+  "source_payload": "inbox/asset-matrix-activation-v1.json",
+  "commit_sha_source": "c4770851ea55493ead859bea7e7a087106f5f6d0"
+}
