@@ -1,0 +1,32 @@
+{
+  "request_id": "doolittles-service-catalog-upgrade-20260516",
+  "status": "PARTIAL",
+  "repo": "TML-4PM/the-pen",
+  "commit_sha": "387a8dcc90a0cc65226fcaf4d0a94196aa49ff22",
+  "files": [
+    "web/doolittles/index.html",
+    "web/doolittles/catalog.seed.json",
+    "receipts/runtime/doolittles-service-catalog-upgrade-20260516.json"
+  ],
+  "actor": "claude-opus-4.7",
+  "execution_path": "T4H Remote MCP Clean:github_bulk_dispatch -> Vercel git auto-deploy (main)",
+  "timestamp_utc": "2026-05-16T07:14:00Z",
+  "validation": {
+    "chatgpt_claim_doolittles_page": "CONFIRMED REAL - web/doolittles/index.html existed (prior sha 178e99cd)",
+    "chatgpt_claim_catalog_master_102_rows": "FALSE - no catalog_master table exists; real canonical view is public.v_master_product_catalog (303 rows). '6 bundles / 65 work packages' partially matched as catalogue categories.",
+    "chatgpt_claim_live_deploy": "CONFIRMED - the-pen-six.vercel.app production, but SSO-protected (all_except_custom_domains)"
+  },
+  "deployment": {
+    "production_deployment_id": "dpl_3YBNYJD6bJcg846ctNNFc6LGysBt",
+    "ready_state": "READY/PROMOTED",
+    "url": "https://the-pen-six.vercel.app/web/doolittles/",
+    "sso_caveat": "vercel.app alias requires Vercel auth; custom domain required for public access"
+  },
+  "ledger": {
+    "reality_ledger": [
+      "18304aa0-5595-4ad5-9ccb-4d76fe217c64 (catalogue_aware_page = PARTIAL)",
+      "5c7f20c4-48ce-4382-b28f-e2fd6b7c2c8f (live_catalogue_api = BLOCKED)"
+    ]
+  },
+  "blocked": "Live catalogue API not wired: Vercel project the-pen has env:[] (no SUPABASE_URL / SERVICE_ROLE_KEY). Static snapshot used; live upgrade path documented in catalog.seed.json._meta."
+}
