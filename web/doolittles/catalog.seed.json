@@ -1,14 +1,17 @@
 {
   "_meta": {
     "schema": "doolittles.catalog.seed/v1",
-    "generated_utc": "2026-05-16T05:30:00Z",
+    "generated_utc": "2026-05-16T07:30:00Z",
     "source_system": "supabase",
-    "source_db": "lzfgigiyqpuuxslsygjt",
-    "source_view": "public.v_master_product_catalog",
+    "source_db": "lzfgigiyqpuuxslsygjt (Ecosystem Explorer / ops)",
+    "source_view": "public.v_master_product_catalog -> public.work_packages",
     "binding": "STATIC_SNAPSHOT",
+    "commercial_status": "PLANNING_CATALOGUE — list pricing only; 0 of 303 rows Stripe-wired; NOT a checkout surface",
+    "transactable": false,
     "filter": "is_active = true AND is_canonical = true AND base_price > 0",
-    "live_upgrade_path": "Replace fetch('catalog.seed.json') with GET /api/catalog; api/catalog.js must read SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY (NOT yet set on Vercel project the-pen — env:[] confirmed 2026-05-16).",
-    "provenance_warning": "Every source row carries tags 'legacy_unknown' + 'needs_provenance'. Prices are list/reference, not contract-verified. Treat as PARTIAL until provenance closed.",
+    "reconciliation": "CATALOG-001 (2026-05-04): real Stripe-wired sellable products live in project pflisxkcxbzboxwidywf (22 products, all stripe-wired) — a different, consumer-retail catalogue. The packs shown here are the enterprise engagement model and require Stripe wiring + provenance close before any 'buy' claim.",
+    "live_upgrade_path": "1) close provenance on work_packages (needs_provenance tags); 2) wire Stripe price IDs; 3) only then enable transact. Until then this is enquiry-only.",
+    "provenance_warning": "Every source row carries 'legacy_unknown' + 'needs_provenance'. Prices are list/reference, NOT contract-verified, NOT transactable.",
     "no_destructive_dedupe": true
   },
   "intents": [
