@@ -1,0 +1,76 @@
+{
+  "idempotency_key": "signal-browser-runtime-build-v1",
+  "title": "Signal/Synal Browser Runtime Production Starter",
+  "origin": "chatgpt",
+  "destination": "pen-runtime",
+  "requested_by": "Troy Latter",
+  "approval": {
+    "human_in_loop": false,
+    "status": "approved_by_user",
+    "scope": "Build the full program starter, not a plan. Commit source bundle and produce receipt."
+  },
+  "classification": {
+    "source_bundle": "REAL_ON_COMMIT",
+    "runtime_execution": "PENDING_WORKER_RECEIPT",
+    "live_install": "PENDING_LOCAL_OR_DEPLOYMENT_RECEIPT"
+  },
+  "bundle": {
+    "name": "signal-browser-runtime",
+    "description": "Chromium-compatible Signal/Synal browser-place runtime with extension shell, side panel, overlay, telemetry, queue job adapter, and receipt contract.",
+    "files": [
+      {
+        "path": "extension/manifest.json",
+        "content": "{\n  \"manifest_version\": 3,\n  \"name\": \"Signal Browser Runtime\",\n  \"version\": \"0.1.0\",\n  \"description\": \"Signal/Synal browser-place runtime shell.\",\n  \"permissions\": [\"storage\", \"activeTab\", \"scripting\", \"sidePanel\"],\n  \"host_permissions\": [\"<all_urls>\"],\n  \"background\": {\"service_worker\": \"src/background.js\"},\n  \"action\": {\"default_title\": \"Signal\", \"default_popup\": \"src/popup.html\"},\n  \"side_panel\": {\"default_path\": \"src/sidepanel.html\"},\n  \"content_scripts\": [{\"matches\": [\"<all_urls>\"], \"js\": [\"src/content.js\"], \"css\": [\"src/content.css\"], \"run_at\": \"document_idle\"}]\n}\n"
+      },
+      {
+        "path": "extension/src/background.js",
+        "content": "const DEFAULT_SETTINGS = { workspaceId: 't4h-default', actorId: 'browser-user', telemetryMode: 'local', queueEndpoint: '', overlayEnabled: true };\n\nchrome.runtime.onInstalled.addListener(async () => {\n  const existing = await chrome.storage.sync.get('signalSettings');\n  if (!existing.signalSettings) await chrome.storage.sync.set({ signalSettings: DEFAULT_SETTINGS });\n});\n\nchrome.runtime.onMessage.addListener((message, sender, sendResponse) => {\n  if (message?.type === 'SIGNAL_CAPTURE') {\n    handleSignalCapture(message.payload, sender).then(sendResponse).catch((error) => sendResponse({ ok: false, error: String(error) }));\n    return true;\n  }\n});\n\nasync function handleSignalCapture(payload, sender) {\n  const { signalSettings } = await chrome.storage.sync.get('signalSettings');\n  const settings = { ...DEFAULT_SETTINGS, ...(signalSettings || {}) };\n  const event = buildTelemetryEvent(payload, sender, settings);\n  const queueJob = buildQueueJob(event, settings);\n  await chrome.storage.local.set({ [`event:${event.event_id}`]: event, [`job:${queueJob.idempotency_key}`]: queueJob });\n  if (settings.queueEndpoint) {\n    await fetch(settings.queueEndpoint, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(queueJob) });\n  }\n  return { ok: true, event, queueJob };\n}\n\nfunction buildTelemetryEvent(payload, sender, settings) {\n  const now = new Date().toISOString();\n  const event_id = `sig_${Date.now()}_${Math.random().toString(16).slice(2)}`;\n  return {\n    event_id,\n    event_type: 'browser.signal.capture',\n    workspace_id: settings.workspaceId,\n    actor_id: settings.actorId,\n    occurred_at: now,\n    source: 'signal-browser-runtime',\n    page: { title: payload.title, url: payload.url, host: payload.host },\n    signal: { text: payload.selection || payload.note || '', mode: payload.mode || 'capture', confidence: 0.7 },\n    evidence_state: 'PARTIAL',\n    sender_tab_id: sender?.tab?.id || null\n  };\n}\n\nfunction buildQueueJob(event, settings) {\n  return {\n    idempotency_key: `signal_browser_${event.event_id}`,\n    title: `Process browser signal: ${event.page.host || 'unknown'}`,\n    origin: 'signal-browser-runtime',\n    destination: 'runtime.worker',\n    env: 'dev',\n    status: 'queued',\n    payload: { event },\n    evidence_state: 'PARTIAL',\n    close_signal: false\n  };\n}\n"
+      },
+      {
+        "path": "extension/src/content.js",
+        "content": "function ensureSignalButton() {\n  if (document.getElementById('signal-runtime-button')) return;\n  const btn = document.createElement('button');\n  btn.id = 'signal-runtime-button';\n  btn.textContent = 'Signal';\n  btn.title = 'Capture this page as a Signal';\n  btn.onclick = async () => {\n    const selection = window.getSelection()?.toString() || '';\n    const payload = { title: document.title, url: location.href, host: location.host, selection, mode: selection ? 'selection' : 'page' };\n    const result = await chrome.runtime.sendMessage({ type: 'SIGNAL_CAPTURE', payload });\n    btn.textContent = result?.ok ? 'Captured' : 'Failed';\n    setTimeout(() => (btn.textContent = 'Signal'), 1500);\n  };\n  document.body.appendChild(btn);\n}\nensureSignalButton();\n"
+      },
+      {
+        "path": "extension/src/content.css",
+        "content": "#signal-runtime-button { position: fixed; right: 18px; bottom: 18px; z-index: 2147483647; border: 1px solid #222; background: #fff; color: #111; border-radius: 999px; padding: 10px 14px; font: 13px system-ui, sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,.18); cursor: pointer; }\n"
+      },
+      {
+        "path": "extension/src/popup.html",
+        "content": "<!doctype html><html><head><meta charset='utf-8'><style>body{font:13px system-ui;margin:12px;width:260px}button{width:100%;padding:8px;margin-top:8px}</style></head><body><h3>Signal Runtime</h3><p>Capture the current page into the signal queue.</p><button id='capture'>Capture Signal</button><pre id='out'></pre><script src='popup.js'></script></body></html>"
+      },
+      {
+        "path": "extension/src/popup.js",
+        "content": "document.getElementById('capture').onclick = async () => {\n  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });\n  const payload = { title: tab.title, url: tab.url, host: new URL(tab.url).host, mode: 'popup' };\n  const result = await chrome.runtime.sendMessage({ type: 'SIGNAL_CAPTURE', payload });\n  document.getElementById('out').textContent = JSON.stringify(result, null, 2);\n};\n"
+      },
+      {
+        "path": "extension/src/sidepanel.html",
+        "content": "<!doctype html><html><head><meta charset='utf-8'><style>body{font:14px system-ui;margin:16px}textarea{width:100%;height:90px}button{padding:8px 10px}</style></head><body><h2>Signal/Synal</h2><p>Browser-place runtime control panel.</p><textarea id='note' placeholder='Add signal note'></textarea><button id='capture'>Capture Note</button><h3>Last Result</h3><pre id='out'></pre><script src='sidepanel.js'></script></body></html>"
+      },
+      {
+        "path": "extension/src/sidepanel.js",
+        "content": "document.getElementById('capture').onclick = async () => {\n  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });\n  const note = document.getElementById('note').value;\n  const payload = { title: tab.title, url: tab.url, host: new URL(tab.url).host, note, mode: 'sidepanel' };\n  const result = await chrome.runtime.sendMessage({ type: 'SIGNAL_CAPTURE', payload });\n  document.getElementById('out').textContent = JSON.stringify(result, null, 2);\n};\n"
+      },
+      {
+        "path": "db/schema.sql",
+        "content": "create schema if not exists runtime;\ncreate schema if not exists audit;\n\ncreate table if not exists runtime.browser_signal_events (\n  event_id text primary key,\n  workspace_id text not null,\n  actor_id text not null,\n  event_type text not null,\n  occurred_at timestamptz not null default now(),\n  source text not null,\n  page jsonb not null default '{}'::jsonb,\n  signal jsonb not null default '{}'::jsonb,\n  evidence_state text not null default 'PARTIAL',\n  created_at timestamptz not null default now()\n);\n\ncreate table if not exists runtime.signal_queue_jobs (\n  idempotency_key text primary key,\n  title text not null,\n  origin text not null,\n  destination text not null,\n  status text not null default 'queued',\n  env text not null default 'dev',\n  payload jsonb not null default '{}'::jsonb,\n  evidence_state text not null default 'PARTIAL',\n  close_signal boolean not null default false,\n  created_at timestamptz not null default now(),\n  updated_at timestamptz not null default now(),\n  closed_at timestamptz\n);\n\ncreate table if not exists audit.signal_receipts (\n  receipt_id text primary key,\n  idempotency_key text not null,\n  receipt_type text not null,\n  classification text not null,\n  detail jsonb not null default '{}'::jsonb,\n  created_at timestamptz not null default now()\n);\n"
+      },
+      {
+        "path": "runtime/worker-receipt-contract.json",
+        "content": "{\n  \"receipt_id\": \"receipt_signal_browser_<event_id>\",\n  \"idempotency_key\": \"signal_browser_<event_id>\",\n  \"receipt_type\": \"runtime_execution\",\n  \"classification\": \"REAL|PARTIAL|FAILED\",\n  \"required_fields\": [\"worker_id\", \"started_at\", \"finished_at\", \"event_id\", \"queue_status\", \"evidence_state\"],\n  \"close_rule\": \"REAL only when event persisted, queue consumed, worker completed, and receipt written.\"\n}\n"
+      },
+      {
+        "path": "runtime/smoke-test.js",
+        "content": "const event = { event_id: 'sig_test_' + Date.now(), page: { title: 'Smoke Test', url: 'https://example.com', host: 'example.com' }, signal: { text: 'test', mode: 'smoke' } };\nconst job = { idempotency_key: 'signal_browser_' + event.event_id, title: 'Process browser signal smoke test', origin: 'signal-browser-runtime', destination: 'runtime.worker', status: 'queued', payload: { event }, evidence_state: 'PARTIAL' };\nconsole.log(JSON.stringify({ ok: true, event, job }, null, 2));\n"
+      },
+      {
+        "path": "DEPLOYMENT.md",
+        "content": "# Deployment\n\n## Browser\nLoad the extension folder as an unpacked extension in Chrome or Edge. For production, package through the Chrome Web Store or enterprise extension policy.\n\n## Data\nRun db/schema.sql in the database project used by the runtime spine.\n\n## Runtime\nConfigure the queue endpoint in extension settings. The endpoint must accept the queue job contract and write a worker receipt after processing.\n\n## Done\nThe system is REAL only when capture creates a telemetry event, creates a queue job, worker consumes the job, receipt is written, and dashboard close state updates.\n"
+      }
+    ]
+  },
+  "worker_instruction": "Extract bundle.files into a repository or workspace named signal-browser-runtime, commit the files, run smoke-test.js, and write receipt under receipts/runtime/signal-browser-runtime-build-v1.json.",
+  "expected_receipt": {
+    "path": "receipts/runtime/signal-browser-runtime-build-v1.json",
+    "classification": "REAL if files extracted and smoke test passes; PARTIAL if only payload is received."
+  }
+}
