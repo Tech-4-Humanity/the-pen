@@ -1,0 +1,51 @@
+{
+  "envelope_id": "TT-BRIDGE-LOOP-V2",
+  "business_id": "TT-BIZ-001",
+  "issue": 117,
+  "mode": "loop_until_receipt_or_blocked",
+  "source_paths": [
+    "businesses/true-trust/00_readme.md",
+    "businesses/true-trust/01_business-registry.json",
+    "businesses/true-trust/05_bridge-work-order.json",
+    "businesses/true-trust/10_readiness-checklist.md",
+    "businesses/true-trust/sql/001_true_trust_schema.sql"
+  ],
+  "compiled_counts": {
+    "services": 10,
+    "products": 10,
+    "journeys": 1,
+    "tasks": 36
+  },
+  "local_validation": {
+    "status": "PASS",
+    "tests_passed": 2,
+    "tests_total": 2,
+    "manifest_sha256": "e8ad4606295e67e3a76fdd275566fbd8cf81312092315649fd2210399547f7e0"
+  },
+  "required_runtime_actions": [
+    "apply_schema",
+    "create_business_row",
+    "create_service_rows",
+    "create_product_rows",
+    "create_journey_rows",
+    "create_execution_tasks",
+    "write_reality_receipt",
+    "reply_to_issue_with_receipt"
+  ],
+  "required_receipt_fields": [
+    "registry_row_id",
+    "service_rows_created_count",
+    "product_rows_created_count",
+    "journey_rows_created_count",
+    "task_rows_created_count",
+    "reality_receipt_id",
+    "evidence_urls_or_ids",
+    "blocked_items"
+  ],
+  "loop_policy": {
+    "max_cycles": 5,
+    "stop_on": ["REAL_receipt", "BLOCKED_with_dependency"],
+    "reject": ["silent_completion", "summary_without_ids", "pretend_done"]
+  },
+  "reality_state": "PARTIAL_UNTIL_RUNTIME_RECEIPT"
+}
