@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doolittles — Signal Theatre</title>
+<style>
+  :root{--bg:#0a0c10;--panel:#12161d;--line:#222a35;--ink:#e7ecf3;--mut:#8b97a8;--ok:#3fb97f;--part:#d8a23a;--blk:#d8553a;--acc:#5b8def}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:28px 18px;max-width:920px;margin:0 auto}
+  h1{font-size:24px;letter-spacing:-.02em}
+  .sub{color:var(--mut);margin:6px 0 18px}
+  .banner{background:#241c0c;border:1px solid var(--part);color:var(--part);padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:20px}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+  .step{flex:1;min-width:120px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12px}
+  .step b{display:block;color:var(--acc);font-size:12px;margin-bottom:3px}
+  .step.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+  label{display:block;color:var(--mut);font-size:13px;margin:14px 0 6px}
+  textarea{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:12px;font:inherit;resize:vertical;min-height:64px}
+  button{margin-top:12px;background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer}
+  button:hover{filter:brightness(1.1)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .chip{background:var(--panel);border:1px solid var(--line);color:var(--mut);font-size:12px;padding:5px 9px;border-radius:99px;cursor:pointer}
+  .sec{margin-top:26px}
+  .sec h2{font-size:15px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+  .pack{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+  .pack .nm{font-weight:600}
+  .pack .meta{color:var(--mut);font-size:13px;margin-top:3px}
+  .pack .why{color:var(--acc);font-size:12px;margin-top:6px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;font-size:12px}
+  .s-REAL{color:var(--ok)}.s-PARTIAL{color:var(--part)}.s-BLOCKED{color:var(--blk)}
+  code{color:var(--mut);font-size:12px}
+  .empty{color:var(--mut);font-size:13px;padding:10px 0}
+</style>
+</head>
+<body>
+  <h1>Doolittles</h1>
+  <div class="sub">Talk to the machines. The experience layer over Synal — signal&nbsp;→&nbsp;intent&nbsp;→&nbsp;catalogue&nbsp;→&nbsp;work&nbsp;→&nbsp;evidence&nbsp;→&nbsp;replay.</div>
+
+  <div class="banner">FIXTURE MODE — matcher logic only. Live catalogue bind to S1 <code>public.v_master_product_catalog</code> (303 rows) is the bounded follow-up; no row shown here is canonical truth.</div>
+
+  <div class="flow" id="flow">
+    <div class="step" data-k="signal"><b>1 · Signal</b>A command or need.</div>
+    <div class="step" data-k="intent"><b>2 · Intent</b>Parsed to an outcome.</div>
+    <div class="step" data-k="catalogue"><b>3 · Catalogue</b>Matched to real packs.</div>
+    <div class="step" data-k="work"><b>4 · Work</b>Tasks proposed + priced.</div>
+    <div class="step" data-k="evidence"><b>5 · Evidence</b>Owner, state, source.</div>
+    <div class="step" data-k="replay"><b>6 · Replay</b>What happened, why.</div>
+  </div>
+
+  <label for="q">What do you need done?</label>
+  <textarea id="q" placeholder="e.g. urgent reading pilot for a school, need proof"></textarea>
+  <div class="chips" id="chips"></div>
+  <button id="go">Run</button>
+
+  <div class="sec"><h2>Matched service packs</h2><div id="packs"><div class="empty">Run an intent to see matched packs.</div></div></div>
+  <div class="sec"><h2>Proof — not promises</h2><div id="proof"><div class="empty">No actions yet.</div></div></div>
+
+<script type="module">
+// In-page port of runtime.mjs logic — kept behaviourally identical to the
+// committed runtime + its passing local test. Source honesty is structural.
+const URG=[[/\b(now|today|urgent|asap|immediately|critical|emergency)\b/i,'immediate'],[/\b(this week|soon|priority|fast)\b/i,'near-term']];
+const AUD=[[/\b(board|director|exec|leadership|investor)\b/i,'leadership'],[/\b(customer|client|user|public|market)\b/i,'external'],[/\b(team|staff|internal|ops)\b/i,'internal']];
+const PRF=[[/\b(receipt|evidence|audit|ledger|prove|proof|verifiable)\b/i,'evidence-required']];
+const STOP=new Set(['the','a','an','to','for','of','and','or','i','we','need','want','get','our','my','with','please','can','you']);
+const tok=s=>(String(s).toLowerCase().match(/[a-z0-9]+/g)||[]).filter(t=>t.length>2&&!STOP.has(t));
+const pick=(t,tb,f)=>{for(const[r,l]of tb)if(r.test(t))return l;return f};
+const FIX=[
+ {id:'FX-AHC',name:'AHC — Book Troy',price:2500,tier:'advisory',window:'2w',tags:['coach','advisory','leadership','strategy','book'],sellable:true},
+ {id:'FX-RBP',name:'Reading Buddy Pilot',price:4900,tier:'pilot',window:'4w',tags:['reading','school','pilot','literacy','kids'],sellable:true},
+ {id:'FX-TRAD',name:'AI for Tradies Audit',price:1500,tier:'audit',window:'1w',tags:['tradie','audit','automation','quote','field'],sellable:true},
+ {id:'FX-BCI',name:'BCI Advisory',price:null,tier:'advisory',window:'3w',tags:['bci','signal','research','advisory','neural'],sellable:false},
+ {id:'FX-MEM',name:'Augmented Memories',price:990,tier:'product',window:'2w',tags:['memory','augmented','capture','recall'],sellable:true}];
+const SRC='fixture';
+const money=v=>v==null?'POA':'$'+v.toLocaleString();
+const lit=['urgent reading pilot for a school, need proof','book Troy for a leadership advisory session','audit my tradie business for automation'];
+const chips=document.getElementById('chips');
+lit.forEach(t=>{const c=document.createElement('span');c.className='chip';c.textContent=t;c.onclick=()=>{document.getElementById('q').value=t;run()};chips.appendChild(c)});
+
+function run(){
+  const raw=document.getElementById('q').value.trim();
+  if(!raw)return;
+  const intent={raw,outcome:raw,urgency:pick(raw,URG,'standard'),audience:pick(raw,AUD,'unspecified'),proof:pick(raw,PRF,'standard')};
+  const want=new Set(tok(raw));
+  const ranked=FIX.map(p=>{const tg=new Set(p.tags.flatMap(tok));const m=[...want].filter(x=>tg.has(x));let s=m.length;if(intent.proof==='evidence-required'&&p.sellable)s+=.5;return{p,s,m}})
+    .filter(x=>x.s>0).sort((a,b)=>b.s-a.s||a.p.id.localeCompare(b.p.id));
+  const ts=()=>new Date().toISOString();
+  const proof=[
+   {a:'signal.received',st:'REAL',src:'user-intake',ev:`intent_len=${raw.length}`},
+   {a:'intent.parsed',st:'REAL',src:'doolittles-runtime',ev:`audience=${intent.audience}|urgency=${intent.urgency}|proof=${intent.proof}`},
+   {a:'catalogue.loaded',st:'PARTIAL',src:SRC,ev:`packs=${FIX.length} adapter=fixture-v1`},
+   {a:'catalogue.matched',st:ranked.length?'REAL':'PARTIAL',src:SRC,ev:`matched_packs=${ranked.length}`},
+   {a:'work.proposed',st:ranked.length?'REAL':'BLOCKED',src:'doolittles-runtime',ev:`work_items=${Math.min(ranked.length,3)}`},
+   {a:'replay.assembled',st:'REAL',src:'doolittles-runtime',ev:`steps=6`}
+  ].map(x=>({...x,ts:ts(),owner:'doolittles-runtime'}));
+
+  [...document.querySelectorAll('.step')].forEach(s=>s.classList.add('on'));
+  const pk=document.getElementById('packs');
+  pk.innerHTML=ranked.length?'':'<div class="empty">No packs matched. Try different wording.</div>';
+  ranked.slice(0,3).forEach(({p,m})=>{const d=document.createElement('div');d.className='pack';
+    d.innerHTML=`<div class="nm">${p.name}</div><div class="meta">${money(p.price)} · ${p.tier} · ${p.window}${p.sellable?' · sellable':''}</div><div class="why">matched: ${m.join(', ')||'—'}</div>`;
+    pk.appendChild(d)});
+
+  const pr=document.getElementById('proof');
+  pr.innerHTML='<table><tr><th>Action</th><th>State</th><th>Source</th><th>Evidence</th></tr>'+
+    proof.map(s=>`<tr><td>${s.a}</td><td class="s-${s.st}">${s.st}</td><td><code>${s.src}</code></td><td><code>${s.ev}</code></td></tr>`).join('')+'</table>';
+}
+document.getElementById('go').onclick=run;
+</script>
+</body>
+</html>
