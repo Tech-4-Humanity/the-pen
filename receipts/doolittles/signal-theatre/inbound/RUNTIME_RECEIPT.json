@@ -1,0 +1,26 @@
+{
+  "receipt_type": "runtime",
+  "direction": "inbound",
+  "system": "DOOLITTLES",
+  "job_key": "doolittles_signal_theatre_deploy",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "claude-verification-session",
+  "receiver": "TML-4PM/the-pen registry",
+  "status": "PARTIAL",
+  "job": "Confirm Signal Theatre renders on Vercel production.",
+  "real": [
+    "Commit f17d6088 (Signal Theatre UI) deployed: Vercel dpl_4onM3GRSWN3FakumXV8uwbArL7Jc state=READY target=production",
+    "All 10 Doolittles commits f8c2df51..13a8ed6e produced READY production deployments — zero build failures",
+    "Latest production = closure commit 13a8ed6e, dpl_DErtE4Lhcuwie2oNpwbahDNmcqeK, READY"
+  ],
+  "partial_reason": "Build pipeline verified green (deployment READY) but the rendered page could NOT be fetched anonymously: the-pen Vercel project has ssoProtection.deploymentType='all_except_custom_domains' (verified via vercel_project_inspect). 'Deployed and READY' is REAL; 'renders correctly in a browser' is NOT verified from this session and is not claimed.",
+  "unblock_condition": "Visual confirmation via an authenticated session at the-pen-six.vercel.app/doolittles/signal-theatre.html, OR a custom domain exempt from SSO, OR get_access_to_vercel_url bypass link reviewed by the director.",
+  "evidence": [
+    "Vercel:list_deployments project prj_VGPFRbXPULFkrjFjkkkoqYorjBZB — 12 deployments, all state READY",
+    "vercel_project_inspect the-pen: ssoProtection deploymentType all_except_custom_domains"
+  ],
+  "created_at_utc": "2026-05-18T22:44:31Z",
+  "updated_at_utc": "2026-05-18T22:44:31Z",
+  "search_tags": ["doolittles","signal-theatre","vercel","deployed-ready","render-unverified","sso","the-pen"]
+}
