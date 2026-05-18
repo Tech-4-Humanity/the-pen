@@ -1,0 +1,30 @@
+{
+  "receipt_type": "implementation",
+  "direction": "inbound",
+  "system": "DOOLITTLES",
+  "job_key": "doolittles_runtime_signal_theatre",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "claude-build-session",
+  "receiver": "TML-4PM/the-pen registry",
+  "status": "COMPLETE",
+  "documents": [
+    "doolittles/runtime.mjs",
+    "doolittles/runtime.test.mjs",
+    "doolittles/signal-theatre.html"
+  ],
+  "evidence": [
+    "runtime.mjs sha256[:16]=02691b562eb88bd3",
+    "intent parser + deterministic pure matcher + 6-step typed proof chain",
+    "CatalogueAdapter abstraction: fixtureAdapter (source:fixture) + liveAdapter (binds public.v_master_product_catalog, throws until wired — refuses to fabricate)",
+    "Signal Theatre static zero-build HTML, vanilla CSS/JS, FIXTURE MODE banner, proof panel"
+  ],
+  "design_decisions": [
+    ".mjs over .ts: the-pen has no TS build config (Vercel framework=null, buildCommand=null verified) — executable truth over decorative",
+    "No hardcoded catalogue rows anywhere: structural anti-fabrication vs prior catalog_master '102 rows' failure",
+    "Source honesty enforced in code + asserted in test: a fixture run cannot report live catalogue as source"
+  ],
+  "created_at_utc": "2026-05-18T22:34:12Z",
+  "updated_at_utc": "2026-05-18T22:34:12Z",
+  "search_tags": ["doolittles","implementation","runtime","signal-theatre","the-pen"]
+}
