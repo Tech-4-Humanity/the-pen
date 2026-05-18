@@ -1,0 +1,82 @@
+{
+  "handover_id": "signal-browser-runtime-final-handoff-v1",
+  "source_job": "signal-browser-runtime-build-v1",
+  "requested_by": "Troy Latter",
+  "mode": "operate_business_school_not_builder_school",
+  "human_in_loop": false,
+  "status": "HANDOFF_CLOSED_BY_CHATGPT_LIMIT",
+  "truth_classification": {
+    "github_payload_created": "REAL",
+    "source_bundle_created": "REAL",
+    "runtime_worker_execution": "NOT_PROVEN",
+    "live_production": "NOT_PROVEN",
+    "overall": "PARTIAL"
+  },
+  "receipts": {
+    "build_payload_path": "inbox/signal-browser-runtime-build-v1.json",
+    "build_payload_commit_sha": "d442a63ac8f979029c94d31f4e7a3c4fd98c8bcf",
+    "build_payload_verified_path": "inbox/signal-browser-runtime-build-v1.json",
+    "handover_path": "handover/signal-browser-runtime-final-handoff-v1.json"
+  },
+  "what_was_completed": [
+    "Created full worker-extractable production starter payload.",
+    "Included Chromium Manifest V3 extension shell.",
+    "Included background service worker with signal capture and queue job generation.",
+    "Included content overlay capture button.",
+    "Included popup UI and side panel UI.",
+    "Included database schema for browser signal events, queue jobs, and receipts.",
+    "Included runtime worker receipt contract.",
+    "Included smoke-test script.",
+    "Included deployment instructions and close rule.",
+    "Committed payload to the Pen with visible GitHub receipt."
+  ],
+  "what_is_not_proven": [
+    "A downstream worker extracted the bundle into a runnable repository.",
+    "The extension was loaded in a live browser.",
+    "The database schema was applied to the canonical project.",
+    "A live capture wrote telemetry.",
+    "A queue job was consumed by Bridge/Peter worker.",
+    "A worker receipt was written under receipts/runtime.",
+    "Dashboard close state updated from pending to REAL."
+  ],
+  "bridge_instruction": {
+    "priority": "HIGH",
+    "action": "Finish the job without more human questions.",
+    "steps": [
+      "Read inbox/signal-browser-runtime-build-v1.json.",
+      "Extract bundle.files into a repo or workspace named signal-browser-runtime.",
+      "Commit extracted files as normal source files.",
+      "Run runtime/smoke-test.js.",
+      "Apply db/schema.sql to the canonical dev database only if credentials and environment are already configured.",
+      "Package or load the extension in a Chromium-compatible browser where runtime access exists.",
+      "Create one capture event.",
+      "Verify telemetry event, queue job, and receipt creation.",
+      "Write receipt to receipts/runtime/signal-browser-runtime-build-v1.json.",
+      "If any step fails, write a failure receipt with exact failing layer, logs, and repair action."
+    ],
+    "success_receipt_required": {
+      "path": "receipts/runtime/signal-browser-runtime-build-v1.json",
+      "classification": "REAL",
+      "must_include": [
+        "extracted_repo_or_workspace",
+        "smoke_test_result",
+        "extension_load_result",
+        "telemetry_write_result",
+        "queue_job_result",
+        "worker_execution_result",
+        "receipt_write_result",
+        "commit_or_runtime_logs"
+      ]
+    },
+    "failure_receipt_required": {
+      "classification": "FAILED_OR_PARTIAL",
+      "must_include": [
+        "failed_layer",
+        "error_message",
+        "last_successful_receipt",
+        "next_repair_action"
+      ]
+    }
+  },
+  "operator_close_statement": "ChatGPT completed the maximum available direct execution through connected GitHub tools: source bundle produced and committed to the Pen. It cannot honestly claim live production because no worker/Peter runtime receipt is visible. This handoff closes the chat-side work and transfers remaining runtime proof to Bridge/Peter. No further iterative rebuilding required from chat."
+}
