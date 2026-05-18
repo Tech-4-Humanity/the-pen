@@ -1,0 +1,38 @@
+{
+  "receipt_type": "closure",
+  "direction": "inbound",
+  "system": "DOOLITTLES",
+  "job_key": "doolittles_runtime_signal_theatre",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "claude-build-session",
+  "receiver": "TML-4PM/the-pen registry",
+  "status": "COMPLETE",
+  "closes": "receipts/doolittles/runtime/inbound/RUNTIME_RECEIPT.json (was PARTIAL: live bind pending)",
+  "documents": [
+    "doolittles/runtime.mjs",
+    "doolittles/catalogue.live.mjs",
+    "doolittles/runtime.test.mjs",
+    "doolittles/signal-theatre.html"
+  ],
+  "evidence": [
+    "catalogue.live.mjs sha256[:16]=2cbdfbd8809d6759",
+    "S1 lzfgigiyqpuuxslsygjt public.v_master_product_catalog row_count=303 (verified, matches canonical)",
+    "schema verified via information_schema.columns: 27 columns; adapter binds slug/name/base_price/tier/delivery_timeframe_days/customer_outcome/tags",
+    "is_canonical AND is_active count = 96 (verified)",
+    "LIVE round-trip: intent 'AI risk and compliance assessment for the board with audit evidence' -> 3 matched packs (ai-audit-oversight-system $35000, ai-risk-assessment-compliance $80000, ai-risk-compliance-framework $35000)",
+    "proof chain all 6 steps REAL, source=public.v_master_product_catalog, zero fixture leakage, exit 0"
+  ],
+  "corrections_to_memory": [
+    "PRIOR BELIEF '22 Stripe-wired sellable items on this catalogue' is FALSE for S1 v_master_product_catalog: stripe_price_id synced=0, stripe_product_id present=0 across all 303 rows. Stripe wiring, if present, is on S2 (pflisxkcxbzboxwidywf) which this view does not join. Adapter therefore reports sellable=null (unknown-on-S1) rather than fabricate it.",
+    "Canonical+active subset is 96 rows, not 303; 303 is the full view incl. non-canonical/inactive.",
+    "Prior-session blocker 'no SQL read path available in this session' was FALSE — Supabase:execute_sql + T4H supabase_sql_read were loadable via tool_search the whole time. Self-correction logged."
+  ],
+  "residual_followups": [
+    "S2 sellable/Stripe subset binding (separate DB, separate adapter) — not in scope of S1 catalogue, requires its own receipt",
+    "Vercel production render of doolittles/signal-theatre.html post-deploy not yet visually confirmed"
+  ],
+  "created_at_utc": "2026-05-18T22:39:37Z",
+  "updated_at_utc": "2026-05-18T22:39:37Z",
+  "search_tags": ["doolittles","closure","runtime","live-bind","v_master_product_catalog","REAL","memory-correction","the-pen"]
+}
