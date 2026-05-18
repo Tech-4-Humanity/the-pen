@@ -1,0 +1,136 @@
+{
+  "idempotency_key": "ahc-workfamilyai-system-uplift-handoff-2026-05-18",
+  "created_at": "2026-05-18T00:00:00+10:00",
+  "origin": "chatgpt-github-connector",
+  "destination": "bridge",
+  "classification": "PARTIAL",
+  "fail_note": {
+    "id": "FAIL-2026-05-18-AHC-WORKFAMILYAI-RUNTIME-GAP",
+    "summary": "System has strong product/agent presentation and partial queue/bridge governance, but is not yet a stable observable recoverable runtime. A 72h autonomy test is invalid until the broken substrate is repaired.",
+    "reason": "No canonical runtime graph, incomplete telemetry continuity, unresolved 49 vs 81 agent registry mismatch, partial orchestration truth, missing deterministic recovery, and incomplete monetisation linkage.",
+    "decision": "Do not run long-duration autonomy proof yet. Build the repair substrate first."
+  },
+  "canonical_facts": {
+    "aws_region": "ap-southeast-2",
+    "aws_account": "140548542136",
+    "canonical_bridge_endpoint": "zdgnab3py0",
+    "deprecated_bridge_endpoint": "m5oqj21chd",
+    "current_real_flow": "Pen poller / Vercel cron -> ops.work_queue -> Bridge -> Lambda workers -> Supabase receipts",
+    "agent_count_conflict": {
+      "presentation_claim": 81,
+      "latest_verified_audit_count": 49,
+      "required_action": "reconcile and produce canonical machine-readable roster"
+    }
+  },
+  "target": "stable observable recoverable monetisable agentic business runtime substrate",
+  "not_target_yet": "72h autonomy test",
+  "first_real_target": "1-hour unattended deterministic recoverability proof",
+  "execution_program": [
+    {
+      "phase": "0_stop_topology_drift",
+      "actions": [
+        "freeze new duplicate orchestration surfaces unless registered",
+        "inventory repos, Vercel surfaces, Lambda workers, Supabase runtime tables, domains, and active queues",
+        "mark duplicates, dead endpoints, stale workers, and non-canonical paths"
+      ],
+      "receipt_required": true
+    },
+    {
+      "phase": "1_canonical_truth",
+      "actions": [
+        "confirm canonical source of truth for WorkFamilyAI/AHC agent roster",
+        "reconcile 49 vs 81 agents",
+        "produce registry rows for every agent, division, product surface, queue owner, and runtime identity",
+        "write canonical registry export to repo and Supabase receipt"
+      ],
+      "receipt_required": true
+    },
+    {
+      "phase": "2_runtime_graph",
+      "actions": [
+        "build executable system graph: surfaces, domains, repos, workers, queues, tables, receipts, agents, products, owners",
+        "generate dependency DAG and orphan report",
+        "attach graph IDs to queue jobs and receipts"
+      ],
+      "receipt_required": true
+    },
+    {
+      "phase": "3_orchestration_stabilisation",
+      "actions": [
+        "verify Pen poller/Vercel cron operation",
+        "verify ops.work_queue transitions",
+        "verify Bridge invocation path",
+        "verify Lambda worker inventory",
+        "repair dead or non-firing trigger paths",
+        "produce queue replay test"
+      ],
+      "receipt_required": true
+    },
+    {
+      "phase": "4_telemetry_ledger",
+      "actions": [
+        "implement unified telemetry event schema",
+        "log job_id, agent_id, runtime_id, business_slug, receipt_ref, health_state, economic_ref, recovery_pointer",
+        "create daily reconciliation summary",
+        "classify evidence REAL/PARTIAL/PRETEND"
+      ],
+      "receipt_required": true
+    },
+    {
+      "phase": "5_recovery_runtime",
+      "actions": [
+        "detect orphan jobs",
+        "replay failed queue items idempotently",
+        "restart failed workers or mark blocked with proof",
+        "verify deterministic recovery from at least one induced failure"
+      ],
+      "receipt_required": true
+    },
+    {
+      "phase": "6_monetisation_mapping",
+      "actions": [
+        "convert audit into paid diagnostic package",
+        "convert runtime graph into white-label command centre offer",
+        "convert telemetry/recovery into managed survivability service",
+        "map WorkFamilyAI/AHC agents to productised capability units",
+        "produce pricing/product registry rows"
+      ],
+      "receipt_required": true
+    },
+    {
+      "phase": "7_controlled_autonomy_windows",
+      "actions": [
+        "run 15m, 30m, 1h unattended recoverability windows",
+        "only progress to 6h/12h/24h/72h after receipts prove clean recovery and telemetry continuity"
+      ],
+      "receipt_required": true
+    }
+  ],
+  "required_outputs": [
+    "runtime_inventory.json",
+    "canonical_agent_roster.json",
+    "system_graph.json",
+    "orphan_report.md",
+    "nested_cfn_factory_stub/",
+    "telemetry_ledger_schema.sql",
+    "recovery_runtime_spec.md",
+    "monetisation_package.md",
+    "bridge_receipt.json"
+  ],
+  "definition_of_done": {
+    "minimum": [
+      "GitHub handoff committed",
+      "bridge worker receipt generated",
+      "runtime inventory produced",
+      "49 vs 81 roster conflict resolved or explicitly blocked",
+      "one queue replay/recovery test executed",
+      "monetisation package produced"
+    ],
+    "not_done_until": [
+      "observable evidence exists",
+      "receipts reconcile",
+      "blocked items have reasons",
+      "no PRETEND claims are promoted"
+    ]
+  }
+}
