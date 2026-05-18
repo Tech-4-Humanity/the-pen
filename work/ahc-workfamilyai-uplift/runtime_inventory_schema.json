@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.com.au/schemas/ahc-workfamilyai/runtime_inventory_schema.json",
+  "title": "AHC WorkFamilyAI Runtime Inventory",
+  "type": "object",
+  "required": ["inventory_id", "captured_at", "classification", "systems", "agents", "queues", "workers", "surfaces", "receipts"],
+  "properties": {
+    "inventory_id": {"type": "string"},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "classification": {"enum": ["REAL", "PARTIAL", "PRETEND"]},
+    "canonical_bridge_endpoint": {"const": "zdgnab3py0"},
+    "aws_region": {"const": "ap-southeast-2"},
+    "aws_account": {"const": "140548542136"},
+    "systems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["system_id", "name", "kind", "status", "canonical"],
+        "properties": {
+          "system_id": {"type": "string"},
+          "name": {"type": "string"},
+          "kind": {"enum": ["repo", "domain", "vercel_surface", "lambda", "supabase_table", "queue", "agent_roster", "product", "workflow"]},
+          "status": {"enum": ["active", "stale", "dead", "duplicate", "unknown", "blocked"]},
+          "canonical": {"type": "boolean"},
+          "source_ref": {"type": "string"},
+          "owner": {"type": "string"},
+          "evidence_ref": {"type": "string"}
+        }
+      }
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agent_id", "display_name", "division", "runtime_state", "evidence_state"],
+        "properties": {
+          "agent_id": {"type": "string"},
+          "display_name": {"type": "string"},
+          "division": {"type": "string"},
+          "runtime_identity": {"type": "string"},
+          "queue_affinity": {"type": "string"},
+          "runtime_state": {"enum": ["DECLARED", "REGISTERED", "PROVISIONED", "ACTIVE", "DEGRADED", "BLOCKED", "RECOVERING", "VALIDATING", "LOCKED", "ARCHIVED"]},
+          "evidence_state": {"enum": ["REAL", "PARTIAL", "PRETEND", "DEGRADED", "UNVERIFIED", "ORPHANED", "STALE"]},
+          "capability_manifest_ref": {"type": "string"},
+          "receipt_ref": {"type": "string"}
+        }
+      }
+    },
+    "queues": {"type": "array", "items": {"type": "object"}},
+    "workers": {"type": "array", "items": {"type": "object"}},
+    "surfaces": {"type": "array", "items": {"type": "object"}},
+    "receipts": {"type": "array", "items": {"type": "object"}}
+  }
+}
