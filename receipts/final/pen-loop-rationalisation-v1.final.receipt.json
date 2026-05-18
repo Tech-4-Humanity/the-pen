@@ -1,0 +1,26 @@
+{
+  "receipt_type": "pen_final_receipt",
+  "idempotency_key": "pen-loop-rationalisation-v1",
+  "state": "REAL",
+  "evidence_state": "REAL",
+  "created_at": "2026-05-18T00:00:00Z",
+  "repo": "TML-4PM/the-pen",
+  "autonomous": true,
+  "hitl_required": false,
+  "summary": "Loop/cycle/sweep rationalisation completed. Primary executor (pen-inbox-dispatch) and sweep backstop (pen-queue-cron) verified live with correct flat bridge envelope. Zombie pen-dispatch (broken {job:job} envelope, redundant */30 cron) neutralised to manual read-only state rollup.",
+  "evidence": [
+    {"type": "github_file", "path": ".github/workflows/pen-inbox-dispatch.yml", "sha": "39a54d8525f84f6a5a04c653305e77b6e9ae1f4f", "role": "PRIMARY executor — verified push-triggered, idempotent, hard-gated, flat envelope"},
+    {"type": "github_file", "path": ".github/workflows/pen-queue-cron.yml", "sha": "e252d9e8d80503a3283b269543cdef120cc8c20d", "role": "SWEEP backstop — verified */30, flat envelope, idempotent"},
+    {"type": "github_file", "path": ".github/workflows/pen-dispatch.yml", "role": "RETIRED — schedule + bridge dispatch removed this change"},
+    {"type": "commit_id", "value": "9031a63de038d91d3f049e590bfb91e7caa5b2b2", "role": "prior governance note commit (docs: pen poller governance)"},
+    {"type": "github_file", "path": "docs/PEN_POLLER_LOOP_ARCHITECTURE.md", "role": "canonical loop topology — single operational truth"}
+  ],
+  "drift_closed": [
+    "runtime_drift: redundant */30 cron with broken envelope removed",
+    "orphan_compute: ~720 no-op Actions runs/day eliminated (dead */2 cron previously replaced by pen-queue-cron rewrite)",
+    "parallel_state_conflict: two competing dispatch paths reduced to one primary + one idempotent sweep"
+  ],
+  "impact": "Inbox pickup latency reduced from up to 30 min to seconds; scheduled compute halved; no more silent FAILED/PARTIAL receipts from bad envelope.",
+  "rollback": "git revert this commit restores prior pen-dispatch.yml; no runtime side effects were executed by this change.",
+  "next": "None required. Topology is self-governing: primary on push, sweep backstop */30, both idempotent and no-HITL."
+}
