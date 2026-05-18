@@ -1,0 +1,31 @@
+{
+  "receipt_type": "blocker",
+  "direction": "inbound",
+  "system": "DOOLITTLES",
+  "job_key": "doolittles_runtime_signal_theatre",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "chat-assistant-prior-session",
+  "receiver": "claude-verification-session",
+  "status": "SUPERSEDED",
+  "superseded_by": "receipts/doolittles/runtime/inbound/RUNTIME_RECEIPT.json",
+  "documents": ["README.md", "receipts/README.md"],
+  "commits": ["69e86f12834994bfbc4dd9cec2fd21af5800046c"],
+  "evidence": [
+    "github_repo_inspect TML-4PM/the-pen: latest_commit 69e86f12, default_branch main",
+    "vercel_project_inspect the-pen: prod dpl_5Q4dVdtK8WFqyQY9n26kCdCLZtD6 READY/PROMOTED commit 69e86f12 — no Doolittles artefact pre-this-commit",
+    "github_file_read README.md@main: intake-gate doctrine only, zero Doolittles references",
+    "github_file_read docs/doolittles-runtime-receipt.json@main: HTTP 404",
+    "github_file_read doolittles/runtime.ts@main: HTTP 404",
+    "github_repo_inspect TML-4PM/doolittles: HTTP 404 (repo absent)"
+  ],
+  "blockers": [
+    "Prior-session cited evidence file docs/doolittles-runtime-receipt.json unverifiable: HTTP 404 — not replayable, rejected under runtime_truth_layer.",
+    "Prior report carried foreign-tool citation artefacts (contentReference/oaicite): authored outside this runtime, origin chain unverified.",
+    "No committed runtime/UI existed prior to commit closing this receipt."
+  ],
+  "root_cause": "Doolittles was a real design over Synal with no committed runtime. Prior BLOCKED was asserted with no ledger receipt and rested on a non-existent evidence file — PRETEND under the kernel. This receipt converted it to a real, replayable state, then build resolved it within the same commit.",
+  "created_at_utc": "2026-05-18T22:25:20Z",
+  "updated_at_utc": "2026-05-18T22:34:12Z",
+  "search_tags": ["doolittles","synal","runtime","blocked","superseded","the-pen","prior-session-fabrication"]
+}
