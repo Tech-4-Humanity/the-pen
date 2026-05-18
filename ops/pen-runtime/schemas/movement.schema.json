@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MovementLedgerEntry",
+  "type": "object",
+  "required": ["task_id", "from_status", "to_status", "actor", "moved_at"],
+  "properties": {
+    "task_id": { "type": "string", "format": "uuid" },
+    "from_status": { "type": "string", "enum": ["OPEN", "ACTIVE", "PARTIAL", "BLOCKED", "REAL", "CLOSED"] },
+    "to_status": { "type": "string", "enum": ["OPEN", "ACTIVE", "PARTIAL", "BLOCKED", "REAL", "CLOSED"] },
+    "actor": { "type": "string" },
+    "note": { "type": "string" },
+    "moved_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BridgePayload",
+  "type": "object",
+  "required": ["task_id", "action", "repo", "issue_number"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "action": { "type": "string", "enum": ["execute", "validate", "close", "receipt", "sweep"] },
+    "repo": { "type": "string" },
+    "issue_number": { "type": "integer" },
+    "priority": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"] },
+    "payload": { "type": "object" },
+    "require_receipt": { "type": "boolean", "default": true },
+    "dispatched_at": { "type": "string", "format": "date-time" }
+  }
+}

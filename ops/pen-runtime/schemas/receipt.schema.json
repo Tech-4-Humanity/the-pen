@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PenReceipt",
+  "type": "object",
+  "required": ["status", "task_id", "created_at"],
+  "properties": {
+    "status": { "type": "string", "enum": ["REAL", "PARTIAL", "BLOCKED", "FAIL"] },
+    "task_id": { "type": "string" },
+    "source": { "type": "string" },
+    "target": { "type": "string" },
+    "commit_sha": { "type": ["string", "null"] },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "value": { "type": "string" },
+          "uri": { "type": "string" }
+        }
+      }
+    },
+    "gaps": { "type": "array", "items": { "type": "string" } },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}
