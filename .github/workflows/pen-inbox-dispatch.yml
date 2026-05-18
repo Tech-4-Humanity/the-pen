@@ -1,4 +1,4 @@
-name: Pen Inbox Dispatch
+name: Pen Inbox Dispatch + Execute
 
 on:
   push:
@@ -23,9 +23,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  trigger-receipt:
-    name: Emit trigger receipt
+  dispatch-and-execute:
+    name: Detect → Execute → Receipt (no HITL)
     runs-on: ubuntu-latest
+    env:
+      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
+      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +40,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p receipts/runtime
+          mkdir -p receipts/runtime receipts/final state
 
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && -n "${{ inputs.payload_path }}" ]]; then
             printf '%s\n' "${{ inputs.payload_path }}" > /tmp/payloads.txt
@@ -54,61 +57,180 @@ jobs:
           sort -u /tmp/payloads.txt > /tmp/payloads.sorted.txt
           mv /tmp/payloads.sorted.txt /tmp/payloads.txt
           echo "payload_count=$(wc -l < /tmp/payloads.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          echo "Payloads to process:"
+          cat /tmp/payloads.txt
 
-      - name: Validate payloads and emit pre-runtime receipts
+      - name: Execute payloads via bridge + write receipts
         if: steps.payloads.outputs.payload_count != '0'
         shell: bash
         run: |
           set -euo pipefail
-          while IFS= read -r payload; do
-            if [[ ! -f "$payload" ]]; then
-              echo "Missing payload: $payload" >&2
-              exit 1
-            fi
+          now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-            python3 - "$payload" <<'PY'
-          import hashlib, json, pathlib, re, sys, time
-          payload_path = pathlib.Path(sys.argv[1])
-          data = json.loads(payload_path.read_text())
-          required = ["idempotency_key", "action", "mode", "receipt_expected"]
-          missing = [k for k in required if k not in data]
-          if missing:
-              raise SystemExit(f"Missing required fields in {payload_path}: {missing}")
-          idem = str(data["idempotency_key"])
-          safe = re.sub(r"[^A-Za-z0-9_.-]+", "-", idem).strip("-") or hashlib.sha256(idem.encode()).hexdigest()[:16]
-          digest = hashlib.sha256(payload_path.read_bytes()).hexdigest()
-          receipt = {
-              "receipt_type": "pen_inbox_trigger_pre_runtime",
-              "classification": "PARTIAL",
-              "idempotency_key": idem,
-              "payload_path": str(payload_path),
-              "payload_sha256": digest,
-              "trigger_commit_sha": "${{ github.sha }}",
-              "trigger_workflow": "pen-inbox-dispatch.yml",
-              "trigger_run_id": "${{ github.run_id }}",
-              "trigger_run_attempt": "${{ github.run_attempt }}",
-              "event_name": "${{ github.event_name }}",
-              "status": "TRIGGER_RECEIVED_RUNTIME_PENDING",
-              "created_at_epoch": int(time.time()),
-              "next_expected": "external runtime/bridge worker must publish final receipt with artifact evidence"
+          python3 - <<'PY'
+          import hashlib, json, pathlib, re, sys, time, urllib.request, urllib.error, os
+
+          bridge_url = os.environ.get("BRIDGE_INVOKE_URL", "")
+          bridge_key = os.environ.get("BRIDGE_API_KEY", "")
+          repo      = os.environ.get("GITHUB_REPOSITORY", "")
+          sha       = os.environ.get("GITHUB_SHA", "")
+          run_id    = os.environ.get("GITHUB_RUN_ID", "")
+          now       = __import__("datetime").datetime.utcnow().isoformat() + "Z"
+
+          runtime_dir = pathlib.Path("receipts/runtime")
+          final_dir   = pathlib.Path("receipts/final")
+          runtime_dir.mkdir(parents=True, exist_ok=True)
+          final_dir.mkdir(parents=True, exist_ok=True)
+
+          results = []
+
+          with open("/tmp/payloads.txt") as f:
+              paths = [l.strip() for l in f if l.strip()]
+
+          for payload_path_str in paths:
+              payload_path = pathlib.Path(payload_path_str)
+              key = payload_path.stem
+
+              try:
+                  data = json.loads(payload_path.read_text())
+                  key  = data.get("idempotency_key") or key
+              except Exception as exc:
+                  results.append({"key": key, "state": "FAILED", "error": f"invalid json: {exc}"})
+                  continue
+
+              safe = re.sub(r"[^A-Za-z0-9_.-]+", "-", key).strip("-")[:80]
+
+              # Skip if final receipt already exists (idempotent)
+              final_path = final_dir / f"{safe}.final.receipt.json"
+              if final_path.exists():
+                  print(f"SKIP (already receipted): {key}")
+                  results.append({"key": key, "state": "SKIP_ALREADY_DONE"})
+                  continue
+
+              # Hard gate — destructive/credential ops must go through controlled path
+              text = json.dumps(data).lower()
+              BLOCKED_TERMS = ["drop table", "delete from", "destroy", "refund", "charge customer",
+                               "iam:", "secret", "credential", "truncate"]
+              gate = next((t for t in BLOCKED_TERMS if t in text), None)
+              if gate:
+                  receipt = {
+                      "receipt_type": "pen_final_receipt",
+                      "idempotency_key": key,
+                      "state": "BLOCKED",
+                      "evidence_state": "PARTIAL",
+                      "blocker": f"hard gate: '{gate}' — route through approved controlled path",
+                      "created_at": now, "repo": repo, "commit_sha": sha,
+                      "source_job_path": str(payload_path),
+                  }
+                  final_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+                  results.append({"key": key, "state": "BLOCKED", "gate": gate})
+                  continue
+
+              # Bridge dispatch — no HITL, loop until done or fail
+              if not bridge_url or not bridge_key:
+                  receipt = {
+                      "receipt_type": "pen_final_receipt",
+                      "idempotency_key": key,
+                      "state": "BLOCKED",
+                      "evidence_state": "PARTIAL",
+                      "blocker": "BRIDGE_INVOKE_URL or BRIDGE_API_KEY missing",
+                      "created_at": now, "repo": repo, "commit_sha": sha,
+                      "source_job_path": str(payload_path),
+                  }
+                  final_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+                  results.append({"key": key, "state": "BLOCKED", "reason": "no bridge creds"})
+                  continue
+
+              # Build bridge envelope — pass the whole job as payload
+              fn      = data.get("fn") or data.get("action") or "pen-generic-executor"
+              envelope = json.dumps({
+                  "idempotency_key": key,
+                  "fn": fn,
+                  "payload": data,
+                  "source": "the-pen",
+                  "mode": "AUTONOMOUS",
+              }).encode("utf-8")
+
+              req = urllib.request.Request(
+                  bridge_url, data=envelope, method="POST",
+                  headers={"Content-Type": "application/json", "x-api-key": bridge_key}
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=60) as resp:
+                      body   = resp.read().decode("utf-8", errors="replace")
+                      status = resp.status
+                  ok = 200 <= status < 300
+                  state = "REAL" if ok else "PARTIAL"
+              except urllib.error.HTTPError as exc:
+                  body   = exc.read().decode("utf-8", errors="replace")[:2000]
+                  status = exc.code
+                  ok     = False
+                  state  = "PARTIAL"
+              except Exception as exc:
+                  body   = str(exc)
+                  status = 0
+                  ok     = False
+                  state  = "FAILED"
+
+              receipt = {
+                  "receipt_type":    "pen_inbox_execution_receipt",
+                  "idempotency_key": key,
+                  "state":           state,
+                  "evidence_state":  state,
+                  "bridge_status":   status,
+                  "bridge_response": body[:3000],
+                  "fn":              fn,
+                  "created_at":      now,
+                  "repo":            repo,
+                  "commit_sha":      sha,
+                  "workflow_run_id": run_id,
+                  "source_job_path": str(payload_path),
+                  "autonomous":      True,
+                  "hitl_required":   False,
+              }
+
+              # Write both trigger + final receipts
+              trigger_path = runtime_dir / f"{safe}.trigger-receipt.json"
+              trigger_path.write_text(json.dumps({
+                  **receipt,
+                  "receipt_type": "pen_inbox_trigger_pre_runtime",
+                  "classification": "PARTIAL",
+                  "status": "TRIGGER_RECEIVED_RUNTIME_PENDING",
+              }, indent=2, sort_keys=True) + "\n")
+
+              final_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+              results.append({"key": key, "state": state, "bridge_http": status})
+              print(f"{'OK' if ok else 'PARTIAL'} [{status}] {key}")
+
+          # Write sweep summary
+          summary = {
+              "sweep_at":    now,
+              "run_id":      run_id,
+              "commit_sha":  sha,
+              "total":       len(results),
+              "real":        sum(1 for r in results if r.get("state") == "REAL"),
+              "partial":     sum(1 for r in results if r.get("state") == "PARTIAL"),
+              "failed":      sum(1 for r in results if r.get("state") == "FAILED"),
+              "blocked":     sum(1 for r in results if r.get("state") == "BLOCKED"),
+              "skipped":     sum(1 for r in results if r.get("state") == "SKIP_ALREADY_DONE"),
+              "results":     results,
+              "autonomous":  True,
+              "hitl":        False,
           }
-          out = pathlib.Path("receipts/runtime") / f"{safe}.trigger-receipt.json"
-          out.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
-          print(out)
+          pathlib.Path("state/pen_inbox_sweep.json").write_text(
+              json.dumps(summary, indent=2, sort_keys=True) + "\n"
+          )
+          print(f"\nSweep complete: {summary}")
           PY
-          done < /tmp/payloads.txt
 
-      - name: Commit trigger receipts
-        if: steps.payloads.outputs.payload_count != '0'
-        shell: bash
+      - name: Commit receipts and sweep state
         run: |
-          set -euo pipefail
-          if git diff --quiet -- receipts/runtime; then
-            echo "No trigger receipt changes to commit."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add receipts/runtime/*.trigger-receipt.json
-          git commit -m "emit pen inbox trigger receipt for ${{ github.sha }}"
-          git push
+          git add receipts/ state/ || true
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "pen-inbox: autonomous execute + receipt [${{ github.sha }}]"
+            git push
+          fi
