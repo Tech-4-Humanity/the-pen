@@ -1,0 +1,25 @@
+{
+  "receipt_type": "blocker",
+  "direction": "inbound",
+  "system": "DOOLITTLES",
+  "job_key": "doolittles_s2_sellable_subset",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "claude-verification-session",
+  "receiver": "TML-4PM/the-pen registry",
+  "status": "BLOCKED",
+  "job": "Bind a verified sellable/Stripe-wired service-pack subset into the Doolittles runtime.",
+  "finding": "There is no reachable sellable SERVICE-PACK subset. The long-standing memory 'Stripe-wired sellable products (22 items) live on S2 pflisxkcxbzboxwidywf' is a FALSE ASSOCIATION for Doolittles purposes.",
+  "evidence": [
+    "S2 pflisxkcxbzboxwidywf public.products row_count = 22 (count matches the remembered '22')",
+    "S2 public.products schema (information_schema): columns include danger_level, locations, facts, rarity, printify_product_id, printify_variant_id, is_printify_product, print_on_demand, mockup_images, printify_data — a print-on-demand merch schema, NOT a service-pack schema",
+    "S2 public.products sample: '404: Brain Not Found T-Shirt' $24.99 tshirts, 'AI Hallucinations Mug' $15.99 mugs, 'Caffeine Loading... Hoodie' $51.99 hoodies — developer-humour merchandise, all Stripe-wired",
+    "S1 public.v_master_product_catalog: stripe_price_id synced = 0, stripe_product_id present = 0 across all 303 rows (no Stripe wiring on the service catalogue)"
+  ],
+  "why_blocked": "The '22 sellable' belief attached to S2 public.products purely because the row count was 22. Its content is consumer merch (likely a separate store — DRA/dev-merch), unrelated to T4H service packs. Wiring it into Doolittles would surface t-shirts and mugs as priced consultancy offers — a category-error fabrication. Refused.",
+  "unblock_condition": "Director identifies (or creates) the ACTUAL canonical sellable service-pack source: either (a) Stripe wiring is populated onto S1 v_master_product_catalog (stripe_price_id), or (b) a distinct verified table/view of sellable service packs is named. Until one exists, Doolittles reports sellable=null (unknown) and does not fabricate it.",
+  "non_fabrication_note": "This is the same failure family as the prior catalog_master '102 rows' fabrication: a remembered number bound to the wrong object. Logged as BLOCKED, not patched.",
+  "created_at_utc": "2026-05-18T22:44:31Z",
+  "updated_at_utc": "2026-05-18T22:44:31Z",
+  "search_tags": ["doolittles","s2","sellable","blocked","false-association","printify","merch-not-servicepacks","the-pen"]
+}
