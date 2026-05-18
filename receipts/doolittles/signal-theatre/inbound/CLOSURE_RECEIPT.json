@@ -1,0 +1,34 @@
+{
+  "receipt_type": "closure",
+  "direction": "inbound",
+  "system": "DOOLITTLES",
+  "job_key": "doolittles_signal_theatre_deploy",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "claude-verification-session",
+  "receiver": "TML-4PM/the-pen registry",
+  "status": "COMPLETE",
+  "closes": "the bounded residual in RUNTIME_RECEIPT_VERIFIED.json (DOM execution was inferred, not observed)",
+  "job": "Prove Signal Theatre renders and behaves correctly in a real browser on live production — zero inference.",
+  "real": [
+    "Headless Chromium (Playwright 1.56.0) drove the LIVE production page: https://the-pen-six.vercel.app/doolittles/signal-theatre.html (SSO-bypassed via Vercel get_access_to_vercel_url share link)",
+    "14/14 DOM assertions passed, exit 0, ZERO page/console errors",
+    "Observed (not inferred): HTTP 200; title rendered; pre-run empty states; 3 chips; chip click painted 3 pack cards with top card 'Reading Buddy Pilot'; proof table painted header+6 rows with 5 typed REAL cells; all 6 flow steps activated; free-typed tradie intent rendered the Tradie pack; rendered proof table shows source=fixture and does NOT show v_master_product_catalog (source-honesty holds in a real DOM)"
+  ],
+  "residual": "NONE. The previously-stated bounded gap (browser DOM not executed) is now closed by direct observation. No inference remains in the Signal Theatre render chain.",
+  "evidence": [
+    "doolittles/dom.live.test.cjs sha256[:16]=4a1bb804f3f72dff",
+    "run stdout: 14 passed, 0 failed, EXIT=0",
+    "engine: Chromium via Playwright 1.56.0; target: live production URL through Vercel SSO share bypass"
+  ],
+  "chain_state": {
+    "runtime_logic": "REAL (live S1 round-trip, exit 0)",
+    "signal_theatre_serve": "REAL (HTTP 200 through SSO, markup byte-verified)",
+    "signal_theatre_dom": "REAL (14/14 Chromium DOM assertions on live prod, this receipt)",
+    "sellable_subset": "BLOCKED (no canonical sellable service-pack source exists; director decision — not a tooling gap)",
+    "baseline_doctrine": "ACTIVE v2"
+  },
+  "created_at_utc": "2026-05-18T22:55:22Z",
+  "updated_at_utc": "2026-05-18T22:55:22Z",
+  "search_tags": ["doolittles","signal-theatre","closure","chromium","dom-verified","live-production","zero-inference","the-pen"]
+}
