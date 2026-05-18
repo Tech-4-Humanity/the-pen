@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AHC WorkFamilyAI Runtime Fabric Root Stack
+
+Resources:
+  NetworkingStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./networking.yaml
+
+  QueueFabricStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./queue-fabric.yaml
+
+  TelemetryStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./telemetry.yaml
+
+  RuntimeWorkersStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./runtime-workers.yaml
+
+  RecoveryStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./recovery-runtime.yaml
+
+  GovernanceStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./governance.yaml
