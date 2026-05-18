@@ -1,0 +1,16 @@
+{
+  "request_id": "SEC-001-pii-rls-review-20260518",
+  "status": "PARTIAL",
+  "repo": "TML-4PM/the-pen",
+  "commit_sha": "pending",
+  "files": ["audit/security/SEC-001-pii-rls-review-20260518.md", "receipts/runtime/SEC-001-pii-rls-review-20260518.json"],
+  "actor": "claude-opus-4.7",
+  "execution_path": "Supabase MCP (RLS remediation) + github_bulk_dispatch (documentation)",
+  "timestamp_utc": "2026-05-18T06:30:00Z",
+  "subject_project": "pflisxkcxbzboxwidywf",
+  "breach_determination": "NOT a notifiable data breach — prescriptions/prescription_imprints/health_documents = 0 rows; sms_notifications = 28 seed/test rows (2 emails, 0 customer profiles, 3 dev auth users). No real individual PII exposed. Privacy Act NDB scheme does not apply.",
+  "remediation_verified": "pg_policies re-query confirms no qual=true public SELECT remains on prescriptions, prescription_imprints, health_documents, sms_notifications, bookings, waitlist, anonymous_assessments, detail_requests",
+  "process_correction": "Severity ('CRITICAL', 'mandatory OAIC notification') was asserted before row-count/provenance check. Hardened PII severity protocol (§5) adopted: count + provenance BEFORE classify/escalate; legal/regulatory language gated behind confirmed-real-PII evidence.",
+  "ledger": "reality_ledger 90894597-25b6-4d64-b393-0aeeee6ea3e4 (status corrected REAL->PARTIAL with downgrade evidence)",
+  "open_items": "~85 permissive INSERT/ALL policies; 2 anon SECURITY DEFINER fns; 12 listable buckets; 10 mutable search_path fns; auth leaked-pw protection off; pg patch available — all pre-launch hygiene, no legal assessment needed"
+}
