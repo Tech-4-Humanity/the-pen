@@ -1,0 +1,187 @@
+{
+  "idempotency_key": "ocr-recursive-knowledge-compiler-handover-v1",
+  "title": "Organisational Cognition Runtime / Recursive Knowledge Compiler - Bridge Handover",
+  "origin": "ChatGPT session with Troy Latter, 2026-05-18 Australia/Sydney",
+  "requested_by": "troy@tech4humanity.com.au",
+  "classification": "PARTIAL_UNTIL_RUNTIME_RECEIPT",
+  "handover_type": "bridge_execution_request",
+  "intent": {
+    "summary": "Build and operationalise a daily and historical LLM-chat intelligence loop that detects repeated questions, recurring uncertainty, governance ambiguity, and repeated operational clarifications; when thresholds are met, promote them into canonical house rules and runtime governance.",
+    "user_language": "All questions that keep getting asked multiple times need to become house rules. If a question hits four days in a row, or the fourth time someone asks it, it goes to house rule. Research as-is, detect recurrence, canonicalise, and enforce.",
+    "business_product_frame": "White-label Organisational Cognition Runtime / Runtime Coherence Infrastructure for institutional memory, governance drift detection, survivability, and cognition-cost reduction."
+  },
+  "canonical_examples": [
+    {
+      "question_cluster": "aws_canonical_region",
+      "example_questions": [
+        "Which AWS account/region is canonical?",
+        "Is ap-southeast-2 assumed given Sydney?",
+        "What region should CloudFormation nesting use?"
+      ],
+      "expected_rule_candidate": "Canonical AWS account and deployment region must be recorded as a house rule and injected into CloudFormation, Lambda, Bridge, orchestration, prompts, and validators. ap-southeast-2 is currently assumed but must be verified from live receipts before REAL."
+    },
+    {
+      "question_cluster": "canonical_c2_spine",
+      "example_questions": [
+        "Does troy-fire-orchestrator represent the intended C2 spine?",
+        "Is there a separate COAX/Pen orchestration layer already designed?",
+        "Which layer owns orchestration authority?"
+      ],
+      "expected_rule_candidate": "Define canonical control-plane topology: COAX as cognition/governance layer, Pen as ingress and receipt path, Bridge as execution transport, troy-fire-orchestrator as candidate runtime execution spine if verified, Synapse as production surface, Gatekeeper as promotion authority. Mark PARTIAL until verified."
+    }
+  ],
+  "runtime_requirements": {
+    "daily_loop": "Run daily against newly available LLM chats and operational sources.",
+    "historical_loop": "Backfill past LLM chats and existing artefacts to identify accumulated repeated questions and unresolved ambiguity.",
+    "thresholds": {
+      "four_total_mentions": "Promote to house-rule candidate on fourth occurrence ever.",
+      "four_consecutive_days": "Mandatory escalation if substantially similar question appears across four consecutive days.",
+      "post_rule_recurrence": "If a question repeats after canonicalisation, classify as drift/discoverability/enforcement failure."
+    },
+    "evidence_policy": "REAL requires live receipts, telemetry continuity, runtime proof, and evidence ledger entries. Otherwise classify as PARTIAL. PRETEND is rejected.",
+    "no_hitl_until_deployment": true,
+    "expected_path": "Hosted LLM commits JSON to TML-4PM/the-pen/inbox; Pen GitHub Action/worker executes via Bridge; receipt written to receipts/runtime plus audit evidence."
+  },
+  "proposed_data_model": {
+    "governance.question_clusters": [
+      "cluster_id",
+      "title",
+      "canonical_question",
+      "example_questions",
+      "source_refs",
+      "first_seen_at",
+      "last_seen_at",
+      "frequency_total",
+      "frequency_7d",
+      "consecutive_days",
+      "actors_count",
+      "ambiguity_score",
+      "severity",
+      "runtime_impact",
+      "status",
+      "candidate_rule_id"
+    ],
+    "governance.house_rules": [
+      "rule_id",
+      "title",
+      "statement",
+      "scope",
+      "classification",
+      "status",
+      "evidence_state",
+      "confidence_score",
+      "last_verified_at",
+      "superseded_by",
+      "created_from_cluster_id"
+    ],
+    "governance.rule_propagation": [
+      "propagation_id",
+      "rule_id",
+      "target_type",
+      "target_path",
+      "status",
+      "receipt_ref",
+      "last_checked_at"
+    ],
+    "governance.reality_drift": [
+      "drift_id",
+      "rule_id",
+      "declared_truth",
+      "observed_truth",
+      "divergence_score",
+      "affected_systems",
+      "evidence_refs",
+      "remediation_status"
+    ],
+    "audit.evidence_register": "Use existing evidence register where possible; record commit, worker, runtime, telemetry, and validation receipts."
+  },
+  "engine_spec": {
+    "ingestion": [
+      "ChatGPT/Claude/Gemini exports or connector feeds",
+      "GitHub issues, PRs, commits, docs",
+      "Gmail/Slack/Teams if available",
+      "Supabase ops/runtime/audit logs",
+      "Pen receipts and COMMS.md"
+    ],
+    "analysis": [
+      "question extraction",
+      "uncertainty detection",
+      "semantic clustering",
+      "recurrence scoring",
+      "contradiction detection",
+      "declared-vs-observed truth comparison",
+      "severity scoring",
+      "candidate house-rule generation"
+    ],
+    "promotion": [
+      "generate rule candidate",
+      "attach evidence and source refs",
+      "write to house rules",
+      "propagate to ACTOR_BOOTSTRAP/GLOBAL_RULE/validators/runtime defaults where allowed",
+      "monitor recurrence and drift"
+    ]
+  },
+  "white_label_requirements": {
+    "tenant_isolation": "Each customer has isolated cognition graph, embeddings, governance rules, evidence, and telemetry.",
+    "truth_hierarchy": ["global", "tenant", "division", "team", "project", "runtime_override"],
+    "product_tiers": ["Founder", "Team", "Operational", "Institutional", "Sovereign"],
+    "executive_metrics": [
+      "repeated uncertainty cost",
+      "governance latency",
+      "drift frequency",
+      "onboarding repetition",
+      "contradiction rate",
+      "unresolved ambiguity age",
+      "key-person dependency"
+    ],
+    "market_positioning": "Institutional survivability and runtime coherence infrastructure, not a static knowledge base."
+  },
+  "bridge_tasks": [
+    {
+      "task": "Create or verify Supabase governance schema for question_clusters, house_rules, rule_propagation, and reality_drift.",
+      "acceptance": "Schema exists with PKs, timestamps, status/evidence fields, and RLS/governance posture recorded."
+    },
+    {
+      "task": "Create ingestion worker for LLM chat history and daily delta runs.",
+      "acceptance": "Worker can ingest sample historical bundle and one daily delta; writes source refs and clusters."
+    },
+    {
+      "task": "Implement recurrence thresholds: fourth total mention and four consecutive days.",
+      "acceptance": "Test fixtures show candidate rule creation on threshold breach."
+    },
+    {
+      "task": "Generate first two candidate house rules from supplied examples: AWS canonical region/account and canonical C2 spine.",
+      "acceptance": "Rules created as PARTIAL unless verified by live runtime/source receipts."
+    },
+    {
+      "task": "Wire evidence receipts to audit.evidence_register and GitHub receipts/runtime.",
+      "acceptance": "Each worker run produces receipt with job id, commit/ref, counts, created rules, evidence state."
+    },
+    {
+      "task": "Produce dashboard-ready output for top repeated questions, candidate rules, unresolved ambiguity, and drift.",
+      "acceptance": "JSON/API view exists for command centre widget or equivalent UI."
+    }
+  ],
+  "acceptance_criteria": {
+    "minimum_real": [
+      "GitHub inbox commit receipt exists",
+      "Bridge/Pen worker picks up this payload",
+      "runtime receipt written",
+      "at least one DB/audit/evidence record created or explicit blocker recorded",
+      "status returned with REAL/PARTIAL classification"
+    ],
+    "not_complete_until": [
+      "daily loop scheduled or queued",
+      "historical backfill queued or completed",
+      "first candidate rules emitted",
+      "evidence register updated",
+      "receipt returned"
+    ]
+  },
+  "doctrine": {
+    "REAL_requires": ["live receipts", "telemetry continuity", "economic proof", "recovery validation", "graph integrity", "72h unattended runtime when mature"],
+    "downgrade_to_partial_or_fail": ["manual dependency", "missing telemetry", "receipt mismatch", "economic failure", "ontology drift", "recovery unproven"],
+    "rejected": "PRETEND evidence"
+  },
+  "handover_status": "ENQUEUED_TO_GITHUB_CONNECTOR_IF_COMMIT_SUCCEEDS"
+}
