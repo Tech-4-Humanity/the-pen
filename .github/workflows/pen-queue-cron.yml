@@ -1,8 +1,8 @@
-name: Pen Queue Processor
+name: Pen Queue Processor (Sweep)
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch:
     inputs:
       env:
@@ -18,8 +18,15 @@ permissions:
   contents: write
 
 jobs:
-  process:
+  sweep:
+    name: Inbox sweep + drift check (no HITL)
     runs-on: ubuntu-latest
+    env:
+      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
+      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      PEN_ENV: ${{ github.event.inputs.env || 'production' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,57 +34,104 @@ jobs:
           fetch-depth: 2
           persist-credentials: true
 
-      - name: Verify queue processor scripts exist
+      - name: Sweep any un-receipted inbox payloads
+        shell: bash
         run: |
-          MISSING=0
-          for f in scripts/pen-queue-processor.mjs scripts/pen-drift-check.mjs; do
-            if [ ! -f "$f" ]; then
-              echo "WARNING: $f not found — will skip"
-              MISSING=1
-            fi
-          done
-          echo "SCRIPTS_MISSING=$MISSING" >> $GITHUB_ENV
+          set -euo pipefail
+          now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          mkdir -p receipts/runtime receipts/final state
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+          python3 - <<'PY'
+          import json, os, pathlib, re, time, urllib.request, urllib.error
 
-      - name: Install deps
+          bridge_url = os.environ.get("BRIDGE_INVOKE_URL", "")
+          bridge_key = os.environ.get("BRIDGE_API_KEY", "")
+          repo   = os.environ.get("GITHUB_REPOSITORY", "")
+          sha    = os.environ.get("GITHUB_SHA", "")
+          run_id = os.environ.get("GITHUB_RUN_ID", "")
+          now    = __import__("datetime").datetime.utcnow().isoformat() + "Z"
+
+          inbox     = pathlib.Path("inbox")
+          final_dir = pathlib.Path("receipts/final")
+          final_dir.mkdir(parents=True, exist_ok=True)
+
+          swept = missed = skipped = 0
+
+          for job_path in sorted(inbox.glob("*.json")):
+              try:
+                  data = json.loads(job_path.read_text())
+                  key  = data.get("idempotency_key") or job_path.stem
+              except Exception:
+                  missed += 1
+                  continue
+
+              safe       = re.sub(r"[^A-Za-z0-9_.-]+", "-", key).strip("-")[:80]
+              final_path = final_dir / f"{safe}.final.receipt.json"
+
+              # Skip already receipted
+              if final_path.exists():
+                  skipped += 1
+                  continue
+
+              fn       = data.get("fn") or data.get("action") or "pen-generic-executor"
+              envelope = json.dumps({
+                  "idempotency_key": key, "fn": fn,
+                  "payload": data, "source": "the-pen-sweep", "mode": "AUTONOMOUS",
+              }).encode()
+
+              req = urllib.request.Request(
+                  bridge_url, data=envelope, method="POST",
+                  headers={"Content-Type": "application/json", "x-api-key": bridge_key}
+              ) if bridge_url and bridge_key else None
+
+              if req:
+                  try:
+                      with urllib.request.urlopen(req, timeout=60) as resp:
+                          body, status = resp.read().decode(errors="replace"), resp.status
+                      state = "REAL" if 200 <= status < 300 else "PARTIAL"
+                  except urllib.error.HTTPError as exc:
+                      body, status, state = exc.read().decode(errors="replace")[:2000], exc.code, "PARTIAL"
+                  except Exception as exc:
+                      body, status, state = str(exc), 0, "FAILED"
+              else:
+                  body, status, state = "no bridge creds", 0, "BLOCKED"
+
+              receipt = {
+                  "receipt_type": "pen_sweep_receipt", "idempotency_key": key,
+                  "state": state, "evidence_state": state,
+                  "bridge_status": status, "bridge_response": body[:2000],
+                  "fn": fn, "created_at": now, "repo": repo, "commit_sha": sha,
+                  "workflow_run_id": run_id, "source": "pen-queue-cron sweep",
+                  "autonomous": True, "hitl_required": False,
+              }
+              final_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+              print(f"[{state}] {key}")
+              swept += 1
+
+          summary = {"sweep_at": now, "swept": swept, "skipped": skipped, "missed": missed, "autonomous": True}
+          pathlib.Path("state/pen_sweep_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+          print(f"Sweep done: {summary}")
+          PY
+
+      - name: Drift check (optional — skip if script absent)
+        shell: bash
         run: |
-          npm init -y >/dev/null 2>&1 || true
-          npm install @supabase/supabase-js >/dev/null 2>&1
+          if [ -f scripts/pen-drift-check.mjs ]; then
+            npm init -y >/dev/null 2>&1 || true
+            npm install @supabase/supabase-js >/dev/null 2>&1
+            node scripts/pen-drift-check.mjs
+          else
+            echo "pen-drift-check.mjs not found — skipping"
+          fi
 
-      - name: Run queue processor
-        if: env.SCRIPTS_MISSING == '0'
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.SUPABASE_SERVICE_ROLE }}
-          BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
-          BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
-          PEN_ENV: ${{ github.event.inputs.env || 'production' }}
-        run: node scripts/pen-queue-processor.mjs
-
-      - name: Drift check
-        if: env.SCRIPTS_MISSING == '0'
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.SUPABASE_SERVICE_ROLE }}
-          PEN_ENV: ${{ github.event.inputs.env || 'production' }}
-        run: node scripts/pen-drift-check.mjs
-
-      - name: Skip notice
-        if: env.SCRIPTS_MISSING == '1'
-        run: echo "One or more queue scripts missing — queue run skipped. Bridge is the fallback."
-
-      - name: Commit artefacts
+      - name: Commit receipts + sweep state
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add receipts outputs || true
+          git add receipts/ state/ || true
           if git diff --cached --quiet; then
-            echo "No artefacts to commit"
+            echo "Nothing new."
           else
-            git commit -m "queue-processor run: receipts + drift [${{ github.event.inputs.env || 'production' }}]"
+            git commit -m "pen-sweep: autonomous cycle receipts [${{ github.event.inputs.env || 'production' }}]"
             git push
           fi
