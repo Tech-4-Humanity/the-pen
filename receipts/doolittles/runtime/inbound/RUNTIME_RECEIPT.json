@@ -1,0 +1,38 @@
+{
+  "receipt_type": "runtime",
+  "direction": "inbound",
+  "system": "DOOLITTLES",
+  "job_key": "doolittles_runtime_signal_theatre",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "claude-build-session",
+  "receiver": "TML-4PM/the-pen registry",
+  "status": "PARTIAL",
+  "documents": ["doolittles/runtime.mjs","doolittles/runtime.test.mjs"],
+  "execution": {
+    "command": "node runtime.test.mjs",
+    "node": "v22.22.2",
+    "result": "22 passed, 0 failed",
+    "exit_code": 0,
+    "asserts": [
+      "intent parse: urgency/audience/proof correct",
+      "empty intent rejected",
+      "3 intents round-trip: >=1 pack matched each, 6-step proof chain each",
+      "source honesty: every fixture run reports source=fixture, none claim live catalogue",
+      "every proof step carries typed REAL|PARTIAL|BLOCKED state",
+      "matcher deterministic; top match for reading pilot = FX-RBP",
+      "unbound live adapter refuses to fabricate"
+    ]
+  },
+  "real": "Runtime logic executes and round-trips deterministically with full typed proof chain — verified by replayable local test, exit 0.",
+  "partial_reason": "Live catalogue bind to S1 public.v_master_product_catalog (303 rows) NOT exercised. No SQL read path available in this session; liveAdapter is specified and intentionally throws until wired rather than fabricate. Until bound, end-to-end against canonical data is unproven.",
+  "not_real_yet": [
+    "liveAdapter wired to S1 public.v_master_product_catalog",
+    "round-trip proven against canonical 303-row catalogue (+ 22 S2 sellable subset)",
+    "Vercel production render of signal-theatre.html confirmed post-deploy"
+  ],
+  "unblock_condition": "Bind liveAdapter via canonical Supabase read path; re-run round-trip against live catalogue; on green, write CLOSURE_RECEIPT.",
+  "created_at_utc": "2026-05-18T22:34:12Z",
+  "updated_at_utc": "2026-05-18T22:34:12Z",
+  "search_tags": ["doolittles","runtime","partial","fixture-green","live-bind-pending","the-pen"]
+}
