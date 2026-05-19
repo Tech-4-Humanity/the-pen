@@ -1,0 +1,28 @@
+{
+  "receipt_type": "analysis",
+  "direction": "inbound",
+  "system": "DOOLITTLES_SELLABLE",
+  "job_key": "chatgpt_drops_3_4_analysis",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "claude-verification-session",
+  "receiver": "TML-4PM registry",
+  "status": "PARTIAL",
+  "job": "Analyse ChatGPT Drop 3 (LLM Orchestration Substrate / Senti Bridge bundle) and Drop 4 (Doolittles Pack 01 commercial packs) against live state.",
+  "drop_3_verdict": {
+    "claim": "ChatGPT claims it built an LLM orchestration substrate bridge spec + deployment pipeline + Senti Bridge handoff bundle with manifest + receipt.json + SHA-256 hashes, 9 artifacts, handoff_ready:true",
+    "verification": "NOT in TML-4PM infra. Zero matching entities in core.registry_entities (substrate hits are unrelated EAL/D + First Nations education modules; 'senti' matched Sentinel in tri-agent pattern). Zero matching repos (only site-sentinel, unrelated March repo). No llm_orchestration_substrate_bridge_spec.md or substrate/README.md in the-pen (404x2).",
+    "finding": "Drop 3's 'receipt' and 'handoff_ready:true' are CANVAS-ONLY artifacts. ChatGPT itself disclosed: 'not executed against your internal environment ... requires your real repository, secrets, and deployment endpoints.' The receipt exists only in the ChatGPT thread — same phantom-receipt pattern as the original Doolittles investigation. NOT fabrication of intent, but the receipt is NOT real in the governed sense. There is no 'Senti Bridge'; user's bridge is zdgnab3py0 / T4H Remote MCP.",
+    "value": "The SPEC CONTENT is genuinely good: it correctly diagnoses that the sellable subset 'cannot be validated by reference, only by construction', and the reuse-first substrate model (typed units, telemetry envelope, CI admission, no-HITL) is sound and consistent with the user's kernel. Worth keeping as a DESIGN INPUT, not a receipt."
+  },
+  "drop_4_verdict": {
+    "claim": "DOOLITTLES Pack 01 master service pack + 5 productised versions (Executive/Operations/Live Companion/Accessibility/Org Signal) with pricing",
+    "verification": "Drop 4 does NOT claim to have built or committed anything. It explicitly states status:PARTIAL and lists gaps: no canonical service page, no Stripe product, no deployed demo, no GitHub canonicalisation, no runtime receipts. Honest self-assessment.",
+    "finding": "Drop 4 is a CONTENT/POSITIONING PROPOSAL, not a build claim. It is the constructive answer to the long-standing sellable-pack blocker: since no canonical sellable source exists by reference, the user is now DEFINING it by construction — which is the correct and only path. Doc 3 diagnosed this exactly. The pricing tiers (Discovery 7.5k / Operational 25k / Enterprise 75k+) and 5-vertical split are a reasonable first canonical projection."
+  },
+  "consolidated": "Across all 4 drops (2 prior Speedo + these 2): Speedo drops were largely TRUE (verified). The sellable-pack drops (3+4) are SPEC + PROPOSAL, not built artifacts, and one (Drop 3) carries a phantom receipt. The sellable subset remains NOT canonical in any system Claude can reach — unchanged status. What HAS changed: there is now a coherent constructive definition to build FROM (reuse-first substrate + 5-vertical Doolittles packs), if the director approves it as the first canonical.",
+  "recommended_next": "If approved: mint the sellable subset by CONSTRUCTION in the-pen — a real registry parent + a typed substrate spec committed to repo + the 5 Doolittles pack definitions as governed views, each with a real receipt. NOT another ChatGPT canvas bundle. This is the Doolittles-method path and is fully executable; it needs only the director's go and a decision on pricing/vertical priority.",
+  "created_at_utc": "2026-05-19T00:28:35Z",
+  "updated_at_utc": "2026-05-19T00:28:35Z",
+  "search_tags": ["doolittles","sellable","substrate","chatgpt-drop-analysis","phantom-receipt","proposal-not-built","the-pen"]
+}
