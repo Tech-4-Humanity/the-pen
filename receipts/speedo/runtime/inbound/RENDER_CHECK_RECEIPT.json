@@ -1,0 +1,36 @@
+{
+  "receipt_type": "runtime",
+  "direction": "inbound",
+  "system": "SPEEDO",
+  "job_key": "speedo_render_check",
+  "source_repository": "TML-4PM/the-pen",
+  "target_repository": "TML-4PM/mcp-command-centre",
+  "sender": "claude-verification-session",
+  "receiver": "TML-4PM registry",
+  "status": "PARTIAL",
+  "job": "Chromium render check of live production Speedo page (closes the open item from the prior CLOSURE receipt).",
+  "real": [
+    "https://t4h-command-centre.vercel.app/speedo — HTTP 200, public, no SSO",
+    "Chromium (Playwright 1.56.0) rendered the route: H1 'Speedo measures where human and agent work...' present",
+    "Synal telemetry banner rendered",
+    "Page references live source public.speedo_dashboard in rendered DOM (not hardcoded)",
+    "OLD hardcoded fake metrics (84 / +17 / 0.91) confirmed GONE from rendered DOM",
+    "All four metric cards render (FOCUS/DRIFT/OVERLOAD/READINESS — uppercased via CSS; initial test asserted title-case = test bug, not page bug)",
+    "LIVE DATA PATH WORKS: rendered DOM shows 'sample_n: 1' — the bridge -> command_centre_queries -> speedo_dashboard read succeeded and reflects the round-trip row written earlier (f8b33619)"
+  ],
+  "defects_found": [
+    {"severity":"none-to-speedo","finding":"3 console errors are a CORS failure on https://m5oqj21chd.execute-api.ap-southeast-2.amazonaws.com/lambda/invoke from the app's [AIOps] RouteTracker telemetry emitter — NOT Speedo code. This is a STALE/WRONG bridge endpoint baked into the deployed build; canonical bridge per ops memory is zdgnab3py0. Real infrastructure-drift finding, app-wide, unrelated to Speedo render correctness."},
+    {"severity":"test-bug","finding":"render test asserted title-case metric labels; page renders uppercase via CSS text-transform. 3 false-fail assertions. Page is correct."}
+  ],
+  "honest_verdict": "Speedo page renders correctly in a real browser on live production AND its live data path works (sample_n:1 proven in DOM). The render-check exit=1 was caused by (a) a case-sensitivity bug in the test assertions and (b) a pre-existing app-wide CORS error in the telemetry emitter calling a stale endpoint m5oqj21chd. Neither is a Speedo defect. Speedo render = REAL; the stale-endpoint drift is a separate real finding logged here.",
+  "speedo_chain_state": {
+    "migration": "REAL (S1 tables verified)",
+    "registry": "REAL (synal.speedo)",
+    "round_trip": "REAL (60/20/10/90 write->view verified)",
+    "page_render": "REAL (Chromium on live prod, sample_n:1 in DOM)",
+    "open": "project_code SYNALRD unverified; image assets user-blocked; app-wide stale bridge endpoint m5oqj21chd (separate workstream)"
+  },
+  "created_at_utc": "2026-05-19T00:28:35Z",
+  "updated_at_utc": "2026-05-19T00:28:35Z",
+  "search_tags": ["speedo","render-check","chromium","REAL","stale-bridge-endpoint","infra-drift","the-pen"]
+}
