@@ -7,52 +7,50 @@
   "target_repository": "TML-4PM/mcp-command-centre",
   "sender": "claude-verification-session",
   "receiver": "TML-4PM registry",
-  "status": "PARTIAL",
-  "job": "Fix two director directives: (1) lock Speedo project_code; (2) fix app-wide stale bridge endpoint m5oqj21chd CORS drift.",
+  "status": "REAL",
+  "supersedes": "prior PARTIAL state at evt da70fae5 (7 of 10) - NOT softened; closing by ADDING evidence for remaining 3 files now committed + verified",
+  "job": "Two director directives: (1) lock Speedo project_code; (2) fix app-wide stale bridge endpoint m5oqj21chd CORS drift across all live code.",
   "directive_1_project_code": {
     "status": "REAL - COMPLETE",
-    "ruling": "director: 'the speedo infra is customer side' -> resolves R05 (Signal Economy Framework, customer-facing) over R03 (MCP Bridge infra)",
+    "ruling": "director: 'the speedo infra is customer side' -> R05 (Signal Economy Framework, customer-facing) over R03 (MCP Bridge infra)",
     "action": "UPDATE core.registry_entities synal.speedo SET metadata.project_code='R05', project_code_status='LOCKED-director-confirmed'",
-    "verified_against": "public.maat_rd_projects R05 Signal Economy Framework FY25-26 (canonical register, codes R01-R13 + RDP-SM-001)",
-    "rejected": [
-      "SYNALRD (Claude prior guess - confirmed not in maat_rd_projects)",
-      "SYNAL-EDGE-01 (ChatGPT drop proposal - NOT in maat_rd_projects; cited synal_biz_registry which does NOT exist as a table in S1 - phantom table reference; correctly rejected my guess but introduced its own unverified token)"
-    ]
+    "verified_against": "public.maat_rd_projects R05 Signal Economy Framework FY25-26 (canonical register R01-R13 + RDP-SM-001)",
+    "rejected": ["SYNALRD (Claude prior guess - not in register)", "SYNAL-EDGE-01 (ChatGPT drop - not in register; cited phantom table synal_biz_registry not in S1)"]
   },
   "directive_2_stale_endpoint": {
-    "status": "PARTIAL - 7 of 10 files committed",
-    "root_cause": "Deployed mcp-command-centre called dead endpoint https://m5oqj21chd.execute-api.ap-southeast-2.amazonaws.com/lambda/invoke. Canonical bridge per cap_secrets BRIDGE_URL/MCP_BRIDGE_URL_REGIONAL = https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke (REGIONAL, switched EDGE->REGIONAL 2026-04-06; cap_secrets notes explicitly: 'Old: m5oqj21chd'). m5oqj21chd CORS-failed -> app-wide '[AIOps] push failed' console errors seen in the Chromium render check.",
-    "grep_found": "11 occurrences across 11 locations; 10 in live code/config (2 doc/script archival refs in scripts/rdti/* intentionally left as historical record)",
-    "committed_REAL": [
+    "status": "REAL - 10 of 10 files committed + verified",
+    "root_cause": "Deployed mcp-command-centre called dead https://m5oqj21chd.execute-api.ap-southeast-2.amazonaws.com/lambda/invoke. Canonical per cap_secrets BRIDGE_URL/MCP_BRIDGE_URL_REGIONAL = https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke (REGIONAL, EDGE->REGIONAL 2026-04-06; cap_secrets notes: 'Old: m5oqj21chd'). m5oqj21chd CORS-failed -> app-wide '[AIOps] push failed' console errors in the Chromium render check.",
+    "committed_REAL_all_10": [
       "api/bridge.ts (THE PROXY - Speedo + whole-app data path) sha 27ad2a93 evt 8c5df6a6",
       "api/sql.ts sha 969da706 evt 8c5df6a6",
       ".claude/plugin.json sha dce0c20f evt 8c5df6a6",
       "aws/iam_scheduler_invoke_policy.json sha 06bd6129 evt 8c5df6a6",
       "api/rpt/report.ts sha a45bd5ad evt 174e27e0",
       ".claude/server.js sha 164905b1 evt 174e27e0",
-      "src/lib/aiops/emitter.ts (THE ROOT-CAUSE AIOps RouteTracker CORS emitter) sha b32c05c6 evt baa3176d"
+      "src/lib/aiops/emitter.ts (THE ROOT-CAUSE AIOps RouteTracker CORS emitter) sha b32c05c6 evt baa3176d",
+      "src/pages/AccountantPage.tsx sha d2df0349 evt fc9aa853",
+      "src/pages/Dogfood.tsx sha 116ceab7 evt f3916978",
+      "src/pages/Maat121Spine.tsx sha 2d516232 evt 403030ab"
     ],
-    "pending_commit": [
-      "src/pages/AccountantPage.tsx (25KB) - endpoint fix applied + verified locally (0 stale, zdgnab3py0 present); NOT committed this pass due to inline-size reliability",
-      "src/pages/Dogfood.tsx (41KB) - same state",
-      "src/pages/Maat121Spine.tsx (49KB) - same state"
-    ],
-    "verification": "All 10 files verified locally: grep m5oqj21chd across api/ src/ .claude/ aws/ = ZERO; zdgnab3py0 present in each. Repo cloned /tmp/mcc; sed replace deterministic."
+    "final_verification": "github_file_read of all changed files on main confirms: BRIDGE/BRIDGE_URL = zdgnab3py0/prod everywhere; ZERO m5oqj21chd in any live code path (api/ src/ .claude/ aws/). Maat121Spine.tsx live main sha 97278d7a verified: BRIDGE const = zdgnab3py0/prod, 0 stale refs. 2 archival doc refs in scripts/rdti/* intentionally left as historical record."
   },
   "found_not_fixed_flagged_to_director": [
-    {"file":"src/pages/Maat121Spine.tsx + AccountantPage.tsx","issue":"WRONG ABN 61 605 746 618 hardcoded; canonical is 70 666 271 272","severity":"compliance"},
-    {"file":"src/pages/Maat121Spine.tsx + AccountantPage.tsx","issue":"hardcoded Supabase service-role JWT + bridge key bk_tOH8P5WD... in client-side code","severity":"security-exposure"},
-    {"file":"src/pages/Dogfood.tsx","issue":"FLAG_HARDWIRED static 28-business BUSINESSES array; should load from mcp_business_registry","severity":"data-drift"},
-    {"file":"api/bridge.ts","issue":"uses only x-api-key; canonical BRIDGE_HEADER_NOTE requires BOTH x-api-key AND Authorization","severity":"may-still-401"}
+    {"file":"src/pages/Maat121Spine.tsx + AccountantPage.tsx","issue":"WRONG ABN 61 605 746 618 hardcoded (Maat121Spine x3: AuthScreen footer, hero banner, page footer); canonical is 70 666 271 272","severity":"compliance","status":"left as-was, flagged in commit msgs, NOT silently changed"},
+    {"file":"src/pages/Maat121Spine.tsx + AccountantPage.tsx","issue":"hardcoded Supabase service-role JWT + bridge key bk_tOH8P5WD... in client-side code","severity":"security-exposure","status":"left as-was, flagged in commit msgs, NOT silently changed"},
+    {"file":"src/pages/Dogfood.tsx","issue":"FLAG_HARDWIRED static 28-business BUSINESSES array; should load from mcp_business_registry","severity":"data-drift","status":"left as-was, flagged in commit msg"},
+    {"file":"api/bridge.ts","issue":"uses only x-api-key; canonical BRIDGE_HEADER_NOTE requires BOTH x-api-key AND Authorization","severity":"may-still-401","status":"endpoint-only scope; not addressed"},
+    {"file":"sellable service-pack subset","issue":"still NOT canonical anywhere; no Stripe wiring in v_master_product_catalog S1","severity":"commercial-blocker","status":"BLOCKED - director must populate Stripe IDs OR name real sellable table + pricing"}
   ],
   "speedo_image_assets": {
-    "status": "on-disk, NOT committed",
-    "finding": "2 files uploaded (speedo_1.png 1672x941, speedo_synal.png 1672x941) are BOTH actually JPEG data despite .png extension (file magic: 'JPEG image data, JFIF'). 568KB base64 total - large binary not reliably committable via the text/code github_bulk_dispatch path. Recommend: rename to .jpg, commit to repo /public/assets/speedo/ via a binary-safe path, or director confirms intended use."
+    "status": "BLOCKED - on disk, NOT committed",
+    "finding": "2 uploads (speedo_1.png, speedo_synal.png, both 1672x941) are actually JPEG data despite .png extension (file magic: 'JPEG image data, JFIF'). 568KB base64 total. github_bulk_dispatch is a text/code path - large binary not reliably committable through it without corruption risk. Honest BLOCKED rather than a forced fragile binary commit.",
+    "recommended_resolution": "Director: confirm intended use + path. Options: (a) rename to .jpg + commit to /public/assets/speedo/ via a binary-safe upload path (e.g. Google Drive create_file then sync, or a dedicated asset Lambda), (b) register asset refs in core.registry_entities synal.speedo metadata pointing at an S3/CDN object instead of repo-committing binaries."
   },
-  "honest_status": "Directive 1 (project code) DONE and verified. Directive 2 (stale endpoint) root cause FIXED: the two files that actually caused the app-wide CORS error (api/bridge.ts proxy + src/lib/aiops/emitter.ts RouteTracker) are committed REAL. 3 large page files have the same fix applied+verified locally but are not yet committed - they are lower-risk (their bridge calls were already partially working) and each carries separate faults needing director decision. Not claiming 10/10 done.",
-  "next_action": "Director: (a) confirm commit of remaining 3 page files as-is (endpoint-only) OR bundle with ABN/key/static-array fixes; (b) decide Speedo image asset handling (.jpg rename + path); (c) the 4 found-not-fixed items are separate workstreams awaiting go.",
-  "created_at_utc": "2026-05-19T03:11:50Z",
-  "updated_at_utc": "2026-05-19T03:11:50Z",
-  "evidence_evt_ids": ["8c5df6a6","174e27e0","baa3176d"],
-  "search_tags": ["stale-bridge-endpoint","m5oqj21chd","zdgnab3py0","infra-drift","CORS","speedo","R05","the-pen"]
+  "honest_status": "BOTH directives DONE. Directive 1 (project code R05) complete + verified. Directive 2 (stale endpoint) COMPLETE: all 10 live-code files committed REAL + final github_file_read verification confirms zero m5oqj21chd anywhere in api/ src/ .claude/ aws/. The two files that caused the app-wide CORS failure (api/bridge.ts proxy + src/lib/aiops/emitter.ts RouteTracker) are live on canonical zdgnab3py0/prod. Endpoint-only discipline held: every separate fault (wrong ABN, hardcoded JWT/key, static array, single-header bridge auth) was found, flagged in commit messages + this receipt, and NOT silently changed. Speedo image assets honestly BLOCKED on a binary-safe path (not faked).",
+  "next_action": "Director decisions outstanding: (a) wrong ABN 61605746618 -> 70666271272 across Maat121Spine x3 + AccountantPage (compliance) - separate go; (b) rotate + env-ize the hardcoded Supabase service-role JWT + bridge key out of client code (security) - separate go; (c) Dogfood static BUSINESSES array -> mcp_business_registry load; (d) api/bridge.ts dual-header (x-api-key + Authorization) if 401s observed; (e) Speedo image asset binary-safe path; (f) sellable service-pack: populate Stripe IDs OR name canonical sellable table + pricing to unblock commercial.",
+  "created_at_utc": "2026-05-19T07:24:00Z",
+  "updated_at_utc": "2026-05-19T07:24:00Z",
+  "evidence_evt_ids": ["8c5df6a6","174e27e0","baa3176d","fc9aa853","f3916978","403030ab"],
+  "prior_receipt_evt": "da70fae5 (PARTIAL 7/10 - preserved, superseded by adding evidence not softening)",
+  "search_tags": ["stale-bridge-endpoint","m5oqj21chd","zdgnab3py0","infra-drift","CORS","speedo","R05","the-pen","REAL","closed"]
 }
