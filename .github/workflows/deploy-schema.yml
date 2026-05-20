@@ -1,0 +1,76 @@
+name: Deploy Schema v1-v4 to Supabase
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type DEPLOY to confirm'
+        required: true
+        default: ''
+
+jobs:
+  deploy:
+    name: Run pcs_v1-v4 migrations
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'DEPLOY'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy pcs_v1 migration
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase db execute \
+            --project-ref lzfgigiyqpuuxslsygjt \
+            --file supabase/migrations/pcs_v1_migration.sql
+
+      - name: Deploy pcs_v2 migration
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase db execute \
+            --project-ref lzfgigiyqpuuxslsygjt \
+            --file supabase/migrations/pcs_v2_secrets_migration.sql
+
+      - name: Deploy pcs_v3 migration
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase db execute \
+            --project-ref lzfgigiyqpuuxslsygjt \
+            --file supabase/migrations/pcs_v3_url_census.sql
+
+      - name: Deploy pcs_v4 migration
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase db execute \
+            --project-ref lzfgigiyqpuuxslsygjt \
+            --file supabase/migrations/pcs_v4_handover.sql
+
+      - name: Post receipt comment to issue #108
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment 108 \
+            --repo TML-4PM/the-pen \
+            --body "## Receipt — Schema Deploy Complete
+          **Deployed by:** GitHub Actions (workflow_dispatch)
+          **Run:** ${{ github.run_id }}
+          **Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          ### Migrations Applied
+          - pcs_v1_migration.sql
+          - pcs_v2_secrets_migration.sql
+          - pcs_v3_url_census.sql
+          - pcs_v4_handover.sql
+
+          **status:** REAL — CLOSED
+          **project:** lzfgigiyqpuuxslsygjt"
