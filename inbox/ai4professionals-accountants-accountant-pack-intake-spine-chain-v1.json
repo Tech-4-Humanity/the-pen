@@ -1,0 +1,61 @@
+{
+  "idempotency_key": "ai4professionals-accountants-accountant-pack-intake-spine-chain-v1",
+  "job_type": "spine_chain_uplift_post_receipt",
+  "requested_by": "troy@tech4humanity.com.au",
+  "source": {
+    "live_url": "https://accountant-pack-intake-mlz8y9zyp-troys-projects-t4h-machine.vercel.app/",
+    "vercel_team_id": "team_IKIr2Kcs38KGo8Zs60yNtm7Y",
+    "vercel_project_id": "prj_3sitS2Wox9lji546cI9WiUaFI8jM",
+    "vercel_project_name": "accountant-pack-intake",
+    "deployment_id": "dpl_CyUarRfUvy7NbBsHMja7nRkRiq5p",
+    "deployment_state": "READY",
+    "build_result": "Deployment completed",
+    "production_aliases": [
+      "accountant-pack-intake.vercel.app",
+      "accountant-pack-intake-troys-projects-t4h-machine.vercel.app",
+      "accountant-pack-intake-tml-4pm-troys-projects-t4h-machine.vercel.app"
+    ]
+  },
+  "classification": {
+    "current": "PARTIAL",
+    "target": "REAL",
+    "reason": "Vercel deployment is live and READY, but AI4Professionals spine registration, decomposable asset contract, telemetry, and runtime receipt are not yet proven."
+  },
+  "target_spine": {
+    "portfolio": "Tech 4 Humanity",
+    "program": "AI4Professionals",
+    "vertical": "Accountants",
+    "asset_slug": "accountant-pack-intake",
+    "canonical_path": "ai4professionals/accountants/intake/accountant-pack-intake",
+    "client_skin": "andrew-douglas-associates",
+    "reusable_engine": "professional-services-pack-intake-engine"
+  },
+  "required_actions": [
+    "register_asset",
+    "attach_vercel_metadata",
+    "decompose_static_app",
+    "externalise_questions_packs_scoring_branding",
+    "add_intake_telemetry_contract",
+    "add_governance_copy",
+    "create_reuse_contract",
+    "emit_runtime_receipt"
+  ],
+  "acceptance_criteria": {
+    "REAL": [
+      "Registry entry exists for AI4Professionals/accountants/accountant-pack-intake.",
+      "Vercel deployment is linked to the registry entry.",
+      "Reusable engine contract exists.",
+      "Telemetry event contract exists.",
+      "Receipt JSON exists under receipts/runtime.",
+      "Audit row or equivalent runtime log records the chain."
+    ],
+    "PARTIAL": [
+      "Only Vercel deployment is live.",
+      "Static app remains hardcoded.",
+      "No telemetry or runtime receipt."
+    ],
+    "PRETEND": [
+      "Claiming chained/uplifted without registry, telemetry, or receipt evidence."
+    ]
+  }
+}
