@@ -1,0 +1,182 @@
+{
+  "idempotency_key": "cognitive-culture-lens-v1-2026-05-21",
+  "title": "Cognitive Culture Lens v1 — Dr Dolittle System Translation Layer",
+  "classification": "PARTIAL_UNTIL_RUNTIME_RECEIPT",
+  "owner": "troy@tech4humanity.com.au",
+  "created_at": "2026-05-21T00:00:00+10:00",
+  "intent": "Codify organisational, model, SaaS, SI/consulting, OT and industry-specific tool cultures into a reusable operating lens for routing intent, translating messages, predicting system interpretation, and governing heterogeneous cognition.",
+  "source_thread_summary": {
+    "core_problem": "The same message is heard differently by different machine, organisational and industry systems because each encodes its own culture, fear, ontology, evidence model, incentives, risk tolerance and native definition of truth.",
+    "dr_dolittle_frame": "Operators are no longer just prompting AI or using software. They are communicating across machine cultures. The system must translate intent across LLMs, SaaS, SI/consulting, OT, industry-specific tools and human institutions.",
+    "strategic_category": "Persistent governed cognition fabric / cognitive control plane for heterogeneous intelligences."
+  },
+  "compiled_lens": {
+    "dimensions": [
+      "organisational_dna",
+      "hidden_fear",
+      "definition_of_truth",
+      "native_time_horizon",
+      "sacred_value",
+      "implied_hierarchy",
+      "evidence_standard",
+      "governance_bias",
+      "risk_model",
+      "economic_metabolism",
+      "communication_dialect",
+      "failure_mode",
+      "recovery_expectation",
+      "best_prompting_or_instruction_style"
+    ],
+    "actor_classes": [
+      "frontier_llm_lab",
+      "enterprise_saas",
+      "cloud_infrastructure",
+      "systems_integrator",
+      "strategy_consulting",
+      "operational_technology",
+      "healthcare_platform",
+      "finance_platform",
+      "defence_intelligence_platform",
+      "mining_resources_platform",
+      "education_platform",
+      "government_regulatory_system"
+    ],
+    "canonical_primitives": [
+      "ACTOR",
+      "INTENT",
+      "CLAIM",
+      "EVIDENCE",
+      "TRUST",
+      "POLICY",
+      "STATE",
+      "RECEIPT",
+      "RECOVERY",
+      "ONTOLOGY",
+      "MEMORY",
+      "COHERENCE",
+      "ENTROPY",
+      "SURVIVABILITY"
+    ]
+  },
+  "operational_use_cases": [
+    {
+      "name": "Intent Translation",
+      "description": "Translate one executive instruction into system-specific language for OpenAI, Claude, Gemini, Perplexity, Copilot, Salesforce, SAP, ServiceNow, AWS, Siemens, Epic, Bloomberg, Palantir and other tools."
+    },
+    {
+      "name": "Cognitive Routing",
+      "description": "Route tasks to the model/platform/agent whose organisational cognition best matches the task, evidence standard and risk profile."
+    },
+    {
+      "name": "Outcome Prediction",
+      "description": "Predict how each system will interpret an instruction and where results will diverge before execution."
+    },
+    {
+      "name": "Governance Enforcement",
+      "description": "Apply autonomy tiers, evidence requirements and recovery rules based on actor class and operational risk."
+    },
+    {
+      "name": "Enterprise Coherence Map",
+      "description": "Map heterogeneous SaaS, AI, OT, consulting and human systems as a cognitive graph with trust, authority, telemetry and evidence edges."
+    }
+  ],
+  "schema_contract": {
+    "table_or_registry": "cognitive_actor_registry",
+    "minimum_fields": [
+      "actor_id",
+      "actor_name",
+      "actor_class",
+      "vendor_or_org",
+      "organisational_dna",
+      "hidden_fear",
+      "definition_of_truth",
+      "native_time_horizon",
+      "sacred_value",
+      "governance_bias",
+      "risk_model",
+      "evidence_standard",
+      "communication_style",
+      "best_instruction_style",
+      "failure_modes",
+      "recovery_model",
+      "autonomy_tier_allowed",
+      "telemetry_required",
+      "receipt_required",
+      "last_validated_at"
+    ]
+  },
+  "initial_registry_examples": [
+    {
+      "actor_name": "OpenAI / ChatGPT",
+      "actor_class": "frontier_llm_lab",
+      "organisational_dna": "startup plus research lab plus hyperscale product company",
+      "hidden_fear": "losing the capability race",
+      "definition_of_truth": "useful adaptive synthesis",
+      "best_instruction_style": "concise outcome-oriented execution framing"
+    },
+    {
+      "actor_name": "Anthropic / Claude",
+      "actor_class": "frontier_llm_lab",
+      "organisational_dna": "safety research lab with constitutional governance",
+      "hidden_fear": "misaligned intelligence",
+      "definition_of_truth": "constitutionally constrained coherence",
+      "best_instruction_style": "structured governance, constraints, reasoning and evidence"
+    },
+    {
+      "actor_name": "AWS",
+      "actor_class": "cloud_infrastructure",
+      "organisational_dna": "infrastructure operational rigor",
+      "hidden_fear": "reliability failure",
+      "definition_of_truth": "observable runtime state",
+      "best_instruction_style": "metrics, reliability, primitives, clear operational boundaries"
+    },
+    {
+      "actor_name": "SAP",
+      "actor_class": "enterprise_saas",
+      "organisational_dna": "industrial process standardisation",
+      "hidden_fear": "process fragmentation",
+      "definition_of_truth": "transactional consistency",
+      "best_instruction_style": "process, master data, controls, governance and standard operating model"
+    },
+    {
+      "actor_name": "Siemens OT",
+      "actor_class": "operational_technology",
+      "organisational_dna": "industrial engineering and deterministic control",
+      "hidden_fear": "unsafe physical operations",
+      "definition_of_truth": "sensor-confirmed physical state",
+      "best_instruction_style": "safety, uptime, deterministic recovery and telemetry continuity"
+    }
+  ],
+  "bridge_required_actions": [
+    "Validate/create cognitive_actor_registry schema in Supabase or canonical registry location.",
+    "Write initial seed records for LLM, SaaS, SI/consulting, OT and industry-specific actor classes.",
+    "Create translation function: one_intent_to_actor_specific_messages.",
+    "Create routing score function using ontology_fit, evidence_requirement, risk_class, autonomy_tier and time_horizon.",
+    "Create receipt path proving registry write, seed load, translation test and routing test.",
+    "Return runtime receipt under receipts/runtime/cognitive-culture-lens-v1*.json and audit row if available."
+  ],
+  "acceptance_tests": [
+    {
+      "test": "same_instruction_divergence",
+      "input": "Keep the system running.",
+      "expected": "Different outputs for AWS, Siemens, SAP, Anthropic and Palantir reflecting their truth models and fears."
+    },
+    {
+      "test": "route_task_to_best_actor",
+      "input": "Need runtime telemetry proof for unattended operation.",
+      "expected": "Routes to infrastructure/telemetry cognition, not creative or marketing cognition."
+    },
+    {
+      "test": "evidence_gate",
+      "input": "Claim actor registry is live.",
+      "expected": "Must produce runtime receipt; otherwise classification remains PARTIAL."
+    }
+  ],
+  "evidence_state": {
+    "analysis_compiled": "REAL_IN_THIS_THREAD",
+    "github_enqueue_requested": "REAL_IF_COMMIT_SUCCEEDS",
+    "runtime_execution": "PENDING",
+    "supabase_registry_write": "PENDING",
+    "receipt": "PENDING"
+  }
+}
