@@ -1,0 +1,34 @@
+{
+  "idempotency_key": "receipt-delivery-no-default-email-20260521",
+  "submitted_at": "2026-05-21T00:20:00+10:00",
+  "requested_by": "Troy Latter",
+  "intent": "Clarify receipt delivery rule: do not send emails for every receipt; post receipts in thread and commit to GitHub/Pen by default.",
+  "contact_correction": {
+    "correct_email_when_explicitly_needed": "troy@tech4humanity.com.au",
+    "incorrect_or_unapproved_email": "troy.latter@4pm.net.au",
+    "rule": "Do not use the 4pm.net.au address. Use troy@tech4humanity.com.au only when the user explicitly asks for email delivery or the workflow specifically requires email."
+  },
+  "receipt_delivery_policy": {
+    "default_delivery": [
+      "post receipt details back in the chat thread",
+      "commit receipt or handoff payload to GitHub/Pen"
+    ],
+    "do_not_default_to": [
+      "emailing every receipt",
+      "creating unnecessary email notifications"
+    ],
+    "email_allowed_when": [
+      "user explicitly requests an email",
+      "the workflow is specifically an email/reporting workflow",
+      "a critical escalation policy explicitly requires email"
+    ],
+    "thread_close_rule": "Once the GitHub/Pen receipt is posted back in the thread, the chat thread may close as HANDOFF_COMPLETE unless the user explicitly requested runtime closure in-thread."
+  },
+  "applies_to": [
+    "all future receipt responses",
+    "GitHub/Pen handoffs",
+    "Bridge payloads",
+    "runtime receipt reporting"
+  ],
+  "classification": "POLICY_CLARIFICATION_ENQUEUED"
+}
