@@ -1,0 +1,120 @@
+name: Bridge Runner — Payload Executor
+
+on:
+  push:
+    paths:
+      - 'bridge/payloads/**.json'
+  workflow_dispatch:
+    inputs:
+      payload_path:
+        description: 'Specific payload file to run (optional)'
+        required: false
+
+jobs:
+  bridge-runner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Detect changed payloads
+        id: detect
+        run: |
+          if [ -n "${{ github.event.inputs.payload_path }}" ]; then
+            echo "files=${{ github.event.inputs.payload_path }}" >> $GITHUB_OUTPUT
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'bridge/payloads/*.json' | tr '\n' ' ')
+            echo "files=$CHANGED" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Execute payloads
+        env:
+          BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
+          BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          set -euo pipefail
+          FILES="${{ steps.detect.outputs.files }}"
+          if [ -z "$FILES" ]; then
+            echo "No payload files changed — nothing to execute"
+            exit 0
+          fi
+
+          for PAYLOAD_PATH in $FILES; do
+            echo "=== Processing: $PAYLOAD_PATH ==="
+            if [ ! -f "$PAYLOAD_PATH" ]; then
+              echo "File not found: $PAYLOAD_PATH — skipping"
+              continue
+            fi
+
+            REQUEST_ID=$(cat "$PAYLOAD_PATH" | node -e "const d=require('fs').readFileSync('/dev/stdin','utf8'); const j=JSON.parse(d); console.log(j.metadata?.request_id || j.request_id || 'unknown-' + Date.now())")
+            FUNCTION_NAME=$(cat "$PAYLOAD_PATH" | node -e "const d=require('fs').readFileSync('/dev/stdin','utf8'); const j=JSON.parse(d); console.log(j.function_name || j.action || 'unknown')")
+
+            echo "request_id=$REQUEST_ID function=$FUNCTION_NAME"
+
+            RECEIPT_DIR="bridge/receipts"
+            mkdir -p $RECEIPT_DIR
+            RECEIPT_FILE="$RECEIPT_DIR/${REQUEST_ID}.receipt.json"
+
+            PICKED_UP_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+            INVOKE_STATUS="SKIPPED"
+            INVOKE_RESPONSE="{}"
+            HTTP_CODE=0
+
+            if [ -n "${BRIDGE_ENDPOINT:-}" ] && [ -n "${BRIDGE_API_KEY:-}" ]; then
+              HTTP_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$BRIDGE_ENDPOINT" \
+                -H "Content-Type: application/json" \
+                -H "x-api-key: $BRIDGE_API_KEY" \
+                -d @"$PAYLOAD_PATH" --max-time 30 2>/dev/null || echo '{"error":"curl_failed"}\n000')
+              HTTP_CODE=$(echo "$HTTP_RESPONSE" | tail -1)
+              INVOKE_RESPONSE=$(echo "$HTTP_RESPONSE" | head -n -1)
+
+              if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+                INVOKE_STATUS="REAL"
+              else
+                INVOKE_STATUS="PARTIAL"
+              fi
+            else
+              INVOKE_STATUS="BLOCKED"
+              INVOKE_RESPONSE='{"error":"BRIDGE_ENDPOINT or BRIDGE_API_KEY not configured","fix":"Add secrets: BRIDGE_ENDPOINT, BRIDGE_API_KEY to repo Settings > Secrets > Actions"}'
+            fi
+
+            COMPLETED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+            cat > "$RECEIPT_FILE" <<RECEIPT
+{
+  "request_id": "$REQUEST_ID",
+  "function_name": "$FUNCTION_NAME",
+  "payload_path": "$PAYLOAD_PATH",
+  "commit_sha": "${{ github.sha }}",
+  "runner_workflow": "${{ github.run_id }}",
+  "picked_up_at": "$PICKED_UP_AT",
+  "completed_at": "$COMPLETED_AT",
+  "status": "$INVOKE_STATUS",
+  "http_code": $HTTP_CODE,
+  "response": $INVOKE_RESPONSE
+}
+RECEIPT
+
+            echo "Receipt: $RECEIPT_FILE | Status: $INVOKE_STATUS"
+          done
+
+      - name: Commit receipts
+        run: |
+          git config user.name "bridge-runner[bot]"
+          git config user.email "bridge-runner@tml-4pm"
+          git add bridge/receipts/ || true
+          git diff --staged --quiet || git commit -m "chore: bridge receipts [skip ci] $(date -u +%Y%m%d-%H%M%S)"
+          git push || echo "Nothing to push"
