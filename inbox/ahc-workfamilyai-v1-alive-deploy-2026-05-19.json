@@ -1,0 +1,87 @@
+{
+  "idempotency_key": "ahc-workfamilyai-v1-alive-deploy-2026-05-19",
+  "created_at": "2026-05-19T12:00:00+10:00",
+  "origin": "chatgpt-github-connector",
+  "destination": "bridge",
+  "classification": "PARTIAL",
+  "status_note": "v1.0 alive",
+  "instruction": "Loop, cycle, prepare, chain, deploy. Ingest committed scaffold, execute bridge-side runtime uplift path, produce receipt. Do not run 72h autonomy theatre. Prove 1.0 alive through runtime inventory, telemetry, queue/recovery receipt, and monetisation mapping.",
+  "source_artifacts": {
+    "handoff_payload_commit": "796aeb55f3aad3cec6f4e5171be36c3352a5f9aa",
+    "runtime_inventory_schema_commit": "d59885de71632c1b122142ded0ab7ee1adffa566",
+    "telemetry_ledger_schema_commit": "abb37150cdc623612ae92c4b6d9616868481967d",
+    "nested_cfn_root_commit": "9566d8a099c4110a8549a089cf897d0c3b9b0527",
+    "validation_scorecard_commit": "23ee9866ef3a50e0590f5fd9f4e8f8bf8d03350a"
+  },
+  "runtime_flow_expected": "Pen poller / Vercel cron -> ops.work_queue -> Bridge -> Lambda workers -> Supabase receipts",
+  "canonical_facts": {
+    "aws_region": "ap-southeast-2",
+    "aws_account": "140548542136",
+    "canonical_bridge_endpoint": "zdgnab3py0",
+    "deprecated_bridge_endpoint": "m5oqj21chd"
+  },
+  "deploy_tasks": [
+    {
+      "task": "ingest_scaffold",
+      "inputs": [
+        "work/ahc-workfamilyai-uplift/runtime_inventory_schema.json",
+        "work/ahc-workfamilyai-uplift/telemetry_ledger_schema.sql",
+        "work/ahc-workfamilyai-uplift/nested-cfn/root-stack.yaml",
+        "work/ahc-workfamilyai-uplift/validation_scorecard_2026-05-18.md"
+      ],
+      "required_output": "receipts/runtime/ahc-workfamilyai-v1-ingest-receipt.json"
+    },
+    {
+      "task": "generate_runtime_inventory",
+      "required_output": "work/ahc-workfamilyai-uplift/runtime_inventory.json",
+      "minimum_scope": ["repos", "vercel_surfaces", "lambda_workers", "supabase_tables", "queues", "domains", "receipts"]
+    },
+    {
+      "task": "reconcile_agent_roster",
+      "required_output": "work/ahc-workfamilyai-uplift/canonical_agent_roster.json",
+      "known_conflict": "presentation_claim=81 latest_verified_audit_count=49"
+    },
+    {
+      "task": "apply_or_stage_telemetry_ledger",
+      "required_output": "receipts/runtime/ahc-workfamilyai-telemetry-ledger-receipt.json",
+      "fallback": "if migration cannot run, commit blocked reason and exact error"
+    },
+    {
+      "task": "build_cfn_child_templates",
+      "required_outputs": [
+        "work/ahc-workfamilyai-uplift/nested-cfn/queue-fabric.yaml",
+        "work/ahc-workfamilyai-uplift/nested-cfn/telemetry.yaml",
+        "work/ahc-workfamilyai-uplift/nested-cfn/runtime-workers.yaml",
+        "work/ahc-workfamilyai-uplift/nested-cfn/recovery-runtime.yaml",
+        "work/ahc-workfamilyai-uplift/nested-cfn/governance.yaml"
+      ]
+    },
+    {
+      "task": "execute_queue_replay_recovery_probe",
+      "required_output": "receipts/runtime/ahc-workfamilyai-v1-recovery-probe-receipt.json",
+      "success_criteria": ["orphan_detection", "idempotent_replay", "receipt_written", "classification_recorded"]
+    },
+    {
+      "task": "monetisation_mapping",
+      "required_output": "work/ahc-workfamilyai-uplift/monetisation_package.md",
+      "minimum_products": ["paid diagnostic", "white-label command centre", "managed survivability service", "AI workforce orchestration package"]
+    }
+  ],
+  "receipt_required": true,
+  "receipt_paths_expected": [
+    "receipts/runtime/ahc-workfamilyai-v1-ingest-receipt.json",
+    "receipts/runtime/ahc-workfamilyai-telemetry-ledger-receipt.json",
+    "receipts/runtime/ahc-workfamilyai-v1-recovery-probe-receipt.json",
+    "receipts/runtime/ahc-workfamilyai-v1-alive-bridge-receipt.json"
+  ],
+  "definition_of_done": [
+    "runtime inventory generated or blocked with exact error",
+    "agent roster reconciled or blocked with exact source conflict",
+    "telemetry ledger applied/staged with receipt",
+    "CFN child templates generated",
+    "queue replay/recovery probe executed",
+    "monetisation package created",
+    "bridge receipt committed"
+  ],
+  "evidence_rule": "REAL only after bridge/runtime receipt. GitHub enqueue is REAL for handoff only; deployment remains PARTIAL until runtime receipts exist."
+}
