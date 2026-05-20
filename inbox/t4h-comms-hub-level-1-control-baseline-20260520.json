@@ -1,0 +1,75 @@
+{
+  "idempotency_key": "t4h-comms-hub-level-1-control-baseline-20260520",
+  "submitted_at": "2026-05-20T19:00:00+10:00",
+  "submitted_by": "chatgpt-gpt-5.5-thinking",
+  "requested_by": "Troy Latter",
+  "target": {
+    "name": "T4H Comms Hub",
+    "url": "https://t4h-comms-hub.vercel.app/",
+    "vercel_project": "t4h-comms-hub",
+    "vercel_project_id": "prj_XAlUpR9lwEKRc7S9jgfQlezFAgiF",
+    "latest_deployment_id": "dpl_5x3H52GgGsJAvxoPkAKCVWuP5AXT",
+    "latest_deployment_state": "READY",
+    "production_alias": "t4h-comms-hub.vercel.app",
+    "observed_project_live_flag": false
+  },
+  "classification": {
+    "current": "PARTIAL",
+    "target": "LEVEL_1_CONTROLLED_PUBLIC_COMMS_FEED",
+    "evidence_rule": "REAL requires live endpoint proof, source control, deploy receipt, schema validation, monitoring, rollback proof, and ledger registration."
+  },
+  "observed_use": {
+    "public_status_surface": true,
+    "static_publication_feed": "/pubs.json",
+    "machine_readable_metadata": true,
+    "current_role": "lightweight public comms metadata endpoint"
+  },
+  "gap_register": [
+    {"gap_id":"COMMS-GAP-001","area":"canonical source","severity":"HIGH","finding":"No GitHub-linked source path visible from Vercel metadata; deployment appears CLI-driven.","required_level_1_control":"canonical repo with branch protection and source-to-deploy trace"},
+    {"gap_id":"COMMS-GAP-002","area":"schema","severity":"HIGH","finding":"Publication feed is static but no enforced schema/validator visible.","required_level_1_control":"JSON schema for publications and CI validation before deploy"},
+    {"gap_id":"COMMS-GAP-003","area":"approval","severity":"HIGH","finding":"No approval/release workflow visible for new public comms items.","required_level_1_control":"Pen/Bridge release request with owner, approver, evidence ref, and release reason"},
+    {"gap_id":"COMMS-GAP-004","area":"telemetry","severity":"HIGH","finding":"No uptime, feed freshness, endpoint latency, or error telemetry visible.","required_level_1_control":"scheduled health checks for / and /pubs.json with receipts"},
+    {"gap_id":"COMMS-GAP-005","area":"rollback","severity":"MEDIUM","finding":"Vercel rollback likely exists but no deterministic recovery receipt is present.","required_level_1_control":"documented rollback target and tested rollback receipt"},
+    {"gap_id":"COMMS-GAP-006","area":"publication lifecycle","severity":"HIGH","finding":"No visible lifecycle states for draft, approved, published, superseded, archived.","required_level_1_control":"publication lifecycle state machine and archive-not-delete rule"},
+    {"gap_id":"COMMS-GAP-007","area":"ownership","severity":"MEDIUM","finding":"Operational owner and maintainer role not encoded in the public feed or project metadata.","required_level_1_control":"owner, maintainer, escalation channel, and release authority metadata"},
+    {"gap_id":"COMMS-GAP-008","area":"evidence ledger","severity":"HIGH","finding":"No evidence ledger entry links comms item to source, deployment, and verification.","required_level_1_control":"audit/evidence registration for each publication and deployment"},
+    {"gap_id":"COMMS-GAP-009","area":"security","severity":"MEDIUM","finding":"Public read is appropriate, but write/deploy authority is not externally evidenced.","required_level_1_control":"least-privilege Vercel/GitHub deploy authority and deploy-token rotation record"},
+    {"gap_id":"COMMS-GAP-010","area":"freshness","severity":"MEDIUM","finding":"Feed generatedAt is static and not freshness-enforced.","required_level_1_control":"feed stale threshold, stale alert, and generatedAt verification"}
+  ],
+  "level_1_baseline": {
+    "purpose": "controlled public communications feed for Tech4Humanity",
+    "minimum_contract": [
+      "public endpoint remains reachable",
+      "pubs.json validates against schema",
+      "all publication changes originate from canonical source or Pen job",
+      "deployments produce verifiable receipt",
+      "endpoint health and feed freshness are monitored",
+      "rollback target is known and tested",
+      "each publication item has owner, brand, status, evidence_ref, version, and published_at"
+    ],
+    "required_files_or_tables": [
+      "comms/publications.schema.json",
+      "comms/publications.json or Supabase comms.publications",
+      "ops/checks/t4h-comms-hub-healthcheck.json",
+      "receipts/runtime/t4h-comms-hub/*.json",
+      "audit.evidence_register entry per release"
+    ],
+    "status_model": ["draft","approved","published","superseded","archived"],
+    "evidence_model": ["source_commit","schema_validation","deploy_receipt","endpoint_check","feed_checksum","rollback_test"]
+  },
+  "bridge_instructions": {
+    "mode": "inspect_then_control_baseline_then_receipt",
+    "actions": [
+      "Locate or create canonical GitHub repo for t4h-comms-hub source.",
+      "Add publications schema and validator.",
+      "Register current /pubs.json item as baseline v1.",
+      "Add healthcheck for / and /pubs.json.",
+      "Write runtime receipt proving endpoint fetch, schema validation, deployment id, and feed checksum.",
+      "If repo is absent, classify source-control as PARTIAL and open remediation issue.",
+      "Do not claim REAL Level 1 until source, validation, deploy, telemetry, and receipt all exist."
+    ],
+    "receipt_required": true,
+    "receipt_path": "receipts/runtime/t4h-comms-hub-level-1-control-baseline-20260520.json",
+    "close_condition": "receipt exists and classifies each layer REAL/PARTIAL/MISSING"
+  }
+}
