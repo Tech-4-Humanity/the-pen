@@ -1,0 +1,60 @@
+name: Bridge Runner — Diagnostics
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run diagnostics
+        env:
+          BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
+          BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          echo "=== Bridge Runner Diagnostics ==="
+          echo "Timestamp: $(date -u)"
+          echo "Commit: ${{ github.sha }}"
+          echo ""
+          echo "=== Secret Presence ==="
+          [ -n "${BRIDGE_ENDPOINT:-}" ] && echo "BRIDGE_ENDPOINT: SET" || echo "BRIDGE_ENDPOINT: MISSING ⚠️"
+          [ -n "${BRIDGE_API_KEY:-}" ]   && echo "BRIDGE_API_KEY: SET"   || echo "BRIDGE_API_KEY: MISSING ⚠️"
+          [ -n "${SUPABASE_URL:-}" ]     && echo "SUPABASE_URL: SET"     || echo "SUPABASE_URL: MISSING ⚠️"
+          [ -n "${SUPABASE_SERVICE_KEY:-}" ] && echo "SUPABASE_SERVICE_KEY: SET" || echo "SUPABASE_SERVICE_KEY: MISSING ⚠️"
+          echo ""
+          echo "=== Payloads ==="
+          ls -la bridge/payloads/ 2>/dev/null || echo "Empty or missing"
+          echo ""
+          echo "=== Receipts ==="
+          ls -la bridge/receipts/ 2>/dev/null || echo "No receipts yet"
+          echo ""
+          echo "=== Bridge Connectivity ==="
+          if [ -n "${BRIDGE_ENDPOINT:-}" ]; then
+            HTTP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "${BRIDGE_ENDPOINT}" || echo "000")
+            echo "HTTP response: $HTTP"
+          else
+            echo "Skipped — BRIDGE_ENDPOINT not set"
+          fi
+
+      - name: Write diagnostic receipt
+        run: |
+          mkdir -p bridge/receipts
+          TS=$(date -u +%Y%m%d-%H%M%S)
+          cat > bridge/receipts/diagnostics-${TS}.json <<EOF
+{
+  "type": "diagnostics",
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "commit_sha": "${{ github.sha }}",
+  "status": "RAN"
+}
+EOF
+          git config user.name "bridge-runner[bot]"
+          git config user.email "bridge-runner@tml-4pm"
+          git add bridge/receipts/
+          git diff --staged --quiet || git commit -m "chore: diagnostics receipt [skip ci]"
+          git push || echo "Nothing to push"
