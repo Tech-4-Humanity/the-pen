@@ -1,0 +1,36 @@
+{
+  "idempotency_key": "github-receipt-required-for-all-work-20260521",
+  "submitted_at": "2026-05-21T00:00:00+10:00",
+  "requested_by": "Troy Latter",
+  "intent": "Require GitHub receipts for all work, code, assets, artifacts, handoffs and closure packs.",
+  "policy": {
+    "name": "GITHUB_RECEIPT_REQUIRED_FOR_ALL_WORK",
+    "scope": [
+      "work",
+      "code",
+      "assets",
+      "artifacts",
+      "handoffs",
+      "generated outputs",
+      "closure packs"
+    ],
+    "minimum_receipt_fields": [
+      "repository",
+      "path",
+      "commit_sha_or_issue_url",
+      "manifest",
+      "classification",
+      "closure_state"
+    ],
+    "completion_rule": "Do not classify work as closed unless a GitHub receipt exists. If runtime work is required, a runtime receipt or failure receipt is also required.",
+    "pending_rule": "If only a Pen inbox enqueue exists and no runtime receipt exists, classify as PARTIAL_NOT_CLOSED."
+  },
+  "actions_requested": [
+    "Register this as a standing Pen and Bridge closure rule.",
+    "Apply it to future work packages.",
+    "Apply it to the T4H Comms Hub Level 1.0 handoff.",
+    "Return a runtime receipt at receipts/runtime/github-receipt-required-for-all-work-20260521.json."
+  ],
+  "expected_runtime_receipt_path": "receipts/runtime/github-receipt-required-for-all-work-20260521.json",
+  "classification": "ENQUEUE_REQUEST"
+}
