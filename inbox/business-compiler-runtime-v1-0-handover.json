@@ -1,0 +1,106 @@
+{
+  "idempotency_key": "business-compiler-runtime-v1-0-2026-05-19",
+  "submitted_by": "chatgpt-bob-reports",
+  "status": "handover_ready",
+  "classification": "PARTIAL_UNTIL_RUNTIME_RECEIPT",
+  "doctrine": "/dominate",
+  "title": "Business Compiler Runtime v1.0 Apple-ready handover",
+  "objective": "Turn the canvas/runtime concept into a committed deployable app with Supabase schema, compiler API, queue/evidence writers, service catalogue, launch gates, Vercel deployment path, and receipt trail.",
+  "source_inputs": [
+    "Business-as-Code runtime discussion",
+    "Autonomous Business Organism expansion",
+    "User instruction: final complete handover, no step-by-step, operations-ready"
+  ],
+  "deliverables_required": [
+    "Create canonical product boundary: business-compiler-runtime",
+    "Commit runnable React/Next/Vite app surface from canvas into repo or command-centre route",
+    "Add Supabase migrations for canonical runtime schema",
+    "Implement compiler API: idea -> business_instance, business_stack, launch_gate, runtime_queue, evidence_requirements, economic_runtime, country_pack",
+    "Implement service catalogue registry with executable input/output contracts",
+    "Implement queue writer for compile/gate/evidence/runtime jobs",
+    "Implement evidence writer that records receipts and classifies REAL/PARTIAL/MISSING",
+    "Implement launch gate evaluator that blocks production without critical evidence",
+    "Seed Outcome Ready / Family AI launch instance",
+    "Add Vercel deployment configuration and build verification",
+    "Add acceptance harness: schema validation, compiler smoke test, queue insert, evidence insert, gate evaluation, app build, deployment health check",
+    "Write runtime receipt under receipts/runtime/business-compiler-runtime-v1-0.json",
+    "Write audit log row with commit, deployment URL, test results, evidence classification"
+  ],
+  "repo_target_preference": [
+    "TML-4PM/ops-dashboard route if available",
+    "TML-4PM/the-pen handoff if ops-dashboard write path unavailable",
+    "New repo business-compiler-runtime only if authorised by ops policy"
+  ],
+  "canonical_schema_sql": "create schema if not exists business_runtime; create table if not exists business_runtime.business_instance (id uuid primary key default gen_random_uuid(), name text not null, status text not null default 'intake', doctrine text default '/dominate', markets text[] default '{}', offers text[] default '{}', evidence_state text not null default 'PARTIAL', created_at timestamptz default now(), updated_at timestamptz default now()); create table if not exists business_runtime.service_catalogue (service_id text primary key, name text not null, input_contract jsonb not null default '{}', output_contract jsonb not null default '{}', owner text, reusable boolean default true, version text default '1.0', created_at timestamptz default now()); create table if not exists business_runtime.business_stack (stack_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), level text not null, module text not null, status text not null default 'queued', dependency_ids uuid[] default '{}', evidence_state text not null default 'MISSING', created_at timestamptz default now()); create table if not exists business_runtime.launch_gate (gate_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), gate text not null, required_proof text not null, owner text, status text not null default 'blocked', evidence_ref text, created_at timestamptz default now()); create table if not exists business_runtime.runtime_queue (job_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), service_id text references business_runtime.service_catalogue(service_id), status text not null default 'queued', payload jsonb not null default '{}', owner text, proof_ref text, retry_count int default 0, created_at timestamptz default now()); create table if not exists business_runtime.evidence_register (evidence_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), object_ref text not null, evidence_type text not null, classification text not null check (classification in ('REAL','PARTIAL','MISSING','REJECTED')), receipt_uri text, checked_at timestamptz default now()); create table if not exists business_runtime.telemetry_ledger (metric_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), metric text not null, value numeric, source text, observed_at timestamptz default now(), confidence numeric default 0.5); create table if not exists business_runtime.human_graph (human_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), role text, authority_level text, incentive_plan jsonb default '{}', burnout_risk numeric, trust_score numeric, created_at timestamptz default now()); create table if not exists business_runtime.economic_runtime (business_id uuid primary key references business_runtime.business_instance(id), margin numeric, runway_days int, burn_rate numeric, capital_state text, survivability_score numeric, updated_at timestamptz default now()); create table if not exists business_runtime.governance_policy (policy_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), domain text, rule_type text, escalation_path text, enforcement_mode text not null default 'block_on_missing_evidence', created_at timestamptz default now()); create table if not exists business_runtime.state_machine (machine_id uuid primary key default gen_random_uuid(), object_type text not null, current_state text not null, allowed_transitions text[] not null default '{}', evidence_required jsonb default '{}', created_at timestamptz default now()); create table if not exists business_runtime.portfolio_registry (portfolio_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), shared_services text[] default '{}', cross_sell_links text[] default '{}', capital_priority text, created_at timestamptz default now()); create table if not exists business_runtime.survivability_receipt (receipt_id uuid primary key default gen_random_uuid(), business_id uuid references business_runtime.business_instance(id), recovery_test text not null, duration_hours int, continuity_result text, evidence_uri text, created_at timestamptz default now());",
+  "compiler_contract": {
+    "input": {
+      "idea": "string",
+      "markets": ["AU", "US", "UK", "EU"],
+      "customers": ["families", "practitioners", "providers", "schools", "enterprise", "government"],
+      "offers": ["assessment", "programme", "subscription", "implementation", "advisory", "AI agent pack"]
+    },
+    "outputs": [
+      "business_instance",
+      "business_stack[]",
+      "launch_gate[]",
+      "runtime_queue[]",
+      "service_catalogue[]",
+      "evidence_requirements[]",
+      "economic_runtime",
+      "country_pack",
+      "daily_brief_template"
+    ]
+  },
+  "service_catalogue": [
+    {"service_id":"BUSINESS.CREATE","function":"Compile idea into canonical business object","evidence":"insert receipt"},
+    {"service_id":"OFFER.BUILD","function":"Generate product/service offers with margin and fulfilment","evidence":"offer artefact"},
+    {"service_id":"COUNTRY.ATTACH","function":"Attach legal/tax/privacy/labour obligations","evidence":"obligation source/version proof"},
+    {"service_id":"REVENUE.WIRE","function":"Create CRM, checkout, billing and renewal model","evidence":"live checkout or test receipt"},
+    {"service_id":"DELIVERY.WIRE","function":"Create fulfilment workflow and acceptance gates","evidence":"test fulfilment receipt"},
+    {"service_id":"SUPPORT.WIRE","function":"Create support queue, escalation and SLA","evidence":"support ticket receipt"},
+    {"service_id":"EVIDENCE.PROVE","function":"Attach receipts, proof, telemetry and audit rows","evidence":"receipt URI"},
+    {"service_id":"LAUNCH.GATE","function":"Block or release launch based on proof","evidence":"gatekeeper decision receipt"},
+    {"service_id":"BRIEF.DAILY","function":"Create daily operating brief","evidence":"brief artefact"},
+    {"service_id":"RECOVERY.TEST","function":"Validate rollback, ownership and continuity","evidence":"recovery receipt"}
+  ],
+  "launch_gates": [
+    "identity",
+    "offer",
+    "checkout",
+    "delivery",
+    "support",
+    "legal",
+    "telemetry",
+    "recovery",
+    "human_coordination",
+    "economic_reality",
+    "governance",
+    "survivability"
+  ],
+  "acceptance_harness": {
+    "must_pass": [
+      "app builds without TypeScript/runtime errors",
+      "schema migration is idempotent",
+      "seed creates Outcome Ready / Family AI instance",
+      "compiler API creates expected objects from sample idea payload",
+      "queue writer inserts runtime jobs",
+      "evidence writer records at least one PARTIAL and one REAL receipt if real external proof exists",
+      "launch gate evaluator blocks checkout/legal/recovery until evidence exists",
+      "deployment URL returns HTTP 200",
+      "receipt file written to GitHub receipts/runtime/",
+      "audit log row includes commit, deployment URL, classification and test results"
+    ],
+    "classification_rules": {
+      "REAL": "runtime receipt + deployed URL/DB proof/CI proof exists",
+      "PARTIAL": "code or schema committed but runtime proof missing",
+      "PRETEND": "claim without artefact or receipt"
+    }
+  },
+  "operations_handover": {
+    "owner": "T4H Ops / Gatekeeper",
+    "cadence": "daily command brief, weekly revenue/risk review, monthly board pack, quarterly strategy reset",
+    "blocked_actions": ["production launch without legal/checkout/recovery evidence", "delete/purge/revoke without explicit governance unlock", "claim REAL without receipt"],
+    "receipt_path": "receipts/runtime/business-compiler-runtime-v1-0.json"
+  },
+  "requested_runtime_action": "Bridge runner should compare current repos, choose target route/repo, commit full app/schema/API/harness, run tests, deploy, write receipt, and classify final state. Do not stop at docs if execution permissions exist. If execution permissions are missing, write FAIL/PARTIAL receipt with exact blocker and next executable command."
+}
