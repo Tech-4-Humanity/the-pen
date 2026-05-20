@@ -1,8 +1,9 @@
 {
   "idempotency_key": "github-receipt-required-for-all-work-20260521",
   "submitted_at": "2026-05-21T00:00:00+10:00",
+  "updated_at": "2026-05-21T00:05:00+10:00",
   "requested_by": "Troy Latter",
-  "intent": "Require GitHub receipts for all work, code, assets, artifacts, handoffs and closure packs.",
+  "intent": "Require GitHub receipts for all work, code, assets, artifacts, handoffs and closure packs, and define when a chat thread can close after Pen handoff.",
   "policy": {
     "name": "GITHUB_RECEIPT_REQUIRED_FOR_ALL_WORK",
     "scope": [
@@ -23,7 +24,12 @@
       "closure_state"
     ],
     "completion_rule": "Do not classify work as closed unless a GitHub receipt exists. If runtime work is required, a runtime receipt or failure receipt is also required.",
-    "pending_rule": "If only a Pen inbox enqueue exists and no runtime receipt exists, classify as PARTIAL_NOT_CLOSED."
+    "thread_closure_rule": "Once the work package has been passed to the Pen and the GitHub/Pen receipt has been posted back into the chat thread, the job of that chat thread is done and the thread can close. Downstream execution continues in the Pen/Bridge/runtime layer and must produce runtime receipts where required.",
+    "pending_rule": "If only a Pen inbox enqueue exists and no runtime receipt exists, the chat thread may close as HANDOFF_COMPLETE when the user-requested unit of work was handoff to Pen. The downstream workload remains PARTIAL_NOT_CLOSED until runtime receipt or failure receipt exists.",
+    "classification_split": {
+      "thread_state": "HANDOFF_COMPLETE once GitHub/Pen receipt is posted in-thread",
+      "runtime_state": "PARTIAL_NOT_CLOSED until runtime receipt or failure receipt exists"
+    }
   },
   "actions_requested": [
     "Register this as a standing Pen and Bridge closure rule.",
@@ -32,5 +38,5 @@
     "Return a runtime receipt at receipts/runtime/github-receipt-required-for-all-work-20260521.json."
   ],
   "expected_runtime_receipt_path": "receipts/runtime/github-receipt-required-for-all-work-20260521.json",
-  "classification": "ENQUEUE_REQUEST"
+  "classification": "ENQUEUE_REQUEST_UPDATED"
 }
