@@ -1,1 +1,875 @@
-__FF_PLACEHOLDER__
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Frontiers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+/* ─────────── TOKENS ─────────── */
+:root, [data-theme="dark"] {
+  --color-bg: #0e0e0e;
+  --color-surface: #141414;
+  --color-surface-2: #1a1a1a;
+  --color-surface-3: #222222;
+  --color-border: rgba(255,255,255,0.08);
+  --color-text: #f0ede8;
+  --color-text-muted: #999490;
+  --color-text-faint: #4a4845;
+  --color-accent: #e8292c;
+  --color-accent-hover: #ff3a3d;
+  --color-accent-glow: rgba(232,41,44,0.18);
+  --color-gold: #d4a843;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+  --text-hero: clamp(2.5rem, 1rem + 5vw, 6rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-theme="light"] {
+  --color-bg: #f5f3ef;
+  --color-surface: #ffffff;
+  --color-surface-2: #f9f7f4;
+  --color-surface-3: #f0ede8;
+  --color-border: rgba(0,0,0,0.09);
+  --color-text: #1a1816;
+  --color-text-muted: #706d68;
+  --color-text-faint: #bbb8b4;
+  --color-accent: #c41d20;
+  --color-accent-hover: #e82022;
+  --color-accent-glow: rgba(196,29,32,0.12);
+  --color-gold: #b8891a;
+}
+
+/* ─────────── RESET ─────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body {
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: background var(--transition), color var(--transition);
+}
+img { display: block; max-width: 100%; }
+button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+
+/* ─────────── SCROLL ANIMATIONS ─────────── */
+@supports (animation-timeline: scroll()) {
+  .fade-in {
+    opacity: 0;
+    animation: revealFade linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+  @keyframes revealFade { to { opacity: 1; } }
+
+  .slide-up {
+    opacity: 0;
+    clip-path: inset(20px 0 0 0);
+    animation: revealSlide linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 75%;
+  }
+  @keyframes revealSlide { to { opacity: 1; clip-path: inset(0 0 0 0); } }
+}
+
+/* ─────────── HEADER ─────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: oklch(from var(--color-bg) l c h / 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logo-mark svg { color: var(--color-accent); }
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.logo-title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+}
+.logo-sub {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.badge-live {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-accent-glow);
+  color: var(--color-accent);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.badge-live::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.theme-toggle {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  transition: color var(--transition), background var(--transition);
+}
+.theme-toggle:hover {
+  color: var(--color-text);
+  background: var(--color-surface-2);
+}
+
+/* ─────────── HERO ─────────── */
+.hero {
+  padding: clamp(var(--space-16), 8vw, 120px) var(--space-6) var(--space-12);
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -120px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse at center, var(--color-accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-5);
+  position: relative;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1px;
+  background: var(--color-accent);
+}
+
+.hero-heading {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+
+.hero-heading em {
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+.hero-sub {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  line-height: 1.55;
+  margin-bottom: var(--space-8);
+  position: relative;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  position: relative;
+}
+
+.hero-meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.hero-meta-item strong { color: var(--color-text); font-weight: 600; }
+
+.hero-divider {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--color-text-faint);
+}
+
+/* ─────────── STATS BAR ─────────── */
+.stats-bar {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4) var(--space-6);
+}
+
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-text);
+  line-height: 1;
+}
+.stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─────────── SECTION NAV ─────────── */
+.section-nav {
+  padding: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.section-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.filter-group {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: var(--space-1) var(--space-4);
+  border-radius: 999px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  background: transparent;
+  transition: all var(--transition);
+}
+.filter-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.filter-btn.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+/* ─────────── GRID ─────────── */
+.frontiers-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6) var(--space-16);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+/* ─────────── CARD ─────────── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.card:hover {
+  border-color: rgba(232,41,44,0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(232,41,44,0.08);
+}
+.card:hover::before { opacity: 1; }
+
+.card.featured {
+  grid-column: span 2;
+  background: var(--color-surface-2);
+}
+@media (max-width: 720px) {
+  .card.featured { grid-column: span 1; }
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.card-number {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.card-tag {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px var(--space-3);
+  border-radius: 999px;
+  background: var(--color-surface-3);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.card-hook {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  line-height: 1.5;
+  border-left: 2px solid var(--color-accent);
+  padding-left: var(--space-3);
+}
+
+.card-detail {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  display: none;
+}
+
+.card.expanded .card-detail { display: block; }
+
+.card-question-wrap {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.card-question-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.card-question {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.card-expand-btn {
+  position: absolute;
+  bottom: var(--space-4);
+  right: var(--space-5);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  transition: all var(--transition);
+  background: var(--color-surface-3);
+}
+.card-expand-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.card.expanded .card-expand-btn { transform: rotate(180deg); }
+
+/* ─────────── CLOSING SECTION ─────────── */
+.closing {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: clamp(var(--space-12), 6vw, var(--space-20)) var(--space-6);
+}
+
+.closing-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.closing-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-6);
+}
+.closing-eyebrow::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: var(--color-gold);
+}
+
+.closing-line {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2.75rem);
+  color: var(--color-text-muted);
+  line-height: 1.25;
+  margin-bottom: var(--space-5);
+}
+
+.closing-line.accent {
+  color: var(--color-text);
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1.1;
+  margin-top: var(--space-8);
+}
+
+.closing-note {
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  max-width: 55ch;
+  line-height: 1.7;
+}
+
+/* ─────────── FOOTER ─────────── */
+.site-footer {
+  padding: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ─────────── RESPONSIVE ─────────── */
+@media (max-width: 640px) {
+  .site-header { padding: var(--space-3) var(--space-4); }
+  .hero { padding: var(--space-12) var(--space-4) var(--space-10); }
+  .stats-bar { padding: var(--space-4); }
+  .section-nav { padding: var(--space-4); }
+  .frontiers-grid { padding: 0 var(--space-4) var(--space-12); }
+  .closing { padding: var(--space-12) var(--space-4); }
+  .hero-meta { gap: var(--space-4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-logo">
+    <div class="logo-mark">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Future Frontiers logo">
+        <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5" stroke-opacity="0.3"/>
+        <path d="M8 16 L16 6 L24 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 6 L16 26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <circle cx="16" cy="26" r="2.5" fill="currentColor" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-title">Future Frontiers</span>
+      <span class="logo-sub">Discussion Menu</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="badge-live">Producer Brief</div>
+    <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Segment Brief</div>
+  <h1 class="hero-heading">Future<br><em>Frontiers</em></h1>
+  <p class="hero-sub">
+    A producer menu — enter or exit anywhere. These themes stand alone or connect naturally depending on where you want to take the conversation.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>7–10 min</strong> segment</div>
+    <div class="hero-divider"></div>
+    <div class="hero-meta-item"><strong>14</strong> discussion themes</div>
+    <div class="hero-divider"></div>
+    <div class="hero-meta-item"><strong>Healthcare &amp; Humanity</strong> focus</div>
+    <div class="hero-divider"></div>
+    <div class="hero-meta-item">You choose the entry &amp; exit</div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <span class="stat-value">14</span>
+      <span class="stat-label">Frontier Themes</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">5</span>
+      <span class="stat-label">Recommended Picks</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">AI + BCI</span>
+      <span class="stat-label">Core Technology</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">Now</span>
+      <span class="stat-label">Already Happening</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION NAV -->
+<div class="section-nav">
+  <span class="section-label">All Themes — click to expand</span>
+  <div class="filter-group">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="ai">AI</button>
+    <button class="filter-btn" data-filter="health">Healthcare</button>
+    <button class="filter-btn" data-filter="human">Humanity</button>
+    <button class="filter-btn" data-filter="top5">Top 5 Picks</button>
+  </div>
+</div>
+
+<!-- FRONTIERS GRID -->
+<main class="frontiers-grid" id="frontiers">
+</main>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-inner">
+    <div class="closing-eyebrow">The Big Idea</div>
+    <p class="closing-line fade-in">For two hundred years, technology amplified physical capability.</p>
+    <p class="closing-line fade-in">Then it amplified information.</p>
+    <p class="closing-line accent slide-up">The next frontier is amplifying<br><em>human capability itself.</em></p>
+    <div class="closing-note fade-in">
+      The biggest question is no longer what technology can do — it's what kind of future we want technology to help create. Happy to move across any combination of themes depending on audience interest and where the conversation naturally heads.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <span>Future Frontiers</span>
+  <span>·</span>
+  <span>Producer Discussion Brief</span>
+  <span>·</span>
+  <span>Enter or exit anywhere</span>
+</footer>
+
+<script>
+// ─── THEME TOGGLE ───
+(function(){
+  const t = document.querySelector('[data-theme-toggle]');
+  const r = document.documentElement;
+  let d = 'dark';
+  r.setAttribute('data-theme', d);
+  function setTheme(mode) {
+    d = mode;
+    r.setAttribute('data-theme', d);
+    if(t) t.innerHTML = d === 'dark'
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  }
+  setTheme('dark');
+  if(t) t.addEventListener('click', () => setTheme(d === 'dark' ? 'light' : 'dark'));
+})();
+
+// ─── DATA ───
+const frontiers = [
+  {
+    id: 1,
+    title: "AI Moves From Tools to Teammates",
+    hook: "The future organisation chart may include human employees, AI colleagues — and robotic workers.",
+    question: "What happens when organisations manage both people and intelligent agents?",
+    detail: "We spent years discussing AI assistants. The next wave is AI agents and autonomous systems coordinating work, making decisions and operating alongside humans. The real question: which decisions stay human, and what evidence trail exists when something goes wrong?",
+    tags: ["ai", "top5"],
+    featured: true,
+  },
+  {
+    id: 2,
+    title: "Human Signal Intelligence",
+    hook: "The next frontier may not be more information — it may be better understanding humans.",
+    question: "Could healthcare and workplaces shift from reaction toward prediction and prevention?",
+    detail: "Emerging systems can increasingly understand signals around attention, stress, fatigue, wellbeing, confidence and readiness. We've instrumented machines for decades. Next we instrument human wellbeing.",
+    tags: ["ai", "health", "human", "top5"],
+  },
+  {
+    id: 3,
+    title: "Brain-Computer Interfaces",
+    hook: "Technology is moving from tools we use toward systems that understand human intention.",
+    question: "What happens when machines can understand intent directly — without a screen or keyboard?",
+    detail: "BCI is moving rapidly from science fiction into practical healthcare: restoring communication for people with paralysis, supporting stroke rehabilitation, and enabling entirely new forms of interaction. Standards work is already underway internationally.",
+    tags: ["health", "human", "top5"],
+  },
+  {
+    id: 4,
+    title: "Predictive and Preventive Healthcare",
+    hook: "Medicine is shifting from treating illness to anticipating it.",
+    question: "Could the future doctor increasingly be a predictive system — intervening before symptoms appear?",
+    detail: "AI, genomics, wearables and digital twins may change healthcare from treatment after the fact to early intervention. The shift: from diagnose → test → hope, to simulate → predict → intervene.",
+    tags: ["health", "top5"],
+  },
+  {
+    id: 5,
+    title: "Digital Twins of Humans",
+    hook: "Test treatments before applying them in the real world.",
+    question: "What if we could simulate medicine before using it on a real person?",
+    detail: "Creating digital replicas of people, organs or entire biological systems allows healthcare teams to model outcomes before real-world intervention. Heart surgery rehearsal, medication simulation, cancer treatment optimisation — all before a single incision.",
+    tags: ["health"],
+  },
+  {
+    id: 6,
+    title: "Human Augmentation",
+    hook: "The future may not be humans versus machines — it may be humans becoming more capable through machines.",
+    question: "What does it mean when technology is no longer a tool, but an extension of us?",
+    detail: "Wearables, AI companions, exoskeletons and cognitive support systems are beginning to reshape education, work, ageing and quality of life. Technology is becoming less something we use and more something we inhabit.",
+    tags: ["human", "top5"],
+  },
+  {
+    id: 7,
+    title: "Robotics Leaves the Factory",
+    hook: "Robots are becoming infrastructure — not industrial equipment.",
+    question: "What happens when robotic systems become part of social infrastructure?",
+    detail: "Robotics is moving beyond industry into homes, hospitals and everyday life. Robotic carers, rehabilitation systems, autonomous logistics. The question isn't whether it happens — it's whether society is ready for it.",
+    tags: ["human", "health"],
+  },
+  {
+    id: 8,
+    title: "Longevity and Healthy Ageing",
+    hook: "Living longer is one challenge. Maintaining quality of life may be the harder one.",
+    question: "Can technology help us remain healthier, more independent, and more capable for longer?",
+    detail: "Regenerative medicine, cellular therapies, biological age tracking and AI-assisted health prediction are converging. The societal question: people are living longer — but can economies and communities support them?",
+    tags: ["health", "human"],
+  },
+  {
+    id: 9,
+    title: "Synthetic Biology",
+    hook: "We may be entering an era where biology becomes programmable.",
+    question: "What happens when we can code cells the way we code software?",
+    detail: "Programming biology to create personalised medicines, engineered cell therapies, bio-manufacturing and living materials. A convergence of computation, life sciences and chemistry that could reshape medicine and manufacturing simultaneously.",
+    tags: ["health"],
+  },
+  {
+    id: 10,
+    title: "Neurotechnology Beyond Healthcare",
+    hook: "Brain technologies may expand far beyond medicine.",
+    question: "Who owns neural data — and who decides how cognitive insights are used?",
+    detail: "Applications extending into education, workforce optimisation, sport and wellbeing. Focus enhancement, fatigue management, learning acceleration. The ethical questions around consent and data ownership are arriving faster than the regulation.",
+    tags: ["human", "health"],
+  },
+  {
+    id: 11,
+    title: "Identity, Trust and Consent",
+    hook: "How do we prove what is real in a world of AI-generated everything?",
+    question: "Who owns identity in an AI world — and how do we verify authenticity?",
+    detail: "As AI becomes more capable, questions around authenticity, data ownership and trust become existential. Consent wallets, personal AI identity, reputation systems and verified human credentials are all emerging in response.",
+    tags: ["ai", "human"],
+  },
+  {
+    id: 12,
+    title: "Climate + Humanity Technologies",
+    hook: "Technology may help prevent crises rather than simply respond to them.",
+    question: "Can intelligent systems build resilience into the systems that keep humanity alive?",
+    detail: "Water, food, disaster prediction and health systems are increasingly converging. AI-assisted climate-health forecasting, early warning systems and adaptive infrastructure may shift our relationship from reactive to anticipatory.",
+    tags: ["human", "health"],
+  },
+  {
+    id: 13,
+    title: "Space as Humanity's Laboratory",
+    hook: "Space increasingly changes life on Earth — not just up there.",
+    question: "What innovations built for space are quietly reshaping medicine and biology at home?",
+    detail: "Healthcare challenges in space — biology under stress, isolation, remote medicine, mental health at extremes — are driving breakthroughs that return to Earth. Space is increasingly a forcing function for human resilience technology.",
+    tags: ["human", "health"],
+  },
+  {
+    id: 14,
+    title: "Quantum and New Computing Frontiers",
+    hook: "Entirely new computing paradigms could unlock breakthroughs we cannot currently model.",
+    question: "What becomes possible when the way we compute fundamentally changes?",
+    detail: "Healthcare, molecular science and drug discovery may be the first major fields transformed. New computing architectures — quantum, neuromorphic, biological — could collapse timelines on problems that currently take decades to solve.",
+    tags: ["ai", "health"],
+  }
+];
+
+// ─── RENDER CARDS ───
+function renderCards(filter) {
+  const grid = document.getElementById('frontiers');
+  grid.innerHTML = '';
+  const filtered = filter === 'all' ? frontiers : frontiers.filter(f => f.tags.includes(filter));
+
+  filtered.forEach((f, i) => {
+    const card = document.createElement('article');
+    card.className = 'card fade-in' + (f.featured && filter === 'all' ? ' featured' : '');
+    card.dataset.id = f.id;
+    card.style.animationDelay = (i * 0.05) + 's';
+
+    const tagLabel = f.tags.includes('top5') ? 'Top Pick' : (f.tags[0] === 'ai' ? 'AI' : f.tags[0] === 'health' ? 'Healthcare' : 'Humanity');
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="card-number">0${String(f.id).padStart(1,'0')}</span>
+        <span class="card-tag">${tagLabel}</span>
+      </div>
+      <h2 class="card-title">${f.title}</h2>
+      <p class="card-hook">${f.hook}</p>
+      <p class="card-detail">${f.detail}</p>
+      <div class="card-question-wrap">
+        <div class="card-question-label">Discussion Question</div>
+        <p class="card-question">${f.question}</p>
+      </div>
+      <button class="card-expand-btn" aria-label="Expand card">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M2 4 L6 8 L10 4"/>
+        </svg>
+      </button>
+    `;
+
+    card.addEventListener('click', () => {
+      card.classList.toggle('expanded');
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+// ─── FILTER BUTTONS ───
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards(btn.dataset.filter);
+  });
+});
+
+// ─── INIT ───
+renderCards('all');
+</script>
+</body>
+</html>
