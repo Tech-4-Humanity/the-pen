@@ -1,0 +1,35 @@
+name: Bridge Runner — Heartbeat
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Write heartbeat
+        run: |
+          mkdir -p bridge/receipts
+          cat > bridge/receipts/runner-heartbeat.json <<EOF
+{
+  "type": "heartbeat",
+  "runner": "github-actions",
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "repo": "TML-4PM/the-pen",
+  "status": "ALIVE",
+  "commit_sha": "${{ github.sha }}"
+}
+EOF
+
+      - name: Commit heartbeat
+        run: |
+          git config user.name "bridge-runner[bot]"
+          git config user.email "bridge-runner@tml-4pm"
+          git add bridge/receipts/runner-heartbeat.json
+          git diff --staged --quiet || git commit -m "chore: runner heartbeat [skip ci] $(date -u +%Y%m%dT%H%M%S)"
+          git push || echo "Nothing to push"
