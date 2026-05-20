@@ -1,0 +1,48 @@
+{
+  "idempotency_key": "t4h-comms-hub-joinings-receipt-retry-20260521",
+  "submitted_at": "2026-05-21T00:00:00+10:00",
+  "submitted_by": "chatgpt-gpt-5.5-thinking",
+  "requested_by": "Troy Latter",
+  "intent": "join previous T4H Comms Hub Level 1.0 control baseline handoff, trigger bridge execution, obtain runtime receipt, and close with REAL/PARTIAL/MISSING evidence matrix",
+  "joinings": {
+    "previous_payload_path": "inbox/t4h-comms-hub-level-1-control-baseline-20260520.json",
+    "previous_enqueue_commit_sha": "c8d000490b3ef643c3001d67b93d32f9933b5c35",
+    "expected_missing_receipt_path": "receipts/runtime/t4h-comms-hub-level-1-control-baseline-20260520.json",
+    "retry_receipt_path": "receipts/runtime/t4h-comms-hub-joinings-receipt-retry-20260521.json",
+    "target_url": "https://t4h-comms-hub.vercel.app/",
+    "target_feed_url": "https://t4h-comms-hub.vercel.app/pubs.json",
+    "vercel_project_id": "prj_XAlUpR9lwEKRc7S9jgfQlezFAgiF",
+    "latest_observed_deployment_id": "dpl_5x3H52GgGsJAvxoPkAKCVWuP5AXT",
+    "latest_observed_deployment_state": "READY"
+  },
+  "problem_statement": "Previous Pen enqueue is REAL, but downstream runtime receipt is missing. This likely indicates Bridge/Pen worker trigger failure, worker write-path mismatch, or receipt naming mismatch. Do not leave as queued without classifying the worker failure.",
+  "bridge_actions_required": [
+    "Read previous payload from inbox/t4h-comms-hub-level-1-control-baseline-20260520.json.",
+    "Fetch https://t4h-comms-hub.vercel.app/ and record HTTP status, title/body evidence, and timestamp.",
+    "Fetch https://t4h-comms-hub.vercel.app/pubs.json and record HTTP status, JSON parse result, item count, generatedAt, and checksum.",
+    "Validate publication feed against minimum Level 1.0 schema fields or record schema gap as PARTIAL/MISSING.",
+    "Inspect Vercel project/deployment if Bridge has Vercel access; otherwise consume supplied deployment id as observed metadata and classify source as PARTIAL.",
+    "Write receipt to receipts/runtime/t4h-comms-hub-joinings-receipt-retry-20260521.json.",
+    "Also write or backfill receipts/runtime/t4h-comms-hub-level-1-control-baseline-20260520.json if safe/idempotent.",
+    "Receipt must include final closure matrix: endpoint, feed, schema, deploy, source-control, telemetry, recovery, evidence-ledger, worker-trigger.",
+    "If worker cannot execute, create failure receipt rather than silent pending state."
+  ],
+  "minimum_receipt_schema": {
+    "idempotency_key": "string",
+    "executed_at": "iso8601",
+    "classification": "REAL|PARTIAL|MISSING|FAIL",
+    "checks": [
+      {"name":"root_endpoint","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"pubs_json","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"schema_validation","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"vercel_deployment","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"canonical_source","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"telemetry","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"recovery","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"evidence_ledger","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"},
+      {"name":"worker_trigger","status":"REAL|PARTIAL|MISSING|FAIL","evidence":"string"}
+    ],
+    "close_state": "CLOSED|PARTIAL_NOT_CLOSED|FAILED_WITH_RECEIPT"
+  },
+  "closure_rule": "Close only if runtime receipt exists. If Level 1.0 cannot be made REAL, close as PARTIAL_NOT_CLOSED with explicit blocker and next executable fix. Silent pending is not acceptable."
+}
