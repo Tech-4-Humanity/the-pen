@@ -1,0 +1,75 @@
+{
+  "idempotency_key": "t4h-comms-hub-thread-master-wrap-20260521",
+  "submitted_at": "2026-05-21T00:30:00+10:00",
+  "requested_by": "Troy Latter",
+  "intent": "Full-thread master wrap from original T4H Comms Hub inspection through Level 1.0 control baseline, gap register, joinings retry, receipt policy, no-default-email rule, and operational closure model.",
+  "thread_scope": [
+    "Determine how https://t4h-comms-hub.vercel.app/ is used, maintained and controlled.",
+    "Identify additional gaps and recompile to Level 1.0.",
+    "Push Level 1.0 control baseline to Bridge/Pen and get GitHub receipt.",
+    "Join previous work and retry missing runtime receipt.",
+    "Establish rule that all work, code, assets and artifacts require GitHub receipts.",
+    "Clarify that chat thread can close once GitHub/Pen receipt is posted back and workload is passed to Pen.",
+    "Operationally improve handoff model to avoid orphaned work.",
+    "Correct contact rule: use troy@tech4humanity.com.au only when email is explicitly needed; do not email every receipt; do not use 4pm.net.au address."
+  ],
+  "current_live_evidence": {
+    "vercel_project": "t4h-comms-hub",
+    "vercel_project_id": "prj_XAlUpR9lwEKRc7S9jgfQlezFAgiF",
+    "latest_deployment_id": "dpl_5x3H52GgGsJAvxoPkAKCVWuP5AXT",
+    "latest_deployment_state": "READY",
+    "latest_deployment_target": "production",
+    "production_domain": "t4h-comms-hub.vercel.app",
+    "observed_project_live_flag": false,
+    "classification": "REAL deployment metadata, PARTIAL live flag ambiguity"
+  },
+  "compiled_findings": {
+    "current_use": "Lightweight public T4H communications hub and static publication metadata endpoint.",
+    "current_maintenance_model": "Appears CLI/Vercel managed; no canonical GitHub source linkage visible from Vercel metadata.",
+    "current_control_model": "Vercel project/team access plus public read endpoint; no visible schema validation, release workflow, telemetry, rollback proof, or evidence ledger binding.",
+    "level_1_target": "LEVEL_1_CONTROLLED_PUBLIC_COMMS_FEED"
+  },
+  "gap_register": [
+    {"gap_id":"COMMS-GAP-001","area":"canonical_source","severity":"HIGH","status":"OPEN","finding":"No provable GitHub-linked source-of-truth attached to deployment."},
+    {"gap_id":"COMMS-GAP-002","area":"schema_governance","severity":"HIGH","status":"OPEN","finding":"/pubs.json lacks enforced schema validation."},
+    {"gap_id":"COMMS-GAP-003","area":"release_approval","severity":"HIGH","status":"OPEN","finding":"No observable release/approval workflow for publication updates."},
+    {"gap_id":"COMMS-GAP-004","area":"telemetry","severity":"HIGH","status":"OPEN","finding":"No uptime, freshness, latency, or error telemetry visible."},
+    {"gap_id":"COMMS-GAP-005","area":"rollback","severity":"MEDIUM","status":"OPEN","finding":"Rollback capability is assumed but unverified by receipt."},
+    {"gap_id":"COMMS-GAP-006","area":"publication_lifecycle","severity":"HIGH","status":"OPEN","finding":"No draft/approved/published/superseded/archived lifecycle visible."},
+    {"gap_id":"COMMS-GAP-007","area":"ownership","severity":"MEDIUM","status":"OPEN","finding":"Operational owner and maintainer role not encoded."},
+    {"gap_id":"COMMS-GAP-008","area":"evidence_ledger","severity":"HIGH","status":"OPEN","finding":"No audit/evidence chain linking comms item to source, deploy and verification."},
+    {"gap_id":"COMMS-GAP-009","area":"deploy_authority","severity":"MEDIUM","status":"OPEN","finding":"Write/deploy authority not externally evidenced."},
+    {"gap_id":"COMMS-GAP-010","area":"freshness","severity":"MEDIUM","status":"OPEN","finding":"Static generatedAt/freshness not enforced."},
+    {"gap_id":"OPS-GAP-011","area":"worker_acknowledgement","severity":"HIGH","status":"OPEN","finding":"Pen enqueue exists but worker acceptance/runtime receipt is not proven."},
+    {"gap_id":"OPS-GAP-012","area":"orphan_prevention","severity":"HIGH","status":"OPEN","finding":"Handoffs need queue ID, owner/lane, stale threshold, watcher and escalation action."}
+  ],
+  "previous_github_receipts": [
+    {"purpose":"Level 1.0 control baseline","repo":"TML-4PM/the-pen","path":"inbox/t4h-comms-hub-level-1-control-baseline-20260520.json","commit_sha":"c8d000490b3ef643c3001d67b93d32f9933b5c35"},
+    {"purpose":"Joinings receipt retry","repo":"TML-4PM/the-pen","path":"inbox/t4h-comms-hub-joinings-receipt-retry-20260521.json","commit_sha":"c3f9fe8d838598c28f38710eadf1226d235b4b70"},
+    {"purpose":"GitHub receipt required for all work rule","repo":"TML-4PM/the-pen","path":"inbox/github-receipt-required-for-all-work-20260521.json","commit_sha":"f54606a64d1390889e0ce43e522491778fbae3c0"},
+    {"purpose":"Thread closure handoff update","repo":"TML-4PM/the-pen","path":"inbox/github-receipt-required-for-all-work-20260521.json","commit_sha":"adea986220c67eb735fd462dc33e33745fcd4eae"},
+    {"purpose":"Receipt delivery no default email rule","repo":"TML-4PM/the-pen","path":"inbox/receipt-delivery-no-default-email-20260521.json","commit_sha":"507822d2142c3bb7764ee0f07f6387b732d8f536"}
+  ],
+  "policies_compiled": {
+    "github_receipts_required": "All work, code, assets, artifacts, handoffs, generated outputs and closure packs require GitHub/Pen receipt evidence.",
+    "thread_vs_runtime_closure": "Chat thread may close as HANDOFF_COMPLETE once the GitHub/Pen receipt is posted back in-thread. Runtime workload remains owned by Pen/Bridge until runtime/failure receipt exists.",
+    "no_default_email": "Receipts are not emailed by default. Post in-thread and commit to GitHub/Pen. Use troy@tech4humanity.com.au only when explicitly requested or workflow-required. Do not use 4pm.net.au.",
+    "anti_orphan_handoff": "Every handoff should carry idempotency key, job type, asset manifest, acceptance criteria, expected receipt path, owner/lane, watcher query, stale threshold, escalation action, rollback/failure mode and classification."
+  },
+  "bridge_actions_required": [
+    "Read this master wrap and the listed previous payloads.",
+    "Backfill runtime receipt for t4h-comms-hub Level 1.0 if possible.",
+    "If runtime cannot execute, write FAILED_WITH_RECEIPT rather than silent pending.",
+    "Register GitHub receipt policy and no-default-email receipt policy as standing rules.",
+    "Apply anti-orphan fields to future Pen payload validation.",
+    "Create/locate canonical source for t4h-comms-hub and add publication schema validation.",
+    "Add health/freshness checks for / and /pubs.json.",
+    "Create evidence-ledger entry for deployment/feed validation when runtime access is available."
+  ],
+  "expected_runtime_receipt_path": "receipts/runtime/t4h-comms-hub-thread-master-wrap-20260521.json",
+  "closure_classification": {
+    "chat_thread": "HANDOFF_COMPLETE after this GitHub receipt is posted back to user",
+    "runtime_workload": "PARTIAL_NOT_CLOSED until runtime receipt or failure receipt exists",
+    "evidence": "GitHub enqueue REAL; downstream runtime pending"
+  }
+}
