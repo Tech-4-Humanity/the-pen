@@ -1,0 +1,85 @@
+{
+  "idempotency_key": "t4h-comms-hub-operating-doctrine-v2-20260521",
+  "submitted_at": "2026-05-21T01:00:00+10:00",
+  "requested_by": "Troy Latter",
+  "system": "T4H Comms Hub",
+  "url": "https://t4h-comms-hub.vercel.app/",
+  "purpose": "Codify how the Comms Hub is enforced, managed, maintained, operated, enhanced, and reconciled when activity happens outside the controlled path.",
+  "doctrine": {
+    "operating_principle": "GitHub/Pen is the handoff truth. Runtime receipts are the execution truth. Live endpoints are observed truth. A change is fully trusted only when these align.",
+    "enforcement": [
+      "All work, code, assets, artifacts and comms changes require a GitHub/Pen receipt.",
+      "All runtime work requires a runtime receipt or failure receipt.",
+      "Publication feed changes require schema validation before deploy.",
+      "Unreceipted changes are classified OUT_OF_BAND_UNTRUSTED until reconciled.",
+      "Thread closure and runtime closure are separate states."
+    ],
+    "management": [
+      "Every request carries an idempotency key, job type, owner or lane, asset manifest, acceptance criteria, expected receipt path, stale threshold and escalation action.",
+      "The Pen owns queue state after handoff.",
+      "Bridge or worker owns execution, validation and receipt writing.",
+      "Command Centre or evidence ledger should show latest health, receipt and drift state."
+    ],
+    "maintenance": [
+      "Maintain a canonical publication manifest or comms registry.",
+      "Validate /pubs.json against schema.",
+      "Monitor root endpoint and feed endpoint.",
+      "Track feed freshness and checksum.",
+      "Track deployment id and rollback target.",
+      "Scan for stale Pen jobs and missing receipts."
+    ],
+    "operation": [
+      "Request is captured.",
+      "Work is packaged and committed to the Pen.",
+      "GitHub receipt is posted back in-thread.",
+      "Thread closes as HANDOFF_COMPLETE unless runtime closure was explicitly requested in-thread.",
+      "Worker accepts the job.",
+      "Worker validates policy and schema.",
+      "Worker executes or records failure.",
+      "Runtime receipt or failure receipt is written.",
+      "Evidence ledger is updated."
+    ],
+    "enhancement": [
+      "Enhancements are versioned work packages.",
+      "New feed fields require schema versioning.",
+      "New consumers require contract checks.",
+      "New deploy paths require deploy and rollback receipts.",
+      "No enhancement is REAL until receipt-backed."
+    ],
+    "outside_process": [
+      "Manual Vercel deploys, feed edits, domain changes, env/config changes, source edits without deployment receipt, or deployment without source receipt are OUT_OF_BAND_UNTRUSTED.",
+      "Out-of-band changes must be detected, captured, compared to last known receipt, reconciled or rolled back, and recorded with a final classification.",
+      "Out-of-band does not mean bad. It means observed but not canonical until evidence exists."
+    ]
+  },
+  "state_model": {
+    "thread_states": ["OPEN", "PACKAGED", "GITHUB_RECEIPTED", "HANDOFF_COMPLETE", "REOPENED_FOR_RECEIPT_FAILURE"],
+    "workload_states": ["ENQUEUED", "ACCEPTED_BY_WORKER", "RUNNING", "RECEIPT_WRITTEN", "FAILED_WITH_RECEIPT", "STALE_NO_WORKER", "ESCALATED"],
+    "evidence_states": ["REAL", "PARTIAL", "MISSING", "FAIL", "OUT_OF_BAND_UNTRUSTED"]
+  },
+  "minimum_payload_fields": [
+    "idempotency_key",
+    "job_type",
+    "source_thread_summary",
+    "requested_outcome",
+    "asset_manifest",
+    "acceptance_criteria",
+    "expected_receipt_path",
+    "owner_or_lane",
+    "stale_after_minutes",
+    "escalation_action",
+    "rollback_or_failure_mode",
+    "classification_at_handoff"
+  ],
+  "tests_requested": [
+    "Confirm this payload exists in GitHub/Pen.",
+    "Read the committed file back after write.",
+    "Check expected runtime receipt path.",
+    "If runtime receipt is absent, classify runtime as PARTIAL_NOT_CLOSED and thread as HANDOFF_COMPLETE."
+  ],
+  "expected_runtime_receipt_path": "receipts/runtime/t4h-comms-hub-operating-doctrine-v2-20260521.json",
+  "closure_classification": {
+    "thread_state": "HANDOFF_COMPLETE once commit receipt is posted back in chat",
+    "runtime_state": "PARTIAL_NOT_CLOSED until runtime receipt or failure receipt exists"
+  }
+}
