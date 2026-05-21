@@ -1,0 +1,206 @@
+{
+  "idempotency_key": "cognitive-culture-lens-v1-use-cases-journeys-2026-05-21",
+  "parent_payload": "inbox/cognitive-culture-lens-v1.json",
+  "parent_commit_sha": "e74a4895df1c115ed11168f239b30d6e70b08df0",
+  "title": "Cognitive Culture Lens v1 — Use Cases, Journey Maps and Product Surfaces",
+  "classification": "PARTIAL_UNTIL_RUNTIME_RECEIPT",
+  "owner": "troy@tech4humanity.com.au",
+  "created_at": "2026-05-21T00:00:00+10:00",
+  "purpose": "Extend the Cognitive Culture Lens from theory into operating surfaces, journey maps, product use cases, routing logic and commercialisable modules.",
+  "strategic_answer": {
+    "what_it_is_for": "A translation and governance layer for communicating across heterogeneous machine, SaaS, OT, consulting and organisational cultures. It prevents one instruction being naively treated as universal when every system hears it differently.",
+    "why_it_matters": "Enterprises are becoming multi-agent, multi-platform cognition fabrics. Without a translation layer, instructions fragment, systems optimise different truths, governance drifts, and operational coherence fails.",
+    "category": "Cognitive interoperability / organisational machine-culture routing / governed cognition control plane."
+  },
+  "major_use_cases": [
+    {
+      "name": "Message Translation Across Systems",
+      "description": "Take one executive instruction and produce actor-specific instructions for LLMs, SaaS, OT, SI/consulting and internal teams.",
+      "example": {
+        "base_message": "Improve operational visibility.",
+        "aws_translation": "Create telemetry, logs, traces, dashboards, alarms and uptime evidence.",
+        "mckinsey_translation": "Define executive KPIs and operating model decision loops.",
+        "sap_translation": "Standardise process visibility across master data and transactional flows.",
+        "palantir_translation": "Fuse operational data into decision intelligence and mission context.",
+        "anthropic_translation": "Define interpretable governance, evidence and alignment checks."
+      }
+    },
+    {
+      "name": "Cognitive Routing Engine",
+      "description": "Route each task to the model, platform, agent or human role whose cognition best matches the work.",
+      "example": "Runtime telemetry validation routes to infrastructure cognition; governance policy routes to constitutional reasoning; market research routes to retrieval; pricing analysis routes to finance cognition."
+    },
+    {
+      "name": "Procurement and Vendor Fit Assessment",
+      "description": "Score whether a SaaS, SI, consulting firm or AI vendor's culture matches the enterprise's operating need before purchase or integration.",
+      "example": "Avoid buying a flexible knowledge workspace when the need is deterministic evidence governance, or avoid using a strategy firm when the need is live operational telemetry."
+    },
+    {
+      "name": "Prompt and Instruction Compiler",
+      "description": "Convert user intent into model-specific prompts and system-specific work orders based on actor culture and evidence requirements.",
+      "example": "Same intent becomes concise execution framing for ChatGPT, constitutional constraints for Claude, citation-first query for Perplexity, integration workflow for Copilot, and runtime primitives for AWS."
+    },
+    {
+      "name": "Enterprise Cognitive Map",
+      "description": "Map all tools, agents, teams and vendors as cognitive actors with truth model, hidden fear, evidence standard, time horizon and authority edges.",
+      "example": "A portfolio dashboard showing which systems optimise for revenue, compliance, uptime, safety, engagement, knowledge, risk or decision superiority."
+    },
+    {
+      "name": "Dr Dolittle Operating Console",
+      "description": "A translation cockpit where one message is previewed across many system cultures before dispatch.",
+      "example": "Type 'keep the system running' and see how AWS, Siemens, SAP, Claude, Salesforce, ServiceNow, Palantir and a human ops manager will interpret it."
+    },
+    {
+      "name": "Failure Mode Predictor",
+      "description": "Predict where a message will fail because the receiver uses a different definition of truth, time horizon or risk model.",
+      "example": "Marketing asks for speed, compliance hears risk, OT hears safety exposure, finance hears cost leakage, engineering hears technical debt."
+    },
+    {
+      "name": "Board and Executive Translation Layer",
+      "description": "Translate technical, AI and operational work into language board members, investors, auditors, operators and customers can each understand.",
+      "example": "One runtime initiative becomes investor value, auditor controls, engineer tasks, customer benefit and operator telemetry."
+    },
+    {
+      "name": "Multi-Agent Governance Layer",
+      "description": "Assign autonomy tiers based on actor class, evidence requirements, risk and operational domain.",
+      "example": "Creative agent can propose; finance agent can reconcile but not pay; OT agent can alert and simulate but cannot alter physical control without gated policy."
+    },
+    {
+      "name": "White-Label Cognitive Interoperability Product",
+      "description": "Package the lens as a product for consultants, enterprises and technology teams who need to understand how their tools and AI systems interpret work differently.",
+      "example": "A discovery workshop plus SaaS dashboard: map your stack, score cognitive fit, identify truth conflicts, generate routing and governance rules."
+    }
+  ],
+  "journey_maps": [
+    {
+      "name": "Executive Intent to Multi-System Execution",
+      "steps": [
+        "Executive enters plain-language intent.",
+        "System classifies intent: strategy, governance, runtime, revenue, compliance, customer, safety or research.",
+        "Cognitive lens identifies affected actors and their truth models.",
+        "Instruction compiler generates actor-specific messages.",
+        "Risk and autonomy tier are assigned.",
+        "Messages are dispatched through approved channels.",
+        "Each actor returns evidence in its native form.",
+        "Truth layer normalises receipts into a single evidence ledger.",
+        "Coherence monitor flags divergence.",
+        "Operator sees: what was intended, what each system heard, what happened, and what proof exists."
+      ],
+      "example_output": "One command becomes safe, actor-specific work orders with receipts rather than ambiguous human prose scattered across tools."
+    },
+    {
+      "name": "Tool Procurement Journey",
+      "steps": [
+        "Business states operating need.",
+        "Lens identifies required truth model, time horizon, evidence standard and governance class.",
+        "Candidate tools are scored by cultural fit.",
+        "Mismatch risks are flagged before buying.",
+        "Implementation plan includes translation rules and evidence gates.",
+        "Post-deployment telemetry validates whether the tool behaves as expected."
+      ],
+      "example_output": "Procurement shifts from feature comparison to cognitive and operational fit assessment."
+    },
+    {
+      "name": "AI Model Selection Journey",
+      "steps": [
+        "User submits task.",
+        "Task is classified by evidence need, ambiguity, risk, creativity, governance and latency.",
+        "Lens scores ChatGPT, Claude, Gemini, Perplexity, Copilot, Llama and specialist agents.",
+        "Router selects primary, reviewer and evidence-checking model.",
+        "Outputs are compared for divergence.",
+        "Final answer is composed with confidence and evidence class."
+      ],
+      "example_output": "Model choice becomes governed routing, not habit or vibe."
+    },
+    {
+      "name": "OT / Safety-Critical Journey",
+      "steps": [
+        "Operator submits operational concern.",
+        "System identifies whether the actor is IT, OT, safety, finance, compliance or executive.",
+        "Physical risk and authority boundaries are applied.",
+        "Instructions are translated into simulation, alerting, read-only analysis or gated execution.",
+        "No destructive or physical change occurs without policy unlock and receipt path.",
+        "Telemetry continuity and recovery state are checked.",
+        "Evidence is logged for audit and post-incident learning."
+      ],
+      "example_output": "The lens prevents SaaS/AI-style ambiguity from leaking into safety-critical operational environments."
+    },
+    {
+      "name": "Consulting / SI Delivery Journey",
+      "steps": [
+        "Client problem is decomposed into strategy, process, technology, risk, people and runtime components.",
+        "Lens identifies which consulting culture would naturally over-optimise or under-serve each component.",
+        "Delivery model assigns the right cognition to the right lane.",
+        "Executive story, technical build, governance proof and operational telemetry are kept aligned.",
+        "Progress is measured against receipts, not slideware."
+      ],
+      "example_output": "Consulting becomes evidence-bound cognitive orchestration rather than disconnected advice and implementation."
+    }
+  ],
+  "product_surfaces": [
+    {
+      "surface": "Cognitive Actor Registry",
+      "description": "Canonical table of tools, models, vendors, teams and systems with culture, truth model, evidence standard and risk profile."
+    },
+    {
+      "surface": "Intent Translator",
+      "description": "UI/API that turns one instruction into actor-specific language."
+    },
+    {
+      "surface": "Routing Scorecard",
+      "description": "Scores candidate actors for a task using ontology fit, evidence need, risk, autonomy, time horizon and trust."
+    },
+    {
+      "surface": "Dr Dolittle Preview",
+      "description": "Shows how one message will be heard differently before sending it."
+    },
+    {
+      "surface": "Cognitive Conflict Map",
+      "description": "Highlights truth-model conflicts between systems, e.g. sales pipeline truth vs finance ledger truth vs runtime telemetry truth."
+    },
+    {
+      "surface": "Evidence Normaliser",
+      "description": "Converts native evidence from SaaS, AI, OT and human systems into standard receipts."
+    },
+    {
+      "surface": "Journey Map Generator",
+      "description": "Produces role-specific journeys for executive, operator, engineer, auditor, customer and vendor."
+    },
+    {
+      "surface": "White-Label Assessment Pack",
+      "description": "Commercial consulting/product pack for mapping an organisation's cognitive stack and recommending governance/routing rules."
+    }
+  ],
+  "commercial_paths": [
+    "Internal T4H control-plane capability for portfolio operations.",
+    "AI readiness and tool-fit assessment product.",
+    "Enterprise consulting diagnostic for SaaS/tool sprawl.",
+    "SI delivery governance layer for multi-vendor transformation.",
+    "Board-level AI governance product: explain what each machine culture hears and how evidence is proven.",
+    "OT/critical infrastructure AI safety translation product.",
+    "Prompt/compiler product that adapts messages per model/vendor/system.",
+    "Training program: cognitive interoperability for executives and operators."
+  ],
+  "acceptance_tests_to_add": [
+    "Given one intent, generate at least five actor-specific translations.",
+    "Given a task, score at least five candidate actors and explain routing.",
+    "Given conflicting outputs, identify definition-of-truth mismatch.",
+    "Given a procurement option, score culture fit and risk mismatch.",
+    "Given an OT scenario, enforce read-only/simulation/gated action boundaries.",
+    "Given a consulting/SI engagement, map which firm/tool worldview will bias the outcome.",
+    "Given a portfolio stack, generate a cognitive conflict map."
+  ],
+  "next_build_recommendation": {
+    "phase_1": "Registry and seed data: actor profiles for LLMs, SaaS, SI/consulting, OT and industry tools.",
+    "phase_2": "Translator: one message to many actor-specific instructions.",
+    "phase_3": "Router: task-to-actor scoring and governance tier assignment.",
+    "phase_4": "Console: Dr Dolittle preview plus evidence requirements.",
+    "phase_5": "Receipts: proof that routed work happened and what each actor returned."
+  },
+  "evidence_state": {
+    "analysis_extended": "REAL_IN_THIS_THREAD",
+    "github_enqueue_requested": "REAL_IF_COMMIT_SUCCEEDS",
+    "runtime_execution": "PENDING",
+    "receipt": "PENDING"
+  }
+}
