@@ -1,0 +1,54 @@
+{
+  "idempotency_key": "portfolio-receipt-doctrine-applicability-20260521",
+  "submitted_at": "2026-05-21T01:15:00+10:00",
+  "requested_by": "Troy Latter",
+  "intent": "Apply the GitHub/Pen receipt doctrine, handoff/runtime closure split, no-default-email rule, anti-orphan queue model, and out-of-band policy beyond T4H Comms Hub across the portfolio.",
+  "core_rule": "The doctrine applies to every system where work can be created, changed, published, deployed, automated, relied on, or used as evidence.",
+  "applies_immediately_to_categories": [
+    {"category":"Control planes and operating systems","examples":["the-pen","symbio-dev-control-plane","mcp-command-centre","troy-console","t4h-agent-orchestrator"],"reason":"These systems coordinate work and must not run on invisible state."},
+    {"category":"Bridge, workers, queues and runtime automation","examples":["bridge-worker-intake","t4h-remote-mcp-server","t4h-remote-mcp-server-clean","mcp-protocol-standard"],"reason":"These execute work and must produce acceptance, runtime, and failure receipts."},
+    {"category":"Public comms and publication feeds","examples":["t4h-comms-hub","t4h-research-hub","t4h-research-hub-mosc"],"reason":"Public claims and publications require source, schema, deploy, and evidence linkage."},
+    {"category":"Product and brand websites","examples":["outcome-ready","work-family-ai","holo-org","augmented-humanity-coach","enter-australia","smart_park","xses","myneuralsignal","neuropak","consentx-westpac-demo1"],"reason":"Customer-facing surfaces need deploy receipts, ownership, monitoring, rollback, and drift detection."},
+    {"category":"Research and evidence assets","examples":["drug-resilience-atlas","t4h-research-hub","proof-pot","proof-pot-pz6t","ai-evolution-program"],"reason":"Research outputs must carry manifest, provenance, version, and evidence classification."},
+    {"category":"Demos, prototypes and experiments","examples":["living-cells-grid","living-cells-grid-7xmw","innovate-me","innovate-me-ybet","t4h-unsolicited-innovateme","ai4tradies","compare-the-media","ai-olympics"],"reason":"Demos become operational debt if not receipted, classified, and retired or promoted."},
+    {"category":"Commercial, intake and conversion surfaces","examples":["outcome-ready","book-store","making-you-a-star","achra-assessment"],"reason":"Anything that captures demand, sells, assesses, or routes customers requires stronger evidence and change control."},
+    {"category":"Personal/profile/public identity sites","examples":["troy-latter"],"reason":"Public identity surfaces need publication, deploy, and drift receipts even if lightweight."},
+    {"category":"Governance, registry and portfolio ledgers","examples":["mcp-command-centre","the-pen","symbio-dev-control-plane"],"reason":"They are source-of-truth surfaces and must enforce the doctrine, not merely follow it."}
+  ],
+  "does_not_need_full_runtime_doctrine_when": [
+    "pure scratch notes not promoted to Pen, Dev, Prod, public, evidence, customer, finance, compliance, or automation use",
+    "throwaway local exploration with no artefact, no deployment, and no downstream reliance",
+    "private reasoning that is not represented as an artifact or action"
+  ],
+  "must_apply_when_any_condition_is_true": [
+    "public URL exists",
+    "Vercel project exists",
+    "GitHub repo/file/issue/PR exists",
+    "Supabase table or row is touched",
+    "asset is generated or modified",
+    "customer/user/business process may rely on it",
+    "automation or worker may run it",
+    "it is used as evidence",
+    "it may be promoted from Pen to Dev or Dev to Prod",
+    "it changes a product, brand, offer, price, domain, deployment, config, schema, queue, worker, or dashboard"
+  ],
+  "required_controls_by_tier": {
+    "tier_0_scratch": ["label as scratch", "do not claim REAL", "no receipt required unless promoted"],
+    "tier_1_handoff": ["GitHub/Pen receipt", "manifest", "classification", "expected runtime receipt path if applicable"],
+    "tier_2_runtime": ["worker acceptance receipt", "runtime receipt or failure receipt", "stale watcher", "owner_or_lane"],
+    "tier_3_public_or_customer": ["schema/contract validation", "health check", "rollback target", "deploy receipt", "drift detection"],
+    "tier_4_source_of_truth_or_compliance": ["evidence ledger", "audit trail", "approval metadata", "recovery test", "periodic reconciliation"]
+  },
+  "out_of_band_policy": "Any work or change outside the receipt path is OUT_OF_BAND_UNTRUSTED until reconciled, backfilled with evidence, or rolled back.",
+  "receipt_delivery_policy": "Default delivery is in-thread plus GitHub/Pen. Do not email receipts by default. Use troy@tech4humanity.com.au only when explicitly requested or workflow-required.",
+  "next_bridge_actions": [
+    "Register this applicability matrix as portfolio-wide doctrine.",
+    "Backfill each active Vercel project into a receipt/doctrine coverage register.",
+    "Classify every project by tier.",
+    "Open remediation jobs for projects missing canonical source, owner/lane, health check, rollback target, or latest receipt.",
+    "Add stale-worker detection for Pen jobs with no runtime receipt.",
+    "Expose coverage status in Command Centre."
+  ],
+  "expected_runtime_receipt_path": "receipts/runtime/portfolio-receipt-doctrine-applicability-20260521.json",
+  "classification": "PORTFOLIO_DOCTRINE_APPLICABILITY_ENQUEUED"
+}
