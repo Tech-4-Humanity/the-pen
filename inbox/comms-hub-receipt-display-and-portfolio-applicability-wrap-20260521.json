@@ -1,0 +1,77 @@
+{
+  "idempotency_key": "comms-hub-receipt-display-and-portfolio-applicability-wrap-20260521",
+  "submitted_at": "2026-05-21T01:30:00+10:00",
+  "requested_by": "Troy Latter",
+  "intent": "Display and clarify the Comms Hub GitHub/Pen receipts, and write up the portfolio-wide applicability doctrine so it has a dedicated receipt.",
+  "comms_hub_receipts_shown": [
+    {
+      "purpose": "T4H Comms Hub Level 1 control baseline",
+      "repo": "TML-4PM/the-pen",
+      "path": "inbox/t4h-comms-hub-level-1-control-baseline-20260520.json",
+      "commit_sha": "c8d000490b3ef643c3001d67b93d32f9933b5c35",
+      "status": "GitHub/Pen handoff receipt"
+    },
+    {
+      "purpose": "T4H Comms Hub joinings receipt retry",
+      "repo": "TML-4PM/the-pen",
+      "path": "inbox/t4h-comms-hub-joinings-receipt-retry-20260521.json",
+      "commit_sha": "c3f9fe8d838598c28f38710eadf1226d235b4b70",
+      "status": "GitHub/Pen handoff receipt"
+    },
+    {
+      "purpose": "T4H Comms Hub thread master wrap",
+      "repo": "TML-4PM/the-pen",
+      "path": "inbox/t4h-comms-hub-thread-master-wrap-20260521.json",
+      "commit_sha": "bfe8f6b56df32c76df3e32d30c061e9829645f25",
+      "status": "GitHub/Pen handoff receipt"
+    },
+    {
+      "purpose": "T4H Comms Hub operating doctrine v2",
+      "repo": "TML-4PM/the-pen",
+      "path": "inbox/t4h-comms-hub-operating-doctrine-v2-20260521.json",
+      "commit_sha": "98af92f0a7302f506ddb2ac57a6ff4c08ae17721",
+      "status": "GitHub/Pen handoff receipt; read-back verified"
+    }
+  ],
+  "important_distinction": {
+    "github_pen_receipt": "Exists for Comms Hub handoff packages listed above.",
+    "runtime_receipt": "Not yet observed for the Comms Hub runtime receipt paths. This remains PARTIAL_NOT_CLOSED at runtime layer.",
+    "thread_state": "HANDOFF_COMPLETE once the GitHub/Pen receipt is shown in-thread."
+  },
+  "last_bit_written_up": {
+    "topic": "Portfolio-wide applicability of the Comms Hub doctrine and process.",
+    "rule": "The doctrine applies to every system where work can be created, changed, published, deployed, automated, relied on, or used as evidence.",
+    "applies_to": [
+      "control planes and operating systems",
+      "Bridge, workers, queues and runtime automation",
+      "public comms and publication feeds",
+      "product and brand websites",
+      "research and evidence assets",
+      "demos, prototypes and experiments",
+      "commercial, intake and conversion surfaces",
+      "personal/profile/public identity sites",
+      "governance, registry and portfolio ledgers"
+    ],
+    "tier_model": {
+      "tier_0": "scratch; no receipt unless promoted",
+      "tier_1": "handoff; GitHub/Pen receipt required",
+      "tier_2": "runtime; worker and runtime/failure receipts required",
+      "tier_3": "public/customer; schema, health, rollback and drift controls required",
+      "tier_4": "source-of-truth/compliance; evidence ledger, audit and reconciliation required"
+    },
+    "out_of_band_rule": "Anything changed outside the receipt path is OUT_OF_BAND_UNTRUSTED until reconciled, backfilled with evidence, or rolled back.",
+    "delivery_rule": "Receipts are posted in-thread and committed to GitHub/Pen by default. Do not email every receipt. Use troy@tech4humanity.com.au only when explicitly requested or workflow-required."
+  },
+  "related_portfolio_applicability_receipt": {
+    "repo": "TML-4PM/the-pen",
+    "path": "inbox/portfolio-receipt-doctrine-applicability-20260521.json",
+    "commit_sha": "a5fa293be4e07e27235249e43f566b8f99ff223b"
+  },
+  "expected_runtime_receipt_path": "receipts/runtime/comms-hub-receipt-display-and-portfolio-applicability-wrap-20260521.json",
+  "classification": {
+    "github_pen_handoff": "REAL",
+    "runtime_receipt": "PENDING",
+    "thread_state": "HANDOFF_COMPLETE",
+    "runtime_state": "PARTIAL_NOT_CLOSED"
+  }
+}
