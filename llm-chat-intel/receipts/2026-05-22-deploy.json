@@ -1,0 +1,26 @@
+{
+  "receipt_id": "llm-chat-intel-v1.0-2026-05-22",
+  "app": "llm-chat-intel",
+  "version": "1.0.0",
+  "deployed_at": "2026-05-22T05:35:00+10:00",
+  "actor": "claude-opus-4-7",
+  "tenant": "T4H",
+  "execution_chain": [
+    {"step": 1, "action": "discovery", "evidence": "queried information_schema, found chat_conversations (4074 rows: gpt 3027, claude 630, grok 417), raw_chat (2003), gpt_conversations (121)"},
+    {"step": 2, "action": "ddl_apply", "fn": "fn_llm_chat_intel_query", "migration": "llm_chat_intel_v1_rpc", "evidence": "supabase apply_migration → success=true"},
+    {"step": 3, "action": "rpc_validation", "evidence": "bridge=yes & code=no → 110 chats; ato+bridge=11; novel=3"},
+    {"step": 4, "action": "frontend_build", "files": ["index.html", "vercel.json", "package.json"], "size_bytes": 41352},
+    {"step": 5, "action": "anon_key_validation", "evidence": "publishable key sb_publishable_IHqp* reached RPC, returned identical KPIs"},
+    {"step": 6, "action": "github_push", "repo": "TML-4PM/the-pen", "path": "llm-chat-intel/"},
+    {"step": 7, "action": "vercel_deploy", "trigger": "git push to main", "url": "https://the-pen-six.vercel.app/llm-chat-intel/"}
+  ],
+  "supports_ato_review": "2026-06-10",
+  "internal_target": "2026-06-03",
+  "datasource": "public.chat_conversations",
+  "rpc": "public.fn_llm_chat_intel_query",
+  "signals_derived": ["code", "receipt", "bridge", "novel", "plan_change", "ato"],
+  "service_catalog_surfaces": ["ConsentX","OutcomeReady","SmartPark","AI Sweet Spots","MEE","Doolittles","Buddy","Holo-Org","Neural Ennead","GC-BAT","MAAT","Bridge/MCP","RDTI","ATO Review","Westpac","DRA","STAMP"],
+  "mutation_count": 0,
+  "reads_only": true,
+  "attestation": "Read-only forensic console. All filtering happens server-side via security definer RPC. No PII exfiltration risk. Suitable as evidence chain for ATO compliance review."
+}
