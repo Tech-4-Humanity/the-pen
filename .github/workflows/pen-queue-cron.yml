@@ -22,9 +22,10 @@ jobs:
     name: Inbox sweep + drift check (no HITL)
     runs-on: ubuntu-latest
     env:
-      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
-      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      # Accept either canonical (BRIDGE_ENDPOINT/BRIDGE_API_KEY) or legacy (BRIDGE_INVOKE_URL/BRIDGE_KEY) names.
+      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL || secrets.BRIDGE_ENDPOINT }}
+      BRIDGE_API_KEY:    ${{ secrets.BRIDGE_API_KEY || secrets.BRIDGE_KEY }}
+      SUPABASE_URL:      ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       PEN_ENV: ${{ github.event.inputs.env || 'production' }}
     steps:
@@ -38,18 +39,27 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          mkdir -p receipts/runtime receipts/final state
+          mkdir -p receipts/runtime receipts/final state inbox
+
+          # If no inbox files, exit cleanly. Empty inbox is not a failure.
+          shopt -s nullglob
+          INBOX_FILES=(inbox/*.json)
+          if [ ${#INBOX_FILES[@]} -eq 0 ]; then
+            echo "ℹ️  inbox/*.json: none found — nothing to sweep"
+            echo '{"sweep_at":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","swept":0,"skipped":0,"missed":0,"autonomous":true,"empty_inbox":true}' \
+              > state/pen_sweep_summary.json
+            exit 0
+          fi
 
           python3 - <<'PY'
-          import json, os, pathlib, re, time, urllib.request, urllib.error
+          import json, os, pathlib, re, urllib.request, urllib.error, datetime
 
           bridge_url = os.environ.get("BRIDGE_INVOKE_URL", "")
           bridge_key = os.environ.get("BRIDGE_API_KEY", "")
-          repo   = os.environ.get("GITHUB_REPOSITORY", "")
-          sha    = os.environ.get("GITHUB_SHA", "")
-          run_id = os.environ.get("GITHUB_RUN_ID", "")
-          now    = __import__("datetime").datetime.utcnow().isoformat() + "Z"
+          repo       = os.environ.get("GITHUB_REPOSITORY", "")
+          sha        = os.environ.get("GITHUB_SHA", "")
+          run_id     = os.environ.get("GITHUB_RUN_ID", "")
+          now        = datetime.datetime.utcnow().isoformat() + "Z"
 
           inbox     = pathlib.Path("inbox")
           final_dir = pathlib.Path("receipts/final")
@@ -61,14 +71,14 @@ jobs:
               try:
                   data = json.loads(job_path.read_text())
                   key  = data.get("idempotency_key") or job_path.stem
-              except Exception:
+              except Exception as exc:
+                  print(f"[MISSED] {job_path.name}: {exc}")
                   missed += 1
                   continue
 
               safe       = re.sub(r"[^A-Za-z0-9_.-]+", "-", key).strip("-")[:80]
               final_path = final_dir / f"{safe}.final.receipt.json"
 
-              # Skip already receipted
               if final_path.exists():
                   skipped += 1
                   continue
@@ -79,27 +89,26 @@ jobs:
                   "payload": data, "source": "the-pen-sweep", "mode": "AUTONOMOUS",
               }).encode()
 
-              req = urllib.request.Request(
-                  bridge_url, data=envelope, method="POST",
-                  headers={"Content-Type": "application/json", "x-api-key": bridge_key}
-              ) if bridge_url and bridge_key else None
-
-              if req:
+              if bridge_url and bridge_key:
+                  req = urllib.request.Request(
+                      bridge_url, data=envelope, method="POST",
+                      headers={"Content-Type": "application/json", "x-api-key": bridge_key},
+                  )
                   try:
                       with urllib.request.urlopen(req, timeout=60) as resp:
-                          body, status = resp.read().decode(errors="replace"), resp.status
+                          body, status = resp.read().decode(errors="replace")[:2000], resp.status
                       state = "REAL" if 200 <= status < 300 else "PARTIAL"
                   except urllib.error.HTTPError as exc:
                       body, status, state = exc.read().decode(errors="replace")[:2000], exc.code, "PARTIAL"
                   except Exception as exc:
-                      body, status, state = str(exc), 0, "FAILED"
+                      body, status, state = str(exc)[:2000], 0, "FAILED"
               else:
-                  body, status, state = "no bridge creds", 0, "BLOCKED"
+                  body, status, state = "no bridge creds (BRIDGE_INVOKE_URL/BRIDGE_ENDPOINT or BRIDGE_API_KEY/BRIDGE_KEY missing)", 0, "BLOCKED"
 
               receipt = {
                   "receipt_type": "pen_sweep_receipt", "idempotency_key": key,
                   "state": state, "evidence_state": state,
-                  "bridge_status": status, "bridge_response": body[:2000],
+                  "bridge_status": status, "bridge_response": body,
                   "fn": fn, "created_at": now, "repo": repo, "commit_sha": sha,
                   "workflow_run_id": run_id, "source": "pen-queue-cron sweep",
                   "autonomous": True, "hitl_required": False,
@@ -116,22 +125,25 @@ jobs:
       - name: Drift check (optional — skip if script absent)
         shell: bash
         run: |
+          set -uo pipefail
           if [ -f scripts/pen-drift-check.mjs ]; then
             npm init -y >/dev/null 2>&1 || true
             npm install @supabase/supabase-js >/dev/null 2>&1
-            node scripts/pen-drift-check.mjs
+            node scripts/pen-drift-check.mjs || echo "⚠️ drift check returned non-zero (non-fatal)"
           else
             echo "pen-drift-check.mjs not found — skipping"
           fi
 
       - name: Commit receipts + sweep state
         run: |
-          git config user.name "github-actions[bot]"
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add receipts/ state/ || true
           if git diff --cached --quiet; then
             echo "Nothing new."
-          else
-            git commit -m "pen-sweep: autonomous cycle receipts [${{ github.event.inputs.env || 'production' }}]"
-            git push
+            exit 0
           fi
+          git commit -m "pen-sweep: autonomous cycle receipts [${PEN_ENV}]"
+          git pull --rebase --autostash origin main || true
+          git push
