@@ -4,32 +4,54 @@ on:
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/bridge-runner-heartbeat.yml'
+
+permissions:
+  contents: write
 
 jobs:
   heartbeat:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Write heartbeat
+        env:
+          GH_SHA: ${{ github.sha }}
+          GH_REPO: ${{ github.repository }}
         run: |
+          set -euo pipefail
           mkdir -p bridge/receipts
+          ISO=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           cat > bridge/receipts/runner-heartbeat.json <<EOF
-{
-  "type": "heartbeat",
-  "runner": "github-actions",
-  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "repo": "TML-4PM/the-pen",
-  "status": "ALIVE",
-  "commit_sha": "${{ github.sha }}"
-}
-EOF
+          {
+            "type": "heartbeat",
+            "runner": "github-actions",
+            "timestamp": "${ISO}",
+            "repo": "${GH_REPO}",
+            "status": "ALIVE",
+            "commit_sha": "${GH_SHA}"
+          }
+          EOF
 
       - name: Commit heartbeat
+        if: github.event_name != 'pull_request'
         run: |
-          git config user.name "bridge-runner[bot]"
+          set -euo pipefail
+          git config user.name  "bridge-runner[bot]"
           git config user.email "bridge-runner@tml-4pm"
           git add bridge/receipts/runner-heartbeat.json
-          git diff --staged --quiet || git commit -m "chore: runner heartbeat [skip ci] $(date -u +%Y%m%dT%H%M%S)"
-          git push || echo "Nothing to push"
+          if git diff --staged --quiet; then
+            echo "No heartbeat change — ok"
+            exit 0
+          fi
+          TS=$(date -u +%Y%m%dT%H%M%S)
+          git commit -m "chore: runner heartbeat [skip ci] ${TS}"
+          git pull --rebase --autostash origin main || true
+          git push
