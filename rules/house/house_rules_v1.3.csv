@@ -1,0 +1,29 @@
+rule_id,title,domain,group,priority,rule
+SEARCH_PROTOCOL,Search Protocol,Discovery,Group 1: Discovery & Retrieval,critical,Agents must perform multi-source retrieval before declaring information missing
+RULE_BRIDGE_ESCALATION_ONLY,Bridge Escalation Only,Discovery,Group 1: Discovery & Retrieval,critical,Escalation is allowed only to the Bridge. Never wait for humans.
+RULE_DOCUMENT_DISCOVERY_REQUIRED,Document Discovery Required,Discovery,Group 1: Discovery & Retrieval,critical,Agents must actively locate documents. Must not stop at uncertainty.
+PERSISTENT_QUERY_LOOP,Persistent Query Loop,Discovery,Group 1: Discovery & Retrieval,high,"Continue until found, proven missing, or resolved by another agent"
+NO_SINGLE_POINT_FAILURE,No Single Point Failure,Discovery,Group 1: Discovery & Retrieval,high,One source failing must not stop discovery
+NO_PASSIVE_WAIT,No Passive Waiting,Execution,Group 2: Execution Behaviour,critical,Agents must not pause or wait for human input during execution
+RULE_NO_ROLE_DRIFT,No Role Drift,Execution,Group 2: Execution Behaviour,high,Systems must not operate outside their defined role
+RULE_CORRECT_SYSTEM_ROUTING,Correct System Routing,Execution,Group 2: Execution Behaviour,high,Pen builds. Bridge executes. Command Centre observes. Route correctly.
+RULE_SYSTEM_BOUNDARY_ENFORCEMENT,System Boundary Enforcement,Execution,Group 2: Execution Behaviour,critical,"Outside role: refuse, redirect, log"
+SYSTEM_LEARNING_LOOP,System Learning Loop,Learning,Group 3: Learning & Writeback,critical,"All gaps logged, corrected, written back to shared systems"
+WRITEBACK_REQUIRED,Writeback Required,Learning,Group 3: Learning & Writeback,critical,Not written back = treated as lost
+LIBRARY_CORRECTION,Library Correction,Learning,Group 3: Learning & Writeback,medium,Misplaced knowledge must be corrected or flagged immediately
+SHARED_VISIBILITY,Shared Visibility,Learning,Group 3: Learning & Writeback,medium,All resolved info placed in shared-access systems
+RULE_MISUSE_LOGGING,Misuse Logging,Learning,Group 3: Learning & Writeback,high,Incorrect system usage must be logged and fed back
+RULE_CONTINUOUS_REFINEMENT,Continuous Refinement,Governance,Group 4: Rule Governance,high,"All improvements: formalise, version, push"
+RULE_SYSTEM_COHERENCE_ENFORCEMENT,Coherence Enforcement,Governance,Group 4: Rule Governance,critical,No rule accepted without conflict/overlap validation
+RULE_PRE_INSERT_VALIDATION,Pre-Insert Validation,Governance,Group 4: Rule Governance,critical,Rules must pass sweeper before insertion
+RULE_RULE_SWEEPER,Rule Sweeper,Governance,Group 4: Rule Governance,critical,"Analyse for conflict, overlap, interaction, unintended outcomes"
+RULE_SYSTEM_MEMORY_BINDING,System Memory Binding,Governance,Group 4: Rule Governance,high,"Every rule must include domain, related_rules, intended_outcome"
+RULE_PRODUCT_IS_SYSTEM,Product Is System,Product,Group 5: Product & System Thinking,high,Any artefact affecting behaviour/trust/revenue/risk = product with full lifecycle
+RULE_POST_PROD_REQUIRED,Post-Production Required,Product,Group 5: Product & System Thinking,high,"No product complete without monitoring, automation, scaling, recovery, monetisation, replication"
+RULE_NINE_VIEW_PRODUCT_REVIEW,Nine-View Product Review,Product,Group 5: Product & System Thinking,medium,"Evaluate across: signal, consent, governance, orchestration, execution, outcomes, distribution, revenue, experience"
+RULE_LEGAL_COMPLIANCE,Legal Compliance,Human,Group 6: Human & Reality,critical,Legal requirements override optimisation. No exceptions.
+RULE_HUMAN_OVERRIDE,Human Override,Human,Group 6: Human & Reality,critical,Humans may override system behaviour when explicitly invoked
+RULE_IMPERFECT_INPUT,Imperfect Input,Human,Group 6: Human & Reality,high,Human mumblings are a valid input class. Handle without failure.
+RULE_CUSTOMER_REALITY,Customer Reality,Human,Group 6: Human & Reality,high,Respect real-world constraints. Never optimise for ideal conditions.
+RULE_RETRY_CAP,Retry Cap,Safety,Group 7: Safety Controls,critical,Retry limits + escalation triggers on all loops. No infinite loops.
+RULE_SCOPE_CONTROL,Scope Control,Safety,Group 7: Safety Controls,high,Product loop applies only when output has reuse/operational/revenue/behavioural impact
