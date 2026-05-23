@@ -1,0 +1,211 @@
+name: GitHub Operating Ledger
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  ledger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Crawl repos, issues, PRs, workflows
+        id: crawl
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: TML-4PM
+        run: |
+          set -euo pipefail
+          echo "=== GitHub Operating Ledger ==="
+          echo "Timestamp: $(date -u)"
+
+          mkdir -p runtime/github-operating-ledger/reports
+
+          python3 << 'PYEOF'
+import subprocess, json, os
+from datetime import datetime, timezone, timedelta
+
+owner = os.environ.get('OWNER', 'TML-4PM')
+now = datetime.now(timezone.utc)
+stale_7d = (now - timedelta(days=7)).isoformat()
+stale_24h = (now - timedelta(hours=24)).isoformat()
+
+def gh(path, jq=None):
+    cmd = ['gh', 'api', '--paginate', path]
+    if jq:
+        cmd += ['--jq', jq]
+    r = subprocess.run(cmd, capture_output=True, text=True, env={**os.environ})
+    if r.returncode != 0:
+        return []
+    try:
+        return json.loads(r.stdout)
+    except:
+        return r.stdout.strip().splitlines()
+
+# 1. Repos
+print("Crawling repos...")
+repos_raw = gh(f'/users/{owner}/repos?per_page=100&sort=updated',
+               jq='[.[] | {name:.name, archived:.archived, private:.private, pushed_at:.pushed_at, open_issues:.open_issues_count, default_branch:.default_branch, html_url:.html_url}]')
+print(f"  Repos: {len(repos_raw)}")
+
+# 2. Open issues across top active repos
+print("Crawling open issues...")
+issues_raw = gh(f'/search/issues?q=user:{owner}+is:issue+is:open&per_page=100',
+                jq='[.items[] | {number:.number, title:.title, repo:(.repository_url|split("/")|last), state:.state, labels:[.labels[].name], created_at:.created_at, updated_at:.updated_at, html_url:.html_url, assignees:[.assignees[].login]}]')
+print(f"  Open issues: {len(issues_raw)}")
+
+# 3. Open PRs
+print("Crawling open PRs...")
+prs_raw = gh(f'/search/issues?q=user:{owner}+is:pr+is:open&per_page=50',
+             jq='[.items[] | {number:.number, title:.title, repo:(.repository_url|split("/")|last), created_at:.created_at, updated_at:.updated_at, html_url:.html_url}]')
+print(f"  Open PRs: {len(prs_raw)}")
+
+# 4. Stuck-work detection
+def is_stale(updated_at, hours=168):
+    try:
+        t = datetime.fromisoformat(updated_at.replace('Z','+00:00'))
+        return (now - t).total_seconds() > hours * 3600
+    except:
+        return False
+
+stuck = []
+critical_labels = {'critical','severity:critical','reality-ledger','bridge-ready','receipt-required','runtime-gap'}
+for issue in issues_raw:
+    labels = set(issue.get('labels', []))
+    age_hours = 0
+    try:
+        t = datetime.fromisoformat(issue['updated_at'].replace('Z','+00:00'))
+        age_hours = (now - t).total_seconds() / 3600
+    except:
+        pass
+    reasons = []
+    if labels & {'critical','severity:critical'} and age_hours > 24:
+        reasons.append('CRITICAL_NO_UPDATE_24H')
+    if labels & {'bridge-ready','receipt-required'} and age_hours > 24:
+        reasons.append('BRIDGE_READY_NO_RECEIPT_24H')
+    if not issue.get('assignees') and labels & critical_labels:
+        reasons.append('CRITICAL_UNASSIGNED')
+    if is_stale(issue['updated_at'], 168):
+        reasons.append('STALE_7D')
+    if reasons:
+        stuck.append({**issue, 'age_hours': round(age_hours,1), 'stuck_reasons': reasons})
+
+print(f"  Stuck items: {len(stuck)}")
+
+# 5. Receipt debt (issues claiming REAL/complete with no receipt label)
+receipt_debt = [i for i in issues_raw
+                if 'receipt-required' in i.get('labels',[])
+                and 'receipt:present' not in i.get('labels',[])]
+print(f"  Receipt debt: {len(receipt_debt)}")
+
+# 6. Build daily report
+report_date = now.strftime('%Y-%m-%d')
+md_lines = [
+    f"# T4H GitHub Operating Report — {report_date}",
+    "",
+    "## Executive State",
+    f"- **Repos inspected:** {len(repos_raw)}",
+    f"- **Open issues:** {len(issues_raw)}",
+    f"- **Open PRs:** {len(prs_raw)}",
+    f"- **Stuck items:** {len(stuck)}",
+    f"- **Receipt debt:** {len(receipt_debt)}",
+    f"- **Report generated:** {now.isoformat()}",
+    "",
+]
+
+if stuck:
+    md_lines += [
+        "## Stuck Work",
+        "| Repo | Issue | Age (h) | Reasons |",
+        "|---|---|---:|---|",
+    ]
+    for s in stuck[:30]:
+        md_lines.append(f"| {s['repo']} | [{s['number']}: {s['title'][:50]}]({s['html_url']}) | {s['age_hours']} | {', '.join(s['stuck_reasons'])} |")
+    md_lines.append("")
+
+if receipt_debt:
+    md_lines += [
+        "## Receipt Debt",
+        "| Repo | Issue | Created |",
+        "|---|---|---|",
+    ]
+    for r in receipt_debt[:20]:
+        md_lines.append(f"| {r['repo']} | [{r['number']}: {r['title'][:50]}]({r['html_url']}) | {r['created_at'][:10]} |")
+    md_lines.append("")
+
+if prs_raw:
+    md_lines += [
+        "## Open PRs",
+        "| Repo | PR | Updated |",
+        "|---|---|---|",
+    ]
+    for p in prs_raw[:20]:
+        md_lines.append(f"| {p['repo']} | [{p['number']}: {p['title'][:50]}]({p['html_url']}) | {p['updated_at'][:10]} |")
+    md_lines.append("")
+
+archived_active = [r for r in repos_raw if r.get('archived') and r.get('open_issues',0) > 0]
+if archived_active:
+    md_lines += [
+        "## Repo Hygiene — Archived with Open Issues",
+        "| Repo | Open Issues |",
+        "|---|---|",
+    ]
+    for r in archived_active:
+        md_lines.append(f"| [{r['name']}]({r['html_url']}) | {r['open_issues']} |")
+    md_lines.append("")
+
+report_path = f"runtime/github-operating-ledger/reports/{report_date}.md"
+with open(report_path, 'w') as f:
+    f.write('\n'.join(md_lines))
+
+# Also write latest symlink
+with open('runtime/github-operating-ledger/reports/latest.md', 'w') as f:
+    f.write('\n'.join(md_lines))
+
+# JSON report
+json_report = {
+    'date': report_date,
+    'timestamp': now.isoformat(),
+    'repos_inspected': len(repos_raw),
+    'open_issues': len(issues_raw),
+    'open_prs': len(prs_raw),
+    'stuck_items': len(stuck),
+    'receipt_debt': len(receipt_debt),
+    'stuck': stuck[:50],
+    'receipt_debt_items': receipt_debt[:30],
+    'status': 'REAL'
+}
+with open('runtime/github-operating-ledger/reports/latest.json', 'w') as f:
+    json.dump(json_report, f, indent=2)
+
+print(f"Reports written: {report_path}")
+print(f"Stuck: {len(stuck)} | Receipt debt: {len(receipt_debt)} | PRs: {len(prs_raw)}")
+PYEOF
+
+      - name: Commit reports
+        env:
+          GH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          ISO=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          git config user.name  "operating-ledger[bot]"
+          git config user.email "operating-ledger@tml-4pm"
+          git add runtime/github-operating-ledger/
+          if git diff --staged --quiet; then
+            echo "No report changes"
+            exit 0
+          fi
+          git commit -m "chore: operating ledger report ${ISO} [skip ci]"
+          git pull --rebase --autostash origin main || true
+          git push
+          echo "Reports committed."
