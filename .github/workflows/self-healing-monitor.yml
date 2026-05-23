@@ -1,0 +1,242 @@
+name: Self-Healing Monitor
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+    inputs:
+      test_mode:
+        description: 'Run in test mode (no issue creation)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  issues: write
+  actions: read
+
+jobs:
+  detect-and-classify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      incident_count: ${{ steps.detect.outputs.incident_count }}
+      has_incidents: ${{ steps.detect.outputs.has_incidents }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Detect failed workflow runs
+        id: detect
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          echo "=== Self-Healing Monitor: Detect ==="
+          echo "Timestamp: $(date -u)"
+
+          FAILED=$(gh api "/repos/${REPO}/actions/runs?status=failure&per_page=20" \
+            --jq '[.workflow_runs[] | select(.conclusion == "failure" or .conclusion == "startup_failure") | {
+              id: .id,
+              name: .name,
+              head_sha: .head_sha,
+              branch: .head_branch,
+              event: .event,
+              created_at: .created_at,
+              updated_at: .updated_at,
+              run_attempt: .run_attempt,
+              html_url: .html_url,
+              duration_s: ((.updated_at | fromdateiso8601) - (.created_at | fromdateiso8601))
+            }]' 2>/dev/null || echo '[]')
+
+          echo "Failed runs:"
+          echo "$FAILED" | python3 -c "import sys,json; runs=json.load(sys.stdin); print(f'  Count: {len(runs)}'); [print(f'  - {r[\"name\"]} | run {r[\"id\"]} | {r[\"duration_s\"]}s | branch: {r[\"branch\"]}') for r in runs]"
+
+          COUNT=$(echo "$FAILED" | python3 -c "import sys,json; print(len(json.load(sys.stdin)))")
+          echo "incident_count=$COUNT" >> $GITHUB_OUTPUT
+          echo "has_incidents=$([ $COUNT -gt 0 ] && echo true || echo false)" >> $GITHUB_OUTPUT
+
+          mkdir -p bridge/receipts
+          echo "$FAILED" > /tmp/failed_runs.json
+
+          python3 << 'PYEOF'
+import json, os
+from datetime import datetime, timezone
+
+with open('/tmp/failed_runs.json') as f:
+    runs = json.load(f)
+
+def classify(run):
+    duration = run.get('duration_s', 999)
+    event = run.get('event', '')
+    name = run.get('name', '').lower()
+    if duration <= 2:
+        if event == 'pull_request':
+            return 'PR_CONTEXT_SECRET_WITHHELD'
+        return 'PRE_RUNTIME_0S'
+    elif duration <= 10:
+        return 'SECRET_OR_ENV_MISSING'
+    elif 'permission' in name or 'auth' in name:
+        return 'PERMISSION_DENIED'
+    elif 'deploy' in name or 'build' in name:
+        return 'APP_RUNTIME_FAILURE'
+    else:
+        return 'UNKNOWN'
+
+incidents = []
+for r in runs:
+    c = classify(r)
+    incidents.append({
+        'run_id': r['id'],
+        'name': r['name'],
+        'branch': r['branch'],
+        'event': r['event'],
+        'duration_s': r['duration_s'],
+        'classification': c,
+        'html_url': r['html_url'],
+        'head_sha': r['head_sha'],
+        'created_at': r['created_at'],
+        'severity': 'CRITICAL' if c in ['PRE_RUNTIME_0S','PR_CONTEXT_SECRET_WITHHELD'] else 'HIGH'
+    })
+
+report = {
+    'type': 'self_healing_detection',
+    'timestamp': datetime.now(timezone.utc).isoformat(),
+    'repo': os.environ.get('REPO', ''),
+    'run_id': os.environ.get('GITHUB_RUN_ID', ''),
+    'incidents': incidents,
+    'incident_count': len(incidents),
+    'status': 'INCIDENTS_FOUND' if incidents else 'CLEAN'
+}
+
+with open('bridge/receipts/self-healing-detection.json', 'w') as f:
+    json.dump(report, f, indent=2)
+
+print(f"Detection complete: {len(incidents)} incidents classified")
+for inc in incidents:
+    print(f"  [{inc['severity']}] {inc['classification']} — {inc['name']} ({inc['duration_s']}s)")
+PYEOF
+
+      - name: Attempt safe reruns for transient failures
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TEST_MODE: ${{ github.event.inputs.test_mode || 'false' }}
+        run: |
+          python3 << 'PYEOF'
+import json, subprocess, os
+
+test_mode = os.environ.get('TEST_MODE', 'false') == 'true'
+repo = os.environ.get('REPO', '')
+
+with open('bridge/receipts/self-healing-detection.json') as f:
+    report = json.load(f)
+
+rerun_classes = {'UNKNOWN', 'APP_RUNTIME_FAILURE'}
+reruns = []
+
+for inc in report.get('incidents', []):
+    if inc['classification'] in rerun_classes:
+        if test_mode:
+            print(f"[TEST] Would rerun: {inc['run_id']} ({inc['name']})")
+        else:
+            result = subprocess.run(
+                ['gh', 'api', '--method', 'POST',
+                 f"/repos/{repo}/actions/runs/{inc['run_id']}/rerun-failed-jobs"],
+                capture_output=True, text=True, env={**os.environ}
+            )
+            status = 'queued' if result.returncode == 0 else f'failed: {result.stderr[:100]}'
+            reruns.append({'run_id': inc['run_id'], 'status': status})
+            print(f"Rerun {inc['run_id']}: {status}")
+
+report['reruns'] = reruns
+with open('bridge/receipts/self-healing-detection.json', 'w') as f:
+    json.dump(report, f, indent=2)
+PYEOF
+
+      - name: Create incident issues for CRITICAL failures
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TEST_MODE: ${{ github.event.inputs.test_mode || 'false' }}
+        run: |
+          python3 << 'PYEOF'
+import json, subprocess, os
+
+test_mode = os.environ.get('TEST_MODE', 'false') == 'true'
+repo = os.environ.get('REPO', '')
+
+with open('bridge/receipts/self-healing-detection.json') as f:
+    report = json.load(f)
+
+critical = [i for i in report.get('incidents', []) if i.get('severity') == 'CRITICAL']
+issues_created = []
+
+for inc in critical:
+    title = f"[AUTO] Workflow failure: {inc['classification']} — {inc['name']}"
+    body = f"""## Auto-detected workflow failure
+
+**Classification:** `{inc['classification']}`
+**Severity:** `{inc['severity']}`
+**Run:** [{inc['run_id']}]({inc['html_url']})
+**Branch:** `{inc['branch']}`  **Event:** `{inc['event']}`  **Duration:** {inc['duration_s']}s
+**SHA:** `{inc['head_sha']}`  **Detected:** {report['timestamp']}
+
+## Classification explanation
+| Class | Meaning | Fix |
+|---|---|---|
+| `PRE_RUNTIME_0S` | Workflow aborted before any step — config/permissions/billing | Check repo Actions settings, secrets visibility, billing |
+| `PR_CONTEXT_SECRET_WITHHELD` | PR trigger withholds secrets by GitHub security design | Use `push` or `schedule` triggers; never `pull_request` for secret-dependent jobs |
+
+## Reality Ledger
+```
+status: PARTIAL
+evidence: GitHub Actions API run {inc['run_id']}
+next_action: Verify secrets set in repo settings; check Actions permissions
+```
+*Created automatically by self-healing-monitor — do not close without receipt.*
+"""
+    if test_mode:
+        print(f"[TEST] Would create: {title}")
+    else:
+        r = subprocess.run(
+            ['gh', 'issue', 'create', '--repo', repo, '--title', title, '--body', body],
+            capture_output=True, text=True, env={**os.environ}
+        )
+        if r.returncode == 0:
+            issues_created.append({'run_id': inc['run_id'], 'issue': r.stdout.strip()})
+            print(f"Created: {r.stdout.strip()}")
+        else:
+            print(f"Issue creation error: {r.stderr[:200]}")
+
+report['issues_created'] = issues_created
+with open('bridge/receipts/self-healing-detection.json', 'w') as f:
+    json.dump(report, f, indent=2)
+print(f"Incident issues created: {len(issues_created)}")
+PYEOF
+
+      - name: Write dated receipt and commit
+        env:
+          GH_SHA: ${{ github.sha }}
+          GH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          ISO=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          YYYYMMDD=$(date -u +%Y-%m-%d)
+          mkdir -p "bridge/receipts/incidents/${YYYYMMDD}"
+          cp bridge/receipts/self-healing-detection.json \
+             "bridge/receipts/incidents/${YYYYMMDD}/self-healing-${GH_RUN_ID}.json"
+          git config user.name  "self-healing-monitor[bot]"
+          git config user.email "self-healing@tml-4pm"
+          git add bridge/receipts/
+          if git diff --staged --quiet; then
+            echo "No receipt changes"
+            exit 0
+          fi
+          git commit -m "chore: self-healing receipt ${ISO} [skip ci]"
+          git pull --rebase --autostash origin main || true
+          git push
+          echo "Receipt committed."
