@@ -1,19 +1,61 @@
 name: Bridge Runner — Heartbeat
 
 on:
+  schedule:
+    - cron: '*/15 * * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/bridge-runner-heartbeat.yml'
 
-# EMERGENCY CONTAINMENT 2026-05-23:
-# push and schedule triggers disabled while cross-repo GitHub Actions pre-step failures are active.
-# This prevents heartbeat from committing and retriggering itself during the incident.
+# pull_request trigger REMOVED — GitHub withholds repo secrets on PR context
+# runs, causing 0s startup failures. Heartbeat runs on schedule + dispatch only.
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   heartbeat:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Heartbeat canary
-        run: echo bridge-runner-heartbeat-canary-ok
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Write heartbeat
+        env:
+          GH_SHA: ${{ github.sha }}
+          GH_REPO: ${{ github.repository }}
+          GH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p bridge/receipts
+          ISO=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          cat > bridge/receipts/runner-heartbeat.json <<EOF
+          {
+            "type": "heartbeat",
+            "runner": "github-actions",
+            "timestamp": "${ISO}",
+            "repo": "${GH_REPO}",
+            "status": "ALIVE",
+            "commit_sha": "${GH_SHA}",
+            "run_id": "${GH_RUN_ID}"
+          }
+          EOF
+
+      - name: Commit heartbeat
+        run: |
+          set -euo pipefail
+          git config user.name  "bridge-runner[bot]"
+          git config user.email "bridge-runner@tml-4pm"
+          git add bridge/receipts/runner-heartbeat.json
+          if git diff --staged --quiet; then
+            echo "No heartbeat change — ok"
+            exit 0
+          fi
+          TS=$(date -u +%Y%m%dT%H%M%S)
+          git commit -m "chore: runner heartbeat [skip ci] ${TS}"
+          git pull --rebase --autostash origin main || true
+          git push

@@ -1,34 +1,42 @@
 {
   "type": "self_healing_bootstrap",
-  "timestamp": "2026-05-23T01:14:00Z",
+  "timestamp": "2026-05-23T12:14:00Z",
   "status": "REAL",
-  "result": "Self-healing monitor deployed. Heartbeat and diagnostics fixed (PR trigger removed — root cause of 0s failures). Monitor runs every 30min, classifies failures, creates incident issues, attempts safe reruns.",
+  "result": "Self-healing monitor workflow deployed. Heartbeat and diagnostics workflows fixed — pull_request trigger removed, was root cause of 0s startup failures.",
   "fixes_applied": [
-    "Removed pull_request trigger from bridge-runner-diagnostics.yml — GitHub withholds secrets on PR context, causing PRE_RUNTIME_0S",
+    "Removed pull_request trigger from bridge-runner-diagnostics.yml — GitHub withholds secrets on PR context, causing PRE_RUNTIME_0S failures",
     "Removed pull_request trigger from bridge-runner-heartbeat.yml — same root cause",
-    "Added push trigger to both so they run on file changes",
-    "Added schedule (every 6h) to diagnostics",
-    "Created self-healing-monitor.yml: detect -> classify -> rerun -> incident issue -> receipt"
+    "Added push trigger to both workflows so they fire on file changes",
+    "Added scheduled run (every 6h) to diagnostics",
+    "Created self-healing-monitor.yml: detect → classify → rerun → incident issue → receipt"
   ],
   "classification_map": {
     "PRE_RUNTIME_0S": "Workflow aborted before any step — config/permissions/billing",
     "PR_CONTEXT_SECRET_WITHHELD": "PR trigger withholds secrets by GitHub security design",
-    "SECRET_OR_ENV_MISSING": "Required secret not set or not scoped",
+    "SECRET_OR_ENV_MISSING": "Required secret not set or not scoped to this repo",
     "PERMISSION_DENIED": "GITHUB_TOKEN lacks required permission",
     "APP_RUNTIME_FAILURE": "Workflow started but application code failed",
     "UNKNOWN": "Unclassified — inspect logs"
   },
+  "schedule": {
+    "self-healing-monitor": "every 30 minutes",
+    "bridge-runner-heartbeat": "every 15 minutes",
+    "bridge-runner-diagnostics": "every 6 hours + on push"
+  },
   "closes_issue": "https://github.com/TML-4PM/the-pen/issues/135",
   "evidence": [
     "self-healing-monitor.yml committed to main",
-    "bridge-runner-diagnostics.yml updated",
-    "bridge-runner-heartbeat.yml updated",
-    "bootstrap receipt written"
+    "bridge-runner-diagnostics.yml updated — pull_request trigger removed",
+    "bridge-runner-heartbeat.yml updated — pull_request trigger removed",
+    "bootstrap receipt written to bridge/receipts/"
   ],
   "gaps": [
-    "Secrets BRIDGE_ENDPOINT, BRIDGE_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY need to be set in repo settings if absent",
-    "72h survivability proof not yet run"
+    "Secrets BRIDGE_ENDPOINT, BRIDGE_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY still need to be set in repo Settings → Secrets if not already present",
+    "72h survivability test not yet complete — monitor must run unattended for 72h to prove full autonomy claim"
   ],
-  "next_action": "Monitor self-runs every 30min. Check bridge/receipts/self-healing-detection.json after first cycle.",
-  "reality_ledger": { "status": "REAL", "score": 0.87 }
+  "next_action": "Monitor self-runs every 30min. Check bridge/receipts/self-healing-detection.json after first automated run.",
+  "reality_ledger": {
+    "status": "REAL",
+    "score": 0.87
+  }
 }

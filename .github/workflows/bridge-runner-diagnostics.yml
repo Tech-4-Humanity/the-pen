@@ -8,8 +8,9 @@ on:
   schedule:
     - cron: '0 */6 * * *'
 
-# NOTE: pull_request trigger removed — GitHub withholds secrets on PR context
-# causing 0s startup failures (PRE_RUNTIME_0S). Fixed 2026-05-23.
+# pull_request trigger REMOVED — GitHub withholds repo secrets on PR context
+# runs, causing 0s startup failures (PRE_RUNTIME_0S / PR_CONTEXT_SECRET_WITHHELD).
+# Use workflow_dispatch, push, or schedule triggers only.
 
 permissions:
   contents: write
@@ -27,7 +28,7 @@ jobs:
       - name: Run diagnostics
         env:
           BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
-          BRIDGE_API_KEY:  ${{ secrets.BRIDGE_API_KEY || secrets.BRIDGE_KEY }}
+          BRIDGE_API_KEY:  ${{ secrets.BRIDGE_API_KEY }}
           SUPABASE_URL:    ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GH_SHA: ${{ github.sha }}
@@ -42,7 +43,7 @@ jobs:
           [ -n "${BRIDGE_ENDPOINT:-}" ]      && echo "BRIDGE_ENDPOINT: SET"      || echo "BRIDGE_ENDPOINT: MISSING"
           [ -n "${BRIDGE_API_KEY:-}" ]       && echo "BRIDGE_API_KEY: SET"       || echo "BRIDGE_API_KEY: MISSING"
           [ -n "${SUPABASE_URL:-}" ]         && echo "SUPABASE_URL: SET"         || echo "SUPABASE_URL: MISSING"
-          [ -n "${SUPABASE_SERVICE_KEY:-}" ]  && echo "SUPABASE_SERVICE_KEY: SET"  || echo "SUPABASE_SERVICE_KEY: MISSING"
+          [ -n "${SUPABASE_SERVICE_KEY:-}" ] && echo "SUPABASE_SERVICE_KEY: SET" || echo "SUPABASE_SERVICE_KEY: MISSING"
           echo
           echo "=== Bridge Connectivity ==="
           if [ -n "${BRIDGE_ENDPOINT:-}" ]; then
@@ -68,20 +69,20 @@ jobs:
             "timestamp": "${ISO}",
             "commit_sha": "${GH_SHA}",
             "run_id": "${GH_RUN_ID}",
-            "status": "RAN",
-            "trigger": "${{ github.event_name }}"
+            "trigger": "${{ github.event_name }}",
+            "status": "RAN"
           }
           EOF
           echo "Wrote: $RECEIPT"
 
-      - name: Commit & push receipt
+      - name: Commit receipt
         run: |
           set -euo pipefail
           git config user.name  "bridge-runner[bot]"
           git config user.email "bridge-runner@tml-4pm"
           git add bridge/receipts/
           if git diff --staged --quiet; then
-            echo "No receipt changes to commit"
+            echo "No receipt changes"
             exit 0
           fi
           git commit -m "chore: diagnostics receipt [skip ci]"
