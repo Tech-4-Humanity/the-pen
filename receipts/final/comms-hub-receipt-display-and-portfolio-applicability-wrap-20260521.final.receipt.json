@@ -1,0 +1,16 @@
+{
+  "autonomous": true,
+  "bridge_response": "{\"ok\":false,\"error_code\":\"UNAUTHORIZED\",\"request_id\":\"25a0c23e-011f-4eb9-a5d8-09eda2d7e9a6\"}",
+  "bridge_status": 401,
+  "commit_sha": "d68b56b207352120844038114bb681e5ef74e39c",
+  "created_at": "2026-05-23T04:25:01.125222Z",
+  "evidence_state": "PARTIAL",
+  "fn": "pen-generic-executor",
+  "hitl_required": false,
+  "idempotency_key": "comms-hub-receipt-display-and-portfolio-applicability-wrap-20260521",
+  "receipt_type": "pen_sweep_receipt",
+  "repo": "TML-4PM/the-pen",
+  "source": "pen-queue-cron sweep",
+  "state": "PARTIAL",
+  "workflow_run_id": "26323393171"
+}

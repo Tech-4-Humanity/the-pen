@@ -1,0 +1,16 @@
+{
+  "autonomous": true,
+  "bridge_response": "{\"ok\":false,\"error_code\":\"UNAUTHORIZED\",\"request_id\":\"c911a43f-93c5-4a18-ba22-3774c7ba7498\"}",
+  "bridge_status": 401,
+  "commit_sha": "d68b56b207352120844038114bb681e5ef74e39c",
+  "created_at": "2026-05-23T04:25:01.125222Z",
+  "evidence_state": "PARTIAL",
+  "fn": "pen-generic-executor",
+  "hitl_required": false,
+  "idempotency_key": "t4h-comms-hub-level-1-control-baseline-20260520",
+  "receipt_type": "pen_sweep_receipt",
+  "repo": "TML-4PM/the-pen",
+  "source": "pen-queue-cron sweep",
+  "state": "PARTIAL",
+  "workflow_run_id": "26323393171"
+}
