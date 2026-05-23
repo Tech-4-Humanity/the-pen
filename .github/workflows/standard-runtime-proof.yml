@@ -1,0 +1,26 @@
+name: Standard Runtime Proof
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Heartbeat + verify
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+        run: |
+          set -eo pipefail
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_ROLE:-}" ]; then
+            echo "::notice::Secrets not yet installed. Skipping."
+            exit 0
+          fi
+          curl -sS -L -X POST -H "apikey: $SUPABASE_SERVICE_ROLE" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE" -H "Content-Type: application/json" -d '{}' "$SUPABASE_URL/rest/v1/rpc/symbio_verifier_heartbeat" || true
+          SINCE=$(date -u -d '5 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')
+          STARTED=$(curl -sS -L -H "apikey: $SUPABASE_SERVICE_ROLE" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE" "$SUPABASE_URL/rest/v1/symbio_audit_log?event_type=eq.work_started&actor=eq.symbio-verifier-heartbeat&created_at=gte.$SINCE&limit=1")
+          if [ "$STARTED" = "[]" ]; then echo "::error::No fresh heartbeat"; exit 1; fi
+          echo "::notice::RUNTIME_PASS"
