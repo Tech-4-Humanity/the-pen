@@ -1,0 +1,25 @@
+{
+  "version": "2026-05-23",
+  "incident": "P1-spine-integrity",
+  "repos": [
+    "TML-4PM/the-pen",
+    "TML-4PM/holo-org",
+    "TML-4PM/symbio-dev-control-plane",
+    "TML-4PM/symbio-synapse-ops",
+    "TML-4PM/mcp-command-centre",
+    "TML-4PM/t4h-research-hub"
+  ],
+  "parentIssues": {
+    "operatingLedger": 134,
+    "spineIntegrity": 135
+  },
+  "classes": [
+    "PRE_EXECUTION_COLLAPSE",
+    "CHECK_RUN_DESYNC",
+    "WORKFLOW_TRIGGER_DRIFT",
+    "MISSING_SECRET_GATE",
+    "RUNTIME_GATE",
+    "OBSERVER_COUPLING",
+    "UNKNOWN"
+  ]
+}
