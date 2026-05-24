@@ -1,0 +1,11 @@
+{
+  "blocker": "hard gate: 'credential' \u2014 route through approved controlled path",
+  "commit_sha": "5b696a2e41b21be1d8e6f33bc7ca6b18005f8c85",
+  "created_at": "2026-05-24T00:15:22.616498Z",
+  "evidence_state": "PARTIAL",
+  "idempotency_key": "ghost-claim-recovery-handback-3c211958-e98c-44ac-ae8f-c422faaac2ed",
+  "receipt_type": "pen_final_receipt",
+  "repo": "TML-4PM/the-pen",
+  "source_job_path": "inbox/ghost-claim-recovery-handback-2026-05-23.json",
+  "state": "BLOCKED"
+}

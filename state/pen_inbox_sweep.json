@@ -1,0 +1,20 @@
+{
+  "autonomous": true,
+  "blocked": 1,
+  "commit_sha": "5b696a2e41b21be1d8e6f33bc7ca6b18005f8c85",
+  "failed": 0,
+  "hitl": false,
+  "partial": 0,
+  "real": 0,
+  "results": [
+    {
+      "gate": "credential",
+      "key": "ghost-claim-recovery-handback-3c211958-e98c-44ac-ae8f-c422faaac2ed",
+      "state": "BLOCKED"
+    }
+  ],
+  "run_id": "26347226882",
+  "skipped": 0,
+  "sweep_at": "2026-05-24T00:15:22.616498Z",
+  "total": 1
+}
