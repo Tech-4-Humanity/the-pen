@@ -1,0 +1,109 @@
+{
+  "idempotency_key": "ai-sweet-spots-assessment-build-2026-05-24",
+  "title": "Build AI Sweet Spots assessment frontend, scoring, persistence, outputs, reporting",
+  "priority": "HIGH",
+  "classification": "PARTIAL_TO_REAL_BUILD",
+  "dispatched_at": "2026-05-24T12:52:00+10:00",
+  "current_state": {
+    "assessment_schema": "exists",
+    "expected_route": "sweetspots.workfamilyai.org/discover",
+    "observed_problem": "expected discover route not verified live; inspected WorkFamilyAI static discover route returned 404",
+    "supabase_quiz_persistence": "unproven",
+    "result_quality": "too generic",
+    "pen_bridge_receipt": "not found"
+  },
+  "objective": "Turn the existing AI Sweet Spot Self-Assessment schema into a verified production product path with frontend, scoring, Supabase persistence, upgraded outputs, admin reporting, tests, deployment, and receipts.",
+  "build_scope": {
+    "frontend": [
+      "Locate or create canonical /discover frontend",
+      "Render all 15 questions from schema",
+      "Mobile-first flow",
+      "One-question-at-a-time mode",
+      "Progress indicator",
+      "Accessible display modes: plain, structured, low stimulation, dyslexia-friendly, step-by-step",
+      "Clear non-clinical disclaimer"
+    ],
+    "scoring_engine": [
+      "Implement weighted profile matching from schema",
+      "Normalise profile scores",
+      "Rank primary and secondary profiles",
+      "Apply secondary profile logic where second profile is within 15 percent of primary",
+      "Apply AuDHD override where ADHD and Autism_L1 both exceed threshold",
+      "Calculate current AI usage gap from Q11",
+      "Add deterministic test fixtures"
+    ],
+    "supabase": [
+      "Create idempotent tables if absent",
+      "Persist sessions, answers, raw scores, normalised scores, primary profile, secondary profile, recommended AI percentage, range, confidence, consent flags, output version, feedback, and timestamps",
+      "Use bridge/service role path only",
+      "Do not expose service credentials in frontend",
+      "Write audit evidence for schema creation, submission, scoring, and result rendering"
+    ],
+    "outputs": [
+      "Upgrade result page beyond generic template",
+      "Include profile explanation",
+      "Explain why the result was produced",
+      "Show recommended AI percentage and range",
+      "Show top 3 AI use cases",
+      "Show top 3 human-led areas",
+      "Show current-use gap",
+      "Generate transition plan",
+      "Generate manager-share version",
+      "Add caveats and methodology link",
+      "Capture result feedback"
+    ],
+    "admin_reporting": [
+      "Show submissions",
+      "Show completion rate",
+      "Show profile distribution",
+      "Show current-vs-recommended AI gap",
+      "Show feedback accuracy",
+      "Show conversion/distribution events",
+      "Export CSV/JSON"
+    ],
+    "distribution": [
+      "Free public quiz",
+      "Paid personal report path",
+      "Employer/partner diagnostic path",
+      "Research opt-in path"
+    ],
+    "testing": [
+      "E2E: load /discover, answer questions, submit, score, persist, render result, submit feedback, inspect admin view",
+      "Negative tests for incomplete answers, duplicate submission, invalid values, network failure",
+      "Supabase row verification",
+      "Accessibility smoke test",
+      "Mobile viewport test",
+      "Production route 200 check"
+    ]
+  },
+  "messaging": {
+    "primary": "Same intelligence. Different ways of thinking.",
+    "governance": "We do not personalise truth. We personalise access to truth.",
+    "avoid": [
+      "diagnosis claims",
+      "medical advice",
+      "deficit framing",
+      "unsupported research certainty"
+    ]
+  },
+  "acceptance_gates": [
+    "production route returns 200",
+    "all 15 questions render",
+    "scoring fixtures pass",
+    "Supabase insert verified",
+    "result output renders correctly",
+    "admin/reporting view populated",
+    "audit receipt written",
+    "deployment receipt written",
+    "rollback path documented"
+  ],
+  "reject_conditions": [
+    "static mock without persistence",
+    "claiming Supabase works without verified rows",
+    "claiming live route when route returns 404",
+    "generic result outputs",
+    "clinical or diagnostic claims"
+  ],
+  "receipt_path": "TML-4PM/the-pen/receipts/runtime/ai-sweet-spots-assessment-build-2026-05-24.json",
+  "target_state": "REAL"
+}
