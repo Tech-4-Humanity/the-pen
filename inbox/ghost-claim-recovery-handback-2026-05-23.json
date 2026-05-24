@@ -1,0 +1,61 @@
+{
+  "envelope_version": "1",
+  "origin": "claude",
+  "source_chat_title": "Ghost Claim Recovery reality check + ledger write",
+  "source_thread_key": "claude-session-ghost-claim-recovery-2026-05-23",
+  "claim_phrase": "reality-check returned, PARTIAL classification written, handing back to compiler",
+  "claimed_destination": "pen",
+  "intended_destination": "compiler_orchestrator_via_pen",
+  "current_repo": "TML-4PM/the-pen",
+  "current_path": "inbox/ghost-claim-recovery-handback-2026-05-23.json",
+  "idempotency_key": "ghost-claim-recovery-handback-3c211958-e98c-44ac-ae8f-c422faaac2ed",
+  "recovery_mode": "REGISTER_ONLY",
+  "evidence_state": "PARTIAL",
+  "handoff_receipt_path": "inbox/ghost-claim-recovery-handback-2026-05-23.json",
+  "runtime_receipt_path": null,
+  "subject": "ghost_claim_recovery classification: PRETEND -> PARTIAL (independent reality check)",
+  "ledger_row": {
+    "id": "3c211958-e98c-44ac-ae8f-c422faaac2ed",
+    "system": "ghost_claim_recovery",
+    "component": "tool",
+    "status": "PARTIAL",
+    "last_verified": "2026-05-23T23:24:08.353275+00:00",
+    "audit_evt_id": "73eed98d-66f4-4152-b0bf-948705fa85de",
+    "evidence_hash": "ddd9cc5b67a58b8a09a17700547d27652f9d38758b5e4f78cc61dadd5e20c7f5"
+  },
+  "verified_artifacts": [
+    {"path": "tools/ghost-claim-recovery/README.md", "sha": "3f9c82ba8e3945742582af9066ef111d81e5cd94"},
+    {"path": "tools/ghost-claim-recovery/schema.sql", "sha": "ab7288c7af26d46fb244eef22e75957f45e70fb8"},
+    {"path": "tools/ghost-claim-recovery/ghost_claim_recovery_runner.mjs", "sha": "99ebea2754a302e0367cffcdd4128a954203ab77"}
+  ],
+  "table_applied": {
+    "name": "public.bridge_claim_recovery",
+    "row_count_at_inspection": 0
+  },
+  "prior_chatgpt_classification": "PARTIAL (based on artifact existence only)",
+  "system_verdict_at_inspection": "PRETEND (t4h_reality_state, evidence_count=0)",
+  "corrected_classification": "PARTIAL (typed evidence now registered, runner remains stub)",
+  "gaps_blocking_REAL": [
+    "no_cron_schedule",
+    "no_mcp_lambda_registry_entry",
+    "no_core_registry_entities_row",
+    "runner_is_pure_function_stub_no_scanner_no_db_write_no_bridge_call",
+    "no_runtime_receipts_directory_empty",
+    "evidence_count_zero_in_t4h_reality_state_prior_to_this_handback"
+  ],
+  "incidental_finding": {
+    "type": "ghost_claim_in_bridge_wrapper",
+    "observed_at": "2026-05-24T00:14:13.392Z",
+    "detail": "supabase_sql_write_gated envelope returned status=REAL with evt_id=941cf70e-693e-43fe-a941-2720f534df54 while inner SQL errored on digest() and the row did NOT land (independent readback returned count=0). Trigger on public.handover_intake calls digest() unqualified; function exists only in extensions schema. Bridge envelope was a ghost claim of its own.",
+    "recommended_fix": "schema-qualify digest() in handover_intake trigger to extensions.digest(), OR add extensions to search_path for the trigger function"
+  },
+  "next_steps_proposed": [
+    "deploy runner as Lambda via troy-lambda-deploy",
+    "register cron.job for hourly inbox/handoff scan",
+    "extend runner body with GitHub scanner + bridge_claim_recovery INSERTs + receipts/runtime/ writer",
+    "insert core.registry_entities row so t4h_reality_state resolves via registry",
+    "FIX handover_intake digest() trigger so DB-side PEN handoffs stop silently failing"
+  ],
+  "message_to_compiler": "Architecture committed, table applied, but tool itself sat at PRETEND because no scanner, no schedule, no receipts. One PARTIAL row now exists in public.reality_ledger with typed evidence. Promotion to REAL requires the four next-steps above, each producing its own runtime receipt. No autonomous deploy was attempted from this session; HITL-permitted carve-outs (destructive_action, credential_issuance) apply to the Lambda + IAM steps. Incidental: bridge wrapper falsely returned status=REAL on a failed handover_intake insert - documented above.",
+  "created_at_utc": "2026-05-24T00:14:13Z"
+}
