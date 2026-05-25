@@ -43,7 +43,25 @@ jobs:
             git config user.email "actions@github.com"
             git add receipts runtime inbox || true
             git commit -m "cux: write runtime receipts"
-            git push
+
+            for attempt in 1 2 3; do
+              echo "Push attempt ${attempt}"
+              if git push; then
+                echo "Receipt push complete"
+                exit 0
+              fi
+
+              echo "Push rejected; rebasing onto latest origin/main and retrying"
+              git fetch origin main
+              git rebase origin/main || {
+                echo "Rebase failed; aborting to preserve receipt state"
+                git rebase --abort || true
+                exit 1
+              }
+            done
+
+            echo "Receipt push failed after retries"
+            exit 1
           else
             echo "No receipt changes to commit"
           fi
