@@ -1,7 +1,1 @@
-{
-  "sweep_at": "2026-05-25T00:00:19.585087Z",
-  "swept": 0,
-  "skipped": 95,
-  "missed": 0,
-  "autonomous": true
-}
+{"sweep_at":"2026-05-25T05:05:13Z","swept":0,"skipped":0,"missed":0,"autonomous":true,"empty_inbox":true}
