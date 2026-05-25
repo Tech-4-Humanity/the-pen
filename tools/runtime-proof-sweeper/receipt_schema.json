@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "runtime-proof-sweeper run receipt",
+  "type": "object",
+  "required": ["started", "finished", "totals", "classifications"],
+  "properties": {
+    "started": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO timestamp when this run began"
+    },
+    "finished": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "partial_run": {
+      "type": "boolean",
+      "default": false,
+      "description": "true if run terminated early (rate limit, error); subsequent run will pick up"
+    },
+    "totals": {
+      "type": "object",
+      "required": ["issues", "prs", "queue"],
+      "properties": {
+        "issues": { "type": "integer" },
+        "prs": { "type": "integer" },
+        "queue": { "type": "integer" }
+      }
+    },
+    "classifications": {
+      "type": "object",
+      "properties": {
+        "issues": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "prs": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "queue": { "type": "object", "additionalProperties": { "type": "integer" } }
+      }
+    },
+    "stale_24h": { "type": "integer" },
+    "stale_72h": { "type": "integer" },
+    "oldest_unresolved": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url", "title", "age"],
+        "properties": {
+          "url": { "type": "string" },
+          "title": { "type": "string" },
+          "age": { "type": "string", "enum": ["<1h", "1-24h", "24-72h", "72h-7d", ">7d"] }
+        }
+      }
+    },
+    "blocked_by_reason": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" },
+      "description": "Count of BLOCKED items per bounded blocker keyword"
+    },
+    "requeue_attempts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "job_id": { "type": "string" },
+          "result": { "type": "string" }
+        }
+      }
+    },
+    "requeued_count": { "type": "integer" }
+  }
+}

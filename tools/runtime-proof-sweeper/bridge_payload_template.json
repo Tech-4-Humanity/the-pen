@@ -1,0 +1,35 @@
+{
+  "$comment": "Template for ops.work_queue.payload when destination='troy-runtime-proof-sweeper'. Mirrors what fn_runtime_proof_sweeper_kick() inserts.",
+  "task_type": "runtime_proof_sweep",
+  "sweep_window_hours": 1,
+  "requeue_non_destructive": true,
+  "write_receipt": true,
+  "contract": "the-pen#145",
+  "_inputs_loaded": {
+    "ledger": "public.reality_ledger WHERE status='REAL' AND last_verified > now() - interval '60 days'",
+    "issues": "GET /search/issues?q=org:TML-4PM+is:issue+is:open (paginated)",
+    "prs": "GET /search/issues?q=org:TML-4PM+is:pr+is:open",
+    "queue": "ops.work_queue WHERE status IN ('submitted','accepted','triaged','ready','claimed','in_progress')"
+  },
+  "_expected_response": {
+    "job_id": "uuid",
+    "status": "done",
+    "result": {
+      "started": "ISO8601",
+      "finished": "ISO8601",
+      "totals": {"issues": 0, "prs": 0, "queue": 0},
+      "classifications": {
+        "issues": {"REAL": 0, "PARTIAL": 0, "BLOCKED": 0},
+        "prs": {"REAL": 0, "PARTIAL": 0, "BLOCKED": 0},
+        "queue": {}
+      },
+      "stale_24h": 0,
+      "stale_72h": 0,
+      "oldest_unresolved": [],
+      "blocked_by_reason": {},
+      "requeue_attempts": [],
+      "requeued_count": 0,
+      "receipt_s3_key": "receipts/runtime-proof-sweeper/run-YYYY-MM-DDTHH.json"
+    }
+  }
+}

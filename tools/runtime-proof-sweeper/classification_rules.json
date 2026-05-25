@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "effective_from": "2026-05-25",
+  "classes": {
+    "REAL": {
+      "rule": "public.reality_ledger row with status='REAL' exists where (tokens(system+component) ∩ tokens(item.title+body)) ≥ 3",
+      "implies": "runtime evidence present; safe to close_completed if item is an issue/PR",
+      "evidence_ref_format": "ledger:{reality_ledger.id}"
+    },
+    "PARTIAL": {
+      "rules": [
+        "artifact_only_no_runtime_receipt: GitHub issue/PR/commit exists but no ledger match",
+        "in_flight: work_queue row has heartbeat within last 10 min, not yet terminal"
+      ],
+      "implies": "work in progress; do not close; surface in oldest_unresolved if stale"
+    },
+    "BLOCKED": {
+      "rules": [
+        "missing-permission: caller lacks GH scope, IAM role, or RLS grant",
+        "missing-secret: required key absent from cap_secrets or env",
+        "missing-route: ops.destination_routes has no entry resolving to a callable target",
+        "missing-worker: Lambda not deployed or work_queue row never dispatched (last_heartbeat NULL after first attempt window)",
+        "missing-runtime: external service unreachable (supabase REST, AWS Lambda, bridge)",
+        "dependency-failure: upstream job failed and this job depends on it"
+      ],
+      "implies": "must name a bounded blocker; never PRETEND",
+      "evidence_ref_format": "{blocker_keyword}:{specifics}"
+    },
+    "PRETEND": {
+      "rule": "NEVER USED",
+      "implies": "if classification would be PRETEND, demote to PARTIAL or BLOCKED with bounded reason"
+    }
+  },
+  "token_match": {
+    "min_overlap": 3,
+    "lowercase": true,
+    "min_token_length": 4,
+    "extractor_regex": "[a-z0-9]+"
+  },
+  "age_buckets": ["<1h", "1-24h", "24-72h", "72h-7d", ">7d"],
+  "stale_thresholds_hours": {
+    "stale_24h": 24,
+    "stale_72h": 72,
+    "stale_7d": 168
+  },
+  "non_destructive_actions_allowed": [
+    "NULL work_queue.last_heartbeat (requests re-dispatch)",
+    "append error_detail.escalated=true (signals operator)",
+    "POST issue comment with new evidence only",
+    "INSERT reality_ledger entry"
+  ],
+  "destructive_actions_prohibited": [
+    "DELETE",
+    "PATCH issue state=closed without operator authority",
+    "UPDATE work_queue.status=archived",
+    "remove labels"
+  ]
+}
