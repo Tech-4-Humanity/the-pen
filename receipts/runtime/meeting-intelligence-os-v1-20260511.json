@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "meeting-intelligence-os-v1-20260511",
+  "status": "rejected",
+  "ts": 1779678287,
+  "details": {
+    "reason": "missing action"
+  }
+}

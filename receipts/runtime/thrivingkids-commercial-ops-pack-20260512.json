@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "thrivingkids-commercial-ops-pack-20260512",
+  "status": "dead_letter",
+  "ts": 1779678305,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

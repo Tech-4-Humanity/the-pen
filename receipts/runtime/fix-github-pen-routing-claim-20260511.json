@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "fix-github-pen-routing-claim-20260511",
+  "status": "dead_letter",
+  "ts": 1779678283,
+  "details": {
+    "reason": "missing action"
+  }
+}

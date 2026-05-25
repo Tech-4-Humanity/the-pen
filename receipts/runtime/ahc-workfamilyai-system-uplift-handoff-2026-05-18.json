@@ -1,5 +1,5 @@
 {
-  "idempotency_key": "ai3-measurement-system-20260512",
+  "idempotency_key": "ahc-workfamilyai-system-uplift-handoff-2026-05-18",
   "status": "dead_letter",
   "ts": 1779678287,
   "details": {

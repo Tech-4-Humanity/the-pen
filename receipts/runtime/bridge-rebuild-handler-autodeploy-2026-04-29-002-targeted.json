@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "bridge-rebuild-handler-autodeploy-2026-04-29-002-targeted",
+  "status": "dead_letter",
+  "ts": 1779678293,
+  "details": {
+    "reason": "missing action"
+  }
+}

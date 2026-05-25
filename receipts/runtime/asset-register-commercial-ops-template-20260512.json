@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "asset-register-commercial-ops-template-20260512",
+  "status": "dead_letter",
+  "ts": 1779678301,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "receipt-smoke-test-v1",
+  "status": "dead_letter",
+  "ts": 1779678299,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

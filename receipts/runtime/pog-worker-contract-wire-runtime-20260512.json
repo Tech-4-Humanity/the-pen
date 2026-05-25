@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "pog-worker-contract-wire-runtime-20260512",
+  "status": "dead_letter",
+  "ts": 1779678289,
+  "details": {
+    "reason": "missing action"
+  }
+}

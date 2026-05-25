@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "fail-wrap-thread-action-items-v1",
+  "status": "dead_letter",
+  "ts": 1779678293,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

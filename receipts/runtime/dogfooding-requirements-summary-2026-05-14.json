@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "dogfooding-requirements-summary-2026-05-14",
+  "status": "rejected",
+  "ts": 1779678283,
+  "details": {
+    "reason": "missing action"
+  }
+}

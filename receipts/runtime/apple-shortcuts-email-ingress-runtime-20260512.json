@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "apple-shortcuts-email-ingress-runtime-20260512",
+  "status": "dead_letter",
+  "ts": 1779678307,
+  "details": {
+    "reason": "missing action"
+  }
+}

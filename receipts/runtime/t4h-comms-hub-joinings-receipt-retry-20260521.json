@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "t4h-comms-hub-joinings-receipt-retry-20260521",
+  "status": "dead_letter",
+  "ts": 1779678303,
+  "details": {
+    "reason": "missing action"
+  }
+}

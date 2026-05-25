@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "business-compiler-runtime-v1-0-2026-05-19",
+  "status": "rejected",
+  "ts": 1779678307,
+  "details": {
+    "reason": "missing action"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "pen-now-control-plane-ping-20260429-001",
+  "status": "dead_letter",
+  "ts": 1779678281,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

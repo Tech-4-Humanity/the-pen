@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "t4h-comms-hub-thread-master-wrap-20260521",
+  "status": "dead_letter",
+  "ts": 1779678285,
+  "details": {
+    "reason": "missing action"
+  }
+}

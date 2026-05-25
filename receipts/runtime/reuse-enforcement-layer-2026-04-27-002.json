@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "reuse-enforcement-layer-2026-04-27-002",
+  "status": "rejected",
+  "ts": 1779678287,
+  "details": {
+    "reason": "missing action"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "daily-brief-v2-retry-2026-04-26-002",
+  "status": "dead_letter",
+  "ts": 1779678291,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

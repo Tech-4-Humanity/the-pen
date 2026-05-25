@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "2d452e0e34345c15",
+  "status": "rejected",
+  "ts": 1779678307,
+  "details": {
+    "reason": "missing action"
+  }
+}

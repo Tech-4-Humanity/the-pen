@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "portfolio-receipt-doctrine-applicability-20260521",
+  "status": "dead_letter",
+  "ts": 1779678315,
+  "details": {
+    "reason": "missing action"
+  }
+}

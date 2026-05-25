@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "cux-bridge-handover-close-2026-05-05-001",
+  "status": "dead_letter",
+  "ts": 1779678285,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

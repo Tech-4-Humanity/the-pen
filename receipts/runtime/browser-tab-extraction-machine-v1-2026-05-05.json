@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "browser-tab-extraction-machine-v1-2026-05-05",
+  "status": "rejected",
+  "ts": 1779678303,
+  "details": {
+    "reason": "missing action"
+  }
+}

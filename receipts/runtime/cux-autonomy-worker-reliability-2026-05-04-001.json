@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "cux-autonomy-worker-reliability-2026-05-04-001",
+  "status": "dead_letter",
+  "ts": 1779678279,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

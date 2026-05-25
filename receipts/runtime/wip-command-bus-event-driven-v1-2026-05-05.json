@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "wip-command-bus-event-driven-v1-2026-05-05",
+  "status": "rejected",
+  "ts": 1779678287,
+  "details": {
+    "reason": "missing action"
+  }
+}

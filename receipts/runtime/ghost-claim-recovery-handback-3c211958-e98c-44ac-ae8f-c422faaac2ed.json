@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "ghost-claim-recovery-handback-3c211958-e98c-44ac-ae8f-c422faaac2ed",
+  "status": "rejected",
+  "ts": 1779678287,
+  "details": {
+    "reason": "missing action"
+  }
+}

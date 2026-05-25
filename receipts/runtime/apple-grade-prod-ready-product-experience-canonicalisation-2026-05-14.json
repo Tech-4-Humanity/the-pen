@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "apple-grade-prod-ready-product-experience-canonicalisation-2026-05-14",
+  "status": "rejected",
+  "ts": 1779678287,
+  "details": {
+    "reason": "missing action"
+  }
+}

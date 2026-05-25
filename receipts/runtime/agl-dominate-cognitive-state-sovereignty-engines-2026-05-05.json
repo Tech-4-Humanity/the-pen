@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "agl-dominate-cognitive-state-sovereignty-engines-2026-05-05",
+  "status": "dead_letter",
+  "ts": 1779678307,
+  "details": {
+    "reason": "missing action"
+  }
+}

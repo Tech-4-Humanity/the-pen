@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "signaltechbox-force-execute-20260512",
+  "status": "dead_letter",
+  "ts": 1779678297,
+  "details": {
+    "reason": "missing action"
+  }
+}

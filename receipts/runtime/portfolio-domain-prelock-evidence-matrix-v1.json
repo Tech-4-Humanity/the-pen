@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "portfolio-domain-prelock-evidence-matrix-v1",
+  "status": "dead_letter",
+  "ts": 1779678281,
+  "details": {
+    "reason": "missing action"
+  }
+}

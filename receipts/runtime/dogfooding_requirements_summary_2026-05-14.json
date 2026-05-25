@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "dogfooding_requirements_summary_2026-05-14",
+  "status": "dead_letter",
+  "ts": 1779678283,
+  "details": {
+    "reason": "missing action"
+  }
+}

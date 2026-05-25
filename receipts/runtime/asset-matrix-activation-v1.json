@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "asset-matrix-activation-v1",
+  "status": "dead_letter",
+  "ts": 1779678313,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

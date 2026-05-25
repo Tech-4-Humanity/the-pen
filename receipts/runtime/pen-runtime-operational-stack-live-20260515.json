@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "pen-runtime-operational-stack-live-20260515",
+  "status": "dead_letter",
+  "ts": 1779678297,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

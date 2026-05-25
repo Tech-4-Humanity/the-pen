@@ -1,7 +1,7 @@
 {
-  "idempotency_key": "ai3-measurement-system-20260512",
+  "idempotency_key": "signals-expansion-2026-04-29-001",
   "status": "dead_letter",
-  "ts": 1779678287,
+  "ts": 1779678301,
   "details": {
     "reason": "missing action"
   }

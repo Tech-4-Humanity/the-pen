@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "ai4professionals-accountants-accountant-pack-intake-spine-chain-v1",
+  "status": "dead_letter",
+  "ts": 1779678281,
+  "details": {
+    "reason": "missing action"
+  }
+}

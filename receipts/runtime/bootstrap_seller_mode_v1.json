@@ -1,7 +1,7 @@
 {
-  "idempotency_key": "ai3-measurement-system-20260512",
+  "idempotency_key": "bootstrap_seller_mode_v1",
   "status": "dead_letter",
-  "ts": 1779678287,
+  "ts": 1779678297,
   "details": {
     "reason": "missing action"
   }

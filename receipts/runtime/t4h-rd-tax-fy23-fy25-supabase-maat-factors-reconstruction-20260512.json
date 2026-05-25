@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "t4h-rd-tax-fy23-fy25-supabase-maat-factors-reconstruction-20260512",
+  "status": "dead_letter",
+  "ts": 1779678303,
+  "details": {
+    "reason": "BRIDGE_URL_MISSING"
+  }
+}

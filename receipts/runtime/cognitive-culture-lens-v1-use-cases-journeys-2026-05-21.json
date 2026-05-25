@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "cognitive-culture-lens-v1-use-cases-journeys-2026-05-21",
+  "status": "rejected",
+  "ts": 1779678287,
+  "details": {
+    "reason": "missing action"
+  }
+}

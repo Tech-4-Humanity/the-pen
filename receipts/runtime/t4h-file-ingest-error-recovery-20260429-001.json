@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "t4h-file-ingest-error-recovery-20260429-001",
+  "status": "dead_letter",
+  "ts": 1779678277,
+  "details": {
+    "reason": "missing action"
+  }
+}

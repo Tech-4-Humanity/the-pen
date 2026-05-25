@@ -1,5 +1,5 @@
 {
-  "idempotency_key": "ai3-measurement-system-20260512",
+  "idempotency_key": "gdrive_specialist_activation_20260429",
   "status": "dead_letter",
   "ts": 1779678287,
   "details": {

@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "portfolio-control-surface-validate-enhance-20260511",
+  "status": "dead_letter",
+  "ts": 1779678315,
+  "details": {
+    "reason": "missing action"
+  }
+}

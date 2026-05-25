@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "session-handover-v2-enforcement-2026-05-04",
+  "status": "dead_letter",
+  "ts": 1779678315,
+  "details": {
+    "reason": "missing action"
+  }
+}

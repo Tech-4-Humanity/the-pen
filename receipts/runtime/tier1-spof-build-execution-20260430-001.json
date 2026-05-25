@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "tier1-spof-build-execution-20260430-001",
+  "status": "dead_letter",
+  "ts": 1779678283,
+  "details": {
+    "reason": "missing action"
+  }
+}

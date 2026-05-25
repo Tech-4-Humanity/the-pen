@@ -1,0 +1,8 @@
+{
+  "idempotency_key": "cognitive-culture-lens-v1-2026-05-21",
+  "status": "rejected",
+  "ts": 1779678311,
+  "details": {
+    "reason": "missing action"
+  }
+}
