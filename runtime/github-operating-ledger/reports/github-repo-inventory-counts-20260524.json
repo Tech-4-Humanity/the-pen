@@ -1,0 +1,31 @@
+{
+  "task_id": "github-repo-inventory-counts-20260524",
+  "status": "PARTIAL",
+  "repo_count": 100,
+  "repo_page_size_requested": 250,
+  "scope": "TML-4PM accessible repositories via GitHub connector",
+  "classification_counts_approx": {
+    "archived": 44,
+    "active": 56,
+    "core_runtime": 15,
+    "product_surface": 26,
+    "finance_governance": 14,
+    "content_campaign": 11
+  },
+  "priority_order": [
+    "core_runtime",
+    "product_surface",
+    "finance_governance",
+    "content_campaign",
+    "archived_when_referenced"
+  ],
+  "evidence": [
+    "GitHub list_repositories page_size 250 returned 100 repositories with archived flags"
+  ],
+  "next_action": [
+    "worker_loop_per_repo_issue_counts",
+    "worker_loop_per_repo_pr_counts",
+    "workflow_run_inventory",
+    "command_centre_widget_surface"
+  ]
+}
