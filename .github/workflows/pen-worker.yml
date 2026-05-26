@@ -55,24 +55,34 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          JOB_PATH=""
           if [ -n "${{ github.event.inputs.job_path || '' }}" ]; then
             JOB_PATH="${{ github.event.inputs.job_path }}"
           else
-            JOB_PATH=$(git diff --name-only HEAD~1 HEAD | grep '^inbox/.*\.json$' | head -n 1 || true)
+            JOB_PATH=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | grep '^inbox/.*\.json$' | head -n 1 || true)
             if [ -z "$JOB_PATH" ]; then
-              JOB_PATH=$(ls -1t inbox/*.json | head -n 1)
+              # Only consider top-level inbox/*.json; subdirectory jobs are dispatched by Pen Inbox Dispatch + Execute, not this worker
+              JOB_PATH=$(ls -1t inbox/*.json 2>/dev/null | head -n 1 || true)
             fi
           fi
-          test -f "$JOB_PATH"
+          if [ -z "$JOB_PATH" ] || [ ! -f "$JOB_PATH" ]; then
+            echo "No top-level inbox/*.json job to process for this push — exiting cleanly."
+            echo "has_job=false" >> "$GITHUB_OUTPUT"
+            echo "job_path=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_job=true" >> "$GITHUB_OUTPUT"
           echo "job_path=$JOB_PATH" >> "$GITHUB_OUTPUT"
           echo "Resolved job path: $JOB_PATH"
 
       - name: Run Pen worker
+        if: steps.job.outputs.has_job == 'true'
         id: worker
         run: |
           python workers/pen_worker.py --job "${{ steps.job.outputs.job_path }}" --receipts-dir "$PEN_RECEIPTS_DIR"
 
       - name: Commit receipt
+        if: steps.job.outputs.has_job == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -87,9 +97,17 @@ jobs:
           fi
 
       - name: Summary
+        if: steps.job.outputs.has_job == 'true'
         shell: bash
         run: |
           echo "## Pen worker" >> "$GITHUB_STEP_SUMMARY"
           echo "Job: ${{ steps.job.outputs.job_path }}" >> "$GITHUB_STEP_SUMMARY"
           echo "Receipts:" >> "$GITHUB_STEP_SUMMARY"
           ls -1 receipts/runtime/*.receipt.json | tail -n 10 >> "$GITHUB_STEP_SUMMARY"
+
+      - name: No-job summary
+        if: steps.job.outputs.has_job != 'true'
+        shell: bash
+        run: |
+          echo "## Pen worker — no job" >> "$GITHUB_STEP_SUMMARY"
+          echo "Push triggered the workflow but contained no top-level inbox/*.json. Exited cleanly." >> "$GITHUB_STEP_SUMMARY"
