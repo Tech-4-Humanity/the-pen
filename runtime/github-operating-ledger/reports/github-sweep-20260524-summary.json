@@ -1,0 +1,49 @@
+{
+  "task_id": "github-sweep-20260524",
+  "status": "PARTIAL",
+  "repo_count_requested": 250,
+  "repo_count_returned": 100,
+  "repo_page_100_returned": 0,
+  "open_issue_sweep_repo_count": 10,
+  "open_issue_result_cap_hit": true,
+  "open_prs_in_sample": [
+    "TML-4PM/drug-resilience-atlas#4"
+  ],
+  "canonical_anchor": "TML-4PM/the-pen#134",
+  "predecessor_anchor": "TML-4PM/the-pen#133",
+  "labels_written": [
+    "the-pen#134: spine, cycle, loop, a1-active, no-hitl, github-operating-ledger, receipt-required",
+    "the-pen#133: duplicate-candidate, route-to-134, receipt-required"
+  ],
+  "top_backlog_classes": [
+    "bridge_receipt_debt",
+    "runtime_proof_gap",
+    "command_centre_surface_gap",
+    "duplicate_issue_debt",
+    "pr_gate_debt",
+    "archived_repo_hygiene"
+  ],
+  "priority_items": [
+    "mcp-command-centre#44",
+    "t4h-research-hub#1",
+    "mcp-command-centre#43",
+    "the-pen#132",
+    "the-pen#108",
+    "drug-resilience-atlas#11",
+    "drug-resilience-atlas#4",
+    "mcp-command-centre#35",
+    "mcp-command-centre#13"
+  ],
+  "gaps": [
+    "workflow inspection not completed",
+    "per-repo issue counts across all 100 repos not completed",
+    "Command Centre widget not verified",
+    "direct MCP Bridge invocation not exposed in this chat"
+  ],
+  "next_action": [
+    "Bridge worker consumes this summary",
+    "continue repo-by-repo issue and workflow inventory",
+    "build GitHub Operating Ledger Command Centre widget",
+    "do not mark REAL without typed runtime receipts"
+  ]
+}
