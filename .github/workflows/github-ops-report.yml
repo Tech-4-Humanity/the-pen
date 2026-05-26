@@ -1,0 +1,70 @@
+name: GitHub Ops Report
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      target_repos:
+        description: 'Comma-separated repo list (defaults to all TML-4PM repos)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  issues: read
+  actions: read
+  pull-requests: read
+
+jobs:
+  ops-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run GitHub Actions Ledger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          TARGET_REPOS: ${{ inputs.target_repos }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          node scripts/github-actions-ledger.mjs
+
+      - name: Commit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/github-ops/
+          if ! git diff --staged --quiet; then
+            git commit -m "ops-report: $(date -u +%Y-%m-%d) GitHub Actions ledger"
+            git push
+          fi
+
+      - name: Write receipt
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          mkdir -p receipts/runtime
+          cat > receipts/runtime/github-ops-report-$(date -u +%Y%m%dT%H%M%SZ).receipt.json <<EOF
+          {
+            "system": "github_ops_report",
+            "workflow_run_id": "${{ github.run_id }}",
+            "workflow_run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "status": "${{ job.status }}",
+            "timestamp_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "trigger": "${{ github.event_name }}"
+          }
+          EOF
+          git add receipts/runtime/
+          git commit -m "receipt: github-ops-report run ${{ github.run_id }}" || true
+          git push || true
