@@ -1,0 +1,80 @@
+name: Triage Auto-Disposition
+
+# Enforces 2026-05-24 triage standing disposition: issues silent past
+# 2026-06-07 closed as not_planned with original triage preserved as receipt.
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (report only, no closes)'
+        required: true
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+      override_date_guard:
+        description: 'Skip 2026-06-07 date guard (for testing)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Date guard
+        id: date_guard
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          DEADLINE="2026-06-07"
+          OVERRIDE="${{ github.event.inputs.override_date_guard }}"
+          echo "today=$TODAY deadline=$DEADLINE override=$OVERRIDE"
+          if [ "$OVERRIDE" = "true" ]; then
+            echo "active=true" >> $GITHUB_OUTPUT
+            echo "Date guard overridden"
+          elif [ "$TODAY" \< "$DEADLINE" ]; then
+            echo "active=false" >> $GITHUB_OUTPUT
+            echo "Before deadline -- skipping"
+          else
+            echo "active=true" >> $GITHUB_OUTPUT
+            echo "On/after deadline -- proceeding"
+          fi
+
+      - name: Compute dry-run mode
+        id: mode
+        if: steps.date_guard.outputs.active == 'true'
+        run: |
+          INPUT_DRY="${{ github.event.inputs.dry_run }}"
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            DRY="true"
+            echo "Cron-fired -- forcing dry_run=true"
+          else
+            DRY="${INPUT_DRY:-true}"
+          fi
+          echo "dry_run=$DRY" >> $GITHUB_OUTPUT
+
+      - name: Run enforcer
+        if: steps.date_guard.outputs.active == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ steps.mode.outputs.dry_run }}
+        run: python3 .github/scripts/triage_auto_disposition.py
+
+      - name: Upload result artifact
+        if: steps.date_guard.outputs.active == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: disposition-result-${{ github.run_id }}
+          path: /tmp/disposition-result.json
+          retention-days: 90
+          if-no-files-found: warn
