@@ -1,0 +1,22 @@
+{
+  "task_id": "github-pr-sweep-20260524",
+  "status": "PARTIAL",
+  "result": "PR search currently returns zero open PRs across account-wide and repo-family queries, conflicting with an earlier foreground result that showed DRA PR #4.",
+  "observations": {
+    "account_wide_query": "user:TML-4PM is:pr is:open",
+    "account_wide_result_count": 0,
+    "repo_family_query_result_count": 0,
+    "prior_observed_open_pr": "TML-4PM/drug-resilience-atlas#4"
+  },
+  "classification": "tool_confidence_gap",
+  "next_action": [
+    "Bridge worker should verify PRs using GitHub REST pull request endpoints per repo",
+    "Do not rely on search_prs alone for final PR count",
+    "Treat PR gate as PARTIAL until repo-specific pull request listing confirms zero"
+  ],
+  "evidence": [
+    "search_prs account-wide returned 0",
+    "search_prs repo-family returned 0",
+    "earlier repo-scoped search observed DRA PR #4"
+  ]
+}
