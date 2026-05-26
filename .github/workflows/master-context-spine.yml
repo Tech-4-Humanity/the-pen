@@ -1,0 +1,161 @@
+name: Master Context Spine — Daily Update
+
+on:
+  schedule:
+    # Run 30 min after #103 digest aggregation cron, to ensure inputs are present
+    - cron: '30 1 * * *'  # 01:30 UTC daily
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Date to aggregate (YYYY-MM-DD, defaults to today UTC)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  spine-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine target date
+        id: date
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            echo "target=${{ inputs.date }}" >> $GITHUB_OUTPUT
+          else
+            echo "target=$(date -u +%Y-%m-%d)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Aggregate per-LLM digests
+        id: aggregate
+        run: |
+          TARGET_DATE="${{ steps.date.outputs.target }}"
+          DIGEST_DIR="global/digest/${TARGET_DATE}"
+
+          if [ ! -d "$DIGEST_DIR" ]; then
+            echo "::warning::No digests found for $TARGET_DATE at $DIGEST_DIR — skipping spine update"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Concatenate all per-LLM digest files
+          mkdir -p /tmp/spine
+          MERGED="/tmp/spine/${TARGET_DATE}-merged.md"
+          echo "## Master Context Spine — ${TARGET_DATE}" > "$MERGED"
+          echo "" >> "$MERGED"
+          echo "**Updated:** $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$MERGED"
+          echo "**Run ID:** ${{ github.run_id }}" >> "$MERGED"
+          echo "" >> "$MERGED"
+
+          # Hash of sources (for receipt)
+          DIGEST_FILES=$(find "$DIGEST_DIR" -name '*.md' | sort)
+          if [ -z "$DIGEST_FILES" ]; then
+            echo "::warning::Digest dir exists but contains no .md files"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          SOURCE_HASH=$(echo "$DIGEST_FILES" | xargs sha256sum | sha256sum | awk '{print $1}')
+          echo "**Source digest hash:** \`${SOURCE_HASH:0:16}\`" >> "$MERGED"
+          echo "**Sources:**" >> "$MERGED"
+          for f in $DIGEST_FILES; do
+            echo "- \`$f\`" >> "$MERGED"
+          done
+          echo "" >> "$MERGED"
+          echo "---" >> "$MERGED"
+          echo "" >> "$MERGED"
+
+          # Append each per-LLM digest
+          for f in $DIGEST_FILES; do
+            LLM=$(basename "$f" .md)
+            echo "### ${LLM}" >> "$MERGED"
+            echo "" >> "$MERGED"
+            cat "$f" >> "$MERGED"
+            echo "" >> "$MERGED"
+          done
+
+          echo "source_hash=${SOURCE_HASH}" >> $GITHUB_OUTPUT
+          echo "merged_path=${MERGED}" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Append to Master Context Spine (cumulative)
+        if: steps.aggregate.outputs.skip != 'true'
+        run: |
+          MERGED="${{ steps.aggregate.outputs.merged_path }}"
+          SPINE="global/Master_Context_Spine.md"
+
+          # Initialise spine if missing
+          if [ ! -f "$SPINE" ]; then
+            mkdir -p global
+            cat > "$SPINE" <<EOF
+          # Master Context Spine
+
+          §0 LLM boot file. Updated daily by .github/workflows/master-context-spine.yml.
+          DO NOT manually edit sections below '## Updates' — append-only via workflow.
+
+          ## Updates
+          EOF
+          fi
+
+          # Append today's section (do NOT replace)
+          echo "" >> "$SPINE"
+          cat "$MERGED" >> "$SPINE"
+
+          git add "$SPINE"
+          if ! git diff --staged --quiet; then
+            git commit -m "spine: master context spine update ${{ steps.date.outputs.target }} (closes #105, hash ${{ steps.aggregate.outputs.source_hash }})"
+            git push
+          fi
+
+      - name: Write runtime receipt
+        if: steps.aggregate.outputs.skip != 'true'
+        run: |
+          mkdir -p receipts/runtime
+          RECEIPT="receipts/runtime/master-context-spine-${{ steps.date.outputs.target }}.receipt.json"
+          cat > "$RECEIPT" <<EOF
+          {
+            "system": "master_context_spine",
+            "workflow": "master-context-spine.yml",
+            "workflow_run_id": "${{ github.run_id }}",
+            "workflow_run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "target_date": "${{ steps.date.outputs.target }}",
+            "source_hash": "${{ steps.aggregate.outputs.source_hash }}",
+            "status": "REAL",
+            "ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+          git add receipts/runtime/
+          git commit -m "receipt: master-context-spine run ${{ github.run_id }}"
+          git push
+
+      - name: Skipped receipt
+        if: steps.aggregate.outputs.skip == 'true'
+        run: |
+          mkdir -p receipts/runtime
+          RECEIPT="receipts/runtime/master-context-spine-${{ steps.date.outputs.target }}.skipped.receipt.json"
+          cat > "$RECEIPT" <<EOF
+          {
+            "system": "master_context_spine",
+            "workflow_run_id": "${{ github.run_id }}",
+            "target_date": "${{ steps.date.outputs.target }}",
+            "status": "BLOCKED",
+            "blocker": "no digests found for target date (depends on #103 cross-LLM digest pipeline)",
+            "ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+          git add receipts/runtime/
+          git commit -m "receipt: master-context-spine BLOCKED (no digests) run ${{ github.run_id }}" || true
+          git push || true
