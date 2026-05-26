@@ -1,20 +1,20 @@
 {
   "autonomous": true,
-  "blocked": 1,
-  "commit_sha": "5b696a2e41b21be1d8e6f33bc7ca6b18005f8c85",
-  "failed": 0,
+  "blocked": 0,
+  "commit_sha": "107df6934699d29cee3e9602e6ce58579e68d08a",
+  "failed": 1,
   "hitl": false,
   "partial": 0,
   "real": 0,
   "results": [
     {
-      "gate": "credential",
-      "key": "ghost-claim-recovery-handback-3c211958-e98c-44ac-ae8f-c422faaac2ed",
-      "state": "BLOCKED"
+      "error": "invalid json: [Errno 2] No such file or directory: 'inbox/rdti-pyv4r3vpw-evidence-pack-20260512.json'",
+      "key": "rdti-pyv4r3vpw-evidence-pack-20260512",
+      "state": "FAILED"
     }
   ],
-  "run_id": "26347226882",
+  "run_id": "26428173153",
   "skipped": 0,
-  "sweep_at": "2026-05-24T00:15:22.616498Z",
+  "sweep_at": "2026-05-26T02:06:24.222862Z",
   "total": 1
 }
