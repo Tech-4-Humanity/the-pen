@@ -1,22 +1,25 @@
 name: Self-Healing Monitor
 
 on:
-  schedule:
-    - cron: '*/30 * * * *'
+  # AUTOMATIC TRIGGERS QUARANTINED 2026-05-26
+  # Reason: 30+ consecutive phantom failures with 0 jobs scheduled.
+  # Local PyYAML parse fails at line 69 (heredoc escape interaction).
+  # To re-enable after fix, restore schedule + push triggers below.
+  #
+  # schedule:
+  #   - cron: '*/30 * * * *'
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - .github/workflows/self-healing-monitor.yml
+  #     - scripts/**
+  #     - receipts/runtime/**
   workflow_dispatch:
     inputs:
       test_mode:
         description: 'Run in test mode without issue creation'
         required: false
         default: 'false'
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/self-healing-monitor.yml'
-      - 'scripts/**'
-      - 'receipts/runtime/**'
-
 permissions:
   contents: write
   issues: write
