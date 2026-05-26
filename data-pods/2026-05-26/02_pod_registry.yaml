@@ -1,0 +1,193 @@
+# T4H Data Pod Runtime v1.0 — Canonical Pod Registry
+# Source of truth: pods.pod_registry in Supabase S1 (lzfgigiyqpuuxslsygjt)
+# Cluster: data-pods
+# Total pods: 12 (1 CONTROL + 6 LLM + 5 GDRIVE)
+
+version: "1.0"
+cluster_id: "data-pods"
+runtime_release: "2026-05-26"
+ledger_sink: "public.reality_ledger"
+
+escalation_policy:
+  interrupt_only_if:
+    - legal_boundary
+    - financial_threshold
+    - destructive_action
+    - missing_authority
+    - regulatory_submission
+    - credential_issuance
+  otherwise:
+    continue_execution: true
+
+pods:
+  - pod_id: POD-00
+    pod_name: Chief_of_Staff
+    pod_role: Control Tower / Orchestration
+    pod_class: CONTROL
+    priority: 0
+    authority: autonomous
+    hitl: false
+    status: active
+    description: >
+      Permanent leader. Orchestrates pods, suppresses duplicates,
+      maintains canonical truth, emits daily executive briefs,
+      escalates only on legal/financial/destructive/authority boundaries.
+    upstream: []
+    downstream:
+      - LLP-01
+      - LLP-02
+      - LLP-03
+      - LLP-04
+      - LLP-05
+      - LLP-06
+      - GDP-01
+      - GDP-02
+      - GDP-03
+      - GDP-04
+      - GDP-05
+
+  - pod_id: LLP-01
+    pod_name: Digest_Ingest
+    pod_role: LLM Chat Normalisation
+    pod_class: LLM
+    priority: 1
+    description: >
+      Normalises GPT / Claude / Grok / Perplexity / NotebookLM / Takeout exports
+      into NDJSON, conversation objects, embedding queue, entity candidates.
+      Delta-first via source_hash.
+    upstream: [POD-00]
+    downstream: [LLP-02, LLP-03, LLP-04, LLP-05, GDP-04]
+
+  - pod_id: LLP-02
+    pod_name: Lost_Work_Recovery
+    pod_role: Abandoned Value Recovery
+    pod_class: LLM
+    priority: 2
+    description: >
+      Scans chats for TODO/FIXME/send-to-bridge/come-back-to/later signals.
+      Scores by completion / revenue / difficulty / strategic_value / urgency.
+    upstream: [LLP-01]
+    downstream: [LLP-06, POD-00]
+
+  - pod_id: LLP-03
+    pod_name: Research_Tax_Audit
+    pod_role: RDTI / Grant / Audit Evidence Extraction
+    pod_class: LLM
+    priority: 2
+    description: >
+      Maps experiments, technical uncertainty, decisions, chronology, labour allocation.
+      Outputs canonical research_audit rows with audit_grade A-F.
+    upstream: [LLP-01]
+    downstream: [GDP-03, POD-00]
+
+  - pod_id: LLP-04
+    pod_name: Product_Genome
+    pod_role: Product DNA Extraction
+    pod_class: LLM
+    priority: 3
+    description: >
+      Extracts Product, Agent, Role, Widget, Signal, Offer, Problem,
+      Customer, Revenue, Evidence across portfolio.
+    upstream: [LLP-01, GDP-01]
+    downstream: [GDP-02, GDP-04, POD-00]
+
+  - pod_id: LLP-05
+    pod_name: Strategic_Drift
+    pod_role: Direction Change Detection
+    pod_class: LLM
+    priority: 3
+    description: >
+      Tracks Troy obsessions over time: new emerging businesses,
+      disappearing ideas, abandoned high-value concepts.
+    upstream: [LLP-01]
+    downstream: [POD-00]
+
+  - pod_id: LLP-06
+    pod_name: Opportunity_Revenue
+    pod_role: Monetisation Engine
+    pod_class: LLM
+    priority: 1
+    description: >
+      Continuously hunts grants, tenders, partnerships, licensing, speaking,
+      consulting, unfinished revenue. Cross-refs chats + Drive + market signals.
+    upstream: [LLP-02, LLP-04, GDP-02]
+    downstream: [POD-00]
+
+  - pod_id: GDP-01
+    pod_name: Drive_Discovery
+    pod_role: Drive Estate Mapping
+    pod_class: GDRIVE
+    priority: 2
+    description: >
+      Maps Drive without fixing it. Clusters frameworks, diagrams, slides, PDFs,
+      duplicate strategy docs, evidence packs, finance packs, grant material.
+    upstream: [POD-00]
+    downstream: [GDP-02, GDP-03, GDP-04, GDP-05, LLP-04]
+
+  - pod_id: GDP-02
+    pod_name: Portfolio_Health
+    pod_role: Business Asset Scoring
+    pod_class: GDRIVE
+    priority: 2
+    description: >
+      Scores 28+ canonical businesses on one-pager / pricing / deck /
+      product-page / GTM / video / legal / evidence presence.
+      Labels REAL / PARTIAL / AT_RISK / STOP_SHIP.
+    upstream: [GDP-01, LLP-04]
+    downstream: [LLP-06, POD-00]
+
+  - pod_id: GDP-03
+    pod_name: Evidence_Receipt
+    pod_role: Reality Ledger Attachment
+    pod_class: GDRIVE
+    priority: 3
+    description: >
+      Creates evidence_hash records bound to intent / execution / artifact / proof.
+      No orphan files.
+    upstream: [GDP-01, LLP-03]
+    downstream: [POD-00]
+
+  - pod_id: GDP-04
+    pod_name: Knowledge_Graph
+    pod_role: Cognition Layer
+    pod_class: GDRIVE
+    priority: 3
+    description: >
+      Nodes: people / projects / products / ideas / evidence / revenue /
+      signals / files / agents. Edges: depends_on / governs / monetises /
+      owns / escalates.
+    upstream: [LLP-01, LLP-04, GDP-01]
+    downstream: [POD-00]
+
+  - pod_id: GDP-05
+    pod_name: Narrative_Memory
+    pod_role: Story Asset Recovery
+    pod_class: GDRIVE
+    priority: 4
+    description: >
+      Recovers photos, voice notes, travel notes, AWS / Oracle / Gartner history,
+      humanitarian work. Outputs article / keynote / podcast / book /
+      investor material.
+    upstream: [GDP-01]
+    downstream: [POD-00]
+
+tables_owned:
+  - pods.pod_registry
+  - pods.pod_runs
+  - pods.memory_objects
+  - pods.entity_registry
+  - pods.recovery_queue
+  - pods.research_audit
+  - pods.product_genome
+  - pods.knowledge_nodes
+  - pods.knowledge_edges
+  - pods.portfolio_health
+  - pods.narrative_memory
+  - pods.opportunity_queue
+  - pods.executive_briefs
+
+ledger_writes:
+  cluster_id: data-pods
+  system: data-pods
+  component_pattern: "{pod_id}"  # e.g. POD-00, LLP-01
+  evidence_required: true
