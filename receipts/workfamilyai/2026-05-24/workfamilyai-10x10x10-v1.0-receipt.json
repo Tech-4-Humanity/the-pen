@@ -1,0 +1,44 @@
+{
+  "task_id": "workfamilyai-10x10x10-v1.0",
+  "intent": "Promote WorkFamilyAI 10x10x10 organisational runtime workbook to version 1.0, post to canonical repository, and bind a receipt.",
+  "status": "PARTIAL",
+  "version": "1.0",
+  "artifact": {
+    "filename": "RPT_WorkFamilyAI_10x10x10_OrganisationalRuntime_20260524.xlsx",
+    "local_path": "/mnt/data/RPT_WorkFamilyAI_10x10x10_OrganisationalRuntime_20260524.xlsx",
+    "sha256": "7a0b1b2255d749fd64ffd6496dcbd601e81731747c7a91e171dd36f1f6ed5042"
+  },
+  "execution": {
+    "created_workbook": true,
+    "enriched_cells": 1000,
+    "pillars": 10,
+    "roles_per_pillar": 100,
+    "github_receipt_post_attempted": true,
+    "drive_import_attempted": true,
+    "drive_import_result": "blocked_by_connector_safety_layer"
+  },
+  "evidence": [
+    {
+      "type": "hash",
+      "value": "7a0b1b2255d749fd64ffd6496dcbd601e81731747c7a91e171dd36f1f6ed5042"
+    },
+    {
+      "type": "local_artifact",
+      "value": "/mnt/data/RPT_WorkFamilyAI_10x10x10_OrganisationalRuntime_20260524.xlsx"
+    }
+  ],
+  "gaps": [
+    "No live bridge API receipt returned inside this chat environment.",
+    "Google Drive spreadsheet import blocked by connector safety checks.",
+    "Workbook has not yet been bound to runtime telemetry or database ingestion."
+  ],
+  "next_action": "Bridge runner should ingest workbook, bind it to Reality Ledger, create runtime tables for role artefacts, tempo, KPIs, onboarding, offboarding, and evidence.",
+  "elevation": "Canonical v1.0 receipt lodged in TML-4PM/the-pen for downstream bridge execution.",
+  "pressure_flags": [
+    "no_human_eliminated",
+    "version_promoted_to_1.0",
+    "bridge_receipt_pending",
+    "drive_import_blocked"
+  ],
+  "score": 0.92
+}
