@@ -1,0 +1,14 @@
+{
+  "ts": "2026-05-26T01:37:54.977Z",
+  "passed": 0,
+  "failed": 0,
+  "skipped": 1,
+  "results": [
+    {
+      "file": "rdti-pyv4r3vpw-evidence-pack-20260512.json",
+      "key": "rdti-pyv4r3vpw-evidence-pack-20260512",
+      "status": "SKIPPED",
+      "reason": "unknown fn: undefined"
+    }
+  ]
+}
