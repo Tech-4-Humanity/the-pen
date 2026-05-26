@@ -1,0 +1,117 @@
+{
+  "$schema": "https://t4h.dev/schemas/bridge-envelope-v1.json",
+  "envelope_version": "1.0",
+  "runtime": "t4h-data-pod-runtime",
+  "runtime_version": "1.0",
+  "release_date": "2026-05-26",
+  "cluster_id": "data-pods",
+  "owner": {
+    "director": "Troy Latter",
+    "entity": "Tech 4 Humanity Pty Ltd",
+    "abn": "70 666 271 272"
+  },
+  "execution_model": {
+    "mode": "asynchronous",
+    "trigger": "event_driven",
+    "recoverable": true,
+    "replayable": true,
+    "telemetry_bound": true
+  },
+  "canonical_repo": {
+    "host": "github",
+    "owner": "TML-4PM",
+    "repo": "the-pen",
+    "release_path": "data-pods/2026-05-26/"
+  },
+  "canonical_store": {
+    "host": "supabase",
+    "project_id": "lzfgigiyqpuuxslsygjt",
+    "schema": "pods",
+    "ledger_sink": "public.reality_ledger"
+  },
+  "bridge": {
+    "endpoint": "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com",
+    "envelope_key": "fn",
+    "payload_key": "payload",
+    "auth_credential": "bk_gfTUR"
+  },
+  "execution_order": [
+    {"step": 1,  "pod_id": "POD-00", "action": "register_runtime"},
+    {"step": 2,  "pod_id": "LLP-01", "action": "ingest_delta",     "input": "llm_export_manifest"},
+    {"step": 3,  "pod_id": "GDP-01", "action": "discover_delta",   "input": "drive_manifest"},
+    {"step": 4,  "pod_id": "LLP-02", "action": "recover_lost_work"},
+    {"step": 5,  "pod_id": "LLP-03", "action": "extract_research_audit"},
+    {"step": 6,  "pod_id": "LLP-04", "action": "extract_product_genome"},
+    {"step": 7,  "pod_id": "GDP-02", "action": "score_portfolio"},
+    {"step": 8,  "pod_id": "GDP-03", "action": "attach_evidence"},
+    {"step": 9,  "pod_id": "GDP-04", "action": "update_knowledge_graph"},
+    {"step": 10, "pod_id": "LLP-05", "action": "detect_drift"},
+    {"step": 11, "pod_id": "GDP-05", "action": "recover_narrative"},
+    {"step": 12, "pod_id": "LLP-06", "action": "hunt_opportunities"},
+    {"step": 13, "pod_id": "POD-00", "action": "emit_executive_brief"}
+  ],
+  "proof_gates": {
+    "step_completion_requires": [
+      "pod_runs_row_inserted",
+      "ended_at_set",
+      "status_in_succeeded_partial",
+      "receipt_hash_present",
+      "evidence_jsonb_typed"
+    ],
+    "runtime_completion_requires": [
+      "all_pods_have_terminal_run",
+      "executive_brief_emitted",
+      "reality_ledger_row_written",
+      "audit_log_written"
+    ],
+    "classification": {
+      "REAL_requires": [
+        "executed",
+        "replayable",
+        "receipted",
+        "ledger_written",
+        "telemetry_verified",
+        "runtime_observed",
+        "economically_validated"
+      ],
+      "PARTIAL_conditions": [
+        "incomplete_execution",
+        "weak_evidence",
+        "degraded_runtime",
+        "unresolved_drift",
+        "missing_recovery_proof"
+      ],
+      "BLOCKED_requires": [
+        "explicit_dependency",
+        "bounded_reason",
+        "unresolved_authority",
+        "external_constraint"
+      ]
+    }
+  },
+  "delta_processing": {
+    "skip_unchanged_by": ["sha256", "modified_date", "embedding_hash", "entity_hash"],
+    "process_only": ["new_files", "modified_files", "signal_changes", "new_downloads", "new_exports"]
+  },
+  "telemetry": {
+    "streams": ["execution", "economics", "recovery", "authority", "drift", "latency", "failure", "orchestration", "classification", "runtime_health"],
+    "write_to": "pods.pod_runs",
+    "cross_post_to": "public.reality_ledger"
+  },
+  "recovery": {
+    "strategies": ["retry", "rollback", "compensation", "reroute", "isolate", "degrade", "reconcile"],
+    "orphan_timeout_hours": 24,
+    "review_window_days": 14
+  },
+  "escalation_to_director": {
+    "channels": ["telegram:6972032328"],
+    "triggers": [
+      "legal_boundary",
+      "financial_threshold",
+      "destructive_action",
+      "missing_authority",
+      "regulatory_submission",
+      "credential_issuance"
+    ]
+  }
+}
