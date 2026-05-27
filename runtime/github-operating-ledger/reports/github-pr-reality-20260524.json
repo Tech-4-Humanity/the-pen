@@ -1,0 +1,33 @@
+{
+  "task_id": "github-pr-reality-20260524",
+  "status": "REAL",
+  "result": "Previously observed DRA PR #4 is closed and merged. The open PR discrepancy is resolved by direct PR lookup.",
+  "verified_pr": {
+    "repo": "TML-4PM/drug-resilience-atlas",
+    "number": 4,
+    "state": "closed",
+    "merged": true,
+    "merged_at": "2026-05-25T04:13:20Z",
+    "merge_commit_sha": "63402bfab2f4999fe0b1c02f3f79e0b1c3f6399d",
+    "head_sha": "ac9f7236230ae3f1bd343d1e13d09351a1f55420",
+    "changed_files": 6,
+    "additions": 465,
+    "deletions": 0
+  },
+  "evidence": [
+    {
+      "type": "api_response",
+      "value": "GitHub.get_pr_info returned state=closed and merged=true for TML-4PM/drug-resilience-atlas#4"
+    },
+    {
+      "type": "commit_id",
+      "value": "63402bfab2f4999fe0b1c02f3f79e0b1c3f6399d"
+    }
+  ],
+  "closed_gap": "PR search reliability discrepancy for DRA PR #4",
+  "next_action": [
+    "continue issue heatmap",
+    "verify workflow failures",
+    "check DRA post-merge runtime proof before marking product REAL"
+  ]
+}
