@@ -1,0 +1,54 @@
+{
+  "receipt_type": "dispatch",
+  "direction": "outbound",
+  "system": "RESEARCH-GENOME",
+  "job_key": "research_genome_v1_1_build",
+  "source_repository": "runtime://claude-opus-4-7",
+  "target_repository": "TML-4PM/the-pen",
+  "sender": "troy@tech4humanity via claude-opus-4-7",
+  "receiver": "the-pen receipts registry",
+  "status": "ACTIVE",
+  "actor_id": "troy@tech4humanity",
+  "tenant_id": "T4H",
+  "runtime_id": "claude-opus-4-7",
+  "execution_id": "exec_20260527T011733Z",
+  "execution_nonce": "83ef6364dda72d45",
+  "cluster_id": "CL_RESEARCH",
+  "ledger_row_id": "8aaf16f6-b5e6-45f7-bc9b-ffec40977ac3",
+  "documents": [
+    {
+      "name": "05_research-genome-v1-1.xlsx",
+      "sha256": "1251fd0ca62328aa9695fbe1bee54eaba844f43f240f8b6421aa6a8b157800d3",
+      "sheets": 26,
+      "formulas": 191,
+      "formula_errors": 0,
+      "size_class": "medium"
+    }
+  ],
+  "commits": [],
+  "evidence": [
+    {
+      "type": "runtime_hash",
+      "uri": "sha256:1251fd0ca62328aa9695fbe1bee54eaba844f43f240f8b6421aa6a8b157800d3"
+    },
+    {
+      "type": "database_result",
+      "uri": "supabase://lzfgigiyqpuuxslsygjt/public.reality_ledger/8aaf16f6-b5e6-45f7-bc9b-ffec40977ac3"
+    },
+    {
+      "type": "execution_trace",
+      "uri": "exec://exec_20260527T011733Z"
+    }
+  ],
+  "blockers": [],
+  "created_at_utc": "2026-05-27T01:17:33Z",
+  "updated_at_utc": "2026-05-27T01:18:25Z",
+  "search_tags": [
+    "research-genome",
+    "kernel-v6",
+    "workbook",
+    "v1-1",
+    "chatgpt-handoff-validate-complete"
+  ],
+  "notes": "Validates and completes ChatGPT v1.0 seeded workbook (issue #148 claim unverified — used canonical receipts/ path instead). v1.1 adds: identity layer binding, OriginChain (OC-*), Atlas heatmap, Kernel V6 alignment audit, Receipts registry, wired rollup formulas. 11 Kernel REAL, 7 PARTIAL. PRETEND row count = 0."
+}
