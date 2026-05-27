@@ -1,0 +1,99 @@
+version: "1.0"
+task_id: connector-startup-runtime-v1
+name: Connector Startup Runtime
+owner: Troy Latter
+runtime_profile: troy-default
+status: PARTIAL_until_bridge_receipt
+classification: non_destructive_runtime_bootstrap
+
+intent: >
+  Start every serious session with the right connectors connected, tested,
+  classified, logged, and visible without manual rework.
+
+required_connectors:
+  - github
+  - bridge
+  - supabase
+  - google_drive
+
+conditional_connectors:
+  - gmail
+  - google_calendar
+  - vercel
+  - stripe
+  - lovable
+
+execution_order:
+  - discover_available_connectors
+  - test_required_connectors
+  - test_conditional_connectors
+  - classify_connector_state
+  - attempt_authorised_non_destructive_repair
+  - write_t4h_connector_registry
+  - write_t4h_connector_healthcheck_log
+  - write_t4h_session_bootstrap_log
+  - publish_command_centre_connector_widget
+  - emit_reality_ledger_receipt
+
+state_model:
+  LIVE: connector available and healthcheck passed
+  DEGRADED: connector available but limited, stale, partial, read-only, or rate-limited
+  BLOCKED: required connector unavailable, unauthorized, or failing hard
+  ABSENT: connector not present in current runtime
+
+bridge_envelope:
+  action: invoke_function
+  function_name: troy-connector-startup-runtime
+  invocation_type: event
+  payload:
+    task_id: connector-startup-runtime-v1
+    runtime_profile: troy-default
+    required_connectors:
+      - github
+      - bridge
+      - supabase
+      - google_drive
+    conditional_connectors:
+      - gmail
+      - google_calendar
+      - vercel
+      - stripe
+      - lovable
+    non_destructive: true
+    repair_authority: authorised_only
+    reality_ledger_required: true
+    command_centre_widget_required: true
+    output_paths:
+      registry_table: t4h_connector_registry
+      healthcheck_table: t4h_connector_healthcheck_log
+      bootstrap_table: t4h_session_bootstrap_log
+      receipt_path: receipts/runtime/connector-startup-runtime-v1.json
+  metadata:
+    source: chatgpt
+    repo: TML-4PM/the-pen
+    commit_reference: e55fe4a4ea04369f167a1ccb90ff15ad64011fe8
+    created_by: GPT-5.5 Thinking
+
+success_criteria:
+  - required connectors are tested and classified
+  - connector registry rows exist or are updated
+  - session bootstrap log row exists
+  - command centre widget has connector status data
+  - bridge receipt is written under receipts/runtime
+  - REAL/PARTIAL/BLOCKED state is explicit
+
+hard_blockers:
+  - OAuth/platform requires human reauthorization
+  - missing Bridge authority to rotate or repair token
+  - missing Supabase authority for schema execution
+  - destructive credential action requested
+  - legal/financial/safety boundary crossed
+
+ledger:
+  required: true
+  status: PARTIAL_until_runtime_receipt
+  evidence_required:
+    - github_commit
+    - bridge_receipt
+    - db_result
+    - command_centre_surface
