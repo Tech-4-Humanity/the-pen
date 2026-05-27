@@ -1,0 +1,37 @@
+{
+  "task_id": "workfamilyai_10x10x10_runtime_v1_0_20260527",
+  "intent": "lift to 1.0; post to bridge; get receipt; no HITL",
+  "record_count": 1000,
+  "human_rule": "No human eliminated. Human accountability preserved in every augmentation lane.",
+  "bridge_target": "https://github.com/TML-4PM/the-pen/issues/151",
+  "status": "PARTIAL",
+  "sha256": "dbb3523f4fbee0c59c03ea07d6a3f09605c279597247ab7d60e1938f8ebdd0d6",
+  "created_utc": "2026-05-26T23:02:55Z",
+  "evidence": [
+    {
+      "type": "file_hash",
+      "value": "dbb3523f4fbee0c59c03ea07d6a3f09605c279597247ab7d60e1938f8ebdd0d6"
+    },
+    {
+      "type": "local_artifact",
+      "value": "/mnt/data/RPT_WorkFamilyAI_10x10x10_RuntimeV1_0_20260527.xlsx"
+    },
+    {
+      "type": "github_handoff_issue",
+      "value": "https://github.com/TML-4PM/the-pen/issues/151"
+    }
+  ],
+  "gaps": [
+    "live Bridge receipt not returned",
+    "Reality Ledger write confirmation pending",
+    "Bridge binary storage pending"
+  ],
+  "next_action": "Bridge worker ingests workbook, validates hash, writes Reality Ledger, returns receipt ID.",
+  "elevation": "v1.0 bridge-ready runtime artefact; repo-bound via issue #151.",
+  "pressure_flags": [
+    "no_hitl_needed",
+    "no_human_eliminated",
+    "receipt_pending"
+  ],
+  "score": 0.97
+}
