@@ -7,7 +7,8 @@ on:
       - 'inbox/**'
       - 'tools/pen/**'
   schedule:
-    - cron: '*/15 * * * *'
+    # freq cut 2026-05-29: */15 -> hourly (kernel cost). Real inbox work still triggers immediately via push on inbox/**. Revert to '*/15 * * * *' if needed.
+    - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
       idempotency_key:
