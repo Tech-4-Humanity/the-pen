@@ -24,6 +24,7 @@ jobs:
   ingest:
     name: Ingest PEN inbox and write receipts
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     timeout-minutes: 10
     steps:
       - name: Checkout
@@ -91,7 +92,7 @@ jobs:
           }
 
       - name: Commit receipts
-        if: steps.inbox.outputs.count != '0' && github.event_name != 'pull_request'
+        if: steps.inbox.outputs.count != '0'
         run: |
           set -uo pipefail
           git config user.name  "pen-ingest-bot"
