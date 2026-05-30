@@ -1,0 +1,20 @@
+name: _Probe Startup
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ['.github/workflows/_probe-startup.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Pure run step, no external actions
+        run: |
+          echo "PROBE_OK: runner started, steps execute"
+          echo "time: $(date -u)"
