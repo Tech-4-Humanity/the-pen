@@ -1,52 +1,61 @@
 # REPEATED ISSUE: GHA "chronic workflow failure" misdiagnosis loop
 
-**Status:** ROOT CAUSE CONFIRMED — fix is a one-click PR merge
+**Status:** Failure is CONTEXT-dependent, not code (proven). Suspected cause: open PR forcing main into pull_request context. PR-open state NOT independently confirmed (no PR-list tool available this session).
 **First mis-filed as:** OPS-RUNNER-001 ("scheduled jobs fail with no runner") — WRONG framing
 **Date:** 2026-05-30
 
-## The actual root cause (proven)
+## What is PROVEN
 
-An **open PR with `main` involved** (#108, `fix/pen-worker-no-job-graceful-exit-20260526`) forces **every** workflow run on `main` — push, schedule, any trigger — to be evaluated in **pull_request context**. GitHub withholds repo secrets and privileged execution in PR context by policy, so the runner is never granted and the job dies in 0–3s with no steps.
+The failure is determined by branch/execution context, not by workflow code. Identical `pen-worker.yml`:
+- Run #108 on branch `fix/pen-worker-no-job-graceful-exit` → SUCCESS, 13s, full steps
+- Run #109 same code on `main` (commit 6c4b0b9) → FAILURE, 2s, no steps
 
-### Decisive proof (controlled test)
-Identical `pen-worker.yml` content:
-- Run #108 on branch `fix/pen-worker-no-job-graceful-exit` → **SUCCESS, 13s, full steps**
-- Run #109 same code on `main` (commit 6c4b0b9) → **FAILURE, 2s, no steps**
+Same code, different context = failure is contextual. No code change on main fixes it.
 
-Same code, different branch context = the failure is contextual, not code. No code change on main can fix it while the PR is open.
+## What is INFERRED (consistent, not independently confirmed)
 
-### Corroborating evidence
-- AGL Bootstrap runs #135–138 GREEN (before PR opened) → #139–140 RED (after). Flip aligns with PR open date, not any code change.
-- Every failing run's UI breadcrumb reads `on:pull_request` even for push/schedule triggers — the tell that main is inside an open PR.
-- `-1s`/`0s` durations = skip/withhold signature, not error.
+The likely mechanism: `main` is the head/base of an **open PR**, so runs on main are evaluated in pull_request context where GitHub withholds secrets/privileged execution → 0–3s death, no runner, no steps.
 
-## Why this keeps getting misdiagnosed (the loop)
+Supporting (circumstantial):
+- Every failing run's UI breadcrumb reads `on:pull_request` even for push/schedule triggers.
+- AGL Bootstrap #135–138 GREEN → #139–140 RED, flip ~aligns with when PR #108 work landed.
+- `-1s`/`0s` durations = skip/withhold signature.
 
-The symptom presents as infrastructure failure, leading to repeated wrong root-causes:
-1. "missing secret / rotate BRIDGE_API_KEY / GITHUB_PAT" — WRONG (failing workflow uses built-in GITHUB_TOKEN; sibling repo with same token is green)
-2. "runner acquisition / billing / spending cap" — WRONG (sibling repo green; was green until PR opened)
-3. "repo Actions disabled / restricted policy" — WRONG (would fail all runs, not flip a day ago)
-4. "push race / non-fast-forward on main" — WRONG (real smell, but job dies BEFORE the commit step)
-5. "job-resolve hard-fail" — REAL bug in some workflows, but NOT this failure
+NOT confirmed: that PR #108 is currently open (no tool to list PRs was found/used). The two-branch test proves context-dependence; it does NOT by itself prove the PR is the context source. Treat the PR cause as strong-but-unconfirmed until the PR list is checked in the UI.
 
-**The trap:** the GitHub API (`run_jobs`) returns empty `steps[]` and `runner_name=""` even for runs that genuinely executed steps. This slim projection LIES and makes every failure look like a startup/runner death. Live logs purge in <20s. The only reliable per-step truth is the **GitHub UI step view**.
+## Wrong diagnoses already burned (do not repeat)
 
-## Diagnostic protocol (use this next time, skip steps 1–5 above)
+1. "missing secret / rotate BRIDGE_API_KEY / GITHUB_PAT" — WRONG (failing workflow uses built-in GITHUB_TOKEN; sibling repo same token is green)
+2. "runner acquisition / billing / spending cap" — WRONG (sibling repo green)
+3. "repo Actions disabled / restricted policy" — WRONG (would fail all runs, not flip)
+4. "push race / non-fast-forward on main" — WRONG (real smell; job dies BEFORE commit step). Push-retry was committed anyway (03c9c32, 196aea4) and did NOT fix it — confirming this was not the cause.
+5. "job-resolve hard-fail" — REAL bug in some workflows, NOT this failure
 
-1. Check the UI breadcrumb: does a push/schedule run say `on:pull_request`? → **open PR on main is the cause.**
-2. Confirm with the two-branch test: commit identical trivial workflow to a feature branch vs main, compare green/red.
-3. Do NOT trust API `steps[]`/`runner_name` — use UI step view or catch a live log <20s.
-4. Fix = **merge or close the open PR.** That's it.
+**The trap that drove the loop:** GitHub API `run_jobs` returns empty `steps[]` and `runner_name=""` even for runs that genuinely executed steps. The slim projection LIES and makes every failure look like a startup/runner death. Live logs purge <20s. Only reliable per-step truth = GitHub UI step view.
+
+## Diagnostic protocol (next time, skip the 5 wrong causes)
+
+1. UI breadcrumb: does a push/schedule run say `on:pull_request`? → suspect open PR on main.
+2. CONFIRM the PR is actually open (check PR list in UI — not assumed).
+3. Two-branch test: identical trivial workflow on feature branch vs main, compare green/red → proves context-vs-code.
+4. Do NOT trust API `steps[]`/`runner_name`. Use UI step view or catch a live log <20s.
+5. If PR confirmed open: fix = merge/close it.
 
 ## Fix
 
-**Merge (or close) PR #108.** The instant main is no longer in an open PR, normal context returns, runners bind, all workflows run. Merging also lands the graceful-no-job-exit fix.
+Merge or close the open PR (suspected #108). Graceful-exit fix already mirrored to main (6c4b0b9) so no divergence on merge.
 
-Graceful-exit fix content already mirrored to main (commit 6c4b0b9) so there is no divergence on merge. Push-retry hardening added to agl-bootstrap (03c9c32) and bridge-runner-heartbeat (196aea4) — correct improvements, will take effect once context is restored.
+## Tooling note (states ONLY what was tested)
 
-## Tooling note
+No dedicated MCP merge tool. Bridge merge paths ATTEMPTED:
+- `troy-github-actions` — refuses PR ops (hard contract, Actions-run verbs only). CONFIRMED no.
+- `troy-bridge-worker` (gh_api passthrough) — HTTP 500.
+- `troy-code-pusher` (probe) — HTTP 500; dormant since March.
+- `troy-lambda-deploy` (one-shot merge fn) — needs `zip_base64`; zip NOT built this session.
 
-The PR merge itself has no dedicated MCP tool; `troy-github-actions` Lambda is Actions-run-verbs only (no PR ops). Options to merge autonomously: deploy a one-shot merge Lambda via `troy-lambda-deploy` (deploy-class, requires GITHUB_TOKEN env wiring — heavy/gated), OR merge via GitHub UI (10s). UI merge is the proportionate path; do not manufacture privileged infra to avoid one tap.
+NOT tested: `troy-controller`, `mcp-bridge-invoke-handler`, the `troy-lambda-deploy` zip path.
+
+Honest state: autonomous bridge merge is **incompletely investigated** — 4 paths failed, 2+ untested, impossibility NOT proven and viability NOT proven. Do not assert either "blocked" or "the bridge can obviously do this" without a tried-and-verified path. UI merge (10s) is proportionate.
 
 ---
-*Filed by autonomous executor 2026-05-30 after a 4-misdiagnosis investigation loop. Logged here so the next session greps this before re-deriving wrong causes 1–5.*
+*Filed by autonomous executor 2026-05-30. This doc was itself first written with an unverified claim (that bridge merge was viable-but-heavy) and corrected — the same assert-ahead-of-evidence error it documents. Next session: confirm the PR is open before acting; verify paths before calling them blocked or available.*
