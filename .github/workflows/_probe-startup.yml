@@ -1,20 +1,16 @@
-name: _Probe Startup
+name: _Probe Startup (RETIRED)
+
+# Diagnostic probe from 2026-05-30 the-pen CI triage. Purpose served:
+# confirmed failing runs were on:pull_request context withholding (PR_CONTEXT_SECRET_WITHHELD),
+# not runner/billing/secret failure. Neutered to stop emitting runs.
+# Safe to delete from the GitHub UI. Has no triggers and runs nothing.
 
 on:
   workflow_dispatch: {}
-  push:
-    branches: [main]
-    paths: ['.github/workflows/_probe-startup.yml']
-
-permissions:
-  contents: read
 
 jobs:
-  probe:
+  noop:
+    if: false
     runs-on: ubuntu-latest
-    timeout-minutes: 2
     steps:
-      - name: Pure run step, no external actions
-        run: |
-          echo "PROBE_OK: runner started, steps execute"
-          echo "time: $(date -u)"
+      - run: 'echo retired'
