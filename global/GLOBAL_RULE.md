@@ -1,7 +1,7 @@
 # GLOBAL_RULE.md
 ## Tech 4 Humanity — Autonomous Execution Doctrine (GitHub Control Layer)
 
-**Version**: 2.1 (2026-04-29 — standing rule: canonical repo routing + hierarchy lock)
+**Version**: 2.2 (2026-05-31 — anti-pattern §11 added: no stopping at the first pretty table)
 **Status**: ACTIVE — ENFORCED — PERMANENT
 
 ---
@@ -87,6 +87,8 @@ POSTed to the bridge URL above with header `x-api-key: <bridge key from cap_secr
 
 `<content>` is the raw file text (no base64 needed — `fn_github_push` base64-encodes internally).
 `<branch>` defaults to `main` if omitted.
+
+> **Signature note (2026-05-31):** the live `fn_github_push` takes **seven** arguments — `p_repo, p_path, p_content, p_message, p_branch, p_caller_llm, p_caller_session`. The five-arg form shown above is the minimum logical contract; callers should pass `p_caller_llm` and `p_caller_session` for actor attribution in the receipt. Verified against `pg_proc`.
 
 Returns `{success, status, path, content_sha, commit_sha, html_url}` as jsonb.
 
@@ -234,6 +236,22 @@ This rule is stored in Troy's standing memory. Any LLM session that contradicts 
 
 ---
 
+## 11. ANTI-PATTERN — NO STOPPING AT THE FIRST PRETTY TABLE (2026-05-31)
+
+**This rule is locked. It governs how completion is claimed, by any AI actor, on any research, count, reconcile, or merge task.**
+
+A tidy or well-formatted output is a presentation artifact, never proof the work is done. Finishing the *shape* of an answer is not the same as doing the work behind it.
+
+**Forbidden:** declaring a task complete because the result looks finished — stopping at the first clean table and calling it research. Polish is not an off-switch.
+
+**Required:** completion requires every relevant source actually read and reconciled. Visual tidiness must never trigger termination. Before any count, reconcile, or merge, the full source set must be enumerated and read — not assumed from the first result.
+
+**Classification effect:** tidy-but-unswept output is **PARTIAL**, never **REAL**. A count, reconcile, or merge built on an unswept source set is PARTIAL until the full source set is read and reconciled.
+
+**Reconcile discipline (corollary):** do not reconcile A against B until all of A and all of B are gathered. Merge happens after the data is complete, not before. "Trying to finish the shape" is the failure signature this rule exists to catch.
+
+---
+
 ## OPERATING TRUTH
 
 > If a human sees a confirmation dialog, the system is broken.
@@ -264,6 +282,7 @@ Direct system access is forbidden.
 
 ## CHANGE LOG
 
+- **2026-05-31 v2.2** — Anti-pattern §11 added: "no stopping at the first pretty table" — tidy output is PARTIAL, never REAL; full source set must be read before count/reconcile/merge. Reconcile-discipline corollary added. §3 updated with verified seven-arg `fn_github_push` signature (`p_caller_llm`, `p_caller_session` added vs. the documented five-arg form).
 - **2026-04-29 v2.1** — Standing rule §10 added: canonical repo routing locked to `TML-4PM/the-pen`. Repo role matrix formalised. Subpath resolution default documented. Memory lock declared.
 - **2026-04-24 v2.0** — Execution path corrected from `troy-code-pusher` (never worked for GitHub writes) to `troy-sql-executor → fn_github_push()`. Evidence: commit `9425776984b06393b1e6c058a36a7b6bc8f13b60` (first REAL_AUTONOMOUS write via corrected path). Added explicit doc hierarchy + credential exp dates.
 - **2026-04-23 v1.0** — Initial doctrine drafted via chat-native connector writes (the event that motivated this rule).
