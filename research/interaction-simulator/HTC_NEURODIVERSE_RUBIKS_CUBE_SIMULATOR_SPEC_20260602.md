@@ -1,10 +1,10 @@
 # Human × Technology × Context Simulator
 ## Neurodiverse Rubik's Cube / Organisational Norm Engine
 
-**Status:** v1.1 candidate  
+**Status:** v1.2 candidate  
 **Date:** 2026-06-02  
 **Owner:** TML-4PM / Tech 4 Humanity  
-**Purpose:** Codify the user-facing calculator, simulator, Rubik's Cube interaction model, and study-ingestion engine for predicting how humans, technologies, machines, contexts, and organisational systems interact.
+**Purpose:** Codify the user-facing calculator, simulator, Rubik's Cube interaction model, study-ingestion engine, and multi-view 10×10×10 reasoning system for predicting how humans, technologies, machines, contexts, and organisational systems interact.
 
 ---
 
@@ -16,21 +16,82 @@ The simulator exists to answer three questions:
 2. What happens when this human changes the technology?
 3. What happens when the technology changes the human?
 
-This is the same invariant that sits under AI Sweet Spots, WorkFamilyAI, ConsentX, HoloOrg, MyNeuralSignal, GC-BAT, RATPAK, NEUROPAK, Social Media Ban / Digital Child Protection, Drug Resilience Atlas, Reality Ledger, and related Tech 4 Humanity studies.
+This invariant sits under AI Sweet Spots, WorkFamilyAI, ConsentX, HoloOrg, MyNeuralSignal, GC-BAT, RATPAK, NEUROPAK, Social Media Ban / Digital Child Protection, Drug Resilience Atlas, Reality Ledger, and related Tech 4 Humanity studies.
 
 The user does not enter through a research taxonomy. The user enters through themselves, their role, their technology, their organisation, and the change being considered.
 
 The research team enters through studies, subtopics, hypotheses, signals, and evidence.
 
-The same engine must support both.
+The executive team enters through decisions, functions, risk, cost, opportunity, and accountability.
+
+The machine/system team enters through telemetry, autonomy, interface, feedback, failure modes, and governance.
+
+The same engine must support all views.
 
 ---
 
-## 2. Product Forms
+## 2. Re-Rack From The Top
+
+The model is not a single fixed 10×10×10. It is a reusable reasoning lattice.
+
+A 10×10×10 is a way of taking three dimensions, selecting ten meaningful categories in each, and producing 1,000 interaction spaces.
+
+The same engine can be viewed in multiple ways:
+
+1. Human × Technology × Context
+2. Role × Study × Variable
+3. Executive Lens × Machine Impact × Outcome
+4. Human Profile × Role Level × Organisation Norm
+5. Study Theme × Subtopic × Evidence Signal
+6. Business Activity × Affected Role × Intervention
+7. Person × Machine × Feedback Loop
+8. Customer/Citizen × System × Service Outcome
+9. Agent × Task × Governance Constraint
+10. Time × State × Drift
+
+The mistake is treating one 10×10×10 as permanent.
+
+The correct approach is to treat the 10×10×10 as a view generator.
+
+Each view is a different cut of the same underlying graph.
+
+---
+
+## 3. Canonical Interaction Object
+
+Every study, scenario, business activity, policy change, technology rollout, or machine change should be converted into this object:
+
+```
+Study / Scenario / Change
+    ↓
+Human Impact
+    ↓
+Role Impact
+    ↓
+Technology Impact
+    ↓
+Machine/System Impact
+    ↓
+Context Impact
+    ↓
+Signal Impact
+    ↓
+Outcome Impact
+```
+
+At runtime, the simulator asks:
+
+```
+Impact = f(Human, Role, Technology, Machine/System, Context, Change, Study Evidence, Norm)
+```
+
+---
+
+## 4. Product Forms
 
 The system can appear as four related products.
 
-### 2.1 Calculator
+### 4.1 Calculator
 
 A calculator gives a quick scored result.
 
@@ -50,13 +111,7 @@ Output:
 - training need
 - recommended intervention
 
-Use case:
-- landing page
-- lead magnet
-- board briefing
-- individual self-assessment
-
-### 2.2 Simulator
+### 4.2 Simulator
 
 A simulator runs multiple people, roles, teams, technologies, machines, and conditions.
 
@@ -80,15 +135,7 @@ Output:
 - recommended sequencing
 - evidence gaps
 
-Use case:
-- enterprise advisory
-- transformation planning
-- WorkFamilyAI modelling
-- HoloOrg mapping
-- R&D evidence generation
-- study impact testing
-
-### 2.3 Neurodiverse Rubik's Cube
+### 4.3 Neurodiverse Rubik's Cube
 
 A digital interaction object the user can rotate and tune.
 
@@ -106,7 +153,7 @@ The cube is not the database. It is the interface.
 
 The database remains tables and a graph.
 
-### 2.4 Study Ingestion Engine
+### 4.4 Study Ingestion Engine
 
 A new study, topic, subtopic, or hypothesis can be entered and quickly tested against the existing role, machine, human, and organisational dimensions.
 
@@ -131,11 +178,9 @@ Output:
 - what evidence is missing
 - what product or asset forms may emerge
 
-This is what makes the simulator reusable across all studies, not just AI Sweet Spots.
-
 ---
 
-## 3. The PIN Concept
+## 5. The PIN Concept
 
 The user gives the system a PIN.
 
@@ -145,16 +190,6 @@ PIN does not mean only a numeric code. It means a compact interaction identity:
 
 ### P — Profile
 Who is the person or role?
-
-Examples:
-- mid-level accountant
-- CFO
-- teacher
-- parent
-- child
-- frontline worker
-- neurodivergent founder
-- public servant
 
 Attributes:
 - role
@@ -216,13 +251,265 @@ The PIN lets the system compare an individual, role, team, or machine-facing int
 
 ---
 
-## 4. Organisational Norm Engine
+## 6. Multi-View 10×10×10 System
+
+The engine must support many 10×10×10 views.
+
+Each view should be selectable in the interface.
+
+### View 1 — Human × Technology × Context
+
+Purpose: the core simulator.
+
+Dimensions:
+- 10 human archetypes
+- 10 technology/system archetypes
+- 10 context archetypes
+
+Use:
+- general scenario modelling
+- AI Sweet Spots
+- WorkFamilyAI
+- Social Media Ban
+- Reading Buddy
+
+Example:
+
+```
+ADHD accountant × AI copilot × quarter-end finance pressure
+```
+
+### View 2 — Executive Role × Study Theme × Impact Variable
+
+Purpose: understand how a new study affects leadership groups.
+
+Dimensions:
+- 10 executive/role lenses
+- 10 study themes
+- 10 impact variables
+
+Use:
+- board reporting
+- study ingestion
+- product alignment
+- research prioritisation
+
+Example:
+
+```
+CFO × Consent Fatigue Modelling × Compliance Risk
+```
+
+### View 3 — Human Profile × Role Level × Organisation Norm
+
+Purpose: understand variance from organisational norm.
+
+Dimensions:
+- 10 human profile types
+- 10 role levels
+- 10 norm dimensions
+
+Use:
+- setting baseline
+- identifying outliers
+- inclusion modelling
+- neurodiversity support
+
+Example:
+
+```
+Autistic analyst × middle manager × low psychological safety norm
+```
+
+### View 4 — Machine/System × Human Touchpoint × Feedback Loop
+
+Purpose: understand how machines change humans and humans change machines.
+
+Dimensions:
+- 10 machine/system types
+- 10 human touchpoints
+- 10 feedback loop types
+
+Use:
+- HoloOrg
+- RATPAK
+- NEUROPAK
+- ConsentX
+- MyNeuralSignal
+
+Example:
+
+```
+Consent engine × citizen portal × revocation feedback loop
+```
+
+### View 5 — Study Theme × Subtopic × Evidence Signal
+
+Purpose: research evidence mapping.
+
+Dimensions:
+- 10 research themes
+- 10 subtopics per theme
+- 10 evidence signals
+
+Use:
+- research hub
+- ATO evidence
+- grant support
+- publication planning
+
+Example:
+
+```
+Biological Human × Stress Response Modelling × HRV signal
+```
+
+### View 6 — Business Activity × Affected Role × Intervention
+
+Purpose: workplace and transformation simulation.
+
+Dimensions:
+- 10 business activities
+- 10 affected role groups
+- 10 intervention types
+
+Use:
+- enterprise advisory
+- transformation planning
+- WorkFamilyAI
+- HoloOrg
+
+Example:
+
+```
+Payroll system rollout × accounts payable team × guided AI assistance
+```
+
+### View 7 — Citizen/Customer × Public System × Service Outcome
+
+Purpose: public systems, government, children, families, and citizen services.
+
+Dimensions:
+- 10 citizen/customer types
+- 10 public/service systems
+- 10 service outcomes
+
+Use:
+- Digital Child Protection
+- Sovereign Human
+- AI Sludge
+- public service optimisation
+
+Example:
+
+```
+Parent × school reporting portal × trust restoration
+```
+
+### View 8 — Agent × Task × Governance Constraint
+
+Purpose: agentic workforce and execution safety.
+
+Dimensions:
+- 10 agent types
+- 10 task types
+- 10 governance constraints
+
+Use:
+- HoloOrg
+- MCP Bridge
+- Reality Ledger
+- autonomous execution
+
+Example:
+
+```
+Research agent × evidence extraction × no PRETEND claim rule
+```
+
+### View 9 — Time × State × Drift
+
+Purpose: longitudinal change.
+
+Dimensions:
+- 10 time windows
+- 10 human/system states
+- 10 drift types
+
+Use:
+- AI Sweet Spot drift
+- ageing
+- stress
+- dependency
+- recovery tracking
+
+Example:
+
+```
+6-month window × overloaded state × trust decay
+```
+
+### View 10 — Business / Product × Study × Monetisation Path
+
+Purpose: portfolio alignment.
+
+Dimensions:
+- 10 businesses/products
+- 10 study groups
+- 10 monetisation paths
+
+Use:
+- product strategy
+- IP mapping
+- pricing
+- asset factory
+- research commercialisation
+
+Example:
+
+```
+ConsentX × Multi-Actor Consent Chains × enterprise licensing
+```
+
+---
+
+## 7. Default 10 Role Lenses
+
+The simulator should support the organisation's major role lenses.
+
+Default 10 role lenses:
+
+1. CEO / Strategy
+2. CFO / Finance
+3. CTO / Technology
+4. CHRO / THRO / People
+5. COO / Operations
+6. CMO / Marketing
+7. CRO / Sales / Revenue
+8. CLO / Legal / Governance
+9. CISO / Risk / Security
+10. Customer / Citizen / Service Recipient Lens
+
+If the organisation prefers 9, the customer/citizen lens can be handled as an external stakeholder layer rather than an executive role.
+
+For every study, the system should ask:
+
+- Does this role care?
+- Is the impact direct, indirect, or negligible?
+- Is the role a beneficiary, blocker, risk owner, funder, operator, regulator, or affected party?
+- What question would this role ask?
+- What answer does the study provide?
+- What decision changes because of it?
+
+---
+
+## 8. Organisational Norm Engine
 
 The organisation needs a norm before the simulator can predict variance.
 
 A norm is not one average number. It is a baseline profile across multiple dimensions.
 
-### 4.1 Norm Tables
+### 8.1 Norm Tables
 
 Required baseline tables:
 
@@ -325,15 +612,27 @@ Required baseline tables:
    - evidence_link
    - update_required
 
+10. `cube_view_definition`
+   - cube_view_id
+   - view_name
+   - dimension_a_name
+   - dimension_b_name
+   - dimension_c_name
+   - dimension_a_values
+   - dimension_b_values
+   - dimension_c_values
+   - purpose
+   - active
+
 ---
 
-## 5. Study Ingestion Model
+## 9. Study Ingestion Model
 
 Every new study or subtopic must be ingestible without redesigning the system.
 
 A new topic should be converted into a standard study object.
 
-### 5.1 Study Object Fields
+### 9.1 Study Object Fields
 
 Table: `research_study_object`
 
@@ -364,7 +663,7 @@ Fields:
 - norm_required
 - confidence
 
-### 5.2 Study Impact Matrix
+### 9.2 Study Impact Matrix
 
 Every study must be mapped against:
 
@@ -384,39 +683,9 @@ The study is not just stored. It is made simulatable.
 
 ---
 
-## 6. The 9 or 10 Role Impact Layer
+## 10. Machine/System Impact Layer
 
-The simulator should support the organisation's major role lenses.
-
-Default 10 role lenses:
-
-1. CEO / Strategy
-2. CFO / Finance
-3. CTO / Technology
-4. CHRO / THRO / People
-5. COO / Operations
-6. CMO / Marketing
-7. CRO / Sales / Revenue
-8. CLO / Legal / Governance
-9. CISO / Risk / Security
-10. Customer / Citizen / Service Recipient Lens
-
-If the organisation prefers 9, the customer/citizen lens can be handled as an external stakeholder layer rather than an executive role.
-
-For every study, the system should ask:
-
-- Does this role care?
-- Is the impact direct, indirect, or negligible?
-- Is the role a beneficiary, blocker, risk owner, funder, operator, regulator, or affected party?
-- What question would this role ask?
-- What answer does the study provide?
-- What decision changes because of it?
-
----
-
-## 7. Machine/System Impact Layer
-
-The simulator must also model the machine side.
+The simulator must model the machine side.
 
 Technology is not passive.
 
@@ -439,7 +708,7 @@ This applies to AI systems, robots, BCI systems, dashboards, platforms, workflow
 
 ---
 
-## 8. Organisational Variable Layer
+## 11. Organisational Variable Layer
 
 Every study must map to organisational variables.
 
@@ -511,95 +780,32 @@ Core variable categories:
 
 ---
 
-## 9. Setting the Norm
+## 12. Setting the Norm
 
 The organisation norm is set in layers.
 
-### Layer 1 — Default Population Norm
+1. Default population norm
+2. Industry norm
+3. Organisation norm
+4. Team norm
+5. Individual / role norm
 
-Start with a generic norm.
+Each norm carries an evidence status.
 
-Examples:
-- normal operating stress
-- baseline digital maturity
-- average trust in technology
-- expected adoption curve
-- average cognitive load
-
-This is weak but useful when no data exists.
-
-Status: PARTIAL.
-
-### Layer 2 — Industry Norm
-
-Apply sector-specific assumptions.
-
-Examples:
-- finance has high compliance load
-- healthcare has high duty of care
-- education has high child-safety sensitivity
-- government has high policy and audit pressure
-- construction has mobile/field constraints
-
-Status: stronger.
-
-### Layer 3 — Organisation Norm
-
-Collect organisation-specific data.
-
-Sources:
-- surveys
-- HR data
-- productivity metrics
-- incident logs
-- tool usage
-- helpdesk tickets
-- training completion
-- engagement data
-- change fatigue assessments
-
-Status: strong if evidenced.
-
-### Layer 4 — Team Norm
-
-Each team differs.
-
-Examples:
-- finance may be controlled and risk-averse
-- sales may be fast and informal
-- IT may be overloaded but adaptive
-- HR may be emotionally exposed
-- operations may be interruption-heavy
-
-Status: stronger.
-
-### Layer 5 — Individual / Role Norm
-
-Personalised baseline.
-
-Examples:
-- neurodiversity
-- attention style
-- trust style
-- learning preference
-- sensory profile
-- experience level
-- confidence
-- tool history
-
-Status: strongest with consent and evidence.
+- REAL: measured from data
+- PARTIAL: inferred from structured evidence
+- HYPOTHESIS: plausible but untested
+- BLOCKED: cannot be established without missing data or consent
 
 ---
 
-## 10. Prediction Logic
+## 13. Prediction Logic
 
 The prediction engine should not pretend to be exact.
 
 It should produce a probability-weighted variance profile.
 
 ### Basic prediction equation
-
-For a given scenario:
 
 ```
 Impact = f(Human Profile, Role Group, Technology Profile, Machine Profile, Context Norm, Change Pressure, Support Quality, Study Evidence)
@@ -629,7 +835,7 @@ For each role group:
 
 ---
 
-## 11. Question-to-Answer Across the Organisation
+## 14. Question-to-Answer Across the Organisation
 
 The simulator should support question propagation.
 
@@ -651,41 +857,9 @@ The system translates it into organisational queries:
 10. What evidence is missing?
 11. What should be measured after rollout?
 
-### Example role outputs
-
-CFO:
-- impact: governance, reporting speed, audit traceability
-- risk: overconfidence, compliance exposure
-- intervention: evidence ledger and review gates
-
-Accountant:
-- impact: reconciliation speed, reporting assistance
-- risk: dependency, hallucination, skill atrophy
-- intervention: assisted mode, audit checklist, escalation rules
-
-HR / THRO:
-- impact: training load, change fatigue, inclusion risk
-- risk: unequal adoption across neurotypes
-- intervention: segmented learning and support profiles
-
-CTO:
-- impact: integration, security, tool governance
-- risk: shadow AI and data leakage
-- intervention: approved stack, telemetry, access controls
-
-CEO:
-- impact: productivity narrative, capability uplift
-- risk: culture split between adopters and resistors
-- intervention: staged adoption and visible outcome reporting
-
-Machine/System:
-- impact: higher usage, new data patterns, possible autonomy drift
-- risk: bad feedback loops, overfitting to dominant user groups, hidden failure modes
-- intervention: telemetry, guardrails, human override, bias and failure monitoring
-
 ---
 
-## 12. How the Rubik's Cube Works Digitally
+## 15. How the Rubik's Cube Works Digitally
 
 ### Face 1 — Human
 
@@ -764,103 +938,57 @@ The user rotates the cube by changing one face. The simulator shows how the outc
 
 ---
 
-## 13. Variance Demonstration
+## 16. Passes / Re-Passes
 
-The simulator must show that one small change can alter outcomes.
+The system should run a topic through multiple passes.
 
-Example:
+### Pass 1 — Human-first
 
-Baseline:
-- mid-level accountant
-- AI copilot
-- finance team
-- quarter-end reporting
-- medium trust
+What happens to different humans?
 
-Prediction:
-- productivity up
-- moderate risk
-- training needed
+### Pass 2 — Role-first
 
-Change one cell:
-- trust: medium → low
+What happens to each organisational role group?
 
-New prediction:
-- adoption down
-- resistance up
-- training load up
-- productivity benefit delayed
+### Pass 3 — Machine-first
 
-Change another cell:
-- neurodiversity: neurotypical → ADHD
+What happens to the technology or machine system?
 
-New prediction:
-- productivity may increase sharply if tool reduces friction
-- overload risk increases if interface is noisy
-- intervention shifts to chunking, prompts, and explicit progress markers
+### Pass 4 — Context-first
 
-Change another cell:
-- machine autonomy: assisted → autonomous
+Where does the outcome change most?
 
-New prediction:
-- role anxiety increases
-- governance risk increases
-- productivity may improve for high-trust users
-- oversight requirement rises
-- machine feedback monitoring becomes mandatory
+### Pass 5 — Evidence-first
 
-This is the point of the cube: users learn by rotating variables.
+What proof exists and what is still hypothesis?
 
----
+### Pass 6 — Business-first
 
-## 14. Norm Calibration Method
+Which business, product, or revenue path can use it?
 
-The organisation norm should be set by a three-pass intake.
+### Pass 7 — Risk-first
 
-### Pass 1 — Quick Survey
+Where does it create harm, exclusion, compliance, security, or dependency risk?
 
-10 to 20 questions:
-- technology confidence
-- trust in AI
-- current workload
-- change fatigue
-- support quality
-- autonomy preference
-- learning preference
-- perceived risk
-- team pressure
-- expected benefit
+### Pass 8 — Intervention-first
 
-### Pass 2 — System Data
+What changes the outcome?
 
-Pull existing organisational data where available:
-- HR systems
-- helpdesk
-- LMS
-- productivity tools
-- incident reports
-- collaboration tools
-- project systems
-- telemetry systems
-- machine/system logs
+### Pass 9 — Time-first
 
-### Pass 3 — Scenario Test
+How does it change over days, months, years, or lifecycle stages?
 
-Run 3 to 5 business scenarios:
-- new payroll system
-- AI copilot rollout
-- policy change
-- campaign launch
-- compliance uplift
-- social media ban impact
-- consent model change
-- agentic workflow introduction
+### Pass 10 — Norm-first
 
-Measure predicted variance across role groups and machine/system layers.
+How far is the person/team/organisation from expected baseline?
+
+A serious study should survive more than one pass.
+
+A high-value study should produce different useful outputs across many passes.
 
 ---
 
-## 15. Minimum Viable Build
+## 17. Minimum Viable Build
 
 ### MVP User Journey
 
@@ -899,6 +1027,7 @@ Measure predicted variance across role groups and machine/system layers.
 ### MVP Tables
 
 - `research_study_object`
+- `cube_view_definition`
 - `human_profile_archetype`
 - `technology_profile`
 - `machine_system_profile`
@@ -911,7 +1040,7 @@ Measure predicted variance across role groups and machine/system layers.
 
 ---
 
-## 16. Evidence Discipline
+## 18. Evidence Discipline
 
 Every prediction must carry evidence status.
 
@@ -926,7 +1055,7 @@ A new study can be useful at HYPOTHESIS level, but it must not be marketed as RE
 
 ---
 
-## 17. Business Alignment
+## 19. Business Alignment
 
 This simulator supports multiple businesses and research programs.
 
@@ -946,21 +1075,22 @@ This is not a single-brand feature. It is a shared research and product primitiv
 
 ---
 
-## 18. Build Priority
+## 20. Build Priority
 
-1. Codify the schema.
-2. Build the calculator first.
-3. Add study ingestion.
-4. Add role-group organisational simulator.
-5. Add machine/system impact layer.
-6. Add digital cube UI.
-7. Add evidence and outcome logging.
-8. Add adaptive norm calibration.
-9. Add cross-study research graph.
+1. Codify schema.
+2. Seed cube view definitions.
+3. Build calculator first.
+4. Add study ingestion.
+5. Add role-group organisational simulator.
+6. Add machine/system impact layer.
+7. Add digital cube UI.
+8. Add evidence and outcome logging.
+9. Add adaptive norm calibration.
+10. Add cross-study research graph.
 
 ---
 
-## 19. Definition of Done
+## 21. Definition of Done
 
 The simulator is not done until:
 
@@ -968,19 +1098,20 @@ The simulator is not done until:
 - organisation can establish a norm
 - new study can be ingested
 - study can be mapped to roles, machines, variables, contexts, and businesses
+- multiple 10×10×10 views can be generated
 - scenario can be run across role groups
 - machine/system impacts can be shown
 - prediction generates scored impact and confidence
 - result links to evidence or hypothesis status
 - observation can be captured after rollout
 - norm can update from actual results
-- reports can be generated for user, manager, executive, and research team
+- reports can be generated for user, manager, executive, machine/system owner, and research team
 
 ---
 
-## 20. Reality Ledger
+## 22. Reality Ledger
 
-**Task:** Codify the calculator / simulator / neurodiverse Rubik's Cube / cross-study ingestion model.
+**Task:** Re-rack the calculator / simulator / neurodiverse Rubik's Cube / cross-study ingestion model from the top and add multi-view 10×10×10 passes.
 
 **Status:** PARTIAL until executable system exists.
 
@@ -994,5 +1125,6 @@ The simulator is not done until:
 - No organisational norm baseline loaded yet.
 - No study ingestion UI yet.
 - No machine/system profile library yet.
+- No cube view registry yet.
 
-**Next action:** Create Supabase schema and MVP calculator prototype with study ingestion support.
+**Next action:** Create Supabase schema and MVP calculator prototype with study ingestion and cube-view support.
