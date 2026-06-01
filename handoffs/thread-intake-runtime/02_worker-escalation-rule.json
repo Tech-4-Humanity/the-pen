@@ -1,6 +1,6 @@
 {
   "task_id": "thread-intake-runtime",
-  "status": "FORCE_REQUEUE",
+  "status": "FORCE_REQUEUE_AND_ROTATE_WORKER",
   "source_files": [
     "handoffs/thread-intake-runtime/00_thread-intake-runtime.md",
     "handoffs/thread-intake-runtime/01_bridge-payload-package.md"
@@ -8,22 +8,42 @@
   "retry_rule": {
     "max_attempts": 3,
     "window_hours": 2,
+    "attempt_spacing_minutes": 40,
+    "same_worker_max_attempts": 1,
     "on_no_receipt": "PASS_TO_NEXT_WORKER",
     "on_worker_failure": "PASS_TO_DIFFERENT_WORKER",
-    "on_duplicate_claim_without_receipt": "MARK_PARTIAL_AND_ESCALATE"
+    "on_duplicate_claim_without_receipt": "MARK_PARTIAL_AND_ESCALATE",
+    "on_timeout_without_started_at": "REQUEUE_UNCLAIMED",
+    "on_timeout_after_started_at": "REQUEUE_AND_QUARANTINE_PREVIOUS_CLAIM",
+    "final_state_after_all_attempts": "BLOCKED_WITH_BOUNDED_REASON"
   },
   "required_receipt": {
     "execution_id": true,
     "worker_id": true,
+    "previous_worker_id": true,
     "attempt_number": true,
     "started_at": true,
     "completed_at": true,
+    "duration_ms": true,
     "ingested_files": true,
     "output_paths": true,
+    "object_graph_path": true,
+    "hitl_queue_path": true,
+    "continuity_ledger_path": true,
     "classification": "REAL_OR_PARTIAL_OR_BLOCKED",
-    "blocker_reason_if_blocked": true
+    "blocker_reason_if_blocked": true,
+    "next_worker_if_not_real": true
   },
-  "worker_instruction": "Do not treat this as passive documentation. Ingest the files, construct the thread entity graph, create HITL queue objects, and emit a receipt. If no receipt after 3 attempts within 2 hours, transfer to a different worker automatically.",
+  "worker_instruction": "Do not treat this as passive documentation. Ingest the files, construct the thread entity graph, create HITL queue objects, emit continuity ledger, and write a receipt. A worker gets one attempt only. If no receipt after the attempt window, rotate to a different worker. After 3 attempts or 2 hours, mark BLOCKED with bounded reason and preserve all partial output paths.",
   "target": "thread -> entity -> continuity -> evidence",
-  "created_for": "force worker pickup and prevent silent stall"
+  "created_for": "force worker pickup, prevent silent stall, and rotate workers after failed or missing receipts",
+  "applies_as_pattern": true,
+  "pattern_scope": [
+    "thread intake",
+    "browser drops",
+    "chat exports",
+    "asset recovery",
+    "bridge handoffs"
+  ],
+  "updated_at": "2026-06-01T00:00:00Z"
 }
