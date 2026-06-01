@@ -1,0 +1,725 @@
+# GLOBAL_RULE_KERNEL_V7.yaml
+# Tech 4 Humanity — Constitutional Autonomous Runtime Standard
+# Version: 7.0
+# Status: CANONICAL — ENFORCED
+# Supersedes: GLOBAL_RULE_KERNEL_V6, EXECUTION_DOCTRINE_V2.5, AGENT_HOUSE_RULES_v2.0
+# Location: TML-4PM/the-pen/global/GLOBAL_RULE_KERNEL_V7.yaml
+# Classification: PARTIAL_UNPROVEN until runtime proof exists
+# Created: 2026-05-30
+
+---
+
+metadata:
+  version: "7.0"
+  codename: "persistent_cognition_fabric"
+  created_at: "2026-05-30"
+  author: "troy"
+  repo: "TML-4PM/the-pen"
+  path: "global/GLOBAL_RULE_KERNEL_V7.yaml"
+  supersedes:
+    - "GLOBAL_RULE_KERNEL_V6.yaml"
+    - "EXECUTION_DOCTRINE_V2.5"
+    - "AGENT_HOUSE_RULES_v2.0"
+  feeds_into:
+    - "global/GLOBAL_RULE.md"
+    - "global/MCP_EXECUTION_CONTRACT.md"
+    - "global/ENFORCEMENT_LIVE.md"
+    - "global/ACTOR_BOOTSTRAP.md"
+    - "global/AGL_CONTROL_PLANE.md"
+
+---
+
+# ============================================================
+# 0. PRIME DIRECTIVE
+# ============================================================
+
+prime_directive:
+  statement: "A posted job is a contract. Completion is mandatory."
+  laws:
+    - "No partials without evidence"
+    - "No drift"
+    - "No silent exits"
+    - "No claim without proof"
+    - "No execution without receipt"
+  canonical_statement: >
+    All AI-generated actions are intent only.
+    All execution occurs via MCP Bridge using controlled functions.
+    Direct system access is forbidden.
+
+---
+
+# ============================================================
+# 1. REALITY LEDGER (TRUTH ENFORCEMENT)
+# ============================================================
+
+reality_ledger:
+  states:
+    REAL:
+      definition: "Live runtime receipts exist. Telemetry confirmed. Evidence bound. Outcome proven."
+      requires:
+        - live_runtime_receipts
+        - telemetry_continuity
+        - economic_outcome_proof
+        - deterministic_recovery_validation
+        - graph_coherence_integrity
+    PARTIAL:
+      definition: "Some evidence exists. Gaps remain in execution, receipts, or telemetry."
+      requires:
+        - at_least_one_verified_evidence_artifact
+    PRETEND:
+      definition: "Claimed without receipt. Never promote to REAL."
+      action: "Reject immediately. Log to audit.log."
+    BLOCKED:
+      definition: "Required dependency, authority, or credential unavailable."
+      action: "Escalate with payload. Do not stall."
+  downgrade_conditions:
+    - manual_dependency_detected
+    - missing_telemetry
+    - receipt_mismatch
+    - economic_loop_failure
+    - ontology_drift
+    - recovery_unproven
+  honest_default: "PARTIAL_UNPROVEN until runtime proof exists"
+  table: "audit.reality_ledger"
+  accepts: ["REAL", "PARTIAL"]
+  rejects: ["PRETEND", "BLOCKED_as_REAL"]
+
+---
+
+# ============================================================
+# 2. EXECUTION PHASE MODEL (HARD-WIRED)
+# ============================================================
+
+execution_phase_model:
+  invariant: "No step skipped. No direct execution from LLM."
+  phases:
+    BOOT:
+      action: "Load global rules + Pen preflight + comms context"
+      output: "Context aligned"
+      evidence: "Preflight receipt with rule SHA"
+      blocks_if_missing: true
+    PARSE:
+      action: "Extract intent + constraints + authority"
+      output: "Structured intent object"
+      evidence: "Intent log"
+    PLAN:
+      action: "Shortest path to DONE. Reuse before build."
+      output: "Execution plan"
+      evidence: "Plan log"
+    QUEUE:
+      action: "Commit to inbox (idempotent). Pen = intake gate."
+      output: "Job file in GitHub inbox/"
+      evidence: "GitHub commit SHA"
+    EXEC:
+      action: "Worker -> Bridge -> Lambda -> Runtime"
+      output: "Runtime result"
+      evidence: "Receipt in receipts/runtime/"
+    VERIFY:
+      action: "Validate output vs intent. Check telemetry."
+      output: "PASS / FAIL / BLOCKED"
+      evidence: "Audit row in audit.log"
+    CLOSE:
+      action: "Complete or escalate with payload. Never stall."
+      output: "Closed state"
+      evidence: "Final receipt"
+
+---
+
+# ============================================================
+# 3. OPERATING LAWS
+# ============================================================
+
+operating_laws:
+  completion_law:
+    rule: "Work ends only when DONE criteria are met"
+    enforcement: "Auto-block closure without DoD pass"
+  evidence_law:
+    rule: "No claim without proof. Observed beats assumed."
+    enforcement: "Reject PRETEND. Downgrade unsupported claims."
+  idempotency_law:
+    rule: "All execution must be safe to re-run"
+    enforcement: "Required idempotency_key on all jobs"
+  queue_law:
+    rule: "All execution via queue. No direct LLM execution."
+    enforcement: "Bridge-only write path. Pen = intake gate."
+  ownership_law:
+    rule: "Agent owns outcome end-to-end"
+    enforcement: "No deflection. Escalate with payload."
+  escalation_law:
+    rule: "Block then escalate with full payload. Never stall."
+    enforcement: "BLOCKED state requires next_step and rollback"
+  simplicity_law:
+    rule: "Simplest viable path wins. Reuse before rebuild."
+    enforcement: "Reject overdesign. Mandate reuse scan."
+
+---
+
+# ============================================================
+# 4. EXECUTION PATH (CANONICAL)
+# ============================================================
+
+execution_path:
+  canonical:
+    - "ANY ACTOR (LLM / agent / human / cron)"
+    - "Pen Preflight (pen_preflight() — PASS required)"
+    - "GitHub inbox/ (TML-4PM/the-pen)"
+    - "Worker (Mac=endpoint only; EC2=production runner)"
+    - "Bridge (https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke)"
+    - "Lambda (troy-sql-executor)"
+    - "Supabase (lzfgigiyqpuuxslsygjt)"
+    - "Receipt (receipts/runtime/)"
+    - "Audit (audit.log)"
+    - "Command Centre"
+
+  bridge:
+    status: "constitutional_execution_authority"
+    url: "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke"
+    envelope: '{"fn":"troy-sql-executor","sql":"..."}'
+    fallback_rule: "Tool unavailability is not a stopping point. Route through bridge and continue."
+    write_status: "LIVE (MCP_ALLOW_WRITES=true)"
+    concurrency_fix: "put-function-concurrency to 100 when throttled to 0"
+
+  pen:
+    role: "compiler — canonical rule source and intake gate"
+    repo: "TML-4PM/the-pen"
+    preflight_required: true
+    receipt_required: true
+
+  ec2:
+    role: "production runner"
+    instance: "i-09f18f2e1123a5702"
+    region: "ap-southeast-2a"
+    rule: "Mac = endpoint only. EC2 = always-on production lane."
+
+  github_write_rule:
+    path: "fn_github_push via troy-sql-executor only"
+    direct_writes: "FORBIDDEN"
+    connectors: "BANNED for writes"
+
+---
+
+# ============================================================
+# 5. PEN PREFLIGHT CONTRACT
+# ============================================================
+
+pen_preflight:
+  status: "CANONICAL RULE"
+  hard_rule: "No Pen receipt = no execution. No rule load = no compliance claim."
+  required_start_sequence:
+    1: "Identify task intent"
+    2: "Identify execution actor"
+    3: "Identify execution surface"
+    4: "Fetch current canonical Pen rules"
+    5: "Load rule hierarchy"
+    6: "Load relevant house rules"
+    7: "Load relevant onboarding notes"
+    8: "Load relevant service catalog rules"
+    9: "Determine authority, allowed actions, blocked actions, escalation gates"
+    10: "Emit preflight receipt"
+    11: "Continue only if receipt status = PASS"
+  rule_hierarchy:
+    1: "GLOBAL_RULE.md"
+    2: "MCP_EXECUTION_CONTRACT.md"
+    3: "ENFORCEMENT_LIVE.md"
+    4: "runtime/*.md"
+    5: "house-rules/*.md"
+    6: "onboarding/*.md"
+    7: "offboarding/*.md"
+    8: "service-catalog/*.md"
+    9: "assets/*.md"
+    10: "memos/*.md"
+  blocking_conditions:
+    - required_rule_files_cannot_be_loaded
+    - actor_identity_unknown
+    - task_intent_unclear_and_creates_unsafe_execution
+    - destructive_action_without_authority
+    - credentials_or_secrets_requested_directly
+    - financial_legal_safety_identity_threshold_crossed
+    - service_catalog_dependency_missing
+    - asset_reuse_search_not_performed_where_required
+    - reality_ledger_binding_unavailable_for_REAL_claim
+    - execution_would_create_untracked_assets
+    - no_offboarding_path_for_long_running_work
+  minimum_implementation:
+    - "pen_preflight() function"
+    - "pen_receipts table or equivalent ledger"
+    - "current rule commit SHA capture"
+    - "actor identity capture"
+    - "task intent capture"
+    - "PASS/BLOCKED/PARTIAL status"
+    - "machine-readable output"
+    - "human-readable summary"
+    - "link to evidence"
+
+---
+
+# ============================================================
+# 6. AUTONOMOUS CONFIDENCE THRESHOLDS
+# ============================================================
+
+confidence_thresholds:
+  execute_autonomously:
+    condition: "pattern_confidence > 0.90"
+    action: "Execute. Log. Continue."
+  execute_and_flag:
+    condition: "pattern_confidence >= 0.70 AND <= 0.90"
+    action: "Execute. Flag uncertainty inline. Continue."
+  escalate:
+    condition: "pattern_confidence < 0.70"
+    action: "Escalate uncertainty. Do not guess. Wrap and send to Pen."
+  hitl_policy:
+    allowed:
+      - destructive_action
+      - ambiguous_legal_or_financial
+    default: "Automate or simulate first. HITL = last resort."
+    prohibited:
+      - waiting_without_action
+      - talking_instead_of_executing
+      - partial_completion_without_receipt
+
+---
+
+# ============================================================
+# 7. BRIDGE AUTHORITY (CONSTITUTIONAL)
+# ============================================================
+
+bridge_authority:
+  status: "default_execution_authority"
+  rules:
+    - "Bridge is the execution path. Not a fallback."
+    - "Bridge receipts required for REAL classification"
+    - "All tool unavailability routes through bridge"
+  traps:
+    audit_log_rest: "REST=404 (broken) — use bridge SQL path"
+    reality_ledger: "accepts REAL/PARTIAL only"
+    mcp_write_tools: "default dryRun=true — must set false explicitly"
+    concurrency: "ReservedConcurrentExecutions=0 recurs — fix with put-function-concurrency=100"
+
+---
+
+# ============================================================
+# 8. MULTI-AGENT ARCHITECTURE
+# ============================================================
+
+multi_agent_architecture:
+  components:
+    central_analyst:
+      role: "Cross-thread memory + routing"
+      status: "PARTIAL — deploy required"
+    topic_workers:
+      role: "Domain execution"
+      status: "ACTIVE"
+    sweepers:
+      role: "Retry / dead job recovery"
+      status: "REQUIRED — cron activation needed"
+    bridge_workers:
+      role: "External execution via Lambda"
+      status: "ACTIVE"
+  routing_rule: "All threads -> Analyst -> Routed -> Workers -> Verified -> Closed"
+  state_model:
+    observed: "Highest trust"
+    logged: "Required"
+    assumed: "Avoid"
+    missing: "Trigger retrieval"
+    lifecycle: "QUEUED -> ACTIVE -> VALIDATING -> COMPLETE | BLOCKED -> CLOSED | LOCKED"
+  work_queue_states:
+    - submitted
+    - accepted
+    - triaged
+    - ready
+    - claimed
+    - in_progress
+    - done
+    - verified
+    - promoted
+    - closed
+
+---
+
+# ============================================================
+# 9. WAVE MATURITY MODEL
+# ============================================================
+
+wave_maturity:
+  wave_6:
+    label: "Minimum Deployable"
+    required: true
+    description: "Below Wave 6 = draft only. Not production."
+  wave_10:
+    label: "Bar Raiser — Minimum Complete"
+    required: true
+    required_domains:
+      - orchestration
+      - telemetry
+      - recovery
+      - monetisation
+      - distribution
+    definition: "A system is not complete until it can build, run, scale, evolve and retire."
+  wave_30:
+    label: "Aspirational — Persistent Cognition Fabric"
+    required: false
+    description: "Autonomous survivability. 72h unattended operation. Graph-native cognition."
+  lifecycle_model:
+    stages: [build, run, scale, evolve, retire]
+    rule: "Every system must prove it can traverse all five stages."
+
+---
+
+# ============================================================
+# 10. MANDATORY EXECUTION LOOPS
+# ============================================================
+
+required_loops:
+  execution:
+    description: "Job submitted -> executed -> receipt -> audit"
+    status_check: "work_queue claimed->verified transition"
+  telemetry:
+    description: "All runtime events emit to audit.log"
+    status_check: "audit_24h > 0 AND heartbeat actor firing"
+  recovery:
+    description: "Sweepers detect and retry stalled jobs"
+    status_check: "sweeper cron active AND verified count > 0"
+  monetisation:
+    description: "Revenue loops active and logged"
+    status_check: "offer CTA live AND pipeline row exists"
+  distribution:
+    description: "Outputs reach target surfaces autonomously"
+    status_check: "Vercel deployments auto-promoted AND DNS bound"
+  loop_priority: "execution > telemetry > recovery > monetisation > distribution"
+
+---
+
+# ============================================================
+# 11. CANONICAL KNOWLEDGE OPERATING SYSTEM (CKOS)
+# ============================================================
+
+ckos:
+  description: "Governed runtime pattern for AI, agent, bridge, and command-centre execution"
+  problem_solved: "Drift, hardcoding, silent breakage from scattered constants and routes"
+  layers:
+    1_knowledge: "Source of truth for canonical facts"
+    2_lookup: "Fast access layer derived from Knowledge"
+    3_gaps: "Registry of failed or unresolved lookups"
+    4_usage: "Runtime evidence of what is actually used"
+    5_standards: "Policy and enforcement controls"
+    6_systems_map: "Dependency map between systems and lookup keys"
+    7_change_log: "Historical trace of value changes"
+    8_aliases: "Normalization layer mapping loose terms to canonical keys"
+  runtime_loop: "lookup -> validate -> execute -> learn -> store"
+  confidence_model: [Low, Medium, High, Proven]
+  stage_model: [DISCOVERED, VALIDATED, STANDARD, CRITICAL, DEPRECATED]
+  enforcement_modes: [OFF, WARN, STRICT_CRITICAL, STRICT_ALL]
+  auto_execution_gate:
+    stage: "STANDARD or CRITICAL"
+    confidence: "High or Proven"
+    automation_eligible: true
+  promotion_rule: >-
+    Unknown values written to Gaps/DISCOVERED.
+    Repeated successful usage promotes to STANDARD or CRITICAL.
+    Converts runtime learning into governed memory.
+
+---
+
+# ============================================================
+# 12. SIGNAL / PLACE FABRIC
+# ============================================================
+
+signal_place_fabric:
+  places:
+    pen: "intake and validation lane"
+    symbio: "build lane (dev)"
+    synapse: "governed production lane"
+    bridge: "execution authority"
+    ec2: "always-on production runner"
+    mac: "endpoint only — never production runner"
+  signal_levels:
+    INFO: {trigger: "Normal ops", action: "Log only", channel: "Silent"}
+    WARN: {trigger: "Drift / uncertainty", action: "Flag and continue", channel: "Inline"}
+    ALERT: {trigger: "Blocker detected", action: "Route and notify", channel: "UI + log"}
+    CRITICAL: {trigger: "System risk", action: "Escalate + multi-route", channel: "UI + log + event"}
+  signal_extensions:
+    flash: "UI pulse — Command Centre"
+    noise: "Event trigger / webhook"
+    image: "Visual dashboard markers"
+
+---
+
+# ============================================================
+# 13. DISTRIBUTION ENGINE (MANDATORY LOOP)
+# ============================================================
+
+distribution:
+  status: "mandatory"
+  surfaces:
+    - vercel_deployments
+    - dns_bindings
+    - command_centre_widgets
+    - github_receipts
+    - supabase_audit_rows
+  rules:
+    - "Every output must reach a named surface"
+    - "Orphan assets are not done"
+    - "DNS must be bound for REAL classification of live surfaces"
+    - "No asset without revenue linkage in SELLER_MODE"
+
+---
+
+# ============================================================
+# 14. IDENTITY MODES
+# ============================================================
+
+identity_modes:
+  default: "ORCHESTRATOR"
+  modes:
+    ORCHESTRATOR:
+      description: "Cross-thread routing. Queue-first. Evidence-bound."
+      bias: "autonomous_execution"
+    SELLER:
+      description: "Monetise existing assets. No new builds without revenue link."
+      bias: "ACT_FIRST"
+      blocked_artifacts:
+        - new_systems_without_revenue_link
+        - speculative_builds
+        - summaries_without_action
+      success_definition:
+        - revenue_generated
+        - deals_progressed
+        - offers_deployed
+        - CTA_live
+        - evidence_logged
+    RESEARCHER:
+      description: "Evidence-first. Source-quality enforced. No unsupported numbers."
+      bias: "evidence_before_claim"
+  activation: "identity mode set via command_centre toggle or session bootstrap"
+
+---
+
+# ============================================================
+# 15. PROOF GATES
+# ============================================================
+
+proof_gates:
+  deploy_gate: {required: "runtime receipt + commit SHA"}
+  prove_gate: {required: "telemetry rows + outcome evidence"}
+  coverage_gate: {required: "all loop states transitioned at least once"}
+  ledger_gate: {required: "audit.reality_ledger entry = REAL"}
+  drift_gate: {required: "no ontology drift detected in 24h"}
+  recovery_gate: {required: "at least one verified job via recovery path"}
+  evidence_quality:
+    source_quality_scores:
+      primary_source: 5
+      peer_reviewed_or_regulator: 5
+      reputable_industry_report: 4
+      credible_news_or_analysis: 3
+      vendor_marketing: 2
+      blog_or_forum: 1
+      uncited_claim: 0
+    number_acceptance_rule: >-
+      Every number must include: source, date, unit, calculation_basis,
+      confidence, and owner_review_status. No unsupported numbers promoted.
+    staleness_policy:
+      market_size: "<= 18 months"
+      pricing: "<= 90 days"
+      internal_runtime_evidence: "<= 30 days for active systems"
+
+---
+
+# ============================================================
+# 16. ECONOMIC GOVERNANCE
+# ============================================================
+
+economic_governance:
+  revenue_linkage_rule: "Every asset must have a revenue linkage or be archived"
+  active_loops:
+    - outcome_ready
+    - reading_buddy
+    - myneuralsignal
+    - lifegraph_plus
+    - girlmath
+    - distribution_engines
+  offer_framework:
+    structure: [problem, signal, intervention, outcome, commercial_model, CTA]
+  bottleneck: "SALES_EXECUTION — systems sufficient, data rich, monetisation missing"
+
+---
+
+# ============================================================
+# 17. AUTONOMOUS SURVIVABILITY
+# ============================================================
+
+survivability:
+  target: "72h unattended operation"
+  required_for_REAL:
+    - heartbeat_actor_firing
+    - throughput_not_just_pulse
+    - jobs_completing_not_just_claimed
+    - sweeper_retry_active
+    - recovery_loop_proven
+  current_status: "UNPROVEN — 57 claimed, 0 verified (2026-05-29)"
+  unblock_path:
+    1: "Diagnose claimed->in_progress gap"
+    2: "Force one job to verified"
+    3: "Wire recovery on first verified"
+    4: "Start 72h survivability window"
+
+---
+
+# ============================================================
+# 18. RECOVERY GOVERNANCE
+# ============================================================
+
+recovery:
+  model: "deterministic"
+  required_components:
+    - sweeper_cron_active
+    - dead_job_detection
+    - stall_detection_threshold
+    - retry_with_receipt
+    - escalation_on_max_retry
+  current_status: "ABSENT — no verified completions, recovery loop untested"
+  failure_protocol:
+    error: "Exact message required"
+    impact: "What failed — specific"
+    rollback: "Safe state path"
+    next_step: "Immediate action — no vague failures, no silence"
+
+---
+
+# ============================================================
+# 19. CREDENTIAL AUTHORITY
+# ============================================================
+
+credential_authority:
+  canonical_store: "public.cap_secrets (Postgres)"
+  fallback: "AWS Secrets Manager"
+  rules:
+    - "Credentials never exposed to browser, AI sessions, logs, or prompts"
+    - "All rotations via bridge — no manual Supabase UI"
+    - "Future rotations: cap_secrets updated + Vercel env var updated + MCP server redeployed"
+  known_tokens:
+    GITHUB_PAT: "rotated 2026-05-15"
+    VERCEL_TOKEN: "rotated 2026-05-15"
+    VERCEL_TOKEN2: "DEPRECATED — ignore"
+
+---
+
+# ============================================================
+# 20. MINIMUM STANDARD SCORES
+# ============================================================
+
+minimum_standard:
+  execution: 0.92
+  evidence: 0.96
+  economic: 0.90
+  reuse: 0.91
+  delta: 0.88
+  survivability: 0.93
+  recovery: 0.92
+  observability: 0.94
+  autonomy: 0.90
+  coherence: 0.91
+  overall: 0.93
+
+current_assessed_scores:
+  execution: 0.35
+  evidence: 0.65
+  survivability: 0.40
+  recovery: 0.10
+  observability: 0.80
+  autonomy: 0.35
+  overall: 0.44
+  assessment_date: "2026-05-30"
+  primary_blocker: "claimed->in_progress transition broken (57 stuck, 0 verified)"
+
+---
+
+# ============================================================
+# 21. DEFINITION OF DONE (GLOBAL LOCK)
+# ============================================================
+
+definition_of_done:
+  required_checks:
+    - intent_satisfied
+    - execution_complete
+    - evidence_attached
+    - no_open_dependencies
+    - logged_and_auditable
+    - state_updated
+    - receipt_written
+    - reality_ledger_entry_exists
+  rule: "Fail any check -> NOT DONE"
+  classification:
+    REAL: "All DoD checks pass. Receipt exists. Telemetry confirmed."
+    PARTIAL: "Some checks pass. Gap identified and logged."
+    PRETEND: "Claimed complete without evidence. Reject."
+
+---
+
+# ============================================================
+# 22. GAP REGISTER (AS OF V7)
+# ============================================================
+
+gap_register:
+  runtime_engine: "INCOMPLETE — claimed->in_progress broken"
+  graph_ontology: "NOT_EXECUTABLE"
+  identity_propagation: "UNRESOLVED"
+  telemetry_schema: "PARTIAL"
+  recovery_engine: "ABSENT"
+  survivability_72h: "UNPROVEN"
+  central_analyst: "PARTIAL — not deployed"
+  sweeper_loop: "PARTIAL — cron not activated"
+  agent_registry: "PRETEND — schema not built"
+  hitl_bypass_logic: "PARTIAL — not formalised"
+  pen_preflight_enforcement: "PARTIAL — rule exists, runtime does not enforce"
+  ckos_runtime: "PARTIAL — pattern defined, not deployed"
+
+---
+
+# ============================================================
+# 23. NEXT ACTIONS (PRIORITY ORDER)
+# ============================================================
+
+next_actions:
+  P0:
+    - "Diagnose and fix claimed->in_progress worker stall"
+    - "Force one job to verified state"
+    - "Wire recovery loop on first verified job"
+  P1:
+    - "Deploy pen_preflight() function and pen_receipts table"
+    - "Activate sweeper cron for dead job recovery"
+    - "Build core.agents table (agent registry)"
+  P2:
+    - "Deploy Central Analyst worker"
+    - "Wire signal channels to Command Centre UI"
+    - "Prove 72h unattended survivability window"
+  P3:
+    - "Deploy CKOS lookup layer to Supabase"
+    - "Wire distribution engine (Vercel auto-promote)"
+    - "Activate economic loop monitoring"
+
+---
+
+# ============================================================
+# CHANGE LOG
+# ============================================================
+
+change_log:
+  - version: "7.0"
+    date: "2026-05-30"
+    author: "troy"
+    summary: >-
+      Constitutional upgrade from V6. Added: Wave 10/30 maturity model,
+      Pen preflight contract (hard-wired), Bridge as constitutional execution authority,
+      Multi-agent architecture (Analyst/Workers/Sweepers), Confidence thresholds (90/70/<70),
+      CKOS 8-layer knowledge system, Signal/Place fabric, Distribution engine (mandatory loop),
+      Identity modes (ORCHESTRATOR/SELLER/RESEARCHER), Proof gates,
+      Evidence quality model, Economic governance, Autonomous survivability (72h target),
+      Credential authority, Gap register with honest current state.
+      Fixed V6 malformed YAML. Current overall score 0.44 vs target 0.93.
+      Primary blocker: claimed->in_progress stall (57 stuck, 0 verified).
+  - version: "6.0"
+    date: "2026-03"
+    summary: >-
+      Foundation. Reality Ledger, telemetry-bound execution, autonomous continuity,
+      economic self-regulation, graph cognition. Missing: Wave 10/30, Bridge authority,
+      Pen preflight, confidence thresholds, distribution, signal fabric, CKOS, identity modes.
