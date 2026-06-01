@@ -1,10 +1,10 @@
 # Human × Technology × Context Simulator
 ## Neurodiverse Rubik's Cube / Organisational Norm Engine
 
-**Status:** v1.4 candidate  
+**Status:** v1.5 candidate  
 **Date:** 2026-06-02  
 **Owner:** TML-4PM / Tech 4 Humanity  
-**Purpose:** Codify the user-facing calculator, simulator, Rubik's Cube interaction model, study-ingestion engine, multi-view 10×10×10 reasoning system, shape hierarchy, and stakeholder-specific model views for predicting how humans, technologies, machines, contexts, research topics, organisations, and governments interact.
+**Purpose:** Codify the user-facing calculator, simulator, Rubik's Cube interaction model, study-ingestion engine, multi-view 10×10×10 reasoning system, shape hierarchy, stakeholder-specific model views, and validation against the 117-row research spine.
 
 ---
 
@@ -20,479 +20,245 @@ This invariant sits under AI Sweet Spots, WorkFamilyAI, ConsentX, HoloOrg, MyNeu
 
 ---
 
-## 2. Shape Hierarchy Decision
+## 2. 117-Row Spine Validation
 
-The cube and dodecahedron are not competing models.
+The model was validated against the 117-row research spine supplied in-session.
 
-They are different objects at different levels of granularity.
+Counts checked:
+
+| Theme | Rows |
+|---|---:|
+| The Performing Human | 7 |
+| The Developing Human | 14 |
+| The Biological Human | 14 |
+| The Governed Human | 24 |
+| The Sovereign Human | 27 |
+| The Economic Human | 15 |
+| The Future Human | 16 |
+| **Total** | **117** |
+
+Validation result: PASS.
+
+Every row can be represented as:
 
 ```
 Theme = shelf/domain
 Subtopic = reusable cube
-Study = dodecahedron when richer evidence/IP/commercial/governance state is required
-Asset = card/node/evidence object
+Study = optional dodecahedron state object
+Asset/evidence = card/node
 ```
 
----
+No row requires a new fundamental shape.
 
-## 3. Stakeholder View Layer
-
-The same underlying research object must render differently for different users.
-
-A person, an organisation, and a government should not see the same interface first.
-
-They should see the shape that matches the decision they are trying to make.
+Some rows require different stakeholder-first views.
 
 ---
 
-## 4. Individual User View
+## 3. Fit By Theme
 
-### Primary shape: Personal Cube
+### 3.1 The Performing Human — 7 rows
 
-The individual user gets a cube because they need something playable, understandable, and personal.
+Fit: strong.
 
-They can model:
+Primary user shape: Personal Cube.
 
-- my role
-- my profile
-- my neurodiversity / cognition / ability profile
-- my technology
-- my context
-- my stress / trust / confidence
-- my likely outcome
-- my support need
+Primary research shape: Study Dodecahedron.
 
-### What the user can play with
+Why it fits:
+- all rows model performance variation when humans interact with AI or technology
+- subtopics are natural cubes because they are reusable interaction frames
+- studies underneath can carry dodecahedron state for evidence, hypothesis, metrics, and commercialisation
+
+Example subtopic cube:
+`AI Sweet Spot Curves`
 
 Faces:
-1. Me / Profile
-2. Technology / Tool
-3. Context / Situation
-4. Change / Task
-5. Signal / Feeling / Performance
-6. Outcome / Recommendation
+- Human
+- Technology
+- Context
+- Change
+- Signal
+- Outcome
 
-Example question:
+### 3.2 The Developing Human — 14 rows
 
-> I am a mid-level accountant. My organisation is rolling out AI reconciliation. What happens to me?
+Fit: strong.
 
-The user can rotate:
+Primary user shape: Public Service Cube / Child-Parent Cube.
 
-- role level
-- trust level
-- cognitive profile
-- technology type
-- workload pressure
-- support quality
+Primary government shape: Policy Dodecahedron.
 
-Outputs:
+Why it fits:
+- rows model children, platforms, parents, schools, and regulators
+- policy and rights issues require dodecahedron views
+- user-facing exploration still works as a cube
 
-- likely benefit
-- likely risk
-- sweet spot / black spot risk
-- training need
-- best working mode
-- what to ask manager
-- what to monitor
+Example subtopic cube:
+`Passive Tracking Without Accounts`
 
-### Optional advanced shape: Personal Dodecahedron
+Study dodecahedron example:
+`Logged-out child tracking and platform accountability`
 
-Shown only if the person wants deeper explanation.
+### 3.3 The Biological Human — 14 rows
 
-Faces:
-1. My task
-2. My ability
-3. My context
-4. My tool
-5. My trust
-6. My stress
-7. My support
-8. My risk
-9. My learning
-10. My outcome
-11. My next action
-12. My evidence / confidence
+Fit: strong.
 
----
+Primary user shape: Personal Cube.
 
-## 5. Organisation View
+Primary system/research shape: Signal Dodecahedron.
 
-### Primary shape: Organisational Cube Stack
+Why it fits:
+- rows model biological state, signal, technology, and outcome
+- many topics require evidence and ethics state tracking
+- signal quality and biomarker confidence belong in dodecahedron views
 
-An organisation does not get one cube.
+Example subtopic cube:
+`Stress Response Modelling`
 
-It gets a stack of cubes.
+### 3.4 The Governed Human — 24 rows
 
-Each cube represents a subtopic, scenario, role group, or business activity.
+Fit: strong.
 
-The organisation can model:
+Primary government shape: Policy Dodecahedron.
 
-- role impact
-- team impact
-- function impact
-- adoption
-- resistance
-- productivity
-- risk
-- training need
-- governance load
-- machine/system impact
-- cost and benefit
+Primary product shape: Consent / Governance Cube.
 
-### What the organisation can play with
+Why it fits:
+- rows model citizens, institutions, identity, consent, standards, audit, and risk
+- governance topics are often dodecahedron-first because multiple perspectives must be held at once
+- operational product views still render as cubes
 
-Organisation-level faces:
-1. Role Group
-2. Technology / System
-3. Business Context
-4. Change Scenario
-5. Organisational Signal
-6. Outcome / Intervention
+Example subtopic cube:
+`Dynamic Consent Models`
 
-Example question:
+Study dodecahedron example:
+`Consent fatigue and revocation mechanics across jurisdictions`
 
-> What happens if we roll out an AI copilot across finance, HR, and operations?
+### 3.5 The Sovereign Human — 27 rows
 
-The organisation can rotate:
+Fit: strong but broad.
 
-- department
-- role level
-- technology autonomy
-- training support
-- policy strictness
-- rollout speed
-- trust culture
-- change fatigue
-- neurodiversity support
-- governance controls
+Primary shape: Public System Cube Stack plus Policy Dodecahedron.
 
-Outputs:
+Why it fits:
+- this is the broadest and most public-facing theme
+- rows cover communities, public systems, drugs, mental health, inclusion, public service friction, and trust
+- several rows could become whole subprograms but still fit the shelf/cube/dodecahedron hierarchy
 
-- heat map by role group
-- adoption curve
-- resistance map
-- training burden
-- risk register
-- champion map
-- machine/system impact
-- intervention sequence
-- evidence confidence
-- post-rollout measurement plan
+Example subtopic cube:
+`AI Sludge in Public Systems`
 
-### Organisation advanced shape: Portfolio Dodecahedron
+Study dodecahedron example:
+`Digital queue reduction and trust restoration in welfare systems`
 
-Used by executives, product owners, researchers, and audit teams.
+### 3.6 The Economic Human — 15 rows
 
-Faces:
-1. Problem
-2. Hypothesis
-3. Experiment / Scenario
-4. Affected Population
-5. Technology / Machine
-6. Context / Business Unit
-7. Evidence
-8. Signal
-9. Risk / Ethics
-10. IP / Novelty
-11. Productisation / Asset
-12. Commercialisation / Impact
+Fit: strong.
 
-This lets the organisation ask:
+Primary organisation shape: Organisational Cube Stack.
 
-- Is this evidence strong enough?
-- Is this commercially useful?
-- Is this safe enough?
-- Which assets are missing?
-- Which business unit benefits?
-- Which product does this support?
+Primary executive shape: Portfolio Dodecahedron.
+
+Why it fits:
+- rows model workforce, labour markets, agents, teams, organisational augmentation, certification, and governance
+- ideal for 10-role executive impact passes
+- HoloOrg and WorkFamilyAI naturally use cube stacks
+
+Example subtopic cube:
+`Human-AI Collaboration Models`
+
+### 3.7 The Future Human — 16 rows
+
+Fit: strong but requires advanced dodecahedron views.
+
+Primary shape: Future / Simulation Dodecahedron.
+
+Secondary shape: Machine Feedback Cube.
+
+Why it fits:
+- rows model emerging human capability, signal authenticity, neural drift, feedback loops, simulation, and multi-agent testing
+- these are not simple user calculators first
+- they need research, safety, simulation, evidence, and governance state tracking
+
+Example subtopic cube:
+`Intent Validation Models`
+
+Study dodecahedron example:
+`Real-time signal verification and neural drift monitoring`
 
 ---
 
-## 6. Government / Regulator View
+## 4. Key Validation Conclusion
 
-### Primary shape: Policy Dodecahedron
+The 117 rows do not need 117 bespoke shapes.
 
-Government needs the dodecahedron first because public policy requires multi-perspective governance.
+They need 117 reusable subtopic cubes, grouped under 7 theme shelves, with studies beneath them optionally represented as dodecahedrons.
 
-Government can model:
+The hierarchy holds:
 
-- population impact
-- equity impact
-- child / citizen / patient impact
-- institutional accountability
-- platform or market behaviour
-- compliance gaps
-- unintended consequences
-- surveillance risk
-- service access
-- public trust
-- policy lag
-- enforcement feasibility
+```
+7 Theme Shelves
+117 Subtopic Cubes
+N Study Dodecahedrons
+N Asset / Evidence Cards
+```
 
-### What government can play with
-
-Policy dodecahedron faces:
-1. Public Problem
-2. Policy Hypothesis
-3. Population / Cohort
-4. Platform / Technology / Institution
-5. Context / Jurisdiction
-6. Evidence
-7. Compliance / Enforcement
-8. Equity / Inclusion
-9. Risk / Harm
-10. Consent / Rights
-11. Public Trust
-12. Intervention / Policy Outcome
-
-Example question:
-
-> What happens if social media restrictions reduce account access but not passive tracking?
-
-Government can rotate:
-
-- age group
-- platform type
-- enforcement model
-- data retention rules
-- consent model
-- school involvement
-- parental burden
-- migration pathway
-- jurisdiction
-- audit standard
-
-Outputs:
-
-- affected population map
-- compliance gap map
-- unintended consequence map
-- vulnerable cohort impact
-- platform accountability score
-- policy gap score
-- enforcement feasibility
-- evidence confidence
-- recommended policy intervention
-
-### Government secondary shape: Public Service Cube
-
-Used for a specific public service interaction.
-
-Faces:
-1. Citizen / Cohort
-2. Service / System
-3. Context / Jurisdiction
-4. Policy Change
-5. Signal / Friction
-6. Outcome / Trust
-
-Example:
-
-> How does AI sludge in public systems affect pensioners, migrants, neurodivergent users, and small businesses?
+This is scalable to 150+ subtopics without redesign.
 
 ---
 
-## 7. Researcher View
+## 5. Stakeholder View Fit
 
-### Primary shape: Study Dodecahedron
+The 117 rows also fit the stakeholder view model.
 
-Researchers need to see the study state.
+| Stakeholder | Shape | Applies to rows |
+|---|---|---|
+| Individual | Personal Cube | Performing, Biological, Sovereign, Economic |
+| Manager | Team Cube | Performing, Economic, Sovereign |
+| Organisation | Cube Stack + Portfolio Dodecahedron | Economic, Performing, Governed |
+| Government | Policy Dodecahedron + Public Service Cube | Developing, Governed, Sovereign |
+| Researcher | Study Dodecahedron | All 117 |
+| Machine/System Owner | Machine Feedback Cube | Biological, Governed, Future, Economic |
 
-Faces:
-1. Problem
-2. Hypothesis
-3. Experiment
-4. Population
-5. Technology / Machine
-6. Context
-7. Evidence
-8. Signal
-9. Risk / Ethics
-10. IP / Novelty
-11. Productisation / Asset
-12. Commercialisation / Impact
-
-Researchers can model:
-
-- whether the hypothesis is strong
-- whether evidence exists
-- whether the population is defined
-- whether the experiment is valid
-- whether the risk is acceptable
-- whether the IP is novel
-- whether the study can become a product
+No theme is orphaned.
 
 ---
 
-## 8. Machine / System Owner View
+## 6. Complexity Rule
 
-### Primary shape: Machine Feedback Cube
+Do not show all 117 cubes to normal users.
 
-Machine/system owners need to understand how people affect the system and how the system affects people.
+Users enter through:
 
-Faces:
-1. Human Input
-2. Machine State
-3. Context
-4. Feedback Loop
-5. Failure Mode
-6. System Outcome
+```
+Who am I?
+What technology/system/change am I dealing with?
+What context am I in?
+What happens next?
+```
 
-They can model:
+Researchers and administrators see the 117-row spine.
 
-- whether the machine is learning from the right signals
-- whether the machine amplifies dominant user groups
-- whether the interface excludes some users
-- whether autonomy should increase or decrease
-- whether human override is needed
-- whether explainability is sufficient
+Executives see cube stacks and scorecards.
 
-Example:
-
-> Does an AI copilot trained mostly on confident users become worse for cautious or neurodivergent users?
+Governments see policy dodecahedrons.
 
 ---
 
-## 9. What Each Stakeholder Gets
+## 7. Reality Ledger
 
-| Stakeholder | First Shape | What they model | What they play with |
-|---|---|---|---|
-| Individual user | Personal Cube | personal fit, support, risk, outcome | role, profile, tool, context, pressure |
-| Manager | Team Cube | team adoption, training, risk | role groups, support, workload, rollout speed |
-| Executive / Organisation | Cube Stack + Portfolio Dodecahedron | enterprise impact, economics, governance | functions, scenarios, systems, interventions |
-| Government / Regulator | Policy Dodecahedron | population, rights, compliance, unintended consequences | policy levers, cohorts, enforcement, platforms |
-| Researcher | Study Dodecahedron | hypothesis, evidence, novelty, maturity | experiment, population, signal, evidence |
-| Machine/System Owner | Machine Feedback Cube | system behaviour, feedback, failure modes | autonomy, interface, signal, override, telemetry |
+**Task:** Validate the cube/dodecahedron/stakeholder-view model against the 117-row research spine.
 
----
+**Result:** PASS. All 117 rows fit.
 
-## 10. Shape Selection Rules
+**Status:** REAL for validation document update. PARTIAL for executable simulator.
 
-Use a cube when:
+**Evidence:** Row count checked: 117 total across 7 themes. This validation committed to GitHub.
 
-- the user needs to interact
-- the situation is personal or operational
-- variables need to be rotated
-- the output is action-oriented
-- the complexity must be approachable
+**Gaps:**
+- The 117 rows are not yet loaded as executable subtopic cube records.
+- No live UI route exists.
+- No shape registry exists in Supabase yet.
+- No study dodecahedron instances exist yet.
 
-Use a dodecahedron when:
-
-- multiple perspectives must be held at once
-- public policy, audit, evidence, IP, or governance matters
-- the object needs maturity tracking
-- risk and unintended consequences matter
-
-Use a cube stack when:
-
-- an organisation needs to compare many teams, roles, or scenarios
-- one cube is not enough but the interface still needs to stay understandable
-
-Use cards/nodes when:
-
-- attaching assets, datasets, products, prices, evidence, or repository links
-
----
-
-## 11. Practical Examples
-
-### Individual user example
-
-Question:
-
-> I am a neurodivergent accountant. My organisation is adopting AI reporting tools. What happens to me?
-
-Shape:
-
-Personal Cube.
-
-Output:
-
-- likely productivity uplift
-- overload risk
-- best support pattern
-- questions to ask employer
-- what to monitor
-
-### Organisation example
-
-Question:
-
-> What happens if we roll out AI assistants across finance, HR, operations, and customer service?
-
-Shape:
-
-Organisational Cube Stack.
-
-Output:
-
-- role heat map
-- risk map
-- support requirements
-- adoption sequence
-- expected variance from norm
-
-### Government example
-
-Question:
-
-> What happens if a child protection policy blocks accounts but not passive tracking?
-
-Shape:
-
-Policy Dodecahedron.
-
-Output:
-
-- compliance gap
-- child impact
-- parent burden
-- platform loopholes
-- equity effects
-- policy intervention
-
-### Researcher example
-
-Question:
-
-> Is Consent Fatigue Modelling ready to become an applied study?
-
-Shape:
-
-Study Dodecahedron.
-
-Output:
-
-- evidence status
-- missing experiment
-- affected cohorts
-- IP opportunity
-- commercial path
-
----
-
-## 12. Definition of Done
-
-The simulator is not done until:
-
-- every stakeholder gets the right first shape
-- every subtopic can instantiate a cube
-- every study can optionally instantiate a dodecahedron
-- every organisation can generate cube stacks
-- every government/policy use case can generate a policy dodecahedron
-- every shape links to evidence, signals, roles, machine impacts, variables, and outcomes
-- users can play simply while researchers and governments can inspect deeply
-
----
-
-## 13. Reality Ledger
-
-**Task:** Define what users, organisations, governments, researchers, and system owners can see, model, and play with.
-
-**Decision:** Individuals get Personal Cubes. Organisations get Cube Stacks plus Portfolio Dodecahedrons. Governments get Policy Dodecahedrons plus Public Service Cubes. Researchers get Study Dodecahedrons. Machine/system owners get Machine Feedback Cubes.
-
-**Status:** PARTIAL until implemented in UI/schema.
-
-**Evidence:** This specification committed to GitHub.
-
-**Next action:** Implement stakeholder view routing and shape templates.
+**Next action:** Create schema and seed 117 subtopic cube records.
