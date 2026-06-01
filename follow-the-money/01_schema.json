@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.com.au/schemas/follow-the-money.issue.v1.json",
+  "title": "Follow The Money Issue",
+  "type": "object",
+  "required": ["issue", "teams", "evidence", "outputs", "reality_ledger"],
+  "properties": {
+    "issue": {
+      "type": "object",
+      "required": ["id", "title", "country", "date", "category", "headline", "status"],
+      "properties": {
+        "id": {"type": "string"},
+        "title": {"type": "string"},
+        "country": {"type": "string"},
+        "date": {"type": "string", "format": "date"},
+        "category": {"type": "string"},
+        "headline": {"type": "string"},
+        "summary": {"type": "string"},
+        "status": {"enum": ["draft", "review", "published", "archived"]}
+      }
+    },
+    "teams": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "position", "front_jersey", "back_jersey", "confidence"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "position": {"type": "string"},
+          "front_jersey": {
+            "type": "object",
+            "required": ["title", "actors"],
+            "properties": {
+              "title": {"type": "string"},
+              "actors": {"type": "array", "items": {"$ref": "#/$defs/actor_ref"}}
+            }
+          },
+          "back_jersey": {
+            "type": "object",
+            "required": ["title", "affected_groups"],
+            "properties": {
+              "title": {"type": "string"},
+              "affected_groups": {"type": "array", "items": {"$ref": "#/$defs/impact_ref"}}
+            }
+          },
+          "beneficiaries": {"type": "array", "items": {"$ref": "#/$defs/actor_ref"}},
+          "risks": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"enum": ["low", "medium", "high"]}
+        }
+      }
+    },
+    "poll": {
+      "type": "object",
+      "properties": {
+        "question": {"type": "string"},
+        "options": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "poll_type": {"enum": ["yes_no", "values", "tradeoff", "ranking"]}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "donations": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}},
+        "lobbying": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}},
+        "public_statements": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}},
+        "policy_documents": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}},
+        "media_sources": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}}
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "properties": {
+        "sponsor_jersey_png": {"type": "string"},
+        "impact_jersey_png": {"type": "string"},
+        "team_cards": {"type": "array", "items": {"type": "string"}},
+        "archive_url": {"type": "string"},
+        "social_copy": {"type": "string"}
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "reality_ledger": {
+      "type": "object",
+      "required": ["status", "evidence", "gaps", "next_action", "score"],
+      "properties": {
+        "status": {"enum": ["REAL", "PARTIAL", "BLOCKED"]},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "gaps": {"type": "array", "items": {"type": "string"}},
+        "next_action": {"type": "array", "items": {"type": "string"}},
+        "score": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  },
+  "$defs": {
+    "actor_ref": {
+      "type": "object",
+      "required": ["name", "actor_type", "relationship", "confidence"],
+      "properties": {
+        "name": {"type": "string"},
+        "actor_type": {"enum": ["politician", "party", "company", "industry_body", "ngo", "union", "think_tank", "academic", "media", "agency", "community", "other"]},
+        "relationship": {"type": "string"},
+        "confidence": {"enum": ["low", "medium", "high"]},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "impact_ref": {
+      "type": "object",
+      "required": ["group", "impact_type", "relationship", "confidence"],
+      "properties": {
+        "group": {"type": "string"},
+        "impact_type": {"enum": ["cost", "benefit", "risk", "service_load", "rights", "environment", "security", "health", "economic", "social"]},
+        "relationship": {"type": "string"},
+        "confidence": {"enum": ["low", "medium", "high"]},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "evidence_ref": {
+      "type": "object",
+      "required": ["id", "source_type", "title", "url", "retrieved_at", "confidence"],
+      "properties": {
+        "id": {"type": "string"},
+        "source_type": {"enum": ["official_register", "public_filing", "parliament", "media", "research", "court", "procurement", "grant", "other"]},
+        "title": {"type": "string"},
+        "url": {"type": "string"},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "notes": {"type": "string"},
+        "confidence": {"enum": ["low", "medium", "high"]}
+      }
+    }
+  }
+}
