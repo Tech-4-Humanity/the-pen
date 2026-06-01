@@ -1,0 +1,17 @@
+{
+  "artifact":"runtime-contract-fabric",
+  "version":"1.0",
+  "classification":"PARTIAL",
+  "receipt_type":"artifact-publication",
+  "commit_sha":"a9c782e5d3d73a3bd1be771b5b7fa608bfe5a09a",
+  "evidence":[
+    "repository write successful",
+    "versioned artifact created"
+  ],
+  "real_requirements_remaining":[
+    "validator execution",
+    "bridge execution receipt",
+    "runtime telemetry proof",
+    "recovery validation"
+  ]
+}
