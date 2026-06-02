@@ -17,6 +17,10 @@ on:
       - 'scripts/**'
       - 'receipts/runtime/**'
 
+# Explicitly exclude pull_request — this workflow must never run in PR context
+# (secrets withheld, runner allocation fails, 0s failure noise)
+# If triggered via workflow_run from another workflow on a PR, the job-level guard catches it.
+
 permissions:
   contents: write
   issues: write
@@ -28,7 +32,10 @@ concurrency:
 
 jobs:
   detect-and-classify:
-    if: github.event_name != 'pull_request'
+    if: |
+      github.event_name != 'pull_request' &&
+      github.event_name != 'pull_request_target' &&
+      (github.event_name != 'workflow_run' || github.event.workflow_run.event != 'pull_request')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
