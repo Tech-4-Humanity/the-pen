@@ -1,0 +1,69 @@
+{
+  "task_id": "thread-intake-runtime",
+  "status": "EXECUTION_REQUESTED",
+  "request_type": "FORCE_WORKER_PICKUP",
+  "created_at": "2026-06-03T12:00:00+10:00",
+  "priority": "HIGH",
+  "source_files": [
+    "handoffs/thread-intake-runtime/00_thread-intake-runtime.md",
+    "handoffs/thread-intake-runtime/01_bridge-payload-package.md",
+    "handoffs/thread-intake-runtime/02_worker-escalation-rule.json"
+  ],
+  "execution_goal": "Ingest preserved thread package, construct executable object graph, create HITL queue records, emit continuity ledger, and write a worker receipt.",
+  "must_not": [
+    "treat files as passive documentation",
+    "summarise without creating runtime objects",
+    "claim execution without receipt",
+    "stall silently after worker claim"
+  ],
+  "required_outputs": {
+    "object_graph_path": "handoffs/thread-intake-runtime/output/object-graph.json",
+    "hitl_queue_path": "handoffs/thread-intake-runtime/output/hitl-queue.json",
+    "continuity_ledger_path": "handoffs/thread-intake-runtime/output/continuity-ledger.json",
+    "execution_receipt_path": "handoffs/thread-intake-runtime/receipts/latest-worker-receipt.json"
+  },
+  "classification_rules": {
+    "REAL": "All required outputs created and receipt contains execution_id, worker_id, started_at, completed_at, duration_ms, ingested_files, output_paths, and classification.",
+    "PARTIAL": "Some outputs created but receipt or one required output is missing.",
+    "BLOCKED": "No worker authority, missing repo write permission, missing runtime dependency, or three attempts exhausted within two hours. Must include bounded blocker reason."
+  },
+  "retry_and_rotation": {
+    "max_attempts": 3,
+    "window_hours": 2,
+    "attempt_spacing_minutes": 40,
+    "same_worker_max_attempts": 1,
+    "on_no_receipt": "PASS_TO_NEXT_WORKER",
+    "on_worker_failure": "PASS_TO_DIFFERENT_WORKER",
+    "on_timeout_without_started_at": "REQUEUE_UNCLAIMED",
+    "on_timeout_after_started_at": "REQUEUE_AND_QUARANTINE_PREVIOUS_CLAIM",
+    "final_state_after_all_attempts": "BLOCKED_WITH_BOUNDED_REASON"
+  },
+  "receipt_contract": {
+    "execution_id": true,
+    "worker_id": true,
+    "previous_worker_id": true,
+    "attempt_number": true,
+    "started_at": true,
+    "completed_at": true,
+    "duration_ms": true,
+    "ingested_files": true,
+    "output_paths": true,
+    "object_graph_path": true,
+    "hitl_queue_path": true,
+    "continuity_ledger_path": true,
+    "classification": "REAL_OR_PARTIAL_OR_BLOCKED",
+    "blocker_reason_if_blocked": true,
+    "next_worker_if_not_real": true
+  },
+  "evidence_chain": [
+    "840cb8cc84fa5a9a8d5ffad05a13a5bf85b78126",
+    "b4af63def17f43d8315ce6fed6241c5f2f9fdc33",
+    "4fba7e388cb486ae93b09a9d43e2ecf5a4e2a778",
+    "93aaf3bb80b892dcbdb3f8f20f0d5bd76ada34e0"
+  ],
+  "ledger": {
+    "status": "PARTIAL",
+    "reason": "GitHub handoff and execution request are real, but downstream worker receipt is not yet present.",
+    "next_required_evidence": "latest-worker-receipt.json or bounded BLOCKED receipt after retry exhaustion"
+  }
+}
