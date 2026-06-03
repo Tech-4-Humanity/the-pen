@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lumify Board Map Access</title>
+  <style>
+    :root{--navy:#061737;--ink:#101828;--muted:#667085;--line:#d8dfec;--soft:#f6f8fb;--red:#b42318}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 10%,#1b75ff 0,#061737 38%,#030815 100%);font-family:Arial,Helvetica,sans-serif;color:white;padding:20px}
+    .card{width:min(560px,94vw);background:white;color:var(--ink);border-radius:28px;padding:34px;box-shadow:0 28px 80px rgba(0,0,0,.36)}
+    .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:#1463ff;margin-bottom:10px}
+    h1{margin:0 0 10px;font-size:36px;line-height:1;letter-spacing:-1px;color:var(--navy)}
+    p{color:#475467;line-height:1.45;margin:0 0 16px;font-size:15px}
+    input{width:100%;padding:15px 16px;border:1px solid var(--line);border-radius:16px;font-size:17px;margin:8px 0 12px;outline:none}
+    input:focus{border-color:#1463ff;box-shadow:0 0 0 4px rgba(20,99,255,.12)}
+    button{width:100%;border:0;border-radius:16px;padding:15px 16px;background:var(--navy);color:white;font-weight:900;font-size:16px;cursor:pointer}
+    .error{margin-top:12px;color:var(--red);font-weight:800;display:none}
+    .meta{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.4}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.chip{font-size:11px;font-weight:900;border-radius:999px;background:#eef4ff;color:#1455b8;padding:6px 9px}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="eyebrow">Private board-prep working map</div>
+    <h1>Lumify Capability Engine</h1>
+    <p>Based on the shared briefing. Enter the access password to continue to the board map.</p>
+    <div class="chips"><span class="chip">H1 fixes earnings</span><span class="chip">H2 proves demand</span><span class="chip">H3 scales repeatability</span></div>
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+    <button onclick="unlock()">Open Board Map</button>
+    <div id="error" class="error">Incorrect password.</div>
+    <div class="meta">Access page only. Do not forward externally without approval.</div>
+  </main>
+  <script>
+    const PASSWORD = "1Lumify2Win!";
+    const TARGET = "./RPT_Lumify_CapabilityEngine_BoardMap_V6_20260603.html";
+    function unlock(){
+      const input = document.getElementById("password").value;
+      if(input === PASSWORD){
+        sessionStorage.setItem("lumify_access","granted");
+        window.location.href = TARGET;
+      } else {
+        document.getElementById("error").style.display="block";
+      }
+    }
+    document.getElementById("password").addEventListener("keydown", function(e){ if(e.key === "Enter") unlock(); });
+  </script>
+</body>
+</html>
