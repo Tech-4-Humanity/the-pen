@@ -1,0 +1,12 @@
+{
+  "name": "troy-runtime-proof-sweeper",
+  "version": "1.0.0",
+  "description": "Sweeps stalled ops.work_queue jobs, advances done->verified, emits audit receipts.",
+  "main": "index.js",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
