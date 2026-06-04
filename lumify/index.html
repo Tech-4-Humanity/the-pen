@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Lumify Board Map Access</title>
+  <title>Lumify Command Centre</title>
   <style>
     :root{--navy:#061737;--ink:#101828;--muted:#667085;--line:#d8dfec;--soft:#f6f8fb;--red:#b42318;--blue:#1463ff;--green:#159447;--orange:#f28c28;--purple:#6c3bd9;--gold:#d7a900}
     *{box-sizing:border-box}
@@ -28,7 +28,7 @@
     .tile{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);border-radius:18px;padding:14px;min-height:116px}
     .tile b{display:block;font-size:15px;margin-bottom:6px}.tile span{font-size:12px;color:#dcecff;line-height:1.35}
     .flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:18px}.node{background:white;color:#061737;border-radius:14px;padding:9px 11px;font-weight:900;font-size:12px}.arrow{font-weight:900;color:#9edbed}
-    .hidden{display:none}.links{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}.link{display:block;text-decoration:none;border:1px solid #d8dfec;border-radius:16px;padding:14px;background:#f8fbff;color:#061737;font-weight:900}.link span{display:block;color:#667085;font-size:12px;font-weight:700;margin-top:4px}
+    .hidden{display:none}.links{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}.link{display:block;text-decoration:none;border:1px solid #d8dfec;border-radius:16px;padding:14px;background:#f8fbff;color:#061737;font-weight:900}.link span{display:block;color:#667085;font-size:12px;font-weight:700;margin-top:4px}.group{grid-column:1/-1;color:#dcecff;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;margin-top:8px}
     @media(max-width:900px){.hub{grid-template-columns:1fr}.tiles,.links{grid-template-columns:1fr}}
   </style>
 </head>
@@ -36,49 +36,57 @@
 <div class="wrap">
   <div class="hub">
     <main class="card">
-      <div class="eyebrow">Private board-prep working map</div>
+      <div class="eyebrow">Private CEO command centre</div>
       <h1>Lumify Capability Engine</h1>
-      <p>Based on the shared briefing. Enter the access password to continue to the board-prep pack.</p>
-      <div class="chips"><span class="chip">H1 fixes earnings</span><span class="chip">H2 proves demand</span><span class="chip">H3 scales repeatability</span></div>
+      <p>Based on the shared briefing. Enter the access password to continue to the full CEO command centre.</p>
+      <div class="chips"><span class="chip">H1 fixes earnings</span><span class="chip">H2 proves demand</span><span class="chip">H3 scales repeatability</span><span class="chip">Day 1 reality</span></div>
       <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
-      <button onclick="unlock()">Open Pack Hub</button>
+      <button onclick="unlock()">Open Command Centre</button>
       <div id="error" class="error">Incorrect password.</div>
       <div id="links" class="links hidden">
+        <div class="group">Core pack</div>
         <a class="link" href="./RPT_Lumify_CapabilityEngine_BoardMap_V6_20260603.html">Capability Engine<span>Main board map</span></a>
         <a class="link" href="./RPT_Lumify_BriefingTruthTable_FINAL_20260603.html">Truth Table<span>Says / validate</span></a>
         <a class="link" href="./RPT_Lumify_10GapClosers_20260603.html">10 Gap Closers<span>Complete gap pack</span></a>
         <a class="link" href="./RPT_Lumify_NorthStars_EaseOfUse_V7_20260603.html">North Stars<span>Meeting mode</span></a>
         <a class="link" href="./RPT_Lumify_2030Poster_StageCards_20260603.html">2030 Poster<span>Stage cards</span></a>
+        <div class="group">CEO operating system</div>
+        <a class="link" href="./RPT_Lumify_FinalInterviewRoomDynamic_20260603.html">Interview Room Dynamic<span>Alan, board, owner lens</span></a>
+        <a class="link" href="./RPT_Lumify_CEOQuestionsAtlas_5_12_60_20260603.html">CEO Questions Atlas<span>5 to 12 to 60 questions</span></a>
+        <a class="link" href="./RPT_Lumify_CEOValidationFramework_Infographic6_20260603.html">CEO Validation Framework<span>Facts, assumptions, evidence</span></a>
+        <a class="link" href="./RPT_Lumify_Top20GrowthAtlas_DataRequest_20260603.html">Top 20 Growth Atlas<span>Customer data request</span></a>
+        <a class="link" href="./RPT_Lumify_CommitmentTrustDecision_Posters_20260603.html">Commitment, Trust, Decision<span>Posters 9 to 12</span></a>
+        <a class="link" href="./RPT_Lumify_CEOSuccessTest_HiddenScorecard_20260603.html">CEO Success Test<span>Hidden scorecard</span></a>
       </div>
       <div class="meta">Access page only. Do not forward externally without approval. Client-side gate for short-term review.</div>
     </main>
     <section class="map">
       <div class="eyebrow">How to use this</div>
-      <h2>Open calm. Validate hard. Keep the edge in the stress-test layer.</h2>
-      <p>The pack now runs in the right order: what the shared briefing says, what must be validated, what could break, and what becomes more valuable if it works.</p>
-      <div class="flow"><div class="node">Briefing</div><div class="arrow">→</div><div class="node">Truth Table</div><div class="arrow">→</div><div class="node">Gap Closers</div><div class="arrow">→</div><div class="node">2030 Poster</div></div>
+      <h2>Open calm. Validate hard. Run it like an incoming CEO.</h2>
+      <p>The pack now runs in the right order: what the shared briefing says, what must be validated, what could break, what lands on Day 1, and what becomes more valuable if it works.</p>
+      <div class="flow"><div class="node">Briefing</div><div class="arrow">→</div><div class="node">Validation</div><div class="arrow">→</div><div class="node">Day 1</div><div class="arrow">→</div><div class="node">Operating Rhythm</div><div class="arrow">→</div><div class="node">Value</div></div>
       <div class="tiles">
         <div class="tile"><b>Politically safe</b><span>Shows respect before extending the thesis.</span></div>
         <div class="tile"><b>Commercially sharp</b><span>Links risk, evidence, EBITDA, revenue quality and multiple.</span></div>
         <div class="tile"><b>Meeting-ready</b><span>Best questions for Alan, board, staff, customers and finance.</span></div>
-        <div class="tile"><b>With an edge</b><span>The punch wall keeps the plan honest under pressure.</span></div>
+        <div class="tile"><b>With an edge</b><span>The stress-test layer keeps the plan honest under pressure.</span></div>
       </div>
     </section>
   </div>
 </div>
 <script>
   const PASSWORD = "1Lumify2Win!";
+  function grantAccess(){
+    sessionStorage.setItem("lumify_access","granted");
+    localStorage.setItem("lumify_access","granted");
+    document.getElementById("links").classList.remove("hidden");
+    document.getElementById("error").style.display="none";
+  }
   function unlock(){
     const input = document.getElementById("password").value;
-    if(input === PASSWORD){
-      sessionStorage.setItem("lumify_access","granted");
-      document.getElementById("links").classList.remove("hidden");
-      document.getElementById("error").style.display="none";
-    } else {
-      document.getElementById("error").style.display="block";
-    }
+    if(input === PASSWORD){ grantAccess(); } else { document.getElementById("error").style.display="block"; }
   }
-  if(sessionStorage.getItem("lumify_access")==="granted") document.getElementById("links").classList.remove("hidden");
+  if(sessionStorage.getItem("lumify_access")==="granted" || localStorage.getItem("lumify_access")==="granted") grantAccess();
   document.getElementById("password").addEventListener("keydown", function(e){ if(e.key === "Enter") unlock(); });
 </script>
 </body>
