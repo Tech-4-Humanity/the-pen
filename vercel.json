@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/lumify/:path*", "destination": "/lumify/:path*" },
+    { "source": "/(.*)", "destination": "/lumify/$1" }
+  ]
+}
