@@ -1,1 +1,510 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lumify Command Centre</title><style>:root{--navy:#061737;--ink:#101828;--muted:#667085;--line:#d8dfec;--soft:#f6f8fb;--red:#b42318;--blue:#1463ff;--green:#159447;--orange:#f28c28;--purple:#6c3bd9;--gold:#d7a900}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% 8%,#1b75ff 0,#061737 38%,#030815 100%);font-family:Arial,Helvetica,sans-serif;color:white;padding:22px}.wrap{max-width:1180px;margin:0 auto;min-height:100vh;display:grid;place-items:center}.hub{width:100%;display:grid;grid-template-columns:420px 1fr;gap:22px;align-items:stretch}.card{background:white;color:var(--ink);border-radius:28px;padding:34px;box-shadow:0 28px 80px rgba(0,0,0,.36)}.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:#1463ff;margin-bottom:10px}h1{margin:0 0 10px;font-size:38px;line-height:.95;letter-spacing:-1.4px;color:var(--navy)}h2{margin:0 0 12px;font-size:28px;color:var(--navy)}p{color:#475467;line-height:1.45;margin:0 0 16px;font-size:15px}input{width:100%;padding:15px 16px;border:1px solid var(--line);border-radius:16px;font-size:17px;margin:8px 0 12px;outline:none}button{width:100%;border:0;border-radius:16px;padding:15px 16px;background:var(--navy);color:white;font-weight:900;font-size:16px;cursor:pointer}.error{margin-top:12px;color:var(--red);font-weight:800;display:none}.meta{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.4}.chips{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.chip{font-size:11px;font-weight:900;border-radius:999px;background:#eef4ff;color:#1455b8;padding:6px 9px}.map{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);border-radius:28px;padding:24px;color:white;box-shadow:0 28px 80px rgba(0,0,0,.22)}.map h2{color:white}.map p{color:#dcecff}.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}.tile{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);border-radius:18px;padding:14px;min-height:116px}.tile b{display:block;font-size:15px;margin-bottom:6px}.tile span{font-size:12px;color:#dcecff;line-height:1.35}.flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:18px}.node{background:white;color:#061737;border-radius:14px;padding:9px 11px;font-weight:900;font-size:12px}.arrow{font-weight:900;color:#9edbed}.hidden{display:none}.links{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}.link{display:block;text-decoration:none;border:1px solid #d8dfec;border-radius:16px;padding:14px;background:#f8fbff;color:#061737;font-weight:900}.link span{display:block;color:#667085;font-size:12px;font-weight:700;margin-top:4px}.group{grid-column:1/-1;color:#dcecff;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;margin-top:8px}@media(max-width:900px){.hub{grid-template-columns:1fr}.tiles,.links{grid-template-columns:1fr}}</style></head><body><div class="wrap"><div class="hub"><main class="card"><div class="eyebrow">Private CEO command centre</div><h1>Lumify Capability Engine</h1><p>Based on the shared briefing. Enter the access password to continue to the full CEO command centre.</p><div class="chips"><span class="chip">H1 fixes earnings</span><span class="chip">H2 proves demand</span><span class="chip">H3 scales repeatability</span><span class="chip">Day 1 reality</span></div><input id="password" type="password" placeholder="Password" autocomplete="current-password"><button onclick="unlock()">Open Command Centre</button><div id="error" class="error">Incorrect password.</div><div id="links" class="links hidden"><div class="group">Command centre</div><a class="link" href="./RPT_Lumify_CommandCentreHomeV2_TodayTransitionTomorrow_20260605.html">Command Centre Home v2<span>Today, transition, tomorrow</span></a><a class="link" href="./RPT_Lumify_EvidenceLegend_ClaimStates_20260605.html">Evidence Legend<span>Actual, briefing, assumption, scenario, data needed</span></a><div class="group">Core pack</div><a class="link" href="./RPT_Lumify_CapabilityEngine_BoardMap_V6_20260603.html">Capability Engine<span>Main board map</span></a><a class="link" href="./RPT_Lumify_ThreeGrowthEngines_WorkforceMarkets_20260603.html">Three Growth Engines<span>Training, capability, intelligence</span></a><a class="link" href="./RPT_Lumify_BriefingTruthTable_FINAL_20260603.html">Truth Table<span>Says / validate</span></a><a class="link" href="./RPT_Lumify_10GapClosers_20260603.html">10 Gap Closers<span>Complete gap pack</span></a><a class="link" href="./RPT_Lumify_NorthStars_EaseOfUse_V7_20260603.html">North Stars<span>Meeting mode</span></a><a class="link" href="./RPT_Lumify_2030Poster_StageCards_20260603.html">2030 Poster<span>Stage cards</span></a><div class="group">CEO operating system</div><a class="link" href="./RPT_Lumify_CEOCommandCentre_Dashboard_20260603.html">CEO Dashboard<span>Executive cockpit</span></a><a class="link" href="./RPT_Lumify_FinalInterviewRoomDynamic_20260603.html">Interview Room Dynamic<span>Alan, board, owner lens</span></a><a class="link" href="./RPT_Lumify_QuestionAtlasV2_RoleFilters_20260605.html">Question Atlas v2<span>Role filters and print view</span></a><a class="link" href="./RPT_Lumify_CEOQuestionsAtlas_5_12_60_20260603.html">CEO Questions Atlas<span>5 to 12 to 60 questions</span></a><a class="link" href="./RPT_Lumify_CEOValidationFramework_Infographic6_20260603.html">CEO Validation Framework<span>Facts, assumptions, evidence</span></a><a class="link" href="./RPT_Lumify_Top20AtlasV2_ManualScenarioSeed_20260605.html">Top 20 Atlas v2<span>Manual and scenario seed mode</span></a><a class="link" href="./RPT_Lumify_Top20GrowthAtlas_DataRequest_20260603.html">Top 20 Growth Atlas<span>Customer data request</span></a><a class="link" href="./RPT_Lumify_CommitmentTrustDecision_Posters_20260603.html">Commitment, Trust, Decision<span>Posters 9 to 12</span></a><a class="link" href="./RPT_Lumify_CEOSuccessTest_HiddenScorecard_20260603.html">CEO Success Test<span>Hidden scorecard</span></a><a class="link" href="./RPT_Lumify_OperatingRhythm_Dashboard_20260603.html">Operating Rhythm<span>Cadence and rhythm dashboard</span></a><a class="link" href="./RPT_Lumify_PrintPack_Mode_20260603.html">Print Pack<span>Print-ready mode</span></a></div><div class="meta">Access page only. Do not forward externally without approval. Client-side gate for short-term review.</div></main><section class="map"><div class="eyebrow">How to use this</div><h2>Open calm. Validate hard. Run it like an incoming CEO.</h2><p>The pack now runs in the right order: what the shared briefing says, what must be validated, what could break, what lands on Day 1, and what becomes more valuable if it works.</p><div class="flow"><div class="node">Today</div><div class="arrow">→</div><div class="node">Transition</div><div class="arrow">→</div><div class="node">Tomorrow</div><div class="arrow">→</div><div class="node">Evidence</div><div class="arrow">→</div><div class="node">Value</div></div><div class="tiles"><div class="tile"><b>Politically safe</b><span>Shows respect before extending the thesis.</span></div><div class="tile"><b>Commercially sharp</b><span>Links risk, evidence, EBITDA, revenue quality and multiple.</span></div><div class="tile"><b>Meeting-ready</b><span>Best questions for Alan, board, staff, customers and finance.</span></div><div class="tile"><b>With an edge</b><span>The stress-test layer keeps the plan honest under pressure.</span></div></div></section></div></div><script>const PASSWORD="1Lumify2Win!";function grantAccess(){sessionStorage.setItem("lumify_access","granted");localStorage.setItem("lumify_access","granted");document.getElementById("links").classList.remove("hidden");document.getElementById("error").style.display="none";}function unlock(){const input=document.getElementById("password").value;if(input===PASSWORD){grantAccess();}else{document.getElementById("error").style.display="block";}}if(sessionStorage.getItem("lumify_access")==="granted"||localStorage.getItem("lumify_access")==="granted")grantAccess();document.getElementById("password").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lumify — CEO Command Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;-webkit-font-smoothing:antialiased}
+body{
+  min-height:100dvh;
+  background:#040c1e;
+  font-family:'Inter',system-ui,sans-serif;
+  color:white;
+  display:grid;
+  place-items:center;
+  padding:1.5rem;
+}
+
+/* ── LAYOUT ── */
+.wrap{width:100%;max-width:1240px}
+.hub{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:1.25rem;
+  align-items:start;
+}
+
+/* ── LEFT CARD ── */
+.card{
+  background:#fff;
+  color:#101828;
+  border-radius:1.5rem;
+  padding:2rem 2rem 1.5rem;
+  box-shadow:0 24px 80px rgba(0,0,0,.45);
+}
+.eyebrow{
+  font-size:0.65rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#1463ff;
+  margin-bottom:0.6rem;
+}
+h1{
+  font-size:2.2rem;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-1.5px;
+  color:#061737;
+  margin-bottom:0.6rem;
+}
+.sub{
+  font-size:0.9rem;
+  color:#475467;
+  line-height:1.5;
+  margin-bottom:1rem;
+}
+.chips{
+  display:flex;
+  gap:0.4rem;
+  flex-wrap:wrap;
+  margin-bottom:1.25rem;
+}
+.chip{
+  font-size:0.68rem;
+  font-weight:700;
+  border-radius:999px;
+  background:#eef4ff;
+  color:#1455b8;
+  padding:0.3rem 0.65rem;
+}
+input{
+  width:100%;
+  padding:0.9rem 1rem;
+  border:1.5px solid #d8dfec;
+  border-radius:0.875rem;
+  font-size:1rem;
+  font-family:inherit;
+  outline:none;
+  color:#101828;
+  margin-bottom:0.6rem;
+  transition:border-color 180ms;
+}
+input:focus{border-color:#1463ff}
+button.unlock-btn{
+  width:100%;
+  border:0;
+  border-radius:0.875rem;
+  padding:0.9rem 1rem;
+  background:#061737;
+  color:white;
+  font-weight:800;
+  font-size:0.95rem;
+  cursor:pointer;
+  font-family:inherit;
+  transition:background 180ms;
+}
+button.unlock-btn:hover{background:#1463ff}
+.error{
+  margin-top:0.6rem;
+  color:#b42318;
+  font-weight:700;
+  font-size:0.82rem;
+  display:none;
+}
+.meta{
+  margin-top:1.25rem;
+  padding-top:1rem;
+  border-top:1px solid #eaecf0;
+  font-size:0.68rem;
+  color:#98a2b3;
+  line-height:1.5;
+}
+
+/* ── LINK GROUPS ── */
+.links{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:1rem}
+.group{grid-column:1/-1;color:#667085;font-size:0.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-top:0.75rem;margin-bottom:0.1rem}
+.link{
+  display:block;
+  text-decoration:none;
+  border:1.5px solid #eaecf0;
+  border-radius:0.875rem;
+  padding:0.75rem 0.875rem;
+  background:#f9fafb;
+  color:#101828;
+  font-weight:700;
+  font-size:0.82rem;
+  transition:border-color 180ms, background 180ms;
+}
+.link:hover{border-color:#1463ff;background:#f0f5ff}
+.link span{
+  display:block;
+  color:#667085;
+  font-size:0.68rem;
+  font-weight:500;
+  margin-top:0.2rem;
+  line-height:1.35;
+}
+.hidden{display:none}
+
+/* ── RIGHT PANEL ── */
+.guide{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:1.5rem;
+  padding:2rem;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  gap:1.75rem;
+}
+
+.guide-header .eyebrow-light{
+  font-size:0.65rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#5fa8ff;
+  margin-bottom:0.5rem;
+}
+.guide-header h2{
+  font-size:1.5rem;
+  font-weight:900;
+  letter-spacing:-0.5px;
+  color:#fff;
+  line-height:1.2;
+  margin-bottom:0.5rem;
+}
+.guide-header p{
+  font-size:0.88rem;
+  color:#9ecbf7;
+  line-height:1.6;
+  max-width:52ch;
+}
+
+/* ── PHASE FLOW ── */
+.phase-flow{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.phase{
+  display:grid;
+  grid-template-columns:2.5rem 1fr;
+  gap:0.75rem;
+  position:relative;
+}
+.phase:not(:last-child)::after{
+  content:'';
+  position:absolute;
+  left:1.2rem;
+  top:2.75rem;
+  bottom:-0.25rem;
+  width:1px;
+  background:rgba(255,255,255,.12);
+}
+.phase-marker{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:0.5rem;
+}
+.phase-dot{
+  width:2rem;
+  height:2rem;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.7rem;
+  font-weight:800;
+  flex-shrink:0;
+}
+.phase-body{
+  padding:0.5rem 0 1.5rem;
+}
+.phase-label{
+  font-size:0.7rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:0.25rem;
+}
+.phase-title{
+  font-size:1rem;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:0.35rem;
+  line-height:1.25;
+}
+.phase-desc{
+  font-size:0.8rem;
+  color:#9ecbf7;
+  line-height:1.6;
+  margin-bottom:0.6rem;
+}
+.phase-tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.35rem;
+}
+.ptag{
+  font-size:0.65rem;
+  font-weight:600;
+  border-radius:999px;
+  padding:0.2rem 0.55rem;
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.7);
+  background:rgba(255,255,255,.06);
+}
+
+/* Phase colours */
+.ph-today   .phase-dot{background:#1463ff;color:#fff}
+.ph-today   .phase-label{color:#5fa8ff}
+.ph-trans   .phase-dot{background:#7c3aed;color:#fff}
+.ph-trans   .phase-label{color:#c4b5fd}
+.ph-tom     .phase-dot{background:#0891b2;color:#fff}
+.ph-tom     .phase-label{color:#67e8f9}
+.ph-evid    .phase-dot{background:#059669;color:#fff}
+.ph-evid    .phase-label{color:#6ee7b7}
+.ph-value   .phase-dot{background:#d97706;color:#fff}
+.ph-value   .phase-label{color:#fcd34d}
+
+/* ── VALUE CALLOUTS ── */
+.value-strip{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:0.65rem;
+}
+.vc{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:0.875rem;
+  padding:0.875rem;
+}
+.vc-icon{font-size:1.1rem;margin-bottom:0.4rem}
+.vc-title{font-size:0.82rem;font-weight:700;color:#fff;margin-bottom:0.25rem}
+.vc-body{font-size:0.72rem;color:#9ecbf7;line-height:1.5}
+
+/* ── USAGE STEPS ── */
+.usage-steps{display:flex;flex-direction:column;gap:0.5rem}
+.step{display:flex;gap:0.75rem;align-items:flex-start}
+.step-num{
+  width:1.4rem;height:1.4rem;
+  background:#1463ff;
+  border-radius:50%;
+  font-size:0.65rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:0.05rem;
+}
+.step-text{font-size:0.8rem;color:#9ecbf7;line-height:1.5}
+.step-text strong{color:#fff}
+
+/* ── DIVIDER ── */
+.divider{
+  border:none;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:920px){
+  .hub{grid-template-columns:1fr}
+  .value-strip{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hub">
+
+    <!-- LEFT: LOGIN + LINKS -->
+    <main class="card">
+      <div class="eyebrow">Private CEO command centre</div>
+      <h1>Lumify<br>Capability<br>Engine</h1>
+      <p class="sub">Based on the shared briefing. Enter the access password to open the full CEO command centre.</p>
+      <div class="chips">
+        <span class="chip">H1 fixes earnings</span>
+        <span class="chip">H2 proves demand</span>
+        <span class="chip">H3 scales repeatability</span>
+        <span class="chip">Day 1 reality</span>
+      </div>
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password"/>
+      <button class="unlock-btn" onclick="unlock()">Open Command Centre</button>
+      <div id="error" class="error">Incorrect password — try again.</div>
+
+      <div id="links" class="links hidden">
+        <div class="group">Start here</div>
+        <a class="link" href="./RPT_Lumify_CommandCentreHomeV2_TodayTransitionTomorrow_20260605.html">Command Centre Home<span>Today · Transition · Tomorrow</span></a>
+        <a class="link" href="./RPT_Lumify_EvidenceLegend_ClaimStates_20260605.html">Evidence Legend<span>Actual, briefing, assumption, data needed</span></a>
+
+        <div class="group">Core pack</div>
+        <a class="link" href="./RPT_Lumify_CapabilityEngine_BoardMap_V6_20260603.html">Capability Engine<span>Main board map</span></a>
+        <a class="link" href="./RPT_Lumify_ThreeGrowthEngines_WorkforceMarkets_20260603.html">Three Growth Engines<span>Training, capability, intelligence</span></a>
+        <a class="link" href="./RPT_Lumify_BriefingTruthTable_FINAL_20260603.html">Truth Table<span>Says / validate</span></a>
+        <a class="link" href="./RPT_Lumify_10GapClosers_20260603.html">10 Gap Closers<span>Complete gap pack</span></a>
+        <a class="link" href="./RPT_Lumify_NorthStars_EaseOfUse_V7_20260603.html">North Stars<span>Meeting mode</span></a>
+        <a class="link" href="./RPT_Lumify_2030Poster_StageCards_20260603.html">2030 Poster<span>Stage cards</span></a>
+
+        <div class="group">CEO operating system</div>
+        <a class="link" href="./RPT_Lumify_CEOCommandCentre_Dashboard_20260603.html">CEO Dashboard<span>Executive cockpit</span></a>
+        <a class="link" href="./RPT_Lumify_FinalInterviewRoomDynamic_20260603.html">Interview Room Dynamic<span>Alan, board, owner lens</span></a>
+        <a class="link" href="./RPT_Lumify_QuestionAtlasV2_RoleFilters_20260605.html">Question Atlas v2<span>Role filters and print view</span></a>
+        <a class="link" href="./RPT_Lumify_CEOQuestionsAtlas_5_12_60_20260603.html">CEO Questions Atlas<span>5 to 12 to 60 questions</span></a>
+        <a class="link" href="./RPT_Lumify_CEOValidationFramework_Infographic6_20260603.html">CEO Validation Framework<span>Facts, assumptions, evidence</span></a>
+        <a class="link" href="./RPT_Lumify_Top20AtlasV2_ManualScenarioSeed_20260605.html">Top 20 Atlas v2<span>Manual and scenario seed mode</span></a>
+        <a class="link" href="./RPT_Lumify_CustomerAtlas_CSVInput_20260605.html">Customer Atlas CSV<span>Paste and render live</span></a>
+        <a class="link" href="./RPT_Lumify_Top20GrowthAtlas_DataRequest_20260603.html">Top 20 Growth Atlas<span>Customer data request</span></a>
+        <a class="link" href="./RPT_Lumify_CommitmentTrustDecision_Posters_20260603.html">Commitment, Trust, Decision<span>Posters 9 to 12</span></a>
+        <a class="link" href="./RPT_Lumify_CEOSuccessTest_HiddenScorecard_20260603.html">CEO Success Test<span>Hidden scorecard</span></a>
+        <a class="link" href="./RPT_Lumify_OperatingRhythm_Dashboard_20260603.html">Operating Rhythm<span>Cadence and rhythm dashboard</span></a>
+        <a class="link" href="./RPT_Lumify_PrintPack_Mode_20260603.html">Print Pack<span>Print-ready mode</span></a>
+      </div>
+
+      <div class="meta">Access page only. Do not forward externally without approval. Client-side gate for short-term review.</div>
+    </main>
+
+    <!-- RIGHT: HOW TO USE THIS -->
+    <section class="guide">
+
+      <div class="guide-header">
+        <div class="eyebrow-light">How to use this</div>
+        <h2>Open calm.<br>Validate hard.<br>Run it like an incoming CEO.</h2>
+        <p>The pack runs in the right order: what the shared briefing says, what must be validated, what could break, what lands on Day 1, and what becomes more valuable if it works.</p>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- PHASE FLOW -->
+      <div class="phase-flow">
+
+        <div class="phase ph-today">
+          <div class="phase-marker"><div class="phase-dot">1</div></div>
+          <div class="phase-body">
+            <div class="phase-label">Today</div>
+            <div class="phase-title">What the briefing actually says</div>
+            <div class="phase-desc">Start with the Capability Engine Board Map and Truth Table. Accept the briefing at face value for now. Build your mental model of what Lumify claims to be, who it serves, and where revenue comes from. Don't validate yet — just orient.</div>
+            <div class="phase-tools">
+              <span class="ptag">Capability Engine</span>
+              <span class="ptag">Truth Table</span>
+              <span class="ptag">Three Growth Engines</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase ph-trans">
+          <div class="phase-marker"><div class="phase-dot">2</div></div>
+          <div class="phase-body">
+            <div class="phase-label">Transition</div>
+            <div class="phase-title">What must be validated before you commit</div>
+            <div class="phase-desc">Now interrogate it. Use the CEO Validation Framework and the 10 Gap Closers to surface the difference between briefing claims and verified facts. Every claim gets a state: confirmed, partial, assumed, or unknown. This is where you earn credibility.</div>
+            <div class="phase-tools">
+              <span class="ptag">CEO Validation Framework</span>
+              <span class="ptag">10 Gap Closers</span>
+              <span class="ptag">Evidence Legend</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase ph-tom">
+          <div class="phase-marker"><div class="phase-dot">3</div></div>
+          <div class="phase-body">
+            <div class="phase-label">Tomorrow</div>
+            <div class="phase-title">What lands on Day 1 and what you defer</div>
+            <div class="phase-desc">Use the Command Centre Home and North Stars to separate what you must act on immediately from what you park for 30–60 days. An incoming CEO who tries to change everything in week one loses the room. Sequence is credibility.</div>
+            <div class="phase-tools">
+              <span class="ptag">Command Centre Home</span>
+              <span class="ptag">North Stars</span>
+              <span class="ptag">Operating Rhythm</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase ph-evid">
+          <div class="phase-marker"><div class="phase-dot">4</div></div>
+          <div class="phase-body">
+            <div class="phase-label">Evidence</div>
+            <div class="phase-title">What data you need, and where to find it</div>
+            <div class="phase-desc">The Top 20 Atlas and Customer Atlas CSV let you load real customer data and see where the revenue risk and growth opportunity actually sits. The Interview Room preps you for every stakeholder with different truths — Alan, the board, the owner, finance.</div>
+            <div class="phase-tools">
+              <span class="ptag">Top 20 Atlas v2</span>
+              <span class="ptag">Customer Atlas CSV</span>
+              <span class="ptag">Interview Room Dynamic</span>
+              <span class="ptag">Question Atlas v2</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase ph-value">
+          <div class="phase-marker"><div class="phase-dot">5</div></div>
+          <div class="phase-body">
+            <div class="phase-label">Value</div>
+            <div class="phase-title">What becomes more valuable if it works</div>
+            <div class="phase-desc">The 2030 Poster and Commitment posters are your upside story. Use them to articulate what the business looks like once the thesis is proven — multiple expansion, market adjacency, platform optionality. Only credible after steps 1–4.</div>
+            <div class="phase-tools">
+              <span class="ptag">2030 Poster</span>
+              <span class="ptag">Commitment Trust Decision</span>
+              <span class="ptag">CEO Success Test</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- VALUE CALLOUTS -->
+      <div class="value-strip">
+        <div class="vc">
+          <div class="vc-icon">🛡️</div>
+          <div class="vc-title">Politically safe</div>
+          <div class="vc-body">Shows respect before extending the thesis. Doesn't challenge the seller before you've validated the facts.</div>
+        </div>
+        <div class="vc">
+          <div class="vc-icon">📐</div>
+          <div class="vc-title">Commercially sharp</div>
+          <div class="vc-body">Links risk, evidence, EBITDA, revenue quality and multiple. Every belief is attached to a number.</div>
+        </div>
+        <div class="vc">
+          <div class="vc-icon">🎙️</div>
+          <div class="vc-title">Meeting-ready</div>
+          <div class="vc-body">Best questions for Alan, board, staff, customers and finance — sorted by role, not topic.</div>
+        </div>
+        <div class="vc">
+          <div class="vc-icon">🔩</div>
+          <div class="vc-title">With an edge</div>
+          <div class="vc-body">The stress-test layer keeps the plan honest. Push-back ready. Every assumption has a counter.</div>
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- USAGE STEPS -->
+      <div>
+        <div style="font-size:0.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#5fa8ff;margin-bottom:0.75rem">Suggested reading order</div>
+        <div class="usage-steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Command Centre Home</strong> — one page that shows where you are, where you're going, and what's at stake.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Truth Table</strong> — every claim from the briefing, scored: says / must validate / likely / risk.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>10 Gap Closers</strong> — the specific moves that close the distance between current state and the thesis.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Question Atlas v2</strong> — filter by who you're meeting. Walk in with the right 5 questions, not 20.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Top 20 Atlas / Customer Atlas</strong> — load real data, validate revenue quality and renewal risk.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><strong>2030 Poster + CEO Success Test</strong> — only after evidence. This is where you close.</div></div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+<script>
+const PASSWORD="1Lumify2Win!";
+function grantAccess(){
+  sessionStorage.setItem("lumify_access","granted");
+  localStorage.setItem("lumify_access","granted");
+  document.getElementById("links").classList.remove("hidden");
+  document.getElementById("error").style.display="none";
+}
+function unlock(){
+  const input=document.getElementById("password").value;
+  if(input===PASSWORD){grantAccess();}
+  else{document.getElementById("error").style.display="block";}
+}
+if(sessionStorage.getItem("lumify_access")==="granted"||localStorage.getItem("lumify_access")==="granted")grantAccess();
+document.getElementById("password").addEventListener("keydown",function(e){if(e.key==="Enter")unlock();});
+</script>
+</body>
+</html>
