@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Customer Atlas — CSV Input</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0e0c;--surface:#161614;--surface2:#1c1b19;--border:#2a2a27;
+  --text:#cdccca;--muted:#797876;--faint:#4a4947;
+  --teal:#4f98a3;--teal-dark:#01696f;
+  --green:#6daa45;--amber:#e8af34;--red:#dd6974;--purple:#a86fdf;
+  --font:'Inter',system-ui,sans-serif;
+  --radius:0.5rem;--radius-lg:0.75rem;
+}
+html{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;display:flex;flex-direction:column}
+
+/* NAV */
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.nav-brand{display:flex;align-items:center;gap:0.6rem;font-weight:600;font-size:0.95rem;color:var(--text)}
+.nav-brand svg{color:var(--teal)}
+.nav-back{font-size:0.8rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:0.3rem}
+.nav-back:hover{color:var(--teal)}
+
+/* LAYOUT */
+.shell{flex:1;display:grid;grid-template-columns:340px 1fr;gap:0;min-height:0}
+
+/* INPUT PANEL */
+.input-panel{background:var(--surface);border-right:1px solid var(--border);padding:1.25rem;display:flex;flex-direction:column;gap:1rem;overflow-y:auto}
+.panel-title{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+
+.schema-hint{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:0.75rem;font-size:0.7rem;color:var(--muted);line-height:1.7}
+.schema-hint code{color:var(--teal);font-family:monospace}
+
+textarea{
+  width:100%;min-height:180px;resize:vertical;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  color:var(--text);font-family:monospace;font-size:0.72rem;line-height:1.6;
+  padding:0.75rem;outline:none;
+  transition:border-color 180ms;
+}
+textarea:focus{border-color:var(--teal)}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.55rem 1rem;border-radius:var(--radius);font-size:0.8rem;font-weight:500;cursor:pointer;border:none;transition:background 180ms,color 180ms}
+.btn-primary{background:var(--teal-dark);color:#fff}
+.btn-primary:hover{background:var(--teal)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+.btn-row{display:flex;gap:0.5rem}
+
+.parse-status{font-size:0.72rem;padding:0.5rem 0.65rem;border-radius:var(--radius);display:none}
+.parse-status.ok{background:color-mix(in oklch,var(--green) 15%,var(--bg));color:var(--green);display:block}
+.parse-status.err{background:color-mix(in oklch,var(--red) 15%,var(--bg));color:var(--red);display:block}
+
+.filter-group{display:flex;flex-direction:column;gap:0.4rem}
+.filter-label{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+select{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  color:var(--text);font-size:0.78rem;padding:0.4rem 0.6rem;outline:none;width:100%;
+}
+select:focus{border-color:var(--teal)}
+
+.legend{display:flex;flex-direction:column;gap:0.35rem}
+.legend-row{display:flex;align-items:center;gap:0.5rem;font-size:0.72rem;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ATLAS PANEL */
+.atlas-panel{overflow-y:auto;padding:1.5rem}
+.atlas-header{margin-bottom:1.25rem}
+.atlas-header h2{font-size:1rem;font-weight:600;color:var(--text)}
+.atlas-header p{font-size:0.75rem;color:var(--muted);margin-top:0.2rem}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;gap:1rem;color:var(--faint);text-align:center}
+.empty-state svg{width:40px;height:40px;opacity:0.4}
+.empty-state p{font-size:0.82rem;max-width:28ch;line-height:1.6}
+
+/* CARD GRID */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:0.75rem}
+
+.card{
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:1rem;display:flex;flex-direction:column;gap:0.6rem;
+  transition:box-shadow 180ms;
+}
+.card:hover{box-shadow:0 4px 16px oklch(0 0 0 / 0.3)}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem}
+.card-name{font-weight:600;font-size:0.88rem;color:var(--text);line-height:1.3}
+.card-sector{font-size:0.68rem;color:var(--muted);background:var(--border);padding:0.15rem 0.5rem;border-radius:999px;white-space:nowrap}
+
+.card-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem}
+.metric{background:var(--bg);border-radius:var(--radius);padding:0.4rem 0.5rem;text-align:center}
+.metric-val{font-size:0.82rem;font-weight:600;font-variant-numeric:tabular-nums}
+.metric-lbl{font-size:0.6rem;color:var(--muted);margin-top:0.1rem;text-transform:uppercase;letter-spacing:0.04em}
+
+.card-body{font-size:0.72rem;color:var(--muted);display:flex;flex-direction:column;gap:0.3rem}
+.card-row{display:flex;gap:0.4rem}
+.card-key{color:var(--faint);width:80px;flex-shrink:0}
+.card-val{color:var(--text)}
+
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.5rem;border-top:1px solid var(--border)}
+.risk-badge{font-size:0.65rem;font-weight:600;padding:0.15rem 0.5rem;border-radius:999px;text-transform:uppercase;letter-spacing:0.05em}
+.risk-low{background:color-mix(in oklch,var(--green) 20%,var(--bg));color:var(--green)}
+.risk-med{background:color-mix(in oklch,var(--amber) 20%,var(--bg));color:var(--amber)}
+.risk-high{background:color-mix(in oklch,var(--red) 20%,var(--bg));color:var(--red)}
+.evidence-badge{font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+.ev-confirmed{border-color:var(--green);color:var(--green)}
+.ev-partial{border-color:var(--amber);color:var(--amber)}
+.ev-assumed{border-color:var(--muted);color:var(--muted)}
+.ev-unknown{border-color:var(--faint);color:var(--faint)}
+
+/* SUMMARY BAR */
+.summary-bar{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.stat-pill{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:0.3rem 0.75rem;font-size:0.72rem;display:flex;align-items:center;gap:0.4rem}
+.stat-pill strong{color:var(--teal)}
+
+@media(max-width:768px){
+  .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .input-panel{border-right:none;border-bottom:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
+      <path d="M32 10L38 16L18 36L10 38L12 30Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M28 14L34 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    Customer Atlas
+  </div>
+  <a href="/lumify/index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Hub
+  </a>
+</nav>
+
+<div class="shell">
+
+  <!-- INPUT PANEL -->
+  <aside class="input-panel">
+    <div class="panel-title">CSV Input</div>
+
+    <div class="schema-hint">
+      <strong style="color:var(--text);display:block;margin-bottom:0.4rem">Expected columns (header row required):</strong>
+      <code>customer, sector, revenue, margin, renewal, sponsor, current_products, future_market, risk, next_action, evidence_state</code>
+      <div style="margin-top:0.6rem">• <code>risk</code>: low / med / high<br>• <code>evidence_state</code>: confirmed / partial / assumed / unknown<br>• <code>renewal</code>: date string or blank</div>
+    </div>
+
+    <textarea id="csv-input" placeholder="Paste CSV rows here...
+Example:
+customer,sector,revenue,margin,renewal,sponsor,current_products,future_market,risk,next_action,evidence_state
+Acme Corp,Energy,2.4M,38%,2026-09,Sarah Chen,Training platform,AI workforce uplift,med,Submit proposal,partial"></textarea>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="parseAndRender()">▶ Render Atlas</button>
+      <button class="btn btn-ghost" onclick="loadSample()">Load sample</button>
+      <button class="btn btn-ghost" onclick="clearAll()">Clear</button>
+    </div>
+
+    <div id="parse-status" class="parse-status"></div>
+
+    <div class="filter-group">
+      <div class="filter-label">Filter by Sector</div>
+      <select id="filter-sector" onchange="applyFilters()">
+        <option value="">All sectors</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Filter by Risk</div>
+      <select id="filter-risk" onchange="applyFilters()">
+        <option value="">All risk levels</option>
+        <option value="low">Low</option>
+        <option value="med">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Filter by Evidence</div>
+      <select id="filter-evidence" onchange="applyFilters()">
+        <option value="">All states</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="partial">Partial</option>
+        <option value="assumed">Assumed</option>
+        <option value="unknown">Unknown</option>
+      </select>
+    </div>
+
+    <div class="legend">
+      <div class="filter-label" style="margin-bottom:0.2rem">Evidence Legend</div>
+      <div class="legend-row"><div class="dot" style="background:var(--green)"></div> Confirmed — validated data</div>
+      <div class="legend-row"><div class="dot" style="background:var(--amber)"></div> Partial — some gaps</div>
+      <div class="legend-row"><div class="dot" style="background:var(--muted)"></div> Assumed — best guess</div>
+      <div class="legend-row"><div class="dot" style="background:var(--faint)"></div> Unknown — no data</div>
+    </div>
+  </aside>
+
+  <!-- ATLAS PANEL -->
+  <main class="atlas-panel">
+    <div class="atlas-header">
+      <h2>Customer Atlas</h2>
+      <p>Paste CSV data and click Render Atlas to populate.</p>
+    </div>
+
+    <div id="summary-bar" class="summary-bar" style="display:none"></div>
+
+    <div id="atlas-grid">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <p>Paste your CSV data and hit Render Atlas to see your customers here.</p>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+const COLS = ['customer','sector','revenue','margin','renewal','sponsor','current_products','future_market','risk','next_action','evidence_state'];
+const SAMPLE = `customer,sector,revenue,margin,renewal,sponsor,current_products,future_market,risk,next_action,evidence_state
+Acme Corp,Energy,2.4M,38%,2026-09,Sarah Chen,Training platform,AI workforce uplift,med,Submit proposal,partial
+Bright Rail,Transport,5.1M,42%,2026-12,James Wu,LMS + assessments,Autonomous ops readiness,low,Renewal QBR,confirmed
+Skyline Health,Healthcare,1.8M,29%,2026-07,Dr. Patel,Compliance training,Clinical AI literacy,high,Escalate to sponsor,assumed
+Montgomery Co,Government,3.3M,51%,,Lisa Nguyen,Leadership programs,Public sector AI policy,low,Expand to 3 depts,confirmed
+Velocity Fin,Finance,0.9M,33%,2026-08,Mark Levi,Onboarding modules,RegTech automation,high,Risk review first,unknown
+Pinnacle Build,Construction,2.1M,36%,2026-11,Cara Singh,Safety training,Digital site mgmt,med,Pilot new module,partial`;
+
+let allRows = [];
+
+function parseCSV(raw){
+  const lines = raw.trim().split(/\r?\n/).filter(l=>l.trim());
+  if(lines.length < 2) return {err:'Need a header row + at least one data row'};
+  const header = lines[0].split(',').map(h=>h.trim().toLowerCase());
+  const missing = COLS.filter(c=>!header.includes(c));
+  if(missing.length) return {err:'Missing columns: '+missing.join(', ')};
+  const rows = [];
+  for(let i=1;i<lines.length;i++){
+    const vals = lines[i].split(',').map(v=>v.trim());
+    const row={};
+    header.forEach((h,idx)=>{row[h]=vals[idx]||'';});
+    rows.push(row);
+  }
+  return {rows};
+}
+
+function riskClass(r){
+  const v=(r||'').toLowerCase();
+  if(v==='low') return 'risk-low';
+  if(v==='high') return 'risk-high';
+  return 'risk-med';
+}
+
+function evidenceClass(e){
+  const v=(e||'').toLowerCase();
+  if(v==='confirmed') return 'ev-confirmed';
+  if(v==='partial') return 'ev-partial';
+  if(v==='assumed') return 'ev-assumed';
+  return 'ev-unknown';
+}
+
+function renderCards(rows){
+  if(!rows.length){
+    return `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>No customers match the current filters.</p></div>`;
+  }
+  return `<div class="card-grid">${rows.map(r=>{
+    return `<div class="card">
+      <div class="card-top">
+        <div class="card-name">${esc(r.customer)}</div>
+        <div class="card-sector">${esc(r.sector)}</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric"><div class="metric-val" style="color:var(--teal)">${esc(r.revenue||'—')}</div><div class="metric-lbl">Revenue</div></div>
+        <div class="metric"><div class="metric-val" style="color:var(--green)">${esc(r.margin||'—')}</div><div class="metric-lbl">Margin</div></div>
+        <div class="metric"><div class="metric-val" style="color:var(--amber)">${esc(r.renewal||'—')}</div><div class="metric-lbl">Renewal</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-row"><span class="card-key">Sponsor</span><span class="card-val">${esc(r.sponsor||'—')}</span></div>
+        <div class="card-row"><span class="card-key">Current</span><span class="card-val">${esc(r.current_products||'—')}</span></div>
+        <div class="card-row"><span class="card-key">Future</span><span class="card-val">${esc(r.future_market||'—')}</span></div>
+        <div class="card-row"><span class="card-key">Next action</span><span class="card-val">${esc(r.next_action||'—')}</span></div>
+      </div>
+      <div class="card-footer">
+        <span class="risk-badge ${riskClass(r.risk)}">${esc(r.risk||'?')} risk</span>
+        <span class="evidence-badge ${evidenceClass(r.evidence_state)}">${esc(r.evidence_state||'unknown')}</span>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function updateSummary(rows){
+  const bar = document.getElementById('summary-bar');
+  if(!rows.length){bar.style.display='none';return;}
+  const total = rows.length;
+  const highRisk = rows.filter(r=>(r.risk||'').toLowerCase()==='high').length;
+  const confirmed = rows.filter(r=>(r.evidence_state||'').toLowerCase()==='confirmed').length;
+  const sectors = [...new Set(rows.map(r=>r.sector).filter(Boolean))].length;
+  bar.style.display='flex';
+  bar.innerHTML=`
+    <div class="stat-pill"><strong>${total}</strong> customers</div>
+    <div class="stat-pill"><strong>${sectors}</strong> sectors</div>
+    <div class="stat-pill" style="${highRisk?'border-color:var(--red)':''}"><strong style="color:${highRisk?'var(--red)':'var(--teal)'} ">${highRisk}</strong> high risk</div>
+    <div class="stat-pill"><strong style="color:var(--green)">${confirmed}</strong> confirmed</div>
+  `;
+}
+
+function applyFilters(){
+  const sector = document.getElementById('filter-sector').value.toLowerCase();
+  const risk = document.getElementById('filter-risk').value.toLowerCase();
+  const evidence = document.getElementById('filter-evidence').value.toLowerCase();
+  let filtered = allRows;
+  if(sector) filtered = filtered.filter(r=>(r.sector||'').toLowerCase()===sector);
+  if(risk) filtered = filtered.filter(r=>(r.risk||'').toLowerCase()===risk);
+  if(evidence) filtered = filtered.filter(r=>(r.evidence_state||'').toLowerCase()===evidence);
+  document.getElementById('atlas-grid').innerHTML = renderCards(filtered);
+  updateSummary(filtered);
+}
+
+function populateSectorFilter(rows){
+  const sel = document.getElementById('filter-sector');
+  const sectors = [...new Set(rows.map(r=>r.sector).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">All sectors</option>' + sectors.map(s=>`<option value="${s.toLowerCase()}">${s}</option>`).join('');
+}
+
+function parseAndRender(){
+  const raw = document.getElementById('csv-input').value;
+  const status = document.getElementById('parse-status');
+  const result = parseCSV(raw);
+  if(result.err){
+    status.className='parse-status err';
+    status.textContent='⚠ '+result.err;
+    return;
+  }
+  allRows = result.rows;
+  status.className='parse-status ok';
+  status.textContent=`✓ Parsed ${allRows.length} row${allRows.length!==1?'s':''}. Atlas updated.`;
+  populateSectorFilter(allRows);
+  document.getElementById('filter-sector').value='';
+  document.getElementById('filter-risk').value='';
+  document.getElementById('filter-evidence').value='';
+  document.getElementById('atlas-grid').innerHTML = renderCards(allRows);
+  updateSummary(allRows);
+}
+
+function loadSample(){
+  document.getElementById('csv-input').value = SAMPLE;
+  parseAndRender();
+}
+
+function clearAll(){
+  document.getElementById('csv-input').value='';
+  document.getElementById('parse-status').className='parse-status';
+  allRows=[];
+  document.getElementById('atlas-grid').innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><p>Paste your CSV data and hit Render Atlas.</p></div>';
+  document.getElementById('summary-bar').style.display='none';
+  populateSectorFilter([]);
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+</script>
+</body>
+</html>
