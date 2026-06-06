@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.org/schemas/revenue_intent.schema.json",
+  "title": "RevenueIntent",
+  "type": "object",
+  "required": ["task_id", "run_id", "intent_type", "offer", "target_segment", "channel", "success_metric", "constraints", "created_at"],
+  "properties": {
+    "task_id": { "type": "string", "minLength": 1 },
+    "parent_task_id": { "type": ["string", "null"] },
+    "run_id": { "type": "string", "minLength": 1 },
+    "intent_type": { "const": "revenue_run" },
+    "offer": {
+      "type": "string",
+      "enum": [
+        "ai_for_tradies_audit",
+        "outcome_ready_setup",
+        "reading_buddy_demo",
+        "fractional_cto_rescue",
+        "evidence_pack",
+        "runtime_monitoring"
+      ]
+    },
+    "target_segment": {
+      "type": "string",
+      "enum": ["tradies", "providers", "schools", "accountants", "boards", "government", "small_business", "founders"]
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["email", "linkedin", "sms", "telegram", "page", "partner", "manual_seed"]
+    },
+    "target_count": { "type": "integer", "minimum": 0 },
+    "success_metric": {
+      "type": "string",
+      "enum": ["reply", "meeting", "payment", "signed_pilot", "report_delivered", "qualified_lead"]
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["draft", "send", "publish", "monitor", "log", "repair"]
+    },
+    "blocked_actions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["charge_card", "sign_contract", "delete_data", "legal_commitment"]
+    },
+    "constraints": {
+      "type": "object",
+      "required": ["allow_send", "allow_publish", "allow_repair", "allow_money_movement", "allow_destructive"],
+      "properties": {
+        "allow_send": { "type": "boolean" },
+        "allow_publish": { "type": "boolean" },
+        "allow_repair": { "type": "boolean" },
+        "allow_money_movement": { "type": "boolean" },
+        "allow_destructive": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "payload": { "type": "object" },
+    "created_at": { "type": "string" }
+  },
+  "additionalProperties": true
+}
