@@ -1,0 +1,105 @@
+{
+  "payload_type": "bridge_runtime_validation",
+  "created_at": "2026-06-07T00:00:00+10:00",
+  "status": "READY_FOR_BRIDGE",
+  "source": "chatgpt-github-connector",
+  "target_system": "MCP Bridge / AWS API Gateway / Lambda",
+  "priority": "P0",
+  "contract": "No HITL. Execute validation, repair drift, and return receipts.",
+  "evidence_context": {
+    "github_repo": "TML-4PM/t4h-remote-mcp-server-clean",
+    "canonical_receipt_repo": "TML-4PM/the-pen",
+    "workflow_file": ".github/workflows/health-check.yml",
+    "bridge_endpoint": "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke",
+    "mcp_endpoint": "https://t4h-remote-mcp-server-clean.vercel.app/mcp",
+    "commits": [
+      "ce746de754273dd3b803f7c0e4c52966f85d4ea4",
+      "788b12dd36416b6df5179231dc9db7cc67500b82",
+      "96dda8ced7b0e078faa86c406e1a3afd3e5fbdec",
+      "57a1e1c25be1f93f9d197e323f5a130ebe193020",
+      "737232771b773276f70c156c6cee3cbb1e85adb6",
+      "8068c123334d87b6e4a56959f81941b85eb5689d"
+    ]
+  },
+  "proven": [
+    "github_auth_healthy",
+    "github_write_healthy",
+    "github_comment_healthy",
+    "github_actions_healthy",
+    "github_runner_healthy",
+    "mcp_endpoint_http_200"
+  ],
+  "disproven": [
+    "connector_write_blocked",
+    "issue_comment_blocked",
+    "github_runner_failure",
+    "stale_endpoint_m5oqj21chd"
+  ],
+  "remaining_fault_domain": [
+    "api_gateway",
+    "lambda",
+    "bridge_auth",
+    "bridge_secret",
+    "route53_or_dns",
+    "cloudwatch_runtime_errors"
+  ],
+  "required_execution": [
+    {
+      "step": 1,
+      "name": "dns_resolution",
+      "command": "resolve zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com",
+      "expected_receipt": ["resolver_output", "addresses_or_error"]
+    },
+    {
+      "step": 2,
+      "name": "direct_bridge_invoke_x_api_key",
+      "method": "POST",
+      "url": "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke",
+      "headers": ["x-api-key", "Content-Type: application/json"],
+      "body": {"fn": "health"},
+      "expected_receipt": ["http_status", "response_body", "headers"]
+    },
+    {
+      "step": 3,
+      "name": "direct_bridge_invoke_dual_header",
+      "method": "POST",
+      "url": "https://zdgnab3py0.execute-api.ap-southeast-2.amazonaws.com/prod/lambda/invoke",
+      "headers": ["x-api-key", "Authorization: Bearer", "Content-Type: application/json"],
+      "body": {"fn": "health"},
+      "expected_receipt": ["http_status", "response_body", "headers"]
+    },
+    {
+      "step": 4,
+      "name": "api_gateway_validate",
+      "expected_receipt": ["api_id", "stage", "routes", "authorizer", "integration_target", "deployment_id"]
+    },
+    {
+      "step": 5,
+      "name": "lambda_validate",
+      "expected_receipt": ["function_name", "last_modified", "last_invoke", "error_count", "timeout_count", "throttle_count", "cloudwatch_log_excerpt"]
+    },
+    {
+      "step": 6,
+      "name": "secret_validate",
+      "expected_receipt": ["secret_present", "secret_matches_runtime", "rotation_state", "expiry_state"]
+    },
+    {
+      "step": 7,
+      "name": "repair_and_return_receipts",
+      "expected_receipt": ["fix_commit_or_aws_change_id", "post_fix_http_status", "post_fix_body", "ledger_write"]
+    }
+  ],
+  "success_criteria": {
+    "bridge_health": "POST {fn:health} returns acceptable health status",
+    "github_health_workflow": "MCP health passes; bridge diagnostic produces artifact not false-red service failure",
+    "ledger": "write validation result to Reality Ledger or return BLOCKED with typed blocker"
+  },
+  "reality_ledger": {
+    "status": "PARTIAL",
+    "result": "GitHub estate remediated; Bridge estate requires runtime validation and repair.",
+    "evidence": ["commit_receipts", "workflow_logs", "issue_comment_receipt"],
+    "gaps": ["api_gateway_receipt", "lambda_receipt", "secret_receipt", "ledger_db_receipt"],
+    "next_action": "Bridge executes required_execution and returns typed receipts.",
+    "score": 0.95
+  }
+}
