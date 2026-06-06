@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TML-4PM/the-pen/schemas/bridge-contract-v1.1.json",
+  "title": "MCP Bridge Direct Lambda Invoke Contract v1.1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["x-api-key", "body"],
+  "properties": {
+    "x-api-key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required at event root for direct Lambda invoke. Do not nest in headers for direct invoke."
+    },
+    "body": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "JSON string containing fn and payload. Required shape for aws lambda invoke."
+        },
+        {
+          "type": "object",
+          "required": ["fn"],
+          "additionalProperties": true,
+          "properties": {
+            "fn": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_.-]{1,128}$"
+            },
+            "payload": {
+              "type": "object"
+            },
+            "contract_version": {
+              "const": "1.1"
+            }
+          }
+        }
+      ]
+    },
+    "x-bridge-sig": { "type": "string" },
+    "x-bridge-ts": { "type": "string" },
+    "x-bridge-nonce": { "type": "string" }
+  },
+  "examples": [
+    {
+      "x-api-key": "<BRIDGE_API_KEY>",
+      "body": "{\"fn\":\"troy-health-check-worker\",\"payload\":{},\"contract_version\":\"1.1\"}"
+    }
+  ]
+}
