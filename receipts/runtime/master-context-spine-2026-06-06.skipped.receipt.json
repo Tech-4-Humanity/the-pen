@@ -1,0 +1,8 @@
+{
+  "system": "master_context_spine",
+  "workflow_run_id": "27053883516",
+  "target_date": "2026-06-06",
+  "status": "BLOCKED",
+  "blocker": "no digests found for target date (depends on #103 cross-LLM digest pipeline)",
+  "ts": "2026-06-06T05:33:13Z"
+}
