@@ -1,0 +1,16 @@
+{
+  "request_id": "unknown-1780789366964",
+  "function_name": "unknown",
+  "payload_path": "bridge/payloads/bridge-runtime-validation-20260607.json",
+  "commit_sha": "f61fd2bb42736241403088b444194df1214b6394",
+  "runner_workflow": "27077126562",
+  "picked_up_at": "2026-06-06T23:42:47Z",
+  "completed_at": "2026-06-06T23:42:47Z",
+  "status": "PARTIAL",
+  "http_code": 401,
+  "response": {
+    "ok": false,
+    "error_code": "UNAUTHORIZED",
+    "request_id": "2840cce0-0941-4708-93a0-77cbd2f79e05"
+  }
+}
