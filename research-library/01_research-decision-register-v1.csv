@@ -1,0 +1,31 @@
+programme,topic_family,topic,subtopic_or_asset,source,status,reason,destination,notes
+AI Sweet Spots,Core AI Sweet Spots Curves,AI Sweet Spots,AI Sweet Spots,supplied_cutoff,KEEP,Explicit public asset and core programme,Accepted taxonomy,Visible poster asset
+AI Sweet Spots,Insights and Interpretation,From Curves to Consequences,From Curves to Consequences,supplied_cutoff,KEEP,Explicit public asset,Accepted taxonomy,Visible poster asset
+AI Sweet Spots,Papers and Evidence Base,AI Sweet Spots Extended Study,AI Sweet Spots - Extended Study,supplied_cutoff,KEEP,Explicit public asset and extended study,Accepted taxonomy,Visible poster asset
+Cognitive Diversity and Population Evidence,Population Profiles,Extreme AI Effects,Extreme AI Effects,supplied_cutoff,KEEP,Explicit public asset,Accepted taxonomy,Visible poster asset
+Cognitive Diversity and Population Evidence,Cognitive Architecture,Cognitive Architecture,Cognitive Architecture,supplied_cutoff,KEEP,Explicit public asset,Accepted taxonomy,Visible poster asset
+MyNeuralSignal and Signal Integrity,Neurosymbolic Trust Architecture,Neurosymbolic Trust Architecture,Neurosymbolic Trust Architecture,supplied_cutoff,KEEP,Explicit public asset,Accepted taxonomy,Visible poster asset
+MyNeuralSignal and Signal Integrity,MyNeuralSignal Architecture,MyNeuralSignal,MyNeuralSignal,supplied_cutoff,KEEP,Explicit public asset,Accepted taxonomy,Visible poster asset
+Unified Biological Intelligence and Living Stack,Living Stack / Cognitive Reef,The Living Stack,The Living Stack,supplied_cutoff,KEEP,Explicit public asset,Accepted taxonomy,Visible poster asset
+Unified Biological Intelligence and Living Stack,Unified Biological Intelligence,Unified Biological Intelligence,Unified Biological Intelligence,supplied_cutoff,KEEP,Explicit public asset,Accepted taxonomy,Visible poster asset
+AI Sweet Spots,Core AI Sweet Spots Curves,Core Curves,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+AI Sweet Spots,Measurement and Metrics,Measurement and Metrics,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+Cognitive Diversity and Population Evidence,Population Profiles,Population Profiles,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+AI Sweet Spots,Assessment System,Assessment System,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+AI Sweet Spots,Papers and Evidence Base,Papers,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+AI Sweet Spots,Posters and Public Assets,Posters,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+AI Sweet Spots,Insights and Interpretation,Insights and Interpretation,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+AI Sweet Spots,Replication and Integration,Replication and Integration,TBD,supplied_registry_anchor,KEEP,Named anchor from supplied list,Accepted taxonomy,Needs row-level expansion
+AI Sweet Spots,Assessment System,Empty Capacity,TBD,supplied_registry_anchor,PARK,Named anchor but appears to be capacity/placeholder,Parking lot,Needs validation before promotion
+Digital Child Protection and Platform Regulation,Social Media Narrative Distribution and Commercialisation,Platform Compliance Tracker,Platform Compliance Tracker,supplied_registry_anchor,KEEP,Named social/platform anchor,Accepted taxonomy,Social media restored
+Digital Child Protection and Platform Regulation,Social Media Narrative Distribution and Commercialisation,SM Ban Watch,SM Ban Watch,supplied_registry_anchor,KEEP,Named social media anchor,Accepted taxonomy,Social media restored
+Digital Child Protection and Platform Regulation,Social Media Narrative Distribution and Commercialisation,CalmBound Kids Visit Mode,CalmBound Kids Visit Mode,supplied_registry_anchor,KEEP,Named child protection anchor,Accepted taxonomy,Social/platform regulation
+Social Media Narrative Distribution and Commercialisation,Social Media Narrative Distribution and Commercialisation,Content pulled from socials,Social content estate,supplied_context,KEEP,User explicitly said social media cannot be disregarded,Accepted taxonomy,First-class evidence/distribution surface
+Doolittles Translation and Communication Meaning,Doolittles Translation and Communication Meaning,Human to AI,Human to AI,supplied_taxonomy,KEEP,Translation target retained,Accepted taxonomy,Cross-cutting
+Doolittles Translation and Communication Meaning,Doolittles Translation and Communication Meaning,Human to body,Human to body,supplied_taxonomy,KEEP,Translation target retained,Accepted taxonomy,Cross-cutting
+Doolittles Translation and Communication Meaning,Doolittles Translation and Communication Meaning,Human to organisation,Human to organisation,supplied_taxonomy,KEEP,Translation target retained,Accepted taxonomy,Cross-cutting
+Doolittles Translation and Communication Meaning,Doolittles Translation and Communication Meaning,Human to animal,Human to animal,supplied_taxonomy,EMERGING,Candidate-heavy translation target,Candidate estate,Keep alive but not overclaim
+Doolittles Translation and Communication Meaning,Doolittles Translation and Communication Meaning,Human to machine,Human to machine,supplied_taxonomy,KEEP,Translation target retained,Accepted taxonomy,Cross-cutting
+Doolittles Translation and Communication Meaning,Doolittles Translation and Communication Meaning,Agent to agent,Agent to agent,supplied_taxonomy,KEEP,Translation target retained,Accepted taxonomy,Cross-cutting
+GCBAT and Validated Execution,Consent Identity Governance and Integrity Stack,System to governance,System to governance,supplied_taxonomy,KEEP,Translation/governance target retained,Accepted taxonomy,Cross-cutting
+MyNeuralSignal and Signal Integrity,Neurosymbolic Trust Architecture,Signal to action,Signal to action,supplied_taxonomy,KEEP,Translation/action target retained,Accepted taxonomy,Cross-cutting
