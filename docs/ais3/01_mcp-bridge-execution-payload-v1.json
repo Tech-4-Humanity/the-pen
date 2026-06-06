@@ -1,0 +1,162 @@
+{
+  "task_id": "ais3-sweetspots-global-observatory-v1",
+  "status": "PARTIAL",
+  "purpose": "Executable MCP/Bridge handoff payload for AIS3 / AI Sweet Spots global observatory runtime build.",
+  "source": {
+    "repo": "TML-4PM/the-pen",
+    "path": "docs/ais3/00_ai-sweetspots-global-observatory-v1.md",
+    "commit_sha": "97d864d36b0514c137fd6b5d98317776bd2603e9",
+    "issue": 163
+  },
+  "runtime_truth": {
+    "github_issue_is_execution_receipt": false,
+    "github_issue_is_tracking_receipt": true,
+    "required_runtime_receipts": [
+      "supabase_queue_enqueue response",
+      "supabase_worker_trigger response",
+      "t4h_bridge_invoke response",
+      "troy-sql-executor db_result",
+      "Reality Ledger receipt"
+    ]
+  },
+  "mcp_payloads": {
+    "dry_run_queue_enqueue": {
+      "jsonrpc": "2.0",
+      "id": "ais3-sweetspots-dry-run-queue",
+      "method": "tools/call",
+      "params": {
+        "name": "supabase_queue_enqueue",
+        "arguments": {
+          "job_type": "ais3_sweetspots_runtime_build",
+          "payload": {
+            "source_repo": "TML-4PM/the-pen",
+            "source_path": "docs/ais3/00_ai-sweetspots-global-observatory-v1.md",
+            "source_commit": "97d864d36b0514c137fd6b5d98317776bd2603e9",
+            "issue": 163,
+            "requested_actions": [
+              "dry_run_schema",
+              "gated_write_back",
+              "seed_catalog_and_actions",
+              "synthetic_assessment_transaction",
+              "ci_gate",
+              "observatory_refresh",
+              "reality_ledger_receipt"
+            ],
+            "acceptance_criteria": [
+              "schema_applied_or_confirmed_existing",
+              "seed_data_inserted_or_confirmed_existing",
+              "synthetic_transaction_completed",
+              "ci_gate_passed",
+              "observatory_views_refreshed",
+              "reality_ledger_receipt_returned"
+            ]
+          },
+          "priority": 10,
+          "dedupe_key": "ais3-sweetspots-global-observatory-v1:97d864d36b0514c137fd6b5d98317776bd2603e9",
+          "table": "ops.work_queue",
+          "allowWrite": false,
+          "dryRun": true
+        }
+      }
+    },
+    "real_queue_enqueue_gated": {
+      "jsonrpc": "2.0",
+      "id": "ais3-sweetspots-real-queue",
+      "method": "tools/call",
+      "params": {
+        "name": "supabase_queue_enqueue",
+        "arguments": {
+          "job_type": "ais3_sweetspots_runtime_build",
+          "payload": {
+            "source_repo": "TML-4PM/the-pen",
+            "source_path": "docs/ais3/00_ai-sweetspots-global-observatory-v1.md",
+            "source_commit": "97d864d36b0514c137fd6b5d98317776bd2603e9",
+            "issue": 163,
+            "execution_mode": "dry_run_then_gated_write_back",
+            "requested_actions": [
+              "dry_run_schema",
+              "gated_write_back",
+              "seed_catalog_and_actions",
+              "synthetic_assessment_transaction",
+              "ci_gate",
+              "observatory_refresh",
+              "reality_ledger_receipt"
+            ]
+          },
+          "priority": 10,
+          "dedupe_key": "ais3-sweetspots-global-observatory-v1:97d864d36b0514c137fd6b5d98317776bd2603e9",
+          "table": "ops.work_queue",
+          "allowWrite": true,
+          "dryRun": false
+        }
+      }
+    },
+    "worker_trigger_gated": {
+      "jsonrpc": "2.0",
+      "id": "ais3-sweetspots-worker-trigger",
+      "method": "tools/call",
+      "params": {
+        "name": "supabase_worker_trigger",
+        "arguments": {
+          "worker_fn": "process_work_queue",
+          "payload": {
+            "job_type": "ais3_sweetspots_runtime_build",
+            "dedupe_key": "ais3-sweetspots-global-observatory-v1:97d864d36b0514c137fd6b5d98317776bd2603e9"
+          },
+          "allowWrite": true,
+          "dryRun": false
+        }
+      }
+    },
+    "bridge_ping": {
+      "jsonrpc": "2.0",
+      "id": "ais3-sweetspots-bridge-ping",
+      "method": "tools/call",
+      "params": {
+        "name": "t4h_bridge_invoke",
+        "arguments": {
+          "fn": "troy-sql-executor",
+          "payload": {
+            "sql": "SELECT 1 AS bridge_ping"
+          }
+        }
+      }
+    }
+  },
+  "ledger": {
+    "task_id": "ais3-sweetspots-global-observatory-v1",
+    "intent": "Move AIS3 / AI Sweet Spots from passive GitHub tracking issue to executable MCP/Bridge queue contract.",
+    "execution": {
+      "payload_created": true,
+      "runtime_invoked_from_this_chat": false,
+      "reason_runtime_not_invoked": "Remote MCP runtime tools are evidenced in repo source but not directly callable from this chat connector surface."
+    },
+    "output": "docs/ais3/01_mcp-bridge-execution-payload-v1.json",
+    "status": "PARTIAL",
+    "evidence": [
+      "Bridge contract docs identify /api/bridge -> API Gateway /lambda/invoke.",
+      "MCP server source exposes supabase_queue_enqueue, supabase_worker_trigger, and t4h_bridge_invoke.",
+      "GitHub issue #163 tracks execution request."
+    ],
+    "gaps": [
+      "No queue row receipt yet.",
+      "No worker trigger receipt yet.",
+      "No DB execution receipt yet.",
+      "No Reality Ledger runtime receipt yet."
+    ],
+    "next_action": "Run the JSON-RPC payloads against the remote MCP endpoint, starting with dry_run_queue_enqueue, then real_queue_enqueue_gated and worker_trigger_gated if dry-run passes.",
+    "elevation": "The execution path is now exact and machine-callable rather than descriptive.",
+    "pressure_flags": [
+      "runtime_receipt_missing",
+      "mcp_runtime_not_directly_callable_here"
+    ],
+    "score": {
+      "execution": 0.7,
+      "evidence": 0.82,
+      "economic": 0.8,
+      "reuse": 0.9,
+      "delta": 0.88,
+      "overall": 0.81
+    }
+  }
+}
