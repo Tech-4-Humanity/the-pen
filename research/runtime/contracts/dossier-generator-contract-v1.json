@@ -1,0 +1,36 @@
+{
+  "contract_id": "dossier-generator-contract-v1",
+  "status": "partial_until_runtime_execution",
+  "purpose": "Generate research dossiers from the canonical Research Runtime object graph.",
+  "source_of_truth": "research_dossier_view",
+  "input": {
+    "theme_id": "uuid",
+    "output_format": ["markdown", "html", "pdf"],
+    "include_sections": [
+      "executive_summary",
+      "question_map",
+      "uncertainty_spine",
+      "hypothesis_activity_experiment",
+      "evidence_register",
+      "asset_factory",
+      "commercialisation",
+      "claim_and_audit",
+      "reuse_paths",
+      "reality_ledger"
+    ]
+  },
+  "required_outputs": {
+    "executive_summary": "One-page summary of theme, business value, uncertainty, evidence strength and next action.",
+    "research_body": "Question, uncertainty, hypothesis, activity, experiment, result and learning.",
+    "asset_body": "Assets created, origin story, evidence objects, reuse paths and commercial path.",
+    "commercialisation": "Customer problem, product offer, revenue model, buyer and proof.",
+    "audit_pack": "Claim position, evidence grade, cost trace, risks, gaps and receipts.",
+    "ledger": "Status, result, evidence, gaps, next_action, elevation, pressure_flags and score."
+  },
+  "classification_rules": {
+    "real": "All required objects exist, evidence grade A or B exists, receipts are attached, and generation completed.",
+    "partial": "Objects exist but evidence, receipts, cost trace or runtime generation is incomplete.",
+    "blocked": "Missing access, missing credentials, failed dependency, or unavailable deployment surface."
+  },
+  "receipt_required": true
+}
