@@ -1,0 +1,46 @@
+{
+  "task_id": "github-issue-heatmap-20260607",
+  "status": "PARTIAL",
+  "scope": "Open issue sweep across core runtime/control repos",
+  "result": "Core runtime backlog is dominated by control-plane receipts, Bridge execution handoffs, workflow action drift, quarantined schedules, survivability doctrine, connector startup runtime, and public deployment exposure.",
+  "hot_items": [
+    {"repo":"TML-4PM/the-pen","issue":164,"theme":"MCP control plane completion receipt","state":"PARTIAL"},
+    {"repo":"TML-4PM/the-pen","issue":163,"theme":"AIS3 / AI Sweet Spots observatory Bridge execution","state":"PARTIAL"},
+    {"repo":"TML-4PM/mcp-command-centre","issue":64,"theme":"Fix all issues","state":"OPEN"},
+    {"repo":"TML-4PM/the-pen","issue":161,"theme":"Connector Startup Runtime 1.0 attach + Bridge execution","state":"PARTIAL"},
+    {"repo":"TML-4PM/the-pen","issue":160,"theme":"Runtime Reliability Layer service catalogue","state":"OPEN"},
+    {"repo":"TML-4PM/the-pen","issue":159,"theme":"ATO/RDTI uplift bridge execution handoff","state":"PARTIAL"},
+    {"repo":"TML-4PM/mcp-command-centre","issue":63,"theme":"11 outdated GitHub Actions detected","state":"OPEN"},
+    {"repo":"TML-4PM/mcp-command-centre","issue":48,"theme":"Reconcile Control Tower Scheduler quarantined after 48 failures","state":"BLOCKER"},
+    {"repo":"TML-4PM/the-pen","issue":132,"theme":"Pen Dev Prod survivability and Command Centre implementation","state":"PARTIAL"},
+    {"repo":"TML-4PM/the-pen","issue":155,"theme":"Public Vercel deployment exposure for private Pen repo","state":"SECURITY"},
+    {"repo":"TML-4PM/mcp-command-centre","issue":40,"theme":"One-go runtime acceleration wave for Command Centre surfaces","state":"OPEN"}
+  ],
+  "dominant_classes": [
+    "bridge_receipt_debt",
+    "runtime_proof_gap",
+    "workflow_action_drift",
+    "quarantined_schedule",
+    "security_exposure",
+    "control_plane_completion",
+    "command_centre_surface_gap"
+  ],
+  "recommended_execution_order": [
+    "security_exposure_the_pen_155",
+    "quarantined_scheduler_mcp_command_centre_48",
+    "outdated_actions_mcp_command_centre_63",
+    "pen_dev_prod_the_pen_132",
+    "connector_startup_the_pen_161",
+    "mcp_control_plane_the_pen_164",
+    "ais3_the_pen_163"
+  ],
+  "evidence": [
+    "GitHub.search_issues returned open runtime/control issues including the-pen#164,#163,#161,#160,#159,#132,#155 and mcp-command-centre#64,#63,#48,#40"
+  ],
+  "next_action": [
+    "verify security exposure issue first",
+    "inspect workflow files for outdated actions and quarantined scheduler",
+    "route Bridge execution tasks through active Bridge worker repos",
+    "surface heatmap in Command Centre widget"
+  ]
+}
