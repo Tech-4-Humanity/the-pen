@@ -1,0 +1,82 @@
+name: Wire EventBridge → troy-runtime-proof-sweeper
+
+on:
+  workflow_dispatch:
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Get Lambda ARN
+        id: fn
+        run: |
+          ARN=$(aws lambda get-function \
+            --function-name troy-runtime-proof-sweeper \
+            --region ap-southeast-2 \
+            --query 'Configuration.FunctionArn' \
+            --output text)
+          echo "arn=$ARN" >> $GITHUB_OUTPUT
+          echo "Lambda ARN: $ARN"
+
+      - name: Create EventBridge rule
+        id: rule
+        run: |
+          RULE_ARN=$(aws events put-rule \
+            --name troy-runtime-proof-sweeper-hourly \
+            --schedule-expression 'cron(10 * * * ? *)' \
+            --state ENABLED \
+            --description 'Hourly trigger for troy-runtime-proof-sweeper' \
+            --region ap-southeast-2 \
+            --query RuleArn \
+            --output text)
+          echo "rule_arn=$RULE_ARN" >> $GITHUB_OUTPUT
+          echo "Rule ARN: $RULE_ARN"
+
+      - name: Set Lambda as target
+        run: |
+          aws events put-targets \
+            --rule troy-runtime-proof-sweeper-hourly \
+            --region ap-southeast-2 \
+            --targets '[{"Id":"sweeper-target","Arn":"${{ steps.fn.outputs.arn }}","Input":"{\"source\":\"eventbridge\",\"sweep_window_hours\":1}"}]'
+
+      - name: Add invoke permission
+        run: |
+          aws lambda add-permission \
+            --function-name troy-runtime-proof-sweeper \
+            --statement-id eventbridge-invoke-hourly \
+            --action lambda:InvokeFunction \
+            --principal events.amazonaws.com \
+            --source-arn ${{ steps.rule.outputs.rule_arn }} \
+            --region ap-southeast-2 \
+          || echo "Permission already exists — skipping"
+
+      - name: Smoke test — invoke Lambda directly
+        run: |
+          RESULT=$(aws lambda invoke \
+            --function-name troy-runtime-proof-sweeper \
+            --region ap-southeast-2 \
+            --payload '{"source":"smoke_test","sweep_window_hours":1}' \
+            --cli-binary-format raw-in-base64-out \
+            /tmp/response.json \
+            --query StatusCode \
+            --output text)
+          echo "Invoke HTTP status: $RESULT"
+          cat /tmp/response.json
+          if [ "$RESULT" != "200" ]; then exit 1; fi
+
+      - name: Print receipt
+        run: |
+          echo '=== WIRE RECEIPT ==='
+          echo "Lambda: troy-runtime-proof-sweeper"
+          echo "Rule:   troy-runtime-proof-sweeper-hourly"
+          echo "Cron:   cron(10 * * * ? *) — every hour at :10"
+          echo "Region: ap-southeast-2"
+          echo "Status: WIRED + SMOKE TESTED"
+          cat /tmp/response.json
