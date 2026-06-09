@@ -1,0 +1,49 @@
+{
+  "contract_id": "research-runtime-intent-map-v1",
+  "purpose": "Map missing ideas, intents, and execution outcomes into the Research Runtime object graph.",
+  "primary_intents": [
+    {
+      "intent": "capture_uncertainty",
+      "meaning": "Convert vague research ideas into explicit uncertainty statements.",
+      "target_objects": ["research_question", "research_uncertainty"]
+    },
+    {
+      "intent": "prove_activity",
+      "meaning": "Capture what work was performed and bind it to evidence.",
+      "target_objects": ["research_activity", "research_experiment", "research_evidence"]
+    },
+    {
+      "intent": "produce_asset",
+      "meaning": "Turn validated research or learning into a reusable asset.",
+      "target_objects": ["research_asset", "research_reuse"]
+    },
+    {
+      "intent": "commercialise",
+      "meaning": "Connect assets to offers, buyers, revenue models and product paths.",
+      "target_objects": ["research_product", "research_revenue"]
+    },
+    {
+      "intent": "support_claim",
+      "meaning": "Separate tax, grant, IP and governance evidence from marketing narrative.",
+      "target_objects": ["research_claim", "research_evidence"]
+    },
+    {
+      "intent": "generate_dossier",
+      "meaning": "Generate an executive, research, asset, commercial and audit pack from the graph.",
+      "target_objects": ["research_dossier_view", "research_runtime_receipt"]
+    }
+  ],
+  "missing_idea_rules": [
+    "Any note without an uncertainty becomes a draft question.",
+    "Any question without a hypothesis remains partial.",
+    "Any asset without evidence is commercial-only until provenance is attached.",
+    "Any claim without grade A or B evidence is partial.",
+    "Any revenue idea without buyer and price point remains speculative.",
+    "Any reusable learning must be linked to at least one target brand, product or workflow."
+  ],
+  "classification": {
+    "REAL": "Executed, evidenced, receipt-bound and reusable.",
+    "PARTIAL": "Structured but missing execution, evidence, deployment or receipt.",
+    "BLOCKED": "Missing authority, dependency, credential, or runtime surface."
+  }
+}
