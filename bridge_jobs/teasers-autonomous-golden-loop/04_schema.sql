@@ -10,7 +10,8 @@ create table if not exists teaser_prompt (
   response_type text not null default 'binary',
   weight numeric not null default 1,
   active boolean not null default true,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  constraint teaser_prompt_unique_text unique (prompt_type, prompt_text)
 );
 
 create table if not exists teaser_delivery (
@@ -75,4 +76,4 @@ values
 ('context','Are meetings helping or blocking real work today?','choice',1),
 ('reflection','Are you busier than last week, or more interrupted?','choice',1),
 ('recovery','Did movement improve your thinking today?','binary',1)
-on conflict do nothing;
+on conflict (prompt_type, prompt_text) do nothing;
