@@ -1,4 +1,4 @@
-name: Wire EventBridge → troy-runtime-proof-sweeper
+name: Wire EventBridge to troy-runtime-proof-sweeper
 
 on:
   workflow_dispatch:
@@ -41,23 +41,25 @@ jobs:
 
       - name: Set Lambda as target
         run: |
+          LAMBDA_ARN="${{ steps.fn.outputs.arn }}"
           aws events put-targets \
             --rule troy-runtime-proof-sweeper-hourly \
             --region ap-southeast-2 \
-            --targets '[{"Id":"sweeper-target","Arn":"${{ steps.fn.outputs.arn }}","Input":"{\"source\":\"eventbridge\",\"sweep_window_hours\":1}"}]'
+            --targets "[{\"Id\":\"sweeper-target\",\"Arn\":\"${LAMBDA_ARN}\",\"Input\":\"{\\\"source\\\":\\\"eventbridge\\\",\\\"sweep_window_hours\\\":1}\"}]"
 
       - name: Add invoke permission
         run: |
+          RULE_ARN="${{ steps.rule.outputs.rule_arn }}"
           aws lambda add-permission \
             --function-name troy-runtime-proof-sweeper \
             --statement-id eventbridge-invoke-hourly \
             --action lambda:InvokeFunction \
             --principal events.amazonaws.com \
-            --source-arn ${{ steps.rule.outputs.rule_arn }} \
+            --source-arn "${RULE_ARN}" \
             --region ap-southeast-2 \
-          || echo "Permission already exists — skipping"
+          || echo "Permission already exists - skipping"
 
-      - name: Smoke test — invoke Lambda directly
+      - name: Smoke test invoke
         run: |
           RESULT=$(aws lambda invoke \
             --function-name troy-runtime-proof-sweeper \
@@ -67,16 +69,15 @@ jobs:
             /tmp/response.json \
             --query StatusCode \
             --output text)
-          echo "Invoke HTTP status: $RESULT"
+          echo "Invoke HTTP: $RESULT"
           cat /tmp/response.json
           if [ "$RESULT" != "200" ]; then exit 1; fi
 
       - name: Print receipt
         run: |
-          echo '=== WIRE RECEIPT ==='
-          echo "Lambda: troy-runtime-proof-sweeper"
-          echo "Rule:   troy-runtime-proof-sweeper-hourly"
-          echo "Cron:   cron(10 * * * ? *) — every hour at :10"
-          echo "Region: ap-southeast-2"
-          echo "Status: WIRED + SMOKE TESTED"
+          echo '=== EVENTBRIDGE WIRE RECEIPT ==='
+          echo 'Lambda:   troy-runtime-proof-sweeper'
+          echo 'Rule:     troy-runtime-proof-sweeper-hourly'
+          echo 'Schedule: cron(10 * * * ? *) - every hour at :10'
+          echo 'Region:   ap-southeast-2'
           cat /tmp/response.json
