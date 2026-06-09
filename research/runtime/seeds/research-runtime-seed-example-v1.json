@@ -1,0 +1,31 @@
+{
+  "theme": "AI Sweet Spots",
+  "question": "Do different neurocognitive cohorts achieve different outcomes at different levels of AI involvement?",
+  "uncertainty": "It is uncertain whether optimal AI involvement differs materially between cohorts.",
+  "hypothesis": "Distinct cohorts exhibit different performance sweet spots across AI involvement bands.",
+  "activity": "Cohort comparison and benchmark analysis.",
+  "experiment": "Segment results by cohort and AI involvement percentage and compare outcome measures.",
+  "evidence": {
+    "grade": "B",
+    "source_type": "analysis",
+    "title": "AI Sweet Spots Benchmark Summary"
+  },
+  "asset": {
+    "title": "AI Sweet Spots Cognitive Load Benchmark",
+    "type": "research_summary"
+  },
+  "product": {
+    "title": "AI Readiness Assessment",
+    "customer_problem": "One-size-fits-all AI adoption guidance",
+    "customer_outcome": "Cohort-specific AI adoption pathways"
+  },
+  "revenue": {
+    "model": "consulting_and_subscription"
+  },
+  "claim": {
+    "type": "r_and_d"
+  },
+  "reuse": {
+    "target": "Outcome Ready, AHC, WorkFamilyAI"
+  }
+}
