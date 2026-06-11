@@ -1,0 +1,1 @@
+{"name":"payroll-travel-static","version":"1.0.0","private":true,"scripts":{"build":"mkdir -p dist && cp prototype/index.html dist/index.html","test":"node static-tests.js"},"devDependencies":{}}
