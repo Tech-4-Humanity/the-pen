@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payroll + Travel + Outlook + MYOB Prototype</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #6b7280;
+      --line: #d1d5db;
+      --soft: #f3f4f6;
+      --panel: #ffffff;
+      --good: #065f46;
+      --warn: #92400e;
+      --bad: #991b1b;
+      --brand: #1f2937;
+      --blue: #1d4ed8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: #f9fafb;
+    }
+    header {
+      background: var(--brand);
+      color: white;
+      padding: 28px 36px;
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: -0.03em;
+    }
+    header p {
+      margin: 0;
+      max-width: 980px;
+      color: #e5e7eb;
+      line-height: 1.5;
+    }
+    .wrap { padding: 28px 36px 48px; max-width: 1440px; margin: 0 auto; }
+    .grid { display: grid; gap: 18px; }
+    .top-grid { grid-template-columns: 1.1fr 0.9fr; }
+    .three { grid-template-columns: repeat(3, 1fr); }
+    .four { grid-template-columns: repeat(4, 1fr); }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+      padding: 18px;
+    }
+    .card h2, .card h3 { margin: 0 0 12px; }
+    .card h2 { font-size: 22px; }
+    .card h3 { font-size: 17px; }
+    .muted { color: var(--muted); }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 5px 10px;
+      font-size: 12px;
+      background: var(--soft);
+      margin: 4px 6px 4px 0;
+      white-space: nowrap;
+    }
+    .pill.good { color: var(--good); background: #ecfdf5; border-color: #a7f3d0; }
+    .pill.warn { color: var(--warn); background: #fffbeb; border-color: #fde68a; }
+    .pill.bad { color: var(--bad); background: #fef2f2; border-color: #fecaca; }
+    .pill.blue { color: var(--blue); background: #eff6ff; border-color: #bfdbfe; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      padding: 14px;
+      min-height: 116px;
+      position: relative;
+    }
+    .step strong { display: block; margin-bottom: 8px; }
+    .step:after {
+      content: '→';
+      position: absolute;
+      right: -12px;
+      top: 40%;
+      color: var(--muted);
+      font-weight: bold;
+    }
+    .step:last-child:after { content: ''; }
+    .screen {
+      border: 2px solid #111827;
+      border-radius: 18px;
+      overflow: hidden;
+      background: white;
+    }
+    .screenbar {
+      background: #111827;
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .screenbody { padding: 16px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--soft); font-weight: 700; }
+    .btn {
+      display: inline-block;
+      border: 1px solid #111827;
+      background: #111827;
+      color: white;
+      border-radius: 10px;
+      padding: 8px 11px;
+      font-size: 13px;
+      text-decoration: none;
+      margin: 3px 4px 3px 0;
+    }
+    .btn.secondary { background: white; color: #111827; }
+    .metric {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+    .small { font-size: 13px; line-height: 1.45; }
+    .lane {
+      border-left: 5px solid #111827;
+      padding-left: 14px;
+      margin: 12px 0;
+    }
+    .warning {
+      border: 2px solid #991b1b;
+      background: #fff1f2;
+      padding: 14px;
+      border-radius: 14px;
+      margin-top: 16px;
+    }
+    .warning strong { color: var(--bad); }
+    footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media print {
+      body { background: white; }
+      header { background: white; color: black; border-bottom: 2px solid black; }
+      header p { color: black; }
+      .card { box-shadow: none; break-inside: avoid; }
+      .btn { border: 1px solid black; background: white; color: black; }
+    }
+    @media (max-width: 980px) {
+      .top-grid, .three, .four, .flow { grid-template-columns: 1fr; }
+      .step:after { content: ''; }
+      .wrap { padding: 18px; }
+      header { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Payroll + Travel + Outlook + MYOB</h1>
+    <p>Prototype view for a staff travel, hotel choice, payment transparency, reimbursement, and MYOB export system. Outlook is the employee front door. MYOB is the finance and payroll integration layer. Raw card storage is blocked.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="grid top-grid">
+      <div class="card">
+        <h2>Operating model</h2>
+        <div class="flow" aria-label="system flow">
+          <div class="step"><strong>1. Outlook</strong><span class="small">Employee sees flights, hotels, receipts, approvals and actions inside Outlook.</span></div>
+          <div class="step"><strong>2. Travel Portal</strong><span class="small">Trip record, hotel selection, policy checks and exception handling.</span></div>
+          <div class="step"><strong>3. Payment Vault</strong><span class="small">Tokenised card references only. No raw card numbers or CVV.</span></div>
+          <div class="step"><strong>4. MYOB Adapter</strong><span class="small">Reimbursement, spend and cost-centre export with reconciliation.</span></div>
+          <div class="step"><strong>5. Audit Ledger</strong><span class="small">Every approval, payment, override, export and exception receives a receipt.</span></div>
+        </div>
+        <span class="pill good">Outlook front door</span>
+        <span class="pill blue">MYOB finance export</span>
+        <span class="pill good">Tokenised payments</span>
+        <span class="pill warn">Provider binding pending</span>
+        <span class="pill bad">Raw card storage blocked</span>
+      </div>
+
+      <div class="card">
+        <h2>Build status</h2>
+        <div class="grid four">
+          <div><div class="metric">60+</div><div class="muted small">staff ready scale</div></div>
+          <div><div class="metric">5</div><div class="muted small">core system layers</div></div>
+          <div><div class="metric">0</div><div class="muted small">raw card fields allowed</div></div>
+          <div><div class="metric">100%</div><div class="muted small">auditable design intent</div></div>
+        </div>
+        <div class="warning">
+          <strong>Payment rule:</strong> only token, brand, last four digits, expiry metadata and provider references are stored. Full card number and CVV must stay with a PCI-compliant provider.
+        </div>
+      </div>
+    </section>
+
+    <section class="grid top-grid" style="margin-top:18px;">
+      <div class="card screen">
+        <div class="screenbar"><strong>Outlook Add-in: My Travel</strong><span>Signed in as employee</span></div>
+        <div class="screenbody">
+          <h3>Upcoming trip</h3>
+          <p><strong>Sydney → Brisbane</strong> · 18 Jun 2026 to 20 Jun 2026 · Cost centre: Delivery</p>
+          <table>
+            <thead><tr><th>Item</th><th>Details</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>Flight</td><td>QF 512 · SYD 08:05 → BNE 09:35</td><td><span class="pill good">Synced to calendar</span></td><td><a class="btn secondary" href="#">View</a></td></tr>
+              <tr><td>Hotel</td><td>3 approved options near worksite</td><td><span class="pill warn">Selection required</span></td><td><a class="btn" href="#hotels">Pick hotel</a></td></tr>
+              <tr><td>Payment</td><td>Corporate card token ending 1842</td><td><span class="pill good">Available</span></td><td><a class="btn secondary" href="#payments">Review</a></td></tr>
+              <tr><td>Receipt</td><td>Hotel receipt required after checkout</td><td><span class="pill blue">Reminder scheduled</span></td><td><a class="btn secondary" href="#">Upload later</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" id="hotels">
+        <h2>Hotel self-selection</h2>
+        <div class="lane">
+          <strong>Allowed</strong>
+          <p class="small muted">Employee chooses from hotels that pass nightly rate, distance, cancellation and safety rules.</p>
+        </div>
+        <table>
+          <thead><tr><th>Hotel</th><th>Rate</th><th>Policy</th></tr></thead>
+          <tbody>
+            <tr><td>Central Business Hotel</td><td>$245/night</td><td><span class="pill good">Approved</span></td></tr>
+            <tr><td>Riverside Suites</td><td>$289/night</td><td><span class="pill good">Approved</span></td></tr>
+            <tr><td>Luxury Tower</td><td>$430/night</td><td><span class="pill warn">Manager approval</span></td></tr>
+            <tr><td>Unknown Vendor</td><td>$199/night</td><td><span class="pill bad">Blocked</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid three" style="margin-top:18px;">
+      <div class="card" id="payments">
+        <h2>Payment transparency</h2>
+        <p class="small muted">Finance can see who paid, what trip it belongs to, the provider reference, approval status and MYOB export status.</p>
+        <table>
+          <thead><tr><th>Payment</th><th>Visible record</th></tr></thead>
+          <tbody>
+            <tr><td>Provider</td><td>Token vault provider</td></tr>
+            <tr><td>Card</td><td>Visa ending 1842</td></tr>
+            <tr><td>Amount</td><td>AUD 578.00</td></tr>
+            <tr><td>Status</td><td><span class="pill good">Authorised</span></td></tr>
+            <tr><td>Blocked</td><td>Full card number, CVV, PIN</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>MYOB export</h2>
+        <table>
+          <thead><tr><th>Record</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Employee mapping</td><td><span class="pill warn">Pending binding</span></td></tr>
+            <tr><td>Cost centre</td><td><span class="pill good">Required</span></td></tr>
+            <tr><td>Expense claim</td><td><span class="pill good">Approved only</span></td></tr>
+            <tr><td>Export batch</td><td><span class="pill blue">Receipt required</span></td></tr>
+            <tr><td>Reconciliation</td><td><span class="pill warn">Adapter pending</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Audit ledger</h2>
+        <p class="small muted">Each material action writes an append-only event.</p>
+        <table>
+          <thead><tr><th>Event</th><th>Receipt</th></tr></thead>
+          <tbody>
+            <tr><td>Trip approved</td><td>ledger_001</td></tr>
+            <tr><td>Hotel selected</td><td>ledger_002</td></tr>
+            <tr><td>Payment authorised</td><td>ledger_003</td></tr>
+            <tr><td>MYOB export</td><td>ledger_004</td></tr>
+            <tr><td>Receipt uploaded</td><td>ledger_005</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:18px;">
+      <h2>Role views</h2>
+      <div class="grid four">
+        <div class="lane"><strong>Employee</strong><p class="small muted">View flights, pick hotels, upload receipts, check reimbursement status.</p></div>
+        <div class="lane"><strong>Manager</strong><p class="small muted">Approve trips, policy exceptions, hotel exceptions and reimbursements.</p></div>
+        <div class="lane"><strong>Finance</strong><p class="small muted">Track spend, card tokens, provider references, receipts and MYOB exports.</p></div>
+        <div class="lane"><strong>Payroll</strong><p class="small muted">Only receives approved reimbursement records that affect payroll.</p></div>
+      </div>
+    </section>
+
+    <footer>
+      status: PARTIAL · prototype only · no live Outlook, MYOB, travel provider or payment provider binding yet · raw credit-card storage blocked by design
+    </footer>
+  </main>
+</body>
+</html>
