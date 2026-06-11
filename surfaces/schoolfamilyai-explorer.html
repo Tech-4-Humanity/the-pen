@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SchoolFamilyAI Explorer</title>
+  <style>
+    :root{--ink:#111;--muted:#555;--line:#111;--paper:#fff;--soft:#f5f5f5;--accent:#111}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif;line-height:1.45}.wrap{max-width:1280px;margin:0 auto;padding:28px}header{border:2px solid var(--line);padding:24px;margin-bottom:20px}h1{font-size:42px;margin:0 0 6px;letter-spacing:-1.2px}h2{font-size:22px;margin:0 0 12px}h3{font-size:16px;margin:0 0 8px}.sub{font-size:18px;color:var(--muted);max-width:900px}.grid{display:grid;gap:14px}.cols3{grid-template-columns:repeat(3,1fr)}.cols4{grid-template-columns:repeat(4,1fr)}.card{border:2px solid var(--line);padding:16px;background:#fff}.soft{background:var(--soft)}.pill{display:inline-block;border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;margin:4px 4px 0 0;font-size:13px}.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.node{border:2px solid var(--line);padding:10px 12px;background:#fff;font-weight:700}.arrow{font-size:24px}.cube{display:grid;grid-template-columns:repeat(9,1fr);border:2px solid var(--line)}.cell{min-height:54px;border:1px solid var(--line);padding:6px;font-size:11px;background:#fff}.cell strong{display:block;font-size:12px}.band{display:grid;grid-template-columns:180px 1fr;gap:0;border:2px solid var(--line)}.band>div{border-bottom:1px solid var(--line);padding:10px}.band>div:nth-last-child(-n+2){border-bottom:0}.label{font-weight:800;background:var(--soft)}.spine{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.spine div{border:2px solid var(--line);padding:12px;min-height:90px}.small{font-size:13px;color:var(--muted)}button{border:2px solid var(--line);background:#fff;padding:10px 12px;font-weight:800;cursor:pointer}button:hover{background:#111;color:#fff}.hidden{display:none}.printnote{margin-top:18px;border:2px dashed var(--line);padding:12px}@media(max-width:900px){.cols3,.cols4,.spine{grid-template-columns:1fr}.cube{grid-template-columns:repeat(3,1fr)}h1{font-size:32px}.band{grid-template-columns:1fr}}@media print{button{display:none}.wrap{padding:10mm}.card,header{break-inside:avoid}.cube{grid-template-columns:repeat(9,1fr)}body{font-size:11px}h1{font-size:28px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>SchoolFamilyAI Explorer</h1>
+      <div class="sub">A child-safe predecessor to WorkFamilyAI. The old model is teams, roles and job descriptions. The forward model is capability, signal and outcome, bound to the Humanity Atlas spine.</div>
+      <p class="small">Status: PARTIAL | Spine-bound artefact | Human support amplification, not child surveillance</p>
+      <button onclick="document.body.classList.toggle('showAll')">Toggle detail mode</button>
+      <button onclick="window.print()">Print black and white</button>
+    </header>
+
+    <section class="grid cols3">
+      <div class="card"><h2>WorkFamilyAI</h2><p>9 x 9 x 9 coordination grammar for adult roles, teams, jobs and work-family interlocks.</p><span class="pill">Role</span><span class="pill">Function</span><span class="pill">Department</span></div>
+      <div class="card soft"><h2>SchoolFamilyAI</h2><p>9 x 9 x 9 developmental grammar for children, families, teachers, schools and support networks.</p><span class="pill">Capability</span><span class="pill">Signal</span><span class="pill">Outcome</span></div>
+      <div class="card"><h2>Humanity Atlas</h2><p>The navigation layer connecting needs, identity, consent, interventions, evidence, outcomes and recovery.</p><span class="pill">Need</span><span class="pill">Consent</span><span class="pill">Evidence</span><span class="pill">Recovery</span></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h2>Core flow</h2>
+      <div class="flow"><div class="node">Need</div><div class="arrow">→</div><div class="node">Signal</div><div class="arrow">→</div><div class="node">Identity</div><div class="arrow">→</div><div class="node">Consent</div><div class="arrow">→</div><div class="node">Capability</div><div class="arrow">→</div><div class="node">Intervention</div><div class="arrow">→</div><div class="node">Evidence</div><div class="arrow">→</div><div class="node">Outcome</div><div class="arrow">→</div><div class="node">Recovery</div></div>
+    </section>
+
+    <section class="grid cols3" style="margin-top:14px">
+      <div class="card"><h2>Capability axis</h2><p><span class="pill">Literacy</span><span class="pill">Numeracy</span><span class="pill">Communication</span><span class="pill">Executive function</span><span class="pill">Emotional regulation</span><span class="pill">Belonging</span><span class="pill">Creativity</span><span class="pill">Physical readiness</span><span class="pill">Digital discernment</span></p></div>
+      <div class="card"><h2>Signal axis</h2><p><span class="pill">Engagement</span><span class="pill">Avoidance</span><span class="pill">Confidence</span><span class="pill">Frustration</span><span class="pill">Curiosity</span><span class="pill">Fatigue</span><span class="pill">Participation</span><span class="pill">Help seeking</span><span class="pill">Transfer</span></p></div>
+      <div class="card"><h2>Outcome axis</h2><p><span class="pill">Skill gain</span><span class="pill">Confidence gain</span><span class="pill">Belonging</span><span class="pill">Reduced distress</span><span class="pill">Attendance</span><span class="pill">Parent-school clarity</span><span class="pill">Teacher load reduction</span><span class="pill">Inclusion</span><span class="pill">Independence</span></p></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h2>9 x 9 visible slice</h2>
+      <p class="small">This slice shows capability x signal. Each cell resolves to at least one outcome, intervention and evidence record.</p>
+      <div class="cube" id="cube"></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h2>Interlock contract</h2>
+      <div class="band">
+        <div class="label">Child</div><div>Gives attempts, questions, reactions and preferences. Receives support, scaffolds, feedback and belonging.</div>
+        <div class="label">Parent</div><div>Gives context, home support, consent and observations. Receives clarity, guidance and progress evidence.</div>
+        <div class="label">Teacher</div><div>Gives instruction, observation and adaptation. Receives reduced admin, better signals and family clarity.</div>
+        <div class="label">School</div><div>Gives policy, safety, resources and escalation. Receives cohort insight, risk visibility and outcome evidence.</div>
+        <div class="label">Provider</div><div>Gives specialist support and evidence. Receives continuity, context and goals.</div>
+        <div class="label">Platform</div><div>Gives orchestration, memory, suggestions and receipts. Must not become a hidden decision-maker.</div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h2>Integrity Stack binding</h2>
+      <div class="spine">
+        <div><h3>UBI</h3><p class="small">Contextual learner signals, no medical truth claim.</p></div>
+        <div><h3>MyNeuralSignal</h3><p class="small">Engagement, overload, confidence, fatigue patterns.</p></div>
+        <div><h3>ID Exchange</h3><p class="small">Learner, guardian, teacher, school and provider identity.</p></div>
+        <div><h3>ConsentX</h3><p class="small">Guardian consent, child assent, purpose and revocation.</p></div>
+        <div><h3>NEUROPAK</h3><p class="small">Route intent to support, referral, learning or stop pathway.</p></div>
+        <div><h3>Tech4Humanity</h3><p class="small">Product assembly and market packaging.</p></div>
+        <div><h3>GCBAT</h3><p class="small">Audit, standards, child-safety and recovery.</p></div>
+      </div>
+    </section>
+
+    <section class="grid cols4" style="margin-top:14px">
+      <div class="card"><h2>Products</h2><p>Reading Buddy Kids, Maths Buddy, Parent Companion, Teacher Co-pilot, Inclusion Planner, AI Literacy Coach, SchoolFamily Ledger.</p></div>
+      <div class="card"><h2>Reusable engines</h2><p>AHC, Reading Buddy, Outcome Ready, ConsentX, LifeGraph+, Reality Ledger, Synal, HoloOrg, GCBAT.</p></div>
+      <div class="card"><h2>Commercial paths</h2><p>Parent subscription, teacher tools, school SaaS, inclusion support, government programs, marketplace.</p></div>
+      <div class="card"><h2>Guardrails</h2><p>No secret profiling, no diagnosis claims, no unsupported risk scoring, human review, revocation, evidence provenance, recovery path.</p></div>
+    </section>
+
+    <section class="printnote">
+      <strong>Receipt:</strong> PARTIAL. Surface is static and inspectable. REAL requires runtime schema execution, consent flow, evidence record, ledger receipt, recovery test, economic proof and 72h survivability.
+    </section>
+  </main>
+  <script>
+    const capabilities=['Literacy','Numeracy','Communication','Executive Function','Regulation','Belonging','Creativity','Physical','Digital'];
+    const signals=['Engagement','Avoidance','Confidence','Frustration','Curiosity','Fatigue','Participation','Help','Transfer'];
+    const cube=document.getElementById('cube');
+    capabilities.forEach((c,i)=>signals.forEach((s,j)=>{const d=document.createElement('div');d.className='cell';d.innerHTML='<strong>'+c+'</strong>'+s+'<br><span class="small">evidence → outcome</span>';cube.appendChild(d)}));
+  </script>
+</body>
+</html>
