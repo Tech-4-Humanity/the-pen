@@ -8,11 +8,154 @@ handover:
     Canonical architecture artefact has been posted to the spine repository. Runtime
     deployment, ledger insertion, telemetry continuity, recovery validation, economic
     proof, and 72h survivability remain unproven until executed through Bridge/Supabase.
+    Review has also shown gaps in needs, intents, acceptance criteria, runtime binding,
+    evidence contract and product assembly discipline. These gaps are now explicit.
   purpose: >
     Lift the AI for Humanity 3.1 / Tech4Humanity portfolio handover into a spine-bound
     architecture anchored to the seven-layer Integrity Stack, reusing existing atlas,
     research, portfolio, signal, machine, people, and social-good assets as views and
     product assemblies.
+
+needs_and_intents:
+  summary: >
+    The portfolio must stop drifting as a collection of names, diagrams and potential
+    products. It needs an executable intent model: who has a need, what signal proves it,
+    what consent allows action, which agent or product should respond, what outcome is
+    expected, what evidence proves the outcome, and what governance decides whether the
+    loop is safe to repeat.
+  primary_need: >
+    Build a reusable human-outcome operating system where biological, behavioural,
+    contextual and organisational signals become governed interventions and measurable
+    outcomes without duplicating product logic across every brand.
+  primary_intent: >
+    Convert AI for Humanity 3.1 from architecture into runtime: a seven-layer integrity
+    stack, one graph model, reusable atomic engines, evidence-bound product assemblies,
+    and a ledger that can distinguish REAL from PARTIAL/BLOCKED work.
+  non_negotiables:
+    - "Every product must declare which human need it serves."
+    - "Every need must map to at least one signal, one consent path, one intervention path and one measurable outcome."
+    - "Every intervention must have identity, authority, consent, evidence, governance and recovery."
+    - "No asset is allowed to remain only a brand name; it must resolve to a layer, engine, view, workflow, dataset, product assembly or commercial path."
+    - "No product claim is REAL without telemetry, ledger evidence, recovery path and economic proof."
+    - "The Integrity Stack is the spine. Humanity Atlas is the navigation surface. Reality Ledger is the truth surface. Research OS is the learning surface."
+  intended_users:
+    - group: "Families and individuals"
+      needs:
+        - "less friction in daily life"
+        - "better support, coordination and memory"
+        - "safe personalised interventions"
+        - "agency, dignity and consent"
+      intents:
+        - "understand what is happening"
+        - "coordinate people, tasks and services"
+        - "get timely assistance"
+        - "track progress without surveillance abuse"
+      assets:
+        - "WorkFamilyAI"
+        - "AHC"
+        - "LifeGraph+"
+        - "Reading Buddy"
+    - group: "Children, learners and educators"
+      needs:
+        - "early support"
+        - "reading and learning improvement"
+        - "evidence of progress"
+        - "safe consent and guardian controls"
+      intents:
+        - "detect struggle early"
+        - "recommend the next best intervention"
+        - "show what changed"
+        - "protect minors and sensitive data"
+      assets:
+        - "Reading Buddy"
+        - "Outcome Ready"
+        - "SchoolFamilyAI"
+        - "Research OS"
+    - group: "Providers, practitioners and services"
+      needs:
+        - "better intake, triage and evidence"
+        - "reduced admin load"
+        - "outcome reporting"
+        - "safe coordination across roles"
+      intents:
+        - "convert signals into support actions"
+        - "maintain consent and role boundaries"
+        - "prove impact"
+        - "reduce duplicated work"
+      assets:
+        - "Outcome Ready"
+        - "AHC"
+        - "ConsentX"
+        - "Reality Ledger"
+    - group: "Organisations and workforces"
+      needs:
+        - "clear operating model"
+        - "agent/human role design"
+        - "better decision loops"
+        - "measurable adoption and productivity"
+      intents:
+        - "model work as living systems"
+        - "route work to agents and humans safely"
+        - "measure the value of intervention"
+        - "avoid tool-first nonsense"
+      assets:
+        - "HoloOrg"
+        - "WorkFamilyAI"
+        - "Neural Ennead"
+        - "The Hundred Room"
+        - "AI Sweet Spots"
+    - group: "Researchers, funders and partners"
+      needs:
+        - "testable hypotheses"
+        - "evidence chains"
+        - "commercialisation pathways"
+        - "research governance"
+      intents:
+        - "turn ideas into validated evidence"
+        - "turn evidence into products"
+        - "turn products into revenue and social impact"
+        - "create defensible IP"
+      assets:
+        - "Research OS"
+        - "Research Genome"
+        - "Humanity Atlas"
+        - "Drug Resilience Atlas"
+    - group: "Regulators, boards and governance actors"
+      needs:
+        - "auditability"
+        - "consent assurance"
+        - "standards alignment"
+        - "recovery and accountability"
+      intents:
+        - "see what happened and why"
+        - "verify authority and consent"
+        - "classify risk"
+        - "stop unsafe or uneconomic loops"
+      assets:
+        - "GCBAT"
+        - "FAR-CAGE"
+        - "Reality Ledger"
+        - "Audit Ledger"
+  intent_object_required_fields:
+    - "intent_id"
+    - "actor_id"
+    - "actor_type"
+    - "need_statement"
+    - "beneficiary"
+    - "signal_refs"
+    - "identity_ref"
+    - "consent_ref"
+    - "purpose"
+    - "context_place"
+    - "target_outcome"
+    - "intervention_options"
+    - "selected_route"
+    - "agent_or_product_refs"
+    - "risk_classification"
+    - "evidence_required"
+    - "economic_path"
+    - "recovery_path"
+    - "status"
 
 canonical_alignment:
   canonical_repo: "TML-4PM/the-pen"
@@ -42,297 +185,83 @@ integrity_stack:
       name: "Universal Biological Integrity"
       abbreviation: "UBI"
       role: "Sensor truth and biological ground truth"
+      need_served: "Establish trusted human/context signal before any interpretation or intervention."
+      intent: "Capture minimal, consent-linkable biological/contextual evidence with provenance and quality scoring."
       core_question: "What is the human state and can it be trusted?"
-      inputs:
-        - "biological signals"
-        - "environmental signals"
-        - "device signals"
-        - "context signals"
-      outputs:
-        - "signal quality"
-        - "human state markers"
-        - "integrity confidence"
-        - "sensor provenance"
-      reusable_assets:
-        - "MyNeuralSignal signal intake"
-        - "Reading Buddy attention and comprehension signals"
-        - "Outcome Ready progress signals"
-        - "AI Sweet Spots human-AI fit signals"
-        - "Drug Resilience Atlas biological/context signals"
-      evidence_required:
-        - "sensor provenance receipt"
-        - "signal quality score"
-        - "timestamped event record"
-        - "data minimisation and consent linkage"
-
+      inputs: ["biological signals", "environmental signals", "device signals", "context signals"]
+      outputs: ["signal quality", "human state markers", "integrity confidence", "sensor provenance"]
+      evidence_required: ["sensor provenance receipt", "signal quality score", "timestamped event record", "data minimisation and consent linkage"]
     - layer: 2
       name: "MyNeuralSignal"
       abbreviation: "MNS"
       role: "Real-time signal integrity and interpretation engine"
+      need_served: "Turn raw signals into meaningful, timely and useful indicators."
+      intent: "Interpret signal events into candidate needs, risks, opportunities and interventions."
       core_question: "What signal matters now and what does it mean?"
-      inputs:
-        - "UBI signal events"
-        - "attention markers"
-        - "cognitive state markers"
-        - "interaction telemetry"
-      outputs:
-        - "interpreted signal"
-        - "signal-to-intervention candidates"
-        - "confidence score"
-        - "drift or anomaly flags"
-      reusable_assets:
-        - "Synal browser signal surface"
-        - "Places attention fabric"
-        - "LifeGraph+ longitudinal memory"
-        - "Reading Buddy signal-to-intervention chain"
-        - "WorkFamilyAI household/work coordination signals"
-      evidence_required:
-        - "interpretation trace"
-        - "confidence score"
-        - "drift record"
-        - "intervention recommendation receipt"
-
+      inputs: ["UBI signal events", "attention markers", "cognitive state markers", "interaction telemetry"]
+      outputs: ["interpreted signal", "signal-to-intervention candidates", "confidence score", "drift or anomaly flags"]
+      evidence_required: ["interpretation trace", "confidence score", "drift record", "intervention recommendation receipt"]
     - layer: 3
       name: "ID Exchange"
       abbreviation: "IDX"
       role: "Identity, credentials, authority and actor resolution"
+      need_served: "Know who or what is acting, and whether they are allowed to act."
+      intent: "Bind person, agent, device, organisation and role to each event and decision."
       core_question: "Who or what is acting, and under what authority?"
-      inputs:
-        - "person identity"
-        - "agent identity"
-        - "organisation identity"
-        - "device identity"
-        - "role and credential assertions"
-      outputs:
-        - "verified actor"
-        - "role context"
-        - "authority boundary"
-        - "credential status"
-      reusable_assets:
-        - "Identity Engine"
-        - "Agent Registry"
-        - "Human Profile"
-        - "Organisation Model"
-        - "Reality Ledger actor attribution"
-      evidence_required:
-        - "identity proof or assertion receipt"
-        - "authority scope"
-        - "credential freshness"
-        - "actor-to-action binding"
-
+      inputs: ["person identity", "agent identity", "organisation identity", "device identity", "role and credential assertions"]
+      outputs: ["verified actor", "role context", "authority boundary", "credential status"]
+      evidence_required: ["identity proof or assertion receipt", "authority scope", "credential freshness", "actor-to-action binding"]
     - layer: 4
       name: "ConsentX"
       abbreviation: "CONSENTX"
       role: "Multi-actor consent, revocation, policy and permission governance"
+      need_served: "Protect agency, privacy and lawful purpose before data use or intervention."
+      intent: "Determine whether a proposed action is permitted, limited, denied or revoked."
       core_question: "Is this action permitted, for this purpose, at this time?"
-      inputs:
-        - "actor identity"
-        - "data purpose"
-        - "intervention purpose"
-        - "guardian or organisational policy"
-        - "regulatory constraints"
-      outputs:
-        - "consent grant"
-        - "consent denial"
-        - "revocation event"
-        - "policy constraint"
-        - "fallback mode"
-      reusable_assets:
-        - "Consent Engine"
-        - "Trust Layer"
-        - "Privacy and sovereignty rules"
-        - "Reading Buddy minor/guardian consent"
-        - "Outcome Ready participant/provider consent"
-      evidence_required:
-        - "consent receipt"
-        - "purpose binding"
-        - "revocation path"
-        - "fallback classification: FULL | SESSION | NONE"
-
+      inputs: ["actor identity", "data purpose", "intervention purpose", "guardian or organisational policy", "regulatory constraints"]
+      outputs: ["consent grant", "consent denial", "revocation event", "policy constraint", "fallback mode"]
+      evidence_required: ["consent receipt", "purpose binding", "revocation path", "fallback classification: FULL | SESSION | NONE"]
     - layer: 5
       name: "NEUROPAK"
       abbreviation: "NEUROPAK"
       role: "Intent orchestration gateway across human signals, agents and machines"
+      need_served: "Route need and intent into safe human, agent or machine action."
+      intent: "Convert interpreted, consented signals into executable intent objects and route them."
       core_question: "What intent should be routed into which action path?"
-      inputs:
-        - "interpreted signal"
-        - "identity context"
-        - "consent result"
-        - "goal or task context"
-        - "available agent/machine capabilities"
-      outputs:
-        - "intent object"
-        - "routing decision"
-        - "agent or machine invocation"
-        - "safety gate result"
-      reusable_assets:
-        - "Intent Engine"
-        - "Automation Engine"
-        - "HoloOrg role-to-agent routing"
-        - "Doolittles listener interpretation"
-        - "RATPAK physical autonomy gateway"
-      evidence_required:
-        - "intent trace"
-        - "routing receipt"
-        - "safety gate result"
-        - "agent invocation record"
-
+      inputs: ["interpreted signal", "identity context", "consent result", "goal or task context", "available agent/machine capabilities"]
+      outputs: ["intent object", "routing decision", "agent or machine invocation", "safety gate result"]
+      evidence_required: ["intent trace", "routing receipt", "safety gate result", "agent invocation record"]
     - layer: 6
       name: "Tech4Humanity Ecosystem Guidance"
       abbreviation: "T4H"
       role: "Product, research, commercialisation and social-good operating layer"
+      need_served: "Select the right product, intervention, research path or commercial route for the human outcome."
+      intent: "Assemble reusable assets into a product/workflow/research response and attach economics and impact."
       core_question: "Which product, venture, research path or intervention best serves the human outcome?"
-      inputs:
-        - "intent object"
-        - "portfolio map"
-        - "research evidence"
-        - "commercial pathway"
-        - "social-good priority"
-      outputs:
-        - "product assembly"
-        - "research program link"
-        - "commercialisation path"
-        - "social-good pathway"
-        - "partner or distribution path"
-      reusable_assets:
-        - "Humanity Atlas"
-        - "Research OS"
-        - "WorkFamilyAI"
-        - "AHC"
-        - "Outcome Ready"
-        - "Reading Buddy"
-        - "Synal"
-        - "HoloOrg"
-        - "Doolittles"
-        - "RATPAK"
-        - "AI Sweet Spots"
-        - "Drug Resilience Atlas"
-      evidence_required:
-        - "product assembly receipt"
-        - "evidence linkage"
-        - "commercial path"
-        - "impact metric"
-        - "reuse map"
-
+      inputs: ["intent object", "portfolio map", "research evidence", "commercial pathway", "social-good priority"]
+      outputs: ["product assembly", "research program link", "commercialisation path", "social-good pathway", "partner or distribution path"]
+      evidence_required: ["product assembly receipt", "evidence linkage", "commercial path", "impact metric", "reuse map"]
     - layer: 7
       name: "GCBAT Oversight"
       abbreviation: "GCBAT"
       role: "Governance, audit, standards, safety, ethics and recovery oversight"
+      need_served: "Keep the system safe, explainable, recoverable and credible."
+      intent: "Audit decisions, classify risk, enforce standards, trigger recovery and stop unsafe loops."
       core_question: "Is the system safe, governed, recoverable, auditable and aligned?"
-      inputs:
-        - "all layer receipts"
-        - "policy context"
-        - "audit events"
-        - "standards mappings"
-        - "risk signals"
-      outputs:
-        - "audit judgement"
-        - "governance status"
-        - "risk classification"
-        - "recovery directive"
-        - "standards alignment"
-      reusable_assets:
-        - "Reality Ledger"
-        - "Research Ledger"
-        - "Audit Ledger"
-        - "FAR-CAGE"
-        - "BCI standards"
-        - "National security governance"
-        - "Ethical AI governance"
-      evidence_required:
-        - "ledger entry"
-        - "audit trail"
-        - "risk classification"
-        - "recovery validation"
-        - "standards mapping"
-
-portfolio_views:
-  principle: "The Integrity Stack is the spine. Everything else is a view, product assembly, surface, or evidence loop."
-  primary_views:
-    people_view:
-      flagship_assets:
-        - "WorkFamilyAI"
-        - "Augmented Humanity Coach"
-        - "Outcome Ready"
-        - "Reading Buddy"
-        - "Class by Cass"
-      spine_binding:
-        - "UBI -> MNS -> IDX -> ConsentX -> NEUROPAK -> T4H -> GCBAT"
-    machine_view:
-      flagship_assets:
-        - "HoloOrg"
-        - "Doolittles"
-        - "Neural Ennead"
-        - "The Hundred Room"
-        - "RATPAK"
-        - "Agent Marketplace"
-      spine_binding:
-        - "IDX and NEUROPAK are mandatory for machine authority and routing"
-    signal_view:
-      flagship_assets:
-        - "MyNeuralSignal"
-        - "Synal"
-        - "Places"
-        - "LifeGraph+"
-        - "AI Sweet Spots"
-      spine_binding:
-        - "UBI and MNS are the signal truth foundation"
-    research_view:
-      flagship_assets:
-        - "Research OS"
-        - "Research Hub"
-        - "Research Genome"
-        - "Hypothesis Dashboard"
-        - "Research Commercialisation Workflow"
-        - "Drug Resilience Atlas"
-      spine_binding:
-        - "T4H guides research-to-product conversion; GCBAT audits claims"
-    atlas_view:
-      flagship_assets:
-        - "Humanity Atlas"
-        - "Atlas View"
-        - "Digital Twin View"
-        - "Impact View"
-        - "Economic View"
-      spine_binding:
-        - "All seven layers map to People, Places, Signals, Machines, Evidence, Outcomes, Economics and Time"
+      inputs: ["all layer receipts", "policy context", "audit events", "standards mappings", "risk signals"]
+      outputs: ["audit judgement", "governance status", "risk classification", "recovery directive", "standards alignment"]
+      evidence_required: ["ledger entry", "audit trail", "risk classification", "recovery validation", "standards mapping"]
 
 runtime_loop:
-  canonical_formula: "SIGNAL -> SIMULATE -> DECIDE -> ACT -> MEASURE -> LEARN -> GOVERN -> RECOVER"
-  steps:
-    - step: 1
-      verb: "Capture"
-      stack_layer: "UBI"
-      output: "raw trusted signal event"
-    - step: 2
-      verb: "Interpret"
-      stack_layer: "MyNeuralSignal"
-      output: "meaningful signal with confidence"
-    - step: 3
-      verb: "Bind"
-      stack_layer: "ID Exchange"
-      output: "actor, role and authority"
-    - step: 4
-      verb: "Permit"
-      stack_layer: "ConsentX"
-      output: "purpose-bound consent result"
-    - step: 5
-      verb: "Route"
-      stack_layer: "NEUROPAK"
-      output: "intent and action route"
-    - step: 6
-      verb: "Assemble"
-      stack_layer: "Tech4Humanity"
-      output: "product/research/intervention path"
-    - step: 7
-      verb: "Govern"
-      stack_layer: "GCBAT"
-      output: "audit, risk, recovery and standards status"
+  canonical_formula: "NEED -> SIGNAL -> IDENTITY -> CONSENT -> INTENT -> ROUTE -> ACT -> MEASURE -> LEARN -> GOVERN -> RECOVER"
+  acceptance_rule: "No loop is complete unless need, intent, evidence, outcome, economics and recovery are all present."
 
 humanity_atlas:
   one_line: "One graph. Infinite views."
   role: "The navigation and sensemaking surface across the seven-layer Integrity Stack."
   graph_entities:
+    - "Need"
+    - "Intent"
     - "Person"
     - "Family"
     - "Team"
@@ -344,7 +273,6 @@ humanity_atlas:
     - "Signal"
     - "Identity"
     - "Consent"
-    - "Intent"
     - "Agent"
     - "Machine"
     - "Intervention"
@@ -358,6 +286,8 @@ humanity_atlas:
     - "Governance Control"
     - "Recovery Path"
   required_views:
+    - "Needs View"
+    - "Intent View"
     - "People View"
     - "Places View"
     - "Signal View"
@@ -372,10 +302,11 @@ humanity_atlas:
 atomic_asset_reuse:
   rule: "Do not duplicate product logic. Assemble products from atomic engines."
   core_engines:
+    - "Needs Registry"
+    - "Intent Engine"
     - "Identity Engine"
     - "Consent Engine"
     - "Signal Engine"
-    - "Intent Engine"
     - "Agent Registry"
     - "Memory Layer"
     - "Organisation Model"
@@ -391,76 +322,160 @@ atomic_asset_reuse:
     - "Economic Engine"
   product_assembly_examples:
     reading_buddy:
+      need: "A child needs earlier, safer reading support with evidence of progress."
+      intent: "Detect comprehension/attention struggle and deliver the next best reading intervention."
       layers: ["UBI", "MyNeuralSignal", "ID Exchange", "ConsentX", "NEUROPAK", "Tech4Humanity", "GCBAT"]
-      engines: ["Signal Engine", "Human Profile", "Consent Engine", "Intervention Engine", "Reality Ledger", "Research Genome"]
-      proof_chain: "signal -> intervention -> reading outcome -> evidence -> research -> product improvement"
+      engines: ["Needs Registry", "Signal Engine", "Human Profile", "Consent Engine", "Intervention Engine", "Reality Ledger", "Research Genome"]
+      proof_chain: "need -> signal -> consent -> intervention -> reading outcome -> evidence -> research -> product improvement"
     outcome_ready:
+      need: "Families and providers need support pathways that prove progress without drowning in admin."
+      intent: "Convert participant needs into support actions, evidence and reports."
       layers: ["UBI", "MyNeuralSignal", "ID Exchange", "ConsentX", "NEUROPAK", "Tech4Humanity", "GCBAT"]
-      engines: ["Human Profile", "Consent Engine", "Outcome Ledger", "Intervention Engine", "Research Genome"]
+      engines: ["Needs Registry", "Human Profile", "Consent Engine", "Outcome Ledger", "Intervention Engine", "Research Genome"]
       proof_chain: "need -> support -> progress -> evidence -> provider/family report"
     workfamilyai:
+      need: "Families and teams need coordination, memory and reduced friction."
+      intent: "Turn daily life and work signals into coordinated human/agent actions."
       layers: ["ID Exchange", "ConsentX", "NEUROPAK", "Tech4Humanity", "GCBAT"]
-      engines: ["Identity Engine", "Memory Layer", "Organisation Model", "Automation Engine", "Agent Registry"]
-      proof_chain: "family/work signal -> coordination action -> reduced friction -> evidence"
+      engines: ["Needs Registry", "Identity Engine", "Memory Layer", "Organisation Model", "Automation Engine", "Agent Registry"]
+      proof_chain: "family/work need -> coordination intent -> action -> reduced friction -> evidence"
     holoorg:
+      need: "Organisations need to model work as living systems and route work safely."
+      intent: "Turn organisational events into role, agent and workflow actions with evidence."
       layers: ["ID Exchange", "ConsentX", "NEUROPAK", "Tech4Humanity", "GCBAT"]
-      engines: ["Organisation Model", "Agent Registry", "Listener Genome", "Automation Engine", "Reality Ledger"]
+      engines: ["Needs Registry", "Organisation Model", "Agent Registry", "Listener Genome", "Automation Engine", "Reality Ledger"]
       proof_chain: "decision event -> listener interpretation -> agent action -> organisational outcome -> ledger"
     synal:
+      need: "Signals need a surface that follows the human across places and contexts."
+      intent: "Capture and route useful browser/device/place signals into the stack."
       layers: ["UBI", "MyNeuralSignal", "ID Exchange", "ConsentX", "NEUROPAK"]
       engines: ["Signal Engine", "Identity Engine", "Consent Engine", "Intent Engine"]
-      proof_chain: "surface event -> signal -> intent -> routing -> outcome"
+      proof_chain: "surface event -> signal -> identity -> consent -> intent -> routing -> outcome"
+
+gap_register:
+  summary: "Review confirms the architecture is promising but incomplete. The gaps are material and must drive the next build."
+  gaps:
+    - id: "GAP-001"
+      area: "Needs model"
+      problem: "Needs are implied, not modelled as first-class objects."
+      consequence: "Products can drift into feature lists without a human problem to solve."
+      fix: "Create Needs Registry schema and require every product assembly to bind to at least one need."
+      priority: "CRITICAL"
+    - id: "GAP-002"
+      area: "Intent model"
+      problem: "Intent exists conceptually but not as a runtime object with required fields."
+      consequence: "NEUROPAK cannot reliably route or audit actions."
+      fix: "Create intent_object schema and routing contract."
+      priority: "CRITICAL"
+    - id: "GAP-003"
+      area: "Evidence contract"
+      problem: "Evidence is listed per layer but not normalised into a ledger schema."
+      consequence: "REAL/PARTIAL classification remains manual and inconsistent."
+      fix: "Create Reality Ledger evidence contract with typed receipt fields."
+      priority: "CRITICAL"
+    - id: "GAP-004"
+      area: "Runtime schema"
+      problem: "No SQL/schema pack exists for Need, Intent, Signal, Consent, Evidence, Outcome and Recovery objects."
+      consequence: "Architecture cannot execute."
+      fix: "Create integrity_stack_runtime_schema.sql."
+      priority: "CRITICAL"
+    - id: "GAP-005"
+      area: "Product assembly discipline"
+      problem: "Assets are mapped but not all are reduced to engines, workflows, datasets or surfaces."
+      consequence: "Portfolio sprawl can return."
+      fix: "Create product assembly matrix for all major assets."
+      priority: "HIGH"
+    - id: "GAP-006"
+      area: "Economic proof"
+      problem: "Revenue paths are named but not tied to unit economics, buyer, price, channel or proof of willingness to pay."
+      consequence: "Commercial readiness is overstated."
+      fix: "Create economic path object and pricing/commercial proof matrix."
+      priority: "HIGH"
+    - id: "GAP-007"
+      area: "Governance and recovery"
+      problem: "GCBAT is defined as oversight but lacks explicit stop/recover/replay procedures."
+      consequence: "Unsafe or failed loops cannot be deterministically recovered."
+      fix: "Create recovery validation and replay contract."
+      priority: "HIGH"
+    - id: "GAP-008"
+      area: "Telemetry continuity"
+      problem: "No telemetry stream proves layer-to-layer continuity."
+      consequence: "72h survivability cannot be claimed."
+      fix: "Define telemetry events for each layer and heartbeat/survivability checks."
+      priority: "HIGH"
+    - id: "GAP-009"
+      area: "Drive/source ingestion"
+      problem: "Google Drive file was referenced but not readable in this chat path."
+      consequence: "External source may contain unincorporated architecture or evidence."
+      fix: "Fetch/read Drive source in next capable runtime and reconcile into spine."
+      priority: "MEDIUM"
+    - id: "GAP-010"
+      area: "Acceptance criteria"
+      problem: "No formal done definition exists for architecture, schema, product, pilot or production."
+      consequence: "Outputs can look complete while remaining non-executable."
+      fix: "Create acceptance criteria per maturity level: concept, architecture, schema, pilot, prod, REAL."
+      priority: "HIGH"
+
+acceptance_criteria:
+  concept:
+    required: ["need statement", "intended user", "target outcome", "spine layer mapping"]
+  architecture:
+    required: ["layer mapping", "asset reuse map", "evidence needs", "gap register", "next executable artifact"]
+  schema:
+    required: ["typed objects", "relationships", "status enum", "ledger fields", "rollback path"]
+  pilot:
+    required: ["user segment", "intervention", "telemetry", "evidence", "success metric", "commercial assumption"]
+  production:
+    required: ["runtime deployment", "monitoring", "recovery", "cost gate", "security/consent controls", "operator handover"]
+  REAL:
+    required: ["runtime receipt", "canonical ledger row", "telemetry continuity", "economic proof", "recovery validation", "72h survivability"]
 
 handover_for_new_chat:
   opening_instruction: >
-    Start from the seven-layer Integrity Stack as the spine: Universal Biological
-    Integrity, MyNeuralSignal, ID Exchange, ConsentX, NEUROPAK, Tech4Humanity ecosystem
-    guidance, and GCBAT oversight. Treat all portfolio assets as views or assemblies
-    attached to that spine. No clarification loop. Continue from posted artefact in
-    TML-4PM/the-pen/architecture/AI_FOR_HUMANITY_3_1_INTEGRITY_STACK_SPINE.yaml.
+    Start from the seven-layer Integrity Stack as the spine and from the newly explicit
+    Needs and Intents model. Do not treat the portfolio as a list of products. Every
+    product, research asset and atlas view must bind to Need -> Signal -> Identity ->
+    Consent -> Intent -> Route -> Act -> Measure -> Learn -> Govern -> Recover. Continue
+    from TML-4PM/the-pen/architecture/AI_FOR_HUMANITY_3_1_INTEGRITY_STACK_SPINE.yaml.
   next_build_targets:
-    - "THE_HUMANITY_ATLAS_MASTER_ARCHITECTURE.md"
-    - "humanity_atlas_schema.yaml"
     - "integrity_stack_runtime_schema.sql"
+    - "humanity_atlas_schema.yaml"
+    - "needs_and_intents_registry.yaml"
+    - "reality_ledger_evidence_contract.yaml"
     - "tech4humanity_product_assembly_matrix.csv"
     - "research_os_card_lifecycle.yaml"
-    - "portfolio_to_runtime_handover.md"
-  post_prod_gate:
-    note: >
-      No HITL before post-prod for non-destructive architecture, schema, documentation,
-      GitHub handoff, and receipt work. Gated/prod operations still require the
-      standard dry-run, evidence, rollback, and hard-boundary checks in GLOBAL_RULE.md.
+    - "economic_path_matrix.yaml"
 
 receipt:
   status: "PARTIAL"
-  result: "Seven-layer Integrity Stack spine artefact created and ready for canonical repository handoff."
+  result: "Integrity Stack spine strengthened with explicit Needs and Intents model, gap register and acceptance criteria."
   evidence:
     - type: "github_read"
-      value: "Fetched TML-4PM/the-pen/GLOBAL_RULE.md and aligned to hierarchy and Wave-10 evidence requirements."
-    - type: "architecture_synthesis"
-      value: "Lifted AI for Humanity 3.1 handover into seven-layer Integrity Stack spine."
-    - type: "asset_reuse"
-      value: "Mapped existing People, Machines, Signals, Research, Atlas, Doolittles, Synal, WorkFamilyAI, LifeGraph+, HoloOrg, Reading Buddy and Outcome Ready assets to spine layers."
+      value: "Fetched existing architecture artefact before update."
+    - type: "architecture_revision"
+      value: "Added first-class needs_and_intents, per-layer need_served/intent, product need/intent mappings, gap register and acceptance criteria."
   gaps:
-    - "Runtime Bridge execution not available through this chat path."
-    - "No Supabase t4h_canonical_changes row written from this response."
-    - "No telemetry continuity or 72h survivability proven."
-    - "No post-production deployment performed."
-    - "Google Drive file access was attempted but no readable content was returned in this chat."
+    - "No Bridge receipt."
+    - "No Supabase t4h_canonical_changes row."
+    - "No SQL runtime schema posted yet."
+    - "No telemetry stream implemented."
+    - "No economic proof matrix posted yet."
+    - "No recovery validation implemented."
+    - "No 72h survivability proof."
   next_action:
-    - "Commit this artefact to TML-4PM/the-pen architecture path."
-    - "Create runtime schema and product assembly matrix from this spine."
-    - "Wire Humanity Atlas views to the seven-layer graph model."
-    - "Log canonical change through Bridge/Supabase when connector is available."
-  elevation: "Moves AI for Humanity 3.1 from portfolio handover to stack-bound reusable spine architecture."
+    - "Create integrity_stack_runtime_schema.sql from the Need/Intent/Evidence model."
+    - "Create needs_and_intents_registry.yaml."
+    - "Create product assembly matrix for all named assets."
+    - "Create evidence and recovery contract."
+  elevation: "Moves the spine from product/layer mapping into need-driven, intent-routable architecture."
   pressure_flags:
-    - "Architecture now stable enough for runtime schema."
-    - "Evidence and telemetry remain the limiting factor for REAL classification."
-    - "Post-prod claim must wait for runtime receipts."
+    - "Many gaps remain and must not be hidden."
+    - "Needs and intents must now become runtime objects."
+    - "Do not claim REAL without Bridge/Supabase/runtime receipts."
   score:
-    execution: 0.70
-    evidence: 0.68
-    economic: 0.62
-    reuse: 0.93
-    delta: 0.86
-    overall: 0.76
+    execution: 0.73
+    evidence: 0.70
+    economic: 0.63
+    reuse: 0.94
+    delta: 0.90
+    overall: 0.78
