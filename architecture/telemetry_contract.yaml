@@ -1,0 +1,60 @@
+telemetry_contract:
+  title: "Integrity Stack Telemetry Continuity Contract"
+  status: "PARTIAL"
+  purpose: "Define the events required to connect need, intent, action, outcome and ledger state."
+
+  continuity_key:
+    required: true
+    format: "loop_<need_id>_<intent_id>_<timestamp>"
+    rule: "All events in the same loop use the same continuity key."
+
+  loop_stages:
+    - NEED_REGISTERED
+    - SIGNAL_CAPTURED
+    - IDENTITY_BOUND
+    - CONSENT_RESOLVED
+    - INTENT_CREATED
+    - ROUTE_SELECTED
+    - INTERVENTION_RECORDED
+    - EVIDENCE_ATTACHED
+    - OUTCOME_MEASURED
+    - GOVERNANCE_RECORDED
+    - RECOVERY_RECORDED
+    - LEDGER_WRITTEN
+
+  event_required_fields:
+    - telemetry_id
+    - continuity_key
+    - loop_stage
+    - related_object_type
+    - related_object_id
+    - timestamp
+    - actor_or_agent
+    - status
+    - payload
+
+  allowed_event_status:
+    - PASS
+    - WARN
+    - FAIL
+    - BLOCKED
+    - RECOVERING
+
+  real_requires:
+    - continuity_key_present
+    - required_stage_events_present
+    - evidence_attached
+    - ledger_written
+    - recovery_path_present
+
+  downgrade_rules:
+    missing_continuity_key: PARTIAL
+    missing_stage_event: PARTIAL
+    missing_ledger_event: PARTIAL
+    telemetry_without_runtime_source: PARTIAL
+    failed_gate: BLOCKED
+    denied_or_revoked_consent: BLOCKED
+
+  storage_binding:
+    primary_table: integrity_telemetry_events
+    ledger_table: integrity_reality_ledger
