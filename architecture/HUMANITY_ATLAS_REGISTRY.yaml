@@ -1,0 +1,665 @@
+atlas:
+  id: HUMANITY_ATLAS_REGISTRY
+  version: "1.0"
+  status: PARTIAL
+  owner: Troy Latter
+  repository: TML-4PM/the-pen
+  purpose: >
+    Canonical registry for the Tech for Humanity / AI for Humanity portfolio.
+    It binds assets, domains, capabilities, runtime dependencies, evidence paths,
+    maturity, and commercial models to the seven-layer Humanity Atlas spine.
+  classification_reason: >
+    Registry schema and initial population are committed. It remains PARTIAL until
+    every active asset is populated, dependency checks are executed, runtime receipts
+    are bound, and portfolio health dashboards are generated from this source.
+
+spine:
+  L1:
+    name: Signal and Reality
+    question: What is actually happening?
+  L2:
+    name: Evidence and Governance
+    question: Can it be trusted?
+  L3:
+    name: Runtime and Orchestration
+    question: What should happen next?
+  L4:
+    name: Product and Experience
+    question: How do people interact?
+  L5:
+    name: Intelligence and Research
+    question: What have we learned?
+  L6:
+    name: Human Runtime Map
+    question: How do humans, organisations, and systems evolve?
+  L7:
+    name: Humanity Atlas
+    question: How does everything connect?
+
+capability_taxonomy:
+  - signal
+  - consent
+  - identity
+  - evidence
+  - governance
+  - runtime
+  - orchestration
+  - learning
+  - coaching
+  - analytics
+  - marketplace
+  - autonomy
+  - research
+  - commercialisation
+  - recovery
+  - reliability
+
+domains:
+  Human:
+    purpose: Human flourishing, capability, learning, work, family and care.
+    assets:
+      - OutcomeReady
+      - ReadingBuddy
+      - SchoolFamilyAI
+      - WorkFamilyAI
+      - ClassByCass
+      - AugmentedHumanityCoach
+  Signal:
+    purpose: Human, biological, behavioural, device and contextual signal truth.
+    assets:
+      - MyNeuralSignal
+      - UBI
+      - NeuroPAK
+      - ConsentX
+      - SignalPresence
+      - LifeGraphPlus
+  Runtime:
+    purpose: Execution, orchestration, worker routing, queue control and receipts.
+    assets:
+      - CommandCentre
+      - Bridge
+      - RuntimeWorkers
+      - QueueEngine
+      - MCPControlPlane
+  Governance:
+    purpose: Trust, audit, safety, standards, recovery and proof.
+    assets:
+      - RealityLedger
+      - RuntimeProof
+      - IntegrityStack
+      - GCBAT
+      - FAR_CAGE
+  Intelligence:
+    purpose: Research, models, hypotheses, frameworks and reusable knowledge.
+    assets:
+      - AIForHumanity
+      - HumanRuntimeMap
+      - ResearchVault
+      - HumanityAtlas
+      - Hundred
+      - NeuralEnnead
+      - AISweetSpots
+      - OrganisationalMetabolismRuntime
+  Autonomy:
+    purpose: Human-machine systems, physical autonomy, robotics and field execution.
+    assets:
+      - RATPAK
+      - FAR_CAGE
+      - AgentMarketplace
+  Commercial:
+    purpose: Revenue-bearing offers, service products and market channels.
+    assets:
+      - Doolittles
+      - AIForTradies
+      - AIForSmallBusiness
+      - PocketOps
+      - RuntimeReliabilityLayer
+      - DomainControlSystem
+
+asset_schema:
+  required_fields:
+    - id
+    - name
+    - domain
+    - purpose
+    - maturity
+    - status
+    - capabilities
+    - dependencies
+    - evidence
+    - runtime
+    - commercial_model
+  maturity_values:
+    - concept
+    - prototype
+    - alpha
+    - beta
+    - production
+  status_values:
+    - active
+    - paused
+    - archived
+    - blocked
+  reality_states:
+    - REAL
+    - PARTIAL
+    - BLOCKED
+
+assets:
+  - id: WorkFamilyAI
+    name: WorkFamilyAI
+    domain: Human
+    purpose: Family and workforce thriving operating system.
+    maturity: alpha
+    status: active
+    capabilities:
+      - signal
+      - coaching
+      - analytics
+      - orchestration
+      - evidence
+    dependencies:
+      - RealityLedger
+      - RuntimeProof
+      - CommandCentre
+      - HumanRuntimeMap
+    signals:
+      - role reality
+      - work tempo
+      - wellbeing
+      - family load
+      - evidence of friction
+    evidence:
+      - runtime receipt required
+      - operating model artefacts present
+      - 10x10x10 workbook receipt referenced
+    runtime:
+      - Bridge
+      - CommandCentre
+    commercial_model: SME and enterprise subscription
+    revenue_stage: pre_revenue
+    reality_state: PARTIAL
+    next_action: Bind WorkFamilyAI 10x10x10 artefact to registry and Reality Ledger.
+
+  - id: SchoolFamilyAI
+    name: SchoolFamilyAI
+    domain: Human
+    purpose: Smaller child and school-oriented version of WorkFamilyAI across student, teacher, family, school and community segments.
+    maturity: concept
+    status: active
+    capabilities:
+      - signal
+      - learning
+      - coaching
+      - evidence
+      - consent
+    dependencies:
+      - WorkFamilyAI
+      - ReadingBuddy
+      - OutcomeReady
+      - ConsentX
+    signals:
+      - student need
+      - family context
+      - teacher observation
+      - learning progress
+    evidence:
+      - concept discussion exists
+      - runtime model not yet committed
+    runtime:
+      - pending
+    commercial_model: school, family and provider subscription
+    revenue_stage: concept
+    reality_state: PARTIAL
+    next_action: Create SchoolFamilyAI operating model and segment matrix.
+
+  - id: ReadingBuddy
+    name: Reading Buddy
+    domain: Human
+    purpose: Signal-to-intervention reading support with evidence loop.
+    maturity: prototype
+    status: active
+    capabilities:
+      - learning
+      - signal
+      - coaching
+      - evidence
+      - consent
+    dependencies:
+      - OutcomeReady
+      - ConsentX
+      - RealityLedger
+    signals:
+      - attention
+      - comprehension
+      - reading progress
+      - intervention response
+    evidence:
+      - doctrine exists
+      - runtime proof required
+    runtime:
+      - Bridge
+    commercial_model: family, school and provider subscription
+    revenue_stage: pre_revenue
+    reality_state: PARTIAL
+    next_action: Bind Reading Buddy runtime proof and artefact receipts.
+
+  - id: OutcomeReady
+    name: Outcome Ready
+    domain: Human
+    purpose: Progress, everyday function and provider/family evidence system.
+    maturity: alpha
+    status: active
+    capabilities:
+      - coaching
+      - evidence
+      - analytics
+      - signal
+      - consent
+    dependencies:
+      - ReadingBuddy
+      - ConsentX
+      - RealityLedger
+    signals:
+      - progress
+      - everyday function
+      - family need
+      - practitioner observation
+    evidence:
+      - v2/v3 pages referenced
+      - runtime proof required
+    runtime:
+      - Bridge
+    commercial_model: family, provider and practitioner subscription
+    revenue_stage: pre_revenue
+    reality_state: PARTIAL
+    next_action: Attach Family Personal Progress Pack and Everyday Function Toolkit receipts.
+
+  - id: MyNeuralSignal
+    name: MyNeuralSignal
+    domain: Signal
+    purpose: Human signal interpretation and signal layer surface.
+    maturity: alpha
+    status: active
+    capabilities:
+      - signal
+      - analytics
+      - identity
+      - evidence
+    dependencies:
+      - UBI
+      - ConsentX
+      - NeuroPAK
+    signals:
+      - biological signal
+      - cognitive state
+      - attention
+      - interaction telemetry
+    evidence:
+      - product name and signal layer established
+      - runtime evidence missing
+    runtime:
+      - pending
+    commercial_model: signal platform and API
+    revenue_stage: pre_revenue
+    reality_state: PARTIAL
+    next_action: Create MyNeuralSignal base asset pack and signal schema.
+
+  - id: ConsentX
+    name: ConsentX
+    domain: Signal
+    purpose: Multi-actor consent, revocation, purpose binding and minor/guardian governance.
+    maturity: concept
+    status: active
+    capabilities:
+      - consent
+      - governance
+      - identity
+      - evidence
+    dependencies:
+      - IdentityEngine
+      - RealityLedger
+    signals:
+      - consent grant
+      - consent denial
+      - revocation
+      - purpose binding
+    evidence:
+      - doctrine referenced
+      - runtime not proven
+    runtime:
+      - pending
+    commercial_model: governance infrastructure
+    revenue_stage: concept
+    reality_state: PARTIAL
+    next_action: Build ConsentX schema and receipt model.
+
+  - id: RealityLedger
+    name: Reality Ledger
+    domain: Governance
+    purpose: Evidence ledger for REAL, PARTIAL and BLOCKED states.
+    maturity: alpha
+    status: active
+    capabilities:
+      - evidence
+      - governance
+      - audit
+      - recovery
+    dependencies:
+      - RuntimeProof
+      - CommandCentre
+    signals:
+      - receipts
+      - run ids
+      - evidence events
+      - state transitions
+    evidence:
+      - repeated operating doctrine exists
+      - runtime persistence drift still open
+    runtime:
+      - Bridge
+      - Supabase
+    commercial_model: embedded governance layer
+    revenue_stage: internal_infrastructure
+    reality_state: PARTIAL
+    next_action: Resolve receipt persistence chain and queue recovery issues.
+
+  - id: RuntimeProof
+    name: Runtime Proof
+    domain: Governance
+    purpose: Standard proof workflow for runtime receipts and telemetry truth.
+    maturity: alpha
+    status: active
+    capabilities:
+      - evidence
+      - runtime
+      - reliability
+      - governance
+    dependencies:
+      - SUPABASE_URL
+      - SUPABASE_SERVICE_ROLE
+      - RealityLedger
+    signals:
+      - workflow result
+      - proof receipt
+      - missing telemetry
+      - runtime status
+    evidence:
+      - fleet rollout discovered
+      - failure class identified as missing telemetry or skipped job graph
+    runtime:
+      - GitHubActions
+      - Supabase
+    commercial_model: reliability assurance layer
+    revenue_stage: internal_infrastructure
+    reality_state: PARTIAL
+    next_action: Patch missing telemetry to PARTIAL skip, not red failure.
+
+  - id: CommandCentre
+    name: Command Centre
+    domain: Runtime
+    purpose: Portfolio execution surface, worker control, widgets and runtime receipts.
+    maturity: alpha
+    status: active
+    capabilities:
+      - runtime
+      - orchestration
+      - analytics
+      - reliability
+    dependencies:
+      - Bridge
+      - RuntimeWorkers
+      - RealityLedger
+    signals:
+      - worker state
+      - queue state
+      - widget state
+      - receipt state
+    evidence:
+      - mcp-command-centre repository active
+      - workflow gates partially broken
+    runtime:
+      - GitHubActions
+      - Bridge
+      - Vercel
+    commercial_model: internal command plane and future enterprise control plane
+    revenue_stage: internal_infrastructure
+    reality_state: PARTIAL
+    next_action: Patch hardening, heartbeat and proof workflows.
+
+  - id: Bridge
+    name: Bridge
+    domain: Runtime
+    purpose: Runtime bridge for authorised execution, SQL, GitHub write path and receipts.
+    maturity: alpha
+    status: active
+    capabilities:
+      - runtime
+      - orchestration
+      - evidence
+      - recovery
+    dependencies:
+      - API Gateway
+      - Lambda
+      - Supabase
+      - GitHub
+    signals:
+      - bridge invocation
+      - API status
+      - worker result
+      - receipt result
+    evidence:
+      - P0 Bridge validation issue exists
+      - runtime validation not completed
+    runtime:
+      - AWS Lambda
+      - API Gateway
+      - Supabase
+    commercial_model: runtime execution backbone
+    revenue_stage: internal_infrastructure
+    reality_state: PARTIAL
+    next_action: Execute P0 Bridge validation and return typed receipts.
+
+  - id: HumanityAtlas
+    name: Humanity Atlas
+    domain: Intelligence
+    purpose: One graph connecting people, organisations, signals, products, evidence, economics and governance.
+    maturity: concept
+    status: active
+    capabilities:
+      - research
+      - analytics
+      - evidence
+      - commercialisation
+      - governance
+    dependencies:
+      - IntegrityStack
+      - HumanRuntimeMap
+      - RealityLedger
+      - CommandCentre
+    signals:
+      - asset registry
+      - capability registry
+      - dependency graph
+      - evidence coverage
+    evidence:
+      - registry committed
+      - visual poster not yet generated
+    runtime:
+      - pending
+    commercial_model: portfolio intelligence and public-facing atlas
+    revenue_stage: concept
+    reality_state: PARTIAL
+    next_action: Generate Atlas poster and dependency graph.
+
+  - id: HumanRuntimeMap
+    name: Human Runtime Map
+    domain: Intelligence
+    purpose: Map from knowledge to advice, signals, evidence, trust and outcomes.
+    maturity: concept
+    status: active
+    capabilities:
+      - research
+      - evidence
+      - governance
+      - commercialisation
+    dependencies:
+      - HumanityAtlas
+      - RealityLedger
+    signals:
+      - knowledge
+      - advice
+      - signal
+      - evidence
+      - trust
+      - outcomes
+    evidence:
+      - README committed in mcp-command-centre
+      - runtime HTML and receipt missing
+    runtime:
+      - pending
+    commercial_model: ATO/R&D, research, investor and partner evidence narrative
+    revenue_stage: concept
+    reality_state: PARTIAL
+    next_action: Complete HTML map, deployment path, smoke test and receipt.
+
+  - id: AISweetSpots
+    name: AI Sweet Spots
+    domain: Intelligence
+    purpose: Human-AI fit, opportunity and capability mapping.
+    maturity: alpha
+    status: active
+    capabilities:
+      - research
+      - analytics
+      - evidence
+      - commercialisation
+    dependencies:
+      - ResearchVault
+      - HumanityAtlas
+      - RealityLedger
+    signals:
+      - human-AI fit
+      - work type
+      - adoption opportunity
+      - evidence of value
+    evidence:
+      - global observatory issue exists
+      - runtime build pending
+    runtime:
+      - pending
+    commercial_model: observatory, advisory and product intelligence
+    revenue_stage: pre_revenue
+    reality_state: PARTIAL
+    next_action: Execute AIS3 global observatory build package.
+
+  - id: Doolittles
+    name: Doolittles
+    domain: Commercial
+    purpose: Speech/event/listener product family connected to signal, consent, work and commercial surfaces.
+    maturity: concept
+    status: active
+    capabilities:
+      - signal
+      - marketplace
+      - coaching
+      - commercialisation
+    dependencies:
+      - Synal
+      - WorkFamilyAI
+      - ConsentX
+      - RealityLedger
+    signals:
+      - listener event
+      - speech event
+      - commercial intent
+      - role context
+    evidence:
+      - asset analysis exists
+      - runtime proof missing
+    runtime:
+      - pending
+    commercial_model: product suite and service packs
+    revenue_stage: concept
+    reality_state: PARTIAL
+    next_action: Bind 40 asset treatment and product packs into registry.
+
+  - id: RuntimeReliabilityLayer
+    name: Runtime Reliability Layer
+    domain: Commercial
+    purpose: Service layer that detects, diagnoses, recovers, proves and escalates runtime failures.
+    maturity: concept
+    status: active
+    capabilities:
+      - reliability
+      - recovery
+      - evidence
+      - governance
+      - commercialisation
+    dependencies:
+      - RuntimeProof
+      - Bridge
+      - QueueEngine
+      - RealityLedger
+    signals:
+      - failed workflow
+      - missing receipt
+      - queue drift
+      - credential health
+    evidence:
+      - service catalogue issue exists
+      - current GitHub incident demonstrates need
+    runtime:
+      - GitHubActions
+      - Bridge
+    commercial_model: enterprise service assurance subscription
+    revenue_stage: concept
+    reality_state: PARTIAL
+    next_action: Convert current incident into service catalogue evidence and offer pack.
+
+outputs:
+  posters:
+    - HUMANITY_ATLAS_MASTER_POSTER_A0
+    - CUBE_OF_CUBES_POSTER_A0
+    - HUMAN_RUNTIME_MAP_POSTER_A0
+  graphs:
+    - AssetDependencyGraph
+    - RuntimeDependencyGraph
+    - CapabilityDependencyGraph
+    - CommercialDependencyGraph
+  dashboards:
+    - PortfolioHealth
+    - RevenueCoverage
+    - ResearchCoverage
+    - EvidenceCoverage
+
+rules:
+  before_new_asset:
+    - Attach to existing domain.
+    - Reuse existing capabilities where possible.
+    - Declare dependencies.
+    - Declare evidence path.
+    - Declare runtime path.
+    - Declare commercial model or mark non-commercial.
+  completion:
+    REAL_requires:
+      - runtime receipt
+      - evidence binding
+      - owner
+      - source repo or system of record
+      - next operating action
+    PARTIAL_when:
+      - artefact exists but runtime proof is missing
+      - telemetry is unavailable
+      - dependency graph is incomplete
+    BLOCKED_when:
+      - credentials missing
+      - runtime unavailable
+      - legal or safety boundary reached
+
+next_actions:
+  - Populate all remaining active assets from GitHub issues and repository inventory.
+  - Generate AssetDependencyGraph from this registry.
+  - Generate HUMANITY_ATLAS_MASTER_POSTER_A0.
+  - Patch RuntimeProof workflows to report missing telemetry as PARTIAL rather than failure.
+  - Bind registry to RealityLedger and CommandCentre.
