@@ -1,0 +1,117 @@
+# Human Capability Model
+version: 1.0.0
+status: PARTIAL
+purpose: Shared capability spine for SchoolFamilyAI, WorkFamilyAI, Outcome Ready, Reading Buddy, LifeGraph+, Synal and Doolittles.
+principle: Capabilities are context-independent; products are filtered views.
+
+domains:
+  cognitive:
+    - CAP-001 Literacy
+    - CAP-002 Numeracy
+    - CAP-003 Critical Thinking
+    - CAP-004 Logical Reasoning
+    - CAP-005 Spatial Reasoning
+    - CAP-006 Causal Reasoning
+    - CAP-007 Pattern Recognition
+    - CAP-008 Abstraction
+    - CAP-009 Working Memory
+    - CAP-010 Long-term Memory
+    - CAP-011 Executive Function
+    - CAP-012 Cognitive Flexibility
+  language_communication:
+    - CAP-013 Verbal Communication
+    - CAP-014 Written Communication
+    - CAP-015 Active Listening
+    - CAP-016 Narrative Construction
+    - CAP-017 Argumentation
+    - CAP-018 Multilingual Capacity
+    - CAP-019 Non-verbal Communication
+    - CAP-020 Digital Communication
+  social_relational:
+    - CAP-021 Empathy
+    - CAP-022 Perspective Taking
+    - CAP-023 Conflict Resolution
+    - CAP-024 Collaboration
+    - CAP-025 Influence
+    - CAP-026 Trust Building
+    - CAP-027 Negotiation
+    - CAP-028 Belonging
+    - CAP-029 Network Building
+    - CAP-030 Cultural Fluency
+  emotional_psychological:
+    - CAP-031 Emotional Regulation
+    - CAP-032 Resilience
+    - CAP-033 Self-Awareness
+    - CAP-034 Motivation
+    - CAP-035 Stress Tolerance
+    - CAP-036 Courage
+    - CAP-037 Curiosity
+    - CAP-038 Hope
+    - CAP-039 Patience
+    - CAP-040 Gratitude
+  identity_agency:
+    - CAP-041 Identity Clarity
+    - CAP-042 Autonomy
+    - CAP-043 Self-Efficacy
+    - CAP-044 Responsibility
+    - CAP-045 Ethical Reasoning
+    - CAP-046 Integrity
+    - CAP-047 Purpose
+    - CAP-048 Growth Orientation
+    - CAP-049 Consent Literacy
+    - CAP-050 Advocacy
+  physical_health:
+    - CAP-051 Physical Readiness
+    - CAP-052 Gross Motor Skill
+    - CAP-053 Fine Motor Skill
+    - CAP-054 Sensory Integration
+    - CAP-055 Sleep Regulation
+    - CAP-056 Nutrition Literacy
+    - CAP-057 Pain Tolerance
+    - CAP-058 Health Self-Management
+    - CAP-059 Body Awareness
+    - CAP-060 Physical Safety
+  creative_expressive:
+    - CAP-061 Creativity
+    - CAP-062 Aesthetic Sensitivity
+    - CAP-063 Artistic Expression
+    - CAP-064 Design Thinking
+    - CAP-065 Storytelling
+    - CAP-066 Imagination
+    - CAP-067 Play
+    - CAP-068 Improvisation
+    - CAP-069 Craft Precision
+    - CAP-070 Taste Curation
+  digital_systems:
+    - CAP-071 Digital Discernment
+    - CAP-072 Computational Thinking
+    - CAP-073 Data Literacy
+    - CAP-074 Systems Thinking
+    - CAP-075 Tool Fluency
+    - CAP-076 Security Awareness
+    - CAP-077 Privacy Literacy
+    - CAP-078 AI Literacy
+    - CAP-079 Media Literacy
+    - CAP-080 Digital Citizenship
+  civic_systems:
+    - CAP-081 Civic Literacy
+    - CAP-082 Financial Literacy
+    - CAP-083 Environmental Literacy
+    - CAP-084 Research Literacy
+    - CAP-085 Project Management
+    - CAP-086 Decision Making
+    - CAP-087 Leadership
+    - CAP-088 Service Orientation
+    - CAP-089 Entrepreneurship
+    - CAP-090 Stewardship
+  transition_adaptive:
+    - CAP-091 Adaptability
+    - CAP-092 Transition Readiness
+    - CAP-093 Learning Agility
+    - CAP-094 Feedback Receptivity
+    - CAP-095 Failure Tolerance
+    - CAP-096 Ambiguity Tolerance
+    - CAP-097 Time Mastery
+    - CAP-098 Habit Formation
+    - CAP-099 Recovery
+    - CAP-100 Wisdom
