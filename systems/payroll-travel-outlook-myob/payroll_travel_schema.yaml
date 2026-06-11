@@ -1,0 +1,165 @@
+status: PARTIAL
+system: payroll-travel-outlook-myob
+schema_version: 0.1.0
+created_date: 2026-06-12
+
+principles:
+  - outlook_is_front_door
+  - myob_is_finance_export_layer
+  - no_raw_card_storage
+  - tokenised_payment_references_only
+  - audit_every_material_event
+  - payroll_data_minimisation
+
+entities:
+  employee:
+    primary_key: employee_id
+    fields:
+      employee_id: string
+      name: string
+      email: string
+      outlook_user_id: string
+      myob_employee_id: string
+      manager_id: string
+      default_cost_centre: string
+      role: string
+      employment_status: enum[active,inactive,on_leave,terminated]
+
+  trip:
+    primary_key: trip_id
+    fields:
+      trip_id: string
+      employee_id: ref.employee
+      business_reason: string
+      destination: string
+      start_date: date
+      end_date: date
+      approval_status: enum[draft,submitted,approved,rejected,cancelled,exception_required]
+      approver_id: ref.employee
+      cost_centre: string
+      project_code: string
+      policy_profile: string
+      myob_export_status: enum[not_ready,ready_for_export,exported,accepted_by_myob,rejected_by_myob,reconciled]
+
+  flight_segment:
+    primary_key: segment_id
+    fields:
+      segment_id: string
+      trip_id: ref.trip
+      airline: string
+      flight_number: string
+      depart_at: datetime
+      arrive_at: datetime
+      origin: string
+      destination: string
+      booking_reference: string
+      outlook_event_id: string
+
+  hotel_option:
+    primary_key: hotel_id
+    fields:
+      hotel_id: string
+      trip_id: ref.trip
+      name: string
+      address: string
+      nightly_rate: decimal
+      currency: string
+      distance_to_site_km: decimal
+      cancellation_policy: string
+      policy_status: enum[approved,needs_manager_approval,needs_finance_approval,blocked,exception_required]
+
+  hotel_booking:
+    primary_key: booking_id
+    fields:
+      booking_id: string
+      trip_id: ref.trip
+      hotel_id: ref.hotel_option
+      check_in: date
+      check_out: date
+      amount: decimal
+      currency: string
+      payment_status: enum[pending,authorised,captured,refunded,failed]
+      payment_reference: string
+      outlook_event_id: string
+
+  payment_method:
+    primary_key: payment_method_id
+    blocked_fields:
+      - raw_card_number
+      - cvv
+      - cvc
+      - pin
+      - magnetic_stripe_data
+    fields:
+      payment_method_id: string
+      owner_type: enum[employee,corporate_entity]
+      owner_id: string
+      provider: string
+      provider_token: secret_reference
+      card_brand: string
+      last_four: string
+      expiry_month: integer
+      expiry_year: integer
+      status: enum[active,inactive,expired,revoked]
+      authority_reference: string
+      created_by: string
+      created_at: datetime
+
+  payment_event:
+    primary_key: payment_event_id
+    fields:
+      payment_event_id: string
+      payment_method_id: ref.payment_method
+      trip_id: ref.trip
+      booking_id: ref.hotel_booking
+      amount: decimal
+      currency: string
+      event_type: enum[intent,authorisation,capture,refund,failure]
+      provider_reference: string
+      created_at: datetime
+      created_by: string
+
+  expense_claim:
+    primary_key: claim_id
+    fields:
+      claim_id: string
+      trip_id: ref.trip
+      employee_id: ref.employee
+      amount: decimal
+      currency: string
+      receipt_reference: string
+      approval_status: enum[draft,submitted,approved,rejected,paid]
+      myob_export_reference: string
+
+  audit_ledger:
+    primary_key: ledger_id
+    append_only: true
+    fields:
+      ledger_id: string
+      event_type: string
+      actor_id: string
+      subject_type: string
+      subject_id: string
+      before_hash: string
+      after_hash: string
+      timestamp: datetime
+      source_system: enum[outlook,myob,payment_provider,travel_provider,admin_portal,system]
+      receipt_reference: string
+
+acceptance_guards:
+  - name: raw_card_storage_blocked
+    rule: reject any schema, migration, form, log, or API payload containing raw_card_number, cvv, cvc, pin, magnetic_stripe_data
+  - name: myob_export_requires_approval
+    rule: reject any reimbursement or finance export where approval_status != approved
+  - name: outlook_event_requires_trip
+    rule: reject any travel calendar event without trip_id
+  - name: audit_required
+    rule: every create, update, approval, payment event, export, override, and exception writes audit_ledger
+
+receipt:
+  status: PARTIAL
+  evidence_expected: GitHub commit SHA
+  gaps:
+    - runtime migrations not generated
+    - provider-specific MYOB fields pending
+    - provider-specific payment vault pending
