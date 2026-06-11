@@ -1,0 +1,117 @@
+# Human Signal Model
+version: 1.0.0
+status: PARTIAL
+purpose: Observable signal spine mapped to the Human Capability Model.
+principle: Signals are observable inputs, never conclusions.
+
+domains:
+  engagement:
+    - SIG-001 Sustained Attention -> CAP-009 CAP-011
+    - SIG-002 Active Participation -> CAP-024 CAP-034
+    - SIG-003 Task Initiation -> CAP-011 CAP-034
+    - SIG-004 On-task Behaviour -> CAP-011 CAP-097
+    - SIG-005 Voluntary Question Asking -> CAP-037 CAP-013
+    - SIG-006 Voluntary Answer Offering -> CAP-034 CAP-017
+    - SIG-007 Attention Recovery -> CAP-031 CAP-092
+    - SIG-008 Deep Engagement Indicators -> CAP-037 CAP-066
+    - SIG-009 Cross-context Transfer -> CAP-093 CAP-008
+    - SIG-010 Voluntary Extension -> CAP-037 CAP-047
+  avoidance_withdrawal:
+    - SIG-011 Task Avoidance -> CAP-011 CAP-031
+    - SIG-012 Social Withdrawal -> CAP-028 CAP-021
+    - SIG-013 Physical Absence -> CAP-051 CAP-092
+    - SIG-014 Selective Mutism -> CAP-013 CAP-031
+    - SIG-015 Escape Behaviour -> CAP-031 CAP-035
+    - SIG-016 Minimal Compliance -> CAP-042 CAP-044
+    - SIG-017 Help Refusal -> CAP-050 CAP-043
+    - SIG-018 Eye Contact Avoidance -> CAP-019 CAP-021
+    - SIG-019 Shutdown Response -> CAP-031 CAP-035
+    - SIG-020 Situation-Specific Avoidance -> CAP-036 CAP-031
+  confidence_self_efficacy:
+    - SIG-021 Attempts Challenging Work -> CAP-043 CAP-048
+    - SIG-022 Self-Correction Without Prompting -> CAP-043 CAP-094
+    - SIG-023 Positive Self-Reference -> CAP-033 CAP-043
+    - SIG-024 Persists After Error -> CAP-095 CAP-032
+    - SIG-025 Seeks Stretch -> CAP-048 CAP-037
+    - SIG-026 Negative Self-Reference -> CAP-033 CAP-038
+    - SIG-027 Catastrophising -> CAP-035 CAP-006
+    - SIG-028 Praise-Seeking Dependency -> CAP-042 CAP-043
+    - SIG-029 Risk Avoidance -> CAP-036 CAP-043
+    - SIG-030 Confidence Variability -> CAP-043 CAP-091
+  frustration_distress:
+    - SIG-031 Visible Frustration -> CAP-031 CAP-039
+    - SIG-032 Crying or Tearfulness -> CAP-031 CAP-035
+    - SIG-033 Aggression -> CAP-031 CAP-023
+    - SIG-034 Task Abandonment -> CAP-039 CAP-095
+    - SIG-035 Prolonged Distress Recovery -> CAP-032 CAP-031
+    - SIG-036 Somatic Complaints -> CAP-059 CAP-035
+    - SIG-037 Irritability -> CAP-031 CAP-035
+    - SIG-038 Freeze Response -> CAP-031 CAP-035
+    - SIG-039 Disproportionate Reaction -> CAP-031 CAP-006
+    - SIG-040 Meltdown Pattern -> CAP-054 CAP-031
+  curiosity_exploration:
+    - SIG-041 Unprompted Research -> CAP-037 CAP-084
+    - SIG-042 Why Questions -> CAP-037 CAP-006
+    - SIG-043 Hypothetical Exploration -> CAP-066 CAP-037
+    - SIG-044 Novel Connection Making -> CAP-008 CAP-007
+    - SIG-045 Tool Experimentation -> CAP-075 CAP-037
+    - SIG-046 Revisiting Topics -> CAP-010 CAP-037
+    - SIG-047 Complexity Seeking -> CAP-003 CAP-008
+    - SIG-048 Meta Questions -> CAP-033 CAP-003
+    - SIG-049 Wonder Expression -> CAP-066 CAP-062
+    - SIG-050 Evidence Seeking -> CAP-003 CAP-084
+  fatigue_capacity:
+    - SIG-051 Visible Fatigue -> CAP-051 CAP-055
+    - SIG-052 Output Quality Decline -> CAP-051 CAP-097
+    - SIG-053 Attention Span Shortening -> CAP-009 CAP-055
+    - SIG-054 Slow Processing -> CAP-051 CAP-009
+    - SIG-055 Food Drink Requests -> CAP-056 CAP-059
+    - SIG-056 Physical Restlessness -> CAP-054 CAP-051
+    - SIG-057 Emotional Lability -> CAP-031 CAP-055
+    - SIG-058 Help-Seeking Increase -> CAP-050 CAP-051
+    - SIG-059 Break Requests -> CAP-059 CAP-058
+    - SIG-060 Recovery Rate -> CAP-099 CAP-032
+  social_relational:
+    - SIG-061 Peer Initiation -> CAP-024 CAP-026
+    - SIG-062 Turn Taking -> CAP-024 CAP-039
+    - SIG-063 Conflict Behaviour -> CAP-023 CAP-031
+    - SIG-064 Inclusion Behaviour -> CAP-028 CAP-088
+    - SIG-065 Empathic Response -> CAP-021 CAP-022
+    - SIG-066 Rejection Response -> CAP-032 CAP-031
+    - SIG-067 Authority Response -> CAP-042 CAP-046
+    - SIG-068 Role Adoption -> CAP-087 CAP-024
+    - SIG-069 Repair Attempts -> CAP-023 CAP-046
+    - SIG-070 Boundary Setting -> CAP-049 CAP-050
+  communication_expression:
+    - SIG-071 Verbal Elaboration -> CAP-013 CAP-016
+    - SIG-072 Written Elaboration -> CAP-014 CAP-016
+    - SIG-073 Multi-modal Expression -> CAP-063 CAP-019
+    - SIG-074 Opinion Sharing -> CAP-017 CAP-042
+    - SIG-075 Narrative Coherence -> CAP-016 CAP-003
+    - SIG-076 Vocabulary Range -> CAP-001 CAP-018
+    - SIG-077 Non-verbal Alignment -> CAP-019 CAP-033
+    - SIG-078 Code Switching -> CAP-018 CAP-030
+    - SIG-079 Asking for Clarification -> CAP-015 CAP-094
+    - SIG-080 Summarising -> CAP-008 CAP-016
+  physical_somatic:
+    - SIG-081 Fine Motor Accuracy -> CAP-053 CAP-069
+    - SIG-082 Gross Motor Coordination -> CAP-052 CAP-054
+    - SIG-083 Physical Risk Taking -> CAP-060 CAP-036
+    - SIG-084 Physical Self-Care -> CAP-058 CAP-056
+    - SIG-085 Sensory Seeking -> CAP-054 CAP-056
+    - SIG-086 Sensory Avoidance -> CAP-054 CAP-031
+    - SIG-087 Postural Engagement -> CAP-051 CAP-019
+    - SIG-088 Proprioceptive Seeking -> CAP-054 CAP-031
+    - SIG-089 Physical Stamina -> CAP-051 CAP-057
+    - SIG-090 Injury Response -> CAP-057 CAP-031
+  learning_metacognitive:
+    - SIG-091 Strategy Switching -> CAP-012 CAP-091
+    - SIG-092 Error Acknowledgement -> CAP-094 CAP-095
+    - SIG-093 Plan Articulation -> CAP-011 CAP-085
+    - SIG-094 Progress Self-Assessment -> CAP-033 CAP-094
+    - SIG-095 Feedback Integration -> CAP-094 CAP-098
+    - SIG-096 Generalisation -> CAP-093 CAP-008
+    - SIG-097 Monitoring Behaviour -> CAP-011 CAP-033
+    - SIG-098 Optimal Challenge Seeking -> CAP-048 CAP-086
+    - SIG-099 Learning Enjoyment Expression -> CAP-037 CAP-067
+    - SIG-100 Transfer Demonstration -> CAP-093 CAP-009
