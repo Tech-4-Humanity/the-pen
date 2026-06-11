@@ -1,0 +1,97 @@
+evidence_contract:
+  title: "Integrity Stack Evidence Contract"
+  status: "PARTIAL"
+  purpose: >
+    Define which evidence types are accepted by the Integrity Stack and Reality Ledger.
+    A claim cannot be REAL unless it has typed evidence, provenance, object binding,
+    timestamp, and a recovery or downgrade path.
+
+  allowed_statuses:
+    - REAL
+    - PARTIAL
+    - BLOCKED
+
+  rejected_statuses:
+    - PRETEND
+    - DRAFT_AS_OUTPUT
+    - IMPLIED
+    - UNVERIFIED
+
+  required_fields:
+    - evidence_id
+    - evidence_type
+    - related_object_type
+    - related_object_id
+    - evidence_value
+    - source_ref
+    - timestamp
+    - confidence_score
+    - verifier
+    - downgrade_rule
+
+  accepted_evidence_types:
+    api_response:
+      description: "Structured response from an authorised API or connector."
+      minimum_fields: [endpoint_or_tool, response_summary, timestamp]
+      supports_real: true
+    db_result:
+      description: "Database query or mutation result."
+      minimum_fields: [database, table, operation, row_ref, timestamp]
+      supports_real: true
+    commit_sha:
+      description: "Git commit proving a file or code change landed."
+      minimum_fields: [repository, commit_sha, path_or_paths]
+      supports_real: true
+    workflow_run:
+      description: "CI/CD workflow run proving validation, build, deploy or failure."
+      minimum_fields: [repository, run_id, status, conclusion]
+      supports_real: true
+    url:
+      description: "Resolvable URL to deployed, published or referenced artefact."
+      minimum_fields: [url, access_status, checked_at]
+      supports_real: true
+    hash:
+      description: "Content hash for artefact integrity."
+      minimum_fields: [algorithm, hash_value, file_or_payload_ref]
+      supports_real: true
+    telemetry_event:
+      description: "Runtime event bound to continuity key and loop stage."
+      minimum_fields: [telemetry_id, continuity_key, loop_stage, object_ref]
+      supports_real: true
+    audit_record:
+      description: "Governance, risk, standards or recovery audit entry."
+      minimum_fields: [audit_id, judgement, reason, actor, timestamp]
+      supports_real: true
+    human_attestation:
+      description: "Human statement or sign-off. Useful but insufficient alone for REAL."
+      minimum_fields: [actor, statement, timestamp]
+      supports_real: false
+    screenshot:
+      description: "Visual evidence. Useful but insufficient alone for REAL unless paired with source/action receipt."
+      minimum_fields: [image_ref, source_context, timestamp]
+      supports_real: false
+
+  real_requires:
+    - typed_evidence
+    - object_binding
+    - timestamp
+    - source_ref
+    - provenance
+    - no_material_gaps
+    - recovery_path
+    - ledger_entry
+
+  downgrade_rules:
+    no_runtime_receipt: PARTIAL
+    screenshot_only: PARTIAL
+    human_attestation_only: PARTIAL
+    missing_source_ref: PARTIAL
+    no_recovery_path: PARTIAL
+    no_telemetry_continuity: PARTIAL
+    missing_credentials: BLOCKED
+    dependency_failure: BLOCKED
+    unsafe_or_unauthorised_action: BLOCKED
+
+  ledger_binding:
+    table: integrity_reality_ledger
+    rule: "Every REAL/PARTIAL/BLOCKED assessment must produce or reference a ledger row."
