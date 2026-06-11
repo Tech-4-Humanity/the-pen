@@ -1,0 +1,113 @@
+schema_id: schoolfamilyai.schema.v0.1
+status: PARTIAL
+owner: Troy Latter
+parent:
+  spine: architecture/AI_FOR_HUMANITY_3_1_INTEGRITY_STACK_SPINE.yaml
+  atlas: architecture/THE_HUMANITY_ATLAS_MASTER_ARCHITECTURE.md
+  alignment: architecture/schoolfamilyai_alignment_architecture.md
+
+purpose: >
+  Executable object model for SchoolFamilyAI as a child-safe predecessor to WorkFamilyAI,
+  using Capability x Signal x Outcome rather than fixed job descriptions.
+
+axes:
+  capability:
+    - literacy
+    - numeracy
+    - communication
+    - executive_function
+    - emotional_regulation
+    - social_belonging
+    - creativity
+    - physical_readiness
+    - ethical_digital_discernment
+  signal:
+    - engagement
+    - avoidance
+    - confidence
+    - frustration
+    - curiosity
+    - fatigue
+    - participation
+    - help_seeking
+    - transfer_generalisation
+  outcome:
+    - skill_gain
+    - confidence_gain
+    - belonging
+    - reduced_distress
+    - attendance_participation
+    - parent_school_clarity
+    - teacher_load_reduction
+    - inclusion_support
+    - safe_independence
+
+objects:
+  learner_profile:
+    required: [learner_id, age_band, stage, consent_state]
+    prohibited: [diagnosis_claim_without_authority]
+  guardian_identity:
+    required: [guardian_id, relationship, authority_scope]
+  school_identity:
+    required: [school_id, jurisdiction, authority_scope]
+  teacher_identity:
+    required: [teacher_id, role_scope, school_id]
+  consent_grant:
+    required: [grant_id, subject_id, guardian_id, purpose, scope, expiry, revocation_path]
+  learning_signal:
+    required: [signal_id, learner_id, capability, signal_type, source, confidence, timestamp]
+  wellbeing_signal:
+    required: [signal_id, learner_id, signal_type, source, sensitivity, timestamp]
+  capability_node:
+    required: [capability_id, capability_axis, stage_relevance]
+  support_route:
+    required: [route_id, trigger_signal, authorised_actor, action_type, escalation_boundary]
+  intervention_record:
+    required: [intervention_id, learner_id, route_id, actor_id, action, timestamp]
+  evidence_record:
+    required: [evidence_id, intervention_id, evidence_type, provenance, timestamp]
+  outcome_record:
+    required: [outcome_id, learner_id, outcome_axis, measure, evidence_id]
+  recovery_event:
+    required: [recovery_id, event_type, affected_actor, correction_action, timestamp]
+  ledger_receipt:
+    required: [receipt_id, object_ref, state, evidence_ref, created_at]
+
+integrity_stack_binding:
+  UBI: contextual learner signals only, no medical truth claim
+  MyNeuralSignal: interpretation of engagement, overload, confidence and fatigue patterns
+  ID_Exchange: learner, guardian, teacher, school, provider and platform identities
+  ConsentX: guardian consent, child assent, purpose limitation and revocation
+  NEUROPAK: route intent to support, learning, referral or stop pathway
+  Tech4Humanity: product assembly and market packaging
+  GCBAT: audit, child-safety, bias, recovery and standards oversight
+
+guardrails:
+  - no_child_surveillance_positioning
+  - no_secret_profiling
+  - no_diagnosis_claims
+  - no_unsupported_risk_scoring
+  - human_review_for_consequential_decisions
+  - revocation_required
+  - evidence_provenance_required
+  - recovery_path_required
+
+acceptance_REAL:
+  - runtime_schema_executed
+  - consent_flow_demonstrated
+  - evidence_record_written
+  - ledger_receipt_generated
+  - recovery_path_tested
+  - economic_path_measured
+  - child_safety_review_completed
+  - telemetry_continuity_present
+  - 72h_survivability_proven
+
+receipt:
+  status: PARTIAL
+  result: SchoolFamilyAI schema defined, not yet executed as runtime.
+  gaps:
+    - no deployed database table
+    - no runtime ledger row
+    - no consent transaction executed
+    - no 72h survivability proof
