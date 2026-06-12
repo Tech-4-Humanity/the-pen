@@ -1,0 +1,45 @@
+version: 1
+name: provenance_v1
+parent_issue: 170
+issue: 172
+status: PARTIAL
+
+fields:
+  - signal_id
+  - parent_signal_id
+  - cause_id
+  - group_id
+  - decision_id
+  - journey_id
+  - evidence_ref
+  - recovery_ref
+
+rules:
+  - every signal has signal_id
+  - child signals keep the same cause_id as the first signal in the chain
+  - related runtime events share group_id
+  - recovery events link back to the original breach
+  - user action in the orchestrator must not change lineage fields
+
+chains:
+  breach_recovery:
+    - SCORE_BREACH
+    - RECOVERY_REQUIRED
+    - RECOVERY_STARTED
+    - RECOVERY_CHECKED
+    - RECOVERY_CLOSED
+  silence_escalation:
+    - SILENCE_DETECTED
+    - ESCALATION_REQUIRED
+    - ESCALATION_CLOSED
+
+next:
+  - add database migration
+  - add lineage view
+  - add sample chain receipt
+  - wire orchestrator lineage display
+
+ledger:
+  task_id: signal-provenance-172
+  output: architecture/signal-layer/provenance_v1.yaml
+  status: PARTIAL
