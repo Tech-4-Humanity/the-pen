@@ -1,0 +1,389 @@
+version: 1
+name: canonical_signal_taxonomy_v1
+status: PARTIAL
+owner: spine-runtime
+created_at: 2026-06-12
+parent_issue: 170
+implementation_issue: 171
+purpose: >
+  Canonical signal taxonomy for Synal, Spine, Runtime Ontology, and Agent Orchestrator.
+  This locks signal names, families, payload contracts, severity defaults, and downstream consumers
+  so the signal layer cannot drift into loose logging.
+
+principles:
+  - typed_signals_only
+  - canonical_names_only
+  - every_signal_has_family
+  - every_signal_has_payload_contract
+  - every_signal_has_default_severity
+  - every_signal_has_expected_consumers
+  - every_high_impact_signal_requires_evidence
+  - every_runtime_breach_requires_recovery_mapping
+
+severity_levels:
+  - info
+  - low
+  - medium
+  - high
+  - critical
+
+status_values:
+  - new
+  - observed
+  - acknowledged
+  - actioned
+  - suppressed
+  - recovered
+  - closed
+
+common_payload_contract:
+  required:
+    signal_type: string
+    family: string
+    severity: string
+    status: string
+    emitted_at: timestamp
+    agent_id: string|null
+    origin_schema: string|null
+    origin_table: string|null
+    origin_id: string|null
+    correlation_id: string|null
+    causation_id: string|null
+    decision_id: string|null
+    journey_id: string|null
+    evidence_ref: string|null
+    payload: object
+  optional:
+    tenant_id: string
+    environment: string
+    project_id: string
+    node_id: string
+    edge_id: string
+    economic: object
+    recovery: object
+    ttl_expires_at: timestamp
+    actioned_at: timestamp
+    actioned_by: string
+
+families:
+  runtime:
+    description: Signals emitted by agents and runtime infrastructure during execution.
+    default_consumers:
+      - spine
+      - synal
+      - agent_orchestrator
+      - runtime_truth
+    signals:
+      AGENT_STARTED:
+        severity_default: info
+        payload_required:
+          - agent_id
+          - runtime_id
+          - started_at
+        recovery_required: false
+      AGENT_STOPPED:
+        severity_default: medium
+        payload_required:
+          - agent_id
+          - stopped_at
+          - stop_reason
+        recovery_required: conditional
+      AGENT_PAUSED:
+        severity_default: low
+        payload_required:
+          - agent_id
+          - paused_at
+          - pause_reason
+        recovery_required: false
+      AGENT_FAILED:
+        severity_default: high
+        payload_required:
+          - agent_id
+          - failed_at
+          - failure_reason
+          - error_ref
+        recovery_required: true
+      AGENT_RECOVERED:
+        severity_default: info
+        payload_required:
+          - agent_id
+          - recovered_at
+          - recovery_ref
+        recovery_required: false
+      AGENT_HEARTBEAT:
+        severity_default: info
+        payload_required:
+          - agent_id
+          - heartbeat_at
+          - health_state
+        recovery_required: false
+
+  governance:
+    description: Signals emitted when rules, scores, evidence, or runtime governance thresholds are affected.
+    default_consumers:
+      - spine
+      - synal
+      - reality_ledger
+      - agent_orchestrator
+      - runtime_truth
+    signals:
+      SCORE_BREACH:
+        severity_default: high
+        payload_required:
+          - score_name
+          - score_value
+          - threshold
+          - breached_at
+        recovery_required: true
+      CONFIDENCE_DROP:
+        severity_default: medium
+        payload_required:
+          - confidence_before
+          - confidence_after
+          - threshold
+          - reason
+        recovery_required: conditional
+      RULE_VIOLATION:
+        severity_default: critical
+        payload_required:
+          - rule_id
+          - rule_name
+          - violation_context
+          - detected_at
+        recovery_required: true
+      EVIDENCE_MISSING:
+        severity_default: high
+        payload_required:
+          - required_evidence_type
+          - missing_from
+          - detected_at
+        recovery_required: true
+      RECOVERY_REQUIRED:
+        severity_default: high
+        payload_required:
+          - trigger_signal_id
+          - recovery_type
+          - required_by
+        recovery_required: true
+
+  economic:
+    description: Signals that express cost, value, ROI, capital risk, or opportunity movement.
+    default_consumers:
+      - spine
+      - synal
+      - portfolio_os
+      - agent_orchestrator
+      - reality_ledger
+    economic_payload_required:
+      - cost
+      - value
+      - roi
+      - risk
+      - payback
+      - opportunity
+    signals:
+      ROI_SIGNAL:
+        severity_default: medium
+        payload_required:
+          - roi
+          - value_basis
+          - cost_basis
+          - confidence
+        recovery_required: conditional
+      COST_OVERAGE:
+        severity_default: high
+        payload_required:
+          - budgeted_cost
+          - actual_cost
+          - variance
+          - overage_reason
+        recovery_required: true
+      CAPITAL_AT_RISK:
+        severity_default: critical
+        payload_required:
+          - capital_amount
+          - risk_type
+          - probability
+          - impact
+        recovery_required: true
+      VALUE_REALISED:
+        severity_default: info
+        payload_required:
+          - realised_value
+          - value_type
+          - evidence_ref
+        recovery_required: false
+
+  ontology:
+    description: Signals emitted by graph, ontology, node, edge, relationship, or drift events.
+    default_consumers:
+      - spine
+      - runtime_ontology
+      - synal
+      - agent_orchestrator
+    signals:
+      NODE_CREATED:
+        severity_default: info
+        payload_required:
+          - node_id
+          - node_type
+          - created_at
+        recovery_required: false
+      NODE_UPDATED:
+        severity_default: low
+        payload_required:
+          - node_id
+          - updated_fields
+          - updated_at
+        recovery_required: false
+      EDGE_CREATED:
+        severity_default: info
+        payload_required:
+          - edge_id
+          - source_node_id
+          - target_node_id
+          - relationship_type
+        recovery_required: false
+      EDGE_BROKEN:
+        severity_default: high
+        payload_required:
+          - edge_id
+          - source_node_id
+          - target_node_id
+          - break_reason
+        recovery_required: true
+      GRAPH_DRIFT:
+        severity_default: high
+        payload_required:
+          - drift_type
+          - affected_nodes
+          - affected_edges
+          - detected_at
+        recovery_required: true
+
+  human:
+    description: Signals generated by escalation, override, approval, or human closure events.
+    default_consumers:
+      - spine
+      - agent_orchestrator
+      - reality_ledger
+    signals:
+      OVERRIDE_REQUESTED:
+        severity_default: medium
+        payload_required:
+          - requested_by
+          - requested_at
+          - override_reason
+          - target_signal_id
+        recovery_required: false
+      OVERRIDE_GRANTED:
+        severity_default: medium
+        payload_required:
+          - granted_by
+          - granted_at
+          - target_signal_id
+          - expiry
+        recovery_required: false
+      ESCALATION_REQUIRED:
+        severity_default: high
+        payload_required:
+          - escalation_reason
+          - target_owner
+          - required_by
+        recovery_required: true
+      ESCALATION_CLOSED:
+        severity_default: info
+        payload_required:
+          - closed_by
+          - closed_at
+          - closure_evidence_ref
+        recovery_required: false
+
+consumer_mapping:
+  spine:
+    role: canonical_bus_and_router
+    consumes_all: true
+  synal:
+    role: signal_store_and_emitter
+    consumes_all: true
+  agent_orchestrator:
+    role: human_runtime_surface
+    consumes:
+      - runtime
+      - governance
+      - economic
+      - ontology
+      - human
+  runtime_ontology:
+    role: graph_native_execution_model
+    consumes:
+      - ontology
+      - governance
+      - runtime
+  reality_ledger:
+    role: evidence_and_receipt_layer
+    consumes:
+      - governance
+      - economic
+      - human
+  portfolio_os:
+    role: portfolio_value_and_operating_surface
+    consumes:
+      - economic
+      - governance
+      - runtime
+
+validation_rules:
+  - signal_type_must_exist_in_taxonomy
+  - family_must_match_signal_type
+  - severity_must_be_valid
+  - payload_required_fields_must_exist
+  - high_and_critical_signals_require_evidence_ref_or_recovery_ref
+  - recovery_required_true_requires_recovery_mapping
+  - economic_family_requires_economic_payload
+  - ontology_family_requires_node_or_edge_context
+  - human_family_requires_actor_context
+
+migration_notes:
+  existing_synal_signal_columns_to_preserve:
+    - signal_type
+    - agent_id
+    - origin_schema
+    - origin_table
+    - origin_id
+    - severity
+    - status
+    - ttl_expires_at
+    - actioned_at
+    - actioned_by
+  recommended_next_columns:
+    - correlation_id
+    - causation_id
+    - parent_signal_id
+    - decision_id
+    - journey_id
+    - evidence_ref
+    - recovery_ref
+    - economic_payload
+
+issue_links:
+  parent: 170
+  taxonomy: 171
+  provenance: 172
+  orchestrator_live_feed: 173
+  silence_expansion: 174
+  recovery_lifecycle: 175
+  economic_signal_layer: 176
+  graph_native_ontology: 177
+  portfolio_signal_mesh: 178
+
+ledger:
+  task_id: signal-taxonomy-171
+  intent: lock canonical signal names and payload contracts
+  status: PARTIAL
+  evidence_required_to_upgrade_to_REAL:
+    - commit_id
+    - taxonomy_file_path
+    - schema_validation
+    - runtime_mapping
+    - orchestrator_consumer_mapping
