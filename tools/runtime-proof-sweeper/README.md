@@ -1,35 +1,40 @@
 # runtime-proof-sweeper
 
-Hourly system-wide queue reconciler. Built per [the-pen#145](https://github.com/TML-4PM/the-pen/issues/145), 2026-05-25.
+Hourly system-wide queue reconciler. Built per [the-pen#145](https://github.com/TML-4PM/the-pen/issues/145), extended by [the-pen#187](https://github.com/TML-4PM/the-pen/issues/187), 2026-06-14.
 
 ## Purpose
 
 Fix the whole execution loop, not one ticket at a time. Every hour:
 
-1. Enumerate every open issue, PR, and `ops.work_queue` row.
+1. Enumerate every open issue, PR, inbox item, handoff and `ops.work_queue` row.
 2. Classify each by runtime proof: **REAL** | **PARTIAL** | **BLOCKED**. `PRETEND` is never a close state.
-3. Requeue stale `work_queue` rows non-destructively (NULL their `last_heartbeat` so dispatcher re-fires).
-4. Write machine-readable receipt under `receipts/runtime-proof-sweeper/run-{YYYY-MM-DDTHH}.json`.
-5. Write a `reality_ledger` REAL entry per run.
-6. Update `cc_runtime_proof_widget` view (if Command Centre widget connected).
+3. Detect GitHub-only proof where commit/issue exists but runtime receipt does not.
+4. Detect Bridge payloads without Bridge receipts.
+5. Detect worker pickup failure.
+6. Requeue stale `work_queue` rows non-destructively.
+7. Write machine-readable receipt under `receipts/runtime-proof-sweeper/run-{YYYY-MM-DDTHH}.json`.
+8. Write or update a `reality_ledger` entry per run.
+9. Update Command Centre runtime-proof view if connected.
 
 ## Loop
 
-`inbox → worker → bridge → receipt → ledger → close`
+`inbox -> worker -> bridge -> receipt -> ledger -> close`
 
 ## Classification rules
 
-See [`classification_rules.json`](./classification_rules.json) — short version:
+See [`classification_rules.json`](./classification_rules.json).
 
-- **REAL** — a `public.reality_ledger` REAL entry exists with token-overlap ≥ 3 with the item's title+body keywords.
-- **PARTIAL** — artifact exists (GitHub issue/commit/PR, or `work_queue` row mid-flight) but no runtime receipt yet.
-- **BLOCKED** — bounded blocker named: `missing-permission`, `missing-secret`, `missing-route`, `missing-worker`, `missing-runtime`, `dependency-failure`.
+Short version:
+
+- **REAL**: runtime receipt exists, ledger row exists, and evidence binds to the work item.
+- **PARTIAL**: GitHub issue/commit/PR or queue row exists, but runtime receipt is absent.
+- **BLOCKED**: bounded blocker named: `missing-permission`, `missing-secret`, `missing-route`, `missing-worker`, `missing-runtime`, `dependency-failure`, `receipt-mismatch`, `ontology-drift`.
 
 ## Schedule
 
-Hourly via pg_cron job `runtime_proof_sweeper_hourly` calling `public.fn_runtime_proof_sweeper_kick()` which dispatches a `work_queue` row pointing to the Lambda `troy-runtime-proof-sweeper` (when deployed) or returns BLOCKED receipt if the Lambda is missing.
+Hourly via scheduler/worker. If pg_cron, Lambda, worker route, or Bridge dispatch is missing, emit a BLOCKED receipt rather than silently passing.
 
-See [`hourly_schedule.md`](./hourly_schedule.md) for current schedule state.
+See [`hourly_schedule.md`](./hourly_schedule.md) for schedule state.
 
 ## Receipts
 
@@ -39,11 +44,15 @@ Bootstrap receipt: [`../../../receipts/runtime-proof-sweeper/bootstrap.json`](..
 
 ## Operating doctrine
 
-- **No destructive actions.** Sweeper only inspects, classifies, requeues (heartbeat-null), and comments-with-new-evidence.
-- **No duplicate noise.** Comment only when the classification or evidence changed since last run.
-- **PRETEND prohibited.** A close that lacks runtime proof is never permitted as REAL; demote to PARTIAL with bounded reason.
-- **Bounded BLOCKED.** Every BLOCKED state names exactly which dependency is missing.
+- No destructive actions.
+- No duplicate noise.
+- PRETEND prohibited.
+- Commit proof is not runtime proof.
+- Bounded BLOCKED beats false completion.
+- Close only with runtime proof, receipt proof and visible ledger/Command Centre state.
 
-## Out of band
+## Current state
 
-The sweeper does not delete, archive, close, or weaken any controls. Those require explicit operator authority.
+Status: PARTIAL.
+
+Reason: tooling and control issue exist, but a live worker run and receipt are still required for REAL.
