@@ -1,0 +1,168 @@
+version: "1.0"
+name: humanity_atlas_schema
+status: PARTIAL
+purpose: >-
+  Define the Humanity Atlas as a graph of needs, signals, research cards,
+  evidence, products, outcomes, reusable engines, and governance boundaries.
+
+atlas_principle: >-
+  The Atlas is not a diagram collection. It is the navigable graph that shows
+  how human needs connect to products, research, evidence, outcomes, economics,
+  and runtime proof.
+
+node_types:
+  need:
+    required_fields:
+      - node_id
+      - name
+      - beneficiary
+      - need_statement
+      - status
+      - evidence_refs
+  signal:
+    required_fields:
+      - node_id
+      - source
+      - signal_type
+      - need_ref
+      - captured_at
+      - evidence_refs
+  research_card:
+    required_fields:
+      - node_id
+      - card_ref
+      - hypothesis
+      - stage
+      - evidence_refs
+  product:
+    required_fields:
+      - node_id
+      - product_name
+      - assembly_matrix_ref
+      - need_refs
+      - economic_path
+      - governance_boundary
+  engine:
+    required_fields:
+      - node_id
+      - engine_name
+      - capability_type
+      - products_using
+      - evidence_refs
+  evidence:
+    required_fields:
+      - node_id
+      - evidence_type
+      - source_ref
+      - quality
+      - created_at
+  outcome:
+    required_fields:
+      - node_id
+      - outcome_statement
+      - measure
+      - beneficiary
+      - evidence_refs
+  governance:
+    required_fields:
+      - node_id
+      - rule_name
+      - applies_to
+      - consent_or_risk_ref
+      - enforcement_state
+
+edge_types:
+  addresses:
+    from: product
+    to: need
+  evidenced_by:
+    from: [need, signal, research_card, product, outcome, engine]
+    to: evidence
+  investigates:
+    from: research_card
+    to: need
+  produces:
+    from: product
+    to: outcome
+  uses_engine:
+    from: product
+    to: engine
+  generates_signal:
+    from: product
+    to: signal
+  governed_by:
+    from: [need, product, engine, outcome, signal]
+    to: governance
+  derived_from:
+    from: research_card
+    to: signal
+  validates:
+    from: evidence
+    to: research_card
+  commercialises:
+    from: product
+    to: research_card
+  recovers:
+    from: governance
+    to: product
+  measures:
+    from: evidence
+    to: outcome
+  links_to:
+    from: any
+    to: any
+
+node_statuses:
+  DRAFT:
+    meaning: Captured but not evidence-bound.
+    allowed_for_navigation: true
+    can_support_REAL: false
+  PARTIAL:
+    meaning: Has source and at least one relationship but incomplete runtime proof.
+    allowed_for_navigation: true
+    can_support_REAL: false
+  REAL:
+    meaning: Evidence-bound, telemetry-linked, economically classified, and ledger-backed.
+    allowed_for_navigation: true
+    can_support_REAL: true
+  BLOCKED:
+    meaning: Cannot progress because a dependency, credential, or runtime path is unavailable.
+    allowed_for_navigation: true
+    can_support_REAL: false
+
+minimum_navigation_threshold:
+  nodes_total: 20
+  need_nodes: 5
+  evidence_nodes: 10
+  product_nodes: 3
+  outcome_nodes: 3
+  edges_total: 30
+
+acceptance_criteria:
+  atlas_claim_REAL_requires:
+    - graph_store_exists
+    - minimum_navigation_threshold_met
+    - evidence_nodes_resolvable
+    - continuity_keys_present_for_runtime_objects
+    - ledger_rows_written
+    - economic_path_present_for_product_nodes
+    - governance_nodes_present_for regulated_or_sensitive_flows
+
+anti_drift_rules:
+  - Do not create a product node without at least one need edge.
+  - Do not create a research_card node without source_ref and hypothesis.
+  - Do not create REAL evidence node from screenshot-only material.
+  - Do not create a new node before duplicate search.
+  - Do not treat diagrams as the Atlas; diagrams are views over the graph.
+
+ledger:
+  task_id: ATLAS-SCHEMA-001
+  intent: Formalise Humanity Atlas as a graph schema.
+  execution: Contract authored and committed to repository.
+  output: architecture/humanity_atlas_schema.yaml
+  status: PARTIAL
+  evidence_required_for_REAL:
+    - graph table or graph store deployed
+    - seed nodes inserted
+    - seed edges inserted
+    - query receipt generated
