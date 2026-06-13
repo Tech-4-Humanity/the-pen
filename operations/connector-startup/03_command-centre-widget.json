@@ -1,0 +1,23 @@
+{
+  "widget_id": "runtime-capability-status",
+  "title": "Runtime Status",
+  "datasource": "t4h_runtime_capability_status_v",
+  "cards": [
+    "total_capabilities",
+    "live_capabilities",
+    "degraded_capabilities",
+    "blocked_capabilities",
+    "readiness_score",
+    "overall_status"
+  ],
+  "required_sections": [
+    "required_blockers",
+    "connector_summary",
+    "capability_summary"
+  ],
+  "status_mapping": {
+    "REAL": "ready",
+    "PARTIAL": "warning",
+    "BLOCKED": "critical"
+  }
+}
