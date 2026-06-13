@@ -1,0 +1,140 @@
+version: "1.0"
+name: research_os_card_lifecycle
+status: PARTIAL
+purpose: >-
+  Define the lifecycle that turns raw ideas, signals, studies, diagrams, chats,
+  and observations into evidence-bound research cards, product assemblies,
+  commercial paths, and Humanity Atlas nodes.
+
+card_object:
+  required_fields:
+    - card_id
+    - title
+    - source_type
+    - source_ref
+    - need_ref
+    - hypothesis
+    - owner
+    - stage
+    - evidence_refs
+    - product_refs
+    - atlas_node_refs
+    - economic_path
+    - governance_class
+    - continuity_key
+    - ledger_ref
+  optional_fields:
+    - customer_signal_refs
+    - experiment_refs
+    - risk_refs
+    - recovery_refs
+    - related_cards
+    - duplicate_of
+    - notes
+
+lifecycle_stages:
+  idea:
+    entry: Raw candidate captured from chat, poster, document, repo, market signal, or customer observation.
+    exit_required:
+      - duplicate_check_completed
+      - need_ref_assigned
+      - source_ref_recorded
+  hypothesis:
+    entry: Idea framed as a testable claim.
+    exit_required:
+      - hypothesis_statement
+      - target_beneficiary
+      - expected_outcome
+      - falsification_condition
+  experiment:
+    entry: Test method selected.
+    exit_required:
+      - experiment_design
+      - success_metric
+      - risk_classification
+      - owner
+  evidence:
+    entry: Evidence collection started.
+    exit_required:
+      - evidence_ref
+      - evidence_type
+      - evidence_quality
+      - reproducibility_note
+  validation:
+    entry: Evidence reviewed against hypothesis.
+    exit_required:
+      - validation_status
+      - decision
+      - ledger_ref
+  product:
+    entry: Validated card mapped to a product or reusable engine.
+    exit_required:
+      - product_ref
+      - assembly_matrix_ref
+      - governance_boundary
+  commercialisation:
+    entry: Product path mapped to customer, funding, grant, licence, or proposal route.
+    exit_required:
+      - economic_path
+      - pricing_or_value_model
+      - owner
+  atlas:
+    entry: Research card becomes a navigable Humanity Atlas object.
+    exit_required:
+      - atlas_node_ref
+      - atlas_edges
+      - continuity_key
+
+gates:
+  duplicate_prevention:
+    rule: Search Atlas, product matrix, and research registry before creating a new card.
+    downgrade_if_missing: PARTIAL
+  evidence_gate:
+    rule: No card may move past evidence stage without at least one evidence_ref.
+    downgrade_if_missing: PARTIAL
+  commercial_gate:
+    rule: No card may move to commercialisation without economic_path.
+    downgrade_if_missing: PARTIAL
+  atlas_gate:
+    rule: No card may move to atlas stage without node and edge definitions.
+    downgrade_if_missing: PARTIAL
+
+source_types:
+  - chat
+  - poster
+  - document
+  - spreadsheet
+  - repository
+  - website
+  - customer_signal
+  - market_signal
+  - research_paper
+  - workflow
+  - runtime_event
+
+evidence_quality:
+  REAL_capable:
+    - api_response
+    - db_result
+    - commit_sha
+    - workflow_run
+    - telemetry_event
+    - audit_record
+    - reproducible_url
+  PARTIAL_only:
+    - screenshot
+    - assertion
+    - summary
+    - unverified_note
+
+ledger:
+  task_id: RESEARCH-LIFECYCLE-001
+  intent: Convert research and idea capture into an evidence-bound lifecycle.
+  execution: Contract authored and committed to repository.
+  output: architecture/research_os_card_lifecycle.yaml
+  status: PARTIAL
+  evidence_required_for_REAL:
+    - first card inserted into runtime store
+    - evidence_ref attached
+    - atlas node created
+    - ledger row written
