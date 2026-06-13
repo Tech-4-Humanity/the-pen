@@ -1,9 +1,10 @@
-name: Bridge Runner — Payload Executor
+name: Bridge Runner — Heartbeat
 
 on:
   push:
     paths:
       - 'bridge/payloads/**.json'
+      - '.github/workflows/bridge-runner.yml'
   pull_request:
     paths:
       - 'bridge/payloads/**.json'
@@ -18,7 +19,7 @@ permissions:
   contents: write
 
 jobs:
-  bridge-runner:
+  heartbeat:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -34,7 +35,15 @@ jobs:
         with:
           node-version: '20'
 
+      - name: PR-safe acknowledgement
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Bridge Runner heartbeat observed payload/workflow change in PR context."
+          echo "Write-capable bridge execution and receipt commits are disabled for pull_request."
+          echo "classification=PR_SAFE_NO_OP"
+
       - name: Detect changed payloads
+        if: github.event_name != 'pull_request'
         id: detect
         env:
           INPUT_PATH: ${{ github.event.inputs.payload_path }}
@@ -48,6 +57,7 @@ jobs:
           fi
 
       - name: Execute payloads
+        if: github.event_name != 'pull_request'
         env:
           BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
           BRIDGE_API_KEY:  ${{ secrets.BRIDGE_API_KEY || secrets.BRIDGE_KEY }}
@@ -117,7 +127,7 @@ jobs:
             echo "Receipt: $RECEIPT_FILE | Status: $INVOKE_STATUS | HTTP: $HTTP_CODE"
           done
 
-      - name: Commit & push receipts
+      - name: Commit and push receipts
         if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
