@@ -6,8 +6,8 @@ on:
     paths:
       - 'inbox/**'
       - 'tools/pen/**'
+      - '.github/workflows/pen-ingest.yml'
   schedule:
-    # freq cut 2026-05-29: */15 -> hourly (kernel cost). Real inbox work still triggers immediately via push on inbox/**. Revert to '*/15 * * * *' if needed.
     - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
@@ -18,8 +18,6 @@ on:
 
 permissions:
   contents: write
-
-# Note: concurrency lock removed — was causing scheduled runs to mark as failed when overlapping.
 
 jobs:
   ingest:
@@ -52,8 +50,12 @@ jobs:
           COUNT=${#FILES[@]}
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           if [ "$COUNT" -eq 0 ]; then
-            echo "ℹ️  inbox is empty — nothing to ingest, will exit clean"
+            echo "inbox is empty - nothing to ingest, will exit clean"
           fi
+
+      - name: Empty-inbox annotation
+        if: steps.inbox.outputs.count == '0'
+        run: echo "PEN Ingest: Empty inbox - no work to do"
 
       - name: Setup Node
         if: steps.inbox.outputs.count != '0'
@@ -68,7 +70,7 @@ jobs:
           if [ -f tools/pen/pen_ingest_worker.mjs ]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
-            echo "⚠️  tools/pen/pen_ingest_worker.mjs missing — skipping (not a failure)"
+            echo "tools/pen/pen_ingest_worker.mjs missing - skipping"
             echo "present=false" >> "$GITHUB_OUTPUT"
           fi
 
@@ -88,7 +90,7 @@ jobs:
         run: |
           set -uo pipefail
           node tools/pen/pen_ingest_worker.mjs 2>&1 | tee pen-ingest-summary.json || {
-            echo "⚠️  worker exited non-zero — continuing to commit any partial output"
+            echo "worker exited non-zero - continuing to commit any partial output"
             exit 0
           }
 
@@ -114,9 +116,5 @@ jobs:
           if [ -f pen-ingest-summary.json ]; then
             cat pen-ingest-summary.json
           else
-            echo "(no summary produced)"
+            echo "no summary produced"
           fi
-
-      - name: Empty-inbox annotation
-        if: steps.inbox.outputs.count == '0'
-        run: echo "::notice title=PEN Ingest::Empty inbox — no work to do (clean exit)"
