@@ -1,0 +1,140 @@
+version: "1.0"
+name: recovery_contract
+status: PARTIAL
+purpose: >-
+  Define the recovery object, lifecycle, evidence rules, and survivability criteria
+  required for Integrity Stack runtime claims to move from PARTIAL to REAL.
+
+scope:
+  applies_to:
+    - Integrity Stack
+    - Humanity Atlas
+    - Runtime Ledger
+    - Product Assemblies
+    - Research OS
+    - Telemetry Continuity
+  recovery_claim_rule: >-
+    A recovery claim is REAL only when a failure event, recovery action,
+    validation event, and ledger receipt are all bound by the same continuity_key.
+
+recovery_object:
+  required_fields:
+    - recovery_id
+    - continuity_key
+    - failure_id
+    - affected_object_type
+    - affected_object_id
+    - severity
+    - detected_at
+    - detected_by
+    - failure_mode
+    - recovery_strategy
+    - rollback_or_forward_fix
+    - validation_method
+    - validation_evidence_ref
+    - restored_at
+    - owner
+    - status
+    - ledger_ref
+  optional_fields:
+    - customer_impact
+    - economic_impact
+    - governance_impact
+    - repeat_prevention
+    - linked_issue
+    - linked_commit
+    - linked_run
+
+severity_classes:
+  critical:
+    description: Core runtime, ledger, identity, consent, evidence, or customer-facing flow unavailable.
+    target_recovery_time: "PT1H"
+    requires_human_review: true
+  high:
+    description: Product, atlas, or telemetry path impaired but not fully unavailable.
+    target_recovery_time: "PT4H"
+    requires_human_review: true
+  medium:
+    description: Partial degradation with bounded impact.
+    target_recovery_time: "PT24H"
+    requires_human_review: false
+  low:
+    description: Documentation, naming, or non-runtime defect.
+    target_recovery_time: "PT72H"
+    requires_human_review: false
+
+lifecycle:
+  - phase: detect
+    required_evidence:
+      - telemetry_event
+      - api_response
+      - workflow_run
+      - db_result
+  - phase: classify
+    required_outputs:
+      - severity
+      - failure_mode
+      - affected_object_id
+  - phase: isolate
+    required_outputs:
+      - blast_radius
+      - dependency_boundary
+  - phase: recover
+    permitted_actions:
+      - rollback
+      - forward_fix
+      - data_repair
+      - route_fallback
+      - manual_override_with_receipt
+  - phase: validate
+    required_evidence:
+      - passing_check
+      - db_result_or_api_response
+      - telemetry_event
+  - phase: close
+    required_outputs:
+      - ledger_ref
+      - prevention_note
+      - economic_impact_assessment
+
+survivability_72h:
+  status: UNPROVEN
+  proof_required:
+    - continuous_telemetry_window_72h
+    - no_unresolved_critical_failures
+    - recovery_events_closed_or_bounded
+    - ledger_entries_complete
+    - evidence_refs_resolvable
+    - economic_or_operational_impact_recorded
+
+exclusions:
+  cannot_independently_prove_recovery:
+    - screenshot_only
+    - human_assertion_only
+    - unverified_chat_summary
+    - unlinked_commit_without_runtime_check
+    - document_update_without_execution
+
+downgrade_rules:
+  REAL_to_PARTIAL:
+    - missing_validation_evidence
+    - missing_ledger_ref
+    - missing_continuity_key
+    - recovery_action_not_executed
+  PARTIAL_to_BLOCKED:
+    - missing_credentials
+    - dependency_unavailable
+    - unresolved_critical_runtime_failure
+    - data_loss_without_restore_path
+
+ledger:
+  task_id: RECOVERY-CONTRACT-001
+  intent: Formalise deterministic recovery requirements.
+  execution: Contract authored and committed to repository.
+  output: architecture/recovery_contract.yaml
+  status: PARTIAL
+  evidence_required_for_REAL:
+    - runtime recovery event
+    - telemetry receipt
+    - validation receipt
+    - 72h survivability proof
