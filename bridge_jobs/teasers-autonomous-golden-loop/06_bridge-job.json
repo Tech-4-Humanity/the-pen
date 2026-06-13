@@ -1,0 +1,31 @@
+{
+  "job_name": "teasers_autonomous_golden_loop",
+  "version": "1.0",
+  "status": "BRIDGE_READY_PARTIAL_UNTIL_RUNTIME_RECEIPT",
+  "objective": "Deploy Teasers as a Synal-compatible human effectiveness signal pack and return runtime evidence.",
+  "execution_authority": "User granted executive control; no HITL required except hard blockers.",
+  "components": [
+    "apply_supabase_schema",
+    "register_browser_agent_pack",
+    "register_synal_widget",
+    "register_command_centre_widget",
+    "seed_prompts",
+    "execute_smoke_test",
+    "write_teaser_runtime_receipt"
+  ],
+  "proof_required": [
+    "schema_exists",
+    "teaser_prompt_seeded",
+    "first_teaser_delivery_id",
+    "first_teaser_response_id",
+    "first_teaser_signal_score_id",
+    "synal_widget_visible",
+    "command_centre_widget_visible",
+    "runtime_receipt_id"
+  ],
+  "classification_rules": {
+    "REAL": "all proof_required values present",
+    "PARTIAL": "package exists but one or more runtime proofs missing",
+    "BLOCKED": "authority, credentials, legal, safety, money movement, destructive action, or unavailable external dependency blocks execution"
+  }
+}
