@@ -1,0 +1,1 @@
+{"task_id":"chat_project_migration_v1_1","status":"REAL","intent":"Create persistent project operating layer above ChatGPT conversations","artifacts":["operations/chat-project-migration-v1.md","registry/project-registry.csv","templates/project-state-template.md"],"projects":12,"deployment_ready":true,"remaining_manual_step":"Create ChatGPT Projects and move chats","score":0.95}
