@@ -1,26 +1,25 @@
 {
-  "_doc": "First-run bootstrap receipt for runtime-proof-sweeper. Per the-pen#145.",
+  "_doc": "Bootstrap and revalidation receipt for runtime-proof-sweeper. Per the-pen#145 and #187.",
   "issued": "2026-05-25T04:07:59.356558+00:00",
-  "operator": "claude-opus-4-7 via direct execution (manual interim path)",
-  "scheduler_state": "BLOCKED \u2014 Lambda 'troy-runtime-proof-sweeper' not yet deployed; pg_cron job installable but will queue BLOCKED jobs until Lambda exists",
+  "revalidated": "2026-06-14T00:00:00+10:00",
+  "operator": "ChatGPT GitHub connector execution",
+  "status": "PARTIAL",
+  "reason": "Tools exist and were revalidated; README updated in commit fdd4c031c0bff6d6b3b1793fb5b2e8e7fdc10ebe. REAL still requires live worker/scheduler run and fresh runtime receipt.",
+  "bound_issues": [145, 102, 132, 187],
+  "scheduler_state": "BLOCKED_OR_UNPROVEN: prior receipt says Lambda 'troy-runtime-proof-sweeper' not yet deployed; current connector cannot prove live scheduler execution.",
+  "tooling_state": {
+    "readme": "REAL_FILE_UPDATED",
+    "runtime_proof_sweeper_py": "REAL_FILE_PRESENT",
+    "classification_rules_json": "REAL_FILE_PRESENT",
+    "bridge_payload_template_json": "REAL_FILE_PRESENT",
+    "bootstrap_receipt_json": "REAL_FILE_UPDATED",
+    "github_control_issue": "the-pen#187"
+  },
   "first_run": {
     "started": "2026-05-25T04:07:59.356558+00:00",
     "finished": "2026-05-25T04:08:04.242610+00:00",
-    "totals": {
-      "issues": 1,
-      "prs": 4,
-      "queue": 0
-    },
-    "classifications": {
-      "issues": {
-        "REAL": 1
-      },
-      "prs": {
-        "REAL": 1,
-        "PARTIAL": 3
-      },
-      "queue": {}
-    },
+    "totals": {"issues": 1, "prs": 4, "queue": 0},
+    "classifications": {"issues": {"REAL": 1}, "prs": {"REAL": 1, "PARTIAL": 3}, "queue": {}},
     "stale_24h": 0,
     "stale_72h": 0,
     "oldest_unresolved": [],
@@ -28,19 +27,22 @@
     "requeue_attempts": [],
     "requeued_count": 0
   },
-  "ledger_receipts": [
-    "04ffec9c-3d6c-4414-a3e3-f7380960ab5a (factory_revival phase_b_dispatcher_chain_alive)",
-    "b9e95bde-0c31-4157-a36f-dea158fca01d (github_backlog_audit triage_2026_05_25)",
-    "4c54b836-858c-4492-94cd-c1337d7ec51a (github_issue_bulk_close PARTIAL with correction)"
-  ],
-  "next_runs": "Until Lambda deployed: run manually via `python3 tools/runtime-proof-sweeper/runtime_proof_sweeper.py`. After deploy: pg_cron fires `15 * * * *` calling fn_runtime_proof_sweeper_kick.",
-  "acceptance_gates_met": {
-    "hourly_schedule_or_blocked_receipt": "BLOCKED receipt present (hourly_schedule.md scheduler_state)",
-    "first_run_produced_receipt": true,
-    "runtime_proof_missing_queue_populated": "captured in classifications.* and oldest_unresolved",
-    "stale_item_requeued_or_escalated": "queue empty this run; requeued_count=0",
-    "command_centre_widget_target": "v_runtime_proof_sweeper_latest installed",
-    "receipt_path_written": true,
-    "ledger_state_updated": true
-  }
+  "revalidation_evidence": {
+    "github_issue_created": "https://github.com/TML-4PM/the-pen/issues/187",
+    "readme_update_commit": "fdd4c031c0bff6d6b3b1793fb5b2e8e7fdc10ebe",
+    "readme_sha_before": "8ea7b9991be799e2fc0717d252abef21131921fa",
+    "classification_rules_sha": "adceb2ad58ada7c3ce54970f6099a0821a6144d7",
+    "runtime_sweeper_sha": "f318038ead1d21052cf31e51d995a5ac2a93bb07",
+    "bridge_payload_template_sha": "0701f6615ce28cd62159d3292142c9df93aa1729"
+  },
+  "required_next_runtime_action": "Run python3 tools/runtime-proof-sweeper/runtime_proof_sweeper.py with GITHUB_PAT and SUPABASE_SERVICE_KEY, or deploy scheduler/worker and produce run-YYYY-MM-DDTHH.json receipt.",
+  "acceptance_gates": {
+    "tool_files_present": true,
+    "control_issue_present": true,
+    "fresh_runtime_run_present": false,
+    "fresh_runtime_receipt_present": false,
+    "ledger_visibility_proven": false,
+    "command_centre_visibility_proven": false
+  },
+  "classification": "PARTIAL"
 }
