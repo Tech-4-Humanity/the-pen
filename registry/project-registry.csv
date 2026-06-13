@@ -1,0 +1,13 @@
+project_id,project_name,status,owner,purpose,priority,next_action,value_score,revenue_score,execution_score,notes
+proj_001,Command Centre / Spine,ACTIVE,Troy + AI,Run the machine,1,Bind Bridge telemetry and receipts,100,70,100,Control layer
+proj_002,Jobs / CV / Immediate Income,ACTIVE,Troy + AI,Generate income now,2,Move job and CV threads first,100,100,80,Highest cashflow priority
+proj_003,GTM + Revenue Engine,ACTIVE,Troy + AI,Convert offers to revenue,3,Move offer pricing and campaign threads,95,95,75,Revenue engine
+proj_004,Tech4Humanity,ACTIVE,Troy + AI,Parent ecosystem and governance layer,6,Move public mission and governance threads,85,70,70,Brand and policy layer
+proj_005,Outcome Ready + Reading Buddy,ACTIVE,Troy + AI,Education evidence and reading improvement,4,Move Reading Buddy and Thriving OS threads,95,90,80,Product and evidence layer
+proj_006,WorkFamilyAI,ACTIVE,Troy + AI,Workforce operating system,5,Move 10x10x10 and role model threads,90,85,85,Org signal layer
+proj_007,NeuroPAK + GC-BAT + BCI,CONTINUOUS,Troy + AI,Neurotechnology governance and futures,7,Move BCI and GC-BAT research threads,85,60,70,Research and standards layer
+proj_008,Research Vault,INTAKE,Troy + AI,Future signal intake and source material,8,Seed papers and imported docs,75,40,60,Graduation layer
+proj_009,Content Factory,ACTIVE,Troy + AI,Convert thinking into publishable assets,9,Move LinkedIn articles and media threads,85,75,60,Publishing layer
+proj_010,Asset Factory,ACTIVE,Troy + AI,Reusable commercial artefacts,10,Move frameworks templates and packs,90,85,70,Reusable asset layer
+proj_011,Personal Operating System,ACTIVE,Troy + AI,Personal family health finance and life operations,11,Move personal threads only,70,20,40,Noise separation layer
+proj_012,Archive / Parking Lot,ARCHIVE,Troy + AI,Park low-value or inactive history,12,Archive stale duplicate and dead threads,40,0,20,Do not treat as active
