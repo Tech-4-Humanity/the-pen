@@ -3,85 +3,62 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SchoolFamilyAI Explorer</title>
+  <title>SchoolFamilyAI / Humanity Atlas Explorer</title>
   <style>
-    :root{--ink:#111;--muted:#555;--line:#111;--paper:#fff;--soft:#f5f5f5;--accent:#111}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif;line-height:1.45}.wrap{max-width:1280px;margin:0 auto;padding:28px}header{border:2px solid var(--line);padding:24px;margin-bottom:20px}h1{font-size:42px;margin:0 0 6px;letter-spacing:-1.2px}h2{font-size:22px;margin:0 0 12px}h3{font-size:16px;margin:0 0 8px}.sub{font-size:18px;color:var(--muted);max-width:900px}.grid{display:grid;gap:14px}.cols3{grid-template-columns:repeat(3,1fr)}.cols4{grid-template-columns:repeat(4,1fr)}.card{border:2px solid var(--line);padding:16px;background:#fff}.soft{background:var(--soft)}.pill{display:inline-block;border:1.5px solid var(--line);border-radius:999px;padding:5px 10px;margin:4px 4px 0 0;font-size:13px}.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.node{border:2px solid var(--line);padding:10px 12px;background:#fff;font-weight:700}.arrow{font-size:24px}.cube{display:grid;grid-template-columns:repeat(9,1fr);border:2px solid var(--line)}.cell{min-height:54px;border:1px solid var(--line);padding:6px;font-size:11px;background:#fff}.cell strong{display:block;font-size:12px}.band{display:grid;grid-template-columns:180px 1fr;gap:0;border:2px solid var(--line)}.band>div{border-bottom:1px solid var(--line);padding:10px}.band>div:nth-last-child(-n+2){border-bottom:0}.label{font-weight:800;background:var(--soft)}.spine{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.spine div{border:2px solid var(--line);padding:12px;min-height:90px}.small{font-size:13px;color:var(--muted)}button{border:2px solid var(--line);background:#fff;padding:10px 12px;font-weight:800;cursor:pointer}button:hover{background:#111;color:#fff}.hidden{display:none}.printnote{margin-top:18px;border:2px dashed var(--line);padding:12px}@media(max-width:900px){.cols3,.cols4,.spine{grid-template-columns:1fr}.cube{grid-template-columns:repeat(3,1fr)}h1{font-size:32px}.band{grid-template-columns:1fr}}@media print{button{display:none}.wrap{padding:10mm}.card,header{break-inside:avoid}.cube{grid-template-columns:repeat(9,1fr)}body{font-size:11px}h1{font-size:28px}}
+    :root{--ink:#111;--muted:#555;--line:#111;--paper:#fff;--soft:#f5f5f5;--good:#0b6b3a;--warn:#a66300}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif;line-height:1.45}.wrap{max-width:1320px;margin:0 auto;padding:28px}header,.card{border:2px solid var(--line);padding:18px;background:#fff}header{padding:24px;margin-bottom:16px}h1{font-size:42px;margin:0 0 6px;letter-spacing:-1.2px}h2{font-size:22px;margin:0 0 10px}h3{font-size:15px;margin:0 0 6px}.sub{font-size:18px;color:var(--muted);max-width:980px}.small{font-size:13px;color:var(--muted)}.grid{display:grid;gap:12px}.cols3{grid-template-columns:repeat(3,1fr)}.cols4{grid-template-columns:repeat(4,1fr)}.cols5{grid-template-columns:repeat(5,1fr)}.pill{display:inline-block;border:1.5px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px 3px 0 0;font-size:12px}.receipt{border:2px dashed var(--line);padding:14px;margin-top:14px;background:var(--soft)}button,input,select{border:2px solid var(--line);background:#fff;padding:9px 11px;font-weight:800}button{cursor:pointer}button:hover{background:#111;color:#fff}.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.node{border:2px solid var(--line);padding:9px 11px;background:#fff;font-weight:800}.arrow{font-size:22px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{border:1.5px solid var(--line);padding:8px;text-align:left;vertical-align:top}.table th{background:var(--soft)}.matrix{display:grid;grid-template-columns:repeat(10,1fr);border:2px solid var(--line);overflow:auto}.cell{min-height:66px;border:1px solid var(--line);padding:6px;font-size:11px}.cell strong{display:block;font-size:12px}.good{color:var(--good);font-weight:800}.warn{color:var(--warn);font-weight:800}.hidden{display:none}@media(max-width:950px){.cols3,.cols4,.cols5{grid-template-columns:1fr}.matrix{grid-template-columns:repeat(2,1fr)}h1{font-size:32px}}@media print{button,input,select{display:none}.wrap{padding:10mm}body{font-size:11px}.card,header{break-inside:avoid}h1{font-size:28px}}
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <header>
-      <h1>SchoolFamilyAI Explorer</h1>
-      <div class="sub">A child-safe predecessor to WorkFamilyAI. The old model is teams, roles and job descriptions. The forward model is capability, signal and outcome, bound to the Humanity Atlas spine.</div>
-      <p class="small">Status: PARTIAL | Spine-bound artefact | Human support amplification, not child surveillance</p>
-      <button onclick="document.body.classList.toggle('showAll')">Toggle detail mode</button>
-      <button onclick="window.print()">Print black and white</button>
-    </header>
+<main class="wrap">
+  <header>
+    <h1>SchoolFamilyAI / Humanity Atlas Explorer</h1>
+    <div class="sub">SchoolFamilyAI is now a filtered view of the Human Capability Atlas: capability → signal → outcome → context → product. This is support amplification, not hidden child surveillance.</div>
+    <p class="small"><span class="warn">Status: PARTIAL</span> | Repo-bound | Vercel-routed | Models committed | Runtime graph not yet live</p>
+    <button onclick="window.print()">Print black and white</button>
+  </header>
 
-    <section class="grid cols3">
-      <div class="card"><h2>WorkFamilyAI</h2><p>9 x 9 x 9 coordination grammar for adult roles, teams, jobs and work-family interlocks.</p><span class="pill">Role</span><span class="pill">Function</span><span class="pill">Department</span></div>
-      <div class="card soft"><h2>SchoolFamilyAI</h2><p>9 x 9 x 9 developmental grammar for children, families, teachers, schools and support networks.</p><span class="pill">Capability</span><span class="pill">Signal</span><span class="pill">Outcome</span></div>
-      <div class="card"><h2>Humanity Atlas</h2><p>The navigation layer connecting needs, identity, consent, interventions, evidence, outcomes and recovery.</p><span class="pill">Need</span><span class="pill">Consent</span><span class="pill">Evidence</span><span class="pill">Recovery</span></div>
-    </section>
+  <section class="grid cols3">
+    <div class="card"><h2>Capability Model</h2><p>100 context-independent human capabilities across cognitive, communication, social, emotional, identity, physical, creative, digital, civic and transition domains.</p><span class="pill">CAP-001 → CAP-100</span></div>
+    <div class="card"><h2>Signal Model</h2><p>100 observable signal inputs mapped to capabilities. Signals are evidence inputs, never conclusions or secret diagnoses.</p><span class="pill">SIG-001 → SIG-100</span></div>
+    <div class="card"><h2>Product Views</h2><p>SchoolFamilyAI, WorkFamilyAI, Outcome Ready, Reading Buddy, LifeGraph+, Synal and Doolittles become filtered views of the same spine.</p><span class="pill">One graph, many fronts</span></div>
+  </section>
 
-    <section class="card" style="margin-top:14px">
-      <h2>Core flow</h2>
-      <div class="flow"><div class="node">Need</div><div class="arrow">→</div><div class="node">Signal</div><div class="arrow">→</div><div class="node">Identity</div><div class="arrow">→</div><div class="node">Consent</div><div class="arrow">→</div><div class="node">Capability</div><div class="arrow">→</div><div class="node">Intervention</div><div class="arrow">→</div><div class="node">Evidence</div><div class="arrow">→</div><div class="node">Outcome</div><div class="arrow">→</div><div class="node">Recovery</div></div>
-    </section>
+  <section class="card" style="margin-top:14px">
+    <h2>Core runtime chain</h2>
+    <div class="flow"><div class="node">Need</div><div class="arrow">→</div><div class="node">Signal</div><div class="arrow">→</div><div class="node">Capability</div><div class="arrow">→</div><div class="node">Intervention</div><div class="arrow">→</div><div class="node">Evidence</div><div class="arrow">→</div><div class="node">Outcome</div><div class="arrow">→</div><div class="node">Recovery</div></div>
+  </section>
 
-    <section class="grid cols3" style="margin-top:14px">
-      <div class="card"><h2>Capability axis</h2><p><span class="pill">Literacy</span><span class="pill">Numeracy</span><span class="pill">Communication</span><span class="pill">Executive function</span><span class="pill">Emotional regulation</span><span class="pill">Belonging</span><span class="pill">Creativity</span><span class="pill">Physical readiness</span><span class="pill">Digital discernment</span></p></div>
-      <div class="card"><h2>Signal axis</h2><p><span class="pill">Engagement</span><span class="pill">Avoidance</span><span class="pill">Confidence</span><span class="pill">Frustration</span><span class="pill">Curiosity</span><span class="pill">Fatigue</span><span class="pill">Participation</span><span class="pill">Help seeking</span><span class="pill">Transfer</span></p></div>
-      <div class="card"><h2>Outcome axis</h2><p><span class="pill">Skill gain</span><span class="pill">Confidence gain</span><span class="pill">Belonging</span><span class="pill">Reduced distress</span><span class="pill">Attendance</span><span class="pill">Parent-school clarity</span><span class="pill">Teacher load reduction</span><span class="pill">Inclusion</span><span class="pill">Independence</span></p></div>
-    </section>
+  <section class="card" style="margin-top:14px">
+    <h2>Explore spine</h2>
+    <div class="toolbar"><input id="q" placeholder="search capability or signal" oninput="render()"><select id="domain" onchange="render()"><option value="all">All domains</option></select><button onclick="document.getElementById('q').value='';document.getElementById('domain').value='all';render()">Reset</button></div>
+    <div id="summary" class="small"></div>
+    <table class="table" style="margin-top:10px"><thead><tr><th>ID</th><th>Name</th><th>Domain</th><th>Type</th><th>Refs / use</th></tr></thead><tbody id="rows"></tbody></table>
+  </section>
 
-    <section class="card" style="margin-top:14px">
-      <h2>9 x 9 visible slice</h2>
-      <p class="small">This slice shows capability x signal. Each cell resolves to at least one outcome, intervention and evidence record.</p>
-      <div class="cube" id="cube"></div>
-    </section>
+  <section class="card" style="margin-top:14px">
+    <h2>10 x 10 visible slice</h2>
+    <p class="small">First 10 capabilities crossed with first 10 signals. Each cell is a future evidence/outcome edge.</p>
+    <div class="matrix" id="matrix"></div>
+  </section>
 
-    <section class="card" style="margin-top:14px">
-      <h2>Interlock contract</h2>
-      <div class="band">
-        <div class="label">Child</div><div>Gives attempts, questions, reactions and preferences. Receives support, scaffolds, feedback and belonging.</div>
-        <div class="label">Parent</div><div>Gives context, home support, consent and observations. Receives clarity, guidance and progress evidence.</div>
-        <div class="label">Teacher</div><div>Gives instruction, observation and adaptation. Receives reduced admin, better signals and family clarity.</div>
-        <div class="label">School</div><div>Gives policy, safety, resources and escalation. Receives cohort insight, risk visibility and outcome evidence.</div>
-        <div class="label">Provider</div><div>Gives specialist support and evidence. Receives continuity, context and goals.</div>
-        <div class="label">Platform</div><div>Gives orchestration, memory, suggestions and receipts. Must not become a hidden decision-maker.</div>
-      </div>
-    </section>
+  <section class="grid cols4" style="margin-top:14px">
+    <div class="card"><h2>SchoolFamilyAI</h2><p>Child, parent, teacher, school and provider lens.</p><span class="pill">learning</span><span class="pill">support</span><span class="pill">consent</span></div>
+    <div class="card"><h2>WorkFamilyAI</h2><p>Worker, team, manager and organisation lens.</p><span class="pill">role</span><span class="pill">team</span><span class="pill">performance</span></div>
+    <div class="card"><h2>Outcome Ready</h2><p>Participant, provider and practitioner outcome lens.</p><span class="pill">function</span><span class="pill">evidence</span><span class="pill">progress</span></div>
+    <div class="card"><h2>Reading Buddy</h2><p>Literacy, confidence, regulation and reading evidence lens.</p><span class="pill">literacy</span><span class="pill">voice</span><span class="pill">growth</span></div>
+  </section>
 
-    <section class="card" style="margin-top:14px">
-      <h2>Integrity Stack binding</h2>
-      <div class="spine">
-        <div><h3>UBI</h3><p class="small">Contextual learner signals, no medical truth claim.</p></div>
-        <div><h3>MyNeuralSignal</h3><p class="small">Engagement, overload, confidence, fatigue patterns.</p></div>
-        <div><h3>ID Exchange</h3><p class="small">Learner, guardian, teacher, school and provider identity.</p></div>
-        <div><h3>ConsentX</h3><p class="small">Guardian consent, child assent, purpose and revocation.</p></div>
-        <div><h3>NEUROPAK</h3><p class="small">Route intent to support, referral, learning or stop pathway.</p></div>
-        <div><h3>Tech4Humanity</h3><p class="small">Product assembly and market packaging.</p></div>
-        <div><h3>GCBAT</h3><p class="small">Audit, standards, child-safety and recovery.</p></div>
-      </div>
-    </section>
-
-    <section class="grid cols4" style="margin-top:14px">
-      <div class="card"><h2>Products</h2><p>Reading Buddy Kids, Maths Buddy, Parent Companion, Teacher Co-pilot, Inclusion Planner, AI Literacy Coach, SchoolFamily Ledger.</p></div>
-      <div class="card"><h2>Reusable engines</h2><p>AHC, Reading Buddy, Outcome Ready, ConsentX, LifeGraph+, Reality Ledger, Synal, HoloOrg, GCBAT.</p></div>
-      <div class="card"><h2>Commercial paths</h2><p>Parent subscription, teacher tools, school SaaS, inclusion support, government programs, marketplace.</p></div>
-      <div class="card"><h2>Guardrails</h2><p>No secret profiling, no diagnosis claims, no unsupported risk scoring, human review, revocation, evidence provenance, recovery path.</p></div>
-    </section>
-
-    <section class="printnote">
-      <strong>Receipt:</strong> PARTIAL. Surface is static and inspectable. REAL requires runtime schema execution, consent flow, evidence record, ledger receipt, recovery test, economic proof and 72h survivability.
-    </section>
-  </main>
-  <script>
-    const capabilities=['Literacy','Numeracy','Communication','Executive Function','Regulation','Belonging','Creativity','Physical','Digital'];
-    const signals=['Engagement','Avoidance','Confidence','Frustration','Curiosity','Fatigue','Participation','Help','Transfer'];
-    const cube=document.getElementById('cube');
-    capabilities.forEach((c,i)=>signals.forEach((s,j)=>{const d=document.createElement('div');d.className='cell';d.innerHTML='<strong>'+c+'</strong>'+s+'<br><span class="small">evidence → outcome</span>';cube.appendChild(d)}));
-  </script>
+  <section class="receipt">
+    <strong>Receipt:</strong> PARTIAL. Surface is live and route-bound. REAL requires database-backed graph execution, ConsentX purpose binding, evidence ledger rows, recovery test, economic proof and 72h survivability.
+  </section>
+</main>
+<script>
+const caps={cognitive:['Literacy','Numeracy','Critical Thinking','Logical Reasoning','Spatial Reasoning','Causal Reasoning','Pattern Recognition','Abstraction','Working Memory','Long-term Memory','Executive Function','Cognitive Flexibility'],language:['Verbal Communication','Written Communication','Active Listening','Narrative Construction','Argumentation','Multilingual Capacity','Non-verbal Communication','Digital Communication'],social:['Empathy','Perspective Taking','Conflict Resolution','Collaboration','Influence','Trust Building','Negotiation','Belonging','Network Building','Cultural Fluency'],emotional:['Emotional Regulation','Resilience','Self-Awareness','Motivation','Stress Tolerance','Courage','Curiosity','Hope','Patience','Gratitude'],identity:['Identity Clarity','Autonomy','Self-Efficacy','Responsibility','Ethical Reasoning','Integrity','Purpose','Growth Orientation','Consent Literacy','Advocacy'],physical:['Physical Readiness','Gross Motor Skill','Fine Motor Skill','Sensory Integration','Sleep Regulation','Nutrition Literacy','Pain Tolerance','Health Self-Management','Body Awareness','Physical Safety'],creative:['Creativity','Aesthetic Sensitivity','Artistic Expression','Design Thinking','Storytelling','Imagination','Play','Improvisation','Craft Precision','Taste Curation'],digital:['Digital Discernment','Computational Thinking','Data Literacy','Systems Thinking','Tool Fluency','Security Awareness','Privacy Literacy','AI Literacy','Media Literacy','Digital Citizenship'],civic:['Civic Literacy','Financial Literacy','Environmental Literacy','Research Literacy','Project Management','Decision Making','Leadership','Service Orientation','Entrepreneurship','Stewardship'],transition:['Adaptability','Transition Readiness','Learning Agility','Feedback Receptivity','Failure Tolerance','Ambiguity Tolerance','Time Mastery','Habit Formation','Recovery','Wisdom']};
+const sigs={engagement:['Sustained Attention','Active Participation','Task Initiation','On-task Behaviour','Voluntary Question Asking','Voluntary Answer Offering','Attention Recovery','Deep Engagement Indicators','Cross-context Transfer','Voluntary Extension'],avoidance:['Task Avoidance','Social Withdrawal','Physical Absence','Selective Mutism','Escape Behaviour','Minimal Compliance','Help Refusal','Eye Contact Avoidance','Shutdown Response','Situation-Specific Avoidance'],confidence:['Attempts Challenging Work','Self-Correction Without Prompting','Positive Self-Reference','Persists After Error','Seeks Stretch','Negative Self-Reference','Catastrophising','Praise-Seeking Dependency','Risk Avoidance','Confidence Variability'],distress:['Visible Frustration','Crying or Tearfulness','Aggression','Task Abandonment','Prolonged Distress Recovery','Somatic Complaints','Irritability','Freeze Response','Disproportionate Reaction','Meltdown Pattern'],curiosity:['Unprompted Research','Why Questions','Hypothetical Exploration','Novel Connection Making','Tool Experimentation','Revisiting Topics','Complexity Seeking','Meta Questions','Wonder Expression','Evidence Seeking'],fatigue:['Visible Fatigue','Output Quality Decline','Attention Span Shortening','Slow Processing','Food Drink Requests','Physical Restlessness','Emotional Lability','Help-Seeking Increase','Break Requests','Recovery Rate'],social_signal:['Peer Initiation','Turn Taking','Conflict Behaviour','Inclusion Behaviour','Empathic Response','Rejection Response','Authority Response','Role Adoption','Repair Attempts','Boundary Setting'],expression:['Verbal Elaboration','Written Elaboration','Multi-modal Expression','Opinion Sharing','Narrative Coherence','Vocabulary Range','Non-verbal Alignment','Code Switching','Asking for Clarification','Summarising'],somatic:['Fine Motor Accuracy','Gross Motor Coordination','Physical Risk Taking','Physical Self-Care','Sensory Seeking','Sensory Avoidance','Postural Engagement','Proprioceptive Seeking','Physical Stamina','Injury Response'],metacognitive:['Strategy Switching','Error Acknowledgement','Plan Articulation','Progress Self-Assessment','Feedback Integration','Generalisation','Monitoring Behaviour','Optimal Challenge Seeking','Learning Enjoyment Expression','Transfer Demonstration']};
+let capRows=[],sigRows=[];Object.entries(caps).forEach(([d,a])=>a.forEach(n=>capRows.push({id:'CAP-'+String(capRows.length+1).padStart(3,'0'),name:n,domain:d,type:'Capability',refs:'shared node'})));Object.entries(sigs).forEach(([d,a])=>a.forEach(n=>sigRows.push({id:'SIG-'+String(sigRows.length+1).padStart(3,'0'),name:n,domain:d,type:'Signal',refs:'maps to CAP refs'})));
+const domain=document.getElementById('domain');[...new Set([...capRows,...sigRows].map(r=>r.domain))].forEach(d=>{let o=document.createElement('option');o.value=d;o.textContent=d;domain.appendChild(o)});
+function render(){const q=document.getElementById('q').value.toLowerCase(),d=domain.value;const rows=[...capRows,...sigRows].filter(r=>(d==='all'||r.domain===d)&&(!q||r.name.toLowerCase().includes(q)||r.id.toLowerCase().includes(q)||r.domain.toLowerCase().includes(q)));document.getElementById('summary').innerHTML='<span class="good">'+rows.length+'</span> visible nodes from 200 total';document.getElementById('rows').innerHTML=rows.slice(0,80).map(r=>'<tr><td><strong>'+r.id+'</strong></td><td>'+r.name+'</td><td>'+r.domain+'</td><td>'+r.type+'</td><td>'+r.refs+'</td></tr>').join('')}
+function matrix(){const m=document.getElementById('matrix');capRows.slice(0,10).forEach(c=>sigRows.slice(0,10).forEach(s=>{let d=document.createElement('div');d.className='cell';d.innerHTML='<strong>'+c.id+' '+c.name+'</strong>'+s.id+' '+s.name+'<br><span class="small">edge: evidence → outcome</span>';m.appendChild(d)}))}matrix();render();
+</script>
 </body>
 </html>
