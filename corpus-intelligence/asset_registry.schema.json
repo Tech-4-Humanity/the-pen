@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T4H Asset Registry Item",
+  "type": "object",
+  "required": ["asset_name", "asset_type", "source", "reuse_candidates", "next_action"],
+  "properties": {
+    "asset_name": {"type": "string"},
+    "asset_type": {"type": "string", "enum": ["data", "workflow", "component", "capability", "model", "prompt", "report", "dashboard", "integration", "policy", "playbook", "other"]},
+    "source": {"type": "string"},
+    "source_object_type": {"type": "string"},
+    "reuse_candidates": {"type": "array", "items": {"type": "string"}},
+    "reuse_count": {"type": "integer", "minimum": 0},
+    "confidence": {"type": "string", "enum": ["low", "medium", "high"]},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "status": {"type": "string", "enum": ["REAL", "PARTIAL", "BLOCKED", "UNKNOWN"]},
+    "next_action": {"type": "string"}
+  }
+}
