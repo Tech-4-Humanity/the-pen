@@ -1,0 +1,55 @@
+{
+  "receipt_id": "canonical-storage-scope-20260614",
+  "created_at": "2026-06-14T00:00:00+10:00",
+  "repo": "TML-4PM/the-pen",
+  "status": "PARTIAL",
+  "classification_reason": "GitHub doctrine and receipt were committed. Runtime worker execution, Supabase registry rows, S3 immutable archive, telemetry continuity, recovery validation, replay validation, graph coherence, economic proof, and 72h unattended survivability are not proven in this receipt.",
+  "doctrine_commit_sha": "ccece5470151935e01cfdafd5cb784dacd8500ef",
+  "doctrine_path": "doctrine/canonical-storage-scope-20260614.md",
+  "systems_in_scope": {
+    "notion": {
+      "role": "human-readable docs, intent, decisions, status, narrative state",
+      "authority": "narrative truth"
+    },
+    "google_drive": {
+      "role": "shared working files, research, source capture, handoff artefacts",
+      "authority": "working truth"
+    },
+    "local_mac": {
+      "role": "temporary execution/display workspace",
+      "authority": "no authority"
+    },
+    "s3": {
+      "role": "immutable archive, evidence, retained artefacts",
+      "authority": "evidentiary truth"
+    },
+    "supabase": {
+      "role": "canonical index, registry, metadata, lineage, status",
+      "authority": "system truth"
+    }
+  },
+  "operating_rule": "Search, audit, handoff, indexing, and receipt work span Notion, Google Drive, local Mac, S3, and Supabase by default where tool access permits.",
+  "evidence_classes": {
+    "REAL": "Live runtime receipt, telemetry continuity, recovery validation, replay/evidence, economic proof, graph integrity, and 72h unattended runtime evidence exist.",
+    "PARTIAL": "Doctrine, structure, or intent exists, but runtime evidence is incomplete.",
+    "PRETEND": "Claim without evidence; not accepted as build foundation."
+  },
+  "required_to_promote_real": [
+    "Supabase registry rows",
+    "S3 immutable archive",
+    "runtime worker receipt",
+    "telemetry continuity",
+    "deterministic recovery validation",
+    "replay validation",
+    "graph coherence/integrity",
+    "economic proof",
+    "72h unattended survivability after working state"
+  ],
+  "non_negotiables": [
+    "No PRETEND claims",
+    "No unindexed final artefacts",
+    "No long-term authority on local Mac",
+    "Broken workloads are fixed immediately",
+    "HITL only for destructive/legal actions"
+  ]
+}
