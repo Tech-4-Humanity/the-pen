@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T4H Corpus Intelligence Receipt",
+  "type": "object",
+  "required": [
+    "run_id",
+    "source_set",
+    "object_counts",
+    "deltas_found",
+    "actions_created",
+    "files_written",
+    "issues_created_or_updated",
+    "blockers",
+    "next_run_trigger",
+    "status"
+  ],
+  "properties": {
+    "run_id": {"type": "string"},
+    "started_at": {"type": "string"},
+    "completed_at": {"type": "string"},
+    "source_set": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_type", "source_ref", "status"],
+        "properties": {
+          "source_type": {"type": "string"},
+          "source_ref": {"type": "string"},
+          "status": {"type": "string", "enum": ["read", "blocked", "missing", "failed"]},
+          "evidence": {"type": "string"}
+        }
+      }
+    },
+    "object_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "deltas_found": {"type": "array", "items": {"type": "string"}},
+    "actions_created": {"type": "array", "items": {"type": "string"}},
+    "files_written": {"type": "array", "items": {"type": "string"}},
+    "issues_created_or_updated": {"type": "array", "items": {"type": "string"}},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "next_run_trigger": {"type": ["string", "null"]},
+    "survivability": {
+      "type": "object",
+      "properties": {
+        "target_hours": {"type": "integer"},
+        "status": {"type": "string", "enum": ["not_started", "running", "passed", "failed", "blocked"]},
+        "checks": {"type": "object"}
+      }
+    },
+    "status": {"type": "string", "enum": ["REAL", "PARTIAL", "BLOCKED", "UNKNOWN"]}
+  }
+}
