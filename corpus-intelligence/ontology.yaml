@@ -1,6 +1,7 @@
 version: 1
 name: t4h_corpus_intelligence_ontology
-purpose: classify corpus signals without mixing object levels
+status: contract-first
+purpose: classify corpus signals without mixing object levels and prioritise low-frequency high-potential extraction over summary.
 
 object_types:
   - Enterprise
@@ -26,7 +27,7 @@ object_types:
   - RuntimeItem
   - OperationalDelta
 
-rules:
+object_rules:
   - brands_do_not_finish_they_mature
   - businesses_do_not_finish_they_operate
   - products_do_not_finish_they_deliver_value_and_mature
@@ -35,11 +36,20 @@ rules:
   - reuse_before_build
   - low_frequency_high_potential_signals_are_first_class
   - evidence_required_for_real_status
+  - do_not_mix_brand_business_product_asset_capability_project_task_action
 
-states:
+lifecycle_states:
+  - discovered
   - active
   - incubating
+  - validated
+  - reusable
+  - recomposable
+  - blocked
   - parked
+  - deprecated
+  - superseded
+  - merged
   - dead
 
 operational_states:
@@ -58,3 +68,59 @@ status_classes:
   - PARTIAL
   - BLOCKED
   - UNKNOWN
+
+delta_classes:
+  - new
+  - changed
+  - disappeared
+  - duplicated
+  - contradicted
+  - promoted
+  - demoted
+  - merged
+  - superseded
+
+relationship_edges:
+  - source_mentions_object
+  - object_reuses_asset
+  - asset_enables_capability
+  - capability_supports_product
+  - product_targets_customer_segment
+  - customer_segment_sits_in_market
+  - market_supports_revenue_path
+  - object_has_contradiction
+  - object_has_next_action
+  - object_supersedes_object
+  - object_duplicates_object
+  - object_depends_on_authority
+
+contradiction_classes:
+  - naming_contradiction
+  - strategy_contradiction
+  - product_overlap
+  - market_conflict
+  - execution_conflict
+  - evidence_mismatch
+  - said_build_did_document
+  - authority_boundary_conflict
+
+scoring_fields:
+  evidence_strength: 0_to_1
+  source_count: integer
+  recency_score: 0_to_1
+  reuse_potential: 0_to_1
+  revenue_potential: 0_to_1
+  execution_readiness: 0_to_1
+  confidence: 0_to_1
+
+gates:
+  anti_summary:
+    rule: output_fails_if_obvious_portfolio_centre_topics_dominate_before_weak_signals_and_hidden_assets
+  type_separation:
+    rule: brand_business_product_asset_capability_project_task_action_must_not_be_mixed
+  reuse_before_build:
+    rule: missing_delta_only_after_existing_asset_component_open_source_and_commercial_options_checked
+  no_hitl:
+    rule: ask_only_at_authority_boundary
+  receipt:
+    rule: every_run_emits_machine_readable_receipt
