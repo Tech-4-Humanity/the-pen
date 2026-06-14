@@ -1,6 +1,7 @@
 /**
  * pen-executor.mjs - Real inbox dispatcher
  * Reads inbox/*.json, routes by fn, calls Supabase enqueue_job, writes real receipts.
+ * Hardened 2026-06-13: missing inbox is a clean no-work state, not a runtime failure.
  */
 import fs from 'fs';
 import path from 'path';
@@ -19,6 +20,7 @@ const OUT_DIR  = `outputs/runtime/${day}`;
 const RCPT_DIR = `receipts/runtime/${day}`;
 fs.mkdirSync(OUT_DIR,  { recursive: true });
 fs.mkdirSync(RCPT_DIR, { recursive: true });
+fs.mkdirSync('receipts/runtime', { recursive: true });
 
 // helpers
 function writeReceipt(taskId, status, detail = {}) {
@@ -100,14 +102,17 @@ const HANDLERS = {
   http_call:   handle_enqueue_job
 };
 
-// main: scan inbox
-const inboxEntries = fs.readdirSync('inbox', { withFileTypes: true })
-  .filter(e => e.isFile() && e.name.endsWith('.json'))
-  .map(e => e.name);
+// main: scan inbox. Missing inbox is clean empty state.
+const inboxEntries = fs.existsSync('inbox')
+  ? fs.readdirSync('inbox', { withFileTypes: true })
+      .filter(e => e.isFile() && e.name.endsWith('.json'))
+      .map(e => e.name)
+  : [];
 
 if (inboxEntries.length === 0) {
-  console.log('Inbox empty');
-  writeReceipt('auto-push-task', 'PASS', { evidence: ['Inbox empty'] });
+  console.log('Inbox empty or missing');
+  writeReceipt('auto-push-task', 'PASS', { evidence: ['Inbox empty or missing - clean no-work state'] });
+  fs.writeFileSync(`${OUT_DIR}/inbox-dispatch-summary.json`, JSON.stringify({ ts, passed: 1, failed: 0, skipped: 0, results: [], note: 'empty_or_missing_inbox_clean_exit' }, null, 2));
   process.exit(0);
 }
 
