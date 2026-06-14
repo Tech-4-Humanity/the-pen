@@ -1,16 +1,23 @@
 version: 1
 name: corpus_intelligence_extractor_contract
+status: contract-first
 
 input_sources:
-  - chat_export
-  - browser_session
-  - bookmark_export
-  - llm_thread
-  - document
-  - github_issue
-  - github_repo
-  - website
-  - runtime_evidence
+  phase_1:
+    - github_issue
+    - github_repo
+    - chat_export_single_bundle
+  later:
+    - browser_session
+    - bookmark_export
+    - llm_thread
+    - document
+    - website
+    - runtime_evidence
+    - drive_export
+    - claude_export
+    - perplexity_export
+    - grok_export
 
 must_extract:
   business_objects:
@@ -22,9 +29,15 @@ must_extract:
     - components
     - markets
     - customer_segments
+    - buyers
+    - users
+    - payers
     - partners
     - campaigns
     - revenue_paths
+    - distribution_channels
+    - policy_hooks
+    - regulatory_hooks
   portfolio_objects:
     - opportunities
     - risks
@@ -33,6 +46,10 @@ must_extract:
     - orphan_items
     - abandoned_ideas
     - weak_signals
+    - hidden_assets
+    - underused_assets
+    - duplicated_items
+    - implied_products
   operational_objects:
     - broken_items
     - degraded_items
@@ -41,6 +58,7 @@ must_extract:
     - promotion_candidates
     - rollback_candidates
     - repair_candidates
+    - blocked_items
 
 must_not:
   - summarise_high_frequency_entities_first
@@ -48,12 +66,82 @@ must_not:
   - call_issue_creation_done
   - call_document_creation_done
   - call_deployment_green_without_runtime_evidence
+  - build_from_zero_before_reuse_scan
 
 ranking:
   primary: low_frequency_high_potential
   secondary: reuse_potential
   tertiary: revenue_potential
   quaternary: strategic_fit
+  quinary: execution_readiness
+
+required_object_fields:
+  - object_id
+  - object_type
+  - canonical_name
+  - aliases
+  - lifecycle_state
+  - source_refs
+  - evidence_strength
+  - source_count
+  - frequency_count
+  - recency_score
+  - reuse_potential
+  - revenue_potential
+  - execution_readiness
+  - confidence
+  - related_assets
+  - related_capabilities
+  - related_components
+  - customer_segments
+  - markets
+  - revenue_paths
+  - contradictions
+  - next_action
+  - authority_boundary
+
+product_recomposition_required_fields:
+  - reusable_assets_found
+  - internal_components_found
+  - open_source_candidates
+  - commercial_candidates
+  - missing_delta_only
+  - likely_wrapper_or_product_name
+  - customer_segment
+  - revenue_path
+  - next_action
+
+command_interpreter:
+  trigger_terms:
+    - go
+    - next
+    - build
+    - finish
+    - create
+    - complete
+    - launch
+    - deploy
+  interpreted_intent:
+    - reuse_first
+    - no_hitl_until_authority_boundary
+    - inspect_before_memory
+    - execute_missing_delta
+    - verify
+    - receipt
+
+survivability:
+  target_hours_phase_1: 36
+  future_target_hours: 72
+  minimum_runtime_checks:
+    - scheduled_run
+    - ingestion_success
+    - extraction_success
+    - registry_update
+    - receipt_written
+    - fault_detected
+    - retry_attempted
+    - recovery_verified
+    - escalation_only_at_authority_boundary
 
 required_output_sections:
   - corpus_audit_v1
@@ -62,5 +150,6 @@ required_output_sections:
   - market_customer_delta
   - product_recomposition_candidates
   - operational_delta_v1
+  - graph_edges
   - next_actions
   - receipts
