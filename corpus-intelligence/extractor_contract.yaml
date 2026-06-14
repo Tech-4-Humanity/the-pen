@@ -1,0 +1,66 @@
+version: 1
+name: corpus_intelligence_extractor_contract
+
+input_sources:
+  - chat_export
+  - browser_session
+  - bookmark_export
+  - llm_thread
+  - document
+  - github_issue
+  - github_repo
+  - website
+  - runtime_evidence
+
+must_extract:
+  business_objects:
+    - brands
+    - businesses
+    - products
+    - assets
+    - capabilities
+    - components
+    - markets
+    - customer_segments
+    - partners
+    - campaigns
+    - revenue_paths
+  portfolio_objects:
+    - opportunities
+    - risks
+    - decisions
+    - contradictions
+    - orphan_items
+    - abandoned_ideas
+    - weak_signals
+  operational_objects:
+    - broken_items
+    - degraded_items
+    - newly_released_items
+    - up_and_coming_items
+    - promotion_candidates
+    - rollback_candidates
+    - repair_candidates
+
+must_not:
+  - summarise_high_frequency_entities_first
+  - collapse_brand_business_product_asset_into_one_level
+  - call_issue_creation_done
+  - call_document_creation_done
+  - call_deployment_green_without_runtime_evidence
+
+ranking:
+  primary: low_frequency_high_potential
+  secondary: reuse_potential
+  tertiary: revenue_potential
+  quaternary: strategic_fit
+
+required_output_sections:
+  - corpus_audit_v1
+  - asset_registry_delta
+  - shadow_register_delta
+  - market_customer_delta
+  - product_recomposition_candidates
+  - operational_delta_v1
+  - next_actions
+  - receipts
