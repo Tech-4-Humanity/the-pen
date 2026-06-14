@@ -1,0 +1,46 @@
+{
+  "snapshot_id": "current-example",
+  "objects": [
+    {
+      "object_name": "Reading Buddy OCR",
+      "object_type": "Asset",
+      "state": "reusable",
+      "summary": "OCR asset can be reused outside Reading Buddy for document intake use cases.",
+      "evidence": ["example-chat-1", "example-issue-196", "example-repo-corpus-intelligence"],
+      "scores": {
+        "reuse_potential": 0.9,
+        "revenue_potential": 0.75,
+        "execution_readiness": 0.65,
+        "confidence": 0.75
+      },
+      "relationships": [
+        "asset Reading Buddy OCR to capability Document Intake",
+        "capability Document Intake to product Compliance Assistant",
+        "product Compliance Assistant to market Regulated Services"
+      ],
+      "next_action": "Add to asset registry and locate implementation source."
+    },
+    {
+      "object_name": "Corpus Delta Engine",
+      "object_type": "Capability",
+      "state": "active",
+      "summary": "Detects object movement between snapshots.",
+      "evidence": ["corpus-intelligence/delta_engine.mjs"],
+      "scores": {
+        "reuse_potential": 0.85,
+        "revenue_potential": 0.55,
+        "execution_readiness": 0.8,
+        "confidence": 0.8
+      },
+      "next_action": "Run against real extractor snapshots."
+    },
+    {
+      "object_name": "Corpus Delta Engine",
+      "object_type": "Capability",
+      "state": "active",
+      "summary": "Duplicate example to verify duplicate detection.",
+      "evidence": ["corpus-intelligence/delta_engine.example.current.json"],
+      "next_action": "Merge duplicate object records."
+    }
+  ]
+}
