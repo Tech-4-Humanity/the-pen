@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T4H Corpus Delta Engine Output",
+  "type": "object",
+  "required": ["run_id", "baseline_id", "current_id", "deltas", "receipt"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "baseline_id": {"type": "string"},
+    "current_id": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "deltas": {
+      "type": "object",
+      "required": ["new", "changed", "disappeared", "duplicated", "contradicted", "promoted", "demoted"],
+      "properties": {
+        "new": {"type": "array", "items": {"$ref": "#/$defs/deltaItem"}},
+        "changed": {"type": "array", "items": {"$ref": "#/$defs/deltaItem"}},
+        "disappeared": {"type": "array", "items": {"$ref": "#/$defs/deltaItem"}},
+        "duplicated": {"type": "array", "items": {"$ref": "#/$defs/deltaItem"}},
+        "contradicted": {"type": "array", "items": {"$ref": "#/$defs/deltaItem"}},
+        "promoted": {"type": "array", "items": {"$ref": "#/$defs/deltaItem"}},
+        "demoted": {"type": "array", "items": {"$ref": "#/$defs/deltaItem"}}
+      }
+    },
+    "receipt": {"$ref": "#/$defs/receipt"}
+  },
+  "$defs": {
+    "scoreCard": {
+      "type": "object",
+      "properties": {
+        "evidence_strength": {"type": "number", "minimum": 0, "maximum": 1},
+        "source_count": {"type": "integer", "minimum": 0},
+        "recency": {"type": "number", "minimum": 0, "maximum": 1},
+        "reuse_potential": {"type": "number", "minimum": 0, "maximum": 1},
+        "revenue_potential": {"type": "number", "minimum": 0, "maximum": 1},
+        "execution_readiness": {"type": "number", "minimum": 0, "maximum": 1},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "portfolio_value_score": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "deltaItem": {
+      "type": "object",
+      "required": ["object_id", "object_name", "object_type", "delta_type", "summary", "next_action"],
+      "properties": {
+        "object_id": {"type": "string"},
+        "object_name": {"type": "string"},
+        "object_type": {"type": "string"},
+        "delta_type": {"type": "string", "enum": ["new", "changed", "disappeared", "duplicated", "contradicted", "promoted", "demoted"]},
+        "previous_state": {"type": "string"},
+        "current_state": {"type": "string"},
+        "summary": {"type": "string"},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "scores": {"$ref": "#/$defs/scoreCard"},
+        "next_action": {"type": "string"}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "required": ["run_id", "source_set", "object_counts", "deltas_found", "blockers", "next_run_trigger"],
+      "properties": {
+        "run_id": {"type": "string"},
+        "source_set": {"type": "array", "items": {"type": "string"}},
+        "object_counts": {"type": "object"},
+        "deltas_found": {"type": "object"},
+        "actions_created": {"type": "array", "items": {"type": "string"}},
+        "files_written": {"type": "array", "items": {"type": "string"}},
+        "issues_created_or_updated": {"type": "array", "items": {"type": "string"}},
+        "blockers": {"type": "array", "items": {"type": "string"}},
+        "next_run_trigger": {"type": "string"}
+      }
+    }
+  }
+}
