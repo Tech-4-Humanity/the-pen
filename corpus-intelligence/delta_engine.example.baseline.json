@@ -1,0 +1,27 @@
+{
+  "snapshot_id": "baseline-example",
+  "objects": [
+    {
+      "object_name": "Reading Buddy OCR",
+      "object_type": "Asset",
+      "state": "discovered",
+      "summary": "OCR asset mentioned inside Reading Buddy context.",
+      "evidence": ["example:chat:1"],
+      "scores": {
+        "reuse_potential": 0.7,
+        "revenue_potential": 0.5,
+        "execution_readiness": 0.4,
+        "confidence": 0.5
+      },
+      "next_action": "Confirm whether OCR exists as reusable component."
+    },
+    {
+      "object_name": "Old Summary Report",
+      "object_type": "Document",
+      "state": "active",
+      "summary": "Static summary document.",
+      "evidence": ["example:doc:old"],
+      "next_action": "Replace with delta output."
+    }
+  ]
+}
