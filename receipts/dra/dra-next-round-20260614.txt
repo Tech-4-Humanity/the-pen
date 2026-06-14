@@ -1,0 +1,24 @@
+DRA next round receipt
+Date: 2026-06-14
+Repo: TML-4PM/the-pen
+
+Completed:
+- DRA handoff exists in inbox.
+- Vercel wording clarified: Vercel is the deployment platform, not a team name.
+- Correct workspace wording: troy's projects / troys-projects-t4h-machine.
+- Asset path registered: assets/dra/altered-states-grid.html.
+
+Commits:
+- f8af67c85d174df7428e5a875753304985a8bfb4 handoff created
+- 5f5df7ab7cfccef12dcd0cdb3e96fb2911c96495 wording clarified
+- 82979b3efd0c5bd336660182f0c37b481f23d886 asset path registered
+
+Status:
+- GitHub/Pen handoff: REAL
+- Asset path: REAL
+- Full HTML in repo: PARTIAL, placeholder only
+- Deployment: PARTIAL, target binding still required
+- Runtime telemetry: MISSING
+
+Next:
+Copy the full uploaded HTML or Drive source into the registered asset path, then package static deployment.
