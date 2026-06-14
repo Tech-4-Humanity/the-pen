@@ -112,6 +112,156 @@ Capability x Signal x Outcome
 | Market | Parent | Teacher | School | System | Provider | Government | Publisher | Marketplace | Research |
 | Product | Reading Buddy | Maths Buddy | Parent Companion | Teacher Co-pilot | Inclusion Planner | AI Literacy Coach | SchoolFamily Ledger | Resource Exchange | LifeGraph+ |
 
+## Segment lenses
+
+### 1. Early childhood
+
+Primary need: readiness, regulation, speech, play and parent confidence.
+
+Key functions:
+
+- story and speech support
+- transition support
+- play-based learning suggestions
+- parent guidance
+- early signal capture without diagnosis claims
+
+Primary risks:
+
+- over-medicalising normal development
+- surveillance framing
+- false certainty
+- parent anxiety amplification
+
+### 2. Primary school
+
+Primary need: literacy, numeracy, confidence, teacher load reduction and family-school coordination.
+
+Key functions:
+
+- Reading Buddy
+- Maths Buddy
+- homework support
+- parent digest
+- teacher differentiation support
+- inclusion scaffolds
+
+Primary risks:
+
+- replacing teacher judgement
+- creating opaque learner labels
+- inequitable access
+- unsupported claims of improvement
+
+### 3. High school
+
+Primary need: study skills, pressure management, digital discernment, AI literacy and pathway formation.
+
+Key functions:
+
+- study flow coach
+- AI research coach
+- pathway explorer
+- exam pressure support
+- evidence-aware assignment guidance
+- digital reputation and consent education
+
+Primary risks:
+
+- cheating workflows
+- unhealthy dependency
+- identity narrowing
+- mental health boundary errors
+
+### 4. Neurodiverse and additional needs
+
+Primary need: executive function, communication, sensory load, school-family-practitioner continuity.
+
+Key functions:
+
+- low-stimulation interface
+- visual schedule support
+- multimodal instructions
+- parent-practitioner continuity notes
+- routine support
+- support evidence pack
+
+Primary risks:
+
+- disability labelling without authority
+- unsupported NDIS claims
+- sensitive data leakage
+- treating signals as diagnosis
+
+### 5. Teachers and schools
+
+Primary need: reduced admin, better differentiation, clearer parent communication and safer AI use.
+
+Key functions:
+
+- lesson differentiation
+- parent message drafting
+- support plan scaffolding
+- classroom insight summaries
+- resource marketplace
+- AI literacy governance
+
+Primary risks:
+
+- workload shifting rather than reducing
+- hallucinated curriculum claims
+- unclear accountability
+- poor integration with existing school systems
+
+## Replacing job descriptions
+
+SchoolFamilyAI should not define children through future jobs. It should define support functions through signal obligations.
+
+Traditional school role description:
+
+```text
+Teacher: deliver curriculum, assess, report, manage classroom.
+```
+
+SchoolFamilyAI contract:
+
+```text
+Teacher function:
+  signals_received:
+    - disengagement
+    - progress evidence
+    - confusion
+    - social friction
+  signals_amplified:
+    - confidence
+    - curiosity
+    - belonging
+    - skill gain
+  actions_enabled:
+    - adapt instruction
+    - notify parent
+    - scaffold task
+    - refer support
+  authority_boundary:
+    - educator judgement remains primary
+    - no diagnosis
+    - consent required for sensitive continuity
+```
+
+## Interlock model
+
+Every SchoolFamilyAI object must describe what it gives and receives.
+
+| Actor | Gives | Receives | Boundary |
+| --- | --- | --- | --- |
+| Child | attempts, questions, reactions, preferences | support, scaffolds, feedback, belonging | age-appropriate agency |
+| Parent | context, home support, consent, observations | clarity, guidance, progress evidence | guardian authority and privacy |
+| Teacher | instruction, observation, adaptation | reduced admin, better signals, family clarity | professional judgement |
+| Peer group | belonging, modelling, feedback | safe participation | no profiling of peer relationships without safeguards |
+| School | policy, safety, resources, escalation | cohort insight, risk visibility, outcome evidence | institutional accountability |
+| Support provider | specialist intervention, evidence | continuity, context, goals | professional scope |
+| Platform | orchestration, memory, suggestions, receipts | telemetry, feedback, evidence | must not become hidden decision-maker |
+
 ## Product assembly
 
 Minimum viable suite:
@@ -193,6 +343,17 @@ SchoolFamilyAI requires these canonical objects before it can be REAL:
 - recovery_event
 - ledger_receipt
 
+## Commercial paths
+
+| Path | Buyer | Offer | Proof required |
+| --- | --- | --- | --- |
+| Parent subscription | Parents | Reading / homework / confidence support | engagement and parent-reported usefulness |
+| Teacher tools | Teachers | planning, differentiation, message drafting | time saved and quality review |
+| School SaaS | Schools | parent-school support coordination | teacher load reduction, literacy/wellbeing evidence |
+| Inclusion support | Providers / schools | neurodiverse support continuity | safer support plans and reduced admin |
+| Government program | Departments | foundational supports and AI literacy | measurable outcomes and governance receipts |
+| Marketplace | Teachers / publishers | resource creation and exchange | transactions, reuse and quality ratings |
+
 ## Acceptance criteria for upgrade from PARTIAL to REAL
 
 SchoolFamilyAI remains PARTIAL until all of the following exist:
@@ -213,7 +374,7 @@ status: PARTIAL
 result: SchoolFamilyAI alignment architecture created as a spine-bound predecessor to WorkFamilyAI.
 evidence:
   - repository: TML-4PM/the-pen
-  - path: architecture/schoolfamilyai_alignment_architecture.md
+  - path: architecture/SCHOOLFAMILYAI_ALIGNMENT_ARCHITECTURE.md
   - parent_spine: architecture/AI_FOR_HUMANITY_3_1_INTEGRITY_STACK_SPINE.yaml
   - parent_atlas: architecture/THE_HUMANITY_ATLAS_MASTER_ARCHITECTURE.md
 gaps:
@@ -223,7 +384,7 @@ gaps:
   - no consent flow executed
   - no 72-hour survivability evidence
 next_action:
-  - create architecture/schoolfamilyai_schema.yaml
+  - create `architecture/schoolfamilyai_schema.yaml`
   - create lightweight HTML surface for SchoolFamilyAI cube and interlock map
   - bind product cards to existing Atlas object model
   - implement first ledger receipt path
