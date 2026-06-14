@@ -1,0 +1,147 @@
+{
+  "artifact": "ocr-pen-execution-update-v1",
+  "created_at": "2026-06-14T00:00:00+10:00",
+  "owner": "Troy Latter / Tech4Humanity",
+  "source_document_id": "1iyIwacDJKQDcgwWH4QEtuzQ7dTIQ0DwMCtR5MsaEkic",
+  "source_document_title": "OCR Recursive Operational Knowledge Compiler - Canonical Handover Source",
+  "execution_update_document_id": "1_Q-9cI68ajvdrqVAQc0wVETRne3H7GhU1jAFhwEe8zc",
+  "mission": "Continue the OCR / Recursive Operational Knowledge Compiler mission through The Pen orchestration system, correcting evidence classification and moving from doctrine to runtime build tasks.",
+  "canonical_product_name": "Organisational Cognition Runtime",
+  "canonical_short_name": "OCR",
+  "product_category": "Runtime Coherence Infrastructure for Humans, Agents and Systems",
+  "evidence_correction": {
+    "incorrect_prior_claim": "Delivery Status classification: REAL / deployment_readiness: READY",
+    "correct_classification": "PARTIAL",
+    "reason": "The source contains product doctrine, architecture, prior GitHub enqueue receipt, and Google Drive preservation, but no live runtime execution receipt, telemetry continuity, deployed Supabase schema, worker receipt, or 72h survivability proof.",
+    "rule": "REAL requires live receipts, telemetry continuity, deterministic recovery evidence, graph integrity, runtime proof, and no PRETEND claims."
+  },
+  "known_receipts": [
+    {
+      "type": "github_enqueue_prior",
+      "repo": "TML-4PM/the-pen",
+      "path": "inbox/ocr-recursive-knowledge-compiler-handover-v1.json",
+      "commit_sha": "334af76dc297fc5586feae18ad02f6d56285c087",
+      "classification": "REAL for enqueue only"
+    },
+    {
+      "type": "google_drive_source_preservation",
+      "document_id": "1iyIwacDJKQDcgwWH4QEtuzQ7dTIQ0DwMCtR5MsaEkic",
+      "classification": "REAL for source preservation only"
+    },
+    {
+      "type": "google_drive_execution_update_doc",
+      "document_id": "1_Q-9cI68ajvdrqVAQc0wVETRne3H7GhU1jAFhwEe8zc",
+      "classification": "REAL for document creation only"
+    }
+  ],
+  "current_status": {
+    "intent_capture": "REAL",
+    "source_preservation": "REAL",
+    "github_enqueue": "REAL for enqueue only",
+    "product_architecture": "PARTIAL_TO_READY_FOR_BUILD",
+    "runtime_execution": "MISSING",
+    "supabase_schema_deployment": "MISSING",
+    "pen_worker_execution": "MISSING",
+    "telemetry_continuity": "MISSING",
+    "drift_engine": "MISSING",
+    "runtime_injection": "MISSING",
+    "72h_survivability": "MISSING"
+  },
+  "build_scope": {
+    "primary_path": "The Pen orchestration system",
+    "secondary_path": "OCR governance runtime",
+    "do_not_pause_for": [
+      "mission clarification already resolved",
+      "non-destructive build tasks",
+      "schema drafting",
+      "worker specification",
+      "receipt format definition"
+    ],
+    "hitl_required_only_for": [
+      "destructive production changes",
+      "legal commitments",
+      "paid infrastructure provisioning",
+      "credential exposure"
+    ]
+  },
+  "required_runtime_tables": [
+    "runtime.conversation_events",
+    "governance.question_clusters",
+    "governance.house_rules",
+    "governance.rule_promotions",
+    "governance.rule_receipts",
+    "governance.rule_drift",
+    "governance.architecture_decisions",
+    "governance.uncertainty_ledger",
+    "governance.repeated_failures",
+    "governance.reality_drift",
+    "governance.cognition_cost_ledger"
+  ],
+  "thresholds": {
+    "asked_four_times_ever": "create candidate house rule",
+    "asked_four_days_consecutively": "mandatory escalation",
+    "asked_by_three_or_more_actors": "governance gap",
+    "causes_runtime_errors": "critical",
+    "causes_deployment_drift": "emergency",
+    "asked_after_documented": "docs ineffective / drift signal"
+  },
+  "canonical_rules_to_seed": [
+    {
+      "rule_id": "HR-OCR-0001",
+      "title": "Canonical AWS Runtime Region",
+      "statement": "ap-southeast-2 is the canonical deployment region for primary T4H runtime infrastructure unless explicitly overridden by approved sovereign or edge policy.",
+      "classification": "operational-governance",
+      "status": "proposed_until_runtime_verified",
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "rule_id": "ADR-OCR-0001",
+      "title": "Canonical C2 / Orchestration Spine",
+      "statement": "COAX is cognition governance, The Pen is ingress and receipt queue, Bridge is execution transport, troy-fire-orchestrator is runtime execution spine if verified, and Synapse is production cognition surface. Until runtime verified, this remains PARTIAL.",
+      "classification": "architecture-decision",
+      "status": "proposed_until_runtime_verified",
+      "evidence_state": "PARTIAL"
+    },
+    {
+      "rule_id": "HR-OCR-0002",
+      "title": "Repeated Question Promotion Threshold",
+      "statement": "Any operational question asked four times ever, or on four consecutive days, must be promoted into house-rule candidacy with evidence lineage and drift monitoring.",
+      "classification": "cognition-governance",
+      "status": "ready_for_runtime_seed",
+      "evidence_state": "REAL as user intent, PARTIAL as runtime enforcement"
+    },
+    {
+      "rule_id": "HR-OCR-0003",
+      "title": "Post-Canonical Recurrence Escalation",
+      "statement": "If a question recurs after a rule exists, classify it as discoverability failure, tooling drift, agent bypass, stale documentation, or evidence gap and escalate severity.",
+      "classification": "drift-governance",
+      "status": "ready_for_runtime_seed",
+      "evidence_state": "REAL as doctrine, PARTIAL as runtime enforcement"
+    }
+  ],
+  "next_execution_tasks": [
+    {"id":"OCR-PEN-001","task":"Create Supabase/Postgres DDL for runtime and governance schemas","receipt_required":"migration file path, checksum, execution result, table existence query"},
+    {"id":"OCR-PEN-002","task":"Create Pen worker job type ocr_governance_compile","receipt_required":"job schema, enqueue example, worker result receipt"},
+    {"id":"OCR-PEN-003","task":"Implement conversation event ingestion adapter contract","receipt_required":"sample inserted event, event_id, source hash"},
+    {"id":"OCR-PEN-004","task":"Implement recurrence threshold evaluator","receipt_required":"test cluster crossing 4x threshold and generated candidate rule"},
+    {"id":"OCR-PEN-005","task":"Implement house rule promotion lifecycle","receipt_required":"candidate -> proposed -> active or blocked transition receipt"},
+    {"id":"OCR-PEN-006","task":"Implement rule propagation target registry","receipt_required":"target rows for bootstrap, validators, MCP overlays, docs, orchestration defaults"},
+    {"id":"OCR-PEN-007","task":"Implement reality drift table and detector contract","receipt_required":"declared truth vs observed telemetry example and drift score"},
+    {"id":"OCR-PEN-008","task":"Implement cognition cost ledger","receipt_required":"sample cluster cost calculation with assumptions recorded"},
+    {"id":"OCR-PEN-009","task":"Emit runtime receipt to receipts/runtime/ocr-governance-compiler-v1.json","receipt_required":"receipt file, timestamp, evidence classification, failures list"}
+  ],
+  "acceptance_criteria_for_REAL": [
+    "Supabase schema exists and is query-verified",
+    "Pen worker can process OCR governance compile job",
+    "At least one sample conversation event is ingested",
+    "At least one sample repeated-question cluster is created",
+    "At least one candidate house rule is generated",
+    "At least one rule promotion receipt exists",
+    "At least one drift detection example exists",
+    "Telemetry is written for job start, completion, failure, and retry",
+    "Runtime receipt exists under canonical receipt path",
+    "Recovery/replay path is demonstrated",
+    "72h survivability run is started only after working state is achieved"
+  ],
+  "final_instruction_to_bridge": "Proceed inspect -> action -> receipt -> evidence. Do not ask which mission: continue The Pen orchestration path for OCR governance runtime. Do not claim REAL beyond the evidence layer proven."
+}
