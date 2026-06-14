@@ -1,0 +1,60 @@
+version: 1
+name: t4h_corpus_intelligence_ontology
+purpose: classify corpus signals without mixing object levels
+
+object_types:
+  - Enterprise
+  - Portfolio
+  - Business
+  - Brand
+  - Product
+  - Asset
+  - Capability
+  - Component
+  - ResearchStream
+  - Market
+  - CustomerSegment
+  - Partner
+  - Campaign
+  - Document
+  - Project
+  - Task
+  - Action
+  - Decision
+  - Risk
+  - Opportunity
+  - RuntimeItem
+  - OperationalDelta
+
+rules:
+  - brands_do_not_finish_they_mature
+  - businesses_do_not_finish_they_operate
+  - products_do_not_finish_they_deliver_value_and_mature
+  - projects_tasks_actions_can_finish
+  - products_are_wrappers_over_assets_capabilities_components
+  - reuse_before_build
+  - low_frequency_high_potential_signals_are_first_class
+  - evidence_required_for_real_status
+
+states:
+  - active
+  - incubating
+  - parked
+  - dead
+
+operational_states:
+  - broken
+  - degraded
+  - newly_released
+  - up_and_coming
+  - promotion_ready
+  - blocked
+  - rollback_candidate
+  - repair_candidate
+  - stale
+
+status_classes:
+  - REAL
+  - PARTIAL
+  - BLOCKED
+  - UNKNOWN
