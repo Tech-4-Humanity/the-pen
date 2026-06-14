@@ -1,0 +1,48 @@
+{
+  "idempotency_key": "ahc-workfamilyai-v1-requirements-bridge-run-2026-05-21",
+  "created_at": "2026-05-21T12:00:00+10:00",
+  "origin": "chatgpt-github-connector",
+  "destination": "bridge",
+  "classification": "PARTIAL",
+  "status_note": "v1.0 alive; knowledge preserved; runtime proof still required",
+  "source_artifacts": {
+    "requirements_matrix_commit": "8632a7434025e897ea08bdc42481ab4241d398a7",
+    "handoff_payload_commit": "796aeb55f3aad3cec6f4e5171be36c3352a5f9aa",
+    "runtime_inventory_schema_commit": "d59885de71632c1b122142ded0ab7ee1adffa566",
+    "telemetry_ledger_schema_commit": "abb37150cdc623612ae92c4b6d9616868481967d",
+    "nested_cfn_root_commit": "9566d8a099c4110a8549a089cf897d0c3b9b0527",
+    "validation_scorecard_commit": "23ee9866ef3a50e0590f5fd9f4e8f8bf8d03350a",
+    "v1_alive_payload_commit": "c32be443c5fdf04a7ea2e03d76d3009a7a627026"
+  },
+  "instruction": "Process the requirements matrix and prior v1.0 artifacts. Produce generated outputs or exact blocked reasons. Validate twice before declaring done. Write bridge receipt.",
+  "pass_1": [
+    "verify all referenced commits and paths exist",
+    "generate runtime_inventory.json or blocked reason",
+    "generate canonical_agent_roster.json or blocked reason",
+    "generate system_graph.json or blocked reason",
+    "generate orphan_report.md or blocked reason",
+    "generate monetisation_package.md or blocked reason",
+    "generate CFN child templates or blocked reason"
+  ],
+  "pass_2": [
+    "reconcile outputs against requirements matrix",
+    "classify each output REAL/PARTIAL/PRETEND",
+    "confirm no 72h autonomy claim is made without staged recovery proof",
+    "write final bridge receipt"
+  ],
+  "expected_outputs": [
+    "work/ahc-workfamilyai-uplift/runtime_inventory.json",
+    "work/ahc-workfamilyai-uplift/canonical_agent_roster.json",
+    "work/ahc-workfamilyai-uplift/system_graph.json",
+    "work/ahc-workfamilyai-uplift/orphan_report.md",
+    "work/ahc-workfamilyai-uplift/monetisation_package.md",
+    "work/ahc-workfamilyai-uplift/nested-cfn/queue-fabric.yaml",
+    "work/ahc-workfamilyai-uplift/nested-cfn/telemetry.yaml",
+    "work/ahc-workfamilyai-uplift/nested-cfn/runtime-workers.yaml",
+    "work/ahc-workfamilyai-uplift/nested-cfn/recovery-runtime.yaml",
+    "work/ahc-workfamilyai-uplift/nested-cfn/governance.yaml",
+    "receipts/runtime/ahc-workfamilyai-v1-requirements-receipt.json"
+  ],
+  "receipt_required": true,
+  "evidence_rule": "GitHub enqueue is REAL for handoff only. Runtime state remains PARTIAL until bridge receipt is committed."
+}
