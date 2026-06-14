@@ -1,0 +1,39 @@
+{
+  "receipt_id": "ocr-governance-compiler-v1-pending",
+  "artifact": "OCR Governance Compiler Runtime Receipt",
+  "created_at": "2026-06-14T00:00:00+10:00",
+  "repo": "TML-4PM/the-pen",
+  "source_payload": "inbox/ocr-pen-execution-update-v1.json",
+  "status": "PENDING_RUNTIME_EXECUTION",
+  "classification": "PARTIAL",
+  "truth_posture": "REAL only for GitHub file creation and receipt scaffold. Runtime remains unproven.",
+  "required_completion_receipt": "receipts/runtime/ocr-governance-compiler-v1.json",
+  "must_prove": [
+    "runtime.conversation_events table exists",
+    "governance.question_clusters table exists",
+    "governance.house_rules table exists",
+    "governance.rule_promotions table exists",
+    "governance.rule_receipts table exists",
+    "governance.rule_drift table exists",
+    "governance.architecture_decisions table exists",
+    "governance.uncertainty_ledger table exists",
+    "governance.repeated_failures table exists",
+    "governance.reality_drift table exists",
+    "governance.cognition_cost_ledger table exists",
+    "ocr_governance_compile job can be enqueued and processed",
+    "sample repeated-question cluster crosses threshold",
+    "candidate house rule generated",
+    "rule propagation target registered",
+    "drift example generated",
+    "telemetry emitted for start, success, failure, retry",
+    "replay/recovery path validated"
+  ],
+  "blocked_from_REAL_until": [
+    "Supabase schema execution receipt exists",
+    "Pen worker execution receipt exists",
+    "Telemetry continuity receipt exists",
+    "Recovery/replay receipt exists",
+    "72h survivability run starts after working state"
+  ],
+  "operator_instruction": "Continue with The Pen orchestration system. No mission clarification required. Inspect existing work queue schema before assuming column names. Do not mark REAL until runtime evidence is attached."
+}
