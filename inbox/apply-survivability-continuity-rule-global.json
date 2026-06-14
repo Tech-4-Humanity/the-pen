@@ -1,0 +1,21 @@
+{
+  "idempotency_key": "apply-survivability-continuity-rule-global-2026-05-30",
+  "submitted_by": "chatgpt-bob-reports",
+  "status": "ready_for_bridge",
+  "classification": "REAL_HANDOFF_PENDING_RUNTIME_APPLICATION",
+  "title": "Apply global survivability continuity rule across Pen work",
+  "source_rule": "global/SURVIVABILITY_CONTINUITY_RULE.md",
+  "objective": "Ensure every Pen handover, runtime claim, launch gate, deployment claim and future 72h survivability reference uses successful-continuity enforcement, not passive unattended waiting.",
+  "required_actions": [
+    "Load global/SURVIVABILITY_CONTINUITY_RULE.md as canonical rule for all Pen processing.",
+    "Update bridge validation so 72h survivability requires continuous successful operation with telemetry, recovery, replay and escalation evidence.",
+    "Reject any handover or receipt that treats 72h as broken-but-untouched runtime.",
+    "Require survivability receipts to include start_time, end_time, heartbeat_count, incident_count, recovered_incident_count, unresolved_incidents, telemetry_gap_report, replay_result, recovery_result and final_classification.",
+    "Apply REAL/PARTIAL/MISSING/REJECTED classification exactly as defined in the global rule.",
+    "Add this rule to launch gate validation for production and runtime handovers.",
+    "Write receipt showing which validators, templates, workflows or processors were updated."
+  ],
+  "pass_condition": "Future work cannot claim 72h survivability unless successful continuity is proven by receipts, telemetry, recovery/replay proof and operator brief evidence.",
+  "fail_condition": "If the runtime is broken, silent, unrecovered, stalled, or merely left unattended, classify survivability as REJECTED or MISSING and escalate immediately.",
+  "receipt_required": "receipts/runtime/apply-survivability-continuity-rule-global.json"
+}
