@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T4H Operational Delta Item",
+  "type": "object",
+  "required": ["item_name", "operational_state", "evidence", "next_action"],
+  "properties": {
+    "item_name": {"type": "string"},
+    "item_type": {"type": "string"},
+    "operational_state": {
+      "type": "string",
+      "enum": ["broken", "degraded", "newly_released", "up_and_coming", "promotion_ready", "blocked", "rollback_candidate", "repair_candidate", "stale"]
+    },
+    "released_at": {"type": "string"},
+    "last_checked_at": {"type": "string"},
+    "promotion_gate": {"type": "string"},
+    "health_summary": {"type": "string"},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "next_action": {"type": "string"},
+    "owner": {"type": "string"}
+  }
+}
