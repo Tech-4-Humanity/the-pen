@@ -1,0 +1,60 @@
+{
+  "receipt_type": "pen_ingress_receipt",
+  "title": "T4H RDTI Evidence Bucket v1.0",
+  "status": "POSTED_TO_PEN",
+  "evidence_classification": "PARTIAL",
+  "created_at_aest": "2026-06-14",
+  "repository": "TML-4PM/the-pen",
+  "path": "inbox/t4h-rdti-evidence-bucket-v1-0-20260614.json",
+  "source_context": {
+    "manifest": "manifest_20260124_134211.json",
+    "manifest_total_files": 4344,
+    "manifest_total_bytes": 12019661488,
+    "february_registry": "t4h_study_registry_master_v3.xlsx",
+    "february_tracker": "04_Master_Execution_Tracker.pdf",
+    "march_spine": "maat-121-spine.html / maat-121-spine (1).html"
+  },
+  "artefacts": [
+    {
+      "name": "t4h_rdti_evidence_bucket_baseline_v1_0.csv",
+      "sha256": "00ff972737f9232133e66a38f4ec4289bf0c5ff91154f42c14cb8165bcaa93d8",
+      "rows": 34
+    },
+    {
+      "name": "README.md",
+      "sha256": "5d9de15d1801074dff9c42588495c76e8250df1c23bff6bcd31ad0d0217031c4"
+    },
+    {
+      "name": "receipt.json"
+    },
+    {
+      "name": "t4h_rdti_evidence_bucket_v1_0.zip",
+      "local_path": "/mnt/data/t4h_rdti_evidence_bucket_v1_0.zip"
+    }
+  ],
+  "baseline_counts": {
+    "raw_manifest_files": 4344,
+    "immediate_maat_rdti_candidate_files": 13,
+    "baseline_register_rows": 34,
+    "february_registry_gross_items": 165,
+    "march_spine_documents": 85,
+    "execution_tracker_research_directions": 20
+  },
+  "required_rdti_proof_fields": [
+    "uncertainty",
+    "hypothesis",
+    "method",
+    "findings",
+    "novel_findings",
+    "conclusion",
+    "records"
+  ],
+  "next_runtime_actions": [
+    "ingest package into evidence bucket store",
+    "dedupe canonical IDs across manifest, registry, tracker, and spine",
+    "score every row against seven RDTI proof fields",
+    "mark audit readiness green/amber/red",
+    "generate missing P0/P1 artefacts after gap register is produced"
+  ],
+  "notes": "Bridge-specific direct execution was represented by Pen ingress because the canonical model is LLM commits JSON to the-pen/inbox; worker executes and writes runtime receipt under receipts/runtime/. This is not a final REAL runtime receipt until the worker processes it."
+}
