@@ -1,6 +1,14 @@
 name: pen-worker
 
 on:
+  pull_request:
+    paths:
+      - 'inbox/*.json'
+      - 'workers/**'
+      - 'schemas/**'
+      - 'templates/**'
+      - 'docs/**'
+      - '.github/workflows/pen-worker.yml'
   push:
     paths:
       - 'inbox/*.json'
@@ -21,7 +29,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: pen-worker-${{ github.ref }}
+  group: pen-worker-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -37,20 +45,37 @@ jobs:
       SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
     steps:
+      - name: Always materialise job
+        run: |
+          echo "pen-worker job materialised."
+          echo "event=${{ github.event_name }}"
+          echo "sha=${{ github.sha }}"
+
+      - name: PR-safe acknowledgement
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "pen-worker required on pull_request."
+          echo "Runtime execution disabled for pull_request."
+          echo "classification=PR_SAFE_NO_OP"
+
       - name: Checkout
+        if: github.event_name != 'pull_request'
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
       - name: Setup Python
+        if: github.event_name != 'pull_request'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
+        if: github.event_name != 'pull_request'
         run: pip install -r workers/requirements.txt
 
       - name: Resolve job path
+        if: github.event_name != 'pull_request'
         id: job
         shell: bash
         run: |
@@ -76,13 +101,13 @@ jobs:
           echo "Resolved job path: $JOB_PATH"
 
       - name: Run Pen worker
-        if: steps.job.outputs.has_job == 'true'
+        if: github.event_name != 'pull_request' && steps.job.outputs.has_job == 'true'
         id: worker
         run: |
           python workers/pen_worker.py --job "${{ steps.job.outputs.job_path }}" --receipts-dir "$PEN_RECEIPTS_DIR"
 
       - name: Commit receipt
-        if: steps.job.outputs.has_job == 'true'
+        if: github.event_name != 'pull_request' && steps.job.outputs.has_job == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -101,7 +126,7 @@ jobs:
           fi
 
       - name: Summary
-        if: steps.job.outputs.has_job == 'true'
+        if: github.event_name != 'pull_request' && steps.job.outputs.has_job == 'true'
         shell: bash
         run: |
           echo "## Pen worker" >> "$GITHUB_STEP_SUMMARY"
@@ -110,7 +135,7 @@ jobs:
           ls -1 receipts/runtime/*.receipt.json | tail -n 10 >> "$GITHUB_STEP_SUMMARY"
 
       - name: No-job summary
-        if: steps.job.outputs.has_job != 'true'
+        if: github.event_name != 'pull_request' && steps.job.outputs.has_job != 'true'
         shell: bash
         run: |
           echo "## Pen worker — no job" >> "$GITHUB_STEP_SUMMARY"
