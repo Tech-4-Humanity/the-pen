@@ -1,6 +1,10 @@
 name: Pen Inbox Dispatch + Execute
 
 on:
+  pull_request:
+    paths:
+      - 'inbox/**'
+      - '.github/workflows/pen-inbox-dispatch.yml'
   push:
     branches:
       - main
@@ -19,7 +23,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: pen-inbox-dispatch-${{ github.ref }}
+  group: pen-inbox-dispatch-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -30,12 +34,27 @@ jobs:
       BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
       BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
     steps:
+      - name: Always materialise job
+        run: |
+          echo "Pen Inbox Dispatch job materialised."
+          echo "event=${{ github.event_name }}"
+          echo "sha=${{ github.sha }}"
+
+      - name: PR-safe acknowledgement
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Pen Inbox Dispatch required on pull_request."
+          echo "Runtime execution disabled for pull_request."
+          echo "classification=PR_SAFE_NO_OP"
+
       - name: Checkout repository
+        if: github.event_name != 'pull_request'
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
       - name: Resolve changed inbox payloads
+        if: github.event_name != 'pull_request'
         id: payloads
         shell: bash
         run: |
@@ -61,14 +80,14 @@ jobs:
           cat /tmp/payloads.txt
 
       - name: Execute payloads via bridge + write receipts
-        if: steps.payloads.outputs.payload_count != '0'
+        if: github.event_name != 'pull_request' && steps.payloads.outputs.payload_count != '0'
         shell: bash
         run: |
           set -euo pipefail
           now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
           python3 - <<'PY'
-          import hashlib, json, pathlib, re, sys, time, urllib.request, urllib.error, os
+          import json, pathlib, re, urllib.request, urllib.error, os
 
           bridge_url = os.environ.get("BRIDGE_INVOKE_URL", "")
           bridge_key = os.environ.get("BRIDGE_API_KEY", "")
@@ -100,14 +119,12 @@ jobs:
 
               safe = re.sub(r"[^A-Za-z0-9_.-]+", "-", key).strip("-")[:80]
 
-              # Skip if final receipt already exists (idempotent)
               final_path = final_dir / f"{safe}.final.receipt.json"
               if final_path.exists():
                   print(f"SKIP (already receipted): {key}")
                   results.append({"key": key, "state": "SKIP_ALREADY_DONE"})
                   continue
 
-              # Hard gate — destructive/credential ops must go through controlled path
               text = json.dumps(data).lower()
               BLOCKED_TERMS = ["drop table", "delete from", "destroy", "refund", "charge customer",
                                "iam:", "secret", "credential", "truncate"]
@@ -126,7 +143,6 @@ jobs:
                   results.append({"key": key, "state": "BLOCKED", "gate": gate})
                   continue
 
-              # Bridge dispatch — no HITL, loop until done or fail
               if not bridge_url or not bridge_key:
                   receipt = {
                       "receipt_type": "pen_final_receipt",
@@ -141,7 +157,6 @@ jobs:
                   results.append({"key": key, "state": "BLOCKED", "reason": "no bridge creds"})
                   continue
 
-              # Build bridge envelope — pass the whole job as payload
               fn      = data.get("fn") or data.get("action") or "pen-generic-executor"
               envelope = json.dumps({
                   "idempotency_key": key,
@@ -189,7 +204,6 @@ jobs:
                   "hitl_required":   False,
               }
 
-              # Write both trigger + final receipts
               trigger_path = runtime_dir / f"{safe}.trigger-receipt.json"
               trigger_path.write_text(json.dumps({
                   **receipt,
@@ -202,7 +216,6 @@ jobs:
               results.append({"key": key, "state": state, "bridge_http": status})
               print(f"{'OK' if ok else 'PARTIAL'} [{status}] {key}")
 
-          # Write sweep summary
           summary = {
               "sweep_at":    now,
               "run_id":      run_id,
@@ -224,6 +237,7 @@ jobs:
           PY
 
       - name: Commit receipts and sweep state
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
