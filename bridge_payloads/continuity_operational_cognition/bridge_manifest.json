@@ -1,0 +1,26 @@
+{
+  "bundle": "continuity_operational_cognition",
+  "classification": "PARTIAL_UNTIL_RUNTIME_RECEIPT",
+  "target_repo": "TML-4PM/the-pen",
+  "requested_by": "Troy Latter",
+  "purpose": "Build first-class queryable institutional cognition layer for Parking Lot, Continuity Brief, document sweeper, promotion gates, freeze governance, rituals, and playbook automation.",
+  "required_actions": [
+    "Apply sql/001_continuity_operational_cognition.sql to Supabase ops database or staging-safe equivalent.",
+    "Verify ops.institutional_intents, ops.recovered_cognition, ops.continuity_playbook_items, ops.freeze_scopes, ops.continuity_health and ops.quiet_drift_candidates exist.",
+    "Register house rules: PARALLEL_FORWARD_CHARGE, CONTINUITY_FIRST_QUEUING, NO_FUTURE_TENSE_AS_PRESENT_TENSE, PILOT_FREEZE_RESTRAINT.",
+    "Run document-sweeper against a small safe test document and insert recovered cognition candidates.",
+    "Run ritual-engine against sample institutional intents and store one MORNING_BRIEF and one EVENING_CLOSURE ritual run.",
+    "Run promotion-gates against one sample intent and confirm production promotion is blocked without REAL receipts.",
+    "Run freeze-governance and confirm pilot freeze blocks feature additions while allowing manual tracking and scratchpad capture.",
+    "Run continuity-speedo and store result as PARTIAL diagnostic until validated against live data.",
+    "Create runtime receipt under receipts/runtime/continuity_operational_cognition_<timestamp>.json.",
+    "Update Reality Ledger with exact migration result, checks, failures, retries, and unresolved gaps."
+  ],
+  "hard_gates": {
+    "prod_promotion": "BLOCKED unless runtime receipt, telemetry receipt, replay receipt, rollback path, no freeze conflict, no unresolved ambiguity, and human validation exist.",
+    "automation": "May classify and suggest; must not silently redefine intent, bypass freeze, self-certify REAL, or promote to prod.",
+    "freeze": "7-day pilot scope is frozen. No feature expansion during pilot."
+  },
+  "receipt_required": true,
+  "reality_state": "PARTIAL"
+}
