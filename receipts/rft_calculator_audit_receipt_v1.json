@@ -1,0 +1,79 @@
+{
+  "job_id": "rft_calculator_family_audit_v1",
+  "date": "2026-06-17",
+  "reality_state": "PARTIAL",
+  "audit_state": "REAL",
+  "implementation_state": "PARTIAL",
+  "deployment_state": "BLOCKED_NOT_ATTEMPTED",
+  "assets_inspected": [
+    "holo-org-plus-main.zip",
+    "holoorg-agent-factory-main.zip",
+    "holo_org_complete_product_audit(1).csv",
+    "holoorg_agents_10k_rows_exploded_wave10(2).csv",
+    "T4H_50_automated_products_via_agents_only(3).csv"
+  ],
+  "repo_summary": {
+    "holo-org-plus-main": {
+      "files": 95,
+      "rft_files": 0,
+      "tender_files": 0,
+      "calculator_files": 0,
+      "pricing_files": 3,
+      "agent_files": 7,
+      "supabase_files": 1
+    },
+    "holoorg-agent-factory-main": {
+      "files": 848,
+      "rft_files": 51,
+      "tender_files": 5,
+      "calculator_files": 61,
+      "pricing_files": 134,
+      "agent_files": 289,
+      "supabase_files": 47
+    }
+  },
+  "confirmed_routes": [
+    "/",
+    "home",
+    "holoorg",
+    "team",
+    "agents",
+    "agent/:id",
+    "agent-matching",
+    "rft",
+    "rft-analyzer",
+    "huge-rft-analyzer",
+    "tender-explorer",
+    "integrated-analysis",
+    "*"
+  ],
+  "supabase_tables_observed": [
+    "Function Metrics",
+    "RFT Metrics Final",
+    "Skills Metrics",
+    "agents",
+    "calculator_results",
+    "calculator_types",
+    "products",
+    "runs",
+    "team_members",
+    "templates"
+  ],
+  "csv_summary": {
+    "product_audit_rows": 40,
+    "agent_registry_rows": 10000,
+    "automated_products_rows": 49,
+    "sellable_agents": 10000,
+    "callable_agents": 10000
+  },
+  "proof": {
+    "audit_report_sha256": "122fc8700bcf5b8c44f7d3bc31de68cb7de027cb0c16b3ee25cf5639bdc138cd",
+    "audit_commit_sha": "186b5c9c48cb70d8f8ba7d65da9ba8464aa7be2b"
+  },
+  "next_actions": [
+    "implement shared calculator engine",
+    "create Supabase migration and seed scripts",
+    "wire TenderOS pages",
+    "generate implementation receipt"
+  ]
+}
