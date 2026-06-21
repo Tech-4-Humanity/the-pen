@@ -1,0 +1,75 @@
+name: One Source Lifecycle Validator
+
+on:
+  pull_request:
+    paths:
+      - 'inbox/**'
+      - 'doctrine/**'
+      - 'validators/**'
+      - '.github/workflows/one-source-lifecycle-validator.yml'
+  workflow_dispatch:
+    inputs:
+      pen_path:
+        description: 'PEN artifact path to validate'
+        required: false
+        default: 'inbox/rokc_recursive_operational_knowledge_compiler_20260615.md'
+      symbio_path:
+        description: 'Symbio/execution wrapper path to validate'
+        required: false
+        default: 'doctrine/one_source_multiple_lifecycle_objects.md'
+
+permissions:
+  contents: read
+
+jobs:
+  advisory-validator:
+    name: Advisory validator — non-blocking
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve paths
+        id: paths
+        shell: bash
+        run: |
+          PEN_PATH="${{ github.event.inputs.pen_path || 'inbox/rokc_recursive_operational_knowledge_compiler_20260615.md' }}"
+          SYMBIO_PATH="${{ github.event.inputs.symbio_path || 'doctrine/one_source_multiple_lifecycle_objects.md' }}"
+          echo "pen_path=$PEN_PATH" >> "$GITHUB_OUTPUT"
+          echo "symbio_path=$SYMBIO_PATH" >> "$GITHUB_OUTPUT"
+
+      - name: Run validator in advisory mode
+        id: validate
+        shell: bash
+        run: |
+          mkdir -p receipts/validators
+          node validators/one_source_multiple_lifecycle_validator.js \
+            "${{ steps.paths.outputs.pen_path }}" \
+            "${{ steps.paths.outputs.symbio_path }}" \
+            advisory | tee receipts/validators/one_source_lifecycle_validator_${{ github.run_id }}.json
+
+      - name: Write validator summary
+        shell: bash
+        run: |
+          {
+            echo "## One Source Lifecycle Validator"
+            echo ""
+            echo "Mode: advisory / non-blocking"
+            echo "Evidence state: PARTIAL until telemetry and runtime receipts are wired into the ledger"
+            echo ""
+            echo "PEN path: ${{ steps.paths.outputs.pen_path }}"
+            echo "Symbio path: ${{ steps.paths.outputs.symbio_path }}"
+            echo ""
+            echo '```json'
+            cat receipts/validators/one_source_lifecycle_validator_${{ github.run_id }}.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload advisory receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: one-source-lifecycle-validator-${{ github.run_id }}
+          path: receipts/validators/one_source_lifecycle_validator_${{ github.run_id }}.json
+          retention-days: 30
