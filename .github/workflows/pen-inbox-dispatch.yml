@@ -31,8 +31,11 @@ jobs:
     name: Detect → Execute → Receipt (no HITL)
     runs-on: ubuntu-latest
     env:
-      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL }}
-      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY }}
+      # Accept both current and legacy secret names. GitHub does not expose which secret exists,
+      # but expressions resolve to the first non-empty value. This prevents config drift between
+      # pen-inbox-dispatch, pen-worker, and pen-execution-worker.
+      BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL || secrets.BRIDGE_ENDPOINT }}
+      BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY || secrets.BRIDGE_KEY }}
     steps:
       - name: Always materialise job
         run: |
@@ -149,7 +152,7 @@ jobs:
                       "idempotency_key": key,
                       "state": "BLOCKED",
                       "evidence_state": "PARTIAL",
-                      "blocker": "BRIDGE_INVOKE_URL or BRIDGE_API_KEY missing",
+                      "blocker": "BRIDGE_INVOKE_URL/BRIDGE_ENDPOINT or BRIDGE_API_KEY/BRIDGE_KEY missing",
                       "created_at": now, "repo": repo, "commit_sha": sha,
                       "source_job_path": str(payload_path),
                   }
