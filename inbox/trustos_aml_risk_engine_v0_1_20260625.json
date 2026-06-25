@@ -1,0 +1,52 @@
+{
+  "job_id": "trustos_aml_risk_engine_v0_1_20260625",
+  "type": "bridge_runner_transport_deploy",
+  "status": "ready_for_bridge",
+  "payload_name": "TrustOS AML Risk Engine v0.1",
+  "intent": "Transport artefacts, import schema/factor seed, deploy scoring runtime, run sample scoring test, and emit runtime receipt.",
+  "source_attachment": "Pasted text(121).txt and prior AML risk framework discussion",
+  "local_session_artifacts": [
+    {
+      "path": "/mnt/data/trustos_aml_bridge_payload_v0_1.zip",
+      "sha256": "6d7ab2a33b13cc7ae3ee70d2f947230e0854172ac07963470acc377e87ef9668"
+    },
+    {
+      "path": "/mnt/data/trustos_aml_bridge_payload_v0_1/workbooks/trustos_aml_risk_seed_v0_1.xlsx",
+      "sha256": "322bf14aaa31c1c302bd670c5a2b36ebead9375515f66ca8498516d44ba6bbb5"
+    },
+    {
+      "path": "/mnt/data/trustos_aml_bridge_payload_v0_1/data/factor_catalogue.json",
+      "sha256": "b6b28f61355647295d04af87c280c6a4a58ed4dc911464dda21ff4e644086901"
+    },
+    {
+      "path": "/mnt/data/trustos_aml_bridge_payload_v0_1/schema/supabase_schema.sql",
+      "sha256": "8eb3677269d0046aa7cfd68e055f17d6c10e67b5a119e3074b71b3901eac04cd"
+    },
+    {
+      "path": "/mnt/data/trustos_aml_bridge_payload_v0_1/runtime/risk_engine.ts",
+      "sha256": "9b54167d51bdda997688cc4680a69ff6d7637d3f2179ab0f35070253d2eae453"
+    }
+  ],
+  "expected_runtime_receipts": [
+    "schema_import_count",
+    "domain_import_count",
+    "factor_import_count",
+    "sample_score_output",
+    "runtime_error_log",
+    "rollback_or_recovery_action_if_failed"
+  ],
+  "do_not_claim_real_until": [
+    "Supabase schema imported",
+    "factor catalogue imported",
+    "risk_engine executed on sample input",
+    "runtime receipt committed"
+  ],
+  "sources": {
+    "AUSTRAC CDD": "https://www.austrac.gov.au/industry-and-business/obligations-and-guidance/your-amlctf-program/customer-due-diligence",
+    "AUSTRAC risk assessment": "https://www.austrac.gov.au/industry-and-business/obligations-and-guidance/your-amlctf-program/develop-your-amlctf-programs/step-2-identify-and-assess-your-risks",
+    "AUSTRAC source of funds wealth": "https://www.austrac.gov.au/industry-and-business/obligations-and-guidance/your-amlctf-program/customer-due-diligence/source-funds-and-source-wealth",
+    "AUSTRAC ECDD": "https://www.austrac.gov.au/industry-and-business/obligations-and-guidance/your-amlctf-program/customer-due-diligence/enhanced-customer-due-diligence",
+    "FATF Recommendations": "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html",
+    "FATF Virtual Assets": "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/targeted-update-virtual-assets-vasps-2025.html"
+  }
+}
