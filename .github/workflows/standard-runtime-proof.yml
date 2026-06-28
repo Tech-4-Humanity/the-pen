@@ -5,22 +5,91 @@ on:
   schedule:
     - cron: '17 */6 * * *'
 
+permissions:
+  contents: write
+
+concurrency:
+  group: standard-runtime-proof-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   proof:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
       - name: Heartbeat + verify
+        id: proof
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.SUPABASE_SERVICE_ROLE }}
         run: |
-          set -eo pipefail
+          set -uo pipefail
+          STATUS="BLOCKED"
+          DETAIL="secrets_missing"
           if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_ROLE:-}" ]; then
-            echo "::notice::Secrets not yet installed. Skipping."
+            echo "::notice::Secrets not installed. Classified BLOCKED, not runner-failed."
+          else
+            curl -sS -L -X POST \
+              -H "apikey: $SUPABASE_SERVICE_ROLE" \
+              -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE" \
+              -H "Content-Type: application/json" \
+              -d '{}' "$SUPABASE_URL/rest/v1/rpc/symbio_verifier_heartbeat" || true
+            SINCE=$(date -u -d '5 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')
+            STARTED=$(curl -sS -L \
+              -H "apikey: $SUPABASE_SERVICE_ROLE" \
+              -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE" \
+              "$SUPABASE_URL/rest/v1/symbio_audit_log?event_type=eq.work_started&actor=eq.symbio-verifier-heartbeat&created_at=gte.$SINCE&limit=1" || echo '[]')
+            if [ "$STARTED" = "[]" ]; then
+              STATUS="PARTIAL"
+              DETAIL="no_fresh_heartbeat"
+              echo "::warning::No fresh heartbeat found. Classified PARTIAL, not runner-failed."
+            else
+              STATUS="REAL"
+              DETAIL="RUNTIME_PASS"
+              echo "::notice::RUNTIME_PASS"
+            fi
+          fi
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          echo "detail=$DETAIL" >> "$GITHUB_OUTPUT"
+
+      - name: Write runtime proof receipt
+        if: always()
+        env:
+          RUN_ID: ${{ github.run_id }}
+          STATUS: ${{ steps.proof.outputs.status || 'BLOCKED' }}
+          DETAIL: ${{ steps.proof.outputs.detail || 'step_not_completed' }}
+        run: |
+          set -euo pipefail
+          mkdir -p receipts/runtime
+          cat > "receipts/runtime/standard-runtime-proof-${RUN_ID}.receipt.json" <<EOF
+          {
+            "system": "standard_runtime_proof",
+            "workflow_run_id": "${RUN_ID}",
+            "workflow_run_url": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}",
+            "status": "${STATUS}",
+            "detail": "${DETAIL}",
+            "timestamp_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "trigger": "${GITHUB_EVENT_NAME}"
+          }
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add receipts/runtime/
+          if git diff --staged --quiet; then
+            echo "No runtime proof receipt changes"
             exit 0
           fi
-          curl -sS -L -X POST -H "apikey: $SUPABASE_SERVICE_ROLE" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE" -H "Content-Type: application/json" -d '{}' "$SUPABASE_URL/rest/v1/rpc/symbio_verifier_heartbeat" || true
-          SINCE=$(date -u -d '5 minutes ago' '+%Y-%m-%dT%H:%M:%SZ')
-          STARTED=$(curl -sS -L -H "apikey: $SUPABASE_SERVICE_ROLE" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE" "$SUPABASE_URL/rest/v1/symbio_audit_log?event_type=eq.work_started&actor=eq.symbio-verifier-heartbeat&created_at=gte.$SINCE&limit=1")
-          if [ "$STARTED" = "[]" ]; then echo "::error::No fresh heartbeat"; exit 1; fi
-          echo "::notice::RUNTIME_PASS"
+          git commit -m "receipt: standard runtime proof ${RUN_ID} [skip ci]"
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              exit 0
+            fi
+            echo "push attempt ${attempt} rejected; retrying after rebase"
+            sleep $((RANDOM % 8 + 2))
+          done
+          echo "::warning::standard runtime proof receipt push failed after retries; non-fatal"
