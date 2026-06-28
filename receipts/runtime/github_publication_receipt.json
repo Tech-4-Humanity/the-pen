@@ -1,0 +1,12 @@
+{
+  "receipt_id": "github_publication_receipt",
+  "status": "REAL",
+  "created_at_utc": "2026-06-28T06:10:00Z",
+  "repo": "TML-4PM/the-pen",
+  "branch": "main",
+  "published_commit_sha": "efc3fc49f5d5ea1fec1d845d2e0f80edb26c94ef",
+  "published_file": "payloads/aml_ctf_v2_completeness_lockdown/HalesRedden_AML_CTF_Framework_v12_merged.xlsx",
+  "published_file_blob_sha": "6cf8ad2f5613ef85656dfc14994c09b061bc29fc",
+  "commit_message": "Add AML CTF v2 completeness lockdown workbook",
+  "verification": "GitHub connector fetched commit and file blob successfully"
+}
