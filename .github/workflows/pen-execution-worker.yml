@@ -42,7 +42,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: pen-execution-worker
+  group: pen-execution-worker-${{ github.ref }}
   cancel-in-progress: false
 
 env:
@@ -85,7 +85,7 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
-          BRIDGE_KEY: ${{ secrets.BRIDGE_KEY }}
+          BRIDGE_KEY: ${{ secrets.BRIDGE_KEY || secrets.BRIDGE_API_KEY }}
           GH_PAT: ${{ secrets.GH_PAT }}
           PEN_ENV: ${{ github.event.inputs.env || (github.ref_name == 'main' && 'production' || 'dev') }}
         run: |
@@ -93,20 +93,23 @@ jobs:
 
       - name: Commit runtime artefacts
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add receipts outputs runtime inbox || true
           if git diff --cached --quiet; then
             echo "No runtime artefacts to commit"
-          else
-            git commit -m "pen-execution receipt [${{ github.ref_name }}]"
-            for attempt in 1 2 3; do
-              if git push; then exit 0; fi
-              git fetch origin main
-              git rebase origin/main || { git rebase --abort || true; exit 1; }
-            done
-            exit 1
+            exit 0
           fi
+          git commit -m "pen-execution receipt [${{ github.ref_name }}] [skip ci]"
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              exit 0
+            fi
+            echo "push attempt ${attempt} rejected; retrying after rebase"
+            sleep $((RANDOM % 8 + 2))
+          done
+          echo "::warning::pen execution artefact push failed after retries; non-fatal"
 
       - name: Add issue receipt comment
         if: always()
