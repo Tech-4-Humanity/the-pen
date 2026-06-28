@@ -1,0 +1,21 @@
+{
+  "receipt_id": "aml_ctf_v2_completeness_lockdown_receipt",
+  "status": "REAL",
+  "created_at_utc": "2026-06-28T06:10:00Z",
+  "system": "the-pen",
+  "repo": "TML-4PM/the-pen",
+  "workbook_path": "payloads/aml_ctf_v2_completeness_lockdown/HalesRedden_AML_CTF_Framework_v12_merged.xlsx",
+  "workbook_sha256": "a7a55b3cdfe54b2b026121f3aa46f4717248ee2e1160e676b04fba6689b6753c",
+  "publication_commit_sha": "efc3fc49f5d5ea1fec1d845d2e0f80edb26c94ef",
+  "vercel_deployment_id": "dpl_HSsWqjBeeyJkTs6UE6r4QweEn5zi",
+  "vercel_production_url": "https://the-ps555b0sc-troys-projects-t4h-machine.vercel.app",
+  "vercel_alias": "https://the-pen-six.vercel.app",
+  "classification": {
+    "canonical_workbook": "REAL",
+    "github_publication": "REAL",
+    "vercel_deployment": "REAL",
+    "runtime_import": "PENDING",
+    "supabase_import": "PENDING",
+    "dashboard_v2": "PARTIAL"
+  }
+}
