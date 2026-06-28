@@ -1,0 +1,18 @@
+{
+  "title": "CDAP Customer v2",
+  "type": "object",
+  "required": ["organisation", "services", "staff", "evidence", "status"],
+  "properties": {
+    "organisation": {"type": "object", "required": ["legal_name", "abn", "entity_type"]},
+    "ownership": {"type": "array"},
+    "beneficial_owners": {"type": "array"},
+    "staff": {"type": "array"},
+    "services": {"type": "array"},
+    "customer_profile": {"type": "array"},
+    "geographic_exposure": {"type": "array"},
+    "transactions": {"type": "array"},
+    "evidence": {"type": "array"},
+    "gap_analysis": {"type": "array"},
+    "status": {"enum": ["REAL", "PARTIAL", "BLOCKED", "NOT_STARTED"]}
+  }
+}
