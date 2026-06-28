@@ -1,0 +1,21 @@
+Artefact ID,Artefact Name,Category,Purpose,Generated From,Obligation Area,Owner,Review Frequency,Format,Status
+ART_001,AML/CTF Program Part A,Governance,Enterprise governance and oversight,Organisation; controls; risk workshop,Program governance,Compliance Officer,Annual/material change,DOCX/PDF,To build
+ART_002,AML/CTF Program Part B,CDD Operations,Customer identification verification and transaction procedures,Customer profile; services; transactions,CDD/EDD,Compliance Officer,Annual/material change,DOCX/PDF,To build
+ART_003,Enterprise AML/CTF Risk Assessment,Governance,Formal documented ML/TF risk assessment,Services; customers; geography; money movement; workshop,Risk assessment,Principal,Annual/material change,DOCX/PDF,To build
+ART_004,Risk Appetite Statement,Governance,Define thresholds and escalation tolerance,Risk workshop; board inputs,Governance,Principal/Board,Annual,DOCX/PDF,To build
+ART_005,Compliance Officer Appointment,Governance,Assign accountable officer and responsibilities,Organisation; staff,Governance,Principal,On change,DOCX/PDF,To build
+ART_006,Board/Director Resolution,Governance,Approve program roles and review cadence,Signoff; declarations,Governance,Board sponsor,Annual/on change,DOCX/PDF,To build
+ART_007,Beneficial Ownership Register,Register,Record beneficial ownership and control,Ownership; BO sheet,CDD,Compliance Officer,Annual/on change,XLSX/DB,To build
+ART_008,CDD Register,Register,Track initial CDD completion status,Customers; evidence; services,CDD,Operations,Ongoing,XLSX/DB,To build
+ART_009,High-Risk Customer Register,Register,Track high-risk customers and EDD actions,Customer profile; geography; transactions,EDD,Compliance Officer,Quarterly/triggered,XLSX/DB,To build
+ART_010,PEP Register,Register,Track PEP exposure and approvals,Ownership; customer profile; screening,PEP,Compliance Officer,Ongoing/triggered,XLSX/DB,To build
+ART_011,Sanctions Register,Register,Track screening results and exceptions,Ownership; geography; screening,Screening,Compliance Officer,Ongoing/triggered,XLSX/DB,To build
+ART_012,SOF/SOW Register,Register,Track source of funds and wealth evidence,Money movement; transaction profile,SOF/SOW,Practitioner,Triggered,XLSX/DB,To build
+ART_013,Training Matrix,Training,Assign training level by role and risk,Staff; training rules,Training,HR,Annual/new starter,XLSX/DB,Built in workbook
+ART_014,Training Register,Training,Evidence completion score certificate and renewal,Training matrix; LMS,Training,HR,Annual,XLSX/DB,To build
+ART_015,Evidence Register,Evidence,Index uploaded evidence and validation status,Evidence checklist,Record keeping,Operations,Annual/ongoing,XLSX/DB,Built in workbook
+ART_016,Gap Analysis Report,Assurance,Summarise readiness and actions,All inputs,All,Compliance Officer,Weekly during onboarding,XLSX/PDF,Built in workbook
+ART_017,Annual Compliance Calendar,Operations,Create recurring annual operating rhythm,Calendar; obligations,Review/monitoring,Compliance Officer,Annual,XLSX/Calendar,Built in workbook
+ART_018,Independent Review Toolkit,Assurance,Prepare for independent evaluation,Independent review; evidence,Independent evaluation,Board sponsor,1-3 years,DOCX/XLSX,Built in workbook
+ART_019,Quarterly Board Report,Governance,Report gaps training exceptions and risk status,Gap analysis; registers; monitoring,Governance,Compliance Officer,Quarterly,PDF/PPTX,To build
+ART_020,Customer Completion Certificate,Assurance,Summarise initial readiness and residual gaps,Signoff; gap analysis,All,Compliance Officer,On completion,PDF,To build
