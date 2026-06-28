@@ -15,6 +15,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: bridge-runner-heartbeat-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   heartbeat:
     runs-on: ubuntu-latest
@@ -59,14 +63,12 @@ jobs:
           fi
           TS=$(date -u +%Y%m%dT%H%M%S)
           git commit -m "chore: runner heartbeat [skip ci] ${TS}"
-          # push-with-rebase-retry: main is high-contention (many workflows commit receipts)
-          n=0
-          until [ $n -ge 5 ]; do
-            git pull --rebase --autostash origin main && git push && break
-            n=$((n+1))
-            echo "push attempt $n rejected, retrying after rebase..."
-            sleep $((RANDOM % 5 + 1))
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              exit 0
+            fi
+            git rebase --abort || true
+            echo "push attempt ${attempt} rejected; retrying after clean rebase"
+            sleep $((RANDOM % 8 + 2))
           done
-          if [ $n -ge 5 ]; then
-            echo "::warning::heartbeat push failed after 5 rebase-retry attempts (non-fatal)"
-          fi
+          echo "::warning::heartbeat push failed after 5 rebase-retry attempts (non-fatal)"
