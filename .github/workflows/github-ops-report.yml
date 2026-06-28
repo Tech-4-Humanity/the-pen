@@ -16,14 +16,21 @@ permissions:
   actions: read
   pull-requests: read
 
+concurrency:
+  group: github-ops-report-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   ops-report:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -32,39 +39,49 @@ jobs:
 
       - name: Run GitHub Actions Ledger
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          TARGET_REPOS: ${{ inputs.target_repos }}
+          # Prefer GH_PAT for cross-repo visibility; fall back to the runtime GITHUB_TOKEN.
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          GITHUB_OWNER: TML-4PM
+          TARGET_REPOS: ${{ github.event.inputs.target_repos || '' }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
+          set -euo pipefail
           node scripts/github-actions-ledger.mjs
 
-      - name: Commit report
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reports/github-ops/
-          if ! git diff --staged --quiet; then
-            git commit -m "ops-report: $(date -u +%Y-%m-%d) GitHub Actions ledger"
-            git push
-          fi
-
-      - name: Write receipt
+      - name: Commit report and receipt
         if: always()
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          RUN_ID: ${{ github.run_id }}
+          EVENT_NAME: ${{ github.event_name }}
+          JOB_STATUS: ${{ job.status }}
         run: |
-          mkdir -p receipts/runtime
-          cat > receipts/runtime/github-ops-report-$(date -u +%Y%m%dT%H%M%SZ).receipt.json <<EOF
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p receipts/runtime reports/github-ops
+          cat > receipts/runtime/github-ops-report-${RUN_ID}.receipt.json <<EOF
           {
             "system": "github_ops_report",
-            "workflow_run_id": "${{ github.run_id }}",
-            "workflow_run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-            "status": "${{ job.status }}",
+            "workflow_run_id": "${RUN_ID}",
+            "workflow_run_url": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}",
+            "status": "${JOB_STATUS}",
             "timestamp_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-            "trigger": "${{ github.event_name }}"
+            "trigger": "${EVENT_NAME}"
           }
           EOF
-          git add receipts/runtime/
-          git commit -m "receipt: github-ops-report run ${{ github.run_id }}" || true
-          git push || true
+          git add reports/github-ops/ receipts/runtime/
+          if git diff --staged --quiet; then
+            echo "No report or receipt changes"
+            exit 0
+          fi
+          git commit -m "ops-report: $(date -u +%Y-%m-%d) GitHub Actions ledger [skip ci]"
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              exit 0
+            fi
+            echo "push attempt ${attempt} failed; retrying after rebase"
+            sleep $((RANDOM % 8 + 2))
+          done
+          echo "::warning::github ops report push failed after retries; report generated but not pushed"
