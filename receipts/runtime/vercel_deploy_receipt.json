@@ -1,0 +1,9 @@
+{
+  "receipt_id": "vercel_deploy_receipt",
+  "status": "REAL",
+  "project": "the-pen",
+  "deployment_id": "dpl_HSsWqjBeeyJkTs6UE6r4QweEn5zi",
+  "state": "READY",
+  "alias": "the-pen-six.vercel.app",
+  "commit_sha": "efc3fc49f5d5ea1fec1d845d2e0f80edb26c94ef"
+}
