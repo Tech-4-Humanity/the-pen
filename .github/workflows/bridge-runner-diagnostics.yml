@@ -15,6 +15,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: bridge-runner-diagnostics-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   diagnostics:
     runs-on: ubuntu-latest
@@ -24,11 +28,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 0
 
       - name: Run diagnostics
         env:
           BRIDGE_ENDPOINT: ${{ secrets.BRIDGE_ENDPOINT }}
-          BRIDGE_API_KEY:  ${{ secrets.BRIDGE_API_KEY }}
+          BRIDGE_API_KEY:  ${{ secrets.BRIDGE_API_KEY || secrets.BRIDGE_KEY }}
           SUPABASE_URL:    ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GH_SHA: ${{ github.sha }}
@@ -86,5 +91,11 @@ jobs:
             exit 0
           fi
           git commit -m "chore: diagnostics receipt [skip ci]"
-          git pull --rebase --autostash origin main || true
-          git push
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              exit 0
+            fi
+            echo "push attempt ${attempt} rejected; retrying after rebase"
+            sleep $((RANDOM % 8 + 2))
+          done
+          echo "::warning::diagnostic receipt push failed after retries; non-fatal"
