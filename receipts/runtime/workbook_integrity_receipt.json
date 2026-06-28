@@ -1,0 +1,12 @@
+{
+  "receipt_id": "workbook_integrity_receipt",
+  "status": "REAL",
+  "created_at_utc": "2026-06-28T06:10:00Z",
+  "workbook_name": "HalesRedden_AML_CTF_Framework_v12_merged.xlsx",
+  "workbook_path": "payloads/aml_ctf_v2_completeness_lockdown/HalesRedden_AML_CTF_Framework_v12_merged.xlsx",
+  "sha256": "a7a55b3cdfe54b2b026121f3aa46f4717248ee2e1160e676b04fba6689b6753c",
+  "size_bytes_observed_local": 145948,
+  "github_blob_sha": "6cf8ad2f5613ef85656dfc14994c09b061bc29fc",
+  "integrity_result": "PASS",
+  "notes": "SHA256 verified before GitHub commit. GitHub blob fetch confirmed file exists at canonical payload path."
+}
