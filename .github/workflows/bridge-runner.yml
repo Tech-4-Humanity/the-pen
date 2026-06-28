@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'bridge/payloads/**.json'
-      - '.github/workflows/bridge-runner.yml'
   pull_request:
     paths:
       - 'bridge/payloads/**.json'
