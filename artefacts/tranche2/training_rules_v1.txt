@@ -1,0 +1,18 @@
+CDAP training rules v1
+
+Level 1: all relevant staff, 1 hour, annual refresher.
+Level 2: customer-facing and practitioner staff, 3 hours, annual refresher.
+Level 3: managers, principals and approvers, 6 hours, annual refresher.
+Level 3 plus: compliance officers and AML program owners, 8 hours, annual refresher.
+
+Rules:
+TRN_001 all staff -> Level 1
+TRN_002 customer facing -> Level 2
+TRN_003 handles ID documents -> Level 2
+TRN_004 handles source of funds or wealth -> Level 2
+TRN_005 trust account access -> Level 2
+TRN_006 approves high risk customers -> Level 3
+TRN_007 principal or director -> Level 3
+TRN_008 compliance officer -> Level 3 plus
+
+Evidence created: certificate, assessment score, completion date, declaration, manager signoff, annual refresher due date.
