@@ -1,0 +1,21 @@
+{
+  "title": "CDAP Customer",
+  "type": "object",
+  "properties": {
+    "organisation": {
+      "type": "object"
+    },
+    "ownership": {
+      "type": "array"
+    },
+    "staff": {
+      "type": "array"
+    },
+    "services": {
+      "type": "array"
+    },
+    "evidence": {
+      "type": "array"
+    }
+  }
+}
