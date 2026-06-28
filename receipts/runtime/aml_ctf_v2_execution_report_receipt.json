@@ -1,0 +1,20 @@
+{
+  "receipt_id": "aml_ctf_v2_execution_report_receipt",
+  "status": "REAL",
+  "created_at_utc": "2026-06-28T06:50:00Z",
+  "repo": "TML-4PM/the-pen",
+  "report_path": "docs/aml_ctf_v2_completion_post_20260628.md",
+  "report_commit_sha": "2a2200bf6e9dd332866a7e06c2a385a31999c058",
+  "workbook_publication_commit_sha": "efc3fc49f5d5ea1fec1d845d2e0f80edb26c94ef",
+  "workbook_sha256": "a7a55b3cdfe54b2b026121f3aa46f4717248ee2e1160e676b04fba6689b6753c",
+  "known_ready_vercel_deployment_id": "dpl_HSsWqjBeeyJkTs6UE6r4QweEn5zi",
+  "latest_vercel_deployment_id": "dpl_3pQQzbGjHpQg7eAKWQrtayLwreRN",
+  "latest_vercel_status": "UNKNOWN",
+  "classification": {
+    "writeup_posted": "REAL",
+    "github_receipt": "REAL",
+    "canonical_workbook": "REAL",
+    "latest_vercel_deploy": "UNKNOWN",
+    "runtime_platform": "PARTIAL"
+  }
+}
