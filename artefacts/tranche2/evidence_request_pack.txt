@@ -1,0 +1,29 @@
+Evidence Request Pack
+
+Corporate:
+- ASIC extract
+- Trust deeds
+- Professional licences
+
+People:
+- Staff list
+- Organisation chart
+- Police checks
+- Existing AML/CTF training records
+
+Financial:
+- Trust account procedures
+- Banking authorities
+- Delegation matrix
+
+Governance:
+- Existing policies
+- Risk registers
+- Board minutes
+- Internal audit reports
+
+Technology:
+- CRM inventory
+- Document-management system inventory
+- Identity verification tools
+- Screening systems
