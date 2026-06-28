@@ -1,4 +1,4 @@
-name: Bridge Runner — Heartbeat
+name: Bridge Runner
 
 on:
   push:
@@ -18,8 +18,12 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: bridge-runner-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  heartbeat:
+  bridge-runner:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -38,7 +42,7 @@ jobs:
       - name: PR-safe acknowledgement
         if: github.event_name == 'pull_request'
         run: |
-          echo "Bridge Runner heartbeat observed payload/workflow change in PR context."
+          echo "Bridge Runner observed payload/workflow change in PR context."
           echo "Write-capable bridge execution and receipt commits are disabled for pull_request."
           echo "classification=PR_SAFE_NO_OP"
 
@@ -46,7 +50,7 @@ jobs:
         if: github.event_name != 'pull_request'
         id: detect
         env:
-          INPUT_PATH: ${{ github.event.inputs.payload_path }}
+          INPUT_PATH: ${{ github.event.inputs.payload_path || '' }}
         run: |
           set -euo pipefail
           if [ -n "${INPUT_PATH:-}" ]; then
@@ -140,5 +144,11 @@ jobs:
           fi
           TS=$(date -u +%Y%m%d-%H%M%S)
           git commit -m "chore: bridge receipts [skip ci] ${TS}"
-          git pull --rebase --autostash origin main || true
-          git push
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              exit 0
+            fi
+            echo "push attempt ${attempt} rejected; retrying after rebase"
+            sleep $((RANDOM % 8 + 2))
+          done
+          echo "::warning::receipt push failed after retries; execution receipt exists in runner workspace but was not committed"
