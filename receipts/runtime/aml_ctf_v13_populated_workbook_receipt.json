@@ -1,0 +1,27 @@
+{
+  "receipt_id": "aml_ctf_v13_populated_workbook_receipt",
+  "status": "REAL",
+  "created_at_utc": "2026-06-30T06:45:00Z",
+  "repo": "TML-4PM/the-pen",
+  "branch": "main",
+  "workbook": {
+    "name": "HalesRedden_AML_CTF_Framework_v13_populated.xlsx",
+    "path": "payloads/aml_ctf_v3_populated_model/HalesRedden_AML_CTF_Framework_v13_populated.xlsx",
+    "sha256": "45f76f1dc6ce89ce9aec706f2343b903bba07bf51161f3d46901c3af875e202f",
+    "classification": "REAL"
+  },
+  "github": {
+    "publication_commit_sha": "2951492b1dcd00aa4904b643b95749b9731f7ba6",
+    "publication_commit_message": "Add AML CTF v13 populated canonical workbook",
+    "verification": "GitHub connector fetched the commit and confirmed the workbook path exists in the commit",
+    "classification": "REAL"
+  },
+  "supersedes": {
+    "previous_workbook": "HalesRedden_AML_CTF_Framework_v12_merged.xlsx",
+    "previous_sha256": "a7a55b3cdfe54b2b026121f3aa46f4717248ee2e1160e676b04fba6689b6753c"
+  },
+  "s3": {
+    "classification": "PENDING",
+    "reason": "No AWS/S3 connector available in this session; requires AWS CLI execution from Mac or bridge runner"
+  }
+}
