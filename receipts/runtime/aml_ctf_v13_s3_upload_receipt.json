@@ -1,0 +1,26 @@
+{
+  "receipt_id": "aml_ctf_v13_s3_upload_receipt",
+  "status": "REAL",
+  "created_at_utc": "2026-06-30T14:37:49Z",
+  "repo": "TML-4PM/the-pen",
+  "source": {
+    "github_path": "payloads/aml_ctf_v3_populated_model/HalesRedden_AML_CTF_Framework_v13_populated.xlsx",
+    "github_commit_sha": "2951492b1dcd00aa4904b643b95749b9731f7ba6",
+    "sha256": "45f76f1dc6ce89ce9aec706f2343b903bba07bf51161f3d46901c3af875e202f"
+  },
+  "s3": {
+    "bucket": "t4h-remote-mcp-server-clean",
+    "key": "payloads/aml_ctf_v3_populated_model/HalesRedden_AML_CTF_Framework_v13_populated.xlsx",
+    "last_modified": "2026-06-30T14:37:49+00:00",
+    "content_length": 173287,
+    "etag": "b11e476e914311dfb2cfa9c5186376b2",
+    "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "server_side_encryption": "AES256"
+  },
+  "validation": {
+    "aws_s3_cp": "observed upload success",
+    "aws_s3api_head_object": "observed head-object success",
+    "content_length_matches_local": true,
+    "s3_upload": "REAL"
+  }
+}
