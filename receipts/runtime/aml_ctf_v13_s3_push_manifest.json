@@ -1,0 +1,28 @@
+{
+  "manifest_id": "aml_ctf_v13_s3_push_manifest",
+  "status": "PENDING_AWS_EXECUTION",
+  "created_at_utc": "2026-06-30T06:45:00Z",
+  "repo": "TML-4PM/the-pen",
+  "source": {
+    "github_path": "payloads/aml_ctf_v3_populated_model/HalesRedden_AML_CTF_Framework_v13_populated.xlsx",
+    "publication_commit_sha": "2951492b1dcd00aa4904b643b95749b9731f7ba6",
+    "sha256": "45f76f1dc6ce89ce9aec706f2343b903bba07bf51161f3d46901c3af875e202f"
+  },
+  "recommended_s3_destination": {
+    "bucket": "t4h-remote-mcp-server-clean",
+    "key": "payloads/aml_ctf_v3_populated_model/HalesRedden_AML_CTF_Framework_v13_populated.xlsx",
+    "receipt_key": "receipts/runtime/aml_ctf_v13_s3_upload_receipt.json"
+  },
+  "required_validation": [
+    "aws s3 cp workbook to destination key",
+    "aws s3api head-object on uploaded object",
+    "compare uploaded object metadata or local sha256",
+    "write S3 runtime receipt JSON",
+    "commit or archive S3 receipt"
+  ],
+  "classification": {
+    "github_source": "REAL",
+    "s3_upload": "PENDING",
+    "s3_receipt": "PENDING"
+  }
+}
