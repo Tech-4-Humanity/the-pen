@@ -1,1 +1,225 @@
-PLACEHOLDER_SCHEMA_TOO_LARGE_IN_TOOL_CALL
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.example/schemas/dpp_canonical_schema_v0_1.json",
+  "title": "Digital Product Passport Canonical Schema",
+  "version": "0.1.0",
+  "status": "PARTIAL",
+  "generated_at": "2026-06-30",
+  "canonical_field_target": 1050,
+  "description": "Draft canonical source model for the Digital Product Passport workbook program. This is a schema authority stub and field-generation registry, not yet a verified production schema. The detailed field catalogue is present in the v6/v7 workbook; this file records the canonical namespaces and generation contract for downstream workbook/API/schema generation.",
+  "type": "object",
+  "required": [
+    "passport_id",
+    "schema_version",
+    "identity",
+    "classification",
+    "materials",
+    "lifecycle",
+    "compliance",
+    "evidence",
+    "trust",
+    "governance"
+  ],
+  "properties": {
+    "passport_id": {"type": "string", "description": "Globally unique product passport identifier."},
+    "schema_version": {"type": "string", "description": "Canonical schema version used to validate this passport."},
+    "status": {"type": "string", "enum": ["draft", "active", "retired", "superseded"]},
+    "identity": {"$ref": "#/$defs/identity"},
+    "classification": {"$ref": "#/$defs/classification"},
+    "ownership": {"$ref": "#/$defs/ownership"},
+    "materials": {"type": "array", "items": {"$ref": "#/$defs/material"}},
+    "components": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+    "lifecycle": {"type": "array", "items": {"$ref": "#/$defs/lifecycle_event"}},
+    "sustainability": {"$ref": "#/$defs/sustainability"},
+    "circularity": {"$ref": "#/$defs/circularity"},
+    "compliance": {"type": "array", "items": {"$ref": "#/$defs/compliance_obligation"}},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence_record"}},
+    "trust": {"$ref": "#/$defs/trust"},
+    "economics": {"$ref": "#/$defs/economics"},
+    "analytics": {"$ref": "#/$defs/analytics"},
+    "governance": {"$ref": "#/$defs/governance"}
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "required": ["product_name", "manufacturer", "product_id"],
+      "properties": {
+        "product_id": {"type": "string"},
+        "product_name": {"type": "string"},
+        "manufacturer": {"type": "string"},
+        "brand": {"type": "string"},
+        "model": {"type": "string"},
+        "serial_number": {"type": "string"},
+        "qr_url": {"type": "string", "format": "uri"}
+      }
+    },
+    "classification": {
+      "type": "object",
+      "properties": {
+        "industry": {"type": "string"},
+        "category": {"type": "string"},
+        "subcategory": {"type": "string"},
+        "regulatory_category": {"type": "string"}
+      }
+    },
+    "ownership": {
+      "type": "object",
+      "properties": {
+        "current_owner": {"type": "string"},
+        "custodian": {"type": "string"},
+        "ownership_status": {"type": "string"},
+        "transfer_history": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "material": {
+      "type": "object",
+      "required": ["material_name"],
+      "properties": {
+        "material_name": {"type": "string"},
+        "material_category": {"type": "string"},
+        "weight_kg": {"type": "number"},
+        "recycled_content_percent": {"type": "number", "minimum": 0, "maximum": 100},
+        "supplier_id": {"type": "string"},
+        "hazard_flags": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "component": {
+      "type": "object",
+      "properties": {
+        "component_id": {"type": "string"},
+        "component_name": {"type": "string"},
+        "bom_level": {"type": "integer"},
+        "replaceable": {"type": "boolean"},
+        "repairable": {"type": "boolean"}
+      }
+    },
+    "lifecycle_event": {
+      "type": "object",
+      "required": ["event_id", "stage", "timestamp"],
+      "properties": {
+        "event_id": {"type": "string"},
+        "stage": {"type": "string"},
+        "timestamp": {"type": "string", "format": "date-time"},
+        "actor": {"type": "string"},
+        "location": {"type": "string"},
+        "evidence_id": {"type": "string"}
+      }
+    },
+    "sustainability": {
+      "type": "object",
+      "properties": {
+        "carbon_kg_co2e": {"type": "number"},
+        "water_litres": {"type": "number"},
+        "energy_kwh": {"type": "number"},
+        "biodiversity_score": {"type": "number"}
+      }
+    },
+    "circularity": {
+      "type": "object",
+      "properties": {
+        "circularity_index": {"type": "number", "minimum": 0, "maximum": 100},
+        "repairability_index": {"type": "number", "minimum": 0, "maximum": 100},
+        "recoverability_index": {"type": "number", "minimum": 0, "maximum": 100},
+        "reuse_pathways": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "compliance_obligation": {
+      "type": "object",
+      "properties": {
+        "framework": {"type": "string"},
+        "clause": {"type": "string"},
+        "requirement": {"type": "string"},
+        "evidence_required": {"type": "string"},
+        "status": {"type": "string"},
+        "retention_period": {"type": "string"}
+      }
+    },
+    "evidence_record": {
+      "type": "object",
+      "properties": {
+        "evidence_id": {"type": "string"},
+        "evidence_type": {"type": "string"},
+        "storage_uri": {"type": "string"},
+        "hash": {"type": "string"},
+        "issued_at": {"type": "string", "format": "date-time"},
+        "retention_until": {"type": "string", "format": "date"}
+      }
+    },
+    "trust": {
+      "type": "object",
+      "properties": {
+        "did": {"type": "string"},
+        "verifiable_credentials": {"type": "array", "items": {"type": "object"}},
+        "blockchain_transactions": {"type": "array", "items": {"type": "object"}},
+        "zero_knowledge_claims": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "economics": {
+      "type": "object",
+      "properties": {
+        "tco": {"type": "number"},
+        "residual_value": {"type": "number"},
+        "repair_cost": {"type": "number"},
+        "recovery_value": {"type": "number"}
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "data_quality_score": {"type": "number", "minimum": 0, "maximum": 100},
+        "evidence_completeness_score": {"type": "number", "minimum": 0, "maximum": 100},
+        "compliance_readiness_score": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "owner": {"type": "string"},
+        "review_frequency": {"type": "string"},
+        "version_history": {"type": "array", "items": {"type": "object"}},
+        "change_control_status": {"type": "string"}
+      }
+    }
+  },
+  "x_namespaces": [
+    "dpp.identity.*",
+    "dpp.classification.*",
+    "dpp.ownership.*",
+    "dpp.materials.*",
+    "dpp.components.*",
+    "dpp.manufacturing.*",
+    "dpp.logistics.*",
+    "dpp.installation.*",
+    "dpp.operation.*",
+    "dpp.maintenance.*",
+    "dpp.repair.*",
+    "dpp.retrofit.*",
+    "dpp.refurbishment.*",
+    "dpp.remanufacturing.*",
+    "dpp.reuse.*",
+    "dpp.resale.*",
+    "dpp.recovery.*",
+    "dpp.recycling.*",
+    "dpp.disposal.*",
+    "dpp.sustainability.*",
+    "dpp.circularity.*",
+    "dpp.economics.*",
+    "dpp.compliance.*",
+    "dpp.evidence.*",
+    "dpp.trust.*",
+    "dpp.did.*",
+    "dpp.credentials.*",
+    "dpp.blockchain.*",
+    "dpp.zero_knowledge_proofs.*",
+    "dpp.analytics.*",
+    "dpp.governance.*"
+  ],
+  "x_generation_contract": {
+    "workbook_source": "DPP_Master_Workbook_v7_receipt_thread.xlsx",
+    "field_catalogue_sheet": "Master Field Catalogue",
+    "target_full_field_count": 1050,
+    "industry_extensions": ["battery", "textile", "electronics", "construction", "food", "medical", "furniture", "automotive", "packaging", "agriculture", "mining", "aviation", "defence", "industrial", "consumer"],
+    "status": "PARTIAL_PENDING_SCHEMA_EXPANSION_AND_VALIDATION"
+  },
+  "additionalProperties": false
+}
