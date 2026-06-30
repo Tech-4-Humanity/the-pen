@@ -1,0 +1,33 @@
+{
+  "status": "PARTIAL",
+  "timestamp": "20260630T093429",
+  "repository": "TML-4PM/the-pen",
+  "workbook": {
+    "filename": "DPP_Master_Workbook_v7_receipt_thread.xlsx",
+    "local_path": "/mnt/data/DPP_Master_Workbook_v7_receipt_thread.xlsx",
+    "sha256": "13114839820f0c5d0743385e7f61180e0aa8a033610547a6752614c9f00c3f24",
+    "size_bytes": 256689,
+    "sheet_count": 200,
+    "formula_error_scan": "0 matches in checked ranges"
+  },
+  "github_commits": {
+    "thread_writeup_commit": "c50ed9540b1ac434876f2ea633fa67d58068cbb5",
+    "schema_initial_placeholder_commit": "063bad34ed22d0ca388d0078f6253ce56f62496f",
+    "schema_corrected_commit": "eb35fccb25b8bcfd9d47917c47f6410ded62b50b"
+  },
+  "classification": "PARTIAL",
+  "completed": [
+    "Updated workbook with GitHub Receipt Ledger sheet",
+    "Updated workbook with Thread Write Up sheet",
+    "Committed markdown thread write-up",
+    "Committed corrected canonical schema stub",
+    "Committed this receipt"
+  ],
+  "gaps": [
+    "Binary XLSX not uploaded through discovered GitHub UTF-8 create_file action",
+    "Regulatory mappings are structured examples, not verified legal clause mappings",
+    "Schema is a v0.1 authority stub and not yet the full expanded 1050-field machine schema",
+    "No runtime generation pipeline receipt yet"
+  ],
+  "next_action": "Build generation pipeline from canonical schema to workbook/API/regulatory outputs"
+}
