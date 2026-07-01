@@ -1,7 +1,7 @@
 {
-  "sweep_at": "2026-07-01T00:05:56.652295Z",
-  "swept": 5,
-  "skipped": 0,
+  "sweep_at": "2026-07-01T05:06:01.155906Z",
+  "swept": 0,
+  "skipped": 5,
   "missed": 0,
   "autonomous": true
 }
