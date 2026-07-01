@@ -1,0 +1,205 @@
+status: PARTIAL
+owner: T4H
+system: agora_intelligence_platform
+version: 0.1.0
+objects:
+  tenant:
+    owner: platform_admin
+    purpose: Isolate customers, brands, research programs, and white-label deployments.
+    lifecycle: [draft, active, suspended, archived]
+    depends_on: [identity_provider, billing_account]
+    evidence: [tenant_created_receipt, tenant_config_receipt]
+    fields:
+      - tenant_id
+      - display_name
+      - tenant_type
+      - region
+      - data_residency
+      - white_label_profile_id
+      - created_at
+      - updated_at
+  identity:
+    owner: tenant_admin
+    purpose: Represent people, creators, moderators, analysts, students, researchers, and service accounts.
+    lifecycle: [invited, active, disabled, deleted]
+    depends_on: [tenant]
+    evidence: [auth_event, consent_receipt]
+    fields:
+      - identity_id
+      - tenant_id
+      - role_set
+      - wallet_id
+      - verified_email
+      - verified_phone
+      - display_name
+      - consent_state
+  media_asset:
+    owner: creator_or_tenant
+    purpose: Store uploaded video/audio/image/document/source material.
+    lifecycle: [uploaded, processing, indexed, published, restricted, archived]
+    depends_on: [tenant, identity, storage_object]
+    evidence: [upload_receipt, checksum_receipt, storage_receipt]
+    fields:
+      - media_id
+      - tenant_id
+      - owner_identity_id
+      - title
+      - media_type
+      - source_uri
+      - s3_uri
+      - ipfs_cid
+      - checksum_sha256
+      - duration_seconds
+      - visibility
+      - moderation_state
+  transcript:
+    owner: transcription_service
+    purpose: Canonical text extraction from media.
+    lifecycle: [queued, generated, reviewed, approved, superseded]
+    depends_on: [media_asset]
+    evidence: [transcription_receipt, model_receipt]
+    fields:
+      - transcript_id
+      - media_id
+      - language
+      - provider
+      - model
+      - confidence
+      - segments
+      - full_text
+      - created_at
+  comment_source:
+    owner: ingestion_service
+    purpose: Represent comments or external discourse associated with a media item, topic, or platform.
+    lifecycle: [imported, normalised, indexed, restricted, deleted]
+    depends_on: [tenant, media_asset]
+    evidence: [ingestion_receipt, source_receipt]
+    fields:
+      - comment_id
+      - source_platform
+      - author_handle_hash
+      - raw_text
+      - normalised_text
+      - parent_id
+      - timestamp
+  entity:
+    owner: graph_service
+    purpose: Canonical named concept, person, organisation, place, product, issue, risk, event, or claim.
+    lifecycle: [candidate, merged, canonical, deprecated]
+    depends_on: [transcript, comment_source]
+    evidence: [extraction_receipt, merge_receipt]
+    fields:
+      - entity_id
+      - tenant_id
+      - canonical_name
+      - aliases
+      - entity_type
+      - confidence
+      - source_refs
+  relationship:
+    owner: graph_service
+    purpose: Typed relation between two entities with evidence.
+    lifecycle: [candidate, verified, contradicted, deprecated]
+    depends_on: [entity]
+    evidence: [relationship_extraction_receipt]
+    fields:
+      - relationship_id
+      - source_entity_id
+      - target_entity_id
+      - relationship_type
+      - claim_text
+      - polarity
+      - confidence
+      - evidence_refs
+  community:
+    owner: graph_service
+    purpose: Cluster identities, comments, entities, or positions into interpretable discourse communities.
+    lifecycle: [detected, labelled, reviewed, active, archived]
+    depends_on: [entity, relationship, comment_source]
+    evidence: [clustering_receipt, analyst_review_receipt]
+    fields:
+      - community_id
+      - tenant_id
+      - label
+      - summary
+      - member_refs
+      - dominant_topics
+      - confidence
+  narrative:
+    owner: intelligence_service
+    purpose: Track evolving stories, frames, claims, risks, and opportunities.
+    lifecycle: [detected, tracked, escalated, resolved, archived]
+    depends_on: [entity, relationship, community]
+    evidence: [narrative_receipt, trend_receipt]
+    fields:
+      - narrative_id
+      - tenant_id
+      - title
+      - summary
+      - stance_distribution
+      - first_seen
+      - last_seen
+      - trajectory
+  debate:
+    owner: debate_engine
+    purpose: Evidence-backed multi-perspective discussion generated from graph and retrieved sources.
+    lifecycle: [requested, running, completed, reviewed, published, archived]
+    depends_on: [topic, community, knowledge_graph]
+    evidence: [debate_request_receipt, debate_output_receipt]
+    fields:
+      - debate_id
+      - tenant_id
+      - topic
+      - personas
+      - rounds
+      - citations
+      - output_summary
+      - status
+  evidence_pack:
+    owner: evidence_service
+    purpose: Exportable receipt bundle for research, compliance, legal, board, partner, or customer use.
+    lifecycle: [draft, generated, signed, exported, revoked]
+    depends_on: [media_asset, transcript, graph, debate]
+    evidence: [pack_manifest, checksum_receipt]
+    fields:
+      - evidence_pack_id
+      - tenant_id
+      - scope
+      - artefact_refs
+      - checksum_sha256
+      - generated_at
+      - export_format
+  wallet:
+    owner: wallet_service
+    purpose: Hold identity-linked credentials, claims, creator rights, receipts, and export proofs.
+    lifecycle: [created, active, suspended, revoked]
+    depends_on: [identity]
+    evidence: [wallet_created_receipt, credential_receipt]
+    fields:
+      - wallet_id
+      - identity_id
+      - wallet_type
+      - credential_refs
+      - proof_refs
+  receipt:
+    owner: receipt_service
+    purpose: Machine-verifiable evidence of action, change, runtime, or decision.
+    lifecycle: [created, validated, superseded, archived]
+    depends_on: [actor, object, event]
+    evidence: [self]
+    fields:
+      - receipt_id
+      - actor_id
+      - action
+      - object_type
+      - object_id
+      - status
+      - timestamp
+      - checksum_sha256
+      - previous_receipt_id
+rules:
+  - every_public_output_requires_source_refs
+  - every_runtime_action_requires_receipt
+  - every_graph_object_requires_owner_evidence_dependency_lifecycle
+  - every_external_claim_requires_citation_or_mark_unverified
+  - every_failure_requires_retry_rollback_reroute_or_rebuild
