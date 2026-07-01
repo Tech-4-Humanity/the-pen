@@ -1,0 +1,98 @@
+name: agora-intelligence-platform
+
+services:
+  api-gateway:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn pydantic && uvicorn main:app --host 0.0.0.0 --port 8080"
+    volumes:
+      - ../services/api-gateway:/app
+    ports:
+      - "8080:8080"
+    environment:
+      AGORA_SERVICE_NAME: api-gateway
+      AGORA_ENV: local
+      GRAPH_RAG_URL: http://graph-rag:8101
+      DEBATE_ENGINE_URL: http://debate-engine:8102
+      TRANSCRIPTION_URL: http://transcription:8103
+      EVIDENCE_URL: http://evidence:8104
+    depends_on:
+      - graph-rag
+      - debate-engine
+      - transcription
+      - evidence
+
+  graph-rag:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn pydantic networkx && uvicorn main:app --host 0.0.0.0 --port 8101"
+    volumes:
+      - ../services/graph-rag:/app
+    ports:
+      - "8101:8101"
+    environment:
+      AGORA_SERVICE_NAME: graph-rag
+      AGORA_ENV: local
+      EMBEDDING_DEVICE: cpu
+      VECTOR_STORE_PROVIDER: supabase_pgvector
+
+  debate-engine:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn pydantic && uvicorn main:app --host 0.0.0.0 --port 8102"
+    volumes:
+      - ../services/debate-engine:/app
+    ports:
+      - "8102:8102"
+    environment:
+      AGORA_SERVICE_NAME: debate-engine
+      AGORA_ENV: local
+      LLM_PROVIDER: placeholder
+      REQUIRE_CITATIONS: "true"
+
+  transcription:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn pydantic && uvicorn main:app --host 0.0.0.0 --port 8103"
+    volumes:
+      - ../services/transcription:/app
+    ports:
+      - "8103:8103"
+    environment:
+      AGORA_SERVICE_NAME: transcription
+      AGORA_ENV: local
+      TRANSCRIPTION_PROVIDER: placeholder
+
+  evidence:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn pydantic && uvicorn main:app --host 0.0.0.0 --port 8104"
+    volumes:
+      - ../services/evidence:/app
+    ports:
+      - "8104:8104"
+    environment:
+      AGORA_SERVICE_NAME: evidence
+      AGORA_ENV: local
+      RECEIPT_STATUS_DEFAULT: PARTIAL
+
+  media-service:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn pydantic && uvicorn main:app --host 0.0.0.0 --port 8105"
+    volumes:
+      - ../services/media-service:/app
+    ports:
+      - "8105:8105"
+    environment:
+      AGORA_SERVICE_NAME: media-service
+      AGORA_ENV: local
+      STORAGE_PROVIDER: local
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  agora-postgres:
