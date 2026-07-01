@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: Agora Intelligence Platform API
+  version: 0.1.0
+  description: Media, graph, debate, transcription, and evidence APIs.
+servers:
+  - url: http://localhost:8080
+    description: local gateway
+components:
+  schemas:
+    Receipt:
+      type: object
+      required: [receipt_id, status, action, object_type, object_id, timestamp]
+      properties:
+        receipt_id: { type: string }
+        status: { type: string, enum: [REAL, PARTIAL, BLOCKED, ASPIRATIONAL] }
+        action: { type: string }
+        object_type: { type: string }
+        object_id: { type: string }
+        timestamp: { type: string, format: date-time }
+        checksum_sha256: { type: string }
+        evidence_refs:
+          type: array
+          items: { type: string }
+        gaps:
+          type: array
+          items: { type: string }
+    MediaCreateRequest:
+      type: object
+      required: [tenant_id, title, media_type]
+      properties:
+        tenant_id: { type: string }
+        title: { type: string }
+        media_type: { type: string, enum: [video, audio, image, document, text] }
+        source_uri: { type: string }
+        visibility: { type: string, enum: [private, tenant, public] }
+        metadata: { type: object, additionalProperties: true }
+    MediaAsset:
+      type: object
+      properties:
+        media_id: { type: string }
+        tenant_id: { type: string }
+        title: { type: string }
+        media_type: { type: string }
+        status: { type: string }
+        s3_uri: { type: string }
+        ipfs_cid: { type: string }
+        checksum_sha256: { type: string }
+    TranscriptRequest:
+      type: object
+      required: [media_id]
+      properties:
+        media_id: { type: string }
+        provider: { type: string, default: whisper }
+        language: { type: string }
+    Transcript:
+      type: object
+      properties:
+        transcript_id: { type: string }
+        media_id: { type: string }
+        language: { type: string }
+        full_text: { type: string }
+        confidence: { type: number }
+        segments:
+          type: array
+          items:
+            type: object
+            properties:
+              start: { type: number }
+              end: { type: number }
+              text: { type: string }
+    GraphBuildRequest:
+      type: object
+      required: [tenant_id, source_refs]
+      properties:
+        tenant_id: { type: string }
+        source_refs:
+          type: array
+          items: { type: string }
+        extraction_profile: { type: string, default: default }
+    Entity:
+      type: object
+      properties:
+        entity_id: { type: string }
+        canonical_name: { type: string }
+        entity_type: { type: string }
+        confidence: { type: number }
+        source_refs:
+          type: array
+          items: { type: string }
+    Relationship:
+      type: object
+      properties:
+        relationship_id: { type: string }
+        source_entity_id: { type: string }
+        target_entity_id: { type: string }
+        relationship_type: { type: string }
+        claim_text: { type: string }
+        confidence: { type: number }
+    DebateRequest:
+      type: object
+      required: [tenant_id, topic]
+      properties:
+        tenant_id: { type: string }
+        topic: { type: string }
+        source_refs:
+          type: array
+          items: { type: string }
+        personas:
+          type: array
+          items: { type: string }
+        rounds: { type: integer, default: 3 }
+        evidence_required: { type: boolean, default: true }
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      responses:
+        '200': { description: Health response }
+  /media:
+    post:
+      operationId: createMediaAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MediaCreateRequest' }
+      responses:
+        '201': { description: Created media asset }
+  /media/{media_id}:
+    get:
+      operationId: getMediaAsset
+      parameters:
+        - name: media_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Media asset }
+  /transcripts:
+    post:
+      operationId: createTranscriptJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TranscriptRequest' }
+      responses:
+        '202': { description: Transcript job accepted }
+  /graph/build:
+    post:
+      operationId: buildGraph
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/GraphBuildRequest' }
+      responses:
+        '202': { description: Graph build accepted }
+  /debates:
+    post:
+      operationId: createDebate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DebateRequest' }
+      responses:
+        '202': { description: Debate accepted }
+  /search:
+    get:
+      operationId: searchKnowledge
+      parameters:
+        - name: tenant_id
+          in: query
+          required: true
+          schema: { type: string }
+        - name: q
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Search results }
