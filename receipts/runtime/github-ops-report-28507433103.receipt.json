@@ -1,0 +1,8 @@
+{
+  "system": "github_ops_report",
+  "workflow_run_id": "28507433103",
+  "workflow_run_url": "https://github.com/TML-4PM/the-pen/actions/runs/28507433103",
+  "status": "failure",
+  "timestamp_utc": "2026-07-01T09:25:00Z",
+  "trigger": "schedule"
+}
