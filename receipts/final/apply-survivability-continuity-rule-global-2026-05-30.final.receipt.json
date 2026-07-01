@@ -1,0 +1,16 @@
+{
+  "autonomous": true,
+  "bridge_response": "{\"ok\":false,\"error_code\":\"UNAUTHORIZED\",\"request_id\":\"51b825ef-bb8a-46ed-bbe8-b925fc41fab8\"}",
+  "bridge_status": 401,
+  "commit_sha": "3b05fefdfc9a07704851c807f445bd05781d25ea",
+  "created_at": "2026-07-01T00:05:56.652295Z",
+  "evidence_state": "PARTIAL",
+  "fn": "pen-generic-executor",
+  "hitl_required": false,
+  "idempotency_key": "apply-survivability-continuity-rule-global-2026-05-30",
+  "receipt_type": "pen_sweep_receipt",
+  "repo": "TML-4PM/the-pen",
+  "source": "pen-queue-cron sweep",
+  "state": "PARTIAL",
+  "workflow_run_id": "28484043276"
+}
