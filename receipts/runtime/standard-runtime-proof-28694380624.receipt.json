@@ -1,0 +1,9 @@
+{
+  "system": "standard_runtime_proof",
+  "workflow_run_id": "28694380624",
+  "workflow_run_url": "https://github.com/TML-4PM/the-pen/actions/runs/28694380624",
+  "status": "REAL",
+  "detail": "RUNTIME_PASS",
+  "timestamp_utc": "2026-07-04T04:05:22Z",
+  "trigger": "schedule"
+}
