@@ -1,0 +1,36 @@
+{
+  "receipt_id": "aml_ctf_v16_all_sprints_bundle_receipt",
+  "status": "REAL",
+  "created_at_utc": "2026-06-30T15:05:00Z",
+  "repo": "TML-4PM/the-pen",
+  "bundle_path": "bundles/aml_ctf_v16_all_sprints/",
+  "commits": {
+    "readme": "c89999a6d5b4fe060ac04ccf54c9c066284b5c51",
+    "manifest": "511bb584c670bffc937bc5b8dc4f0a68b0902b5e",
+    "execution_package": "fd9d0c5cbcdd7ea75ffcc35671ed3ee6afe7067b"
+  },
+  "sprints_bundled": [
+    "Generated Artefact Factory",
+    "Customer Portal Factory",
+    "Integration Layer Factory",
+    "Pilot Programme Factory",
+    "Commercial Managed Service Factory",
+    "AI Copilot Factory",
+    "Assurance Receipt Factory"
+  ],
+  "doctrine_alignment": {
+    "build_capabilities_not_files": true,
+    "bundle_execution": true,
+    "verification_required": true,
+    "receipts_required": true,
+    "executive_summary_only": true,
+    "hitl_keys_only": true
+  },
+  "classification": {
+    "github_bundle": "REAL",
+    "manifest": "REAL",
+    "execution_package": "REAL",
+    "v16_binary_github_upload": "PENDING",
+    "sprint_build_outputs": "PARTIAL"
+  }
+}
