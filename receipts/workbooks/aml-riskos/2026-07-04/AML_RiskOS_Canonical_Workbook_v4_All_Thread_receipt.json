@@ -1,0 +1,30 @@
+{
+  "status": "PARTIAL",
+  "receipt_type": "workbook_filing_receipt",
+  "created_at": "2026-07-04T00:00:00Z",
+  "repo": "TML-4PM/the-pen",
+  "artefact": {
+    "name": "AML_RiskOS_Canonical_Workbook_v4_All_Thread.xlsx",
+    "local_runtime_path": "/mnt/data/AML_RiskOS_Canonical_Workbook_v4_All_Thread.xlsx",
+    "size_bytes": 119092,
+    "sha256": "3625eee389e821840001e6a935d2d917406737f0c1106d5bb96029132573ce89",
+    "sheet_count": 91
+  },
+  "manifest": {
+    "path": "predev/workbooks/aml-riskos/2026-07-04/AML_RiskOS_Canonical_Workbook_v4_All_Thread_manifest.md",
+    "commit_sha": "b38afa769c4e5e3510d3723b751a81ad8e0f9074"
+  },
+  "classification": {
+    "local_workbook_generated": "REAL",
+    "manifest_posted_to_pen": "REAL",
+    "binary_xlsx_committed_to_github": "BLOCKED",
+    "runtime_deployment": "BLOCKED",
+    "legal_exact_clause_mapping": "PARTIAL"
+  },
+  "blockers": [
+    "Current GitHub text-file connector path cannot directly attach the XLSX binary in this flow.",
+    "Supabase/bridge runtime receipt not yet available.",
+    "Formal legal sign-off not yet available."
+  ],
+  "next_action": "Use bridge/runtime with binary file support to store the XLSX, then write binary-file receipt referencing this checksum."
+}
