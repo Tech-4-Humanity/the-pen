@@ -1,0 +1,68 @@
+{
+  "bundle_id": "aml_ctf_v16_all_sprints",
+  "status": "REAL",
+  "created_at_utc": "2026-06-30T15:00:00Z",
+  "canonical_workbook": {
+    "latest_local_artifact": "HalesRedden_AML_CTF_Framework_v16_operational_programme.xlsx",
+    "published_github_source": "payloads/aml_ctf_v3_populated_model/HalesRedden_AML_CTF_Framework_v13_populated.xlsx",
+    "s3_archive": "s3://t4h-remote-mcp-server-clean/payloads/aml_ctf_v3_populated_model/HalesRedden_AML_CTF_Framework_v13_populated.xlsx"
+  },
+  "execution_doctrine": {
+    "unit": "capability_bundle",
+    "minimum_size": "complete_package",
+    "reporting": "executive_summary_only",
+    "verification": "mandatory",
+    "receipts": "mandatory",
+    "hitl": "keys_only"
+  },
+  "sprints": [
+    {
+      "id": "SPRINT-01",
+      "name": "Generated Artefact Factory",
+      "status": "QUEUED",
+      "outputs": ["policies", "procedures", "annual_review_packs", "board_packs", "training_packs", "insurer_packs", "independent_reviewer_packs"]
+    },
+    {
+      "id": "SPRINT-02",
+      "name": "Customer Portal Factory",
+      "status": "QUEUED",
+      "outputs": ["accountant_portal", "real_estate_portal", "conveyancer_portal", "legal_portal", "evidence_vault", "customer_passport", "exception_centre"]
+    },
+    {
+      "id": "SPRINT-03",
+      "name": "Integration Layer Factory",
+      "status": "QUEUED",
+      "outputs": ["xpm_mapping", "myob_ae_mapping", "fyi_mapping", "cas360_mapping", "nowinfinity_mapping", "agentbox_mapping", "propertyme_mapping", "hubspot_mapping", "salesforce_mapping", "truevault_mapping"]
+    },
+    {
+      "id": "SPRINT-04",
+      "name": "Pilot Programme Factory",
+      "status": "QUEUED",
+      "outputs": ["25_client_cohort", "baseline_assessments", "weekly_reviews", "kpi_framework", "case_study_templates", "renewal_model"]
+    },
+    {
+      "id": "SPRINT-05",
+      "name": "Commercial Managed Service Factory",
+      "status": "QUEUED",
+      "outputs": ["service_catalogue", "sla_library", "pricing_models", "capacity_planner", "white_label_pack", "partner_onboarding"]
+    },
+    {
+      "id": "SPRINT-06",
+      "name": "AI Copilot Factory",
+      "status": "QUEUED",
+      "outputs": ["compliance_copilot", "evidence_copilot", "annual_review_copilot", "board_pack_copilot", "insurer_copilot", "reviewer_copilot"]
+    },
+    {
+      "id": "SPRINT-07",
+      "name": "Assurance Receipt Factory",
+      "status": "QUEUED",
+      "outputs": ["coverage_receipts", "artefact_receipts", "portal_receipts", "integration_receipts", "pilot_receipts", "s3_receipts", "github_receipts"]
+    }
+  ],
+  "classification": {
+    "bundle_manifest": "REAL",
+    "execution_ready": "REAL",
+    "binary_v16_github_publication": "PENDING",
+    "sprint_outputs": "PARTIAL"
+  }
+}
