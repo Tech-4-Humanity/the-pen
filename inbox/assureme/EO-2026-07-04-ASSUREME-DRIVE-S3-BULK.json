@@ -1,0 +1,98 @@
+{
+  "job_id": "EO-2026-07-04-ASSUREME-DRIVE-S3-BULK",
+  "job_type": "drive_bulk_recovery_to_s3",
+  "status": "SUBMITTED_TO_PEN",
+  "submitted_at": "2026-07-04T11:00:00Z",
+  "submitted_by": "ChatGPT GitHub connector",
+  "target_system": "AssureME / Trove / Compliance Ready",
+  "execution_mode": "bulk",
+  "hitl_required": false,
+  "source_receipts": {
+    "house_rules_pr": "https://github.com/T4H001/house-rules/pull/14",
+    "v1_markdown_receipt_commit": "4c26b939abd4e93d49fe625b5500eefef75667a3",
+    "v1_json_receipt_commit": "e208667890a091bd39a0ad3c7ff3d07d4e4c192e",
+    "v2_manifest_commit": "eac2e2e134fa153319cd773e9cfec0da6db74182",
+    "v2_json_receipt_commit": "7c2347780c6948411aa39f147d35a5fc8d00bb3e"
+  },
+  "local_artifacts_from_chat_session": [
+    "/mnt/data/AssureME_Drive_Recovery_Bulk_Index_v2.xlsx",
+    "/mnt/data/AssureME_Drive_Recovery_Bulk_Index_v2_manifest.csv",
+    "/mnt/data/AssureME_Drive_Recovery_Bulk_Index_v2_receipt.json"
+  ],
+  "drive_discovery_queries_completed": [
+    "AssureMe",
+    "Compliance Ready",
+    "TROVE",
+    "Tranche2",
+    "AML RiskOS",
+    "AI4Tradies",
+    "AssureMe Canonical",
+    "HalesRedden",
+    "AssureMe SEO",
+    "AssureMe Unit Economics",
+    "AssureMe Checklist",
+    "AssureMe FAQ",
+    "AssureMe Trust Structures"
+  ],
+  "operation": [
+    "export_drive_files_from_manifest",
+    "compute_sha256",
+    "deduplicate_by_hash_and_version",
+    "merge_canonical_candidates",
+    "sync_raw_archive_to_s3",
+    "sync_canonical_assureme_to_s3",
+    "write_s3_object_listing_receipt",
+    "write_deduplication_receipt",
+    "update_github_receipt_pr"
+  ],
+  "s3_targets": {
+    "raw_archive": "s3://t4h-remote-mcp-server-clean/canonical/raw-drive/",
+    "assureme_canonical": "s3://t4h-remote-mcp-server-clean/canonical/assureme/",
+    "trove_canonical": "s3://t4h-remote-mcp-server-clean/canonical/trove/",
+    "ai4tradies_reference": "s3://t4h-remote-mcp-server-clean/canonical/ai4tradies/",
+    "receipts": "s3://t4h-remote-mcp-server-clean/canonical/receipts/drive-recovery/"
+  },
+  "priority_canonical_candidates": [
+    {
+      "drive_id": "1dJ7kPwjiWaJEUt2bruXOR-2uBzXEtKuI",
+      "title": "AssureMe_Trove_Master_PreDev_Workbook_v1.xlsx",
+      "role": "new pre-dev master workbook candidate"
+    },
+    {
+      "drive_id": "1d2XFbTn0v7OrPmriuhtW9NZ50xe7rQ89",
+      "title": "TROVE_Combined_Master_Workbook.xlsx",
+      "role": "Trove master candidate"
+    },
+    {
+      "drive_id": "1KEI-rKLOWqIx_8tqAXyRvsaaWTRv9u8m",
+      "title": "AML_RiskOS_Workbook_v3_Cycle2.xlsx",
+      "role": "RiskOS latest cycle candidate"
+    },
+    {
+      "drive_id": "1RLxVfLhyKAN9akEFSgJQxbqjDFFe6ET5",
+      "title": "Compliance-Ready-AML-Master-updated.xlsx",
+      "role": "Compliance Ready AML master candidate"
+    },
+    {
+      "drive_id": "1OdbKp0kIjrcIBYtZ_XLANTHCgdGwJELR",
+      "title": "HalesRedden_AML_CTF_Framework_v13_populated copy.xlsx",
+      "role": "Hales Redden reference implementation candidate"
+    }
+  ],
+  "acceptance_criteria": [
+    "all manifest Drive files exported or explicitly marked inaccessible",
+    "all exported files have SHA256 hashes",
+    "duplicates are marked duplicate/superseded/reference/canonical",
+    "canonical AssureME/Trove/Compliance assets are copied to S3 target prefixes",
+    "raw originals are preserved in S3 raw archive",
+    "S3 object listing receipt is committed back to GitHub",
+    "house-rules PR #14 is updated with final S3 receipt",
+    "no file is silently discarded"
+  ],
+  "blocked_conditions": [
+    "missing AWS credentials",
+    "missing Drive export authority for a file",
+    "second Google Drive corpus not visible to current connector",
+    "binary export fails"
+  ]
+}
