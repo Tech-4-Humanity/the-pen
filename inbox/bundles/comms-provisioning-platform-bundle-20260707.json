@@ -1,0 +1,119 @@
+{
+  "bundle_id": "COMMS-PROVISIONING-PLATFORM-20260707",
+  "title": "Communications Provisioning Platform - Migadu to Mac/iOS Client Provisioning",
+  "status": "PARTIAL_COMMISSIONED",
+  "date": "2026-07-07",
+  "source_context": {
+    "trigger": "User directive: bundle and go",
+    "problem_to_fix": "Prior scope was incorrectly narrowed to five canonical mailboxes. Required scope is every mailbox in Migadu, with provider inventory, generated client configuration, validation artefacts and receipts.",
+    "primary_source": "Pasted text(225).txt conversation extract",
+    "known_evidence": [
+      "Migadu PATCH forwarding_to was validated on existing mailbox with HTTP 200 in prior run",
+      "atlas forwarding for multiple domains showed confirmed_at timestamps from 2026-06-28 to 2026-06-30 in pasted output",
+      "catchall PATCH was reported as succeeded for 11 target domains in pasted output",
+      "iPhone SMTP sender-address-not-valid issue remained unresolved and is out of scope for Mac-only generation unless device credentials are later verified"
+    ]
+  },
+  "objective": "Build a source-of-truth communications provisioning platform that discovers Migadu domains, mailboxes, aliases, forwarders and catchalls, then generates complete Mac/iOS mail configuration artefacts, inventory, validation reports and receipts.",
+  "scope": {
+    "provider_phase_1": "Migadu",
+    "clients_phase_1": ["Apple Mail macOS", "iPhone/iPad mobileconfig"],
+    "future_clients": ["Outlook", "Thunderbird", "Android", "generic IMAP/SMTP documentation"],
+    "mailbox_scope": "ALL mailboxes discoverable from Migadu API, not a hard-coded subset",
+    "domain_scope": "ALL domains discoverable from Migadu API"
+  },
+  "required_outputs": [
+    "dist/mailboxes.csv",
+    "dist/mailboxes.json",
+    "dist/domains.json",
+    "dist/aliases.json",
+    "dist/forwarders.json",
+    "dist/catchalls.json",
+    "dist/apple-mail.mobileconfig",
+    "dist/ios-mail.mobileconfig",
+    "dist/inventory.html",
+    "dist/validation-report.html",
+    "dist/receipt.json",
+    "docs/communications-provisioning-platform.md",
+    "scripts/discover-migadu-mail-estate.ts",
+    "scripts/generate-apple-mobileconfig.ts",
+    "scripts/validate-mail-estate.ts"
+  ],
+  "execution_sequence": [
+    {
+      "step": 1,
+      "name": "Discover Migadu estate",
+      "actions": [
+        "Read Migadu credentials from runtime environment only",
+        "List all domains",
+        "List mailboxes per domain",
+        "List aliases, forwarders and catchall destinations where supported",
+        "Write canonical JSON inventory"
+      ],
+      "receipt_required": true
+    },
+    {
+      "step": 2,
+      "name": "Normalize canonical communications model",
+      "actions": [
+        "Create Organisation > Domain > Mailbox > Alias > Forwarding > Catchall graph",
+        "Attach owner/status/evidence/dependency/lifecycle fields",
+        "Classify mailbox type: user, shared, forwarder, catchall-target, service, unknown"
+      ],
+      "receipt_required": true
+    },
+    {
+      "step": 3,
+      "name": "Generate client configuration",
+      "actions": [
+        "Generate macOS Apple Mail .mobileconfig",
+        "Generate iOS/iPadOS .mobileconfig",
+        "Use full email address as username",
+        "Use SSL/TLS IMAP and SMTP settings",
+        "Avoid embedding plaintext passwords unless explicitly supplied through secure local runtime"
+      ],
+      "receipt_required": true
+    },
+    {
+      "step": 4,
+      "name": "Generate audit artefacts",
+      "actions": [
+        "Generate CSV and JSON inventory",
+        "Generate HTML inventory",
+        "Generate validation report",
+        "Generate receipt.json with counts, timestamps, source API status and warnings"
+      ],
+      "receipt_required": true
+    },
+    {
+      "step": 5,
+      "name": "Validate",
+      "actions": [
+        "Check every discovered domain has DNS/mail policy status recorded",
+        "Check every mailbox has IMAP/SMTP/account status where available",
+        "Check aliases point to real destinations where discoverable",
+        "Check catchall targets exist",
+        "Check forwarding destinations and confirmation status where available",
+        "Flag missing, stale or unverified items rather than assuming success"
+      ],
+      "receipt_required": true
+    }
+  ],
+  "non_goals": [
+    "Do not manually hard-code five canonical accounts as the final scope",
+    "Do not claim Mac installation is complete until the profile is generated and installed with observable local receipt",
+    "Do not store Migadu API token in repository",
+    "Do not require HITL except for credentials, destructive changes, or device-local installation confirmation"
+  ],
+  "acceptance_criteria": [
+    "Every Migadu domain appears in domains.json",
+    "Every Migadu mailbox appears in mailboxes.json and mailboxes.csv",
+    "Every generated profile account maps back to a discovered mailbox record",
+    "Validation report includes counts and explicit gaps",
+    "Receipt includes generated artefact paths, counts, timestamp and execution environment",
+    "No success is marked REAL without commit/runtime/local installation receipt"
+  ],
+  "current_classification": "PARTIAL",
+  "current_gap": "GitHub commission is receipted by commit. Runtime execution and Mac installation still require endpoint worker execution with Migadu credentials available outside chat.",
+  "next_action": "Worker or Mac endpoint should pull this bundle, run discovery/generation scripts, and return dist/receipt.json plus validation-report.html."
+}
