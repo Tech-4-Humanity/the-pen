@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.local/schemas/canonical-communications-inventory.schema.json",
+  "title": "Canonical Communications Inventory",
+  "type": "object",
+  "required": ["generated_at", "provider", "domains", "mailboxes", "validation"],
+  "properties": {
+    "generated_at": { "type": "string", "format": "date-time" },
+    "provider": { "type": "string", "enum": ["migadu"] },
+    "organisation": { "type": "string" },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["domain", "source", "status"],
+        "properties": {
+          "domain": { "type": "string" },
+          "source": { "type": "string" },
+          "status": { "type": "string" },
+          "catchall_destinations": { "type": "array", "items": { "type": "string" } },
+          "evidence": { "type": "object" },
+          "warnings": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "mailboxes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["address", "domain", "local_part", "source", "status"],
+        "properties": {
+          "address": { "type": "string" },
+          "domain": { "type": "string" },
+          "local_part": { "type": "string" },
+          "display_name": { "type": "string" },
+          "mailbox_type": { "type": "string", "enum": ["user", "shared", "forwarder", "catchall-target", "service", "unknown"] },
+          "source": { "type": "string" },
+          "status": { "type": "string" },
+          "may_access_imap": { "type": "boolean" },
+          "may_access_pop3": { "type": "boolean" },
+          "may_send": { "type": "boolean" },
+          "forwarding_to": { "type": "array", "items": { "type": "string" } },
+          "forwarding_confirmed_at": { "type": ["string", "null"] },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "quota": { "type": ["integer", "null"] },
+          "owner": { "type": ["string", "null"] },
+          "lifecycle": { "type": "string" },
+          "evidence": { "type": "object" },
+          "warnings": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "aliases": { "type": "array", "items": { "type": "object" } },
+    "forwarders": { "type": "array", "items": { "type": "object" } },
+    "validation": {
+      "type": "object",
+      "required": ["status", "warnings", "errors"],
+      "properties": {
+        "status": { "type": "string", "enum": ["REAL", "PARTIAL", "BLOCKED"] },
+        "warnings": { "type": "array", "items": { "type": "string" } },
+        "errors": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
