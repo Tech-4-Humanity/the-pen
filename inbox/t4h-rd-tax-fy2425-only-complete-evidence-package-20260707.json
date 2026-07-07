@@ -1,0 +1,149 @@
+{
+  "fn": "enqueue_job",
+  "action": "tax.rd_fy2425_complete_package_from_drive_supabase",
+  "idempotency_key": "t4h-rd-tax-fy2425-only-complete-evidence-package-20260707",
+  "priority": 1,
+  "payload": {
+    "entity": "Tech 4 Humanity Pty Ltd",
+    "jurisdiction": "AU",
+    "scope": {
+      "income_year": "FY2024-25",
+      "start_date": "2024-07-01",
+      "end_date": "2025-06-30",
+      "exclude_years": ["FY2022-23", "FY2023-24", "FY2025-26"],
+      "require_complete_package": true
+    },
+    "known_canonical_amounts": {
+      "eligible_rd_expenditure": 2136791,
+      "refundable_offset_rate": 0.435,
+      "estimated_refundable_offset": 929504,
+      "bank_rd_amount": 544541,
+      "bank_rd_transaction_count": 527,
+      "maat_total_transactions_processed": 6038,
+      "timesheet_entries": 299,
+      "timesheet_hours": 3184.52,
+      "invoice_count": 40,
+      "invoice_hourly_rate": 500
+    },
+    "drive_sources": [
+      {
+        "file_id": "1eYpBA1_y0S2k41L4Qi9kkljmceekkaV9",
+        "title": "T4H_RDTI_AusIndustry_LodgementPack_FINAL_20260320.docx",
+        "role": "primary_fy2425_lodgement_pack"
+      },
+      {
+        "file_id": "1p43ZvskxKBkH7yBv5nSo15pSOGyiEI7g",
+        "title": "T4H_RDTI_AusIndustry_LodgementPack_FINAL_20260320 (2).docx",
+        "role": "duplicate_or_variant_lodgement_pack"
+      },
+      {
+        "file_id": "1qmlJyPHS7dbmWFRgb36potS0ef4Bw57q",
+        "title": "T4H_CoverLetter_Gordon_RDTI_Pack_20260320.docx",
+        "role": "accountant_cover_letter_and_canonical_figure_note"
+      },
+      {
+        "file_id": "1DoqF0igzqVMueDSjpW-ACOvcTWJ2xFkq",
+        "title": "T4H_CoverLetter_Gordon_RDTI_Pack_20260320 (1).docx",
+        "role": "duplicate_or_variant_cover_letter"
+      },
+      {
+        "file_id": "1C6rYt0XFSut9RZUmdy8m-FfA8NkpX7kV",
+        "title": "Copy of T4H-RDTI-CRP-FY2425 — Contemporaneous Records Pack [CANONICAL].pdf",
+        "role": "contemporaneous_records_pack"
+      },
+      {
+        "file_id": "1UD2auSe-QSvY3A_SMlHiVLmIxYFrj_it",
+        "title": "Copy of T4H_RD_Contemporaneous_Records_Pack_FY2425.docx",
+        "role": "editable_contemporaneous_records_pack"
+      },
+      {
+        "file_id": "1VZfyTX2QNMCLVOkoUBBFZujy3YXOLIm9",
+        "title": "T4H_RDTI_Response_to_SoI_2425-AP00-063-843_SEED.docx.pdf",
+        "role": "statement_of_issues_response_pdf"
+      },
+      {
+        "file_id": "1inToa8dJcrRuheiLEXLZGyGFTSBl3M3U",
+        "title": "T4H_RDTI_Response_to_SoI_2425-AP00-063-843_SEED.docx",
+        "role": "statement_of_issues_response_editable"
+      },
+      {
+        "file_id": "16Ckt9luwEy_h7iMau6lM34ryug1azVl-",
+        "title": "T4H_CRP_FY2425 (2).docx",
+        "role": "claim_research_pack_fy2425_fy2526"
+      },
+      {
+        "file_id": "1_3qpfhcRPhglT4IORgJBot4g48dmnXK-",
+        "title": "T4H_Accountant_Pack_March2026.docx",
+        "role": "accountant_financial_pack_context"
+      },
+      {
+        "file_id": "19IAwtVd7P_r2IqH1iEataPnXjU98L4WC",
+        "title": "R&D tax incentive schedule 2025 instructions",
+        "role": "ato_schedule_guidance"
+      },
+      {
+        "file_id": "1Ru2qKuI5rIWWL-V7WXK1g49XANkq4fmb",
+        "title": "Software activities and the RDTI PDF.pdf",
+        "role": "software_rdti_guidance"
+      },
+      {
+        "file_id": "1plRc-GB2-8pv77uJHx-zbTjQm0J02Pus",
+        "title": "RDTI Registration application form questions PDF.pdf",
+        "role": "registration_form_guidance"
+      },
+      {
+        "file_id": "1oA_fD3Nco71X3cAidKeSU-Ztp0WDV0NC",
+        "title": "POL-RD-001 — Tech 4 Humanity R&D Policy v1.0 [CANONICAL].pdf",
+        "role": "internal_rd_policy"
+      }
+    ],
+    "supabase_sources": {
+      "project_ref": "lzfgigiyqpuuxslsygjt",
+      "tables_or_views": [
+        "rd_evidence_matrix",
+        "v_rdti_by_fy",
+        "maat_timesheets",
+        "maat_invoice_register",
+        "rdti_narrative_register",
+        "maat_transactions",
+        "maat_bas_periods",
+        "maat_report_registry"
+      ]
+    },
+    "required_package_outputs": [
+      "FY2425 executive summary",
+      "FY2425 eligible expenditure schedule",
+      "FY2425 RDTI refundable offset calculation",
+      "FY2425 activity register R01-R10",
+      "FY2425 registered programme mapping",
+      "FY2425 contemporaneous evidence index",
+      "FY2425 MAAT source table reconciliation",
+      "FY2425 Drive file evidence register",
+      "FY2425 accountant handover brief",
+      "FY2425 AusIndustry portal text extraction",
+      "FY2425 ATO R&D schedule working paper",
+      "FY2425 gap register and unresolved risks",
+      "FY2425 lodgement status verification",
+      "runtime receipt under receipts/runtime/"
+    ],
+    "classification_rules": {
+      "REAL": "source-backed by Drive file + Supabase row/view + receipt/audit evidence",
+      "PARTIAL": "Drive source found but runtime/Supabase reconciliation pending",
+      "BLOCKED": "missing credential, missing file permission, missing table, or legal/tax lodgement action required"
+    },
+    "constraints": [
+      "Do not lodge tax returns or AusIndustry submissions",
+      "Do not claim final lodgement status unless official receipt/acknowledgement found",
+      "Do not modify source Drive files",
+      "Do not perform destructive Supabase schema changes",
+      "FY24-25 only for this package"
+    ]
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "source": "llm",
+    "ts": "2026-07-07T19:45:00+10:00",
+    "evidence_state_on_submit": "PARTIAL",
+    "reason": "FY24-25-only package requested; Google Drive evidence found; runtime extraction pending."
+  }
+}
