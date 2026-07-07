@@ -1,0 +1,39 @@
+{
+  "receipt_id": "si-shortcut-20260707T094500Z",
+  "status": "PARTIAL",
+  "created_at": "2026-07-07T09:45:00Z",
+  "actor": "chatgpt-github-connector",
+  "intent": "Create a durable graph fallback record for /si self-improvement shortcut.",
+  "executed_actions": [
+    {
+      "action": "memory_update",
+      "status": "REAL",
+      "evidence": "ChatGPT memory accepted /si instruction."
+    },
+    {
+      "action": "github_issue_create",
+      "status": "REAL",
+      "evidence": "https://github.com/TML-4PM/the-pen/issues/220"
+    },
+    {
+      "action": "graph_node_file_create",
+      "status": "REAL",
+      "evidence": "graph/nodes/command-si.json"
+    },
+    {
+      "action": "graph_edge_file_create",
+      "status": "REAL",
+      "evidence": "graph/edges/command-si.json"
+    }
+  ],
+  "classification": {
+    "graph_as_file": "REAL",
+    "live_graph_backend": "NOT_OBSERVED",
+    "overall": "PARTIAL"
+  },
+  "gaps": [
+    "No live graph API or database connector was available in the chat.",
+    "Live graph ingestion from GitHub has not been verified."
+  ],
+  "next_action": "Wire live graph ingestion to read graph/nodes/*.json and graph/edges/*.json, then emit a REAL ingestion receipt."
+}
