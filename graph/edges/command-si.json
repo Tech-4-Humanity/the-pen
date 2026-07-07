@@ -1,0 +1,31 @@
+{
+  "source": "command:/si",
+  "edges": [
+    {
+      "predicate": "IMPLEMENTS",
+      "target": "policy:safe-self-improvement-no-unnecessary-hitl"
+    },
+    {
+      "predicate": "CREATES_OR_UPDATES",
+      "target": "memory:chatgpt:/si"
+    },
+    {
+      "predicate": "TRACKED_BY",
+      "target": "github:TML-4PM/the-pen/issues/220"
+    },
+    {
+      "predicate": "REQUIRES",
+      "target": "receipt:runtime:/si-shortcut"
+    },
+    {
+      "predicate": "PART_OF",
+      "target": "system:operating-graph"
+    }
+  ],
+  "status": "PARTIAL",
+  "created_at": "2026-07-07T09:45:00Z",
+  "evidence": {
+    "node_file": "graph/nodes/command-si.json",
+    "issue": "https://github.com/TML-4PM/the-pen/issues/220"
+  }
+}
