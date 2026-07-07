@@ -1,0 +1,36 @@
+{
+  "id": "command:/si",
+  "type": "command",
+  "name": "Self Improvement Shortcut",
+  "status": "PARTIAL",
+  "owner": "runtime-governance",
+  "created_at": "2026-07-07T09:45:00Z",
+  "updated_at": "2026-07-07T09:45:00Z",
+  "purpose": "Route /si into safe self-improvement intake without unnecessary approval prompts.",
+  "hitl_policy": {
+    "default": "not_required_for_safe_non_destructive_self_improvement",
+    "required_for": [
+      "destructive_actions",
+      "legal_actions",
+      "credential_or_key_actions",
+      "authority_sensitive_actions",
+      "externally_binding_actions"
+    ]
+  },
+  "evidence": [
+    {
+      "type": "github_issue",
+      "ref": "TML-4PM/the-pen#220",
+      "url": "https://github.com/TML-4PM/the-pen/issues/220"
+    },
+    {
+      "type": "memory_note",
+      "ref": "chatgpt-memory:/si"
+    }
+  ],
+  "lifecycle": {
+    "state": "PARTIAL",
+    "reason": "Graph-as-file committed; live graph API ingestion not yet verified.",
+    "next_state": "REAL after live graph ingestion and runtime receipt verification"
+  }
+}
