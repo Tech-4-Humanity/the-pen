@@ -39,6 +39,7 @@
   "reason": "Requirements and upstream quality-gate definitions exist, but T4H-owned execution, verification, receipts, ledger, telemetry and fork/wrapper evidence were not observed.",
   "evidence": {
     "validation_report": "work_queue/migadu_managed_mcp/validation_2026-07-13.md",
-    "validation_commit": "1d80502f929ce585dd5d4f25ca1df338d07571fd"
+    "validation_report_commit": "1d80502f929ce585dd5d4f25ca1df338d07571fd",
+    "initial_receipt_commit": "eeaac4385a8d5281147428a68edffcd9c1e574a2"
   }
 }
