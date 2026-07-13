@@ -1,0 +1,146 @@
+{
+  "fn": "enqueue_job",
+  "action": "supabase.transfer_verify_in_loops",
+  "idempotency_key": "maat-supabase-free-org-transfer-loop-controller-20260713",
+  "priority": 1,
+  "payload": {
+    "project_ref": "lzfgigiyqpuuxslsygjt",
+    "parent_issues": [224, 226, 227],
+    "mode": "non_destructive_until_owner_transfer",
+    "loops": [
+      {
+        "loop": 1,
+        "name": "transfer_state",
+        "checks": [
+          "source organisation identified",
+          "target Free organisation identified",
+          "project transfer completed or exact blocker captured",
+          "project_ref unchanged",
+          "billing plan confirmed Free"
+        ],
+        "receipt": "receipts/runtime/maat_transfer_loop_01_transfer_state.json",
+        "advance_when": "all checks pass",
+        "on_block": "emit failure receipt with exact owner/billing action; do not close"
+      },
+      {
+        "loop": 2,
+        "name": "database_integrity",
+        "checks": [
+          "database reachable",
+          "schemas inventoried",
+          "tables inventoried",
+          "views inventoried",
+          "extensions inventoried",
+          "row counts captured",
+          "critical MAAT objects present"
+        ],
+        "critical_objects": [
+          "v_rdti_by_fy",
+          "rd_evidence_matrix",
+          "maat_timesheets",
+          "maat_invoice_register",
+          "maat_transactions",
+          "maat_bas_periods",
+          "rdti_narrative_register",
+          "maat_report_registry"
+        ],
+        "receipt": "receipts/runtime/maat_transfer_loop_02_database_integrity.json",
+        "advance_when": "all critical objects verified or gap register emitted"
+      },
+      {
+        "loop": 3,
+        "name": "platform_services",
+        "checks": [
+          "Auth users and providers inventoried",
+          "Storage buckets and object counts inventoried",
+          "Edge Functions inventoried",
+          "cron jobs inventoried",
+          "webhooks inventoried",
+          "RLS policies inventoried",
+          "secrets referenced but not exposed"
+        ],
+        "receipt": "receipts/runtime/maat_transfer_loop_03_platform_services.json",
+        "advance_when": "service inventory complete and no destructive drift"
+      },
+      {
+        "loop": 4,
+        "name": "fy2425_reconciliation",
+        "checks": [
+          "eligible R&D total reproduced",
+          "offset calculation reproduced",
+          "bank/cloud R&D reproduced",
+          "transaction count reproduced",
+          "timesheet entry count reproduced",
+          "timesheet hours reproduced",
+          "invoice count reproduced",
+          "variances explained"
+        ],
+        "expected_baselines": {
+          "eligible_rd": 2136791,
+          "offset_43_5_percent": 929504,
+          "bank_cloud_rd": 544541,
+          "maat_transactions": 6038,
+          "rd_transactions": 527,
+          "timesheet_entries": 299,
+          "timesheet_hours": 3184.52,
+          "invoice_count": 40
+        },
+        "receipt": "receipts/runtime/maat_transfer_loop_04_fy2425_reconciliation.json",
+        "advance_when": "all figures reproduced or accountant-review variance register emitted"
+      },
+      {
+        "loop": 5,
+        "name": "external_backup",
+        "checks": [
+          "schema dump created",
+          "full logical backup created",
+          "CSV exports created for critical objects",
+          "Storage export completed or manifest created",
+          "SHA256 checksums generated",
+          "copies written to approved external evidence stores"
+        ],
+        "receipt": "receipts/runtime/maat_transfer_loop_05_external_backup.json",
+        "advance_when": "backups and checksums verified"
+      },
+      {
+        "loop": 6,
+        "name": "final_qa_and_close",
+        "checks": [
+          "loops 1-5 receipts exist",
+          "no unexplained critical variance",
+          "no credentials committed",
+          "rollback path documented",
+          "issue 219 status updated",
+          "issues 224 226 227 closed only after verification"
+        ],
+        "receipt": "receipts/runtime/maat_transfer_loop_06_final.json",
+        "advance_when": "REAL completion criteria satisfied"
+      }
+    ],
+    "outputs": [
+      "reports/maat_transfer/project_state.json",
+      "reports/maat_transfer/schema_inventory.csv",
+      "reports/maat_transfer/table_row_counts.csv",
+      "reports/maat_transfer/view_inventory.csv",
+      "reports/maat_transfer/auth_inventory.csv",
+      "reports/maat_transfer/storage_inventory.csv",
+      "reports/maat_transfer/functions_inventory.csv",
+      "reports/maat_transfer/fy2425_reconciliation.csv",
+      "reports/maat_transfer/variance_register.csv",
+      "reports/maat_transfer/backup_manifest.csv",
+      "reports/maat_transfer/final_qa.md"
+    ],
+    "controls": [
+      "no secret values in GitHub",
+      "no deletion of source project",
+      "no issue closure based on planning artefacts",
+      "owner/billing blockers produce failure receipts",
+      "REAL requires live Supabase verification"
+    ]
+  },
+  "meta": {
+    "actor": "chatgpt",
+    "created_at": "2026-07-13T15:10:00+10:00",
+    "state": "PARTIAL"
+  }
+}
