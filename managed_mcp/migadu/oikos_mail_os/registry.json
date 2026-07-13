@@ -1,0 +1,80 @@
+{
+  "version": "1.0.0",
+  "table_of_tables": [
+    "mailbox_types",
+    "mailbox_profiles",
+    "folder_templates",
+    "signature_templates",
+    "autoresponse_templates",
+    "mail_rules",
+    "workflow_templates",
+    "test_cases",
+    "runtime_receipts",
+    "runtime_failures"
+  ],
+  "mailbox_types": {
+    "human": {"owner_required": true, "send_allowed": true, "human_review": true},
+    "executive": {"owner_required": true, "send_allowed": true, "human_review": true},
+    "shared": {"owner_required": true, "send_allowed": true, "human_review": true},
+    "machine": {"owner_required": true, "send_allowed": false, "human_review": false},
+    "catchall": {"owner_required": true, "send_allowed": false, "human_review": false},
+    "notification": {"owner_required": true, "send_allowed": false, "human_review": false},
+    "no_reply": {"owner_required": true, "send_allowed": true, "human_review": false},
+    "alias": {"owner_required": true, "send_allowed": false, "human_review": false},
+    "identity": {"owner_required": true, "send_allowed": true, "human_review": false},
+    "forwarder": {"owner_required": true, "send_allowed": false, "human_review": false}
+  },
+  "folder_templates": {
+    "human": ["00-Today", "01-Action", "02-Waiting", "03-Delegated", "04-AI-Review", "05-Archive", "People", "Customers", "Projects", "Finance", "Legal", "Compliance", "Reference"],
+    "executive": ["00-Priority", "01-Action", "02-Waiting", "03-Delegated", "Board", "Leadership", "Strategy", "Government", "Investors", "Media", "Operations", "Travel", "Archive"],
+    "shared": ["00-New", "01-Assigned", "02-Waiting", "03-Escalated", "04-Resolved", "05-Archive", "Customers", "Vendors", "Projects", "Receipts"],
+    "machine": ["00-Queue", "01-Processing", "02-Waiting", "03-Needs-Human", "04-Completed", "05-Failed", "06-Retry", "07-Quarantine", "Receipts", "Telemetry", "Archive"],
+    "catchall": ["00-Unknown", "01-Alias-Match", "02-Forwarded", "03-Spam-Review", "04-Recovered", "05-Rejected", "06-Quarantine", "Receipts", "Archive"],
+    "notification": ["00-New", "01-Investigating", "02-Retrying", "03-Recovered", "04-Closed", "05-Quarantine", "Systems/GitHub/Actions/Failed", "Systems/GitHub/Actions/Recovered", "Systems/AWS", "Systems/Vercel", "Systems/Supabase", "Receipts", "Archive"],
+    "no_reply": ["Bounces", "Abuse", "DMARC", "TLS", "Postmaster", "Receipts", "Archive"]
+  },
+  "mailbox_profiles": [
+    {"id": "profile-human", "type": "human", "folder_template": "human", "signature": "business", "autoresponse": null},
+    {"id": "profile-executive", "type": "executive", "folder_template": "executive", "signature": "executive", "autoresponse": "executive_ack"},
+    {"id": "profile-shared-support", "type": "shared", "folder_template": "shared", "signature": "support", "autoresponse": "support_ack"},
+    {"id": "profile-machine", "type": "machine", "folder_template": "machine", "signature": "agent", "autoresponse": null},
+    {"id": "profile-catchall", "type": "catchall", "folder_template": "catchall", "signature": null, "autoresponse": null},
+    {"id": "profile-notification", "type": "notification", "folder_template": "notification", "signature": "notification", "autoresponse": null},
+    {"id": "profile-no-reply", "type": "no_reply", "folder_template": "no_reply", "signature": "no_reply", "autoresponse": null}
+  ],
+  "signature_templates": {
+    "business": {"plain": "{{name}}\n{{role}} | {{brand}}\n{{email}} | {{phone}}\n{{website}}\n{{tagline}}", "html": "<strong>{{name}}</strong><br>{{role}} | {{brand}}<br><a href=\"mailto:{{email}}\">{{email}}</a> | {{phone}}<br><a href=\"{{website}}\">{{website}}</a><br>{{tagline}}"},
+    "executive": {"plain": "{{name}}\n{{title}}\n{{brand}}\n{{email}} | {{phone}}\nBook: {{booking_url}}", "html": "<strong>{{name}}</strong><br>{{title}}<br>{{brand}}<br><a href=\"mailto:{{email}}\">{{email}}</a> | {{phone}}<br><a href=\"{{booking_url}}\">Book a meeting</a>"},
+    "support": {"plain": "{{brand}} Support\n{{email}}\nReference: {{case_id}}", "html": "<strong>{{brand}} Support</strong><br><a href=\"mailto:{{email}}\">{{email}}</a><br>Reference: {{case_id}}"},
+    "agent": {"plain": "{{agent_name}} | Automated service endpoint\nOwner: {{owner}}\nReceipt: {{receipt_id}}", "html": "<strong>{{agent_name}}</strong> | Automated service endpoint<br>Owner: {{owner}}<br>Receipt: {{receipt_id}}"},
+    "notification": {"plain": "Automated notification from {{system}}\nRun: {{run_id}}\nStatus: {{status}}", "html": "Automated notification from <strong>{{system}}</strong><br>Run: {{run_id}}<br>Status: {{status}}"},
+    "no_reply": {"plain": "This address is not monitored. Contact {{support_email}}.", "html": "This address is not monitored. Contact <a href=\"mailto:{{support_email}}\">{{support_email}}</a>."}
+  },
+  "autoresponse_templates": {
+    "support_ack": {"subject": "We received your request — {{brand}}", "plain": "Your request has been received. Reference: {{case_id}}. Target response: {{sla}}.", "business_hours_only": false, "loop_guard": true},
+    "executive_ack": {"subject": "Message received", "plain": "Your message has been received and prioritised. A response will follow where required.", "business_hours_only": false, "loop_guard": true},
+    "finance_ack": {"subject": "Finance document received — {{reference}}", "plain": "The document has been received and entered into the finance workflow.", "business_hours_only": false, "loop_guard": true},
+    "out_of_office": {"subject": "Out of office — {{name}}", "plain": "I am unavailable until {{return_date}}. For urgent matters contact {{delegate_email}}.", "business_hours_only": false, "loop_guard": true}
+  },
+  "mail_rules": [
+    {"id": "github-action-failed", "match": {"from_contains": "github", "subject_contains": "run failed"}, "folder": "Systems/GitHub/Actions/Failed", "workflow": "investigate_github_failure", "close_condition": "workflow_success_or_quarantine"},
+    {"id": "github-pr-run-failed", "match": {"from_contains": "github", "subject_contains": "PR run failed"}, "folder": "Systems/GitHub/Actions/Failed", "workflow": "investigate_github_failure", "close_condition": "workflow_success_or_quarantine"},
+    {"id": "invoice", "match": {"subject_any": ["invoice", "tax invoice", "receipt"]}, "folder": "Finance", "workflow": "extract_and_reconcile_invoice", "close_condition": "ledger_recorded"},
+    {"id": "security-alert", "match": {"subject_any": ["security alert", "vulnerability", "dependabot"]}, "folder": "Systems/GitHub/Security", "workflow": "security_triage", "close_condition": "resolved_or_quarantine"}
+  ],
+  "workflow_templates": {
+    "investigate_github_failure": ["extract_repository", "extract_workflow", "fetch_run", "fetch_logs", "classify_failure", "attempt_retry", "patch_if_safe", "verify_result", "create_or_update_issue", "emit_receipt", "move_to_completed_or_quarantine"],
+    "extract_and_reconcile_invoice": ["extract_fields", "match_supplier", "detect_duplicate", "create_ledger_record", "request_approval_if_required", "emit_receipt"],
+    "security_triage": ["identify_asset", "assess_severity", "open_or_update_issue", "apply_safe_fix", "rescan", "emit_receipt"]
+  },
+  "test_cases": [
+    {"id": "folders-human", "type": "folder_conformance", "profile": "profile-human"},
+    {"id": "folders-machine", "type": "folder_conformance", "profile": "profile-machine"},
+    {"id": "folders-catchall", "type": "folder_conformance", "profile": "profile-catchall"},
+    {"id": "signature-business", "type": "template_render", "template": "business"},
+    {"id": "autoresponse-loop-guard", "type": "policy", "template": "support_ack"},
+    {"id": "github-failure-lifecycle", "type": "workflow", "workflow": "investigate_github_failure"},
+    {"id": "idempotent-rerun", "type": "idempotency", "scope": "all_profiles"},
+    {"id": "rollback-disposable", "type": "recovery", "scope": "sandbox_only"}
+  ]
+}
