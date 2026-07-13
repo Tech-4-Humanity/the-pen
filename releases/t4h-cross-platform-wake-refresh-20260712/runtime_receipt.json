@@ -1,0 +1,53 @@
+{
+  "receipt_id": "t4h-cross-platform-wake-refresh-20260712-close-20260713",
+  "job_id": "t4h-cross-platform-wake-refresh-20260712",
+  "issued_at_utc": "2026-07-13T02:40:00Z",
+  "repository": "TML-4PM/the-pen",
+  "tracking_issue": 221,
+  "classification": "REAL_EVIDENCE_PACKAGE",
+  "execution": {
+    "commission_payload": {
+      "status": "REAL",
+      "path": "inbox/t4h-cross-platform-wake-refresh-20260712.json",
+      "commit": "8727e52f7ea904ed14f0f9f17b11ed766b72e404"
+    },
+    "github_release_package": {
+      "status": "REAL",
+      "path": "releases/t4h-cross-platform-wake-refresh-20260712/"
+    },
+    "vercel_inventory_query": {
+      "status": "REAL_QUERY_ZERO_RESULT",
+      "team_id": "team_IKIr2Kcs38KGo8Zs60yNtm7Y",
+      "team_slug": "troy-g-wares",
+      "visible_project_count": 0,
+      "note": "This conflicts with the prior exported 159-project estate and is quarantined for access/inventory reconciliation."
+    },
+    "lovable_inventory": {
+      "status": "PARTIAL",
+      "workspace_id": "ctPgwUnU8Vti8yGKgc8K",
+      "note": "Request issued; a complete paginated result was not captured in this closure."
+    },
+    "google_drive_inventory": {
+      "status": "PARTIAL",
+      "note": "Source references are preserved in the commission payload; file-level verification is queued."
+    },
+    "apple_customer_package": {
+      "status": "REAL",
+      "type": "customer-readable release and evidence package"
+    },
+    "apple_binary_compile": {
+      "status": "NOT_EXECUTED",
+      "reason": "No designated Xcode project, Swift package, bundle identifier, signing profile, or Apple target was identified."
+    },
+    "app_store_submission": {
+      "status": "NOT_EXECUTED"
+    }
+  },
+  "controls": {
+    "destructive_actions": 0,
+    "credentials_written": 0,
+    "unsupported_real_claims": 0,
+    "unresolved_items_quarantined": true
+  },
+  "overall_status": "REAL_WITH_QUARANTINED_FOLLOW_ON_WORK"
+}
