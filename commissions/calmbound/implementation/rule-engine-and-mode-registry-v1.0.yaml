@@ -1,0 +1,152 @@
+schema_version: 1.0.0
+status: CANONICAL_IMPLEMENTATION_ARTIFACT
+rule_engine:
+  rule_fields:
+    - rule_id
+    - version
+    - scope
+    - actor_selector
+    - subject_selector
+    - conditions
+    - actions
+    - priority
+    - effective_at
+    - expires_at
+    - override_policy
+    - evidence_requirement
+    - recovery_action
+    - status
+  condition_operators:
+    - equals
+    - not_equals
+    - in
+    - not_in
+    - less_than
+    - greater_than
+    - exists
+    - time_between
+    - day_in
+    - role_has
+    - permission_has
+    - mode_is
+    - network_is
+  actions:
+    - display_agreement
+    - activate_mode
+    - pause_mode
+    - complete_mode
+    - request_network_policy
+    - request_device_policy
+    - send_notification
+    - create_permission
+    - revoke_permission
+    - create_evidence
+    - quarantine_action
+  priority_order:
+    - safety_policy
+    - lawful_authority
+    - consent_restriction
+    - emergency_override
+    - household_agreement
+    - mode_rule
+    - user_preference
+    - recommendation
+  invariants:
+    - lower_priority_cannot_override_higher_priority
+    - requested_external_action_requires_result_event
+    - unknown_result_is_not_success
+    - every_override_is_scoped_and_time_bound
+    - every_failure_has_retry_rollback_reroute_or_quarantine
+modes:
+  - id: CB-MODE-KIDS-VISIT
+    name: Kids Visit Mode
+    phase: 1
+    purpose: Apply a visible household boundary to child visitors on the guest network.
+    triggers: [manual_activation, guest_network_connection]
+    actors: [authorised_adult, child_visitor]
+    child_explanation: This house has a guest Wi-Fi rule. It ends when your visit or access ends.
+    rules:
+      - id: CB-RULE-KVM-001
+        priority: household_agreement
+        when:
+          all:
+            - field: actor.role
+              operator: equals
+              value: child_visitor
+            - field: actor.age_band
+              operator: in
+              value: [young_child, primary, early_teen]
+            - field: network.type
+              operator: equals
+              value: guest
+            - field: mode.id
+              operator: equals
+              value: CB-MODE-KIDS-VISIT
+        then:
+          - action: display_agreement
+          - action: request_network_policy
+          - action: create_evidence
+    recovery: [show_degraded_mode, retry_network_policy, emit_failure_event]
+  - id: CB-MODE-QUIET-HOURS
+    name: Quiet Hours
+    phase: 1
+    purpose: Apply a scheduled low-distraction household period.
+    triggers: [schedule, manual_activation]
+    actors: [authorised_adult, teen, child]
+    child_explanation: Quiet Hours is active until the shown end time. You can ask for more time and give a reason.
+    rules:
+      - id: CB-RULE-QH-001
+        priority: mode_rule
+        when:
+          all:
+            - field: mode.id
+              operator: equals
+              value: CB-MODE-QUIET-HOURS
+            - field: schedule.active
+              operator: equals
+              value: true
+        then:
+          - action: request_device_policy
+          - action: send_notification
+          - action: create_evidence
+    recovery: [mark_partial, show_unenforced_devices, retry_device_policy]
+  - id: CB-MODE-HOMEWORK
+    name: Homework Mode
+    phase: 2
+    purpose: Reduce distractions for a defined study period.
+    triggers: [manual_activation, calendar_event, schedule]
+    actors: [authorised_adult, teen, child]
+    child_explanation: Homework Mode is active for the shown task or time. Allowed study tools remain available.
+    recovery: [mark_partial, preserve_allowed_categories, visible_failure]
+  - id: CB-MODE-DINNER
+    name: Dinner Mode
+    phase: 2
+    purpose: Support shared meal time with agreed device boundaries.
+    triggers: [manual_activation, schedule]
+    actors: [household_member]
+    child_explanation: Dinner Mode applies to everyone included in the household agreement.
+    recovery: [notification_only_fallback]
+  - id: CB-MODE-BEDTIME
+    name: Bedtime Mode
+    phase: 2
+    purpose: Coordinate device, lighting and reminder signals around sleep routines.
+    triggers: [schedule, manual_activation]
+    actors: [authorised_adult, teen, child]
+    child_explanation: Bedtime Mode follows the household schedule and shows when it ends.
+    recovery: [degraded_mode, manual_checklist]
+  - id: CB-MODE-SLEEPOVER
+    name: Sleepover Mode
+    phase: 2
+    purpose: Bundle guest, quiet-hours, emergency and pickup information for an overnight visit.
+    triggers: [manual_activation]
+    actors: [authorised_adult, child_visitor, visiting_guardian]
+    child_explanation: These are the overnight rules and useful details for this visit.
+    recovery: [retain_emergency_info, revoke_guest_access_on_end]
+  - id: CB-MODE-CARER
+    name: Carer Mode
+    phase: 2
+    purpose: Give a temporary carer only the information and authority needed for a defined period.
+    triggers: [scheduled_care_period, manual_activation]
+    actors: [guardian, carer]
+    child_explanation: This carer has temporary permission for the shown period.
+    recovery: [auto_revoke, notify_guardian, freeze_on_authority_dispute]
