@@ -92,7 +92,6 @@ def plan_profile(registry: dict[str, Any], profile_id: str, address: str) -> dic
 
 
 def render_template(text: str, values: dict[str, str]) -> str:
-    # Convert {{field}} to string.Template-compatible placeholders.
     converted = text.replace("{{", "${").replace("}}", "}")
     return Template(converted).safe_substitute(values)
 
@@ -126,7 +125,13 @@ def main() -> int:
         return 2
 
     if args.command == "validate":
-        print(json.dumps({"status": "REAL", "registry_hash": sha256_json(registry), "errors": []}, indent=2))
+        print(json.dumps({
+            "status": "PARTIAL",
+            "source_valid": True,
+            "registry_hash": sha256_json(registry),
+            "errors": [],
+            "truth_boundary": "Live execution, readback, receipt, ledger and telemetry are still required for REAL."
+        }, indent=2))
         return 0
     if args.command == "plan":
         print(json.dumps(plan_profile(registry, args.profile, args.address), indent=2))
