@@ -1,0 +1,11 @@
+{
+  "CallerReference":"the-pen-20260713T163226Z",
+  "Comment":"The Pen production control surface",
+  "Enabled":true,
+  "DefaultRootObject":"index.html",
+  "Origins":{"Quantity":1,"Items":[{"Id":"the-pen-s3","DomainName":"t4h-the-pen-prod-140548542136.s3.ap-southeast-2.amazonaws.com","OriginAccessControlId":"E1CL4GAMT0J29F","S3OriginConfig":{"OriginAccessIdentity":""}}]},
+  "DefaultCacheBehavior":{"TargetOriginId":"the-pen-s3","ViewerProtocolPolicy":"redirect-to-https","AllowedMethods":{"Quantity":2,"Items":["GET","HEAD"],"CachedMethods":{"Quantity":2,"Items":["GET","HEAD"]}},"Compress":true,"ForwardedValues":{"QueryString":false,"Cookies":{"Forward":"none"}},"MinTTL":0,"DefaultTTL":300,"MaxTTL":86400},
+  "PriceClass":"PriceClass_100",
+  "ViewerCertificate":{"CloudFrontDefaultCertificate":true},
+  "Restrictions":{"GeoRestriction":{"RestrictionType":"none","Quantity":0}}
+}
