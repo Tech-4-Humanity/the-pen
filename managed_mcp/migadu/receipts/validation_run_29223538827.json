@@ -1,0 +1,26 @@
+{
+  "run_id": "github-actions-29223538827",
+  "workflow": "Migadu Managed MCP Validation",
+  "commit": "4b01d5915f1ee78131240f4e8c78ec6e3aa26809",
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": [
+    {"id": 86733161618, "name": "upstream-quality-and-scans", "status": "completed", "conclusion": "failure", "steps_observed": false, "logs_observed": false},
+    {"id": 86733161625, "name": "validate-scaffold", "status": "completed", "conclusion": "failure", "steps_observed": false, "logs_observed": false}
+  ],
+  "evidence": {
+    "workflow_run_observed": true,
+    "successful_scan_artifacts_observed": false,
+    "successful_test_receipt_observed": false,
+    "job_logs_retrieval": "failed_404_blob_not_found"
+  },
+  "final_state": "PARTIAL",
+  "gaps": [
+    "root cause not observable from available job steps or logs",
+    "no successful scan outputs",
+    "no SBOM artifact",
+    "no sandbox execution",
+    "no telemetry export"
+  ],
+  "next_action": "repair or rerun workflow after determining why jobs failed before observable steps; do not classify scans or tests REAL"
+}
