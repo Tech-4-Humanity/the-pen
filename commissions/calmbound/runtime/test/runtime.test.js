@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import { CalmBoundRuntime } from '../src/runtime.js';
 
 function fakeDb() {
@@ -8,11 +9,13 @@ function fakeDb() {
     async one(sql, params) {
       if (sql.includes('insert into households')) {
         const row = { id: crypto.randomUUID(), name: params[0], timezone: params[1], status: 'active', ownerPersonId: params[2], createdAt: new Date().toISOString() };
-        state.households.push(row); state.memberships.add(`${params[2]}:${row.id}`); return row;
+        state.households.push(row);
+        return row;
       }
       if (sql.includes('insert into mode_instances')) {
         const row = { id: crypto.randomUUID(), householdId: params[0], modeDefinitionId: params[1], state: 'active', startsAt: params[3], endsAt: params[4] };
-        state.modes.push(row); return row;
+        state.modes.push(row);
+        return row;
       }
       throw new Error('unexpected one query');
     },
@@ -22,21 +25,21 @@ function fakeDb() {
       return null;
     },
     async none(sql, params) {
+      if (sql.includes('insert into household_memberships')) state.memberships.add(`${params[1]}:${params[0]}`);
       if (sql.includes('insert into event_ledger')) state.events.set(params[0], { integrity_hash: params[18] });
     }
   };
   return { state, transaction: async (fn) => fn(tx) };
 }
 
-import crypto from 'node:crypto';
-
-test('createHousehold emits a receipted event', async () => {
+test('createHousehold emits a receipt and creates owner membership', async () => {
   const db = fakeDb();
   const runtime = new CalmBoundRuntime({ db });
   const owner = crypto.randomUUID();
   const household = await runtime.createHousehold({ name: 'Test Home', timezone: 'Australia/Sydney', ownerPersonId: owner });
   assert.equal(household.name, 'Test Home');
   assert.equal(db.state.events.size, 1);
+  assert.equal(db.state.memberships.has(`${owner}:${household.id}`), true);
 });
 
 test('mode activation denies an unauthorised actor', async () => {
