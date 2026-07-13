@@ -1,0 +1,36 @@
+{
+  "receipt_id": "false-deployment-supersession-2026-07-13",
+  "status": "REAL",
+  "supersedes": {
+    "commit": "3749989",
+    "claimed_status": "REAL",
+    "reason_invalid": "Unsafe heuristic auto-discovery selected an unrelated AML dashboard and deployed it to the AI4Tradies production bucket. HTTP 200 verification did not prove target identity."
+  },
+  "incident": {
+    "repository": "TML-4PM/the-pen",
+    "wrong_artifact": "generated/dashboards/aml_ctf_v2",
+    "wrong_bucket": "ai4tradies.org",
+    "wrong_distribution": "E20UVBNWA1EUQA",
+    "wrong_url": "https://ai4tradies.org",
+    "initial_rollback_result": "HTTP 404"
+  },
+  "recovery": {
+    "status": "REAL",
+    "source_repository": "TML-4PM/ai4tradies",
+    "source_commit": "d6e21501ff4fc0ade59a6316474da0c6e0c36389",
+    "bucket": "ai4tradies.org",
+    "distribution": "E20UVBNWA1EUQA",
+    "invalidation_id": "I8QTS41AGLAUJXB6MFJ3D0J9",
+    "http_status": 200,
+    "source_sha256": "36f227f81c85ebd79a0ff493d91d401903d0660039605482b7b67c6e564d2435",
+    "live_sha256": "36f227f81c85ebd79a0ff493d91d401903d0660039605482b7b67c6e564d2435",
+    "checksum_match": true
+  },
+  "controls_added": {
+    "deployment_registry": "config/deployment-targets.json",
+    "validator": "scripts/validate_deployment_target.py",
+    "heuristic_discovery_allowed": false,
+    "the_pen_target_status": "BLOCKED"
+  },
+  "issues": [229, 230]
+}
