@@ -1,0 +1,44 @@
+{
+  "run_id": "migadu-managed-mcp-validation-2026-07-13",
+  "work_item": "TML-4PM/the-pen#222",
+  "upstream_repository": "Michaelzag/migadu-mcp",
+  "upstream_commit": "7b61cb83331003335337dbb40a96e821a33765c0",
+  "validation_scope": [
+    "repository_assessment",
+    "security_and_dependency_scans",
+    "sandbox_tests",
+    "receipts",
+    "ledger",
+    "telemetry",
+    "fork_or_wrapper"
+  ],
+  "results": {
+    "repository_assessment": "PARTIAL",
+    "security_and_dependency_scans": "PARTIAL",
+    "sandbox_tests": "PARTIAL",
+    "receipts": "MISSING",
+    "ledger": "MISSING",
+    "telemetry": "MISSING",
+    "fork_or_wrapper": "MISSING"
+  },
+  "observed": {
+    "upstream_ci_definition": true,
+    "declared_pytest": true,
+    "declared_ruff": true,
+    "declared_type_check": true,
+    "declared_bandit": true,
+    "successful_ci_status_observed": false,
+    "t4h_scan_receipts_observed": false,
+    "t4h_sandbox_receipts_observed": false,
+    "migadu_execution_receipts_observed": false,
+    "migadu_ledger_entry_observed": false,
+    "migadu_telemetry_trace_observed": false,
+    "t4h_fork_or_wrapper_observed": false
+  },
+  "final_state": "PARTIAL",
+  "reason": "Requirements and upstream quality-gate definitions exist, but T4H-owned execution, verification, receipts, ledger, telemetry and fork/wrapper evidence were not observed.",
+  "evidence": {
+    "validation_report": "work_queue/migadu_managed_mcp/validation_2026-07-13.md",
+    "validation_commit": "1d80502f929ce585dd5d4f25ca1df338d07571fd"
+  }
+}
