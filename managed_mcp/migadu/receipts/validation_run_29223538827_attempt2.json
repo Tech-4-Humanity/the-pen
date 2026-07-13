@@ -1,0 +1,46 @@
+{
+  "run_id": "29223538827",
+  "attempt": 2,
+  "repository": "TML-4PM/the-pen",
+  "branch": "feat/migadu-managed-mcp",
+  "workflow": "Migadu Managed MCP Validation",
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "job_id": 86733829260,
+      "name": "validate-scaffold",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps_observed": false
+    },
+    {
+      "job_id": 86733829263,
+      "name": "upstream-quality-and-scans",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps_observed": false
+    }
+  ],
+  "log_retrieval": {
+    "status": "failed",
+    "error": "GitHub API 404 BlobNotFound"
+  },
+  "fallback_execution": {
+    "status": "blocked",
+    "method": "isolated local clone and validation",
+    "error": "Could not resolve host: github.com"
+  },
+  "classification": "BLOCKED",
+  "reason": "The GitHub Actions jobs failed before observable steps and no logs were available. The fallback execution environment could not resolve github.com, so tests and scans could not be executed or evidenced.",
+  "evidence_state": {
+    "workflow_definition": "REAL",
+    "workflow_retry": "REAL",
+    "test_results": "MISSING",
+    "security_scan_results": "MISSING",
+    "sbom": "MISSING",
+    "sandbox_execution": "MISSING",
+    "runtime_telemetry": "MISSING"
+  },
+  "next_recovery": "Restore GitHub Actions runner availability or execute the pinned upstream source in a network-enabled runner, then upload raw test, scan and SBOM artifacts."
+}
