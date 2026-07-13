@@ -1,0 +1,6 @@
+workbook_or_register,update,state,acceptance
+Cross-platform canonical registry,append platform inventory and confidence fields,READY,all assets have canonical key and evidence pointer
+Site recovery registry,append no-Git and snapshot recovery queue,READY,each unresolved site has owner priority and completion gate
+Research timeline,append commission query compilation and quarantine events,READY,events trace to committed artefacts
+JSON artefact register,append payload receipt and manifest paths,READY,hash and source path captured in next execution
+Customer release register,record evidence-package REAL and Apple binary NOT_EXECUTED,READY,no ambiguous deployment claims
