@@ -42,19 +42,28 @@
       "target_id": "the-pen-production",
       "repository": "TML-4PM/the-pen",
       "artifact_path": "deploy/the-pen-status",
-      "s3_bucket": null,
-      "cloudfront_distribution_id": null,
-      "canonical_url": null,
+      "s3_bucket": "t4h-the-pen-prod-140548542136",
+      "cloudfront_distribution_id": "ECLREUSI7BLHO",
+      "canonical_url": "https://d10vz2lk8njihw.cloudfront.net",
       "expected_content_identity": {
         "type": "marker+sha256",
         "path": "index.html",
         "marker": "THE_PEN_CONTROL_SURFACE_V1",
-        "value": null
+        "value": "904d1822102bb6c1a7aa93218580d1410edcf955d44e40c0b8a89005540369df"
       },
       "rollback_source": "S3 object versioning plus canonical Git commit",
       "owner": "Tech 4 Humanity",
-      "status": "PARTIAL",
-      "block_reason": "Canonical artefact is committed. AWS bucket, CloudFront distribution, live URL and checksum receipt require execution of scripts/provision_the_pen_s3_cloudfront.sh."
+      "status": "REAL",
+      "evidence": {
+        "source_commit": "826c7efb3bd3f998c13b3290527d373182081cd5",
+        "receipt_commit": "f19dc8f",
+        "receipt_path": "RECEIPTS/the-pen-deploy/20260713T163226Z/deployment_receipt.json",
+        "cloudfront_invalidation_id": "ITR1BLQGOEIY47GJM8ABOUSJR",
+        "http_status": 200,
+        "source_live_checksum_match": true,
+        "bucket_versioning": "Enabled",
+        "cloudfront_status": "Deployed"
+      }
     }
   ]
 }
