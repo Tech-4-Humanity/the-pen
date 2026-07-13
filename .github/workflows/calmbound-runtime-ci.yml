@@ -1,0 +1,63 @@
+name: CalmBound Runtime CI
+on:
+  pull_request:
+    paths:
+      - 'commissions/calmbound/runtime/**'
+      - 'commissions/calmbound/implementation/**'
+      - '.github/workflows/calmbound-runtime-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: commissions/calmbound/runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-audit --no-fund
+      - run: npm run check
+      - run: npm test
+      - run: npx --yes @redocly/cli@1.34.2 lint ../implementation/openapi-v1.0.yaml
+  validate-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: calmbound
+          POSTGRES_PASSWORD: calmbound
+          POSTGRES_DB: calmbound_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U calmbound -d calmbound_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql://calmbound:calmbound@127.0.0.1:5432/calmbound_ci
+      PORT: 3000
+    defaults:
+      run:
+        working-directory: commissions/calmbound/runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-audit --no-fund
+      - run: bash scripts/ci-smoke.sh
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: calmbound-runtime-ci-receipts
+          path: commissions/calmbound/runtime/receipts/
+          if-no-files-found: warn
+          retention-days: 30
