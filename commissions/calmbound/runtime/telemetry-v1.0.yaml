@@ -1,0 +1,64 @@
+version: 1.0.0
+service: calmbound-reference-runtime
+status: REFERENCE_NOT_DEPLOYED
+resource_attributes:
+  required: [service.name, service.version, deployment.environment, cloud.region]
+correlation:
+  header: x-correlation-id
+  required_on: [http_request, database_transaction, event_ledger_write, policy_decision, recovery_action]
+metrics:
+  - name: calmbound_http_requests_total
+    type: counter
+    labels: [route, method, status_class]
+  - name: calmbound_http_request_duration_ms
+    type: histogram
+    labels: [route, method]
+  - name: calmbound_mode_activations_total
+    type: counter
+    labels: [mode_definition_id, outcome]
+  - name: calmbound_permission_decisions_total
+    type: counter
+    labels: [action, outcome, reason]
+  - name: calmbound_event_ingest_total
+    type: counter
+    labels: [event_type, outcome, duplicate]
+  - name: calmbound_recovery_actions_total
+    type: counter
+    labels: [failure_type, recovery_type, outcome]
+  - name: calmbound_receipt_lag_seconds
+    type: histogram
+    labels: [action_type]
+traces:
+  required_spans:
+    - http.request
+    - permission.evaluate
+    - database.transaction
+    - event.persist
+    - receipt.emit
+    - recovery.execute
+  required_attributes:
+    - calmbound.household_id
+    - calmbound.actor_id
+    - calmbound.action
+    - calmbound.outcome
+    - calmbound.policy_version
+logs:
+  format: json
+  prohibited_fields: [child_free_text, browsing_history, raw_token, password, stripe_secret, service_role_key]
+  required_fields: [timestamp, level, message, service, version, correlation_id, outcome]
+alerts:
+  - id: permission-denial-spike
+    condition: permission_denials_rate > baseline_5x for 10m
+  - id: receipt-gap
+    condition: successful_actions_without_receipt > 0
+  - id: event-ledger-write-failure
+    condition: event_persist_failures > 0 for 5m
+  - id: migration-drift
+    condition: migration_checksum_drift > 0
+real_gate:
+  required:
+    - traces_observed
+    - metrics_observed
+    - structured_logs_observed
+    - receipts_read_back
+    - recovery_test_observed
