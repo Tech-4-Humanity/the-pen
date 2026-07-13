@@ -1,0 +1,5 @@
+asset_class,source,state,risk,action
+static_html,Google Drive referenced corpus,PENDING_FILE_VERIFICATION,MEDIUM,inventory hash and map to canonical domain
+static_html,GitHub repositories,PENDING_REPOSITORY_SCAN,MEDIUM,index HTML and adjacent assets
+no_git_sites,Vercel prior exported estate,PENDING_ACCESS_RECONCILIATION,HIGH,recover snapshots before any deletion
+lovable_sites,Lovable workspace,PENDING_COMPLETE_LIST,HIGH,capture project IDs publish URLs and source linkage
