@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "ontology": "CalmBound Household Ontology",
+  "status": "CANONICAL_IMPLEMENTATION_ARTIFACT",
+  "entity_types": {
+    "household": {"required": ["id", "name", "timezone", "status", "owner_person_id", "created_at"], "lifecycle": ["draft", "active", "paused", "archived"]},
+    "person": {"required": ["id", "display_name", "age_band", "status"], "age_bands": ["adult", "young_adult", "older_teen", "early_teen", "primary", "young_child", "unknown"]},
+    "role": {"required": ["id", "type", "scope", "effective_at"], "types": ["account_owner", "guardian", "authorised_adult", "teen", "child", "carer", "guest", "school_representative", "service_operator"]},
+    "relationship": {"required": ["id", "type", "from_id", "to_id", "status"], "types": ["member_of", "guardian_of", "cares_for", "invited_to", "trusted_by", "linked_household"]},
+    "space": {"required": ["id", "type", "name", "household_id"], "types": ["home", "room", "vehicle", "school", "club", "temporary_location"]},
+    "network": {"required": ["id", "type", "space_id", "status"], "types": ["household", "guest", "mobile", "partner"]},
+    "device": {"required": ["id", "device_class", "status"], "classes": ["phone", "tablet", "computer", "television", "router", "wearable", "speaker", "vehicle", "other"]},
+    "mode_definition": {"required": ["id", "name", "version", "purpose", "status"]},
+    "mode_instance": {"required": ["id", "mode_definition_id", "household_id", "state", "starts_at"], "states": ["scheduled", "active", "paused", "completed", "failed", "cancelled"]},
+    "agreement": {"required": ["id", "household_id", "title", "plain_language", "version", "status"]},
+    "rule": {"required": ["id", "version", "scope", "conditions", "actions", "priority", "status"]},
+    "permission": {"required": ["id", "grantor_id", "grantee_id", "action", "object_type", "scope", "purpose", "starts_at", "status"]},
+    "consent": {"required": ["id", "subject_id", "grantor_id", "purpose", "scope", "policy_version", "status"]},
+    "exception": {"required": ["id", "mode_instance_id", "requester_id", "reason", "status"]},
+    "signal": {"required": ["id", "type", "target", "requested_at", "status"], "states": ["requested", "accepted", "delivered", "failed", "unknown"]},
+    "event": {"required": ["event_id", "event_type", "occurred_at", "source", "actor", "subject", "outcome", "correlation_id"]},
+    "evidence": {"required": ["id", "type", "source", "created_at", "integrity_hash", "retention_policy_id"]},
+    "integration": {"required": ["id", "provider", "capability_scope", "status"]},
+    "partner": {"required": ["id", "name", "partner_type", "status", "access_policy_id"]},
+    "subscription": {"required": ["id", "household_id", "plan", "status", "source"]},
+    "retention_policy": {"required": ["id", "data_class", "retention_period", "deletion_action", "version"]},
+    "safety_policy": {"required": ["id", "name", "scope", "priority", "version", "status"]}
+  },
+  "edge_types": {
+    "MEMBER_OF": ["person", "household"],
+    "HAS_ROLE": ["person", "role"],
+    "GUARDIAN_OF": ["person", "person"],
+    "CARES_FOR": ["person", "person"],
+    "LOCATED_IN": ["device", "space"],
+    "CONNECTED_TO": ["device", "network"],
+    "GOVERNED_BY": ["mode_instance", "rule"],
+    "DEPENDS_ON": ["mode_instance", "integration"],
+    "ACTIVATES": ["mode_instance", "signal"],
+    "EMITS": ["mode_instance", "event"],
+    "EVIDENCED_BY": ["event", "evidence"],
+    "CONSENTED_TO": ["person", "consent"],
+    "DELEGATED_TO": ["permission", "person"],
+    "PROVIDED_BY": ["integration", "partner"]
+  },
+  "universal_metadata": ["owner", "source", "status", "version", "created_at", "effective_at", "expires_at", "dependencies", "evidence_refs", "lifecycle", "deletion_route"],
+  "invariants": [
+    "Every object has an owner or accountable system actor.",
+    "Every authority-bearing object has scope and lifecycle.",
+    "Every external action has a result state; requested is not equivalent to completed.",
+    "Child-related data is minimised and never used for hidden scoring.",
+    "Contested authority freezes the disputed action rather than inferring rights."
+  ]
+}
