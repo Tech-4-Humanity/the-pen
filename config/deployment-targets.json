@@ -41,15 +41,20 @@
     {
       "target_id": "the-pen-production",
       "repository": "TML-4PM/the-pen",
-      "artifact_path": null,
+      "artifact_path": "deploy/the-pen-status",
       "s3_bucket": null,
       "cloudfront_distribution_id": null,
       "canonical_url": null,
-      "expected_content_identity": null,
-      "rollback_source": null,
+      "expected_content_identity": {
+        "type": "marker+sha256",
+        "path": "index.html",
+        "marker": "THE_PEN_CONTROL_SURFACE_V1",
+        "value": null
+      },
+      "rollback_source": "S3 object versioning plus canonical Git commit",
       "owner": "Tech 4 Humanity",
-      "status": "BLOCKED",
-      "block_reason": "No canonical deployable site artefact or AWS target has been proven. Issue #230 is the completion gate."
+      "status": "PARTIAL",
+      "block_reason": "Canonical artefact is committed. AWS bucket, CloudFront distribution, live URL and checksum receipt require execution of scripts/provision_the_pen_s3_cloudfront.sh."
     }
   ]
 }
