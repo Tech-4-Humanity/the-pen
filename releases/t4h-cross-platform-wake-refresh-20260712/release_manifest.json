@@ -1,0 +1,20 @@
+{
+  "release": "t4h-cross-platform-wake-refresh-20260712",
+  "date": "2026-07-13",
+  "tracking_issue": 221,
+  "artefacts": [
+    "README.md",
+    "cross_platform_refresh_inventory.csv",
+    "vercel_lovable_github_drive_crosswalk.csv",
+    "site_recovery_queue.csv",
+    "research_timeline_delta.csv",
+    "json_artifact_delta.csv",
+    "html_site_recovery_delta.csv",
+    "workbook_update_plan.csv",
+    "runtime_receipt.json"
+  ],
+  "customer_ready": true,
+  "apple_binary_included": false,
+  "app_store_submission_included": false,
+  "closure_rule": "Evidence package may close while unresolved source recovery remains quarantined and explicitly receipted."
+}
