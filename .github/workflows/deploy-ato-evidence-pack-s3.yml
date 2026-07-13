@@ -1,0 +1,95 @@
+name: Deploy ATO Evidence Pack to S3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ato-research/public/**'
+      - 'ato-research/manifest.json'
+      - '.github/workflows/deploy-ato-evidence-pack-s3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ap-southeast-2
+      S3_BUCKET: ${{ vars.ATO_EVIDENCE_S3_BUCKET }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.ATO_EVIDENCE_CLOUDFRONT_DISTRIBUTION_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate required files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f ato-research/public/index.html
+          test -f ato-research/public/T4H_ATO_Evidence_Pack_v1.pdf
+          test -f ato-research/manifest.json
+          test -n "$S3_BUCKET"
+
+      - name: Verify PDF checksum against manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED=$(jq -r '.artifacts[] | select(.path=="ato-research/public/T4H_ATO_Evidence_Pack_v1.pdf") | .sha256' ato-research/manifest.json)
+          ACTUAL=$(sha256sum ato-research/public/T4H_ATO_Evidence_Pack_v1.pdf | awk '{print $1}')
+          test "$EXPECTED" != "null"
+          test "$EXPECTED" = "$ACTUAL"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ATO_EVIDENCE_AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Publish library
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3 sync ato-research/public/ "s3://$S3_BUCKET/ato-research/" --delete
+          aws s3 cp ato-research/manifest.json "s3://$S3_BUCKET/ato-research/manifest.json" \
+            --content-type application/json \
+            --metadata git-sha=${GITHUB_SHA}
+
+      - name: Verify S3 objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3api head-object --bucket "$S3_BUCKET" --key ato-research/index.html > /tmp/index-head.json
+          aws s3api head-object --bucket "$S3_BUCKET" --key ato-research/T4H_ATO_Evidence_Pack_v1.pdf > /tmp/pdf-head.json
+          jq -e '.ContentLength > 0' /tmp/index-head.json
+          jq -e '.ContentLength > 0' /tmp/pdf-head.json
+
+      - name: Invalidate CloudFront
+        if: env.CLOUDFRONT_DISTRIBUTION_ID != ''
+        run: aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" --paths '/ato-research/*'
+
+      - name: Write deployment receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p receipt
+          PDF_SHA=$(sha256sum ato-research/public/T4H_ATO_Evidence_Pack_v1.pdf | awk '{print $1}')
+          cat > receipt/ato-evidence-s3-receipt.json <<JSON
+          {
+            "status": "REAL",
+            "repository": "${GITHUB_REPOSITORY}",
+            "commit_sha": "${GITHUB_SHA}",
+            "workflow_run_id": "${GITHUB_RUN_ID}",
+            "bucket": "${S3_BUCKET}",
+            "prefix": "ato-research/",
+            "pdf_sha256": "${PDF_SHA}",
+            "verified_at_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          JSON
+
+      - name: Upload receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: ato-evidence-s3-receipt-${{ github.run_id }}
+          path: receipt/ato-evidence-s3-receipt.json
