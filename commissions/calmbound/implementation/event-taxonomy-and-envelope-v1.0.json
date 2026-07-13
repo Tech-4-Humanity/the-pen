@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "event_envelope": {
+    "required": ["event_id", "event_type", "event_version", "occurred_at", "recorded_at", "source", "actor", "subject", "object", "action", "outcome", "correlation_id", "causation_id", "evidence_refs"],
+    "properties": {
+      "event_id": "uuid",
+      "event_type": "dot_delimited_string",
+      "event_version": "semver",
+      "occurred_at": "rfc3339",
+      "recorded_at": "rfc3339",
+      "source": {"system": "string", "component": "string", "environment": "string"},
+      "actor": {"type": "string", "id": "string|null", "role": "string|null"},
+      "subject": {"type": "string", "id": "string|null"},
+      "object": {"type": "string", "id": "string|null"},
+      "action": "string",
+      "outcome": {"status": "requested|succeeded|failed|partial|denied|expired|revoked|unknown", "code": "string", "message": "string|null"},
+      "correlation_id": "uuid",
+      "causation_id": "uuid|null",
+      "policy_version": "string|null",
+      "model_version": "string|null",
+      "data_classification": "operational|identity|child|sensitive_family|device|safety|billing|derived",
+      "evidence_refs": ["string"],
+      "metadata": "object"
+    }
+  },
+  "taxonomies": {
+    "household": ["household.created", "household.updated", "household.paused", "household.archived", "household.invitation_created", "household.invitation_accepted", "household.invitation_expired"],
+    "mode": ["mode.scheduled", "mode.activated", "mode.paused", "mode.completed", "mode.cancelled", "mode.failed"],
+    "agreement": ["agreement.created", "agreement.displayed", "agreement.accepted", "agreement.rejected", "agreement.updated", "agreement.expired"],
+    "override": ["override.requested", "override.approved", "override.denied", "override.expired", "override.failed"],
+    "permission": ["permission.granted", "permission.used", "permission.revoked", "permission.expired", "permission.expiry_failed"],
+    "consent": ["consent.granted", "consent.revoked", "consent.expired", "consent.renewal_due"],
+    "signal": ["signal.requested", "signal.accepted", "signal.delivered", "signal.failed", "signal.result_unknown"],
+    "network": ["network_policy.requested", "network_policy.applied", "network_policy.failed", "network_policy.removed"],
+    "billing": ["subscription.created", "subscription.activated", "subscription.past_due", "subscription.cancelled", "subscription.ended", "entitlement.changed", "billing.reconciliation_failed"],
+    "data": ["data.export_requested", "data.export_completed", "data.export_failed", "data.deletion_requested", "data.deletion_completed", "data.deletion_failed", "retention.expired", "retention.deletion_verified"],
+    "security": ["access.denied", "access.suspended", "authority.contested", "incident.created", "incident.resolved"],
+    "ai": ["ai.recommendation_generated", "ai.recommendation_suppressed", "ai.recommendation_accepted", "ai.recommendation_rejected", "ai.policy_violation_detected"]
+  },
+  "truth_rules": [
+    "A requested event never proves the requested action completed.",
+    "External side effects require a corresponding result event.",
+    "Failed and unknown outcomes must produce recovery or quarantine actions.",
+    "Every consequential event must reference evidence or explain why evidence is unavailable.",
+    "Event consumers must be idempotent by event_id."
+  ]
+}
