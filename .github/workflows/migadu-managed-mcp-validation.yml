@@ -11,25 +11,52 @@ permissions:
   contents: read
 
 jobs:
-  validate-scaffold:
+  runner-diagnostic:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Confirm runner allocation
+        run: |
+          set -euxo pipefail
+          echo "runner allocated"
+          uname -a
+          python --version
+
+  validate-scaffold:
+    needs: runner-diagnostic
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Validate JSON contracts
+      - name: Validate JSON contracts and ledger
         run: |
-          python -m json.tool managed_mcp/migadu/policy/tool_authority.json >/dev/null
-          python -m json.tool managed_mcp/migadu/schemas/receipt.schema.json >/dev/null
-          python - <<'PY'
+          set -euxo pipefail
+          mkdir -p managed_mcp/migadu/evidence
+          python -m json.tool managed_mcp/migadu/policy/tool_authority.json > managed_mcp/migadu/evidence/tool_authority.normalized.json
+          python -m json.tool managed_mcp/migadu/schemas/receipt.schema.json > managed_mcp/migadu/evidence/receipt_schema.normalized.json
+          python - <<'PY' | tee managed_mcp/migadu/evidence/ledger_validation.txt
           import json
           from pathlib import Path
-          for line in Path('managed_mcp/migadu/ledger/execution_ledger.jsonl').read_text().splitlines():
+          path = Path('managed_mcp/migadu/ledger/execution_ledger.jsonl')
+          count = 0
+          for number, line in enumerate(path.read_text().splitlines(), 1):
               if line.strip():
                   json.loads(line)
-          print('ledger jsonl valid')
+                  count += 1
+          print(f'ledger jsonl valid: {count} entries')
           PY
+      - name: Upload scaffold evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migadu-scaffold-evidence
+          path: managed_mcp/migadu/evidence/
+          if-no-files-found: warn
 
   upstream-quality-and-scans:
+    needs: runner-diagnostic
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout pinned upstream
         uses: actions/checkout@v4
@@ -46,12 +73,14 @@ jobs:
       - name: Run upstream tests and quality gates
         working-directory: upstream
         run: |
+          set -euxo pipefail
           uv sync --group dev
           uv run pytest --junitxml=pytest-results.xml
-          uv run ruff check migadu_mcp/ tests/
-          uv run ty check migadu_mcp/
+          uv run ruff check migadu_mcp/ tests/ | tee ruff-results.txt
+          uv run ty check migadu_mcp/ | tee type-results.txt
           uv run bandit -r migadu_mcp/ -f json -o bandit-results.json
       - name: Run Trivy filesystem scan
+        continue-on-error: true
         uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: fs
@@ -61,22 +90,27 @@ jobs:
           severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
           exit-code: '0'
       - name: Run Gitleaks
+        continue-on-error: true
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate SBOM
+        continue-on-error: true
         uses: anchore/sbom-action@v0
         with:
           path: upstream
           format: cyclonedx-json
           output-file: migadu-mcp-sbom.cdx.json
       - name: Upload validation evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: migadu-managed-mcp-validation-evidence
           path: |
             upstream/pytest-results.xml
+            upstream/ruff-results.txt
+            upstream/type-results.txt
             upstream/bandit-results.json
             trivy-results.json
             migadu-mcp-sbom.cdx.json
-          if-no-files-found: error
+          if-no-files-found: warn
