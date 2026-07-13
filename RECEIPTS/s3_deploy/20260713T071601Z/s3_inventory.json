@@ -1,0 +1,94 @@
+{
+    "Contents": [
+        {
+            "Key": "_rollback/20260713T071601Z/agent-command-centre.html",
+            "LastModified": "2026-07-13T07:16:08+00:00",
+            "ETag": "\"2040c41e2bdbc042a1c30ffba8bb7c28\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 135,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "_rollback/20260713T071601Z/agent-command-centre/index.html",
+            "LastModified": "2026-07-13T07:16:08+00:00",
+            "ETag": "\"c7c1150637245b2c898d9b7bf9d8bfc2\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 2818,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "_rollback/20260713T071601Z/index.html",
+            "LastModified": "2026-07-13T07:16:08+00:00",
+            "ETag": "\"6f93af3436f751c4c7cf4375c39e548d\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 5520,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "_rollback/20260713T071601Z/portal/dashboard.html",
+            "LastModified": "2026-07-13T07:16:08+00:00",
+            "ETag": "\"a5a4d8b28f2d6caf7d9342b567bc5293\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 4566,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "_rollback/20260713T071601Z/portal/index.html",
+            "LastModified": "2026-07-13T07:16:08+00:00",
+            "ETag": "\"5b72f8a27f1647a6da8db52d5248b400\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 1193,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "_rollback/20260713T071601Z/site.css",
+            "LastModified": "2026-07-13T07:16:08+00:00",
+            "ETag": "\"c7208a99f66d9b5ed8bb9de6e86cd4c5\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 6027,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "_rollback/20260713T071601Z/site.js",
+            "LastModified": "2026-07-13T07:16:08+00:00",
+            "ETag": "\"a4de2b12a135d85dbf7a9b7ca7c2fa21\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 1945,
+            "StorageClass": "STANDARD"
+        },
+        {
+            "Key": "index.html",
+            "LastModified": "2026-07-13T07:16:10+00:00",
+            "ETag": "\"3632dd1a240df08408619433ceb64e85\"",
+            "ChecksumAlgorithm": [
+                "CRC64NVME"
+            ],
+            "ChecksumType": "FULL_OBJECT",
+            "Size": 2733,
+            "StorageClass": "STANDARD"
+        }
+    ],
+    "RequestCharged": null,
+    "Prefix": ""
+}

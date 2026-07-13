@@ -1,0 +1,13 @@
+HTTP/2 200 
+content-type: text/html; charset=utf-8
+content-length: 2733
+date: Mon, 13 Jul 2026 07:16:34 GMT
+cache-control: no-cache, no-store, must-revalidate
+last-modified: Mon, 13 Jul 2026 07:16:10 GMT
+etag: "3632dd1a240df08408619433ceb64e85"
+server: AmazonS3
+x-cache: Miss from cloudfront
+via: 1.1 f5bc0d54a76b57b6f435f98d3e741ea4.cloudfront.net (CloudFront)
+x-amz-cf-pop: SYD3-P2
+x-amz-cf-id: TTQv0K89ES1ZB4Zg4DNC5hZUif9SngPk95uC881JRVDUplBAMamxGw==
+

@@ -1,0 +1,16 @@
+{
+  "receipt_id":"the-pen-s3-20260713T071601Z",
+  "status":"REAL",
+  "started_at":"2026-07-13T07:16:01Z",
+  "ended_at":"2026-07-13T07:16:33Z",
+  "commit_sha":"8f11911e56a5646c9b78adadad8720d06f5cc09c",
+  "build_dir":"/Users/troylatter/Downloads/the-pen/generated/dashboards/aml_ctf_v2",
+  "s3_bucket":"ai4tradies.org",
+  "cloudfront_distribution_id":"E20UVBNWA1EUQA",
+  "site_url":"https://ai4tradies.org",
+  "http_code":"200",
+  "build_checksum":"37b37a428c12db94e86518044ba7d88202fdb6cca928c9c82d75f247e7b91abb",
+  "live_checksum":"37b37a428c12db94e86518044ba7d88202fdb6cca928c9c82d75f247e7b91abb",
+  "rollback_prefix":"_rollback/20260713T071601Z",
+  "invalidation_id":"IDJ5IYZUOXB761VN000N5A68XO"
+}

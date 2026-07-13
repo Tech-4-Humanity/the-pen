@@ -1,0 +1,16 @@
+
+== Discover static build ==
+BUILD_DIR=/Users/troylatter/Downloads/the-pen/generated/dashboards/aml_ctf_v2
+
+== Discover AWS target ==
+S3_BUCKET=ai4tradies.org
+CLOUDFRONT_DISTRIBUTION_ID=E20UVBNWA1EUQA
+SITE_URL=https://ai4tradies.org
+
+== Rollback snapshot ==
+
+== Deploy ==
+
+== CloudFront invalidation ==
+
+== Verify live ==
