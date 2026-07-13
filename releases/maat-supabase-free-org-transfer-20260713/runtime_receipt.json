@@ -1,0 +1,24 @@
+{
+  "receipt_id": "maat-supabase-free-org-transfer-20260713-package",
+  "issued_at_utc": "2026-07-13T04:34:30Z",
+  "repository": "TML-4PM/the-pen",
+  "tracking_issue": 224,
+  "project_ref": "lzfgigiyqpuuxslsygjt",
+  "classification": "REAL_EXECUTION_PACKAGE_PARTIAL_OPERATION",
+  "completed": {
+    "github_release_package": true,
+    "transfer_runbook": true,
+    "verification_acceptance_criteria": true,
+    "rollback_policy": "source project must not be deleted before target verification"
+  },
+  "pending": {
+    "supabase_target_free_organisation_created_or_selected": true,
+    "billing_or_transfer_restrictions_resolved": true,
+    "project_transfer_confirmed_by_owner": true,
+    "post_transfer_database_verification": true,
+    "external_backup_export": true,
+    "fy2425_reconciliation": true
+  },
+  "authority_boundary": "The actual organisation transfer changes ownership/billing placement and must be confirmed by a Supabase organisation owner in the Supabase control plane.",
+  "overall_status": "PARTIAL_AWAITING_SUPABASE_OWNER_ACTION"
+}
