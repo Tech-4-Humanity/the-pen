@@ -23,13 +23,11 @@ cleanup() {
 trap cleanup EXIT
 
 cd "$RUNTIME_DIR"
-
 node --check src/server.js
 node --check src/runtime.js
 npm test
 
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f ../implementation/database-schema-v1.0.sql
-
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<SQL
 insert into people (person_id, display_name, age_band, status)
 values ('$OWNER_ID', 'CI Owner', 'adult', 'active');
@@ -39,11 +37,8 @@ SQL
 
 PORT="$PORT" HOST="127.0.0.1" DATABASE_URL="$DATABASE_URL" node src/server.js >"$SERVER_LOG" 2>&1 &
 SERVER_PID=$!
-
 for _ in $(seq 1 30); do
-  if curl -fsS "http://127.0.0.1:$PORT/health" >/tmp/calmbound-health.json; then
-    break
-  fi
+  if curl -fsS "http://127.0.0.1:$PORT/health" >/tmp/calmbound-health.json; then break; fi
   sleep 1
 done
 curl -fsS "http://127.0.0.1:$PORT/health" >/tmp/calmbound-health.json
@@ -57,12 +52,8 @@ HOUSEHOLD_ID="$(printf '%s' "$HOUSEHOLD_RESPONSE" | jq -r '.id')"
 test -n "$HOUSEHOLD_ID"
 test "$HOUSEHOLD_ID" != "null"
 
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<SQL
-insert into household_memberships
-  (household_id, person_id, role_type, scope, status, evidence_refs)
-values
-  ('$HOUSEHOLD_ID', '$OWNER_ID', 'owner', '{"actions":["mode.activate"]}'::jsonb, 'active', '["ci-seed"]'::jsonb);
-SQL
+OWNER_MEMBERSHIP_COUNT="$(psql "$DATABASE_URL" -Atc "select count(*) from household_memberships where household_id='$HOUSEHOLD_ID' and person_id='$OWNER_ID' and role_type='owner' and status='active';")"
+test "$OWNER_MEMBERSHIP_COUNT" = "1"
 
 MODE_RESPONSE="$(curl -fsS -X POST "http://127.0.0.1:$PORT/v1/households/$HOUSEHOLD_ID/modes" \
   -H 'content-type: application/json' \
@@ -93,9 +84,9 @@ jq -n \
   --arg finished_at "$FINISHED_AT" \
   --arg household_id "$HOUSEHOLD_ID" \
   --arg mode_instance_id "$MODE_INSTANCE_ID" \
+  --arg owner_membership_count "$OWNER_MEMBERSHIP_COUNT" \
   --arg event_count "$EVENT_COUNT" \
   --arg rollback_before "$ROLLBACK_BEFORE" \
   --arg rollback_after "$ROLLBACK_AFTER" \
-  '{status:$status,started_at:$started_at,finished_at:$finished_at,checks:{syntax:true,unit_tests:true,migration:true,health:true,household_create:true,mode_activate:true,event_receipts:($event_count|tonumber),rollback:true},objects:{household_id:$household_id,mode_instance_id:$mode_instance_id},rollback:{households_before:($rollback_before|tonumber),public_tables_after:($rollback_after|tonumber)}}' > "$RECEIPT"
-
+  '{status:$status,started_at:$started_at,finished_at:$finished_at,checks:{syntax:true,unit_tests:true,migration:true,health:true,household_create:true,owner_membership:($owner_membership_count|tonumber),mode_activate:true,event_receipts:($event_count|tonumber),rollback:true},objects:{household_id:$household_id,mode_instance_id:$mode_instance_id},rollback:{households_before:($rollback_before|tonumber),public_tables_after:($rollback_after|tonumber)}}' > "$RECEIPT"
 cat "$RECEIPT"
