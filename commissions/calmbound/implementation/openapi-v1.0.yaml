@@ -1,0 +1,261 @@
+openapi: 3.1.0
+info:
+  title: CalmBound Household Runtime API
+  version: 1.0.0
+  description: Canonical Phase 1 API contract for households, modes, overrides, permissions, consents and events.
+servers:
+  - url: https://api.calmbound.example/v1
+    description: Placeholder until a production endpoint is receipted
+security:
+  - bearerAuth: []
+paths:
+  /households:
+    post:
+      operationId: createHousehold
+      summary: Create a household and assign the authenticated owner.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHouseholdRequest'
+      responses:
+        '201':
+          description: Household created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Household'
+  /households/{householdId}/invitations:
+    post:
+      operationId: createHouseholdInvitation
+      parameters:
+        - $ref: '#/components/parameters/HouseholdId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationRequest'
+      responses:
+        '201': {description: Invitation created}
+        '403': {description: Authority denied}
+  /households/{householdId}/modes:
+    post:
+      operationId: createModeInstance
+      parameters:
+        - $ref: '#/components/parameters/HouseholdId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateModeRequest'
+      responses:
+        '201':
+          description: Mode scheduled or activated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModeInstance'
+  /households/{householdId}/modes/{modeInstanceId}/overrides:
+    post:
+      operationId: requestOverride
+      parameters:
+        - $ref: '#/components/parameters/HouseholdId'
+        - name: modeInstanceId
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverrideRequest'
+      responses:
+        '201': {description: Override request recorded}
+  /overrides/{overrideId}/decision:
+    post:
+      operationId: decideOverride
+      parameters:
+        - name: overrideId
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision: {type: string, enum: [approved, denied]}
+                approvedDurationMinutes: {type: integer, minimum: 1, maximum: 1440}
+                reason: {type: string}
+      responses:
+        '200': {description: Decision recorded and receipted}
+        '403': {description: Authority denied}
+  /permissions:
+    post:
+      operationId: grantPermission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Permission'
+      responses:
+        '201': {description: Permission granted}
+        '409': {description: Authority contested or invalid delegation}
+  /permissions/{permissionId}/revoke:
+    post:
+      operationId: revokePermission
+      parameters:
+        - name: permissionId
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      responses:
+        '200': {description: Permission revoked and verified}
+  /consents:
+    post:
+      operationId: grantConsent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consent'
+      responses:
+        '201': {description: Consent recorded with receipt}
+  /consents/{consentId}/revoke:
+    post:
+      operationId: revokeConsent
+      parameters:
+        - name: consentId
+          in: path
+          required: true
+          schema: {type: string, format: uuid}
+      responses:
+        '200': {description: Consent revoked}
+  /events:
+    post:
+      operationId: ingestEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventEnvelope'
+      responses:
+        '202': {description: Event accepted idempotently}
+        '409': {description: Conflicting event payload for existing event_id}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    HouseholdId:
+      name: householdId
+      in: path
+      required: true
+      schema: {type: string, format: uuid}
+  schemas:
+    CreateHouseholdRequest:
+      type: object
+      required: [name, timezone]
+      properties:
+        name: {type: string, minLength: 1, maxLength: 120}
+        timezone: {type: string, example: Australia/Sydney}
+    Household:
+      type: object
+      required: [id, name, timezone, status, ownerPersonId, createdAt]
+      properties:
+        id: {type: string, format: uuid}
+        name: {type: string}
+        timezone: {type: string}
+        status: {type: string, enum: [draft, active, paused, archived]}
+        ownerPersonId: {type: string, format: uuid}
+        createdAt: {type: string, format: date-time}
+    InvitationRequest:
+      type: object
+      required: [invitee, role, scope]
+      properties:
+        invitee: {type: string}
+        role: {type: string}
+        scope: {type: object}
+        expiresAt: {type: string, format: date-time}
+    CreateModeRequest:
+      type: object
+      required: [modeDefinitionId, startsAt]
+      properties:
+        modeDefinitionId: {type: string}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        subjects: {type: array, items: {type: string, format: uuid}}
+        parameters: {type: object}
+    ModeInstance:
+      type: object
+      required: [id, modeDefinitionId, householdId, state, startsAt]
+      properties:
+        id: {type: string, format: uuid}
+        modeDefinitionId: {type: string}
+        householdId: {type: string, format: uuid}
+        state: {type: string, enum: [scheduled, active, paused, completed, failed, cancelled]}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+    OverrideRequest:
+      type: object
+      required: [requesterId, reason, requestedDurationMinutes]
+      properties:
+        requesterId: {type: string, format: uuid}
+        reason: {type: string, minLength: 1, maxLength: 500}
+        requestedDurationMinutes: {type: integer, minimum: 1, maximum: 1440}
+    Permission:
+      type: object
+      required: [grantorId, granteeId, action, objectType, objectId, scope, purpose, startsAt]
+      properties:
+        grantorId: {type: string, format: uuid}
+        granteeId: {type: string, format: uuid}
+        action: {type: string}
+        objectType: {type: string}
+        objectId: {type: string}
+        scope: {type: object}
+        purpose: {type: string}
+        startsAt: {type: string, format: date-time}
+        expiresAt: {type: string, format: date-time}
+    Consent:
+      type: object
+      required: [subjectId, grantorId, purpose, scope, startsAt, policyVersion, jurisdiction, ageSuitability]
+      properties:
+        subjectId: {type: string, format: uuid}
+        grantorId: {type: string, format: uuid}
+        purpose: {type: string}
+        scope: {type: object}
+        startsAt: {type: string, format: date-time}
+        expiresAt: {type: string, format: date-time}
+        policyVersion: {type: string}
+        jurisdiction: {type: string}
+        ageSuitability: {type: string}
+    EventEnvelope:
+      type: object
+      required: [event_id, event_type, event_version, occurred_at, recorded_at, source, actor, subject, object, action, outcome, correlation_id, evidence_refs]
+      properties:
+        event_id: {type: string, format: uuid}
+        event_type: {type: string}
+        event_version: {type: string}
+        occurred_at: {type: string, format: date-time}
+        recorded_at: {type: string, format: date-time}
+        source: {type: object}
+        actor: {type: object}
+        subject: {type: object}
+        object: {type: object}
+        action: {type: string}
+        outcome: {type: object}
+        correlation_id: {type: string, format: uuid}
+        causation_id: {type: [string, 'null'], format: uuid}
+        evidence_refs: {type: array, items: {type: string}}
