@@ -1,0 +1,39 @@
+{
+  "receipt_id": "2026-07-13_the-pen_s3_target_correction",
+  "recorded_at": "2026-07-13T05:00:00Z",
+  "repository": "TML-4PM/the-pen",
+  "status": "PARTIAL",
+  "classification": {
+    "github_repository": "REAL",
+    "vercel_deployment": "BLOCKED",
+    "s3_cloudfront_target": "ASPIRATIONAL"
+  },
+  "decision": "Vercel is not the release target for sites in this portfolio while the account is payment-blocked. Static and semi-static sites must deploy to AWS S3 with CloudFront; dynamic workloads remain on an explicitly approved runtime only.",
+  "observed_evidence": {
+    "vercel_checks": [
+      "Vercel – the-pen-kt5s: failure",
+      "Vercel – the-pen: failure"
+    ],
+    "failure_reason": "Vercel account deployment blocked due to payment/billing status",
+    "stale_historical_receipt": "receipts/runtime/vercel_deploy_receipt.json"
+  },
+  "required_execution": [
+    "identify the deployable site artefact and build output",
+    "map canonical domain to S3 bucket and CloudFront distribution",
+    "add GitHub Actions or runtime worker deployment path using AWS credentials supplied at runtime",
+    "sync artefacts to S3",
+    "invalidate CloudFront cache",
+    "perform HTTP and content smoke tests",
+    "emit deployment, DNS, telemetry and rollback receipts",
+    "remove Vercel required checks/integration after S3 verification"
+  ],
+  "real_requires": [
+    "successful S3 sync receipt",
+    "CloudFront distribution and invalidation receipt",
+    "live URL HTTP verification",
+    "content checksum/readback",
+    "rollback record"
+  ],
+  "gap": "No AWS execution telemetry or S3/CloudFront deployment receipt was available in this session.",
+  "next_action": "Execute the S3/CloudFront deployment path and only then classify the site as REAL."
+}
