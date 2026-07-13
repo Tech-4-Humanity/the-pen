@@ -1,0 +1,6 @@
+platform,scope,observed_state,evidence,status,next_action
+GitHub,TML-4PM/the-pen,job payload and release package committed,commit 8727e52f7ea904ed14f0f9f17b11ed766b72e404,REAL,retain as canonical receipt
+Vercel,Team Troy G Wares,connector returned zero visible projects,team_IKIr2Kcs38KGo8Zs60yNtm7Y,REAL_QUERY_ZERO_RESULT,reconcile against prior 159-project exported inventory
+Lovable,workspace ctPgwUnU8Vti8yGKgc8K,inventory request issued but no complete result captured in this release,connector invocation,PARTIAL,retry inventory and map project IDs
+Google Drive,source manifest references,source IDs retained in commissioned payload,job payload,PARTIAL,verify each referenced file and write immutable crosswalk
+Apple build,customer-ready package,no Xcode or Swift build target identified,release validation,NOT_EXECUTED,compile only after a designated source target exists
