@@ -1,0 +1,82 @@
+name: Migadu Managed MCP Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'managed_mcp/migadu/**'
+      - '.github/workflows/migadu-managed-mcp-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON contracts
+        run: |
+          python -m json.tool managed_mcp/migadu/policy/tool_authority.json >/dev/null
+          python -m json.tool managed_mcp/migadu/schemas/receipt.schema.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for line in Path('managed_mcp/migadu/ledger/execution_ledger.jsonl').read_text().splitlines():
+              if line.strip():
+                  json.loads(line)
+          print('ledger jsonl valid')
+          PY
+
+  upstream-quality-and-scans:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pinned upstream
+        uses: actions/checkout@v4
+        with:
+          repository: Michaelzag/migadu-mcp
+          ref: 7b61cb83331003335337dbb40a96e821a33765c0
+          path: upstream
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Run upstream tests and quality gates
+        working-directory: upstream
+        run: |
+          uv sync --group dev
+          uv run pytest --junitxml=pytest-results.xml
+          uv run ruff check migadu_mcp/ tests/
+          uv run ty check migadu_mcp/
+          uv run bandit -r migadu_mcp/ -f json -o bandit-results.json
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: upstream
+          format: json
+          output: trivy-results.json
+          severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+          exit-code: '0'
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: upstream
+          format: cyclonedx-json
+          output-file: migadu-mcp-sbom.cdx.json
+      - name: Upload validation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: migadu-managed-mcp-validation-evidence
+          path: |
+            upstream/pytest-results.xml
+            upstream/bandit-results.json
+            trivy-results.json
+            migadu-mcp-sbom.cdx.json
+          if-no-files-found: error
