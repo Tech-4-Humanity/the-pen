@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import pg from 'pg';
@@ -23,12 +24,7 @@ app.post('/v1/households', async (request, reply) => {
 });
 
 app.post('/v1/households/:householdId/modes', async (request, reply) => {
-  const mode = await runtime.activateMode({
-    householdId: request.params.householdId,
-    ...request.body,
-    actorPersonId: requireActor(request),
-    correlationId: request.id
-  });
+  const mode = await runtime.activateMode({ householdId: request.params.householdId, ...request.body, actorPersonId: requireActor(request), correlationId: request.id });
   return reply.code(201).send(mode);
 });
 
@@ -49,42 +45,22 @@ await app.listen({ port, host });
 
 function requireActor(request) {
   const actor = request.headers['x-person-id'];
-  if (!actor) {
-    const error = new Error('x-person-id is required by the reference runtime');
-    error.statusCode = 401;
-    throw error;
-  }
+  if (!actor) { const error = new Error('x-person-id is required by the reference runtime'); error.statusCode = 401; throw error; }
   return actor;
 }
 
 function createDb(pool) {
   const wrap = (client) => ({
-    async one(text, params) {
-      const result = await client.query(text, params);
-      if (result.rows.length !== 1) throw new Error(`Expected one row, received ${result.rows.length}`);
-      return result.rows[0];
-    },
-    async maybeOne(text, params) {
-      const result = await client.query(text, params);
-      if (result.rows.length > 1) throw new Error(`Expected at most one row, received ${result.rows.length}`);
-      return result.rows[0] || null;
-    },
+    async one(text, params) { const result = await client.query(text, params); if (result.rows.length !== 1) throw new Error(`Expected one row, received ${result.rows.length}`); return result.rows[0]; },
+    async maybeOne(text, params) { const result = await client.query(text, params); if (result.rows.length > 1) throw new Error(`Expected at most one row, received ${result.rows.length}`); return result.rows[0] || null; },
     async none(text, params) { await client.query(text, params); }
   });
   return {
     async transaction(fn) {
       const client = await pool.connect();
-      try {
-        await client.query('begin');
-        const value = await fn(wrap(client));
-        await client.query('commit');
-        return value;
-      } catch (error) {
-        await client.query('rollback');
-        throw error;
-      } finally {
-        client.release();
-      }
+      try { await client.query('begin'); const value = await fn(wrap(client)); await client.query('commit'); return value; }
+      catch (error) { await client.query('rollback'); throw error; }
+      finally { client.release(); }
     }
   };
 }
