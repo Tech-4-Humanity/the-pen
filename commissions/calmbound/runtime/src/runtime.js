@@ -20,6 +20,14 @@ export class CalmBoundRuntime {
         [name, timezone, ownerPersonId]
       );
 
+      await tx.none(
+        `insert into household_memberships
+          (household_id, person_id, role_type, scope, status, evidence_refs)
+         values ($1,$2,'owner',$3::jsonb,'active',$4::jsonb)
+         on conflict (household_id, person_id, role_type) do nothing`,
+        [household.id, ownerPersonId, JSON.stringify({ actions: ['*'] }), JSON.stringify(['household.created'])]
+      );
+
       await this.recordEvent(tx, {
         eventType: 'household.created',
         action: 'create',
