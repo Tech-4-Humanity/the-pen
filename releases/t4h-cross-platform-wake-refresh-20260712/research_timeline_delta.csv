@@ -1,0 +1,5 @@
+date,event,evidence,status
+2026-07-12,Cross-platform wake/refresh commissioned,inbox/t4h-cross-platform-wake-refresh-20260712.json,REAL
+2026-07-13,Vercel connected-team inventory queried and returned zero visible projects,connector query recorded in runtime receipt,REAL
+2026-07-13,Customer-readable closure package compiled,releases/t4h-cross-platform-wake-refresh-20260712,REAL
+2026-07-13,Unresolved source and site recovery work quarantined,site_recovery_queue.csv,REAL
