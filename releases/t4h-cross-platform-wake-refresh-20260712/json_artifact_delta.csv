@@ -1,0 +1,5 @@
+artifact,path,state,action
+commission_payload,inbox/t4h-cross-platform-wake-refresh-20260712.json,COMMITTED,retain
+runtime_receipt,releases/t4h-cross-platform-wake-refresh-20260712/runtime_receipt.json,COMPILED,retain
+release_manifest,releases/t4h-cross-platform-wake-refresh-20260712/release_manifest.json,COMPILED,retain
+estate_json_corpus,Google Drive and GitHub source sets,NOT_INDEXED,queue hash-based inventory
