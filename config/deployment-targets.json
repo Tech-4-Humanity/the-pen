@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "policy": {
+    "heuristic_discovery_allowed": false,
+    "required_fields": [
+      "repository",
+      "artifact_path",
+      "s3_bucket",
+      "cloudfront_distribution_id",
+      "canonical_url",
+      "expected_content_identity",
+      "rollback_source",
+      "owner",
+      "status"
+    ],
+    "allowed_statuses": ["REAL", "PARTIAL", "BLOCKED", "ASPIRATIONAL"]
+  },
+  "targets": [
+    {
+      "target_id": "ai4tradies-production",
+      "repository": "TML-4PM/ai4tradies",
+      "artifact_path": ".",
+      "s3_bucket": "ai4tradies.org",
+      "cloudfront_distribution_id": "E20UVBNWA1EUQA",
+      "canonical_url": "https://ai4tradies.org",
+      "expected_content_identity": {
+        "type": "sha256",
+        "path": "index.html",
+        "value": "36f227f81c85ebd79a0ff493d91d401903d0660039605482b7b67c6e564d2435"
+      },
+      "rollback_source": "canonical Git repository TML-4PM/ai4tradies at a receipted commit",
+      "owner": "Tech 4 Humanity",
+      "status": "REAL",
+      "evidence": {
+        "source_commit": "d6e21501ff4fc0ade59a6316474da0c6e0c36389",
+        "cloudfront_invalidation_id": "I8QTS41AGLAUJXB6MFJ3D0J9",
+        "http_status": 200,
+        "source_live_checksum_match": true
+      }
+    },
+    {
+      "target_id": "the-pen-production",
+      "repository": "TML-4PM/the-pen",
+      "artifact_path": null,
+      "s3_bucket": null,
+      "cloudfront_distribution_id": null,
+      "canonical_url": null,
+      "expected_content_identity": null,
+      "rollback_source": null,
+      "owner": "Tech 4 Humanity",
+      "status": "BLOCKED",
+      "block_reason": "No canonical deployable site artefact or AWS target has been proven. Issue #230 is the completion gate."
+    }
+  ]
+}
