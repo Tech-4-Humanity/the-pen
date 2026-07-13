@@ -74,7 +74,7 @@ printf 'Run ID: %s\nMode: %s\n' "$RUN_ID" "$MODE"
 command -v python3 >/dev/null || { STATUS=BLOCKED; FAILURE_STAGE=preflight; FAILURE_REASON='python3 missing'; exit 3; }
 
 python3 "$ROOT/runtime.py" validate
-python3 -m unittest -v "$ROOT/test_runtime.py"
+python3 "$ROOT/test_runtime.py"
 TESTS_PASSED=true
 
 python3 "$ROOT/runtime.py" plan --profile profile-human --address human@example.test > "$RECEIPT_DIR/$RUN_ID-human-plan.json"
@@ -90,8 +90,4 @@ if [[ "$MODE" == "apply-schema" ]]; then
 fi
 
 STATUS=PARTIAL
-if [[ "$SCHEMA_APPLIED" == true ]]; then
-  STATUS=PARTIAL
-fi
-
 echo "Package validation complete. Live mailbox deployment remains a separate verified gate."
