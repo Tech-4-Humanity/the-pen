@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "permission_record": {
+    "required": ["permission_id", "grantor_id", "grantee_id", "action", "object_type", "object_id", "scope", "purpose", "starts_at", "status", "policy_version"],
+    "optional": ["expires_at", "conditions", "evidence_refs", "revocation_reason"],
+    "statuses": ["pending", "active", "expired", "revoked", "suspended", "contested"],
+    "actions": [
+      "household.create", "household.invite", "household.view", "household.update",
+      "mode.create", "mode.schedule", "mode.activate", "mode.pause", "mode.cancel",
+      "mode.override.request", "mode.override.approve", "mode.override.deny",
+      "rule.view.self", "rule.view.household", "rule.update",
+      "guest_policy.apply", "network_policy.apply",
+      "consent.grant", "consent.revoke",
+      "data.export", "data.delete",
+      "billing.manage", "billing.entitlement.apply",
+      "partner.integration.authorise", "partner.integration.revoke",
+      "emergency.override"
+    ]
+  },
+  "consent_record": {
+    "required": ["consent_id", "subject_id", "grantor_id", "purpose", "scope", "starts_at", "status", "policy_version", "jurisdiction", "age_suitability"],
+    "optional": ["expires_at", "renewal_rule", "evidence_refs", "revocation_reason"],
+    "statuses": ["pending", "active", "expired", "revoked", "renewal_due", "contested"]
+  },
+  "role_defaults": {
+    "account_owner": ["household.view", "household.update", "billing.manage", "household.invite"],
+    "guardian": ["mode.create", "mode.schedule", "mode.activate", "mode.override.approve", "consent.grant", "consent.revoke", "data.export", "data.delete"],
+    "authorised_adult": ["mode.activate", "mode.pause", "mode.override.approve", "household.invite"],
+    "teen": ["rule.view.self", "mode.override.request", "consent.revoke_self_where_lawful"],
+    "child": ["rule.view.self", "mode.override.request"],
+    "carer": ["mode.view_assigned", "emergency.view_assigned", "mode.activate_assigned"],
+    "guest": ["agreement.view", "agreement.accept"],
+    "school_representative": ["mode.activate.school_context_only"],
+    "service_operator": ["support.read_scoped", "support.execute_scoped"]
+  },
+  "decision_rules": [
+    "Account ownership does not imply unrestricted authority over all household members.",
+    "Permissions are denied by default.",
+    "Temporary roles require expires_at.",
+    "Carer and guest permissions must auto-expire.",
+    "School authority is restricted to school context and cannot reveal home activity.",
+    "AI has advisory authority only.",
+    "Contested authority sets status to contested and freezes disputed access.",
+    "Emergency override requires an authorised actor, reason, evidence event and post-action review.",
+    "A lower-priority role cannot grant authority it does not possess.",
+    "Consent is purpose-bound and revocable; no generic permanent household consent is valid."
+  ],
+  "authority_priority": ["safety_policy", "lawful_authority", "explicit_consent_restriction", "emergency_override", "household_agreement", "mode_rule", "user_preference", "recommendation"],
+  "expiry_requirements": {
+    "carer": "required",
+    "guest": "required",
+    "school_representative": "required_or_context_bound",
+    "partner_access": "required",
+    "emergency_override": "required",
+    "guardian": "optional_subject_to_authority_source"
+  },
+  "receipt_requirements": ["grant", "use_for_sensitive_action", "revoke", "expire", "expiry_failure", "contested_access", "emergency_override"]
+}
