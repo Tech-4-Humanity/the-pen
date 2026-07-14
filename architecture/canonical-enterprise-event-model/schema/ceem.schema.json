@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.example/schema/ceem.schema.json",
+  "title": "Canonical Enterprise Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id","event_key","canonical_name","description","event_family","domain","lifecycle_stage","status","version","business_owner","operational_owner","trigger","actors","audiences","action_policy","evidence_policy","success_metric_key","sla_seconds","security_classification","effective_at","review_at"
+  ],
+  "properties": {
+    "event_id": {"type":"string","pattern":"^EVT-[A-Z0-9-]{4,64}$"},
+    "event_key": {"type":"string","pattern":"^[a-z0-9]+(\\.[a-z0-9_-]+){2,}$"},
+    "canonical_name": {"type":"string","minLength":3},
+    "display_name": {"type":"string"},
+    "description": {"type":"string","minLength":10},
+    "event_family": {"type":"string"},
+    "domain": {"type":"string"},
+    "capability": {"type":"string"},
+    "business_process": {"type":"string"},
+    "lifecycle_stage": {"type":"string"},
+    "journey_ids": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "status": {"enum":["ASPIRATIONAL","DRAFT","PARTIAL","REAL","DEGRADED","BLOCKED","QUARANTINED","DEPRECATED","ARCHIVED"]},
+    "version": {"type":"string","pattern":"^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "priority": {"enum":["LOW","MEDIUM","HIGH","CRITICAL"]},
+    "criticality": {"enum":["NON_CRITICAL","BUSINESS_CRITICAL","MISSION_CRITICAL","SAFETY_CRITICAL"]},
+    "business_owner": {"type":"string"},
+    "operational_owner": {"type":"string"},
+    "technical_owner": {"type":"string"},
+    "data_steward": {"type":"string"},
+    "trigger": {
+      "type":"object",
+      "required":["type","source_system","entry_criteria"],
+      "properties": {
+        "type":{"enum":["MANUAL","API","WEBHOOK","SCHEDULED","SYSTEM","AI","CRM","PORTAL","PAYMENT","MESSAGE","BATCH"]},
+        "source_system":{"type":"string"},
+        "source_event":{"type":"string"},
+        "entry_criteria":{"type":"array","items":{"type":"string"}},
+        "preconditions":{"type":"array","items":{"type":"string"}},
+        "idempotency_scope":{"type":"string"}
+      }
+    },
+    "actors": {"type":"array","minItems":1,"items":{"$ref":"#/$defs/partyBinding"}},
+    "audiences": {"type":"array","minItems":1,"items":{"$ref":"#/$defs/partyBinding"}},
+    "action_policy": {
+      "type":"object",
+      "required":["required_action_summary","approval_required","retry_policy","timeout_seconds","fallback_event_key"],
+      "properties": {
+        "required_action_summary":{"type":"string"},
+        "approval_required":{"type":"boolean"},
+        "approval_role":{"type":["string","null"]},
+        "retry_policy":{"type":"string"},
+        "timeout_seconds":{"type":"integer","minimum":0},
+        "fallback_event_key":{"type":"string"},
+        "rollback_event_key":{"type":"string"}
+      }
+    },
+    "outputs": {"type":"array","items":{"$ref":"#/$defs/outputBinding"}},
+    "commercial": {"$ref":"#/$defs/commercialMetadata"},
+    "compliance": {"$ref":"#/$defs/complianceMetadata"},
+    "ai_policy": {"$ref":"#/$defs/aiPolicy"},
+    "technical": {"$ref":"#/$defs/technicalMetadata"},
+    "evidence_policy": {
+      "type":"object",
+      "required":["evidence_required","receipt_required","ledger_required","verification_method","retention_days"],
+      "properties": {
+        "evidence_required":{"type":"boolean"},
+        "receipt_required":{"type":"boolean"},
+        "ledger_required":{"type":"boolean"},
+        "verification_method":{"type":"string"},
+        "evidence_types":{"type":"array","items":{"type":"string"}},
+        "retention_days":{"type":"integer","minimum":0},
+        "replay_required":{"type":"boolean"},
+        "telemetry_required":{"type":"boolean"}
+      }
+    },
+    "success_metric_key": {"type":"string"},
+    "sla_seconds": {"type":"integer","minimum":0},
+    "default_next_event_key": {"type":"string"},
+    "exception_event_key": {"type":"string"},
+    "tags": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "security_classification": {"enum":["PUBLIC","INTERNAL","CONFIDENTIAL","RESTRICTED"]},
+    "effective_at": {"type":"string","format":"date-time"},
+    "review_at": {"type":"string","format":"date-time"},
+    "expires_at": {"type":["string","null"],"format":"date-time"},
+    "source_refs": {"type":"array","items":{"type":"string"}}
+  },
+  "$defs": {
+    "partyBinding": {
+      "type":"object",
+      "required":["party_type","role"],
+      "properties": {
+        "party_type":{"enum":["PROSPECT","CUSTOMER","PARTNER","SUPPLIER","EMPLOYEE","CANDIDATE","INVESTOR","REGULATOR","HUMAN","AI_AGENT","SYSTEM","TEAM","ORGANISATION"]},
+        "role":{"type":"string"},
+        "persona_id":{"type":"string"},
+        "segment_id":{"type":"string"},
+        "language":{"type":"string"},
+        "timezone":{"type":"string"},
+        "accessibility_profile":{"type":"string"}
+      }
+    },
+    "outputBinding": {
+      "type":"object",
+      "required":["output_type","channel","required","recipient_role"],
+      "properties": {
+        "output_type":{"enum":["EMAIL","SMS","PUSH","PORTAL","LETTER","VOICE","AI_CHAT","TASK","DOCUMENT","INVOICE","CONTRACT","CALENDAR_EVENT","CRM_UPDATE","SUPPORT_TICKET","WEBHOOK","ANALYTICS_EVENT","LEDGER_ENTRY"]},
+        "channel":{"type":"string"},
+        "template_id":{"type":"string"},
+        "required":{"type":"boolean"},
+        "recipient_role":{"type":"string"},
+        "consent_basis":{"type":"string"},
+        "delivery_sla_seconds":{"type":"integer","minimum":0},
+        "personalisation_fields":{"type":"array","items":{"type":"string"}}
+      }
+    },
+    "commercialMetadata": {
+      "type":"object",
+      "properties": {
+        "product_id":{"type":"string"},"sku":{"type":"string"},"offer_id":{"type":"string"},"contract_stage":{"type":"string"},"billing_impact":{"type":"string"},"revenue_impact":{"type":"number"},"cost_impact":{"type":"number"},"currency":{"type":"string"}
+      }
+    },
+    "complianceMetadata": {
+      "type":"object",
+      "properties": {
+        "consent_required":{"type":"boolean"},"consent_type":{"type":"string"},"identity_check_required":{"type":"boolean"},"policy_refs":{"type":"array","items":{"type":"string"}},"regulatory_frameworks":{"type":"array","items":{"type":"string"}},"audit_required":{"type":"boolean"},"data_classification":{"type":"string"}
+      }
+    },
+    "aiPolicy": {
+      "type":"object",
+      "properties": {
+        "agent_id":{"type":"string"},"decision_authority":{"type":"string"},"tool_scopes":{"type":"array","items":{"type":"string"}},"knowledge_source_ids":{"type":"array","items":{"type":"string"}},"confidence_threshold":{"type":"number","minimum":0,"maximum":1},"human_review_rule":{"type":"string"},"guardrail_ids":{"type":"array","items":{"type":"string"}},"memory_policy":{"type":"string"}
+      }
+    },
+    "technicalMetadata": {
+      "type":"object",
+      "properties": {
+        "payload_schema_ref":{"type":"string"},"api_endpoint":{"type":"string"},"queue":{"type":"string"},"event_bus_topic":{"type":"string"},"correlation_required":{"type":"boolean"},"trace_required":{"type":"boolean"},"idempotency_required":{"type":"boolean"},"data_residency":{"type":"string"}
+      }
+    }
+  }
+}
