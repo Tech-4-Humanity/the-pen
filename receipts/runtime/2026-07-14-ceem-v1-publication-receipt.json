@@ -1,0 +1,88 @@
+{
+  "receipt_id": "RCT-CEEM-20260714-001",
+  "receipt_type": "canonical_architecture_publication",
+  "created_at": "2026-07-14T02:22:00Z",
+  "authority": "Troy Latter / Portfolio Control",
+  "subject": "Canonical Enterprise Event Model v1.0",
+  "status": "PARTIAL",
+  "result": {
+    "specification_assets": "REAL",
+    "github_publication": "REAL",
+    "drive_control_view": "REAL",
+    "symbio_work_queue": "REAL",
+    "runtime_implementation": "BLOCKED",
+    "vercel_deployment": "NOT_APPLICABLE"
+  },
+  "canonical_repository": "TML-4PM/the-pen",
+  "canonical_path": "architecture/canonical-enterprise-event-model/",
+  "assets": [
+    {
+      "path": "architecture/canonical-enterprise-event-model/README.md",
+      "commit_sha": "fbaf654c3b30a0e38002ca53268b71b2ba4d5d76"
+    },
+    {
+      "path": "architecture/canonical-enterprise-event-model/schema/ceem.schema.json",
+      "commit_sha": "e821a29acbf2145f0a43752567b2ae43dad7e9c9"
+    },
+    {
+      "path": "architecture/canonical-enterprise-event-model/sql/001_ceem_core.sql",
+      "commit_sha": "bb6b9a62863310e72b46bef42d71ae8714adb49b"
+    },
+    {
+      "path": "architecture/canonical-enterprise-event-model/types/ceem.ts",
+      "commit_sha": "4dd731017667b5c873972a4c7266413c6c703bb7"
+    },
+    {
+      "path": "architecture/canonical-enterprise-event-model/IMPLEMENTATION.md",
+      "commit_sha": "b9536cb9c9bcd4d46f3041b35b6f7fef3760272f"
+    }
+  ],
+  "symbio_control": {
+    "repository": "TML-4PM/symbio-dev-control-plane",
+    "issue_number": 12,
+    "url": "https://github.com/TML-4PM/symbio-dev-control-plane/issues/12",
+    "state": "open"
+  },
+  "drive_control_view": {
+    "file_id": "1LcCe7_5ZFUzIg_-Fxlj5OjBiiLG7DluWVXNRrSdrhFw",
+    "title": "Canonical Enterprise Event Model (CEEM) v1.0 - Control View - 20260714",
+    "url": "https://docs.google.com/document/d/1LcCe7_5ZFUzIg_-Fxlj5OjBiiLG7DluWVXNRrSdrhFw",
+    "revision_id": "ALtnJHwY1TXdoMzVBn8LhQf4HSitYzVv0CqodQzkMekzwlBbP74LGKbjGZfarMP2Nx2kNvCuegtrW3ocPcnFyXrrwnRMMcq-AU7VtOSdIKot"
+  },
+  "prior_sources_discovered": [
+    "Canonical_Operating_Registry_v6_structural_reconciled_complete.xlsx",
+    "T4H_Enterprise_Metadata_Repository_v9_UPDATED.xlsx",
+    "OIKOS_Canonical_Knowledge_System_MASTER_v1.xlsx",
+    "PORTFOLIO_CANONICAL_REGISTRY_BINDING.md",
+    "GLOBAL_RULE.md",
+    "global/GLOBAL_RULE_KERNEL_V7.yaml"
+  ],
+  "runtime_evidence": {
+    "mcp_connector": "t4h-remote-mcp-server-clean",
+    "attempted_action": "runtime_summary",
+    "result": "FORBIDDEN: This conversation does not support developer MCPs",
+    "classification": "BLOCKED",
+    "blocker": "missing connector authority in this conversation"
+  },
+  "vercel_evidence": {
+    "team_id": "team_IKIr2Kcs38KGo8Zs60yNtm7Y",
+    "team_slug": "troys-projects-t4h-machine",
+    "visible_projects": 0,
+    "deployment_required": false
+  },
+  "verification": {
+    "github_write_receipts_present": true,
+    "drive_revision_present": true,
+    "symbio_issue_present": true,
+    "runtime_receipt_present": false,
+    "promotion_rule": "No runtime implementation is REAL until migration, import, validation, telemetry and runtime receipt complete."
+  },
+  "gaps": [
+    "Runtime database migration not executed",
+    "Existing workbook event rows not imported and normalised",
+    "Integration bindings not executed",
+    "Runtime occurrence telemetry and ledger proof not produced"
+  ],
+  "next_action": "Execute Symbio issue 12 through the authorised runtime, apply the schema, import and validate prior registry rows, then append the runtime receipt and ledger references.",
+  "confidence": 0.94
+}
