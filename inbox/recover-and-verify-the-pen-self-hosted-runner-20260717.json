@@ -1,0 +1,42 @@
+{
+  "job_id": "RECOVER-VERIFY-THE-PEN-SELF-HOSTED-RUNNER-20260717",
+  "priority": "P0",
+  "status": "READY_FOR_BRIDGE_EXECUTION",
+  "target": "BRIDGE_RUNNER",
+  "repository": "TML-4PM/the-pen",
+  "branch": "main",
+  "depends_on": "BOOTSTRAP-THE-PEN-SELF-HOSTED-RUNNER-20260717",
+  "execution": [
+    "Refresh main on the bridge host.",
+    "Inspect the self-hosted runner installation and service state.",
+    "If installed but inactive, restart the runner service and capture service logs.",
+    "If not installed, execute ops/github-actions/bootstrap_t4h_bridge_runner.sh under the existing bridge secret policy.",
+    "Confirm the runner is visible online with label t4h-bridge.",
+    "Trigger CalmBound Runtime CI by workflow dispatch.",
+    "Verify at least one named workflow step starts.",
+    "Publish health, recovery and CalmBound execution receipts."
+  ],
+  "required_receipts": [
+    "receipts/2026-07-17-the-pen-self-hosted-runner-health.json",
+    "receipts/2026-07-17-the-pen-self-hosted-runner-service.log",
+    "receipts/2026-07-17-the-pen-self-hosted-runner-recovery.json",
+    "commissions/calmbound/runtime/receipts/ci-runtime-receipt.json"
+  ],
+  "acceptance": [
+    "runner_installation_detected_or_completed",
+    "runner_service_active",
+    "runner_visible_online_in_github",
+    "runner_label_t4h_bridge_present",
+    "named_workflow_step_started",
+    "calmbound_source_tests_executed",
+    "postgres_validation_executed_or_logged_failure"
+  ],
+  "failure_classification": {
+    "runner_not_registered": "SELF_HOSTED_RUNNER_REGISTRATION_BLOCK",
+    "service_inactive": "SELF_HOSTED_RUNNER_SERVICE_FAILURE",
+    "runner_offline": "SELF_HOSTED_RUNNER_CONNECTIVITY_FAILURE",
+    "workflow_waiting": "SELF_HOSTED_RUNNER_LABEL_OR_QUEUE_MISMATCH",
+    "step_failure": "WORKFLOW_STEP_FAILURE"
+  },
+  "truth": "Do not classify the runner as REAL until GitHub reports it online and a named workflow step starts."
+}
