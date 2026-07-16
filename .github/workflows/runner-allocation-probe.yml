@@ -1,0 +1,24 @@
+name: Runner Allocation Probe
+
+on:
+  push:
+    paths:
+      - '.github/workflows/runner-allocation-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Runner allocated
+        run: |
+          set -euo pipefail
+          echo "classification=RUNNER_ALLOCATED"
+          echo "runner_name=${RUNNER_NAME:-unknown}"
+          echo "repository=${GITHUB_REPOSITORY}"
+          echo "run_id=${GITHUB_RUN_ID}"
+          echo "sha=${GITHUB_SHA}"
