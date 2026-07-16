@@ -1,0 +1,100 @@
+{
+  "job_key": "calmbound_runtime_postgres_validation_20260717",
+  "created_at_utc": "2026-07-17T12:00:00Z",
+  "source": "chatgpt_autonomous_continuation",
+  "target": "T4H_BRIDGE_RUNNER",
+  "repo": "TML-4PM/the-pen",
+  "ref": "main",
+  "status": "QUEUED_NOT_RUNTIME_PROVEN",
+  "priority": "P0",
+  "truth_statement": "This file is an execution instruction. Runtime success is not REAL until the bridge publishes the required machine-readable receipt and command logs.",
+  "objective": "Validate the CalmBound reference runtime independently of GitHub-hosted Actions using disposable PostgreSQL, API smoke tests, event readback and rollback.",
+  "working_directory": "commissions/calmbound/runtime",
+  "preconditions": [
+    "git clone or refresh TML-4PM/the-pen main",
+    "Node.js 20 or newer available",
+    "Docker available",
+    "curl and jq available",
+    "no production database or credentials used"
+  ],
+  "execution": {
+    "shell": "bash",
+    "commands": [
+      "set -euo pipefail",
+      "git fetch origin main",
+      "git checkout main",
+      "git reset --hard origin/main",
+      "cd commissions/calmbound/runtime",
+      "node --check src/server.js",
+      "node --check src/runtime.js",
+      "npm install --no-audit --no-fund",
+      "npm test",
+      "docker rm -f calmbound-ci-postgres >/dev/null 2>&1 || true",
+      "docker run -d --name calmbound-ci-postgres -e POSTGRES_USER=calmbound -e POSTGRES_PASSWORD=calmbound -e POSTGRES_DB=calmbound_ci -p 55432:5432 postgres:16",
+      "for i in $(seq 1 60); do docker exec calmbound-ci-postgres pg_isready -U calmbound -d calmbound_ci && break; sleep 1; done",
+      "export DATABASE_URL=postgresql://calmbound:calmbound@127.0.0.1:55432/calmbound_ci",
+      "export PORT=3300",
+      "bash scripts/ci-smoke.sh",
+      "docker rm -f calmbound-ci-postgres"
+    ]
+  },
+  "required_gates": [
+    "node_syntax_server_pass",
+    "node_syntax_runtime_pass",
+    "dependencies_installed",
+    "contract_tests_pass",
+    "postgres16_started",
+    "schema_applied",
+    "api_health_pass",
+    "household_created",
+    "owner_membership_readback_equals_1",
+    "mode_activation_pass",
+    "event_ledger_readback_equals_2",
+    "rollback_pass",
+    "no_production_resources_touched"
+  ],
+  "required_outputs": {
+    "runtime_receipt": "commissions/calmbound/runtime/receipts/ci-runtime-receipt.json",
+    "server_log": "commissions/calmbound/runtime/receipts/server.log",
+    "bridge_receipt": "receipts/2026-07-17-calmbound-bridge-postgres-validation.json",
+    "bridge_log": "receipts/2026-07-17-calmbound-bridge-postgres-validation.log"
+  },
+  "bridge_receipt_required_fields": [
+    "job_key",
+    "status",
+    "started_at",
+    "finished_at",
+    "executor",
+    "host",
+    "repo_commit",
+    "commands_executed",
+    "exit_codes",
+    "tests_total",
+    "tests_passed",
+    "tests_failed",
+    "postgres_version",
+    "household_id",
+    "mode_instance_id",
+    "owner_membership_count",
+    "event_count",
+    "rollback_tables_after",
+    "evidence_paths",
+    "failure_stage",
+    "recovery_action"
+  ],
+  "classification": {
+    "job_definition": "REAL_GITHUB_ARTIFACT",
+    "bridge_submission": "REAL",
+    "runtime_execution": "PARTIAL_UNTIL_BRIDGE_RECEIPT",
+    "production_readiness": "BLOCKED"
+  },
+  "recovery": {
+    "automatic": [
+      "capture failing command and exit code",
+      "capture container logs",
+      "remove disposable container",
+      "publish PARTIAL or FAILED receipt without claiming runtime success"
+    ],
+    "destructive_scope": "Disposable Docker container and disposable PostgreSQL database only"
+  }
+}
