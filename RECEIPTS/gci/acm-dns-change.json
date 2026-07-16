@@ -1,0 +1,12 @@
+{
+  "Comment": "Validate ACM certificate for innovateme.systems",
+  "Changes": [{
+    "Action": "UPSERT",
+    "ResourceRecordSet": {
+      "Name": "_052edfc52a21405b783608d2c82d1c12.innovateme.systems.",
+      "Type": "CNAME",
+      "TTL": 300,
+      "ResourceRecords": [{"Value": "_3a36bb6f38faf25e2145aa7eda980708.jkddzztszm.acm-validations.aws."}]
+    }
+  }]
+}

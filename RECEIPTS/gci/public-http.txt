@@ -1,0 +1,4 @@
+200 https://innovateme.systems/
+200 https://innovateme.systems/publications/
+200 https://innovateme.systems/sitemap.xml
+200 https://innovateme.systems/robots.txt

@@ -1,0 +1,3 @@
+::ffff:127.0.0.1 - - [17/Jul/2026 07:03:07] "GET / HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [17/Jul/2026 07:03:07] "GET /publications/ HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [17/Jul/2026 07:03:07] "GET /sitemap.xml HTTP/1.1" 200 -

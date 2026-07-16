@@ -1,0 +1,14 @@
+{
+  "programme": "Global Capability Initiative",
+  "source_repository": "TML-4PM/InnovateME",
+  "source_commit": "a7ccbe41c29dcb8f4a78900b1e324e5de2ce0ff4",
+  "target_domain": "https://innovateme.systems",
+  "bucket": "innovateme.systems",
+  "version": "v1.0",
+  "zip": "InnovateME-Systems-GCI-v1.0.zip",
+  "zip_size_bytes": 81859,
+  "zip_sha256": "4d26bd026c84ac97c6b51799925ead6b4ef787c92a5dcdb947a13cd99c730b83",
+  "deployed_at": "2026-07-16T21:08:09Z",
+  "deployment_requested": true,
+  "status": "COMPLETE"
+}
