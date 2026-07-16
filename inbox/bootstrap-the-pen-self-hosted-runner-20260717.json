@@ -1,0 +1,32 @@
+{
+  "job_id": "BOOTSTRAP-THE-PEN-SELF-HOSTED-RUNNER-20260717",
+  "priority": "P0",
+  "status": "READY_FOR_BRIDGE_EXECUTION",
+  "target": "BRIDGE_RUNNER",
+  "repository": "TML-4PM/the-pen",
+  "branch": "main",
+  "source_script": "ops/github-actions/bootstrap_t4h_bridge_runner.sh",
+  "execution": [
+    "Refresh main on the bridge host.",
+    "Confirm Docker, curl, jq, tar and systemd are available.",
+    "Execute the bootstrap using the bridge secret policy.",
+    "Confirm the actions.runner service is active.",
+    "Confirm the runner is online with label t4h-bridge.",
+    "Trigger CalmBound Runtime CI.",
+    "Publish bootstrap and workflow receipts."
+  ],
+  "required_receipts": [
+    "receipts/2026-07-17-the-pen-self-hosted-runner-bootstrap.json",
+    "receipts/2026-07-17-the-pen-self-hosted-runner-bootstrap.log",
+    "commissions/calmbound/runtime/receipts/ci-runtime-receipt.json"
+  ],
+  "acceptance": [
+    "runner_service_active",
+    "runner_visible_online_in_github",
+    "runner_labels_match",
+    "first_workflow_step_started",
+    "calmbound_source_tests_executed",
+    "postgres_validation_executed_or_logged_failure"
+  ],
+  "truth": "REAL only after GitHub reports the runner online and a workflow starts a named step."
+}
