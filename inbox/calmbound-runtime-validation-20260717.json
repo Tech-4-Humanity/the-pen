@@ -1,0 +1,33 @@
+{
+  "job_id": "CALMBOUND-RUNTIME-VALIDATION-20260717",
+  "priority": "P0",
+  "status": "QUEUED",
+  "target": "BRIDGE_RUNNER",
+  "repository": "TML-4PM/the-pen",
+  "branch": "main",
+  "runtime_path": "commissions/calmbound/runtime",
+  "objective": "Validate the CalmBound reference runtime in an isolated environment and publish evidence.",
+  "steps": [
+    "refresh repository",
+    "install dependencies",
+    "run syntax checks",
+    "run contract tests",
+    "start isolated PostgreSQL 16",
+    "apply CalmBound schema",
+    "run API health and household smoke tests",
+    "verify owner membership",
+    "verify mode activation",
+    "verify event ledger",
+    "run database cleanup test",
+    "publish receipt and logs"
+  ],
+  "required_outputs": [
+    "commissions/calmbound/runtime/receipts/ci-runtime-receipt.json",
+    "commissions/calmbound/runtime/receipts/server.log",
+    "receipts/2026-07-17-calmbound-bridge-postgres-validation.json",
+    "receipts/2026-07-17-calmbound-bridge-postgres-validation.log"
+  ],
+  "production_resources": false,
+  "no_hitl": true,
+  "truth_rule": "Mark validation REAL only when every required check has execution evidence. Otherwise publish the observed failure and remaining state."
+}
