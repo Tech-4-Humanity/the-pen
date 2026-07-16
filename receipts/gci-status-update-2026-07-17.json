@@ -1,0 +1,26 @@
+{
+  "programme": "Global Capability Initiative",
+  "updated_at": "2026-07-17",
+  "runtime_gate": "TML-4PM/the-pen#233",
+  "source_repository": "TML-4PM/InnovateME",
+  "target_url": "https://innovateme.systems",
+  "status": "PARTIAL_WAITING_FOR_RUNTIME_EXECUTION",
+  "verified_done": [
+    "source repository accessible with push/admin permissions",
+    "core homepage source exists",
+    "runtime handover committed",
+    "validation and deployment commands documented",
+    "status summary committed"
+  ],
+  "not_evidenced": [
+    "passing production build",
+    "versioned ZIP bundle and SHA-256",
+    "S3 sync",
+    "CloudFront invalidation completion",
+    "DNS/TLS verification",
+    "live HTTP validation"
+  ],
+  "handover_commit": "7d146bb3f8c1a30126ed3dcf7bb156c49a484854",
+  "status_commit": "d6da23023032f327449ed0e63d99152ddfebb04b",
+  "close_allowed": false
+}
