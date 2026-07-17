@@ -28,8 +28,7 @@ aws s3api head-bucket --bucket "$BUCKET" >/dev/null
 mkdir -p "$TMP_DIR/found"
 
 # The AWS CLI may emit one result per API page when --output text is combined
-# with a JMESPath query, which previously produced a valid key followed by
-# multiple "None" lines. Fetch the complete paginated response as JSON and
+# with a JMESPath query. Fetch the complete paginated response as JSON and
 # select exactly one newest matching key in Python instead.
 find_latest_key() {
   local name="$1"
@@ -91,14 +90,29 @@ for name in "${FILES[@]}"; do
   aws s3 cp "s3://$BUCKET/$dest_key" "$TMP_DIR/found/$name" --only-show-errors
   size="$(wc -c < "$TMP_DIR/found/$name" | tr -d ' ')"
   rows="$(python3 - "$TMP_DIR/found/$name" <<'PY'
-import csv, sys
-with open(sys.argv[1], newline='', encoding='utf-8-sig') as f:
-    print(max(0, sum(1 for _ in csv.reader(f)) - 1))
+import csv
+import sys
+
+# Preservation inventories can contain full HTML, JSON or embedded source in a
+# single CSV field. Raise Python's conservative 128 KiB default to the largest
+# value supported by this interpreter/platform without overflowing C long.
+limit = sys.maxsize
+while True:
+    try:
+        csv.field_size_limit(limit)
+        break
+    except OverflowError:
+        limit //= 10
+
+with open(sys.argv[1], newline='', encoding='utf-8-sig') as handle:
+    count = sum(1 for _ in csv.reader(handle))
+print(max(0, count - 1))
 PY
 )"
   sha="$(shasum -a 256 "$TMP_DIR/found/$name" | awk '{print $1}')"
   etag="$(aws s3api head-object --bucket "$BUCKET" --key "$dest_key" --query ETag --output text | tr -d '"')"
   manifest_entries+=("$name|$dest_key|$size|$rows|$sha|$etag")
+  echo "Validated $name: rows=$rows bytes=$size sha256=$sha"
 done
 
 python3 - "$BUCKET" "$CANONICAL_PREFIX" "$EXPECTED_ROOTS" "$RUN_ID" "${manifest_entries[@]}" > "$TMP_DIR/_READY.json" <<'PY'
