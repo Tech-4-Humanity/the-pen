@@ -10,6 +10,7 @@ on:
       - 'docs/**'
       - '.github/workflows/pen-worker.yml'
   push:
+    branches: [main]
     paths:
       - 'inbox/*.json'
       - 'workers/**'
@@ -34,13 +35,11 @@ concurrency:
 
 jobs:
   run-pen-worker:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, t4h-bridge]
     timeout-minutes: 10
     env:
       PEN_RECEIPTS_DIR: receipts/runtime
       PEN_INBOX_DIR: inbox
-      # Worker code expects BRIDGE_INVOKE_URL / BRIDGE_API_KEY. Accept both the newer
-      # BRIDGE_INVOKE_URL/BRIDGE_API_KEY and older BRIDGE_ENDPOINT/BRIDGE_KEY secret names.
       BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL || secrets.BRIDGE_ENDPOINT }}
       BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY || secrets.BRIDGE_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -52,6 +51,7 @@ jobs:
           echo "pen-worker job materialised."
           echo "event=${{ github.event_name }}"
           echo "sha=${{ github.sha }}"
+          echo "runner=${{ runner.name }}"
 
       - name: PR-safe acknowledgement
         if: github.event_name == 'pull_request'
@@ -88,7 +88,6 @@ jobs:
           else
             JOB_PATH=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | grep '^inbox/.*\.json$' | head -n 1 || true)
             if [ -z "$JOB_PATH" ]; then
-              # Only consider top-level inbox/*.json; subdirectory jobs are dispatched by Pen Inbox Dispatch + Execute, not this worker
               JOB_PATH=$(ls -1t inbox/*.json 2>/dev/null | head -n 1 || true)
             fi
           fi
@@ -132,6 +131,7 @@ jobs:
         shell: bash
         run: |
           echo "## Pen worker" >> "$GITHUB_STEP_SUMMARY"
+          echo "Runner: ${{ runner.name }}" >> "$GITHUB_STEP_SUMMARY"
           echo "Job: ${{ steps.job.outputs.job_path }}" >> "$GITHUB_STEP_SUMMARY"
           echo "Receipts:" >> "$GITHUB_STEP_SUMMARY"
           ls -1 receipts/runtime/*.receipt.json | tail -n 10 >> "$GITHUB_STEP_SUMMARY"
