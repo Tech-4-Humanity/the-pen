@@ -1,0 +1,31 @@
+{
+  "receipt_id": "PEN-BRIDGE-INVESTIGATION-NOTES-PUBLICATION-20260717",
+  "created_at": "2026-07-17",
+  "repository": "TML-4PM/the-pen",
+  "branch": "main",
+  "status": "REAL",
+  "classification": "DOCUMENTATION_PUBLICATION",
+  "published_artifact": "operations/2026-07-17-pen-bridge-delivery-investigation-notes.md",
+  "artifact_commit": "2cd470dc0a35fa92c4e7115a68d19c302b58d848",
+  "scope": [
+    "root_cause_wrong_execution_surface",
+    "root_cause_invalid_worker_job_schema",
+    "root_cause_hosted_runner_consumer_block",
+    "worker_normalisation_repair",
+    "live_bridge_intake_submission",
+    "self_hosted_pen_worker_reroute",
+    "required_runtime_receipts",
+    "truth_classification"
+  ],
+  "execution_truth": {
+    "notes_published": "REAL",
+    "repair_commits_referenced": "REAL",
+    "live_bridge_claim": "PARTIAL",
+    "bridge_health": "PARTIAL",
+    "github_write_identity": "PARTIAL",
+    "self_hosted_runner_online": "PARTIAL",
+    "calmbound_runtime_validation": "PARTIAL",
+    "production_readiness": "BLOCKED"
+  },
+  "truth_statement": "This receipt proves publication of the investigation notes. It does not prove Bridge claim, runner registration, workflow execution, or CalmBound runtime validation. Those states require separate execution receipts."
+}
