@@ -27,23 +27,60 @@ aws s3api head-bucket --bucket "$BUCKET" >/dev/null
 
 mkdir -p "$TMP_DIR/found"
 
+# The AWS CLI may emit one result per API page when --output text is combined
+# with a JMESPath query, which previously produced a valid key followed by
+# multiple "None" lines. Fetch the complete paginated response as JSON and
+# select exactly one newest matching key in Python instead.
 find_latest_key() {
   local name="$1"
+  local listing="$TMP_DIR/list-${name}.json"
+
   aws s3api list-objects-v2 \
     --bucket "$BUCKET" \
     --prefix "$SEARCH_PREFIX" \
-    --query "reverse(sort_by(Contents[?ends_with(Key, \`$name\`)], &LastModified))[0].Key" \
-    --output text
+    --output json > "$listing"
+
+  python3 - "$listing" "$name" "${CANONICAL_PREFIX%/}/$name" <<'PY'
+import json
+import sys
+
+path, filename, canonical_key = sys.argv[1:]
+with open(path, encoding="utf-8") as handle:
+    payload = json.load(handle)
+
+matches = []
+for item in payload.get("Contents", []):
+    key = item.get("Key")
+    modified = item.get("LastModified", "")
+    if not key or key == canonical_key:
+        continue
+    if key.endswith(filename):
+        matches.append((modified, key))
+
+if matches:
+    matches.sort(reverse=True)
+    print(matches[0][1])
+PY
+}
+
+validate_key() {
+  local key="$1"
+  [[ -n "$key" ]] || return 1
+  [[ "$key" != "None" && "$key" != "null" ]] || return 1
+  [[ "$key" != *$'\n'* && "$key" != *$'\r'* ]] || return 1
+  [[ "$key" == "$SEARCH_PREFIX"/* ]] || return 1
 }
 
 manifest_entries=()
 for name in "${FILES[@]}"; do
-  key="$(find_latest_key "$name")"
-  if [[ -z "$key" || "$key" == "None" ]]; then
-    echo "Missing required object: $name" >&2
+  key="$(find_latest_key "$name" | tr -d '\r')"
+  if ! validate_key "$key"; then
+    echo "Missing or invalid required object: $name" >&2
+    printf 'Resolved key: %q\n' "$key" >&2
     exit 3
   fi
 
+  echo "Resolved $name -> s3://$BUCKET/$key"
   dest_key="${CANONICAL_PREFIX%/}/$name"
   if [[ "$key" != "$dest_key" ]]; then
     aws s3 cp "s3://$BUCKET/$key" "s3://$BUCKET/$dest_key" \
@@ -56,7 +93,7 @@ for name in "${FILES[@]}"; do
   rows="$(python3 - "$TMP_DIR/found/$name" <<'PY'
 import csv, sys
 with open(sys.argv[1], newline='', encoding='utf-8-sig') as f:
-    print(sum(1 for _ in csv.reader(f)) - 1)
+    print(max(0, sum(1 for _ in csv.reader(f)) - 1))
 PY
 )"
   sha="$(shasum -a 256 "$TMP_DIR/found/$name" | awk '{print $1}')"
