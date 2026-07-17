@@ -1,0 +1,52 @@
+{
+  "task_id": "CALMBOUND-RUNNER-RUNTIME-RECOVERY-20260717",
+  "intent_class": "FIX",
+  "priority": "P0",
+  "status": "SUBMITTED",
+  "owner": "Tech4Humanity",
+  "business": "CalmBound",
+  "environment": "dev",
+  "risk_level": "low",
+  "requires_human": false,
+  "requires_bridge": true,
+  "requested_action": "Use the live Pen dispatcher and Bridge runtime to restore an executable CI path for TML-4PM/the-pen, then validate CalmBound in disposable PostgreSQL.",
+  "bridge_function": "organisation_accept",
+  "repository": "TML-4PM/the-pen",
+  "branch": "main",
+  "source_jobs": [
+    "inbox/bootstrap-the-pen-self-hosted-runner-20260717.json",
+    "inbox/recover-and-verify-the-pen-self-hosted-runner-20260717.json",
+    "inbox/calmbound-runtime-validation-20260717.json"
+  ],
+  "execution_order": [
+    "Verify the current Bridge runtime is online and capable of accepting organisation_accept work.",
+    "Verify the Bridge execution host can read TML-4PM/the-pen main.",
+    "Verify the execution identity can commit receipt files to TML-4PM/the-pen main; otherwise publish a bounded credential or permission failure receipt.",
+    "Run ops/github-actions/bootstrap_t4h_bridge_runner.sh on the Bridge host under the existing secret policy.",
+    "Verify the self-hosted runner service is active and GitHub reports label t4h-bridge online.",
+    "Trigger CalmBound Runtime CI and verify a named workflow step starts.",
+    "Run source tests and disposable PostgreSQL/API/rollback validation.",
+    "Publish all observed receipts and logs back to TML-4PM/the-pen main."
+  ],
+  "evidence_required": [
+    "bridge_status",
+    "bridge_repository_read",
+    "bridge_repository_write_or_bounded_failure",
+    "runner_service_status",
+    "runner_online_status",
+    "named_workflow_step",
+    "source_test_result",
+    "postgres_result",
+    "api_smoke_result",
+    "rollback_result"
+  ],
+  "required_receipts": [
+    "receipts/2026-07-17-bridge-delivery-and-identity-check.json",
+    "receipts/2026-07-17-the-pen-self-hosted-runner-bootstrap.json",
+    "receipts/2026-07-17-the-pen-self-hosted-runner-health.json",
+    "commissions/calmbound/runtime/receipts/ci-runtime-receipt.json",
+    "receipts/2026-07-17-calmbound-bridge-postgres-validation.json"
+  ],
+  "next_action": "Poll, classify as executable, insert into ops.work_queue, dispatch to Bridge, reconcile by job identity, and commit receipts.",
+  "truth_rule": "REAL only after the live dispatcher claims this item, the Bridge returns a job-linked response, and named execution evidence is committed."
+}
