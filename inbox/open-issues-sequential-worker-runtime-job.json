@@ -1,0 +1,28 @@
+{
+  "schema_version": "t4h.pen.runtime-job.v1",
+  "job_id": "pen-open-issues-sequential-worker-20260718",
+  "deduplication_key": "TML-4PM/the-pen:open-issues-sequential-worker:v1",
+  "created_at": "2026-07-18T00:00:00Z",
+  "owner": "pen-runtime-worker",
+  "target_runtime": "bridge",
+  "intent": "Process open work-queue issues in ascending issue-number order. Give each issue no more than three bounded attempts, persist an attempt receipt and ledger entry after every try, then advance to the next issue whether REAL, PARTIAL, or BLOCKED.",
+  "command": "MAX_ATTEMPTS=3 MAX_ISSUES_PER_RUN=20 ISSUE_LABEL=work-queue bash workers/open-issues-sequential-worker.sh",
+  "policy": {
+    "ordering": "ascending issue number",
+    "attempts_per_issue": 3,
+    "advance_after_real": true,
+    "advance_after_third_failure": true,
+    "close_issue_only_with_real_receipt": true,
+    "silent_failure_forbidden": true
+  },
+  "evidence": {
+    "worker": "workers/open-issues-sequential-worker.sh",
+    "ledger": "runtime/ledger/open-issues-worker.jsonl",
+    "run_receipts": "runtime/open-issues-worker/<run-id>/issue-<number>/attempt-<n>/receipt.json"
+  },
+  "recovery": {
+    "missing_issue_worker": "emit BLOCKED receipt for each attempt and move on after attempt three",
+    "worker_failure": "record exit code, retry with bounded backoff, then move on",
+    "ledger_failure": "classify BLOCKED and retain local run evidence for rerun"
+  }
+}
