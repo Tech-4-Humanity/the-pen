@@ -1,0 +1,50 @@
+name: Issue 237 Runtime Worker
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: issue-237-runtime-worker
+  cancel-in-progress: false
+
+jobs:
+  run-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq openssl python3 swaks dovecot-managesieved
+
+      - name: Execute worker
+        env:
+          MIGADU_ADMIN_EMAIL: ${{ secrets.MIGADU_ADMIN_EMAIL }}
+          MIGADU_API_KEY: ${{ secrets.MIGADU_API_KEY }}
+          MIGADU_DOMAIN: ${{ secrets.MIGADU_DOMAIN }}
+          SOURCE_MAILBOX: ${{ secrets.SOURCE_MAILBOX }}
+          SOURCE_MAILBOX_PASSWORD: ${{ secrets.SOURCE_MAILBOX_PASSWORD }}
+          AGENT_MAILBOX_PASSWORD: ${{ secrets.AGENT_MAILBOX_PASSWORD }}
+        run: |
+          chmod +x workers/issue-237-migadu-runtime-worker.sh
+          workers/issue-237-migadu-runtime-worker.sh
+
+      - name: Verify and persist evidence
+        if: always()
+        run: |
+          test -s runtime/ledger/issue-237.jsonl
+          receipt=$(find runtime/receipts/issue-237 -type f -name '*.json' | sort | tail -1)
+          test -n "$receipt"
+          jq -e '.job_id=="pen-issue-237-migadu-github-routing-20260718"' "$receipt"
+          git config user.name t4h-runtime-worker
+          git config user.email runtime-worker@users.noreply.github.com
+          git add runtime/claims runtime/receipts runtime/ledger
+          git diff --cached --quiet || git commit -m "receipt(runtime): issue 237 run ${GITHUB_RUN_ID}"
+          git pull --rebase origin main
+          git push origin HEAD:main
