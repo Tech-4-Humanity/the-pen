@@ -1,0 +1,84 @@
+{
+  "schema_version": "t4h.pen.runtime-job.v1",
+  "job_id": "pen-issue-237-migadu-github-routing-20260718",
+  "deduplication_key": "TML-4PM/the-pen#237:migadu-github-agent-routing:tech4humanity.net:troy",
+  "created_at": "2026-07-18T00:00:00Z",
+  "source": {
+    "repository": "TML-4PM/the-pen",
+    "issue": 237,
+    "bundle_path": "inbox/bundles/migadu-github-agent-routing-all-sprints-20260718.sh",
+    "bundle_commit": "65e0fea1baf434797479f501f43977ff36126777"
+  },
+  "intent": "Execute the live Migadu GitHub failure routing and autonomous investigation path, recover bounded failures, and persist receipt-grade evidence.",
+  "owner": "pen-runtime-worker",
+  "target_runtime": "bridge",
+  "authority": {
+    "allowed": [
+      "read Migadu domain and mailbox configuration",
+      "create or verify github-agent mailbox",
+      "create and verify required IMAP folders",
+      "upload and activate the named loop-safe Sieve policy",
+      "send a bounded synthetic GitHub failure test",
+      "create one deduplicated downstream investigation job",
+      "retrieve GitHub Actions run, job and log evidence",
+      "apply a bounded non-destructive repair when authorised",
+      "rerun failed workflow jobs",
+      "read back GitHub workflow state",
+      "write receipts and append durable ledger records",
+      "comment on issue 237 with receipt locations and final classification"
+    ],
+    "forbidden": [
+      "commit secrets",
+      "delete mailboxes or messages",
+      "modify unrelated Sieve policies",
+      "force-push",
+      "destructive GitHub changes without separate authority"
+    ]
+  },
+  "runtime": {
+    "command": "APPLY=1 bash inbox/bundles/migadu-github-agent-routing-all-sprints-20260718.sh",
+    "required_secret_environment": [
+      "MIGADU_ADMIN_EMAIL",
+      "MIGADU_API_KEY",
+      "MIGADU_DOMAIN",
+      "SOURCE_MAILBOX",
+      "SOURCE_MAILBOX_PASSWORD",
+      "AGENT_MAILBOX_PASSWORD"
+    ],
+    "non_secret_environment": {
+      "MIGADU_DOMAIN": "tech4humanity.net",
+      "SOURCE_MAILBOX": "troy@tech4humanity.net",
+      "AGENT_LOCAL_PART": "github-agent",
+      "APPLY": "1"
+    }
+  },
+  "real_gate": {
+    "folder_placement": "Synthetic GitHub failure is observed in Systems/GitHub/Failures via IMAP readback.",
+    "agent_delivery": "Exactly one preserved copy is observed in github-agent@tech4humanity.net.",
+    "job_creation": "A downstream investigation job ID and deduplication key are persisted.",
+    "investigation": "GitHub Actions run, job, step and log evidence are captured.",
+    "repair_or_rerun": "A bounded repair is applied when authorised, or an explicit BLOCKED receipt identifies the authority/dependency gap; failed workflow work is rerun when applicable.",
+    "github_readback": "Post-rerun workflow conclusion and commit/check status are read back from GitHub.",
+    "receipt": "A JSON deployment/execution receipt records every gate, evidence path, hashes, timestamps and final state.",
+    "ledger": "The same run is appended to the durable ledger and independently read back."
+  },
+  "required_outputs": [
+    "receipts/migadu-github-agent-routing/<run-id>/deployment-receipt.json",
+    "receipts/migadu-github-agent-routing/<run-id>/execution.log",
+    "receipts/migadu-github-agent-routing/<run-id>/folder-verification.json",
+    "receipts/migadu-github-agent-routing/<run-id>/agent-delivery-verification.json",
+    "receipts/migadu-github-agent-routing/<run-id>/investigation-receipt.json",
+    "receipts/migadu-github-agent-routing/<run-id>/github-readback.json",
+    "receipts/migadu-github-agent-routing/ledger.jsonl"
+  ],
+  "recovery": {
+    "missing_credentials": "Emit BLOCKED receipt naming only missing variable names, never values; retain job for retry.",
+    "mailbox_or_folder_failure": "Retry idempotently, preserve before/after state, and do not delete existing mail or folders.",
+    "sieve_failure": "Keep prior active script, record upload/activation response, repair syntax or CLI dependency, then retry.",
+    "routing_test_failure": "Capture message identifiers and IMAP listings, diagnose rule matching, patch only the named policy, and rerun one bounded test.",
+    "github_failure": "Capture run/job/log evidence; use failed-job rerun where safe; otherwise emit explicit BLOCKED evidence.",
+    "ledger_failure": "Do not classify REAL; rebuild or reroute ledger persistence and independently read it back."
+  },
+  "classification": "PARTIAL",
+  "completion_rule": "Do not close issue 237 and do not classify REAL until every real_gate field has observed evidence and both receipt and ledger have been read back."
+}
