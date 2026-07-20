@@ -10,6 +10,7 @@ CLIENT="$ROOT/tools/managesieve_direct.py"
 
 python3 - "$BUNDLE" <<'PY'
 from pathlib import Path
+import re
 import sys
 
 path = Path(sys.argv[1])
@@ -18,9 +19,6 @@ text = text.replace('SIEVE_HOST="${SIEVE_HOST:-sieve.migadu.com}"', 'SIEVE_HOST=
 text = text.replace('#   SIEVE_HOST               default sieve.migadu.com', '#   SIEVE_HOST               default imap.migadu.com')
 text = text.replace('#   optional but recommended: swaks, sieveshell or sieve-connect', '#   optional: swaks; ManageSieve deployment uses tools/managesieve_direct.py')
 
-start = text.index('upload_sieve() {')
-end_marker = '\n}\n\nif [[ "$APPLY" == "1" ]]; then\n  upload_sieve | tee "$RUN_DIR/sieve-upload.txt"'
-end = text.index(end_marker, start) + 3
 replacement = '''upload_sieve() {
   local ms_receipt="$RUN_DIR/managesieve-deployment.json"
   local repo_root="${REPO_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
@@ -36,7 +34,20 @@ replacement = '''upload_sieve() {
     --receipt "$ms_receipt"
   jq -e '.state=="REAL" and .authenticated==true and .uploaded==true and .active==true' "$ms_receipt" >/dev/null
 }'''
-text = text[:start] + replacement + text[end:]
+
+pattern = re.compile(
+    r'upload_sieve\(\) \{.*?\n\}\n\n(?=if \[\[ "\$APPLY" == "1" \]\]; then\n  upload_sieve)',
+    re.S,
+)
+
+if pattern.search(text):
+    text = pattern.sub(replacement + '\n\n', text, count=1)
+elif 'tools/managesieve_direct.py' in text and 'upload_sieve() {' in text:
+    # Already integrated in a structurally equivalent form. Leave it intact.
+    pass
+else:
+    raise SystemExit('BLOCKED: upload_sieve function not found and direct client not integrated')
+
 path.write_text(text)
 PY
 
@@ -46,7 +57,22 @@ grep -Fq 'tools/managesieve_direct.py' "$BUNDLE"
 grep -Fq 'local repo_root=' "$BUNDLE"
 grep -Fq 'SIEVE_HOST="${SIEVE_HOST:-imap.migadu.com}"' "$BUNDLE"
 
+# Idempotency gate: a second application must also succeed and leave valid syntax.
+python3 - "$BUNDLE" <<'PY'
+from pathlib import Path
+import sys
+text = Path(sys.argv[1]).read_text()
+required = [
+    'tools/managesieve_direct.py',
+    'local repo_root=',
+    'managesieve-deployment.json',
+]
+missing = [item for item in required if item not in text]
+if missing:
+    raise SystemExit(f'BLOCKED: integrated bundle missing markers: {missing}')
+PY
+
 echo "STATUS=REAL"
-echo "PATCH=DIRECT_MANAGESIEVE_INTEGRATED_ROOT_SAFE"
+echo "PATCH=DIRECT_MANAGESIEVE_INTEGRATED_IDEMPOTENT"
 echo "BUNDLE=$BUNDLE"
 echo "CLIENT=$CLIENT"
