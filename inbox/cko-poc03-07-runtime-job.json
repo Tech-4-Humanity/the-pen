@@ -1,0 +1,39 @@
+{
+  "schema_version": "t4h.pen.runtime-job.v1",
+  "job_id": "cko-poc03-07-runtime-20260721",
+  "deduplication_key": "TML-4PM/the-pen:cko-poc03-07:v1",
+  "created_at": "2026-07-21T00:00:00Z",
+  "owner": "knowledge-runtime-worker",
+  "target_runtime": "bridge",
+  "intent": "Load and execute the remaining Canonical Knowledge runtime program sequentially: POC-03 Translation Engine, POC-04 Validation and Policy Engine, POC-05 Relationship and Knowledge Graph Compiler, POC-06 Search and Institutional Memory Interface, and POC-07 Event-Driven Ingestion and Agent Runtime. Preserve bounded execution, evidence, telemetry, receipts, recovery and no-pretend classification at every stage.",
+  "command": "bash workers/cko-poc03-07-runtime-worker.sh",
+  "policy": {
+    "ordering": ["POC-03", "POC-04", "POC-05", "POC-06", "POC-07"],
+    "advance_only_after_acceptance": true,
+    "max_attempts_per_stage": 3,
+    "silent_failure_forbidden": true,
+    "close_issue_only_with_real_receipt": true,
+    "classification": ["REAL", "PARTIAL", "BLOCKED", "ASPIRATIONAL"]
+  },
+  "inputs": {
+    "supabase_project_ref": "jjsycelagfmuquvxryfo",
+    "source_cko_id": "cko:pdf:7b72f182832a49a6253aea05",
+    "evidence_bucket": "t4h-archive-140548542136",
+    "region": "ap-southeast-2",
+    "github_issue": 243
+  },
+  "evidence": {
+    "contract": "tasks/cko-poc03-07/EXECUTION_CONTRACT.md",
+    "schema": "system/knowledge-runtime/poc03_07_schema.sql",
+    "worker": "workers/cko-poc03-07-runtime-worker.sh",
+    "runtime": "runtime/cko-poc03-07/<run-id>/",
+    "receipts": "receipts/runtime/cko-poc03-07/<run-id>/final-receipt.json",
+    "s3": "s3://t4h-archive-140548542136/knowledge-runtime/poc03-07/<run-id>/"
+  },
+  "recovery": {
+    "missing_dependency": "emit BLOCKED receipt with exact missing dependency",
+    "stage_failure": "persist attempt evidence and retry up to three times",
+    "validation_failure": "do not advance; quarantine output and emit receipt",
+    "s3_failure": "retain Supabase and local runtime evidence for replay"
+  }
+}
