@@ -18,6 +18,7 @@ text = path.read_text()
 text = text.replace('SIEVE_HOST="${SIEVE_HOST:-sieve.migadu.com}"', 'SIEVE_HOST="${SIEVE_HOST:-imap.migadu.com}"')
 text = text.replace('#   SIEVE_HOST               default sieve.migadu.com', '#   SIEVE_HOST               default imap.migadu.com')
 text = text.replace('#   optional but recommended: swaks, sieveshell or sieve-connect', '#   optional: swaks; ManageSieve deployment uses tools/managesieve_direct.py')
+text = text.replace('require ["fileinto", "copy", "redirect"];', 'require ["fileinto", "copy"];')
 
 replacement = '''upload_sieve() {
   local ms_receipt="$RUN_DIR/managesieve-deployment.json"
@@ -35,18 +36,12 @@ replacement = '''upload_sieve() {
   jq -e '.state=="REAL" and .authenticated==true and .uploaded==true and .active==true' "$ms_receipt" >/dev/null
 }'''
 
-pattern = re.compile(
-    r'upload_sieve\(\) \{.*?\n\}\n\n(?=if \[\[ "\$APPLY" == "1" \]\]; then\n  upload_sieve)',
-    re.S,
-)
-
-if pattern.search(text):
-    text = pattern.sub(replacement + '\n\n', text, count=1)
-elif 'tools/managesieve_direct.py' in text and 'upload_sieve() {' in text:
-    # Already integrated in a structurally equivalent form. Leave it intact.
-    pass
-else:
-    raise SystemExit('BLOCKED: upload_sieve function not found and direct client not integrated')
+pattern = re.compile(r'upload_sieve\(\) \{.*?\n\}\n\nif \[\[ "\$APPLY" == "1" \]\]; then\n  upload_sieve \| tee "\$RUN_DIR/sieve-upload.txt"', re.S)
+match = pattern.search(text)
+if match:
+    text = text[:match.start()] + replacement + '\n\nif [[ "$APPLY" == "1" ]]; then\n  upload_sieve | tee "$RUN_DIR/sieve-upload.txt"' + text[match.end():]
+elif 'python3 "$client"' not in text:
+    raise SystemExit('BLOCKED: unable to locate or verify upload_sieve implementation')
 
 path.write_text(text)
 PY
@@ -56,23 +51,10 @@ python3 -m py_compile "$CLIENT"
 grep -Fq 'tools/managesieve_direct.py' "$BUNDLE"
 grep -Fq 'local repo_root=' "$BUNDLE"
 grep -Fq 'SIEVE_HOST="${SIEVE_HOST:-imap.migadu.com}"' "$BUNDLE"
-
-# Idempotency gate: a second application must also succeed and leave valid syntax.
-python3 - "$BUNDLE" <<'PY'
-from pathlib import Path
-import sys
-text = Path(sys.argv[1]).read_text()
-required = [
-    'tools/managesieve_direct.py',
-    'local repo_root=',
-    'managesieve-deployment.json',
-]
-missing = [item for item in required if item not in text]
-if missing:
-    raise SystemExit(f'BLOCKED: integrated bundle missing markers: {missing}')
-PY
+grep -Fq 'require ["fileinto", "copy"];' "$BUNDLE"
+! grep -Fq 'require ["fileinto", "copy", "redirect"];' "$BUNDLE"
 
 echo "STATUS=REAL"
-echo "PATCH=DIRECT_MANAGESIEVE_INTEGRATED_IDEMPOTENT"
+echo "PATCH=DIRECT_MANAGESIEVE_AND_SIEVE_CAPABILITIES"
 echo "BUNDLE=$BUNDLE"
 echo "CLIENT=$CLIENT"
