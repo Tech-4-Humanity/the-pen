@@ -55,9 +55,10 @@ trap fail ERR
 load_ssm(){
   local region="${AWS_REGION:-ap-southeast-2}" prefix="${MIGADU_SSM_PREFIX:-/t4h/migadu/runtime}" name value
   for name in MIGADU_ADMIN_EMAIL MIGADU_API_KEY MIGADU_DOMAIN SOURCE_MAILBOX SOURCE_MAILBOX_PASSWORD AGENT_MAILBOX_PASSWORD SWAKS_SERVER SWAKS_USER SWAKS_PASSWORD; do
-    [[ -n "${!name:-}" ]] && continue
     value="$(aws ssm get-parameter --region "$region" --name "$prefix/$name" --with-decryption --query 'Parameter.Value' --output text 2>/dev/null || true)"
-    [[ -n "$value" && "$value" != None ]] && printf -v "$name" '%s' "$value" && export "$name"
+    [[ -n "$value" && "$value" != None ]] || continue
+    printf -v "$name" '%s' "$value"
+    export "$name"
   done
 }
 
