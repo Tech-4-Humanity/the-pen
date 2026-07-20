@@ -3,6 +3,7 @@
 
 Reads manifest and v2 receipts with Python TSV parsing. Repeated/resumed uploader
 runs are reconciled by object identity so idempotent retries cannot inflate counts.
+Browser partial-download artefacts are classified as excluded rather than failed.
 """
 from __future__ import annotations
 
@@ -13,6 +14,14 @@ import sys
 from collections import Counter
 from pathlib import Path
 from typing import Iterable
+
+TEMP_SUFFIXES = (
+    ".crdownload",
+    ".part",
+    ".partial",
+    ".download",
+    ".tmp",
+)
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -28,6 +37,15 @@ def count_matching(rows: Iterable[dict[str, str]], needles: tuple[str, ...]) -> 
         for row in rows
         if any(needle in " ".join(str(v) for v in row.values()).lower() for needle in needles)
     )
+
+
+def row_text(row: dict[str, str]) -> str:
+    return " ".join(str(v) for v in row.values()).lower()
+
+
+def is_temporary_download(row: dict[str, str]) -> bool:
+    text = row_text(row)
+    return any(suffix in text for suffix in TEMP_SUFFIXES)
 
 
 def object_key(row: dict[str, str]) -> str:
@@ -71,11 +89,17 @@ def main() -> int:
     verify_raw = read_tsv(verify_path)
     uploads = latest_by_object(upload_raw)
     verifies = latest_by_object(verify_raw)
-    upload_counts = status_counts(uploads.values())
-    verify_counts = status_counts(verifies.values())
 
-    canonical_rows = [r for r in manifest if r.get("canonical_status") != "DUPLICATE"]
+    canonical_rows_all = [r for r in manifest if r.get("canonical_status") != "DUPLICATE"]
+    excluded_temp_rows = [r for r in canonical_rows_all if is_temporary_download(r)]
+    canonical_rows = [r for r in canonical_rows_all if not is_temporary_download(r)]
     duplicate_rows = [r for r in manifest if r.get("canonical_status") == "DUPLICATE"]
+
+    uploads_in_scope = {k: r for k, r in uploads.items() if not is_temporary_download(r)}
+    verifies_in_scope = {k: r for k, r in verifies.items() if not is_temporary_download(r)}
+    upload_counts = status_counts(uploads_in_scope.values())
+    verify_counts = status_counts(verifies_in_scope.values())
+
     source_types = Counter((r.get("source_type") or "UNKNOWN") for r in manifest)
     source_roots = Counter((r.get("source_root") or "UNKNOWN") for r in manifest)
 
@@ -85,7 +109,7 @@ def main() -> int:
     }
     expected_objects.discard("")
     verified_objects = {
-        key for key, row in verifies.items() if (row.get("status") or "").strip() == "VERIFIED"
+        key for key, row in verifies_in_scope.items() if (row.get("status") or "").strip() == "VERIFIED"
     }
     missing_objects = expected_objects - verified_objects
     unexpected_verified = verified_objects - expected_objects
@@ -114,6 +138,8 @@ def main() -> int:
         warnings.append(f"Collapsed {len(upload_raw) - len(uploads)} repeated upload receipt rows from resumed/idempotent runs.")
     if len(verify_raw) != len(verifies):
         warnings.append(f"Collapsed {len(verify_raw) - len(verifies)} repeated verification rows from resumed/idempotent runs.")
+    if excluded_temp_rows:
+        warnings.append(f"Excluded {len(excluded_temp_rows)} browser partial-download artefacts from the canonical verification requirement.")
     if unexpected_verified:
         warnings.append(f"Observed {len(unexpected_verified)} verified receipt objects not present in the canonical manifest set.")
 
@@ -122,6 +148,8 @@ def main() -> int:
         "run": str(run),
         "quality_gate": {
             "manifest_rows": len(manifest),
+            "canonical_rows_before_exclusions": len(canonical_rows_all),
+            "excluded_temporary_download_rows": len(excluded_temp_rows),
             "canonical_rows": len(canonical_rows),
             "canonical_object_identities": expected,
             "duplicate_rows": len(duplicate_rows),
