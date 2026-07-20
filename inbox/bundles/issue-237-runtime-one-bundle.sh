@@ -95,18 +95,34 @@ STEP=folders
 IMAP_HOST="$IMAP_HOST" IMAP_PORT="$IMAP_PORT" SOURCE_MAILBOX="$SOURCE_MAILBOX" SOURCE_MAILBOX_PASSWORD="$SOURCE_MAILBOX_PASSWORD" FOLDER_RECEIPT="$FOLDER_RECEIPT" python3 - <<'PY'
 import imaplib,json,os,time
 folders=['Systems','Systems/GitHub','Systems/GitHub/Failures','Systems/GitHub/Security','Systems/GitHub/Pull Requests','Systems/GitHub/Receipts']
+
+def q(name: str) -> str:
+    return '"' + name.replace('\\', '\\\\').replace('"', '\\"') + '"'
+
 with imaplib.IMAP4_SSL(os.environ['IMAP_HOST'],int(os.environ['IMAP_PORT']),timeout=30) as m:
     m.login(os.environ['SOURCE_MAILBOX'],os.environ['SOURCE_MAILBOX_PASSWORD'])
-    created=[]
-    for folder in folders:
-        status,data=m.create(folder)
-        created.append({'folder':folder,'status':status,'response':[x.decode(errors='replace') if isinstance(x,bytes) else str(x) for x in (data or [])]})
-        if status!='OK':
-            time.sleep(2)
-            status,data=m.create(folder)
     status,rows=m.list()
     listing='\n'.join(x.decode(errors='replace') for x in (rows or []))
-    missing=[f for f in folders if f not in listing]
+    created=[]
+    for folder in folders:
+        if q(folder) in listing or f' {folder}' in listing:
+            created.append({'folder':folder,'status':'EXISTS','response':['already present']})
+            continue
+        last_status='NO'; last_data=[]
+        for attempt in range(1,4):
+            try:
+                last_status,last_data=m.create(q(folder))
+            except imaplib.IMAP4.error as exc:
+                last_status='BAD'; last_data=[str(exc)]
+            if last_status=='OK':
+                break
+            time.sleep(attempt)
+        created.append({'folder':folder,'status':last_status,'response':[x.decode(errors='replace') if isinstance(x,bytes) else str(x) for x in (last_data or [])]})
+        status,rows=m.list()
+        listing='\n'.join(x.decode(errors='replace') for x in (rows or []))
+    status,rows=m.list()
+    listing='\n'.join(x.decode(errors='replace') for x in (rows or []))
+    missing=[f for f in folders if q(f) not in listing and f' {f}' not in listing]
     out={'verified':not missing,'missing':missing,'created':created,'listing':listing}
     open(os.environ['FOLDER_RECEIPT'],'w').write(json.dumps(out,indent=2)+'\n')
     if missing: raise SystemExit(3)
@@ -164,12 +180,15 @@ STEP=readback
 IMAP_HOST="$IMAP_HOST" IMAP_PORT="$IMAP_PORT" SOURCE_MAILBOX="$SOURCE_MAILBOX" SOURCE_MAILBOX_PASSWORD="$SOURCE_MAILBOX_PASSWORD" AGENT_MAILBOX="$AGENT_MAILBOX" AGENT_MAILBOX_PASSWORD="$AGENT_MAILBOX_PASSWORD" TOKEN="$TOKEN" READBACK_RECEIPT="$READBACK_RECEIPT" python3 - <<'PY'
 import imaplib,json,os,time
 
+def q(name: str) -> str:
+    return '"' + name.replace('\\', '\\\\').replace('"', '\\"') + '"'
+
 def count(mailbox,password,folder):
     with imaplib.IMAP4_SSL(os.environ['IMAP_HOST'],int(os.environ['IMAP_PORT']),timeout=30) as m:
         m.login(mailbox,password)
-        typ,_=m.select(f'"{folder}"',readonly=True)
+        typ,_=m.select(q(folder),readonly=True)
         if typ!='OK': return 0
-        typ,data=m.search(None,'HEADER','X-T4H-Routing-Test',f'"{os.environ["TOKEN"]}"')
+        typ,data=m.search(None,'HEADER','X-T4H-Routing-Test',q(os.environ['TOKEN']))
         return len((data[0] or b'').split()) if typ=='OK' else 0
 
 source=agent=0
