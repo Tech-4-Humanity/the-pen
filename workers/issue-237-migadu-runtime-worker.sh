@@ -51,9 +51,24 @@ on_error() {
 }
 trap on_error ERR
 
+load_ssm_secrets() {
+  local region="${AWS_REGION:-ap-southeast-2}"
+  local prefix="${MIGADU_SSM_PREFIX:-/t4h/migadu/runtime}"
+  local names=(MIGADU_ADMIN_EMAIL MIGADU_API_KEY MIGADU_DOMAIN SOURCE_MAILBOX SOURCE_MAILBOX_PASSWORD AGENT_MAILBOX_PASSWORD)
+  local name value
+
+  command -v aws >/dev/null 2>&1 || return 0
+  aws sts get-caller-identity --region "$region" >/dev/null 2>&1 || return 0
+
+  for name in "${names[@]}"; do
+    [[ -n "${!name:-}" ]] && continue
+    value="$(aws ssm get-parameter --region "$region" --name "$prefix/$name" --with-decryption --query 'Parameter.Value' --output text 2>/dev/null || true)"
+    [[ -n "$value" && "$value" != "None" ]] && printf -v "$name" '%s' "$value" && export "$name"
+  done
+}
+
 [[ -f "$JOB_FILE" ]] || { echo "missing job file: $JOB_FILE"; exit 2; }
 
-# Deduplicated claim. A completed REAL receipt suppresses duplicate execution.
 if jq -e --arg key "$DEDUP_KEY" 'select(.deduplication_key==$key and .state=="REAL")' "$LEDGER" >/dev/null 2>&1; then
   STATE="REAL"
   CURRENT_STEP="deduplication"
@@ -69,6 +84,9 @@ jq -n \
   --arg run_id "$RUN_ID" \
   '{job_id:$job_id,deduplication_key:$deduplication_key,worker_id:$worker_id,claimed_at:$claimed_at,run_id:$run_id,state:"CLAIMED"}' > "$CLAIM_FILE"
 
+CURRENT_STEP="load-secrets"
+load_ssm_secrets
+
 CURRENT_STEP="preflight"
 required=(MIGADU_ADMIN_EMAIL MIGADU_API_KEY MIGADU_DOMAIN SOURCE_MAILBOX SOURCE_MAILBOX_PASSWORD AGENT_MAILBOX_PASSWORD)
 missing=()
@@ -78,7 +96,7 @@ done
 if ((${#missing[@]})); then
   STATE="BLOCKED"
   EXIT_CODE=20
-  emit_receipt "missing runtime secrets: $(IFS=,; echo "${missing[*]}")"
+  emit_receipt "missing runtime secrets after environment and SSM lookup: $(IFS=,; echo "${missing[*]}")"
   exit 0
 fi
 
@@ -102,7 +120,6 @@ else
   emit_receipt "bundle executed but one or more REAL gates remain unobserved"
 fi
 
-# Independent ledger readback gate.
 CURRENT_STEP="ledger-readback"
 jq -e --arg run_id "$RUN_ID" 'select(.run_id==$run_id)' "$LEDGER" >/dev/null
 printf 'worker_receipt=%s\nledger=%s\nstate=%s\n' "$FINAL_RECEIPT" "$LEDGER" "$STATE"
