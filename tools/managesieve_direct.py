@@ -50,12 +50,11 @@ class Client:
         self._require_ok(self._read_response("authenticate"), "AUTHENTICATE")
 
     def put_script(self, name: str, content: bytes) -> None:
-        # RFC 5804 non-synchronizing literal form.
         prefix = f'PUTSCRIPT "{quote(name)}" {{{len(content)}+}}'.encode("utf-8")
         self._send_line(prefix)
         assert self.file is not None
         self.file.write(content + b"\r\n")
-        self.transcript.append(f"C: <script bytes={len(content)} sha256 omitted>")
+        self.transcript.append(f"C: <script bytes={len(content)}>")
         self._require_ok(self._read_response("putscript"), "PUTSCRIPT")
 
     def set_active(self, name: str) -> None:
@@ -70,8 +69,9 @@ class Client:
 
     def logout(self) -> None:
         try:
-            self._send_line(b"LOGOUT")
-            self._read_response("logout")
+            if self.file is not None:
+                self._send_line(b"LOGOUT")
+                self._read_response("logout")
         finally:
             if self.file is not None:
                 self.file.close()
@@ -93,8 +93,7 @@ class Client:
             line = raw.rstrip(b"\r\n")
             lines.append(line)
             self.transcript.append("S: " + line.decode("utf-8", "replace"))
-            upper = line.upper()
-            if upper.startswith(TERMINALS):
+            if line.upper().startswith(TERMINALS):
                 return lines
 
     @staticmethod
@@ -125,19 +124,27 @@ def main() -> int:
     state = "BLOCKED"
     error = ""
     scripts: list[str] = []
+    authenticated = False
+    uploaded = False
+    active = False
+    logout_attempted = False
+
     try:
         client.connect()
         client.authenticate_plain(args.user, args.password)
+        authenticated = True
         client.put_script(args.name, content)
+        uploaded = True
         client.set_active(args.name)
         scripts = client.list_scripts()
         active = any(args.name in line and "ACTIVE" in line.upper() for line in scripts)
         if not active:
             raise ManageSieveError("LISTSCRIPTS did not confirm active script")
         state = "REAL"
-    except Exception as exc:  # receipt first, then fail
+    except Exception as exc:
         error = f"{type(exc).__name__}: {exc}"
     finally:
+        logout_attempted = True
         try:
             client.logout()
         except Exception as exc:
@@ -154,10 +161,10 @@ def main() -> int:
         "script_name": args.name,
         "script_bytes": len(content),
         "listscripts": scripts,
-        "authenticated": any("authenticate" in x.lower() and "ok" in x.lower() for x in client.transcript if x.startswith("S:")),
-        "uploaded": state == "REAL",
-        "active": state == "REAL",
-        "logout_attempted": True,
+        "authenticated": authenticated,
+        "uploaded": uploaded,
+        "active": active,
+        "logout_attempted": logout_attempted,
         "error": error,
         "transcript": client.transcript,
     }
