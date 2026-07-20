@@ -23,7 +23,10 @@ end_marker = '\n}\n\nif [[ "$APPLY" == "1" ]]; then\n  upload_sieve | tee "$RUN_
 end = text.index(end_marker, start) + 3
 replacement = '''upload_sieve() {
   local ms_receipt="$RUN_DIR/managesieve-deployment.json"
-  python3 "$REPO_ROOT/tools/managesieve_direct.py" \\
+  local repo_root="${REPO_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
+  local client="$repo_root/tools/managesieve_direct.py"
+  [[ -f "$client" ]] || { echo "BLOCKED missing direct ManageSieve client: $client"; return 4; }
+  python3 "$client" \\
     --host "$SIEVE_HOST" \\
     --port "$SIEVE_PORT" \\
     --user "$SOURCE_MAILBOX" \\
@@ -40,9 +43,10 @@ PY
 bash -n "$BUNDLE"
 python3 -m py_compile "$CLIENT"
 grep -Fq 'tools/managesieve_direct.py' "$BUNDLE"
+grep -Fq 'local repo_root=' "$BUNDLE"
 grep -Fq 'SIEVE_HOST="${SIEVE_HOST:-imap.migadu.com}"' "$BUNDLE"
 
 echo "STATUS=REAL"
-echo "PATCH=DIRECT_MANAGESIEVE_INTEGRATED"
+echo "PATCH=DIRECT_MANAGESIEVE_INTEGRATED_ROOT_SAFE"
 echo "BUNDLE=$BUNDLE"
 echo "CLIENT=$CLIENT"
