@@ -1,0 +1,14 @@
+{
+  "schema_version": "t4h.atlas.workbook-receipt.v1",
+  "state": "PARTIAL",
+  "filename": "T4H_Research_Atlas_Runtime_Compilation_v1.xlsx",
+  "sha256": "b975baa9de6f53697dfd76cc62f75c64065f299297f90f8b2304cf8758ca9da7",
+  "size_bytes": 38964,
+  "sheet_count": 15,
+  "compiled_stories": 18,
+  "first_24_register_rows": 24,
+  "source_taxonomy_sha256": "6088e0b59404ebbf3d579c0baa854b0ebb11b9e4aab817bd1513c2040ae9e199",
+  "binary_state": "NOT_COMMITTED",
+  "runtime_text_package_state": "POSTED",
+  "note": "The native workbook is complete and checksum verified. Runtime schemas, manifest, register and receipt are committed to Pen."
+}
