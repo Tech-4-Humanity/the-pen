@@ -1,0 +1,29 @@
+name: Runtime Capability Registry
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/registry/**'
+      - 'workers/CONTRACT.json'
+      - '.github/workflows/runtime-capability-registry.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/registry/**'
+      - 'workers/CONTRACT.json'
+      - '.github/workflows/runtime-capability-registry.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate registry
+        run: python3 runtime/registry/validate_registry.py
+      - name: Run registry regression tests
+        working-directory: runtime/registry
+        run: python3 -m unittest -v test_validate_registry.py
