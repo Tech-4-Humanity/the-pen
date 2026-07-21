@@ -1,0 +1,60 @@
+{
+  "schema": "t4h.pen.registry-change-receipt.v1",
+  "receipt_id": "worker-capability-registry-expansion-2026-07-22",
+  "repository": "TML-4PM/the-pen",
+  "branch": "main",
+  "owner": "Troy Latter",
+  "objective": "Add the Capability Manifest and exponentially expand the canonical worker registry with provider-neutral routing, invocation, authority, cost, reliability, resume, health, failure, recovery and receipt semantics.",
+  "classification": "PARTIAL",
+  "classification_basis": [
+    "Registry files and commits exist in GitHub.",
+    "Entries are explicitly marked PARTIAL or ASPIRATIONAL where live runtime evidence is absent.",
+    "No claim is made that the scheduler currently consumes these files.",
+    "No live provider health, lease, dispatch, telemetry or end-to-end runtime readback was produced by this change."
+  ],
+  "files": [
+    "registry/worker-capability/README.md",
+    "registry/worker-capability/capability-manifest.yaml",
+    "registry/worker-capability/capabilities.yaml",
+    "registry/worker-capability/workers.yaml",
+    "registry/worker-capability/providers.yaml",
+    "registry/worker-capability/operations.yaml"
+  ],
+  "commits": [
+    "09687fff23d0cb094a268b3a68b9d14ed7e1b1cb",
+    "5ebb62ae7750146827515f7a8dad52e856117d54",
+    "8f95660e887414ea2efa9dcbd64d4a7fdfa66830",
+    "b69e518693f13fa29cac95449163c04b35bca349",
+    "eca4fea36f5fad5bd70d947ceb88c366c758f8a7",
+    "c86901839cb9a0ba5f9cf3d3193a936899a0552f"
+  ],
+  "coverage": {
+    "capability_pools": 21,
+    "seeded_capability_definitions": 13,
+    "seeded_worker_profiles": 9,
+    "seeded_provider_profiles": 9,
+    "maturity_levels": ["expected", "advanced", "best"],
+    "receipt_types": ["started", "checkpoint", "handover", "retry", "failure", "recovery", "completion", "reconciliation"],
+    "truth_states": ["REAL", "PARTIAL", "DEGRADED", "BLOCKED_WITH_EVIDENCE", "QUARANTINED", "ASPIRATIONAL", "INVALIDATED"]
+  },
+  "source_inputs": [
+    "Canonical Worker Contract thread",
+    "Canonical Worker Registry workbook v0.1",
+    "PEN worker contract v3",
+    "user-provided Capability Manifest image",
+    "known T4H runtime patterns recorded in the conversation"
+  ],
+  "verification": {
+    "method": "GitHub file readback",
+    "result": "PENDING_AT_RECEIPT_CREATION"
+  },
+  "gaps": [
+    "No schema validator or CI consumer has yet proven the YAML parses and is consumed.",
+    "Mutable provider pricing, quota and health values remain intentionally unseeded or ASPIRATIONAL.",
+    "Worker benchmark scores require task-specific runtime samples.",
+    "Workbook binary is not yet regenerated from this expanded registry.",
+    "Scheduler and worker boot code must be wired to load capability-manifest.yaml before this becomes REAL runtime behaviour."
+  ],
+  "next_executable_action": "Add a deterministic registry validator and boot-time manifest loader, run it in CI, dispatch a synthetic job through primary and fallback workers, and emit started, completion and reconciliation receipts with live readback.",
+  "final_disposition": "CONTINUE"
+}
