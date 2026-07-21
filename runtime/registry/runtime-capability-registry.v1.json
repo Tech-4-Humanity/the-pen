@@ -1,0 +1,139 @@
+{
+  "schema": "t4h.runtime.capability-registry.v1",
+  "registry_id": "t4h-runtime-capability-registry",
+  "source_of_truth": true,
+  "terminal_states": ["REAL", "BLOCKED_WITH_EVIDENCE", "INVALIDATED"],
+  "non_terminal_states": ["QUEUED", "LEASED", "STARTED", "PARTIAL", "DEGRADED", "TRANSFERRED", "INVESTIGATING", "REPAIRING", "REPLAYING"],
+  "capabilities": [
+    {
+      "capability_id": "pen.intake.github_issue",
+      "purpose": "Convert an eligible GitHub issue event into one canonical PEN job.",
+      "inputs": ["github.issue_event"],
+      "outputs": ["pen.job", "receipt.started"],
+      "owners": ["worker.pen-intake"],
+      "providers": ["provider.github-app"],
+      "required_authority": "authority.github.pen-intake",
+      "success_predicate": "canonical job exists and STARTED receipt is durable",
+      "healthcheck": "health.github-pen-event-path",
+      "recovery_policy": "recovery.intake-event-failure",
+      "receipt_contract": "receipt.pen-job-v1",
+      "idempotent": true,
+      "resume_supported": true,
+      "cost_class": "low"
+    },
+    {
+      "capability_id": "pen.dispatch.route",
+      "purpose": "Lease and route a canonical job to a compatible execution worker.",
+      "inputs": ["pen.job"],
+      "outputs": ["pen.lease", "pen.route_decision"],
+      "owners": ["worker.pen-dispatch"],
+      "providers": ["provider.pen-ledger"],
+      "required_authority": "authority.pen-dispatch",
+      "success_predicate": "one valid unexpired lease exists for the selected worker",
+      "healthcheck": "health.pen-dispatch",
+      "recovery_policy": "recovery.lease-expiry",
+      "receipt_contract": "receipt.pen-job-v1",
+      "idempotent": true,
+      "resume_supported": true,
+      "cost_class": "low"
+    },
+    {
+      "capability_id": "pen.execute.github",
+      "purpose": "Perform authorised GitHub repository, issue, branch, commit and pull-request work.",
+      "inputs": ["pen.job", "pen.lease"],
+      "outputs": ["github.change", "evidence.runtime", "receipt.final"],
+      "owners": ["worker.github-execution"],
+      "providers": ["provider.github-app"],
+      "required_authority": "authority.github.execution",
+      "success_predicate": "job-specific live-state predicate verifies against GitHub",
+      "healthcheck": "health.github-write-readback",
+      "recovery_policy": "recovery.github-execution-failure",
+      "receipt_contract": "receipt.pen-job-v1",
+      "idempotent": false,
+      "resume_supported": true,
+      "cost_class": "medium"
+    },
+    {
+      "capability_id": "pen.watchdog.stalled_job",
+      "purpose": "Detect missing progress and create investigation, repair and replay work without human prompting.",
+      "inputs": ["pen.job", "pen.telemetry", "pen.lease"],
+      "outputs": ["pen.investigation_job", "pen.repair_job", "pen.replay_job"],
+      "owners": ["worker.pen-watchdog"],
+      "providers": ["provider.pen-ledger"],
+      "required_authority": "authority.pen-watchdog",
+      "success_predicate": "stalled job has resumed or is BLOCKED_WITH_EVIDENCE",
+      "healthcheck": "health.pen-watchdog",
+      "recovery_policy": "recovery.watchdog-failure",
+      "receipt_contract": "receipt.pen-job-v1",
+      "idempotent": true,
+      "resume_supported": true,
+      "cost_class": "low"
+    },
+    {
+      "capability_id": "pen.replay.original_job",
+      "purpose": "Replay the original job after a changed repair condition and verify the original predicate.",
+      "inputs": ["pen.original_job", "pen.repair_receipt"],
+      "outputs": ["pen.replay_receipt", "evidence.runtime"],
+      "owners": ["worker.pen-replay"],
+      "providers": ["provider.pen-ledger"],
+      "required_authority": "authority.pen-replay",
+      "success_predicate": "original success predicate verifies after repair",
+      "healthcheck": "health.pen-replay",
+      "recovery_policy": "recovery.replay-failure",
+      "receipt_contract": "receipt.pen-job-v1",
+      "idempotent": true,
+      "resume_supported": true,
+      "cost_class": "medium"
+    }
+  ],
+  "workers": [
+    {"worker_id":"worker.pen-intake","pool":"intake","capabilities":["pen.intake.github_issue"],"max_concurrency":8,"lease_seconds":60,"heartbeat_seconds":10,"event_driven":true,"polling_role":"recovery_only"},
+    {"worker_id":"worker.pen-dispatch","pool":"dispatch","capabilities":["pen.dispatch.route"],"max_concurrency":16,"lease_seconds":30,"heartbeat_seconds":5,"event_driven":true,"polling_role":"recovery_only"},
+    {"worker_id":"worker.github-execution","pool":"github-execution","capabilities":["pen.execute.github"],"max_concurrency":4,"lease_seconds":900,"heartbeat_seconds":30,"event_driven":true,"polling_role":"recovery_only"},
+    {"worker_id":"worker.pen-watchdog","pool":"watchdog","capabilities":["pen.watchdog.stalled_job"],"max_concurrency":4,"lease_seconds":120,"heartbeat_seconds":15,"event_driven":true,"polling_role":"stalled-job-safety-net"},
+    {"worker_id":"worker.pen-replay","pool":"replay","capabilities":["pen.replay.original_job"],"max_concurrency":4,"lease_seconds":900,"heartbeat_seconds":30,"event_driven":true,"polling_role":"recovery_only"}
+  ],
+  "providers": [
+    {"provider_id":"provider.github-app","type":"github_app","healthcheck":"health.github-write-readback","authority_profiles":["authority.github.pen-intake","authority.github.execution"],"fallbacks":[]},
+    {"provider_id":"provider.pen-ledger","type":"append_only_ledger","healthcheck":"health.pen-ledger","authority_profiles":["authority.pen-dispatch","authority.pen-watchdog","authority.pen-replay"],"fallbacks":[]}
+  ],
+  "authority_profiles": [
+    {"authority_id":"authority.github.pen-intake","allow":["issues:read","issues:write","contents:write"],"deny":["admin","secrets:read","destructive-repository-actions"]},
+    {"authority_id":"authority.github.execution","allow":["contents:write","issues:write","pull_requests:write","actions:read"],"deny":["admin","secrets:read","production-deploy-without-job-authority"]},
+    {"authority_id":"authority.pen-dispatch","allow":["jobs:read","leases:write","routes:write"],"deny":["job-outcome-forgery"]},
+    {"authority_id":"authority.pen-watchdog","allow":["jobs:read","telemetry:read","investigations:write","repairs:write","replays:write"],"deny":["mark-complete-without-live-verification"]},
+    {"authority_id":"authority.pen-replay","allow":["jobs:read","evidence:read","replays:write"],"deny":["change-original-success-predicate"]}
+  ],
+  "routes": [
+    {"route_id":"route.github-issue-to-intake","when":{"event_type":"github.issue","labels_any":["PEN","dev-intake"]},"capability":"pen.intake.github_issue","priority":80},
+    {"route_id":"route.github-job-to-execution","when":{"target_type":"github"},"capability":"pen.execute.github","priority":70},
+    {"route_id":"route.stalled-to-watchdog","when":{"progress_sla_breached":true},"capability":"pen.watchdog.stalled_job","priority":100},
+    {"route_id":"route.repaired-to-replay","when":{"repair_verified":true},"capability":"pen.replay.original_job","priority":95}
+  ],
+  "healthchecks": [
+    {"healthcheck_id":"health.github-pen-event-path","predicate":"a synthetic eligible issue produces a durable STARTED receipt and canonical job"},
+    {"healthcheck_id":"health.github-write-readback","predicate":"authorised write succeeds and exact live state is read back"},
+    {"healthcheck_id":"health.pen-dispatch","predicate":"queued job receives one valid lease and route decision"},
+    {"healthcheck_id":"health.pen-watchdog","predicate":"stalled synthetic job produces investigation and replay chain"},
+    {"healthcheck_id":"health.pen-replay","predicate":"replay preserves original predicate and records changed conditions"},
+    {"healthcheck_id":"health.pen-ledger","predicate":"append succeeds, hash verifies and duplicate completion is rejected"}
+  ],
+  "recovery_policies": [
+    {"recovery_id":"recovery.intake-event-failure","actions":["record STARTED locally","materialise canonical job directly","raise event-path repair job","replay source event"]},
+    {"recovery_id":"recovery.lease-expiry","actions":["expire lease","return job to queue","increment attempt","route to alternate eligible worker"]},
+    {"recovery_id":"recovery.github-execution-failure","actions":["capture exact API response","verify authority","change route or operation","replay original job"]},
+    {"recovery_id":"recovery.watchdog-failure","actions":["emit watchdog failure evidence","route to alternate watchdog","do not close original job"]},
+    {"recovery_id":"recovery.replay-failure","actions":["compare changed conditions","reject identical retry","return to investigation"]}
+  ],
+  "receipt_contracts": [
+    {
+      "receipt_id":"receipt.pen-job-v1",
+      "required_fields":["receipt_id","job_id","worker_id","attempt","state","started_at","finished_at","success_predicate","verification","evidence_refs","authority_used","cost","previous_receipt_hash","receipt_hash"],
+      "complete_requires":["state=REAL","verification.passed=true","evidence_refs non-empty","live_readback recorded"],
+      "blocked_requires":["state=BLOCKED_WITH_EVIDENCE","exact_authority_gap","attempts","safe_workarounds_exhausted","evidence_refs non-empty"]
+    }
+  ],
+  "regressions": [
+    {"regression_id":"pen-issue-255","source":"TML-4PM/the-pen#255","required_capabilities":["pen.intake.github_issue","pen.dispatch.route","pen.execute.github","pen.watchdog.stalled_job","pen.replay.original_job"],"passing_predicate":"independent worker receipts prove arrival, lease, execution, verification and ledger readback"}
+  ]
+}
