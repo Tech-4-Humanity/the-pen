@@ -1,0 +1,235 @@
+schema: t4h.pen.worker-operations.v1
+registry_state: PARTIAL
+invocation_contract:
+  required:
+    - service_id
+    - capability_id
+    - worker_id
+    - provider_id
+    - input_schema
+    - output_schema
+    - authority
+    - budget
+    - timeout
+    - success_predicates
+    - evidence_requirements
+    - idempotency_key
+    - receipt_destination
+  lifecycle:
+    - validate
+    - authorize
+    - healthcheck
+    - lease
+    - started_receipt
+    - execute
+    - checkpoint
+    - verify
+    - reconcile
+    - final_receipt
+  reject_when:
+    - missing_authority
+    - stale_worker_or_provider_health
+    - schema_incompatible
+    - no_receipt_path
+    - prohibited_data_class
+    - cost_ceiling_exceeded
+health_contract:
+  heartbeat_fields:
+    - worker_id
+    - provider_id
+    - observed_at
+    - health_state
+    - current_load
+    - queue_depth
+    - active_leases
+    - oldest_lease_age
+    - cpu
+    - memory
+    - disk
+    - error_rate
+    - quota_remaining
+    - dependency_state
+    - telemetry_ref
+  states:
+    UNKNOWN: never observed or stale
+    HEALTHY: checks pass and within SLO
+    DEGRADED: routable only with explicit policy
+    UNHEALTHY: reject new work and recover
+    QUARANTINED: isolated pending investigation
+    RETIRED: permanently unroutable
+  probes:
+    expected: [process-alive, dependency-reachable, readback-test]
+    advanced: [synthetic-job, queue-progress, telemetry-freshness, lease-recovery]
+    best: [end-to-end-canary, alternate-observer, predictive-anomaly, automatic-failover-test]
+resume_contract:
+  required_fields:
+    - checkpoint_id
+    - job_id
+    - worker_id
+    - capability_id
+    - input_hash
+    - state_pointer
+    - completed_steps
+    - pending_steps
+    - authority_expiry
+    - provider_version
+    - environment_fingerprint
+    - created_at
+  semantics:
+    restart: rerun from beginning with same idempotency key
+    resume: continue from verified checkpoint
+    replay: reproduce prior execution from immutable inputs
+    rollback: restore named prior state
+    failover: resume through alternate eligible provider
+  invalid_resume_when:
+    - input_hash_changed_without_new_job_version
+    - authority_expired
+    - environment_incompatible
+    - checkpoint_unverified
+    - provider_semantics_changed
+failure_contract:
+  classes:
+    transient: [timeout, rate-limit, temporary-dependency]
+    deterministic: [schema-error, invalid-input, unsupported-operation]
+    authority: [credential-denial, missing-permission, expired-role]
+    dependency: [service-unavailable, missing-runtime, missing-tool]
+    quality: [incorrect-output, hallucination, defect, failed-verification]
+    safety: [unsafe-action, exposed-secret, policy-violation]
+    economic: [budget-exceeded, runaway-concurrency, low-value-loop]
+    stale_state: [drift, old-registry, old-health, changed-provider]
+  required_failure_receipt:
+    - failed_step
+    - observed_error
+    - exact_target
+    - attempts
+    - changed_conditions
+    - logs
+    - telemetry
+    - authority_used
+    - remaining_routes
+    - recommended_next_action
+    - classification
+  terminal_rules:
+    identical_retry_without_new_evidence: INVALIDATED
+    unsafe_action: QUARANTINED
+    missing_authority_with_evidence: BLOCKED_WITH_EVIDENCE
+    remaining_authorised_route_exists: NON_TERMINAL
+recovery_contract:
+  ordered_actions:
+    - inspect_live_state
+    - preserve_evidence
+    - classify_failure
+    - test_root_cause_hypotheses
+    - retry_with_changed_condition
+    - repair_dependency_or_configuration
+    - alternate_provider_or_method
+    - rollback_if_required
+    - replay_original_job
+    - regression_test
+    - update_registry_and_guardrail
+  self_heal_allowed_when:
+    - action_is_reversible
+    - authority_is_explicit
+    - blast_radius_is_bounded
+    - evidence_is_preserved
+    - rollback_is_available
+  human_required_when:
+    - legal_or_fiduciary_decision
+    - destructive_irreversible_change
+    - safety_exception
+    - disputed_authority
+    - exposed_secret_response
+receipt_contract:
+  types:
+    started:
+      proves: worker accepted lease and execution began
+      required: [job_id, lease_id, worker_id, capability_id, started_at, input_hash]
+    checkpoint:
+      proves: resumable verified state exists
+      required: [checkpoint_id, completed_steps, state_pointer, output_hashes]
+    handover:
+      proves: incomplete work transferred without losing state
+      required: [from_worker, to_worker_or_queue, completed, pending, blockers, evidence_refs]
+    retry:
+      proves: retry differs from prior attempt
+      required: [attempt, changed_condition, prior_failure_ref, result]
+    failure:
+      proves: failure occurred and was investigated
+      required: [error, failed_step, attempts, logs, remaining_routes, classification]
+    recovery:
+      proves: failed capability was repaired or routed around
+      required: [root_cause, repair, replay_result, regression_result]
+    completion:
+      proves: desired state passed live verification
+      required: [success_predicates, verification_result, telemetry_refs, input_hashes, output_hashes]
+    reconciliation:
+      proves: ledger, target and artefact state agree
+      required: [ledger_ref, target_readback, discrepancies, final_classification]
+  sealing:
+    canonical_encoding: deterministic-json
+    hash: sha256
+    signature: worker-or-runtime-identity
+    immutable_fields: [job_id, input_hashes, output_hashes, actions, timestamps, final_classification]
+  classifications:
+    REAL: all runtime proof gates satisfied
+    PARTIAL: some durable evidence but predicates incomplete
+    DEGRADED: working below declared SLO or capability
+    BLOCKED_WITH_EVIDENCE: external constraint and denial proven
+    QUARANTINED: unsafe, untrusted or repeatedly failing
+    ASPIRATIONAL: declared but not runtime-proven
+    INVALIDATED: contradicted, duplicated or invalid execution
+cost_contract:
+  components:
+    financial: [request, token, license, infrastructure, storage, network]
+    compute: [cpu_seconds, gpu_seconds, ram_gb_seconds, storage_gb_days]
+    human: [minutes, interruptions, cognitive_load, approval_delay]
+    risk: [failure_exposure, rollback_cost, legal_exposure, security_exposure]
+    opportunity: [queue_delay, displaced_higher_value_work]
+  routing_metrics:
+    - expected_total_cost
+    - cost_per_verified_outcome
+    - marginal_value
+    - retry_cost
+    - recovery_cost
+    - human_attention_cost
+reliability_contract:
+  metrics:
+    - success_rate
+    - verified_success_rate
+    - partial_rate
+    - retry_rate
+    - timeout_rate
+    - defect_rate
+    - hallucination_rate
+    - rollback_rate
+    - schema_compliance
+    - evidence_completeness
+    - confidence_calibration_error
+    - mtbf
+    - mttr
+    - p50_latency
+    - p90_latency
+    - p99_latency
+    - recovery_success_rate
+    - resume_success_rate
+    - replay_success_rate
+  minimum_sample_policy:
+    expected: labelled_small_sample
+    advanced: task-specific_benchmark_and_runtime_history
+    best: independently_verified_longitudinal_and_drift_monitored
+collaboration_contract:
+  supported:
+    - delegation
+    - child_jobs
+    - parent_outcome_ownership
+    - shared_scratchpad
+    - evidence_links
+    - streaming
+    - consensus
+    - conflict_resolution
+  delegation_rules:
+    - delegate_capability_not_responsibility
+    - parent_remains_open_until_original_predicate_passes
+    - child_receipt_must_link_parent
+    - no_hidden_state_in_handover
+    - best_worker_may_decline_unqualified_work
