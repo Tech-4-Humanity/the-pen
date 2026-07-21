@@ -1,0 +1,166 @@
+schema: t4h.pen.capability-registry.v1
+catalogue_state: PARTIAL
+entry_defaults:
+  lifecycle: draft
+  evidence_state: ASPIRATIONAL
+  owner_required: true
+  invocation_required: true
+  receipt_required: true
+  decline_when_unqualified: true
+capabilities:
+  - id: CAP-INTAKE
+    name: governed-intake
+    category: orchestration
+    purpose: Convert incoming signals into validated, deduplicated jobs.
+    inputs: [chat-thread, github-issue, webhook-event, file-bundle, api-event]
+    outputs: [canonical-job-envelope, idempotency-key, intake-receipt]
+    authority: [read-source, write-inbox, write-ledger]
+    expected: {quality: schema-valid, resume: restart-from-envelope, evidence: intake-receipt}
+    advanced: {quality: semantic-deduplication, resume: checkpointed, evidence: source-and-content-hashes}
+    best: {quality: cross-source-identity-resolution, resume: replayable, evidence: independent-readback}
+    failure_modes: [missing-source-id, malformed-payload, duplicate-event, poisoned-input]
+    recovery: [quarantine-input, normalize, deduplicate, request-missing-authority]
+  - id: CAP-VALIDATE
+    name: validation-normalisation
+    category: orchestration
+    purpose: Validate desired state, predicates, authority, schemas and evidence requirements.
+    inputs: [canonical-job-envelope]
+    outputs: [validated-job, rejection-receipt, repair-task]
+    authority: [read-registry, read-policy, write-ledger]
+    expected: {quality: required-fields-checked, resume: deterministic-rerun, evidence: validation-result}
+    advanced: {quality: dependency-and-policy-validation, resume: cached-state, evidence: signed-decision}
+    best: {quality: runtime-preflight-and-counterfactual-check, resume: replayable, evidence: independently-reconciled}
+    failure_modes: [missing-success-predicate, stale-authority, schema-drift, unresolved-dependency]
+    recovery: [repair-envelope, refresh-authority, migrate-schema, route-investigation]
+  - id: CAP-SCHEDULE
+    name: scheduler-dispatch
+    category: orchestration
+    purpose: Match jobs to workers using capability, authority, health, cost, latency and value.
+    inputs: [validated-job, capability-manifest, health-state]
+    outputs: [lease, routing-decision, fallback-chain]
+    authority: [read-registry, issue-lease, revoke-lease]
+    expected: {quality: capability-match, resume: lease-expiry, evidence: routing-receipt}
+    advanced: {quality: cost-reliability-aware, resume: failover, evidence: decision-factors}
+    best: {quality: dynamic-portfolio-optimisation, resume: preempt-and-rebalance, evidence: outcome-calibration}
+    failure_modes: [no-eligible-worker, stale-health, authority-mismatch, queue-starvation]
+    recovery: [alternate-provider, split-job, expand-resource, escalate-exact-gap]
+  - id: CAP-EXECUTE
+    name: governed-execution
+    category: runtime
+    purpose: Perform authorised actions against the named target.
+    inputs: [leased-job, credentials, target-state]
+    outputs: [changed-state, execution-log, checkpoint]
+    authority: [job-specific]
+    expected: {quality: smallest-coherent-change, resume: checkpoint, evidence: command-and-output}
+    advanced: {quality: transactional-or-compensatable, resume: snapshot-and-replay, evidence: telemetry-linked}
+    best: {quality: policy-aware-self-healing, resume: cross-provider-failover, evidence: independent-live-readback}
+    failure_modes: [timeout, dependency-failure, credential-denial, partial-write, unsafe-action]
+    recovery: [retry-changed-condition, rollback, failover, quarantine, escalate]
+  - id: CAP-VERIFY
+    name: independent-verification
+    category: assurance
+    purpose: Prove success predicates against live state independently of execution claims.
+    inputs: [desired-state, execution-evidence, live-target]
+    outputs: [verification-result, discrepancy, final-classification]
+    authority: [read-target, read-telemetry, read-ledger]
+    expected: {quality: direct-readback, resume: repeatable-check, evidence: observed-state}
+    advanced: {quality: multi-source-reconciliation, resume: historical-comparison, evidence: telemetry-and-hash}
+    best: {quality: adversarial-independent-verification, resume: deterministic-replay, evidence: signed-attestation}
+    failure_modes: [unobservable-change, stale-readback, contradictory-sources, missing-telemetry]
+    recovery: [alternate-observer, wait-consistency-window, reconcile, invalidate-claim]
+  - id: CAP-INVESTIGATE
+    name: root-cause-investigation
+    category: recovery
+    purpose: Determine why the original desired state was not achieved.
+    inputs: [failure-receipt, logs, telemetry, dependency-graph]
+    outputs: [root-cause, tested-hypotheses, repair-plan]
+    authority: [read-logs, read-config, run-safe-diagnostics]
+    expected: {quality: evidence-backed-cause, resume: investigation-notes, evidence: hypothesis-log}
+    advanced: {quality: graph-based-blast-radius, resume: shared-scratchpad, evidence: causal-chain}
+    best: {quality: automated-differential-diagnosis, resume: reusable-case, evidence: regression-test}
+    failure_modes: [insufficient-telemetry, misleading-symptom, multiple-causes, observer-effect]
+    recovery: [increase-observability, isolate, compare-known-good, delegate-specialist]
+  - id: CAP-REPAIR
+    name: repair-and-recovery
+    category: recovery
+    purpose: Restore the failed capability and replay the original job.
+    inputs: [root-cause, repair-plan, original-job]
+    outputs: [repair-change, replay-result, regression-receipt]
+    authority: [modify-authorised-target, rollback, restart]
+    expected: {quality: targeted-fix, resume: rollback-point, evidence: before-after}
+    advanced: {quality: durable-guardrail, resume: automated-replay, evidence: regression-suite}
+    best: {quality: fleet-wide-prevention, resume: progressive-rollout, evidence: cross-environment-readback}
+    failure_modes: [repair-regression, incomplete-rollback, shared-workflow-defect, repeated-failure]
+    recovery: [quarantine-change, revert, broaden-root-cause, alternate-implementation]
+  - id: CAP-EVIDENCE
+    name: evidence-ledger
+    category: assurance
+    purpose: Persist receipts, provenance, hashes, telemetry references and classifications.
+    inputs: [events, receipts, logs, hashes]
+    outputs: [ledger-entry, sealed-receipt, reconstruction-pointer]
+    authority: [append-ledger, write-receipts]
+    expected: {quality: durable-and-hashed, resume: idempotent-append, evidence: readback}
+    advanced: {quality: cross-backend-reconciliation, resume: replay-index, evidence: immutable-pointer}
+    best: {quality: independently-auditable-chain, resume: full-reconstruction, evidence: signed-merkle-proof}
+    failure_modes: [missing-receipt, duplicate-entry, hash-mismatch, backend-unavailable]
+    recovery: [local-spool, s3-fallback, github-pointer, reconcile-later]
+  - id: CAP-OBSERVE
+    name: observability-watchdog
+    category: assurance
+    purpose: Detect missing starts, stalled leases, regressions, unhealthy providers and zombie jobs.
+    inputs: [heartbeats, queue-depth, telemetry, ledger]
+    outputs: [alert, investigation-job, recovery-job, kill-decision]
+    authority: [read-runtime, enqueue-recovery, revoke-stale-lease]
+    expected: {quality: threshold-alerting, resume: periodic-scan, evidence: watchdog-event}
+    advanced: {quality: anomaly-and-slo-detection, resume: event-stream-offset, evidence: incident-timeline}
+    best: {quality: predictive-remediation, resume: distributed-consensus, evidence: counterfactual-outcome}
+    failure_modes: [silent-worker, alert-storm, stale-metric, watchdog-blind-spot]
+    recovery: [secondary-observer, suppress-duplicates, refresh-source, manual-independent-audit]
+  - id: CAP-RESEARCH
+    name: evidence-backed-research
+    category: knowledge
+    purpose: Discover, assess, synthesize and cite relevant evidence.
+    inputs: [question, files, web-sources, datasets]
+    outputs: [research-report, evidence-table, gaps, citations]
+    authority: [read-approved-sources]
+    expected: {quality: cited-synthesis, resume: source-list, evidence: references}
+    advanced: {quality: systematic-protocol-and-quality-rating, resume: query-log, evidence: extraction-table}
+    best: {quality: reproducible-living-review, resume: incremental-update, evidence: independent-replication}
+    failure_modes: [source-bias, stale-source, citation-error, inaccessible-evidence]
+    recovery: [broaden-search, primary-source-check, conflict-report, mark-unknown]
+  - id: CAP-CODE
+    name: software-change
+    category: engineering
+    purpose: Design, implement, test and publish software changes.
+    inputs: [repository, issue, acceptance-tests, runtime-context]
+    outputs: [commit, pull-request, tests, deployment-candidate]
+    authority: [read-repo, branch, write, test, commit]
+    expected: {quality: compiling-tested-change, resume: git-branch, evidence: commit-and-test-log}
+    advanced: {quality: regression-and-security-tested, resume: checkpointed-worktree, evidence: ci-run}
+    best: {quality: independently-verified-production-readback, resume: rollback-and-replay, evidence: runtime-receipt}
+    failure_modes: [test-failure, merge-conflict, hidden-dependency, environment-drift]
+    recovery: [diagnose, isolate, rebase, pin-dependency, alternate-route]
+  - id: CAP-DOCUMENT
+    name: document-and-workbook-compilation
+    category: knowledge
+    purpose: Compile structured documents, spreadsheets, presentations and evidence packs.
+    inputs: [source-content, schemas, templates, attachments]
+    outputs: [xlsx, docx, pdf, pptx, csv, manifest]
+    authority: [read-inputs, write-artifacts]
+    expected: {quality: opens-and-schema-valid, resume: source-data, evidence: hash-and-size}
+    advanced: {quality: cross-sheet-validation-and-accessibility, resume: deterministic-build, evidence: validation-report}
+    best: {quality: generated-from-canonical-data-with-roundtrip-test, resume: reproducible-pipeline, evidence: independent-open-and-readback}
+    failure_modes: [corrupt-file, missing-source, formula-error, visual-overflow]
+    recovery: [rebuild, validate, render-inspect, preserve-source]
+  - id: CAP-HUMAN-APPROVAL
+    name: accountable-human-decision
+    category: human
+    purpose: Exercise legal, fiduciary, safety or destructive authority that cannot be delegated.
+    inputs: [decision-pack, risks, alternatives, evidence]
+    outputs: [approval, rejection, conditions, signed-decision]
+    authority: [role-bound]
+    expected: {quality: explicit-decision, resume: pending-decision, evidence: timestamped-record}
+    advanced: {quality: conflict-and-risk-reviewed, resume: delegated-alternate, evidence: rationale-and-scope}
+    best: {quality: independently-governed-multi-party-approval, resume: quorum-recovery, evidence: signed-audit-trail}
+    failure_modes: [unavailable-owner, unclear-authority, rubber-stamp, conflict-of-interest]
+    recovery: [alternate-authorised-principal, narrow-scope, request-clarification, quarantine]
