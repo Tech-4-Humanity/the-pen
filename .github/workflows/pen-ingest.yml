@@ -1,6 +1,11 @@
 name: PEN Ingest Worker
 
 on:
+  pull_request:
+    paths:
+      - 'inbox/**'
+      - 'tools/pen/**'
+      - '.github/workflows/pen-ingest.yml'
   push:
     branches: [main, dev]
     paths:
@@ -24,6 +29,22 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  validate:
+    name: Validate PEN ingest workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate worker source
+        run: |
+          set -euo pipefail
+          test -f .github/workflows/pen-ingest.yml
+          if [ -f tools/pen/pen_ingest_worker.mjs ]; then
+            node --check tools/pen/pen_ingest_worker.mjs
+          else
+            echo "::notice::tools/pen/pen_ingest_worker.mjs is not present on this ref"
+          fi
+
   ingest:
     name: Ingest PEN inbox and write receipts
     runs-on: ubuntu-latest
@@ -102,7 +123,7 @@ jobs:
         if: steps.inbox.outputs.count != '0'
         run: |
           set -uo pipefail
-          git config user.name  "pen-ingest-bot"
+          git config user.name "pen-ingest-bot"
           git config user.email "pen-ingest-bot@users.noreply.github.com"
           mkdir -p receipts/runtime
           git add receipts/runtime pen-ingest-summary.json 2>/dev/null || true
