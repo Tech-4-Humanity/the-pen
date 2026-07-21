@@ -1,0 +1,390 @@
+{
+  "archive_and_quarantine": {
+    "quarantined": [
+      "Any duplicate candidate lacking exact hash equality",
+      "Google Drive .crdownload files until confirmed incomplete and not actively syncing",
+      "Docker.raw until Docker allocation/readback is validated",
+      "Claude VM images until current application dependency is confirmed"
+    ],
+    "safe_to_archive": [
+      "Superseded cleanup scripts after receipts are preserved",
+      "Invalid Drive-Dedupe-20260721T110809Z report folder",
+      "Old cleanup logs once canonical receipts are copied to S3/GitHub"
+    ],
+    "superseded": [
+      "~/mac-cleanup.sh original version",
+      "~/drive-dedupe-audit.sh that selected the first remote"
+    ]
+  },
+  "assumptions": [
+    "T4H1 should be treated as canonical for exact duplicate cross-estate files unless a newer verified canonical version exists elsewhere.",
+    "The latest July LLM export and current raw JSON sources should be retained until hash-based reconciliation is complete.",
+    "Docker.raw apparent size may be sparse and should not be treated as recoverable bytes without Docker readback."
+  ],
+  "authority": {
+    "assistant_authority": "May analyse, prepare artefacts, and write to connected repositories; may not claim Mac/AWS execution without runtime receipt.",
+    "credentials_required": [
+      "Authenticated rclone Google Drive remote",
+      "AWS credentials with access to t4h-archive-140548542136",
+      "Local access to TML-4PM/the-pen checkout or equivalent execution plane"
+    ],
+    "destructive_boundary": "Permanent Drive deletion requires exact-hash evidence and a retained canonical copy.",
+    "runtime_principal": "Troy Latter"
+  },
+  "blockers": [
+    {
+      "blocker": "No authenticated AWS or Mac execution plane is available in the current assistant runtime.",
+      "impact": "Cannot invoke the Pen operator or independently read back S3/local spool from this environment."
+    },
+    {
+      "blocker": "Google Drive dedupe audit used the wrong rclone remote.",
+      "impact": "No valid duplicate manifest or deletion receipt exists."
+    },
+    {
+      "blocker": "Mac remains below preferred 10–20 GB free-space operating margin.",
+      "impact": "Continued risk of hangs, swap growth, failed sync, and incomplete scans."
+    }
+  ],
+  "canonical_resources": {
+    "drive_estates": [
+      "My Drive",
+      "Shared drive T4H1"
+    ],
+    "local_folders": [
+      "/Users/troylatter/Desktop/000A - to be indexed - and left - daily",
+      "/Users/troylatter/Desktop/000C - Chat files via LLMs - to be indexed - and left - daily",
+      "/Users/troylatter/t4h-migration/runs",
+      "/Users/troylatter/Desktop/Mac-LLM-Archive-Cleanup-20260721T001027Z",
+      "/Users/troylatter/Desktop/Files-Over-1GB-20260721T003733Z",
+      "/Users/troylatter/Desktop/Drive-Dedupe-20260721T110809Z"
+    ],
+    "rclone_remotes_seen": [
+      "s3-tech",
+      "supabase-tech",
+      "gdrive-work",
+      "gdrive-personal",
+      "gdrive",
+      "mydrive"
+    ],
+    "repositories": [
+      {
+        "branch": "main",
+        "name": "TML-4PM/the-pen"
+      }
+    ],
+    "s3": [
+      {
+        "bucket": "t4h-archive-140548542136",
+        "prefix": "thread-runtime/current"
+      }
+    ]
+  },
+  "classification": {
+    "current": "PARTIAL",
+    "rationale": "Local disk recovery produced receipted improvements and a verified large-file inventory, but the Google Drive dedupe audit has not completed against the correct rclone remote and no Pen runtime submission receipt exists in this execution environment."
+  },
+  "facts": {
+    "completed_work": [
+      {
+        "evidence": {
+          "filesystem": "/System/Volumes/Data",
+          "initial_available_space": "approximately 1.5 GiB",
+          "initial_used": "approximately 188 GiB",
+          "memory_pressure": "48 MiB unused RAM, heavy compression, load averages above 11"
+        },
+        "work_item": "Initial macOS storage diagnosis"
+      },
+      {
+        "receipt": {
+          "available_after": "1.64 GB",
+          "available_before": "1.04 GB",
+          "recovered": "617.71 MB",
+          "status": "PARTIAL"
+        },
+        "run_id": "20260720T215457Z",
+        "work_item": "Safe cleanup run"
+      },
+      {
+        "receipt": {
+          "already_missing": 0,
+          "available_after": "3.79 GB",
+          "available_before": "1.53 GB",
+          "deleted_objects": 6,
+          "recovered": "2.26 GB",
+          "status": "PARTIAL"
+        },
+        "receipt_path": "/Users/troylatter/Desktop/Mac-LLM-Archive-Cleanup-20260721T001027Z",
+        "run_id": "20260721T001027Z",
+        "work_item": "Known LLM archive cleanup"
+      },
+      {
+        "key_findings": [
+          {
+            "apparent_size": "228.27 GB",
+            "path": "/Users/troylatter/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw"
+          },
+          {
+            "apparent_size": "10.00 GB",
+            "path": "/Users/troylatter/Library/Application Support/Claude/vm_bundles/claudevm.bundle/sessiondata.img"
+          },
+          {
+            "apparent_size": "10.00 GB",
+            "path": "/Users/troylatter/Library/Application Support/Claude/vm_bundles/claudevm.bundle/rootfs.img"
+          },
+          {
+            "apparent_size": "5.74 GB",
+            "path": "/Users/troylatter/iCloud Drive (Archive)/Documents/ALL_TASKS/extracted_tasks.md"
+          },
+          {
+            "apparent_size": "5.24 GB",
+            "path": "/Users/troylatter/.lmstudio/models/lmstudio-community/Qwen3.5-9B-GGUF/Qwen3.5-9B-Q4_K_M.gguf"
+          },
+          {
+            "apparent_size": "1.32 GB",
+            "path": "/Users/troylatter/.pm2/pm2.log"
+          }
+        ],
+        "receipt": {
+          "deletions_executed": 0,
+          "files_found": 49,
+          "status": "REAL",
+          "total_apparent_size": "335.92 GB"
+        },
+        "report_path": "/Users/troylatter/Desktop/Files-Over-1GB-20260721T003733Z/files-over-1gb.txt",
+        "run_id": "20260721T003733Z",
+        "work_item": "Large-file inventory"
+      },
+      {
+        "reason": "The script selected rclone remote s3-tech rather than a Google Drive remote, so the run did not inventory My Drive or T4H1 and produced no valid receipt.",
+        "report_path": "/Users/troylatter/Desktop/Drive-Dedupe-20260721T110809Z",
+        "run_id": "20260721T110809Z",
+        "status": "INVALIDATED",
+        "work_item": "Google Drive dedupe attempt"
+      }
+    ],
+    "github": {
+      "branch": "main",
+      "commits": [],
+      "ingress_contract_path": "docs/PROVIDER_NEUTRAL_RUNTIME_INGRESS.md",
+      "issues": [],
+      "operator_path": "tools/thread_runtime_submit.py",
+      "pull_requests": [],
+      "repository": "TML-4PM/the-pen"
+    },
+    "runtime": {
+      "pen_backend_preference": "s3",
+      "runtime_readback_present": false,
+      "s3_bucket": "t4h-archive-140548542136",
+      "s3_prefix": "thread-runtime/current",
+      "submission_receipt_present": false,
+      "supabase_required": false
+    }
+  },
+  "final_disposition": "TRANSFER",
+  "identity": {
+    "content_hash": "1e26727d14a23c99de25cc694159de1a1395368f704a355c4f95191ab1bcd0e8",
+    "idempotency_key": "58234db59a0a8d2fbb4998f1f9285c7d846af9e7755030384d9f5fc5e837df71",
+    "submission_id": "thread-1e26727d14a23c99"
+  },
+  "next_executable_action": {
+    "command": "REMOTE=gdrive-personal ~/drive-dedupe-audit-fixed.sh",
+    "success_criteria": [
+      "my-drive.json exists and is non-empty",
+      "t4h1.json exists and is non-empty",
+      "duplicate-manifest.csv exists",
+      "receipt.json exists",
+      "receipt reports files_inventoried, duplicate_groups, duplicate_objects, recoverable_bytes, deletions_executed=0"
+    ]
+  },
+  "objects_changed": [
+    {
+      "lifecycle": "superseded",
+      "path": "~/mac-cleanup.sh",
+      "type": "script"
+    },
+    {
+      "lifecycle": "completed",
+      "path": "~/mac-free-space-now.sh",
+      "type": "script"
+    },
+    {
+      "lifecycle": "completed",
+      "path": "~/mac-remove-old-llm-exports.sh",
+      "type": "script"
+    },
+    {
+      "lifecycle": "completed",
+      "path": "~/find-files-over-1gb.sh",
+      "type": "script"
+    },
+    {
+      "lifecycle": "invalidated",
+      "path": "~/drive-dedupe-audit.sh",
+      "type": "script"
+    },
+    {
+      "lifecycle": "planned_not_receipted",
+      "path": "~/drive-dedupe-audit-fixed.sh",
+      "type": "script"
+    }
+  ],
+  "open_commitments": [
+    "Run the corrected rclone audit using gdrive-personal or another verified Google Drive remote.",
+    "Create exact-hash duplicate manifest across My Drive and Shared drive T4H1.",
+    "Execute deletion only for confirmed duplicate candidates with a retained canonical copy.",
+    "Submit this canonical envelope through tools/thread_runtime_submit.py using S3 backend and independently read back the stored object.",
+    "Record submission ID, idempotency key, content hash, backend, path, and receipt."
+  ],
+  "recovery_actions": [
+    {
+      "action": "Abort recursive du/find scans that hung under disk pressure",
+      "outcome": "Stopped further local pressure"
+    },
+    {
+      "action": "Remove caches and rebuildable development folders",
+      "outcome": "617.71 MB recovered"
+    },
+    {
+      "action": "Remove selected old LLM exports and matching temporary hard links",
+      "outcome": "2.26 GB recovered"
+    },
+    {
+      "action": "Inventory files over 1 GB",
+      "outcome": "49 files identified; major storage drivers isolated"
+    },
+    {
+      "action": "Attempt rclone Drive dedupe audit",
+      "outcome": "Invalid because s3-tech was selected as remote"
+    }
+  ],
+  "schema_version": "pen.thread-runtime.v1",
+  "submission": {
+    "readback": null,
+    "reason": "Current assistant runtime lacks authenticated AWS/local execution access.",
+    "receipt": null,
+    "requested_backend": "s3",
+    "requested_bucket": "t4h-archive-140548542136",
+    "requested_prefix": "thread-runtime/current",
+    "status": "BLOCKED"
+  },
+  "thread_identity": {
+    "organisation": "Tech 4 Humanity",
+    "owner": "Troy Latter",
+    "purpose": "Recover critical disk space on Troy Latter's Mac, identify high-value duplicate/staging artefacts, and prepare a safe exact-hash dedupe workflow across My Drive and Shared drive T4H1.",
+    "scope": [
+      "Local macOS disk-pressure diagnosis and emergency recovery",
+      "Large-file inventory and evidence-led deletion",
+      "Google Drive My Drive and T4H1 duplicate-audit design",
+      "Governed closeout and transfer into Pen runtime"
+    ],
+    "source_system": "chatgpt",
+    "source_thread_id": "chatgpt:mac-cleanup-drive-dedupe:2026-07-20",
+    "source_thread_reference": "ChatGPT thread: Mac cleanup, local dedupe, and Google Drive T4H1 dedupe",
+    "timezone": "Australia/Sydney",
+    "title": "Mac Storage Recovery and Google Drive Dedupe"
+  },
+  "whole_of_life_business_assessment": {
+    "business": "Local storage pressure threatens T4H operational continuity, evidence handling, and delivery velocity.",
+    "customer": "No customer production systems were changed, but workstation instability could delay customer-facing delivery.",
+    "family": "No direct family data was changed; instability could affect availability and personal continuity.",
+    "financial": "Uncontrolled duplicate storage and local VM/model growth create avoidable time and infrastructure costs; accidental deletion could also impair tax-audit evidence.",
+    "human": "Repeated hangs and emergency cleanup impose cognitive load and operational stress.",
+    "legal": "R&D tax and audit evidence must not be deduplicated by filename alone; exact-hash and canonical-copy controls are required.",
+    "operational": "The process improved from broad recursive scans to bounded, receipt-driven deletion and exact-hash audit design.",
+    "personal": "The Mac is a critical working surface and was operating at severe disk and memory pressure, creating risk of data loss, interrupted work, and degraded day-to-day productivity.",
+    "product": "Docker, Claude VM, LM Studio, and migration staging artefacts are significant local storage consumers and need lifecycle policies.",
+    "reputational": "Loss of audit or research evidence would damage trust; overclaiming cleanup or dedupe completion is prohibited.",
+    "research": "LLM exports and research artefacts are high-value source evidence; retention and canonical placement must precede deletion.",
+    "societal": "Research and evidence assets may support broader human and societal initiatives; preservation quality matters.",
+    "strategic": "T4H needs automated storage lifecycle, canonical evidence placement, and periodic Drive dedupe controls.",
+    "technical": "Primary risks are APFS pressure, sparse disk images, duplicated migration staging, incomplete cloud downloads, and incorrect remote selection."
+  },
+  "workfamilyai_9x9x9_heatmap": {
+    "affected_functions": [
+      "Technology operations",
+      "Research",
+      "Finance and tax",
+      "Product engineering",
+      "Knowledge management"
+    ],
+    "affected_people_stakeholders": [
+      "Troy Latter",
+      "Tech 4 Humanity workers and agents",
+      "Accountants and auditors",
+      "Customers dependent on delivery continuity",
+      "Research collaborators"
+    ],
+    "black_spots": [
+      "Whole-home recursive scans under critical disk pressure",
+      "Filename-only duplicate deletion",
+      "Selecting the first rclone remote without type validation"
+    ],
+    "dark_spots": [
+      "Sparse Docker image mistaken for fully reclaimable physical storage",
+      "Cloud-only Drive files being hydrated during local hashing",
+      "Audit evidence deleted before canonical S3/GitHub reconstruction proof"
+    ],
+    "heatmap_cells": [
+      {
+        "dimension": "Personal x Operational x Risk",
+        "rating": 9
+      },
+      {
+        "dimension": "Business x Technical x Risk",
+        "rating": 9
+      },
+      {
+        "dimension": "Research x Legal x Risk",
+        "rating": 9
+      },
+      {
+        "dimension": "Product x Operational x Opportunity",
+        "rating": 8
+      },
+      {
+        "dimension": "Human x Personal x Impact",
+        "rating": 8
+      },
+      {
+        "dimension": "Strategic x Technical x Opportunity",
+        "rating": 9
+      },
+      {
+        "dimension": "Financial x Operational x Opportunity",
+        "rating": 7
+      },
+      {
+        "dimension": "Reputational x Legal x Risk",
+        "rating": 8
+      },
+      {
+        "dimension": "Societal x Research x Impact",
+        "rating": 6
+      }
+    ],
+    "opportunities": [
+      "Scheduled dedupe audits",
+      "Automated retention policies",
+      "S3 immutable evidence mirror",
+      "Drive canonicalisation by estate"
+    ],
+    "organisational_impact": [
+      "Operational continuity",
+      "Evidence governance",
+      "Developer productivity",
+      "Audit readiness"
+    ],
+    "risks": [
+      "Mac freeze or corruption",
+      "Loss of research/tax evidence",
+      "Duplicate cloud storage costs",
+      "False REAL claims without runtime readback"
+    ],
+    "sweet_spots": [
+      "Exact-hash dedupe with canonical retention",
+      "Receipt-driven cleanup",
+      "Automated staging expiry",
+      "Provider-neutral Pen ingestion"
+    ]
+  }
+}
