@@ -1,0 +1,45 @@
+{
+  "schema": "pen.thread-runtime.evidence-manifest.v1",
+  "source_system": "chatgpt",
+  "source_thread_reference": "chatgpt-current-2026-07-21-llm-archive-drive-s3-offload",
+  "title": "LLM archive reconciliation, Google Drive inventory, Mac disk recovery and S3 offload",
+  "classification": "PARTIAL",
+  "disposition": "TRANSFER",
+  "canonical_envelope": {
+    "filename": "pen-thread-envelope-llm-archive-drive-s3-20260721.json",
+    "content_hash": "8453757b520a8c4cd8a5da0d4137422391c0b3419cda2059a9b610f750ca5564",
+    "submission_id": "thr_314e0c931209b25b6f1b3e87",
+    "idempotency_key": "314e0c931209b25b6f1b3e876e4cdd9f15db639ab713a61db6cc58a6a7784772",
+    "backend": "local",
+    "local_spool": "runtime/thread-ingest/inbox/thr_314e0c931209b25b6f1b3e87.json",
+    "readback": "VERIFIED"
+  },
+  "evidence": {
+    "github_commits": [
+      "b3defb9c01d606a8d4895c3c200fc3e4f6c668ee",
+      "c1d2c1442ea434f21f3c945c05ff5a48d039b615",
+      "668e9a7c285c49b2bbf1d49cacabedbb8c99e33d",
+      "f147cb44556333891d4c9286f2e511a330f9e7cc",
+      "3cf43a3af45c6b2b2124a8c46295c9a486671e06",
+      "560cc85825613edbf4cb91d2c0c7553d8378bc3c"
+    ],
+    "pull_request": "https://github.com/TML-4PM/the-pen/pull/238",
+    "gdrive_run_id": "20260721T042501Z",
+    "gmail_my_drive_manifest_sha256": "80ec6bf064f9b2f778237d850b8b3d1a33fd15412841fad9335dad44da5dc2f3",
+    "t4h1_manifest_sha256": "3bd38e35eb5ecd69227c9bf48a2b3d11d5c950aeb4c677559175b5923dcf52c7",
+    "cloud_resolution_run_id": "20260721T023227Z",
+    "reconciliation_summary_sha256": "d8b3d41bd0bd2bbfa6f373d5984c237ebd4fb711d9d8e3a09222d5789e69e5dc",
+    "unresolved_manifest_sha256": "90137dee1079c74de5b69e14dfac437b3cdf6d6071eae2d07a8dfde6af5ca452"
+  },
+  "truth": {
+    "google_my_drive_inventory_real": true,
+    "t4h1_inventory_real": true,
+    "llm_reconciliation_plan_real": true,
+    "desktop_000a_s3_final_receipt_present_in_thread": false,
+    "fresh_t4h_gpt_export_proven": false,
+    "s3_pen_submission_attempted": false,
+    "s3_pen_submission_blocker": "AWS CLI and credentials unavailable in assistant execution environment",
+    "supabase_required": false
+  },
+  "next_action": "Capture Desktop 000A S3 final receipt and independent readback, then rerun account-aware LLM reconciliation with current free-space telemetry."
+}
