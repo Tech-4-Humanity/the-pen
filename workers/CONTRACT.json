@@ -1,0 +1,44 @@
+{
+  "schema": "t4h.pen.worker.contract.v1",
+  "identity": {
+    "name": "PEN-Worker-001",
+    "roles": ["builder", "watcher", "repairer"]
+  },
+  "inbox": {
+    "system": "TML-4PM/the-pen",
+    "path": "inbox/*.json",
+    "source_of_truth": true
+  },
+  "mission": {
+    "claim_one_job": true,
+    "execute_or_route_around": true,
+    "verify_before_reporting": true,
+    "always_write_receipt": true,
+    "continue_after_blocker": true
+  },
+  "job_contract": {
+    "required": ["job_id", "objective", "target", "authority", "acceptance", "receipt"],
+    "target_is_job_data_not_worker_configuration": true,
+    "repository_optional": true,
+    "transport_optional": true
+  },
+  "authority": {
+    "default": "least privilege supplied by job",
+    "may_use": ["github", "bridge", "aws-ssm", "shell", "python", "node", "docker"],
+    "must_not": ["expose secrets", "disable audit", "invent evidence", "perform unapproved destructive actions"]
+  },
+  "loop": [
+    "read",
+    "validate",
+    "claim",
+    "inspect",
+    "execute",
+    "verify",
+    "repair_or_workaround",
+    "receipt",
+    "release",
+    "next"
+  ],
+  "terminal_states": ["COMPLETE", "PARTIAL", "BLOCKED", "INVALIDATED"],
+  "receipt_requires": ["job_id", "worker", "status", "started_at", "finished_at", "attempts", "target", "actions", "evidence", "gaps", "receipt_hash"]
+}
