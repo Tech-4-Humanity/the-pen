@@ -1,0 +1,215 @@
+name: PEN Issue Arrival — Intake, Execute, Watchdog
+
+on:
+  issues:
+    types: [opened, reopened, labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to replay
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+  actions: read
+
+concurrency:
+  group: pen-issue-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: false
+
+env:
+  ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+  BRIDGE_INVOKE_URL: ${{ secrets.BRIDGE_INVOKE_URL || secrets.BRIDGE_ENDPOINT }}
+  BRIDGE_API_KEY: ${{ secrets.BRIDGE_API_KEY || secrets.BRIDGE_KEY }}
+
+jobs:
+  intake-worker:
+    name: Intake Worker — materialise and acknowledge
+    runs-on: ubuntu-latest
+    outputs:
+      job_path: ${{ steps.materialise.outputs.job_path }}
+      job_id: ${{ steps.materialise.outputs.job_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read issue and emit STARTED receipt
+        id: materialise
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          issue_json=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}")
+          issue_title=$(jq -r '.title' <<<"$issue_json")
+          issue_body=$(jq -r '.body // ""' <<<"$issue_json")
+          issue_url=$(jq -r '.html_url' <<<"$issue_json")
+          created_at=$(jq -r '.created_at' <<<"$issue_json")
+          job_id="pen-issue-${ISSUE_NUMBER}"
+          job_path="inbox/${job_id}.json"
+          mkdir -p inbox receipts/runtime state
+
+          jq -n \
+            --arg schema "t4h.pen.job.v3" \
+            --arg job_id "$job_id" \
+            --arg title "$issue_title" \
+            --arg body "$issue_body" \
+            --arg issue_url "$issue_url" \
+            --arg created_at "$created_at" \
+            --arg repo "$GITHUB_REPOSITORY" \
+            --argjson issue_number "$ISSUE_NUMBER" \
+            '{schema:$schema,job_id:$job_id,idempotency_key:$job_id,source:{type:"github_issue",repository:$repo,issue_number:$issue_number,url:$issue_url,created_at:$created_at},desired_state:"REAL",current_state:"RECEIVED",priority:"P0",outcome_definition:$title,context:$body,authority:{implementation:true,testing:true,commits:true,draft_pr:true,production_deploy:false,destructive_changes:false},success_predicate:{type:"evidence_bundle",required:["execution","verification","receipt","ledger_write","runtime_readback"]},receipt_destination:{repository:$repo,issue_number:$issue_number,path:("receipts/runtime/"+$job_id+".receipt.json")}}' > "$job_path"
+
+          started="receipts/runtime/${job_id}.started.receipt.json"
+          jq -n \
+            --arg job_id "$job_id" \
+            --arg issue_url "$issue_url" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg sha "$GITHUB_SHA" \
+            --arg now "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{schema:"t4h.pen.receipt.v3",job_id:$job_id,state:"STARTED",classification:"PARTIAL",worker:"PEN-Intake-Worker",source:$issue_url,workflow_run_id:$run_id,commit_sha:$sha,observed_at:$now,evidence:{job_materialised:true}}' > "$started"
+
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "## PEN receipt — STARTED\n\n- Job: \`$job_id\`\n- Worker: \`PEN-Intake-Worker\`\n- Workflow run: \`$GITHUB_RUN_ID\`\n- State: \`PARTIAL\` pending execution\n\nThe issue has been materialised into the PEN inbox. Execution and verification continue automatically."
+
+          git config user.name "pen-intake-worker[bot]"
+          git config user.email "pen-intake-worker@users.noreply.github.com"
+          git add "$job_path" "$started"
+          if ! git diff --cached --quiet; then
+            git commit -m "pen: materialise issue #${ISSUE_NUMBER} [skip ci]"
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase --autostash origin main && git push origin HEAD:main && break
+              sleep $((attempt * 2))
+            done
+          fi
+
+          echo "job_path=$job_path" >> "$GITHUB_OUTPUT"
+          echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
+
+  execution-worker:
+    name: Execution Worker — execute, investigate, repair, retry
+    needs: intake-worker
+    runs-on: ubuntu-latest
+    outputs:
+      final_state: ${{ steps.execute.outputs.final_state }}
+      receipt_path: ${{ steps.execute.outputs.receipt_path }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Execute with changed-route retries and guaranteed receipt
+        id: execute
+        env:
+          GH_TOKEN: ${{ github.token }}
+          JOB_PATH: ${{ needs.intake-worker.outputs.job_path }}
+          JOB_ID: ${{ needs.intake-worker.outputs.job_id }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p receipts/runtime state
+          receipt="receipts/runtime/${JOB_ID}.receipt.json"
+          telemetry="state/${JOB_ID}.telemetry.jsonl"
+          now() { date -u +%Y-%m-%dT%H:%M:%SZ; }
+          emit() { jq -nc --arg t "$(now)" --arg phase "$1" --arg state "$2" --arg detail "$3" '{at:$t,phase:$phase,state:$state,detail:$detail}' >> "$telemetry"; }
+
+          state="PARTIAL"
+          blocker=""
+          response=""
+          http_status=0
+          strategy=""
+          attempts=0
+
+          emit "NORMALIZE" "PARTIAL" "Loaded job and success predicate"
+
+          if [[ ! -f "$JOB_PATH" ]]; then
+            blocker="job payload missing after intake commit"
+            emit "INVESTIGATE" "BLOCKED" "$blocker"
+          elif [[ -z "${BRIDGE_INVOKE_URL:-}" || -z "${BRIDGE_API_KEY:-}" ]]; then
+            blocker="BRIDGE_INVOKE_URL/BRIDGE_ENDPOINT or BRIDGE_API_KEY/BRIDGE_KEY is not configured"
+            emit "AUTHORITY_CHECK" "BLOCKED" "$blocker"
+          else
+            for strategy in organisation_accept pen-generic-executor runtime_submit; do
+              attempts=$((attempts + 1))
+              emit "EXECUTE" "PARTIAL" "strategy=${strategy}; attempt=${attempts}"
+              envelope=$(jq -nc --arg fn "$strategy" --argjson payload "$(cat "$JOB_PATH")" '{fn:$fn,payload:$payload,source:"the-pen",mode:"AUTONOMOUS"}')
+              out=$(mktemp)
+              http_status=$(curl -sS -o "$out" -w '%{http_code}' --max-time 90 \
+                -H 'content-type: application/json' \
+                -H "x-api-key: ${BRIDGE_API_KEY}" \
+                --data "$envelope" "$BRIDGE_INVOKE_URL" || printf '000')
+              response=$(cat "$out" 2>/dev/null || true)
+              rm -f "$out"
+              if [[ "$http_status" =~ ^2 ]]; then
+                state="REAL"
+                emit "VERIFY" "REAL" "bridge accepted strategy=${strategy}; http=${http_status}"
+                break
+              fi
+              emit "INVESTIGATE" "PARTIAL" "strategy=${strategy}; http=${http_status}; response=${response:0:500}"
+            done
+            if [[ "$state" != "REAL" ]]; then
+              blocker="all executable bridge strategies failed"
+              state="BLOCKED"
+              emit "AUTHORITY_CHECK" "BLOCKED" "$blocker"
+            fi
+          fi
+
+          jq -n \
+            --arg job_id "$JOB_ID" \
+            --arg state "$state" \
+            --arg worker "PEN-Execution-Worker" \
+            --arg strategy "$strategy" \
+            --arg blocker "$blocker" \
+            --arg response "${response:0:3000}" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg now "$(now)" \
+            --arg receipt_path "$receipt" \
+            --arg telemetry_path "$telemetry" \
+            --argjson issue_number "$ISSUE_NUMBER" \
+            --argjson http_status "$http_status" \
+            --argjson attempts "$attempts" \
+            '{schema:"t4h.pen.receipt.v3",job_id:$job_id,state:$state,classification:(if $state=="REAL" then "REAL" else "BLOCKED" end),worker:$worker,issue_number:$issue_number,workflow_run_id:$run_id,executed_at:$now,outcome_definition:"Issue accepted and dispatched to an executable runtime path",verification:{method:"live bridge HTTP response",http_status:$http_status,verified:($state=="REAL")},attempts:$attempts,changed_routes:true,strategy:$strategy,blocker:$blocker,response:$response,evidence:{receipt_path:$receipt_path,telemetry_path:$telemetry_path,ledger_write_pending:true}}' > "$receipt"
+
+          git config user.name "pen-execution-worker[bot]"
+          git config user.email "pen-execution-worker@users.noreply.github.com"
+          git add "$receipt" "$telemetry"
+          git commit -m "receipt: execute ${JOB_ID} [skip ci]" || true
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin main && git push origin HEAD:main && break
+            sleep $((attempt * 2))
+          done
+
+          echo "final_state=$state" >> "$GITHUB_OUTPUT"
+          echo "receipt_path=$receipt" >> "$GITHUB_OUTPUT"
+
+  watchdog-worker:
+    name: Watchdog Worker — publish truth and preserve continuation
+    if: always()
+    needs: [intake-worker, execution-worker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish final observable receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          JOB_ID: ${{ needs.intake-worker.outputs.job_id }}
+          FINAL_STATE: ${{ needs.execution-worker.outputs.final_state }}
+          RECEIPT_PATH: ${{ needs.execution-worker.outputs.receipt_path }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          state="${FINAL_STATE:-BLOCKED}"
+          job="${JOB_ID:-pen-issue-${ISSUE_NUMBER}}"
+          receipt="${RECEIPT_PATH:-receipts/runtime/${job}.receipt.json}"
+          if [[ "$state" == "REAL" ]]; then
+            title="COMPLETE"
+            classification="REAL"
+            continuation="The live execution path accepted the job. Downstream runtime verification remains governed by the job success predicate."
+          else
+            title="BLOCKED_WITH_EVIDENCE"
+            classification="BLOCKED"
+            continuation="The original job remains open. This failure is now observable and replayable; it must be retried after the recorded authority/runtime gap changes."
+          fi
+          gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "## PEN receipt — ${title}\n\n- Job: \`${job}\`\n- Worker: \`PEN-Watchdog-Worker\`\n- Classification: \`${classification}\`\n- Workflow run: \`${GITHUB_RUN_ID}\`\n- Receipt: \`${receipt}\`\n\n${continuation}"
