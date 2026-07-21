@@ -1,0 +1,41 @@
+{
+  "schema": "t4h.pen.job.v3",
+  "job_id": "pen-issue-255",
+  "idempotency_key": "pen-issue-255",
+  "source": {
+    "type": "github_issue",
+    "repository": "TML-4PM/the-pen",
+    "issue_number": 255,
+    "url": "https://github.com/TML-4PM/the-pen/issues/255"
+  },
+  "desired_state": "REAL",
+  "current_state": "RECEIVED",
+  "priority": "P0",
+  "outcome_definition": "Route, execute, verify and receipt the Hakuna Matata v1 intake",
+  "authority": {
+    "implementation": true,
+    "testing": true,
+    "commits": true,
+    "draft_pr": true,
+    "production_deploy": false,
+    "destructive_changes": false
+  },
+  "success_predicate": {
+    "type": "evidence_bundle",
+    "required": [
+      "accepted_job_id",
+      "named_worker",
+      "target_repository",
+      "execution",
+      "verification",
+      "receipt",
+      "ledger_write",
+      "runtime_readback"
+    ]
+  },
+  "receipt_destination": {
+    "repository": "TML-4PM/the-pen",
+    "issue_number": 255,
+    "path": "receipts/runtime/pen-issue-255.receipt.json"
+  }
+}
