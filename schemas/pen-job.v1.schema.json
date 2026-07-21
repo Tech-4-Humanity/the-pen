@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.com.au/schemas/pen-job.v1.schema.json",
+  "title": "PEN Job v1",
+  "type": "object",
+  "required": ["job_id", "objective", "target", "authority", "acceptance", "receipt"],
+  "properties": {
+    "schema": {"const": "t4h.pen.job.v1"},
+    "job_id": {"type": "string", "minLength": 1},
+    "priority": {"enum": ["P0", "P1", "P2", "P3"]},
+    "objective": {"type": "string", "minLength": 1},
+    "target": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {"enum": ["github", "aws", "bridge", "filesystem", "document", "other"]},
+        "repository": {"type": "string"},
+        "branch": {"type": "string"},
+        "issue": {"type": "integer"},
+        "resource": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "authority": {
+      "type": "object",
+      "required": ["operations"],
+      "properties": {
+        "operations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "credential_sources": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "inputs": {"type": ["object", "array"]},
+    "steps": {"type": "array", "items": {"type": "string"}},
+    "fallbacks": {"type": "array", "items": {"type": "string"}},
+    "acceptance": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "receipt": {
+      "type": "object",
+      "required": ["ledger_path"],
+      "properties": {
+        "ledger_path": {"type": "string"},
+        "source_update": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "idempotency_key": {"type": "string"}
+  },
+  "additionalProperties": true
+}
