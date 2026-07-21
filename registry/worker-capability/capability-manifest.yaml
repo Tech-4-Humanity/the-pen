@@ -1,0 +1,155 @@
+schema: t4h.pen.capability-manifest.v1
+manifest_id: PEN-CAPABILITY-MANIFEST-001
+owner: Troy Latter
+maintainer: PEN-Worker-001
+repository: TML-4PM/the-pen
+branch: main
+lifecycle: production_candidate
+truth_state: PARTIAL
+last_verified: 2026-07-22
+constitution: constitution/WORKER_RUNTIME_CONSTITUTION_V3.md
+worker_contract: workers/CONTRACT.json
+registries:
+  capabilities: registry/worker-capability/capabilities.yaml
+  workers: registry/worker-capability/workers.yaml
+  providers: registry/worker-capability/providers.yaml
+  operations: registry/worker-capability/operations.yaml
+boot_requirements:
+  - load_manifest
+  - validate_schema_and_hash
+  - resolve_worker_identity
+  - resolve_required_capabilities
+  - validate_authority
+  - check_provider_health
+  - compare_cost_reliability_and_residency
+  - select_primary_and_fallback_routes
+  - obtain_lease
+  - emit_started_receipt
+  - execute
+  - verify_live_state
+  - emit_final_receipt
+  - reconcile_ledger
+routing_dimensions:
+  required:
+    - capability_match
+    - authority_match
+    - input_contract_match
+    - output_contract_match
+    - health_state
+    - evidence_state
+    - lifecycle_state
+  weighted:
+    - success_rate
+    - p90_latency
+    - total_cost
+    - resume_support
+    - recovery_quality
+    - data_residency
+    - queue_depth
+    - value_score
+  rejection:
+    - missing_authority
+    - unhealthy_provider
+    - stale_unverified_capability
+    - incompatible_schema
+    - cost_ceiling_exceeded
+    - prohibited_data_class
+    - no_receipt_support
+truth_rules:
+  real_requires:
+    - execution
+    - success_predicate_readback
+    - telemetry
+    - durable_receipt
+    - ledger_confirmation
+    - input_output_reconciliation
+  github_commit_proves: artifact_exists
+  github_commit_does_not_prove: runtime_operation
+  memory: advisory_only
+  runtime_readback: authoritative
+  stale_claims: revalidate_before_routing
+  no_receipt: not_REAL
+maturity_profiles:
+  expected:
+    minimum:
+      - registered_identity
+      - named_owner
+      - explicit_capabilities
+      - invocation_contract
+      - authority_contract
+      - cost_estimate
+      - receipt_schema
+      - basic_healthcheck
+  advanced:
+    minimum:
+      - expected
+      - benchmark_evidence
+      - versioned_input_output_schemas
+      - checkpoints_and_resume
+      - alternate_provider
+      - retry_and_rollback
+      - telemetry_and_alerting
+      - cost_and_reliability_history
+  best:
+    minimum:
+      - advanced
+      - independent_verification
+      - dynamic_policy_routing
+      - continuous_reconciliation
+      - replayable_execution
+      - automatic_regression_detection
+      - self_healing_with_guardrails
+      - value_and_outcome_accounting
+canonical_capability_pools:
+  - intake
+  - validation-normalisation
+  - scheduler-dispatch
+  - execution
+  - verification
+  - investigation
+  - repair
+  - replay
+  - watchdog
+  - evidence-ledger
+  - observability
+  - research
+  - coding
+  - review
+  - deployment
+  - document-compilation
+  - knowledge-graph
+  - communication
+  - governance
+  - security
+  - finance
+  - legal-analysis
+  - human-approval
+required_receipts:
+  - started
+  - checkpoint
+  - handover
+  - retry
+  - failure
+  - recovery
+  - completion
+  - reconciliation
+health_states:
+  - UNKNOWN
+  - HEALTHY
+  - DEGRADED
+  - UNHEALTHY
+  - QUARANTINED
+  - RETIRED
+failure_policy:
+  retry_identical_without_new_evidence: INVALID
+  route_around_when_authorised: true
+  preserve_original_outcome: true
+  blocker_stops_queue: false
+  missing_started_receipt_spawns_investigation: true
+revalidation:
+  mutable_runtime_health_seconds: 60
+  provider_price_hours: 24
+  benchmark_days: 30
+  authority_minutes: 15
+  worker_identity_hours: 24
+  static_schema_days: 90
