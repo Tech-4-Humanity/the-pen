@@ -22,4 +22,5 @@ export PATH="$TMP_BIN_DIR:$PATH"
 vercel whoami >/dev/null
 vercel teams ls >/dev/null 2>&1 || true
 
-exec "$(cd "$(dirname "$0")" && pwd)/run-recovery-50-sites.sh" "$@"
+RUNNER="$(cd "$(dirname "$0")" && pwd)/run-recovery-50-sites.sh"
+exec bash "$RUNNER" "$@"
