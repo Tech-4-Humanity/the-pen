@@ -1,0 +1,17 @@
+{
+  "backend": "local",
+  "classification": "PARTIAL",
+  "content_hash": "6ae599153077d0a1f7f32387fd86b00774006446bb801c215b9443ceaa9103ce",
+  "idempotency_key": "9dbd8932e5922dd0013b1f4cee3b0ace0c84d8ae14a7c2ea5d585d53929eef7c",
+  "location": "runtime/thread-ingest/inbox/thr_9dbd8932e5922dd0013b1f4c.json",
+  "readback": "VERIFIED",
+  "readback_sha256": "6ae599153077d0a1f7f32387fd86b00774006446bb801c215b9443ceaa9103ce",
+  "recorded_at": "2026-07-21T11:30:22.761100+00:00",
+  "result": "THREAD_ACCEPTED",
+  "schema": "pen.thread-runtime.receipt.v1",
+  "source_system": "chatgpt",
+  "source_thread_reference": "chatgpt:web:canonical-knowledge-runtime-poc01-09-visual-asset-research-atlas:2026-07-21",
+  "status": "ACKED",
+  "submission_id": "thr_9dbd8932e5922dd0013b1f4c",
+  "supabase_required": false
+}
