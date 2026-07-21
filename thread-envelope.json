@@ -1,0 +1,114 @@
+{
+  "schema": "pen.thread-runtime.envelope.v1",
+  "envelope_mode": "CANONICAL",
+  "thread": {
+    "source_system": "chatgpt",
+    "source_thread_reference": "chatgpt-current-2026-07-21-drain-runtime-intake",
+    "title": "DRAIN event-driven register and touch-map runtime ingestion",
+    "purpose": "Prepare the DRAIN design, runtime artefacts, corrections, evidence and current state for governed GRK ingestion into the Pen provider-neutral thread runtime.",
+    "scope": ["event-driven tab and bookmark intake", "canonical event envelope", "semantic object extraction", "touch-map generation", "table-of-tables persistence design", "runtime submission and receipt"],
+    "captured_at": "2026-07-21T00:00:00+10:00",
+    "source_completeness": "Complete for the visible current thread and six uploaded attachments; no hidden transcript or external runtime logs were available to the submitter."
+  },
+  "classification": {
+    "state": "PARTIAL",
+    "rationale": "Canonical artefacts exist, but authenticated S3/Pen submission, independent remote readback, Bridge ACK, database persistence and production telemetry remain unproven."
+  },
+  "facts": {
+    "completed_work": [
+      {"type":"artifact","path":"00_event-driven-register-pack.md","sha256":"6028053b90e914cf584a34d798fb76360dc056bbfdae04f1e74baee12e247c39","result":"Defines event contract, Supabase event table, routing rules and acceptance criteria."},
+      {"type":"artifact","path":"tab_drain(1).html","sha256":"48985d74a34f25393b106195cbd8b2bd2cf4c03cdaf294c0983b4f51cd9d90f6","result":"Local DRAIN session controller UI with buckets, validators, evidence and receipt fields, export and close gate."},
+      {"type":"artifact","path":"drain_touch_map_engine.py","sha256":"ff5c760525611c526b847e59e454dbb8ced45ceb42389dde64d55fe90f637172","result":"Dependency-light extraction, touch-map, table-candidate, metrics and receipt generator."},
+      {"type":"artifact","path":"table-of-tables-schema.md","sha256":"d69851b379a9197ec861c9c70324f655ce55bb4650f060755f02617d3163a1f9","result":"Design specification for drain_runs, sources, objects, candidates, touch maps, changes, metrics and receipts."},
+      {"type":"artifact","path":"01_drain-cognitive-archaeology-vignette.md","sha256":"60cf5c11c828c21d0bbf81dfb0e912f4a0261401909db2e0efbfde405d84b886","result":"Strategic narrative framing DRAIN as archaeology of attention and institutional memory."},
+      {"type":"artifact","path":"02_drain-mcp-execution-receipt-and-next-phase.md","sha256":"be29dcccfbc11b9c1f897a16db5970d30e04a04025538ffca0c7814d86a3e786","result":"Prior execution summary identifying missing runtime persistence and telemetry; exact commit IDs were not included in the uploaded file."}
+    ],
+    "thread_decisions": [
+      "DRAIN is an event-driven intake fabric, not merely a bookmark UI.",
+      "OAuth/DCR analysis was explicitly removed from scope.",
+      "No passive review sink is acceptable; actionable items must emit events and route onward.",
+      "Supabase is optional and must not block canonical thread ingestion.",
+      "Local durable spool or S3 is the primary provider-neutral submission path.",
+      "A GitHub commit proves artefact existence but not runtime execution."
+    ],
+    "known_external_claims_not_independently_verified": [
+      "GitHub issues #69, #70 and #71 are referenced by the register pack.",
+      "Repository TML-4PM/proof_pot and prior GitHub MCP artefact creation are described in the uploaded receipt document.",
+      "Issue #74 and bridge_id zdgnab3py0 appear in the HTML seed state.",
+      "No exact historical commit SHA, PR number, deployed URL or production readback was supplied in the thread evidence."
+    ]
+  },
+  "open_state": {
+    "commitments": ["Persist event and touch-map outputs in a runtime store.", "Patch all UI actions to emit canonical events.", "Route registered and execution-requested events to Pen/Dev and capture ACK receipts.", "Expose live queue and REAL/PARTIAL/BLOCKED telemetry."],
+    "failures_and_blockers": ["No authenticated remote Pen ACK yet.", "No S3 object readback yet.", "No Bridge ACK or runtime service readback.", "No database migration execution or live row readback."],
+    "missing_evidence": ["historical commit SHAs", "PR URLs", "issue readback", "runtime deployment URL", "runtime logs", "telemetry", "Bridge ACK", "S3 object readback", "database row readback"],
+    "exact_next_executable_action": "Run this deterministic envelope through tools/thread_runtime_submit.py with the authenticated S3 backend and verify the object through independent GetObject readback."
+  },
+  "canonical_estate": {
+    "repositories": [{"name":"TML-4PM/the-pen","status":"TARGET_REPOSITORY"},{"name":"TML-4PM/proof_pot","status":"CLAIMED_NOT_READ_BACK"},{"name":"TML-4PM/t4h-remote-mcp-server-clean","status":"RELATED_RUNTIME_KERNEL_FROM_CONTEXT"}],
+    "branches": [{"name":"feat/thread-runtime-submit","status":"IMPLEMENTATION_BRANCH"}],
+    "projects": ["DRAIN", "Pen thread runtime"],
+    "databases": [{"name":"Supabase","status":"OPTIONAL_NOT_USED"}],
+    "buckets": [{"name":"t4h-archive-140548542136","prefix":"thread-runtime/current","status":"TARGET_PENDING_READBACK"}],
+    "folders": [{"path":"runtime/thread-ingest/inbox","environment":"local durable spool"},{"path":"runtime/thread-ingest/receipts","environment":"local receipts"}],
+    "domains": [],
+    "environments": [{"name":"local repository","status":"READY_AFTER_PULL"},{"name":"S3","status":"PENDING_AUTHENTICATED_EXECUTION"},{"name":"Pen remote runtime","status":"PENDING_ACK"}]
+  },
+  "objects_and_systems": {
+    "objects": ["tab event", "canonical thread envelope", "semantic object", "touch map", "table candidate", "execution receipt", "Reality Ledger entry"],
+    "products": ["DRAIN", "Pen"],
+    "capabilities": ["source intake", "classification", "event emission", "semantic extraction", "relationship mapping", "evidence hashing", "idempotent submission", "readback verification"],
+    "workers": ["portfolio_intake_agent (specified, not executed)", "thread_runtime_submit operator"],
+    "queues": ["Pen/Dev route (specified, not ACKed)", "runtime/thread-ingest/inbox"],
+    "tasks": ["emit events", "extract objects", "map touches", "submit envelope", "read back envelope"],
+    "systems_changed": ["Pen repository branch now contains the canonical envelope and submission operator changes."]
+  },
+  "governance": {
+    "owner": "Troy Latter",
+    "runtime_principals": [{"principal":"local operator","authority":"repository and configured AWS identity"},{"principal":"Pen runtime","authority":"pending remote ACK"},{"principal":"AWS/S3","authority":"bounded by caller credentials"}],
+    "authority_boundaries": ["Do not assert remote GitHub, S3, database or Bridge state without readback.", "No destructive actions are authorised.", "Personal and business context is included only where relevant to DRAIN and WorkFamilyAI assessment."],
+    "credentials": [{"system":"AWS","state":"CALLER_PROVIDED"},{"system":"GitHub","state":"CONNECTED"},{"system":"local filesystem","state":"AVAILABLE"}],
+    "dependencies": ["Python 3", "AWS CLI for S3 backend", "local filesystem", "authenticated Pen runtime for downstream ACK"]
+  },
+  "recovery": [
+    {"attempt":"Search local clone for tools/thread_runtime_submit.py","outcome":"NOT_FOUND because the clone had not pulled the repository implementation."},
+    {"attempt":"Inspect GitHub repository branch","outcome":"Existing submitter found and enhanced."},
+    {"attempt":"Add canonical-envelope compatibility and byte-for-byte S3 readback","outcome":"COMMITTED on feat/thread-runtime-submit."}
+  ],
+  "lifecycle_hygiene": {
+    "stale": ["Prior references to Vercel as a required connector are not required for thread ingestion."],
+    "duplicated": ["Earlier architecture-only responses repeated concepts without completing remote submission."],
+    "superseded": ["OAuth/DCR analysis is excluded by explicit correction.", "Passive review-bucket framing is superseded by event-driven routing."],
+    "quarantined": ["Unverified claims of runtime completion without exact receipts."],
+    "safe_to_archive": ["OAuth screenshot and associated discussion for this DRAIN ingestion thread."]
+  },
+  "whole_of_life_business_assessment": {
+    "personal": {"impact":"Reduces cognitive load from fragmented tabs, documents and unfinished work.","risk":"Over-collection without prioritisation could increase noise."},
+    "family": {"impact":"Potential WorkFamilyAI relevance through reduced work spillover and better handoff visibility.","risk":"Personal and family data boundaries must remain explicit."},
+    "business": {"impact":"Creates reusable institutional intake and memory infrastructure.","opportunity":"Recovered products, research, revenue paths and unfinished work."},
+    "financial": {"impact":"Potential recovery of sunk work and monetisation paths.","risk":"Runtime and storage cost without value telemetry."},
+    "legal": {"impact":"Can bind consent, privacy, evidence and provenance references.","risk":"Sensitive data must not be ingested without authority, retention and deletion controls."},
+    "operational": {"impact":"Replaces passive review with queues, workers and receipts.","risk":"Missing owners or ACK pathways can create zombie queues."},
+    "customer": {"impact":"Faster reuse of customer insights and evidence.","risk":"Incorrect inferred intent could cause inappropriate action."},
+    "product": {"impact":"DRAIN can become a portfolio-wide intake fabric.","risk":"Scope expansion before runtime proof."},
+    "research": {"impact":"Supports evidence discovery, provenance and research-object mapping.","risk":"Semantic extraction is heuristic and requires confidence controls."},
+    "strategic": {"impact":"Foundational capability for canonical institutional memory.","risk":"Fragmentation if Pen, GRK and DRAIN schemas diverge."},
+    "reputational": {"impact":"Receipts improve trust.","risk":"Claiming REAL without readback would damage credibility."},
+    "human": {"impact":"Recovers intent rather than merely storing files.","risk":"Automation must preserve agency and contestability."},
+    "societal": {"impact":"Potential model for accountable organisational memory.","risk":"Surveillance-like use if boundaries and consent are weak."},
+    "technical": {"impact":"Provider-neutral, deterministic and replayable ingestion path.","risk":"Remote runtime remains unverified."}
+  },
+  "workfamilyai_heatmap_inputs": {
+    "model":"9x9x9 seed inputs",
+    "sweet_spots":["automatic capture of fragmented work", "evidence-backed handoffs", "reduced context switching", "recovery of forgotten work", "clear owner and next action", "provider-neutral replay"],
+    "black_spots":["passive review queues", "missing receipts", "unowned events", "duplicate submissions", "silent connector failures", "automation without authority"],
+    "dark_spots":["sensitive family or employee data ingested without consent", "false inference presented as fact", "hidden monitoring", "irreversible destructive routing", "credential leakage", "unbounded retention"],
+    "organisational_impact":["knowledge recovery", "cross-functional visibility", "execution traceability", "portfolio prioritisation", "reduced rework", "new governance burden"],
+    "risks":["privacy", "misclassification", "queue overload", "cost growth", "vendor dependency", "schema drift", "false REAL claims"],
+    "opportunities":["institutional memory product", "research compiler input", "portfolio monetisation discovery", "WorkFamilyAI workload insight", "compliance evidence fabric", "agent work routing"],
+    "affected_functions":["executive", "operations", "engineering", "product", "research", "finance", "legal", "sales", "people and culture"],
+    "affected_people_and_stakeholders":["Troy", "family members where authorised", "employees", "contractors", "customers", "research participants", "partners", "regulators", "runtime operators"]
+  },
+  "disposition": {"final":"TRANSFER","target":"Pen runtime","reason":"The thread has sufficient structured state for governed transfer, but remote runtime proof remains pending."},
+  "machine_readable_yaml": "schema: pen.thread-runtime.envelope.v1\nmode: CANONICAL\nsource_system: chatgpt\nsource_thread_reference: chatgpt-current-2026-07-21-drain-runtime-intake\nclassification: PARTIAL\ndisposition: TRANSFER\nowner: Troy Latter\nruntime_target: Pen\nprimary_backend: s3\ns3_target: s3://t4h-archive-140548542136/thread-runtime/current\ntruth:\n  artefacts_exist: true\n  github_commit_exists: true\n  remote_pen_ack: false\n  s3_readback: false\n  supabase_required: false\nnext_action: pull_branch_submit_to_s3_and_verify_readback\n"
+}
