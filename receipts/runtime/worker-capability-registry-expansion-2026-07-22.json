@@ -7,7 +7,7 @@
   "objective": "Add the Capability Manifest and exponentially expand the canonical worker registry with provider-neutral routing, invocation, authority, cost, reliability, resume, health, failure, recovery and receipt semantics.",
   "classification": "PARTIAL",
   "classification_basis": [
-    "Registry files and commits exist in GitHub.",
+    "Registry files and commits exist in GitHub and were read back from main.",
     "Entries are explicitly marked PARTIAL or ASPIRATIONAL where live runtime evidence is absent.",
     "No claim is made that the scheduler currently consumes these files.",
     "No live provider health, lease, dispatch, telemetry or end-to-end runtime readback was produced by this change."
@@ -26,7 +26,8 @@
     "8f95660e887414ea2efa9dcbd64d4a7fdfa66830",
     "b69e518693f13fa29cac95449163c04b35bca349",
     "eca4fea36f5fad5bd70d947ceb88c366c758f8a7",
-    "c86901839cb9a0ba5f9cf3d3193a936899a0552f"
+    "c86901839cb9a0ba5f9cf3d3193a936899a0552f",
+    "de00df1db1c936b3abde7c9b3e935feb3cbf9765"
   ],
   "coverage": {
     "capability_pools": 21,
@@ -45,8 +46,10 @@
     "known T4H runtime patterns recorded in the conversation"
   ],
   "verification": {
-    "method": "GitHub file readback",
-    "result": "PENDING_AT_RECEIPT_CREATION"
+    "method": "GitHub file readback from main",
+    "result": "VERIFIED",
+    "capability_manifest_blob_sha": "16bd702dc385e1079dd9afa6521b4d8ab069c82d",
+    "preseal_receipt_blob_sha": "461962d7e755c0747f70f2e0ab795103e054fad7"
   },
   "gaps": [
     "No schema validator or CI consumer has yet proven the YAML parses and is consumed.",
