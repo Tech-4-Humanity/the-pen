@@ -1,0 +1,124 @@
+schema: t4h.pen.provider-registry.v1
+registry_state: PARTIAL
+provider_defaults:
+  evidence_state: ASPIRATIONAL
+  mutable_fields_require_refresh: [health, price, quota, model-version, region, terms]
+  no_provider_is_canonical_state: true
+providers:
+  - id: PROVIDER-PEN-RUNTIME
+    name: PEN runtime
+    type: orchestration-runtime
+    owner: Tech4Humanity
+    invocation: [github-inbox, local-spool, s3-thread-runtime]
+    authority: [job-envelope, worker-identity, runtime-policy]
+    cost_model: internal-runtime-plus-provider-costs
+    reliability: unproven-until-live-receipts
+    alternates: [PROVIDER-LOCAL-OR-CLOUD-COMPUTE, PROVIDER-AWS]
+    data_residency: job-policy
+    healthcheck: pen-worker-heartbeat-and-ledger-progress
+    evidence_state: PARTIAL
+  - id: PROVIDER-GITHUB
+    name: GitHub
+    type: source-control-and-work-queue
+    owner: GitHub
+    invocation: [rest-api, app-connector, git, gh-cli]
+    authority: installation-or-token-permissions
+    cost_model: plan-and-actions-usage
+    reliability: provider-managed
+    alternates: [local-git-spool, s3-artifact-store]
+    healthcheck: api-read-write-and-commit-readback
+    evidence_state: PARTIAL
+  - id: PROVIDER-AWS
+    name: Amazon Web Services
+    type: cloud-platform
+    owner: AWS
+    invocation: [sdk, cli, api, eventbridge, lambda, step-functions, s3]
+    authority: iam-role-and-resource-policy
+    cost_model: metered
+    reliability: service-and-region-specific
+    alternates: [PROVIDER-LOCAL-OR-CLOUD-COMPUTE, PROVIDER-GITHUB]
+    healthcheck: service-specific-api-and-cloudwatch-readback
+    evidence_state: ASPIRATIONAL
+  - id: PROVIDER-SUPABASE
+    name: Supabase
+    type: database-and-edge-control-plane
+    owner: Supabase
+    invocation: [postgres, rest, edge-functions]
+    authority: database-role-or-api-key
+    cost_model: plan-plus-usage
+    reliability: project-and-region-specific
+    alternates: [PROVIDER-AWS, PROVIDER-LOCAL-OR-CLOUD-COMPUTE]
+    healthcheck: database-query-and-function-readback
+    optional: true
+    evidence_state: ASPIRATIONAL
+  - id: PROVIDER-LLM-ROUTER
+    name: Provider-neutral LLM router
+    type: model-routing-abstraction
+    owner: runtime-platform
+    invocation: [provider-api, hosted-model, local-model]
+    authority: provider-credential-and-tool-grants
+    cost_model: tokens-compute-cache-tools-and-review
+    reliability: model-task-and-tool-specific
+    alternates: [different-model, different-provider, human-specialist, deterministic-tool]
+    healthcheck: model-call-plus-task-benchmark
+    evidence_state: ASPIRATIONAL
+  - id: PROVIDER-LOCAL-OR-CLOUD-COMPUTE
+    name: Generic compute runtime
+    type: execution-abstraction
+    owner: runtime-platform
+    invocation: [shell, python, container, vm, batch]
+    authority: process-role-and-host-policy
+    cost_model: cpu-gpu-memory-storage-network-human-ops
+    reliability: environment-specific
+    alternates: [PROVIDER-AWS, PROVIDER-GITHUB]
+    healthcheck: process-self-test-and-artifact-readback
+    evidence_state: ASPIRATIONAL
+  - id: PROVIDER-HUMAN
+    name: Human accountable authority
+    type: human
+    owner: named-principal
+    invocation: [decision-request, review-pack, approval-workflow]
+    authority: legal-organisational-role
+    cost_model: time-interruption-cognitive-load-liability
+    reliability: role-context-and-availability-specific
+    alternates: [alternate-authorised-principal, quorum, defer-or-quarantine]
+    healthcheck: availability-and-authority-confirmation
+    evidence_state: PARTIAL
+  - id: PROVIDER-RESEARCH-POOL
+    name: Research worker pool
+    type: specialist-pool
+    owner: research-lead
+    invocation: [job-route, research-protocol]
+    authority: source-and-project-scope
+    cost_model: provider-plus-human-review
+    reliability: benchmark-and-domain-specific
+    alternates: [LLM-router, human-researcher, external-database]
+    healthcheck: source-access-and-quality-sample
+    evidence_state: ASPIRATIONAL
+  - id: PROVIDER-SECURITY-POOL
+    name: Security specialist pool
+    type: specialist-pool
+    owner: security-principal
+    invocation: [review-job, scan-job, incident-job]
+    authority: controlled-security-scope
+    cost_model: tool-license-compute-and-specialist-time
+    reliability: finding-and-retest-specific
+    alternates: [secondary-scanner, independent-reviewer, managed-security-provider]
+    healthcheck: scanner-self-test-and-known-fixture
+    evidence_state: ASPIRATIONAL
+selection_policy:
+  order:
+    - reject_ineligible_authority_or_data_policy
+    - reject_unhealthy_or_quarantined
+    - require_input_output_contract_match
+    - require_receipt_and_resume_support
+    - optimize_success_probability
+    - optimize_value_per_total_cost
+    - minimize_p90_latency_within_budget
+    - preserve_at_least_one_viable_fallback
+  never_route_on:
+    - provider_brand_alone
+    - self_reported_confidence_alone
+    - stale_benchmark
+    - hidden_memory
+    - unverified_cost_claim
