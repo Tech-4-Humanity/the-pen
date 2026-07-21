@@ -1,0 +1,15 @@
+{
+  "schema_version": "t4h.atlas.runtime-package.v1",
+  "state": "PARTIAL",
+  "owner": "T4H Research",
+  "canonical_unit": "subtopic",
+  "source_taxonomy_sha256": "6088e0b59404ebbf3d579c0baa854b0ebb11b9e4aab817bd1513c2040ae9e199",
+  "theme_count": 8,
+  "taxonomy_row_count": 489,
+  "first_24_register_count": 24,
+  "compiled_story_count": 18,
+  "stories_requiring_expansion": 6,
+  "priority_order": ["audit_rdti_science", "public_understanding", "publishing_expansion"],
+  "integrity_rule": "Narrative is not evidence. No result is REAL without linked evidence and receipt.",
+  "workbook": "T4H_Research_Atlas_Runtime_Compilation_v1.xlsx"
+}
