@@ -1,0 +1,28 @@
+{
+  "schema_version": "t4h.atlas.story-register.v1",
+  "state": "PARTIAL",
+  "compiled_count": 18,
+  "publication_candidate_count": 6,
+  "strong_draft_count": 6,
+  "requires_expansion_count": 6,
+  "stories": [
+    {"id":"HS-001","theme_id":"THE-01","subtopic":"Working Memory Optimisation","title":"The Knowledge He Carried","form":"Composite participant feature","status":"Draft — strong"},
+    {"id":"HS-002","theme_id":"THE-01","subtopic":"Executive Function Support","title":"The Invisible Marathon","form":"Composite working-parent feature","status":"Draft — strong"},
+    {"id":"HS-003","theme_id":"THE-01","subtopic":"Attention Regulation","title":"Three Minutes of Silence","form":"Organisational feature","status":"Draft — strong"},
+    {"id":"HS-004","theme_id":"THE-02","subtopic":"AI-Assisted Reading Development","title":"The Boy Who Stopped Looking Up","form":"Teacher observation","status":"Draft — strong"},
+    {"id":"HS-005","theme_id":"THE-01","subtopic":"Human–AI Collaboration","title":"The Day the Meeting Finished Early","form":"Workplace transformation","status":"Draft — strong"},
+    {"id":"HS-006","theme_id":"THE-08","subtopic":"Rural & Regional Human Capability","title":"Beyond the Last Mobile Tower","form":"Community feature","status":"Draft — strong"},
+    {"id":"HS-007","theme_id":"THE-01","subtopic":"AI Sweet Spots","title":"The Quietest Desk in the Office","form":"Character feature","status":"Publication candidate"},
+    {"id":"HS-008","theme_id":"THE-02","subtopic":"Curiosity & Human Learning","title":"The Girl Who Asked Better Questions","form":"Educational feature","status":"Publication candidate"},
+    {"id":"HS-009","theme_id":"THE-04","subtopic":"Human Agency & Decision Making","title":"When the Algorithm Said Yes","form":"Ethical feature","status":"Publication candidate"},
+    {"id":"HS-010","theme_id":"THE-08","subtopic":"Digital Confidence & Inclusion","title":"You Can Leave Your Camera On","form":"Interview","status":"Publication candidate"},
+    {"id":"HS-011","theme_id":"THE-01","subtopic":"Human Performance & Cognitive Recovery","title":"Field Notes — Day 143","form":"Research journal","status":"Publication candidate"},
+    {"id":"HS-012","theme_id":"THE-06","subtopic":"Responsible AI Governance","title":"The Review That Changed Everything","form":"Future newspaper feature","status":"Publication candidate"},
+    {"id":"HS-013","theme_id":"THE-02","subtopic":"Continuity Across Child Support Systems","title":"The Empty Chair","form":"Family-system feature","status":"Expand"},
+    {"id":"HS-014","theme_id":"THE-03","subtopic":"Misinformation Sharing & Verification","title":"The Photograph Everyone Shared","form":"Information-integrity feature","status":"Expand"},
+    {"id":"HS-015","theme_id":"THE-04","subtopic":"Machine-Constructed Identity","title":"That Isn’t Me","form":"Identity feature","status":"Expand"},
+    {"id":"HS-016","theme_id":"THE-05","subtopic":"AI Interpretation of Neural Variation","title":"The Scan","form":"Clinical-research feature","status":"Expand"},
+    {"id":"HS-017","theme_id":"THE-06","subtopic":"Decision Governance Under Uncertainty","title":"Minute Forty-Seven","form":"Institutional feature","status":"Expand"},
+    {"id":"HS-018","theme_id":"THE-07","subtopic":"Creativity, Authorship & Generative AI","title":"The Last Draft","form":"Creative-practice feature","status":"Expand"}
+  ]
+}
