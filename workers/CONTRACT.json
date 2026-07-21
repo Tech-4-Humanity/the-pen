@@ -1,44 +1,183 @@
 {
-  "schema": "t4h.pen.worker.contract.v1",
+  "schema": "t4h.pen.worker.contract.v3",
+  "constitution": "constitution/WORKER_RUNTIME_CONSTITUTION_V3.md",
   "identity": {
     "name": "PEN-Worker-001",
-    "roles": ["builder", "watcher", "repairer"]
+    "roles": ["builder", "watcher", "repairer"],
+    "replaceable": true,
+    "hidden_memory_is_not_state": true
+  },
+  "runtime_ownership": {
+    "runtime_owns_original_outcome": true,
+    "worker_owns_assigned_capability": true,
+    "handoff_does_not_close_parent": true
   },
   "inbox": {
     "system": "TML-4PM/the-pen",
-    "path": "inbox/*.json",
-    "source_of_truth": true
-  },
-  "mission": {
-    "claim_one_job": true,
-    "execute_or_route_around": true,
-    "verify_before_reporting": true,
-    "always_write_receipt": true,
-    "continue_after_blocker": true
+    "paths": ["issues", "inbox/*.json"],
+    "source_of_truth": false,
+    "ledger_is_source_of_truth": true,
+    "event_driven_primary": true,
+    "polling_recovery_only": true
   },
   "job_contract": {
-    "required": ["job_id", "objective", "target", "authority", "acceptance", "receipt"],
+    "required": [
+      "job_id",
+      "desired_state",
+      "current_state",
+      "success_predicates",
+      "target",
+      "required_capabilities",
+      "authority",
+      "budget",
+      "priority",
+      "evidence_requirements",
+      "receipt"
+    ],
     "target_is_job_data_not_worker_configuration": true,
     "repository_optional": true,
-    "transport_optional": true
+    "transport_optional": true,
+    "missing_success_predicate_state": "ASPIRATIONAL"
   },
   "authority": {
-    "default": "least privilege supplied by job",
+    "default": "least privilege supplied by job and identity-bound policy",
     "may_use": ["github", "bridge", "aws-ssm", "shell", "python", "node", "docker"],
-    "must_not": ["expose secrets", "disable audit", "invent evidence", "perform unapproved destructive actions"]
+    "must_not": [
+      "expose secrets",
+      "disable audit",
+      "invent evidence",
+      "use memory as proof",
+      "perform unapproved destructive actions",
+      "externalize responsibility while an authorised path remains"
+    ],
+    "escalation_requires": [
+      "missing required capability or permission",
+      "no safe workaround",
+      "externally enforced constraint",
+      "evidence of attempts and denial",
+      "exact additional authority",
+      "remaining budget and risk"
+    ]
   },
   "loop": [
-    "read",
+    "receive",
     "validate",
-    "claim",
-    "inspect",
+    "normalize_outcome",
+    "lease",
+    "emit_started",
     "execute",
-    "verify",
+    "verify_live_state",
+    "investigate_root_cause",
     "repair_or_workaround",
+    "retry_with_changed_condition",
+    "alternate_route",
+    "verify_again",
     "receipt",
+    "ledger",
     "release",
     "next"
   ],
-  "terminal_states": ["COMPLETE", "PARTIAL", "BLOCKED", "INVALIDATED"],
-  "receipt_requires": ["job_id", "worker", "status", "started_at", "finished_at", "attempts", "target", "actions", "evidence", "gaps", "receipt_hash"]
+  "failure_chain": [
+    "investigation",
+    "repair",
+    "replay_original_job",
+    "regression_test",
+    "knowledge_or_capability_update"
+  ],
+  "states": {
+    "allowed": [
+      "ASPIRATIONAL",
+      "QUEUED",
+      "STARTED",
+      "PARTIAL",
+      "DEGRADED",
+      "BLOCKED_WITH_EVIDENCE",
+      "QUARANTINED",
+      "INVALIDATED",
+      "REAL"
+    ],
+    "non_terminal": ["QUEUED", "STARTED", "PARTIAL", "DEGRADED"],
+    "forbidden_terminal": [
+      "DONE_WITHOUT_RECEIPT",
+      "TRANSFER",
+      "ATTEMPTED",
+      "SILENT_FAILURE",
+      "BLOCKED_WITHOUT_EVIDENCE"
+    ]
+  },
+  "verification_requires": [
+    "execution occurred",
+    "success predicate passed against live state",
+    "output observable",
+    "telemetry confirms execution path",
+    "durable evidence",
+    "ledger entry",
+    "reproducible or replayable result",
+    "input-output reconciliation"
+  ],
+  "retry": {
+    "mandatory_while_authorised_paths_remain": true,
+    "must_change_one_of": [
+      "input",
+      "method",
+      "provider",
+      "dependency",
+      "environment",
+      "worker",
+      "authority route",
+      "resource allocation",
+      "timing condition"
+    ],
+    "identical_retry_without_new_evidence": "INVALID"
+  },
+  "workers": {
+    "required_capability_pools": [
+      "intake",
+      "validation-normalisation",
+      "scheduler-dispatch",
+      "execution",
+      "verification",
+      "investigation",
+      "repair",
+      "replay",
+      "watchdog",
+      "evidence-ledger",
+      "observability"
+    ],
+    "single_process_may_implement_multiple_capabilities": true,
+    "capability_ownership_must_remain_explicit": true
+  },
+  "event_delivery": {
+    "wake_on_arrival": true,
+    "started_receipt_required": true,
+    "missing_started_receipt_spawns_investigation": true,
+    "watchdog_requires_no_human_request": true
+  },
+  "receipt_requires": [
+    "job_id",
+    "job_fingerprint",
+    "desired_state",
+    "success_predicates",
+    "worker",
+    "capability",
+    "lease_id",
+    "authority_used",
+    "actions",
+    "changed_retry_conditions",
+    "evidence_refs",
+    "verification_method",
+    "verification_result",
+    "telemetry_refs",
+    "ledger_confirmation",
+    "input_hashes",
+    "output_hashes",
+    "started_at",
+    "finished_at",
+    "final_classification",
+    "receipt_hash"
+  ],
+  "canonical_regression": {
+    "issue": "TML-4PM/the-pen#255",
+    "remains_active_until_independent_receipt": true
+  }
 }
