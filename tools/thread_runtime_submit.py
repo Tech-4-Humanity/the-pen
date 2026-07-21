@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Provider-neutral thread ingress for Pen.
+"""Provider-neutral governed thread ingress for Pen.
 
-Durable truth is the canonical JSON envelope plus receipt. Supabase is optional
-and is never required for acceptance. Supported backends:
+Accepts either:
+1. a canonical ``pen.thread-runtime.envelope.v1`` envelope; or
+2. the legacy compact payload used by the original Pen ingress utility.
 
-- local: atomic filesystem spool
-- s3: immutable object write using AWS CLI
-
-The same envelope can later be indexed into Supabase, Notion, or another store.
+Durable truth is the canonical JSON object plus an independently verified
+readback receipt. Supabase is optional and never blocks acceptance.
 """
 from __future__ import annotations
 
@@ -22,7 +21,13 @@ import tempfile
 from datetime import datetime, timezone
 from typing import Any
 
-SCHEMA_VERSION = "t4h.thread-runtime-envelope.v1"
+CANONICAL_SCHEMA = "pen.thread-runtime.envelope.v1"
+LEGACY_SCHEMA = "t4h.thread-runtime-envelope.v1"
+RECEIPT_SCHEMA = "pen.thread-runtime.receipt.v1"
+VALID_STATES = {
+    "REAL", "PARTIAL", "BLOCKED", "DEGRADED", "QUARANTINED",
+    "ASPIRATIONAL", "INVALIDATED",
+}
 
 
 def utc_now() -> str:
@@ -30,14 +35,19 @@ def utc_now() -> str:
 
 
 def canonical_json(value: Any) -> bytes:
-    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
+    return json.dumps(
+        value,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")
 
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def load_payload(path: str | None) -> dict[str, Any]:
+def load_json(path: str | None) -> dict[str, Any]:
     raw = pathlib.Path(path).read_bytes() if path else sys.stdin.buffer.read()
     try:
         value = json.loads(raw)
@@ -48,7 +58,25 @@ def load_payload(path: str | None) -> dict[str, Any]:
     return value
 
 
-def validate(payload: dict[str, Any]) -> None:
+def validate_canonical(envelope: dict[str, Any]) -> None:
+    thread = envelope.get("thread")
+    if not isinstance(thread, dict):
+        raise SystemExit("BLOCKED: canonical envelope requires thread object")
+    missing = [
+        key for key in ("source_system", "source_thread_reference", "title", "purpose")
+        if not thread.get(key)
+    ]
+    if missing:
+        raise SystemExit("BLOCKED: missing thread fields: " + ", ".join(missing))
+    classification = envelope.get("classification")
+    if not isinstance(classification, dict):
+        raise SystemExit("BLOCKED: canonical envelope requires classification object")
+    state = classification.get("state")
+    if state not in VALID_STATES:
+        raise SystemExit(f"BLOCKED: invalid classification.state: {state!r}")
+
+
+def validate_legacy(payload: dict[str, Any]) -> None:
     required = ["source_system", "source_thread_id", "principal_id", "title", "content"]
     missing = [key for key in required if not payload.get(key)]
     if missing:
@@ -57,41 +85,61 @@ def validate(payload: dict[str, Any]) -> None:
         raise SystemExit("BLOCKED: content must be string, object, or array")
 
 
-def build_envelope(payload: dict[str, Any]) -> tuple[dict[str, Any], bytes]:
-    content_bytes = canonical_json(payload["content"])
-    content_hash = sha256(content_bytes)
-    idempotency_key = sha256(
-        f"{payload['source_system']}\n{payload['source_thread_id']}\n{content_hash}".encode("utf-8")
-    )
-    envelope = {
-        "schema_version": SCHEMA_VERSION,
-        "submission_id": idempotency_key,
-        "idempotency_key": idempotency_key,
-        "source_system": payload["source_system"],
-        "source_thread_id": payload["source_thread_id"],
-        "principal_id": payload["principal_id"],
-        "title": payload["title"],
-        "content_hash": content_hash,
-        "content": payload["content"],
-        "attachments": payload.get("attachments", []),
-        "privacy_class": payload.get("privacy_class", "internal"),
-        "retention_policy": payload.get("retention_policy", "institutional"),
-        "owner": payload.get("owner"),
-        "authority": payload.get("authority", {}),
-        "whole_of_life": payload.get("whole_of_life", {}),
-        "whole_of_business": payload.get("whole_of_business", {}),
+def normalise(payload: dict[str, Any]) -> dict[str, Any]:
+    if payload.get("schema") == CANONICAL_SCHEMA:
+        validate_canonical(payload)
+        return payload
+
+    validate_legacy(payload)
+    return {
+        "schema": CANONICAL_SCHEMA,
+        "envelope_mode": "SHORT",
+        "thread": {
+            "source_system": payload["source_system"],
+            "source_thread_reference": payload["source_thread_id"],
+            "title": payload["title"],
+            "purpose": "Provider-neutral Pen thread ingestion",
+            "captured_at": utc_now(),
+        },
+        "classification": {
+            "state": payload.get("classification", "PARTIAL"),
+            "rationale": "Legacy compact payload normalised by Pen ingress.",
+        },
+        "facts": {"content": payload["content"], "attachments": payload.get("attachments", [])},
+        "governance": {
+            "principal_id": payload["principal_id"],
+            "owner": payload.get("owner"),
+            "authority": payload.get("authority", {}),
+            "privacy_class": payload.get("privacy_class", "internal"),
+            "retention_policy": payload.get("retention_policy", "institutional"),
+        },
+        "whole_of_life_business_assessment": {
+            "whole_of_life": payload.get("whole_of_life", {}),
+            "whole_of_business": payload.get("whole_of_business", {}),
+        },
         "workfamilyai_heatmap_inputs": payload.get("workfamilyai_heatmap_inputs", {}),
-        "requested_disposition": payload.get("requested_disposition", "CONTINUE"),
-        "submitted_at": utc_now(),
-        "state": "QUEUED",
+        "disposition": {"final": payload.get("requested_disposition", "CONTINUE")},
     }
-    return envelope, canonical_json(envelope)
 
 
-def atomic_write(path: pathlib.Path, data: bytes) -> bool:
+def identity(envelope: dict[str, Any]) -> tuple[str, str, str]:
+    body = canonical_json(envelope)
+    content_hash = sha256(body)
+    thread = envelope["thread"]
+    idempotency_key = sha256(
+        (
+            f"{thread['source_system']}\n"
+            f"{thread['source_thread_reference']}\n"
+            f"{content_hash}"
+        ).encode("utf-8")
+    )
+    return content_hash, idempotency_key, f"thr_{idempotency_key[:24]}"
+
+
+def atomic_create(path: pathlib.Path, data: bytes) -> tuple[bool, bytes]:
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
-        return False
+        return False, path.read_bytes()
     with tempfile.NamedTemporaryFile(dir=path.parent, delete=False) as temp:
         temp.write(data)
         temp.flush()
@@ -99,54 +147,102 @@ def atomic_write(path: pathlib.Path, data: bytes) -> bool:
         temp_path = pathlib.Path(temp.name)
     try:
         os.link(temp_path, path)
-        return True
+        return True, path.read_bytes()
     except FileExistsError:
-        return False
+        return False, path.read_bytes()
     finally:
         temp_path.unlink(missing_ok=True)
 
 
-def submit_local(envelope: dict[str, Any], data: bytes, root: pathlib.Path) -> tuple[str, bool]:
-    target = root / "inbox" / f"{envelope['submission_id']}.json"
-    created = atomic_write(target, data)
-    return str(target), created
-
-
-def submit_s3(envelope: dict[str, Any], data: bytes, bucket: str, prefix: str) -> tuple[str, bool]:
-    key = f"{prefix.rstrip('/')}/inbox/{envelope['submission_id']}.json"
-    uri = f"s3://{bucket}/{key}"
-    head = subprocess.run(["aws", "s3api", "head-object", "--bucket", bucket, "--key", key], capture_output=True)
-    if head.returncode == 0:
-        return uri, False
-    proc = subprocess.run(
-        ["aws", "s3api", "put-object", "--bucket", bucket, "--key", key, "--body", "/dev/stdin", "--content-type", "application/json"],
-        input=data,
-        capture_output=True,
-    )
-    if proc.returncode != 0:
-        raise SystemExit(f"BLOCKED: S3 write failed: {proc.stderr.decode(errors='replace')}")
-    verify = subprocess.run(["aws", "s3api", "head-object", "--bucket", bucket, "--key", key], capture_output=True)
-    if verify.returncode != 0:
-        raise SystemExit("BLOCKED: S3 readback failed")
-    return uri, True
-
-
-def write_receipt(root: pathlib.Path, envelope: dict[str, Any], location: str, created: bool, backend: str) -> pathlib.Path:
-    receipt = {
-        "schema_version": "t4h.thread-runtime-receipt.v1",
-        "status": "REAL",
+def submit_local(body: bytes, submission_id: str, root: pathlib.Path) -> dict[str, Any]:
+    target = root / "inbox" / f"{submission_id}.json"
+    created, readback = atomic_create(target, body)
+    if readback != body:
+        return {
+            "status": "CONFLICT",
+            "result": "IDEMPOTENCY_CONFLICT",
+            "location": str(target),
+            "readback": "MISMATCH",
+            "readback_sha256": sha256(readback),
+        }
+    return {
+        "status": "ACKED" if created else "EXISTING",
         "result": "THREAD_ACCEPTED" if created else "THREAD_DEDUPLICATED",
-        "submission_id": envelope["submission_id"],
-        "backend": backend,
-        "location": location,
-        "created": created,
-        "content_hash": envelope["content_hash"],
-        "readback_completed": True,
-        "recorded_at": utc_now(),
+        "location": str(target),
+        "readback": "VERIFIED",
+        "readback_sha256": sha256(readback),
     }
-    target = root / "receipts" / f"{envelope['submission_id']}.json"
+
+
+def aws(*args: str, input_bytes: bytes | None = None) -> subprocess.CompletedProcess[bytes]:
+    return subprocess.run(["aws", *args], input=input_bytes, capture_output=True)
+
+
+def submit_s3(
+    body: bytes,
+    submission_id: str,
+    bucket: str,
+    prefix: str,
+    idempotency_key: str,
+    content_hash: str,
+) -> dict[str, Any]:
+    key = f"{prefix.rstrip('/')}/{submission_id}.json"
+    uri = f"s3://{bucket}/{key}"
+
+    existing = aws("s3api", "get-object", "--bucket", bucket, "--key", key, "/dev/stdout")
+    if existing.returncode == 0:
+        if existing.stdout != body:
+            return {
+                "status": "CONFLICT",
+                "result": "IDEMPOTENCY_CONFLICT",
+                "location": uri,
+                "readback": "MISMATCH",
+                "readback_sha256": sha256(existing.stdout),
+            }
+        created = False
+    else:
+        with tempfile.NamedTemporaryFile(delete=False) as temp:
+            temp.write(body)
+            temp_path = pathlib.Path(temp.name)
+        try:
+            put = aws(
+                "s3api", "put-object",
+                "--bucket", bucket,
+                "--key", key,
+                "--body", str(temp_path),
+                "--content-type", "application/json",
+                "--metadata", f"idempotency-key={idempotency_key},content-hash={content_hash},schema={CANONICAL_SCHEMA}",
+            )
+        finally:
+            temp_path.unlink(missing_ok=True)
+        if put.returncode != 0:
+            raise SystemExit(f"BLOCKED: S3 write failed: {put.stderr.decode(errors='replace')}")
+        created = True
+
+    readback = aws("s3api", "get-object", "--bucket", bucket, "--key", key, "/dev/stdout")
+    if readback.returncode != 0:
+        raise SystemExit(f"BLOCKED: S3 readback failed: {readback.stderr.decode(errors='replace')}")
+    if readback.stdout != body:
+        return {
+            "status": "CONFLICT",
+            "result": "READBACK_MISMATCH",
+            "location": uri,
+            "readback": "MISMATCH",
+            "readback_sha256": sha256(readback.stdout),
+        }
+    return {
+        "status": "ACKED" if created else "EXISTING",
+        "result": "THREAD_ACCEPTED" if created else "THREAD_DEDUPLICATED",
+        "location": uri,
+        "readback": "VERIFIED",
+        "readback_sha256": sha256(readback.stdout),
+    }
+
+
+def write_receipt(root: pathlib.Path, receipt: dict[str, Any]) -> pathlib.Path:
+    target = root / "receipts" / f"{receipt['submission_id']}.json"
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_bytes(canonical_json(receipt))
+    target.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return target
 
 
@@ -159,29 +255,39 @@ def main() -> int:
     parser.add_argument("--s3-prefix", default=os.getenv("T4H_THREAD_S3_PREFIX", "thread-runtime/current"))
     args = parser.parse_args()
 
-    payload = load_payload(args.input)
-    validate(payload)
-    envelope, data = build_envelope(payload)
+    envelope = normalise(load_json(args.input))
+    body = canonical_json(envelope)
+    content_hash, idempotency_key, submission_id = identity(envelope)
     root = pathlib.Path(args.runtime_root)
 
     if args.backend == "local":
-        location, created = submit_local(envelope, data, root)
+        outcome = submit_local(body, submission_id, root)
     else:
         if not args.s3_bucket:
             raise SystemExit("BLOCKED: --s3-bucket or T4H_THREAD_S3_BUCKET is required")
-        location, created = submit_s3(envelope, data, args.s3_bucket, args.s3_prefix)
+        outcome = submit_s3(
+            body, submission_id, args.s3_bucket, args.s3_prefix,
+            idempotency_key, content_hash,
+        )
 
-    receipt_path = write_receipt(root, envelope, location, created, args.backend)
-    print(json.dumps({
-        "status": "REAL",
-        "result": "THREAD_ACCEPTED" if created else "THREAD_DEDUPLICATED",
-        "submission_id": envelope["submission_id"],
+    receipt = {
+        "schema": RECEIPT_SCHEMA,
+        "submission_id": submission_id,
+        "idempotency_key": idempotency_key,
+        "content_hash": content_hash,
         "backend": args.backend,
-        "location": location,
-        "receipt": str(receipt_path),
+        "classification": envelope["classification"]["state"],
+        "source_system": envelope["thread"]["source_system"],
+        "source_thread_reference": envelope["thread"]["source_thread_reference"],
+        "recorded_at": utc_now(),
         "supabase_required": False,
-    }, indent=2))
-    return 0
+        **outcome,
+    }
+    receipt_path = write_receipt(root, receipt)
+    receipt["receipt"] = str(receipt_path)
+    print(json.dumps(receipt, indent=2, sort_keys=True))
+
+    return 0 if receipt["status"] in {"ACKED", "EXISTING"} and receipt["readback"] == "VERIFIED" else 1
 
 
 if __name__ == "__main__":
