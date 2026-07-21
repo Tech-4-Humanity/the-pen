@@ -1,0 +1,15 @@
+{
+  "schema": "pen.thread-runtime.github-pointer.v1",
+  "source_system": "chatgpt",
+  "source_thread_reference": "chatgpt:fy2425-nonlabour-cost-reconstruction:2026-07-21",
+  "submission_id": "thr_80f09c3b220ca8cf724f503f",
+  "content_hash": "afe821d09dce03a0595af1c064d81f35ad4cd4ea5b5526eaaef8a7b81be84744",
+  "idempotency_key": "80f09c3b220ca8cf724f503f374958e775ff41df75b8935e35c0d6f20966ddf8",
+  "backend": "local",
+  "readback": "VERIFIED",
+  "classification": "PARTIAL",
+  "disposition": "TRANSFER",
+  "operator_path": "tools/thread_runtime_submit.py",
+  "operator_blob_sha": "a6d8a464782d0fe55f470c997cce39bbd1c0ce02",
+  "note": "Sensitive governed envelope retained in the Pen durable spool; this repository record is a reconstruction pointer only."
+}
