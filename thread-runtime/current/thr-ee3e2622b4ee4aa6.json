@@ -1,0 +1,129 @@
+{
+  "schema_version": "pen.thread-runtime.v1",
+  "thread": {
+    "submission_id": "thr-ee3e2622b4ee4aa6",
+    "title": "OIKOS Journey Drive Evidence Exhibition and Canonical Asset Compiler",
+    "purpose": "Establish Google Drive as the first governed intake test for an R&D tax audit visual research exhibition, verify write authority, create a classification structure, inventory evidence, and define a reusable Canonical Asset Compiler for later Drive, S3, GitHub, chat, PDF and other-source ingestion.",
+    "scope": ["Google Drive OIKOS Journey folder", "R&D tax audit exhibition", "Drive-S3-CloudFront publication architecture", "asset inventory and chronology", "duplicate detection", "Canonical Asset Compiler", "GRK Pen handover"],
+    "source_system": "ChatGPT",
+    "source_thread_reference": {"status": "PARTIAL", "provided_id": null, "deterministic_surrogate": "chatgpt:oikos-journey-drive-test:2026-07-21", "basis": "No platform-native conversation ID was exposed."}
+  },
+  "classification": {"current": "PARTIAL", "reason": "Drive writes and classification folders are REAL with connector receipts. Recursive crawl, manifests, file movement, hashes, S3/CloudFront, compiler implementation, Pen operator execution and runtime readback are incomplete."},
+  "submission": {
+    "idempotency_key": "4714cf1d17ddee1c189993b2ca2c4f6341a53bca1accf786076809af331f8651",
+    "content_hash": "ee3e2622b4ee4aa69927c7f5905e113a4e4a3d3fed6c7fe430c616b169344a7e",
+    "hash_basis": "Canonical envelope before submission metadata",
+    "backend": "github-connector-intake-exception",
+    "runtime_submission_status": "NOT_EXECUTED",
+    "target_backend": "s3",
+    "target_path": "s3://t4h-archive-140548542136/thread-runtime/current/"
+  },
+  "facts": {
+    "completed_work": [
+      {"system": "Google Drive", "action": "Connected identity verified", "result": "troy@tech4humanity.com.au"},
+      {"system": "Google Drive", "action": "Target verified", "result": "OIKOS Journey, owned by troy.latter@gmail.com", "id": "1zRntgc-Zay0BH5etxH-FYup6q5zCPfo4", "url": "https://drive.google.com/drive/folders/1zRntgc-Zay0BH5etxH-FYup6q5zCPfo4"},
+      {"system": "Google Drive", "action": "Permission recovery", "result": "Initial 403 insufficientParentPermissions; after permission change child creation succeeded."},
+      {"system": "Google Drive", "action": "Created folders", "result": ["00_REGISTER_AND_ADMIN", "01_RESEARCH_FOUNDATIONS", "02_T4H_ECOSYSTEM", "03_FRAMEWORKS_AND_HYPOTHESES", "04_OIKOS_EVOLUTION", "05_OUTCOME_READY", "06_TRUST_IDENTITY_AND_CONSENT", "07_RDTI_AND_AUDIT_EVIDENCE", "08_ORGANISATIONAL_INTELLIGENCE", "09_FUTURE_OF_WORK", "10_POSTERS_AND_STUDIES", "11_FINAL_EXHIBITION_SELECTION", "90_DUPLICATES_AND_ALTERNATES", "99_UNCLASSIFIED_INTAKE"]},
+      {"system": "Google Drive", "action": "Top-level inventory read", "result": "Assets span at least 2026-03-24 to 2026-07-18, including PNG, WebP, HEIF and PDF. No source files moved or renamed."},
+      {"system": "GitHub", "action": "Canonical repo identified", "result": "TML-4PM/the-pen, main branch, private, connector push/admin authority", "url": "https://github.com/TML-4PM/the-pen"},
+      {"system": "GitHub", "action": "Runtime doctrine read", "result": "README and global/ENFORCEMENT_LIVE.md say normal canonical writes use MCP bridge fn_github_push; connector write is an explicit user-directed exception and is not runtime execution."}
+    ],
+    "commits": [],
+    "pull_requests": [],
+    "issues": [],
+    "run_ids": [],
+    "hashes": [{"type": "envelope_content_sha256", "value": "ee3e2622b4ee4aa69927c7f5905e113a4e4a3d3fed6c7fe430c616b169344a7e"}],
+    "receipts": ["Drive metadata readback", "Drive folder creation receipts", "Drive permission failure receipt", "GitHub repository metadata readback", "GitHub doctrine readback"],
+    "telemetry": ["Drive connector reads/writes", "GitHub connector reads"],
+    "ledger_entries": [],
+    "runtime_readback": {"google_drive": "REAL", "github_artifact": "PENDING READBACK", "pen_operator": "NOT OBSERVED", "s3": "NOT OBSERVED"}
+  },
+  "assumptions": [
+    "The connector inventory may be top-level rather than a complete recursive crawl.",
+    "Modified timestamps support chronology but do not prove research causality.",
+    "Same-size assets are probable duplicates but require hashes or content comparison.",
+    "Canonical Asset Compiler is proposed, not implemented."
+  ],
+  "open_commitments": [
+    "Recursively crawl the entire OIKOS Journey folder.",
+    "Create the canonical asset register with Drive IDs, names, URLs, MIME types, sizes, dates, parents and permissions.",
+    "Hash eligible assets and detect exact/perceptual duplicates.",
+    "Classify by research stream, phase, evidence type and publication state.",
+    "Construct chronology and movement/rename plan before moving files.",
+    "Emit CSV/JSON manifests and receipts.",
+    "Add other Drive folders, S3, GitHub, chats, PDFs and additional sources through the same provider-neutral contract.",
+    "Provision private S3/CloudFront publication path when AWS execution is available.",
+    "Implement and run Canonical Asset Compiler v0.1.",
+    "Execute tools/thread_runtime_submit.py and independently read back local spool or S3."
+  ],
+  "blockers_and_missing_evidence": [
+    "No tools/thread_runtime_submit.py execution receipt in this session.",
+    "No S3 identity, write or readback receipt.",
+    "No complete recursive Drive crawl receipt.",
+    "No asset hashes, canonical manifest or movement ledger.",
+    "No compiler runtime receipt.",
+    "Drive currently exposes anyone-with-link writer permission, too broad for audit evidence."
+  ],
+  "canonical_state": {
+    "repositories": [{"name": "TML-4PM/the-pen", "branch": "main", "role": "Pen canonical control layer", "status": "REAL repository; runtime submission unverified"}],
+    "folders": [{"name": "OIKOS Journey", "id": "1zRntgc-Zay0BH5etxH-FYup6q5zCPfo4", "status": "REAL"}],
+    "buckets": [{"name": "t4h-archive-140548542136", "prefix": "thread-runtime/current", "status": "KNOWN TARGET; NOT VERIFIED"}, {"name": "t4h-rd-tax-audit-exhibition", "status": "PROPOSED; NOT CREATED"}],
+    "environments": [{"name": "Google Drive connector", "principal": "troy@tech4humanity.com.au", "status": "REAL"}, {"name": "GitHub connector", "authority": "admin/push on the-pen", "status": "REAL"}, {"name": "Pen operator", "status": "NOT OBSERVED"}]
+  },
+  "objects_products_capabilities_systems": [
+    {"name": "OIKOS Journey classification hierarchy", "type": "folder structure", "state": "REAL"},
+    {"name": "Drive to private S3 to CloudFront exhibition", "type": "publication architecture", "state": "ASPIRATIONAL"},
+    {"name": "Canonical Asset Compiler v0.1", "type": "capability", "state": "ASPIRATIONAL"},
+    {"name": "recursive crawler, duplicate engine, chronology engine, movement planner and receipt generator", "type": "capability set", "state": "ASPIRATIONAL"}
+  ],
+  "authority_dependencies": {
+    "owners": [{"resource": "OIKOS Journey", "owner": "troy.latter@gmail.com"}, {"resource": "Drive execution", "principal": "troy@tech4humanity.com.au"}, {"resource": "GitHub", "owner": "TML-4PM"}],
+    "boundaries": ["Drive connector can read/write under current sharing.", "GitHub connector has admin/push authority.", "No AWS or Pen operator authority observed.", "Direct connector submission is an explicit exception and not bridge/runtime proof."],
+    "credentials": ["No secrets exposed.", "Connector credentials are platform managed."],
+    "dependencies": ["Google Drive connector", "GitHub connector", "Pen operator", "AWS S3", "future hashing/content runtime"]
+  },
+  "recovery_actions": [
+    {"failure": "403 insufficientParentPermissions", "attempt": "Identify account and adjust sharing", "outcome": "Subsequent folder creation succeeded", "state": "RECOVERED"},
+    {"failure": "Drive write uncertainty", "attempt": "Create/read back root test folder", "outcome": "Connector write path proved; target permission was issue", "state": "RECOVERED"},
+    {"failure": "Pen submission unavailable", "attempt": "Locate the-pen and inspect doctrine through GitHub connector", "outcome": "Repo and doctrine found; runtime execution remains absent", "state": "PARTIAL"}
+  ],
+  "next_executable_action": {
+    "action": "Authorised Pen runtime checks out this PR artifact, executes the provider-neutral operator, and independently reads back the stored object.",
+    "commands": ["python3 tools/thread_runtime_submit.py --input thread-runtime/current/thr-ee3e2622b4ee4aa6.json", "T4H_THREAD_BACKEND=s3 T4H_THREAD_S3_BUCKET=t4h-archive-140548542136 T4H_THREAD_S3_PREFIX=thread-runtime/current python3 tools/thread_runtime_submit.py --input thread-runtime/current/thr-ee3e2622b4ee4aa6.json"]
+  },
+  "lifecycle": {
+    "stale": ["Earlier no-edit claim is superseded by successful writes.", "Earlier May 29 start date is superseded by evidence back to March 24."],
+    "duplicated": ["Same-size descriptive and ChatGPT Image files; exact status unproven."],
+    "superseded": ["Manual one-by-one sorting; manifest-first reversible processing now preferred."],
+    "quarantined": ["ChatGPT Image Jun 25, 2026, 08_15_13 PM.png, 45 bytes."],
+    "safe_to_archive": ["Repeated architecture prose after envelope acceptance.", "Drive-root write-test folder after confirmation it is not evidence."]
+  },
+  "whole_of_life_business_assessment": {
+    "personal": "Reduces cognitive load and rework.",
+    "family": "Indirect relevance through WorkFamilyAI and Outcome Ready; no family data changed.",
+    "business": "Reusable intake/publication pattern across T4H.",
+    "financial": "Supports R&D audit preparation; no tax eligibility conclusion.",
+    "legal": "Preserve originals, provenance and distinction between contemporaneous evidence and later explanation; broad write access is a control risk.",
+    "operational": "Manifest-first supports reversible batches and receipts.",
+    "customer": "Potential confidence benefit for auditors, partners and clients.",
+    "product": "Connects OIKOS, Outcome Ready, Trust/Consent and Signal/Synal to evidence.",
+    "research": "Chronology, hypotheses, experiments and outcomes remain to be encoded.",
+    "strategic": "Potential provider-neutral institutional-memory capability.",
+    "reputational": "Polish must not blur evidence provenance.",
+    "human": "Visual storytelling improves usability while governance prevents loss.",
+    "societal": "Potential reuse for transparent evidence sharing.",
+    "technical": "Drive structure is real; crawl, hashes, compiler, S3 and Pen ingestion are incomplete."
+  },
+  "workfamilyai_9x9x9_inputs": {
+    "sweet_spots": ["Human review of AI classification", "Visual narrative backed by originals", "Manifest-first reversible organisation", "Provider-neutral ingestion", "Automated duplicate detection with human confirmation"],
+    "black_spots": ["Manual sorting without ledger", "Upload date treated as chronology", "Deleting duplicates before lineage proof", "Anyone-writer audit evidence"],
+    "dark_spots": ["Later explanation presented as contemporaneous", "Unobserved moves", "Invented receipts", "Loss of originals", "Unreviewed AI classification becoming canonical"],
+    "organisational_impact": ["Audit readiness", "Reduced search/handover time", "Reusable publication", "Cross-product research visibility", "Stronger institutional memory"],
+    "risks": ["Permission leakage", "Incorrect chronology", "Duplicate errors", "Over-engineering", "Pagination/incomplete inventory", "Missing runtime readback"],
+    "opportunities": ["Audit exhibition", "Canonical Asset Compiler", "Knowledge graph", "Microsites/books", "Commercial evidence-management offering", "Three-sided marketplace for evidence owners, curators and consumers/auditors"],
+    "affected_functions": ["Research", "Finance/RDTI", "Legal/compliance", "Product", "Engineering", "Publication", "Knowledge management", "Executive governance"],
+    "affected_people_stakeholders": ["Troy Latter", "T4H researchers/builders", "Accountants and RDTI advisers", "Auditors/regulators", "Product teams", "Partners/universities", "Outcome Ready customers/families", "Future contributors/reviewers"]
+  },
+  "final_disposition": {"value": "TRANSFER", "target": "Pen runtime intake", "reason": "Drive setup is complete enough to transfer; crawl/compiler/publication are separate governed work."},
+  "machine_readable_yaml": "thread:\n  submission_id: thr-ee3e2622b4ee4aa6\n  source_system: ChatGPT\n  source_thread_id: chatgpt:oikos-journey-drive-test:2026-07-21\nclassification: PARTIAL\ndisposition: TRANSFER\nidempotency_key: 4714cf1d17ddee1c189993b2ca2c4f6341a53bca1accf786076809af331f8651\ncontent_hash: ee3e2622b4ee4aa69927c7f5905e113a4e4a3d3fed6c7fe430c616b169344a7e\ncanonical_repository: TML-4PM/the-pen\ntarget_backend: s3\ntarget_path: s3://t4h-archive-140548542136/thread-runtime/current/\ndrive_folder_id: 1zRntgc-Zay0BH5etxH-FYup6q5zCPfo4\nruntime_receipt: absent\nnext_action: execute Pen operator and independently read back stored object\n"
+}
