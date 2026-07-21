@@ -1,0 +1,196 @@
+schema: t4h.pen.worker-registry.v1
+registry_state: PARTIAL
+worker_defaults:
+  lifecycle: draft
+  health: UNKNOWN
+  evidence_state: ASPIRATIONAL
+  registration_is_not_runtime_proof: true
+workers:
+  - id: PEN-Worker-001
+    name: PEN primary worker
+    type: agent
+    organisation: Tech4Humanity
+    owner: Troy Latter
+    maintainer: runtime-platform
+    provider_ref: PROVIDER-PEN-RUNTIME
+    environment: production_candidate
+    region: provider-neutral
+    runtime: python
+    endpoint: inbox-and-worker-loop
+    lifecycle: certified_candidate
+    health: UNKNOWN
+    capabilities:
+      - CAP-INTAKE
+      - CAP-VALIDATE
+      - CAP-SCHEDULE
+      - CAP-EXECUTE
+      - CAP-VERIFY
+      - CAP-INVESTIGATE
+      - CAP-REPAIR
+      - CAP-EVIDENCE
+      - CAP-OBSERVE
+    authority_source: job-envelope-and-identity-policy
+    scheduling: {availability: always-on-target, wake_on_arrival: true, polling: recovery-only}
+    resume: {checkpoints: true, replay: true, lease_recovery: true}
+    receipts: [started, checkpoint, retry, failure, recovery, completion, reconciliation]
+    evidence_state: PARTIAL
+    limitations:
+      - Live continuous worker execution is not proven by registry commits.
+      - Runtime health must be read before every dispatch.
+  - id: WORKER-GITHUB-APP
+    name: GitHub App connector worker
+    type: api-worker
+    organisation: GitHub/OpenAI connector boundary
+    owner: connector-installation-owner
+    provider_ref: PROVIDER-GITHUB
+    environment: connected-session
+    region: provider-managed
+    runtime: github-api
+    lifecycle: production
+    health: session-dependent
+    capabilities: [CAP-EXECUTE, CAP-VERIFY, CAP-EVIDENCE, CAP-CODE]
+    services: [repository-read, file-read, file-write, commit, issue, pull-request, workflow-readback]
+    authority_source: installed-app-permissions
+    resume: {checkpoints: commit-sha, replay: idempotent-api-where-supported}
+    receipts: [commit-sha, blob-sha, issue-or-pr-url, workflow-run]
+    evidence_state: PARTIAL
+    limitations:
+      - A commit proves repository state only.
+      - Shell, AWS and arbitrary runtime access are not implied.
+  - id: WORKER-HUMAN-FOUNDER
+    name: Founder runtime principal
+    type: human
+    organisation: Tech4Humanity
+    owner: Troy Latter
+    provider_ref: PROVIDER-HUMAN
+    environment: business
+    region: Australia
+    runtime: human
+    lifecycle: production
+    health: manually-declared
+    capabilities: [CAP-HUMAN-APPROVAL, CAP-RESEARCH, CAP-VALIDATE]
+    authority_source: legal-role-and-explicit-decision
+    scheduling: {availability: variable, interruption_cost: high, preserve_for: safety-legal-destructive-authority}
+    resume: {handover_required: true, decision-record-required: true}
+    receipts: [signed-decision, approval-scope, rejection-rationale]
+    evidence_state: PARTIAL
+    limitations:
+      - Human attention must not be used for machine-recoverable operational failures.
+  - id: WORKER-LLM-GENERAL
+    name: General reasoning model
+    type: llm
+    organisation: provider-neutral
+    owner: runtime-platform
+    provider_ref: PROVIDER-LLM-ROUTER
+    environment: managed-api
+    region: policy-selected
+    runtime: model-api
+    lifecycle: template
+    health: UNKNOWN
+    capabilities: [CAP-RESEARCH, CAP-DOCUMENT, CAP-VALIDATE, CAP-INVESTIGATE]
+    authority_source: tool-grants-in-job
+    scheduling: {availability: provider-dependent, concurrency: quota-bound}
+    resume: {conversation: limited, canonical_state_required: true, hidden_memory_is_not_state: true}
+    receipts: [prompt-hash, model-version, tool-calls, source-citations, output-hash]
+    evidence_state: ASPIRATIONAL
+    limitations:
+      - May hallucinate or overstate without independent verification.
+      - Model identity, cost and limits are mutable and must be refreshed.
+  - id: WORKER-PYTHON-RUNTIME
+    name: Python execution worker
+    type: script-runtime
+    organisation: Tech4Humanity
+    owner: runtime-platform
+    provider_ref: PROVIDER-LOCAL-OR-CLOUD-COMPUTE
+    environment: variable
+    region: job-selected
+    runtime: python3
+    lifecycle: template
+    health: UNKNOWN
+    capabilities: [CAP-EXECUTE, CAP-VERIFY, CAP-DOCUMENT, CAP-EVIDENCE]
+    authority_source: process-role-and-filesystem-policy
+    scheduling: {availability: runtime-dependent, concurrency: resource-bound}
+    resume: {checkpoints: filesystem-or-object-store, replay: deterministic-when-pinned}
+    receipts: [command, exit-code, stdout-stderr-hash, artifact-hash]
+    evidence_state: ASPIRATIONAL
+    limitations: [dependency-drift, environment-drift, credential-boundary]
+  - id: WORKER-AWS-SERVERLESS
+    name: AWS serverless execution worker
+    type: cloud-runtime
+    organisation: Tech4Humanity
+    owner: runtime-platform
+    provider_ref: PROVIDER-AWS
+    environment: production-or-staging
+    region: ap-southeast-2-target
+    runtime: lambda-step-functions-eventbridge
+    lifecycle: template
+    health: UNKNOWN
+    capabilities: [CAP-EXECUTE, CAP-SCHEDULE, CAP-OBSERVE, CAP-EVIDENCE]
+    authority_source: iam-role
+    scheduling: {availability: event-driven, concurrency: bounded, autoscaling: controlled}
+    resume: {step-functions: true, event-replay: true, dlq: required}
+    receipts: [request-id, execution-arn, cloudwatch-log, s3-object, ledger-entry]
+    evidence_state: ASPIRATIONAL
+    limitations:
+      - Concurrency must remain bounded to prevent billing loops.
+      - Zero reserved concurrency may intentionally disable execution and must be distinguished from failure.
+  - id: WORKER-SUPABASE-CONTROL
+    name: Supabase control-plane worker
+    type: database-api
+    organisation: Tech4Humanity
+    owner: runtime-platform
+    provider_ref: PROVIDER-SUPABASE
+    environment: project-bound
+    region: provider-managed
+    runtime: postgres-edge-functions
+    lifecycle: template
+    health: UNKNOWN
+    capabilities: [CAP-EVIDENCE, CAP-VERIFY, CAP-INTAKE]
+    authority_source: database-role-or-service-role
+    scheduling: {availability: service-dependent}
+    resume: {transactions: true, idempotency_keys: true}
+    receipts: [transaction-id, row-readback, function-log]
+    evidence_state: ASPIRATIONAL
+    limitations: [optional-control-plane, must-not-block-pen-ingestion]
+  - id: WORKER-RESEARCH-SPECIALIST
+    name: Evidence research specialist
+    type: human-or-agent-pool
+    organisation: provider-neutral
+    owner: research-lead
+    provider_ref: PROVIDER-RESEARCH-POOL
+    environment: project
+    region: policy-selected
+    runtime: mixed
+    lifecycle: template
+    health: UNKNOWN
+    capabilities: [CAP-RESEARCH, CAP-VALIDATE, CAP-DOCUMENT]
+    authority_source: project-scope
+    resume: {protocol: true, extraction-table: true, source-log: true}
+    receipts: [search-log, source-register, quality-rating, report-hash]
+    evidence_state: ASPIRATIONAL
+  - id: WORKER-SECURITY-REVIEW
+    name: Security review worker
+    type: specialist-pool
+    organisation: provider-neutral
+    owner: security-principal
+    provider_ref: PROVIDER-SECURITY-POOL
+    environment: controlled
+    region: policy-selected
+    runtime: human-and-tools
+    lifecycle: template
+    health: UNKNOWN
+    capabilities: [CAP-VALIDATE, CAP-VERIFY, CAP-INVESTIGATE]
+    authority_source: security-scope
+    resume: {findings-register: true, retest: true}
+    receipts: [scan-results, finding-id, severity, retest-result]
+    evidence_state: ASPIRATIONAL
+maturity_samples:
+  expected:
+    worker: WORKER-PYTHON-RUNTIME
+    minimum_proof: [identity, capability-binding, authority, invocation, artifact-hash, exit-code]
+  advanced:
+    worker: PEN-Worker-001
+    minimum_proof: [lease, checkpoints, alternate-route, telemetry, replay, reconciliation]
+  best:
+    worker: composite-runtime
+    minimum_proof: [independent-verifier, dynamic-routing, signed-receipts, continuous-health, value-accounting]
