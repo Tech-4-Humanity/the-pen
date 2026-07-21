@@ -1,0 +1,19 @@
+status: PARTIAL
+artifact: T4H_Bridge_Autonomous_Repair_and_Distributed_Work_v3.xlsx
+sha256: 0a81e9b7ee9a1b3926bf07d2e613536aa5dc3d3cdc6d458c6046b9d42e436feb
+workbook_generated: true
+workbook_verified:
+  sheets: 11
+  formula_errors: 0
+  backlog_items: 40
+  starting_jobs: 15
+  workers: 12
+github_publication:
+  repository: TML-4PM/the-pen
+  branch: pen/bridge-autonomous-repair-v3
+  canonical_specification: committed
+  executable_backlog: committed
+  executable_job_pipeline: committed
+  reproducible_compiler: committed
+  direct_xlsx_binary: not_committed_via_connector
+classification_reason: The enhanced workbook is generated and verified locally. GitHub contains the specification, compiler, backlog and job pipeline. Direct binary XLSX publication is the remaining gap.
