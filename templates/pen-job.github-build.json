@@ -1,0 +1,27 @@
+{
+  "schema": "t4h.pen.job.v1",
+  "job_id": "JOB-0002",
+  "priority": "P1",
+  "objective": "Create a verified worker self-test change in the target repository and return proof to PEN.",
+  "target": {
+    "type": "github",
+    "repository": "TML-4PM/t4h-remote-mcp-server-clean",
+    "branch": "main",
+    "issue": 78
+  },
+  "authority": {
+    "operations": ["read", "branch", "edit", "test", "commit", "push", "pull-request", "issue-comment"],
+    "credential_sources": ["GITHUB_TOKEN", "runner-gh-auth"]
+  },
+  "inputs": {
+    "instructions": "Create receipts/JOB-0002.md containing worker name, UTC timestamp, commit SHA, repository and COMPLETE status."
+  },
+  "steps": ["inspect", "branch", "implement", "verify", "commit", "push", "open-pr", "receipt"],
+  "fallbacks": ["retry transient GitHub failures", "use gh when API wrapper is unavailable", "write BLOCKED receipt with exact failed operation"],
+  "acceptance": ["one branch", "one commit", "one pull request", "one source issue receipt"],
+  "receipt": {
+    "ledger_path": "receipts/runtime/JOB-0002.receipt.json",
+    "source_update": "target.issue"
+  },
+  "idempotency_key": "JOB-0002"
+}
