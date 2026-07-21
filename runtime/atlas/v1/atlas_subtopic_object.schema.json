@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.net/schemas/atlas-subtopic-object.v1.json",
+  "title": "T4H Atlas Canonical Subtopic Object",
+  "type": "object",
+  "required": ["subtopic_id", "theme_id", "topic_id", "title", "problem", "scientific_uncertainty", "integrity_state"],
+  "properties": {
+    "subtopic_id": {"type": "string", "pattern": "^SUB-"},
+    "theme_id": {"type": "string", "pattern": "^THE-"},
+    "topic_id": {"type": "string", "pattern": "^TOP-"},
+    "title": {"type": "string", "minLength": 1},
+    "problem": {"type": "string", "minLength": 1},
+    "scientific_uncertainty": {"type": "string", "minLength": 1},
+    "novel_contribution": {"type": "string"},
+    "signals": {"type": "array", "items": {"type": "string"}},
+    "ideas": {"type": "array", "items": {"type": "string"}},
+    "hypotheses": {"type": "array", "items": {"type": "string"}},
+    "studies": {"type": "array", "items": {"type": "string"}},
+    "evidence_assets": {"type": "array", "items": {"type": "string"}},
+    "frameworks": {"type": "array", "items": {"type": "string"}},
+    "human_stories": {"type": "array", "items": {"type": "string"}},
+    "decisions": {"type": "array", "items": {"type": "string"}},
+    "outputs": {"type": "array", "items": {"type": "string"}},
+    "integrity_state": {"enum": ["SEED", "PARTIAL", "REAL", "BLOCKED", "DEGRADED", "QUARANTINED"]},
+    "audit": {"type": "object"},
+    "provenance": {"type": "object"},
+    "receipts": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": true
+}
