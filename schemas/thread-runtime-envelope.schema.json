@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.net/schemas/thread-runtime-envelope.schema.json",
+  "title": "T4H Thread Runtime Submission",
+  "type": "object",
+  "required": ["source_system", "source_thread_id", "principal_id", "title", "content"],
+  "properties": {
+    "source_system": {"type": "string", "minLength": 1},
+    "source_thread_id": {"type": "string", "minLength": 1},
+    "principal_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "content": {},
+    "attachments": {"type": "array", "items": {"type": "object"}},
+    "privacy_class": {"enum": ["public", "internal", "confidential", "restricted"]},
+    "retention_policy": {"type": "string"},
+    "owner": {"type": ["string", "null"]},
+    "authority": {"type": "object"},
+    "whole_of_life": {"type": "object"},
+    "whole_of_business": {"type": "object"},
+    "workfamilyai_heatmap_inputs": {"type": "object"},
+    "requested_disposition": {"enum": ["CONTINUE", "TRANSFER", "MERGE", "ARCHIVE", "QUARANTINE"]}
+  },
+  "additionalProperties": true
+}
