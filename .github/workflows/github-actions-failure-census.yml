@@ -1,0 +1,63 @@
+name: GitHub Actions Failure Census
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/github_actions_failure_census.py'
+      - '.github/workflows/github-actions-failure-census.yml'
+
+permissions:
+  contents: write
+  actions: read
+  issues: write
+
+concurrency:
+  group: github-actions-failure-census
+  cancel-in-progress: true
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Collect and cluster failures
+        env:
+          GH_TOKEN: ${{ secrets.FAILURE_CENSUS_GITHUB_TOKEN || github.token }}
+        run: |
+          set -euo pipefail
+          python3 tools/github_actions_failure_census.py \
+            --repo TML-4PM/the-pen \
+            --repo TML-4PM/t4h-remote-mcp-server-clean \
+            --days 365 \
+            --output-dir receipts/failure-census
+
+      - name: Publish census artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-actions-failure-census-${{ github.run_id }}
+          path: receipts/failure-census/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit census to PEN ledger
+        if: github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add receipts/failure-census/
+          if git diff --cached --quiet; then
+            echo 'No census changes to commit.'
+            exit 0
+          fi
+          git commit -m 'ledger: update GitHub Actions failure census'
+          git push
