@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: GitHub Actions Health API for whole-estate zero-step and short-run failure reporting.
+
+Parameters:
+  ReportBucket:
+    Type: String
+    Default: ''
+  ReportKey:
+    Type: String
+    Default: receipts/failure-census/github-actions-failure-census.json
+
+Resources:
+  GithubActionsHealthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: app.handler
+      Runtime: python3.12
+      MemorySize: 256
+      Timeout: 15
+      Environment:
+        Variables:
+          GHA_REPORT_PATH: /tmp/github-actions-failure-census.json
+          REPORT_BUCKET: !Ref ReportBucket
+          REPORT_KEY: !Ref ReportKey
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - !If
+          - UseS3
+          - S3ReadPolicy:
+              BucketName: !Ref ReportBucket
+          - AWSLambdaBasicExecutionRole
+      Events:
+        Health:
+          Type: HttpApi
+          Properties:
+            Path: /health
+            Method: GET
+        Latest:
+          Type: HttpApi
+          Properties:
+            Path: /reports/latest
+            Method: GET
+        Clusters:
+          Type: HttpApi
+          Properties:
+            Path: /clusters
+            Method: GET
+        Failures:
+          Type: HttpApi
+          Properties:
+            Path: /failures
+            Method: GET
+        Repositories:
+          Type: HttpApi
+          Properties:
+            Path: /repos
+            Method: GET
+
+Conditions:
+  UseS3: !Not [!Equals [!Ref ReportBucket, '']]
+
+Outputs:
+  ApiUrl:
+    Description: GitHub Actions Health API base URL
+    Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com'
