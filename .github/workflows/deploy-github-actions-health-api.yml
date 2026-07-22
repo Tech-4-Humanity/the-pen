@@ -1,0 +1,46 @@
+name: Deploy GitHub Actions Health API
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'services/github-actions-health-api/**'
+      - '.github/workflows/deploy-github-actions-health-api.yml'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/setup-sam@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GHA_HEALTH_API_ROLE_ARN }}
+          aws-region: ap-southeast-2
+
+      - name: Validate
+        working-directory: services/github-actions-health-api
+        run: sam validate --lint
+
+      - name: Build
+        working-directory: services/github-actions-health-api
+        run: sam build
+
+      - name: Deploy
+        working-directory: services/github-actions-health-api
+        run: |
+          sam deploy \
+            --stack-name t4h-github-actions-health-api \
+            --resolve-s3 \
+            --capabilities CAPABILITY_IAM \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset
