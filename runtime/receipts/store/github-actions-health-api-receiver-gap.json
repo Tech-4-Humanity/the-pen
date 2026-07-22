@@ -1,0 +1,23 @@
+{
+  "schema": "t4h.runtime.receiver-gap.v1",
+  "receipt_id": "github-actions-health-api-receiver-gap",
+  "status": "BLOCKED",
+  "bundle": "GHA-001",
+  "finding": "The sender side exists but the receiver side is not yet proven.",
+  "workflow_path": ".github/workflows/deploy-github-actions-health-api.yml",
+  "runtime_receiver_contract": "docs/github-actions-health-api-runtime-receiver.md",
+  "evidence": {
+    "workflow_exists": true,
+    "runner_declared": "ubuntu-latest",
+    "runner_allocation_proven": false,
+    "oidc_permission_declared": true,
+    "aws_role_secret_referenced": true,
+    "aws_oidc_trust_proven": false,
+    "deployment_run_proven": false,
+    "cloudformation_stack_proven": false,
+    "lambda_proven": false,
+    "api_gateway_proven": false,
+    "health_200_proven": false
+  },
+  "next": "PROVISION_AND_VERIFY_RECEIVER_CHAIN"
+}
