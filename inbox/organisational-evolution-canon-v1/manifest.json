@@ -1,0 +1,51 @@
+{
+  "bundle_id": "organisational-evolution-canon-v1",
+  "version": "1.0.0",
+  "status": "deploy-ready-static",
+  "canonical_hierarchy": {
+    "theory": "Explains why organisations evolve",
+    "framework": "Explains how evolution unfolds",
+    "canon": "Preserves the complete body of philosophy, models, evidence and implementations"
+  },
+  "evolutionary_engine": [
+    "Purpose",
+    "Pressure",
+    "Adaptation",
+    "Selection",
+    "Capability",
+    "Learning",
+    "Memory",
+    "Evolution",
+    "Flourishing"
+  ],
+  "ecosystem_participants": [
+    "People",
+    "AI",
+    "Organisations",
+    "Communities",
+    "Governments",
+    "Nature"
+  ],
+  "framework_states": [
+    "Hierarchy",
+    "Augmentation",
+    "Capability Networks",
+    "Living Organisations",
+    "Regenerative Ecosystems"
+  ],
+  "entrypoint": "index.html",
+  "build_required": false,
+  "external_dependencies": [],
+  "deployment_targets": [
+    "S3+CloudFront",
+    "GitHub Pages",
+    "Static web server"
+  ],
+  "evidence_classification": {
+    "conceptual_compilation": "REAL",
+    "static_asset": "REAL",
+    "runtime_integration": "NOT_INCLUDED",
+    "production_deployment": "NOT_CLAIMED",
+    "quantified_impact_validation": "BLOCKED_PENDING_EVIDENCE"
+  }
+}
