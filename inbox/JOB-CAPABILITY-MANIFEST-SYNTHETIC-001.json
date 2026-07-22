@@ -1,0 +1,53 @@
+{
+  "schema": "t4h.pen.job.v1",
+  "job_id": "JOB-CAPABILITY-MANIFEST-SYNTHETIC-001",
+  "idempotency_key": "JOB-CAPABILITY-MANIFEST-SYNTHETIC-001",
+  "priority": "P1",
+  "objective": "Validate the Capability Manifest, select a primary and fallback worker, simulate a bounded primary failure, complete through fallback, and emit a reconciliation receipt.",
+  "target": {
+    "type": "filesystem",
+    "repository": "TML-4PM/the-pen",
+    "branch": "agent/capability-manifest-runtime",
+    "resource": "registry/worker-capability/capability-manifest.yaml"
+  },
+  "required_capabilities": ["CAP-VERIFY", "CAP-EVIDENCE"],
+  "authority": {
+    "operations": ["read"]
+  },
+  "budget": {
+    "financial": 0,
+    "max_attempts": 2
+  },
+  "inputs": {
+    "manifest": "registry/worker-capability/capability-manifest.yaml",
+    "simulate_primary_failure": true
+  },
+  "steps": [
+    "validate_manifest",
+    "select_primary_and_fallback",
+    "emit_started_receipt",
+    "simulate_primary_failure",
+    "change_provider_condition",
+    "execute_fallback",
+    "verify_output",
+    "emit_completion_and_reconciliation_receipts"
+  ],
+  "fallbacks": [
+    "Use the next eligible worker with matching authority and capabilities.",
+    "Emit BLOCKED_WITH_EVIDENCE if no fallback exists."
+  ],
+  "acceptance": [
+    "manifest hash",
+    "primary worker identity",
+    "fallback worker identity",
+    "changed retry condition",
+    "started receipt",
+    "failure receipt",
+    "recovery receipt",
+    "completion receipt",
+    "reconciliation receipt"
+  ],
+  "receipt": {
+    "ledger_path": "receipts/runtime/JOB-CAPABILITY-MANIFEST-SYNTHETIC-001.receipt.json"
+  }
+}
