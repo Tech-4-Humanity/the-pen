@@ -1,1 +1,182 @@
-PLACEHOLDER
+{
+  "schema": "pen.thread-runtime.envelope.v1",
+  "envelope_mode": "CANONICAL",
+  "thread": {
+    "source_system": "chatgpt",
+    "source_thread_reference": "chatgpt-current-2026-07-21-50-site-recovery-and-vercel-to-s3",
+    "title": "T4H 50-site recovery, Vercel/Lovable/GitHub consolidation and S3 publication",
+    "purpose": "Governed transfer of the full site-recovery thread into the Pen provider-neutral runtime, preserving decisions, classifications, evidence, failed attempts, business context and the exact next executable action.",
+    "scope": [
+      "50-site public recovery target",
+      "Vercel no-GitHub recovery candidates",
+      "Lovable hold/internal/strip/delete classifications",
+      "browser toolbar and saved-site recovery sources",
+      "GitHub recovery workers and issue queue",
+      "Mac CLI, Vercel CLI and AWS S3 execution path",
+      "canonical portfolio consolidation and IP preservation",
+      "GRK runtime ingestion and readback"
+    ],
+    "captured_at": "2026-07-21T11:33:52.196033+00:00",
+    "source_completeness": "Complete for the visible conversation, uploaded CSV, screenshot, refreshed pasted thread/log attachment, connected GitHub/Drive evidence and user-supplied terminal logs. Hidden transcript, unshared local files and unfinished CLI run outputs were not available."
+  },
+  "classification": {
+    "state": "PARTIAL",
+    "rationale": "Canonical inventories, queue files, runners, commits and issue updates exist. Research Hub has exact runtime readback evidence. The 50-site batch has not produced site receipts or completed deployments; the latest Mac run reached Vercel CLI bootstrap but stopped on runner permissions before processing sites."
+  },
+  "facts": {
+    "completed_work": [
+      {
+        "type": "runtime_deployment",
+        "name": "T4H Research Hub S3/CloudFront migration",
+        "status": "REAL",
+        "evidence": {
+          "live_base_url": "https://d3n1vtskllsjf4.cloudfront.net",
+          "ui_url": "https://d3n1vtskllsjf4.cloudfront.net/ui/experiment-register-search/",
+          "json_url": "https://d3n1vtskllsjf4.cloudfront.net/research/register/experiment-register.json",
+          "cloudfront_distribution": "E2LTK24QSRE3ZP",
+          "origin_access_control": "E1QOEFJ3T90STM",
+          "invalidation": "I750IV7QUG1PD8ZYWAMGDMG5IF",
+          "viewer_function_arn": "arn:aws:cloudfront::140548542136:function/t4h-research-hub-uri-rewrite",
+          "http_status": 200,
+          "experiment_count": 32,
+          "theme_count": 9,
+          "receipt_path": "deployment/receipts/cloudfront-20260720T215406Z.json",
+          "commit": "dbdfc00f23bff783777643505c7d75e4947e55ae",
+          "github_issue": "TML-4PM/t4h-research-hub#21"
+        }
+      },
+      {
+        "type": "inventory",
+        "name": "Vercel estate CSV",
+        "status": "PARTIAL",
+        "evidence": {
+          "attachment": "various vercel domains - to update(1).csv",
+          "rows": 229,
+          "no_github_candidates": 37
+        }
+      },
+      {
+        "type": "source_registry",
+        "name": "Drive full site URL registry",
+        "status": "PARTIAL",
+        "evidence": {
+          "drive_file_id": "1GN_lVgHWAe9bFmpRVVQO_KEQ9WS3IzmW",
+          "title": "site-url-registry-full (1).html",
+          "fields": ["canonical", "vercel_url", "github_url", "lovable_url", "supabase_url", "s3_url"],
+          "source_families": {"surface": 140, "sites_registry": 87, "infra": 104, "mcp_business": 47}
+        }
+      },
+      {
+        "type": "queue",
+        "name": "50-site rapid recovery queue",
+        "status": "REAL_AS_ARTEFACT",
+        "evidence": {
+          "github_path": "portfolio_runtime/migration/recovery-50-sites.csv",
+          "commit": "68d4aec4f073480b43b4943229b33910a2bb5ff7",
+          "drive_spreadsheet_id": "1hTV807RyTvtHLPpkc8tzySEEjZ2mcyjBWKOSOmy4oqM",
+          "drive_title": "T4H 50-Site Rapid Recovery Queue - 2026-07-21"
+        }
+      },
+      {
+        "type": "worker",
+        "name": "Mac CLI 50-site recovery runner",
+        "status": "REAL_AS_ARTEFACT_NOT_RUNTIME",
+        "evidence": {
+          "github_path": "portfolio_runtime/migration/run-recovery-50-sites.sh",
+          "commit": "d71cab5292c244f9d9b5bf012ad155292f01328b",
+          "behaviour": ["GitHub build", "Vercel project build", "public URL mirror", "local preservation fallback", "local HTTP validation", "S3 upload", "HTTP readback", "receipt emission"]
+        }
+      },
+      {
+        "type": "worker",
+        "name": "Vercel holo-org bootstrap wrapper",
+        "status": "REAL_AS_ARTEFACT_NOT_RUNTIME",
+        "evidence": {
+          "github_path": "portfolio_runtime/migration/run-recovery-50-sites-holo-org.sh",
+          "commits": ["90adfd37f5492cf785120995eaf2762bfc2fd5f6", "f9aa0aacf5d312542dc46c10b200a1489ee868d9"],
+          "default_vercel_scope": "holo-org",
+          "vercel_cli_observed": "56.4.1",
+          "node_observed": "25.2.1"
+        }
+      },
+      {
+        "type": "worker",
+        "name": "No-global-install recovery hotfix",
+        "status": "REAL_AS_ARTEFACT_NOT_RUNTIME",
+        "evidence": {
+          "github_path": "portfolio_runtime/migration/run-recovery-50-sites-hotfix.sh",
+          "commit": "50daa43736dd8cd7bcfd964c76cf663dfa096715"
+        }
+      },
+      {
+        "type": "governance",
+        "name": "Provider-neutral Pen ingress",
+        "status": "REAL_AS_CODE",
+        "evidence": {
+          "pull_request": "TML-4PM/the-pen#248",
+          "pull_request_url": "https://github.com/TML-4PM/the-pen/pull/248",
+          "merged_at": "2026-07-21T05:33:23Z",
+          "head_commit": "eeeac3bfaf62824252629b4b6f1b0a89a6ab93eb",
+          "operator_path": "tools/thread_runtime_submit.py",
+          "operator_blob_sha": "a6d8a464782d0fe55f470c997cce39bbd1c0ce02"
+        }
+      }
+    ],
+    "thread_decisions": [
+      "Target is 50 useful public work surfaces, not 50 arbitrary sites.",
+      "Consume knowledge, not websites: classify each surface as core platform, sellable product, campaign/demo, experiment or legacy shell.",
+      "Vercel projects without GitHub are high-priority preservation candidates.",
+      "Browser toolbar and saved apps are a formal recovery-source lane.",
+      "Get live first, then harvest and consolidate, while preserving receipts.",
+      "ConsentX and MyNeuralSignal are deferred from the initial 50-site wave.",
+      "No runtime receipt means a site or capability is not REAL.",
+      "HoloOrg Vercel workspace slug is holo-org and is the current source workspace.",
+      "Supabase is optional and must not block Pen ingestion."
+    ]
+  },
+  "open_state": {
+    "commitments": [
+      "Run the patched holo-org scoped recovery worker against the 50-site queue.",
+      "Produce per-site S3 upload, HTTP readback and immutable receipts.",
+      "Reconcile output URLs with canonical domains only after source selection and HITL validation.",
+      "Update the Drive execution register and GitHub issue #246 from runtime receipts.",
+      "Harvest IP from strip/legacy sites before archival or deletion."
+    ],
+    "failures_and_blockers": [
+      "First bulk runner path was absent after a non-fast-forward git pull.",
+      "Global npm installation of Vercel failed with ENOTEMPTY.",
+      "The safe npx Vercel CLI bootstrap succeeded but the underlying runner lacked executable permission.",
+      "No 50-site batch run reached per-site processing or emitted a final receipt.",
+      "Earlier container DNS probes of Lovable URLs returned curl code 0 / DNS resolution failure and are not valid site-down evidence.",
+      "Connected Vercel tool exposed Atlas, not the user-confirmed holo-org workspace."
+    ],
+    "missing_evidence": [
+      "50-site run ID",
+      "per-site build logs",
+      "per-site object counts",
+      "per-site S3 website URLs",
+      "per-site HTTP 200 readback",
+      "screenshots or HITL visual approval",
+      "batch final-receipt.json",
+      "canonical-domain DNS changes and readback",
+      "Drive register row updates"
+    ],
+    "exact_next_executable_action": "On the authenticated Mac clone at ~/projects/TML-4PM/the-pen, pull main and execute: AWS_REGION=ap-southeast-2 MAX_SITES=50 bash portfolio_runtime/migration/run-recovery-50-sites-holo-org.sh. Let it finish and ingest RUN_ROOT/summary.csv plus RUN_ROOT/final-receipt.json."
+  },
+  "governance": {
+    "owner": "Troy Latter / Tech4Humanity",
+    "authority_boundaries": [
+      "No destructive deletion before preservation and explicit classification.",
+      "No DNS changes by the rapid-recovery worker.",
+      "No REAL classification without runtime receipt and readback.",
+      "Source selection among duplicate variants requires HITL where ambiguous.",
+      "Personal, family, medical, child and private-property sites are excluded from public recovery."
+    ]
+  },
+  "disposition": {
+    "final": "TRANSFER",
+    "target": "Pen runtime",
+    "reason": "The thread has sufficient structured state and evidence references for governed transfer. Site recovery remains PARTIAL and must continue from the exact patched Mac CLI action."
+  },
+  "machine_readable_yaml": "schema: pen.thread-runtime.envelope.v1\nmode: CANONICAL\nsource_system: chatgpt\nsource_thread_reference: chatgpt-current-2026-07-21-50-site-recovery-and-vercel-to-s3\nclassification: PARTIAL\ndisposition: TRANSFER\nowner: Troy Latter\nruntime_target: Pen\ncanonical_repository: TML-4PM/the-pen\ncanonical_branch: main\nprimary_backend: s3\ns3_target: s3://t4h-archive-140548542136/thread-runtime/current\ntruth:\n  research_hub_runtime_real: true\n  fifty_site_queue_exists: true\n  recovery_workers_committed: true\n  fifty_site_batch_receipt_exists: false\n  fifty_site_sites_deployed: 0\n  supabase_required: false\nactive_blocker: patched_holo_org_runner_not_yet_executed_after_permission_fix\nnext_action: pull_main_and_run_holo_org_recovery_worker_to_completion\n"
+}
