@@ -1,0 +1,205 @@
+{
+  "schema": "pen.thread-runtime.envelope.v1",
+  "envelope_mode": "CANONICAL",
+  "thread": {
+    "source_system": "chatgpt",
+    "source_thread_reference": "chatgpt-current-2026-07-23-tech4humanity-runtime-transfer",
+    "title": "Tech4Humanity governed thread transfer into Pen and Symbio DEV",
+    "purpose": "Convert the visible conversation, corrections, decisions, commitments, runtime context and transfer instructions into a governed provider-neutral Pen intake object, then transfer the bounded executable work into Symbio DEV.",
+    "scope": [
+      "complete visible conversation context",
+      "governed truth classification",
+      "Pen canonical intake",
+      "provider-neutral durability",
+      "Symbio DEV transfer",
+      "receipt and independent readback requirements",
+      "whole-of-business and whole-of-life effects",
+      "WorkFamilyAI 9x9x9 seed inputs"
+    ],
+    "captured_at": "2026-07-23T02:00:00+10:00",
+    "source_completeness": "Complete for the conversation context exposed to this runtime, including recent thread context and durable user memories. Uploaded attachment bytes from prior unrelated conversations are not present in this connector session and are therefore referenced as historical context rather than claimed as independently read back."
+  },
+  "classification": {
+    "state": "PARTIAL",
+    "rationale": "GitHub canonical intake and transfer artefacts can be made REAL through connector write and readback. Pen runtime execution through tools/thread_runtime_submit.py, S3 put/get verification, immutable runtime receipt and provider execution remain PARTIAL or BLOCKED until an authorised runtime worker executes and returns receipt-grade readback."
+  },
+  "truth_model": {
+    "rules": [
+      "No runtime receipt means runtime capability is not REAL.",
+      "A GitHub commit proves an artefact exists but does not prove it operates.",
+      "Runtime readback overrides memory, documentation and earlier claims.",
+      "Planned work is not completed work.",
+      "Conflicting canonical state must be retained and classified, never silently overwritten."
+    ],
+    "states_used": ["REAL", "PARTIAL", "BLOCKED", "DEGRADED", "QUARANTINED", "ASPIRATIONAL", "INVALIDATED", "SUPERSEDED"]
+  },
+  "completed_work": {
+    "real": [
+      {
+        "type": "repository_readback",
+        "repository": "TML-4PM/the-pen",
+        "evidence": "docs/PROVIDER_NEUTRAL_RUNTIME_INGRESS.md confirms Supabase is optional and local/S3 ingress is implemented."
+      },
+      {
+        "type": "repository_readback",
+        "repository": "TML-4PM/symbio-dev-control-plane",
+        "evidence": "Existing DEV intake issue pattern and provider-neutral acceptance gates were independently read."
+      },
+      {
+        "type": "connector_authority",
+        "principal": "TML-4PM",
+        "evidence": "Authenticated GitHub user with admin/push permission on Pen and Symbio DEV repositories."
+      }
+    ],
+    "historical_evidence_not_reverified": [
+      "Prior conversation references to PR #223 for canonical S3 portfolio input.",
+      "Prior conversation references to Supabase project jjsycelagfmuquvxryfo and portfolio-s3-probe.",
+      "Prior conversation references to TML-4PM/t4h-remote-mcp-server-clean as the runtime kernel.",
+      "Prior conversation references to AWS bucket t4h-archive-140548542136 and prefix thread-runtime/current.",
+      "Prior workbooks, CSVs, SQL, Markdown, JSON, YAML and TSX attachments named in recent conversation context."
+    ]
+  },
+  "current_live_state": {
+    "pen_github_intake": "REAL after connector commit and independent file readback",
+    "symbio_dev_transfer": "REAL after issue creation and issue readback",
+    "pen_runtime_submission": "PARTIAL until thread_runtime_submit.py execution receipt exists",
+    "s3_submission": "BLOCKED if credentials are unavailable to the executing worker; otherwise pending execution",
+    "provider_readback": "BLOCKED pending runtime execution",
+    "supabase": "SUPERSEDED as mandatory ingress dependency; optional index only",
+    "end_to_end_production": "PARTIAL"
+  },
+  "open_commitments": [
+    "Execute tools/thread_runtime_submit.py against this canonical envelope.",
+    "Prefer authenticated S3 backend and fall back to durable local spool without blocking intake.",
+    "Independently compare submitted bytes and hash after readback.",
+    "Create immutable receipt and Reality Ledger record.",
+    "Transfer the bounded execution task to Symbio DEV and keep the underlying runtime issue open until evidence gate is REAL.",
+    "Continue reversible non-destructive execution when authority and credentials exist."
+  ],
+  "failures_and_recovery_evidence": [
+    {
+      "attempt": "Previous assistant response declared GitHub and runtime access unavailable.",
+      "outcome": "SUPERSEDED after user explicitly invoked the connected GitHub connector and repository authority was verified."
+    },
+    {
+      "attempt": "Treat Supabase as a potential blocker.",
+      "outcome": "INVALIDATED by provider-neutral ingress contract in the Pen repository."
+    },
+    {
+      "attempt": "Claim full transfer without runtime receipts.",
+      "outcome": "QUARANTINED; GitHub source writes alone do not prove Pen runtime or S3 execution."
+    }
+  ],
+  "blockers_and_missing_evidence": [
+    "No execution receipt from tools/thread_runtime_submit.py for this envelope.",
+    "No S3 PutObject/GetObject readback for this envelope.",
+    "No byte-for-byte runtime comparison or readback hash.",
+    "No immutable Pen runtime receipt path or receipt hash.",
+    "No Gatekeeper decision, Synapse production execution or provider readback.",
+    "No externally supplied stable ChatGPT conversation UUID is exposed; a deterministic canonical source reference is used."
+  ],
+  "canonical_estate": {
+    "repositories": [
+      {"name": "TML-4PM/the-pen", "role": "canonical intake and provider-neutral submission source", "branch": "intake/chatgpt-runtime-transfer-20260723"},
+      {"name": "TML-4PM/symbio-dev-control-plane", "role": "bounded DEV execution and evidence gate"},
+      {"name": "TML-4PM/t4h-remote-mcp-server-clean", "role": "historical runtime kernel reference", "state": "NOT_REVERIFIED_THIS_RUN"}
+    ],
+    "projects_and_environments": ["Pen", "Symbio DEV", "Gatekeeper", "Synapse production", "Reality Ledger"],
+    "buckets": [{"name": "t4h-archive-140548542136", "prefix": "thread-runtime/current", "state": "TARGET_NOT_WRITTEN_THIS_RUN"}],
+    "databases": [{"name": "Supabase", "state": "OPTIONAL_INDEX_NOT_REQUIRED"}],
+    "local_paths": ["runtime/thread-ingest/", "runtime/thread-envelopes/chatgpt/", "receipts/runtime/"]
+  },
+  "objects_products_capabilities": {
+    "objects": ["canonical thread envelope", "Pen intake record", "DEV work item", "submission receipt", "readback receipt", "Reality Ledger record"],
+    "products": ["Pen", "Symbio", "Synapse", "WorkFamilyAI", "Tech4Humanity runtime"],
+    "capabilities": ["canonical ingestion", "idempotent submission", "durable spooling", "S3 persistence", "independent readback", "governed transfer", "evidence classification", "recovery"],
+    "queues": ["Pen intake", "Symbio DEV issue queue"],
+    "workers": ["thread_runtime_submit operator", "Symbio DEV worker", "Gatekeeper", "Synapse provider worker"],
+    "tasks": ["submit", "read back", "verify hash", "emit receipt", "bind ledger", "execute bounded work", "promote only after gate"]
+  },
+  "owners_and_authority": {
+    "owner": "Troy Latter",
+    "runtime_principals": [
+      {"principal": "TML-4PM GitHub App identity", "authority": "repository and issue writes within installed repositories"},
+      {"principal": "Pen runtime operator", "authority": "local or S3 submission when credentials are available"},
+      {"principal": "Symbio DEV worker", "authority": "bounded reversible DEV work only"},
+      {"principal": "Gatekeeper", "authority": "promotion decision"},
+      {"principal": "Synapse provider worker", "authority": "production execution after approval"}
+    ],
+    "boundaries": [
+      "No secret values in GitHub artefacts.",
+      "No destructive, legal or financial action without required human authority.",
+      "No production classification as REAL without provider readback and immutable receipt.",
+      "Personal and family information must be minimised, consent-bound and purpose-limited."
+    ],
+    "credentials_or_approvals_required": [
+      "Approved AWS identity with access to t4h-archive-140548542136 when S3 is used.",
+      "Runtime worker access to a current checkout of TML-4PM/the-pen.",
+      "Gatekeeper authority for any production promotion."
+    ]
+  },
+  "whole_of_life_and_business": {
+    "personal": {"opportunity": "Reduce cognitive load by moving long-running commitments into a replayable governed system.", "risk": "Unbounded capture may increase noise and perceived surveillance."},
+    "family": {"opportunity": "Reduce spillover from fragmented business work and enable explicit handoffs.", "risk": "Family data must never enter organisational runtime without clear consent and separation."},
+    "business": {"opportunity": "Convert conversational work into reusable institutional assets and executable queues.", "risk": "Source accumulation without execution telemetry creates zombie value."},
+    "financial": {"opportunity": "Recover sunk research and commercial work; reduce repeated effort.", "risk": "Cloud, storage and agent costs without value attribution."},
+    "legal": {"opportunity": "Stronger provenance, decision history and evidence chains.", "risk": "Privacy, retention, IP ownership, privilege and cross-border handling."},
+    "operational": {"opportunity": "Clear owners, dependencies, recovery and exact next actions.", "risk": "Queue overload, duplicate canonical objects and missing acknowledgements."},
+    "customer": {"opportunity": "Faster, better evidenced product and service delivery.", "risk": "Incorrect inference or reuse outside the customer's authorised purpose."},
+    "product": {"opportunity": "Reusable thread-to-runtime capability across the T4H portfolio.", "risk": "Premature productisation before end-to-end receipts."},
+    "research": {"opportunity": "Preserve hypotheses, evidence gaps, failed attempts and provenance.", "risk": "Historical claims may be mistaken for current validated evidence."},
+    "strategic": {"opportunity": "Make institutional memory executable rather than archival.", "risk": "Divergent schemas across Pen, Symbio, Synapse and portfolio systems."},
+    "reputational": {"opportunity": "Receipt-grade claims improve trust.", "risk": "False REAL claims materially damage credibility."},
+    "human": {"opportunity": "Preserve intent, agency, contestability and recovery.", "risk": "Automation pressure, deskilling and loss of human choice."},
+    "societal": {"opportunity": "A model for accountable organisational intelligence.", "risk": "Surveillance, power asymmetry and consent failure at scale."},
+    "technical": {"opportunity": "Provider-neutral, replayable and idempotent ingress.", "risk": "Credential gaps, stale sources, schema drift and incomplete telemetry."}
+  },
+  "workfamilyai_9x9x9_seed": {
+    "sweet_spots": ["governed handoffs", "reduced context switching", "clear next action", "evidence reuse", "recovery of forgotten work", "family-work boundary visibility", "reversible automation", "provider-neutral replay", "receipt-backed completion"],
+    "black_spots": ["passive archives", "unowned queues", "missing receipts", "duplicate submissions", "silent connector failure", "unclear authority", "work spilling into family time", "stale memory treated as truth", "activity without outcome"],
+    "dark_spots": ["hidden monitoring", "family data without consent", "credential exposure", "false facts promoted to runtime", "irreversible action", "coercive productivity scoring", "unbounded retention", "sensitive inference", "production without Gatekeeper"],
+    "risks": ["privacy", "consent", "misclassification", "burnout", "queue overload", "cost growth", "vendor dependency", "schema drift", "false REAL claims"],
+    "opportunities": ["institutional memory", "portfolio recovery", "research compiler", "workload insight", "compliance evidence", "agent routing", "commercial reuse", "family-aware planning", "reality-ledger analytics"],
+    "organisational_impacts": ["better governance", "faster execution", "reduced rework", "new evidence duties", "cross-functional transparency", "changed management load", "worker role redesign", "stronger recovery", "higher accountability"],
+    "affected_functions": ["executive", "engineering", "operations", "product", "research", "finance", "legal", "sales", "people and culture"],
+    "affected_people_and_stakeholders": ["Troy", "authorised family participants", "employees", "contractors", "customers", "partners", "research participants", "regulators", "runtime operators"],
+    "workload_wellbeing_spillover": ["fewer repeated explanations", "less unfinished-work anxiety", "lower context switching", "risk of alert fatigue", "risk of always-on work", "clear stopping points", "explicit handoffs", "protected family boundaries", "measurable recovery time"],
+    "agency_privacy_consent_boundaries": ["purpose limitation", "minimum necessary data", "explicit consent", "role-based access", "contestability", "deletion and retention controls", "no covert monitoring", "human override", "separation of family and business contexts"]
+  },
+  "lifecycle_hygiene": {
+    "stale": ["Any handover that predates the provider-neutral ingress decision and still treats Supabase as mandatory."],
+    "duplicate": ["Repeated architecture-only summaries that do not add runtime evidence."],
+    "superseded": ["The previous assistant claim that GitHub write access was unavailable in this conversation."],
+    "invalidated": ["Supabase as a mandatory production progression dependency."],
+    "quarantined": ["Any assertion of Pen runtime, S3, Gatekeeper, Synapse or provider success without receipt and independent readback."],
+    "archive_safe": ["Historical failed attempts once preserved in the envelope and linked recovery record."]
+  },
+  "bounded_executable_work": {
+    "title": "Execute canonical thread submission and independent readback",
+    "exact_next_action": "On an authorised runtime worker, check out TML-4PM/the-pen main containing this envelope, run tools/thread_runtime_submit.py with S3 backend when AWS authority is available or local durable backend otherwise, then independently read back exact bytes and record receipt and hashes.",
+    "acceptance_criteria": [
+      "submission_id returned",
+      "deterministic idempotency_key returned",
+      "canonical content_hash returned",
+      "backend and object_path recorded",
+      "readback hash equals content hash",
+      "byte-for-byte equality true",
+      "duplicate or conflict state explicit",
+      "receipt path and receipt hash recorded",
+      "Runtime Principal and timestamp recorded",
+      "unchanged replay returns the existing receipt"
+    ],
+    "rollback_and_recovery": [
+      "Do not overwrite a conflicting canonical object.",
+      "Fall back from S3 to local durable spool if credentials are absent.",
+      "Preserve failed receipts and logs.",
+      "Re-run unchanged input only through deterministic idempotency."
+    ]
+  },
+  "disposition": {
+    "final": "TRANSFER",
+    "target": "Pen canonical intake then Symbio DEV",
+    "reason": "GitHub can preserve and transfer the governed object now; runtime execution remains a separately evidenced bounded action."
+  },
+  "machine_readable_yaml": "thread_title: Tech4Humanity governed thread transfer into Pen and Symbio DEV\nsource_thread_reference: chatgpt-current-2026-07-23-tech4humanity-runtime-transfer\nclassification: PARTIAL\ndisposition: TRANSFER\npen:\n  repository: TML-4PM/the-pen\n  canonical_path: runtime/thread-envelopes/chatgpt/chatgpt-tech4humanity-runtime-transfer-20260723.json\n  runtime_submission: pending\n  backend_preference: s3\n  s3_target: s3://t4h-archive-140548542136/thread-runtime/current\nsymbio_dev:\n  repository: TML-4PM/symbio-dev-control-plane\n  state: transfer_pending_issue_creation\nruntime:\n  real: [github_canonical_object]\n  partial: [pen_runtime_submission, end_to_end_execution]\n  blocked: [provider_readback_without_worker_execution]\n  invalidated: [supabase_as_mandatory_dependency]\n  superseded: [prior_claim_github_connector_unavailable]\nexact_next_action: execute_thread_runtime_submit_and_verify_readback\n"
+}
