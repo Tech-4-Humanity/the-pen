@@ -1,0 +1,50 @@
+name: Capability Manifest Runtime
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'registry/worker-capability/**'
+      - 'workers/capability_manifest_runtime.py'
+      - 'workers/synthetic_manifest_execution.py'
+      - 'tests/test_capability_manifest_runtime.py'
+      - 'inbox/JOB-CAPABILITY-MANIFEST-SYNTHETIC-001.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pyyaml
+      - name: Unit tests
+        run: python -m unittest tests/test_capability_manifest_runtime.py -v
+      - name: Validate manifest
+        run: python workers/capability_manifest_runtime.py --manifest registry/worker-capability/capability-manifest.yaml --job inbox/JOB-CAPABILITY-MANIFEST-SYNTHETIC-001.json --output receipts/runtime/capability-manifest-validation.json
+      - name: Synthetic primary fallback replay
+        run: PYTHONPATH=workers python workers/synthetic_manifest_execution.py
+      - name: Readback receipts
+        run: |
+          test -s receipts/runtime/capability-manifest-synthetic/01-started.json
+          test -s receipts/runtime/capability-manifest-synthetic/02-primary-failure.json
+          test -s receipts/runtime/capability-manifest-synthetic/03-recovery.json
+          test -s receipts/runtime/capability-manifest-synthetic/05-completion.json
+          test -s receipts/runtime/capability-manifest-synthetic/06-reconciliation.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('receipts/runtime/capability-manifest-synthetic/06-reconciliation.json')
+          data = json.loads(p.read_text())
+          assert data['classification'] == 'REAL'
+          assert data['replay_identifier']
+          print(json.dumps({'readback':'VERIFIED','execution_id':data['execution_id'],'replay_identifier':data['replay_identifier']}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: capability-manifest-runtime-receipts
+          path: receipts/runtime/capability-manifest*
