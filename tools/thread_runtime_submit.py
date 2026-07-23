@@ -178,6 +178,25 @@ def aws(*args: str, input_bytes: bytes | None = None) -> subprocess.CompletedPro
     return subprocess.run(["aws", *args], input=input_bytes, capture_output=True)
 
 
+def s3_get_bytes(bucket: str, key: str) -> tuple[subprocess.CompletedProcess[bytes], bytes]:
+    """Download one S3 object and return only its body bytes.
+
+    The AWS CLI writes get-object response metadata to stdout. Using
+    /dev/stdout as the output file mixes that metadata with the object body and
+    makes byte-for-byte verification fail even when S3 stored it correctly.
+    """
+    with tempfile.TemporaryDirectory() as temp_dir:
+        target = pathlib.Path(temp_dir) / "object"
+        result = aws(
+            "s3api", "get-object",
+            "--bucket", bucket,
+            "--key", key,
+            str(target),
+        )
+        body = target.read_bytes() if result.returncode == 0 else b""
+    return result, body
+
+
 def submit_s3(
     body: bytes,
     submission_id: str,
@@ -189,15 +208,15 @@ def submit_s3(
     key = f"{prefix.rstrip('/')}/{submission_id}.json"
     uri = f"s3://{bucket}/{key}"
 
-    existing = aws("s3api", "get-object", "--bucket", bucket, "--key", key, "/dev/stdout")
+    existing, existing_body = s3_get_bytes(bucket, key)
     if existing.returncode == 0:
-        if existing.stdout != body:
+        if existing_body != body:
             return {
                 "status": "CONFLICT",
                 "result": "IDEMPOTENCY_CONFLICT",
                 "location": uri,
                 "readback": "MISMATCH",
-                "readback_sha256": sha256(existing.stdout),
+                "readback_sha256": sha256(existing_body),
             }
         created = False
     else:
@@ -219,23 +238,23 @@ def submit_s3(
             raise SystemExit(f"BLOCKED: S3 write failed: {put.stderr.decode(errors='replace')}")
         created = True
 
-    readback = aws("s3api", "get-object", "--bucket", bucket, "--key", key, "/dev/stdout")
+    readback, readback_body = s3_get_bytes(bucket, key)
     if readback.returncode != 0:
         raise SystemExit(f"BLOCKED: S3 readback failed: {readback.stderr.decode(errors='replace')}")
-    if readback.stdout != body:
+    if readback_body != body:
         return {
             "status": "CONFLICT",
             "result": "READBACK_MISMATCH",
             "location": uri,
             "readback": "MISMATCH",
-            "readback_sha256": sha256(readback.stdout),
+            "readback_sha256": sha256(readback_body),
         }
     return {
         "status": "ACKED" if created else "EXISTING",
         "result": "THREAD_ACCEPTED" if created else "THREAD_DEDUPLICATED",
         "location": uri,
         "readback": "VERIFIED",
-        "readback_sha256": sha256(readback.stdout),
+        "readback_sha256": sha256(readback_body),
     }
 
 
