@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorkFamilyAI Liquid Organisation Engine</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header>
+  <p class="eyebrow">WorkFamilyAI · Organisational Evolution Canon</p>
+  <h1>Liquid Organisation Engine</h1>
+  <p>Assess ten organisational variables, test pressure scenarios, locate AI sweet spots and blackspots, and produce an explainable prediction receipt.</p>
+</header>
+<main>
+  <section class="panel" id="assessment">
+    <div class="section-head"><div><h2>1. Organisation assessment</h2><p>Score current operating reality. Every score remains editable and explainable.</p></div><button id="exampleBtn">Load example</button></div>
+    <div id="variableGrid" class="variable-grid"></div>
+  </section>
+
+  <section class="panel">
+    <h2>2. Scenario laboratory</h2>
+    <div class="controls">
+      <label>Scenario<select id="scenarioSelect"></select></label>
+      <label>Intensity<input id="intensity" type="range" min="1" max="5" value="3"><span id="intensityValue">3</span></label>
+      <button id="runBtn" class="primary">Run prediction</button>
+    </div>
+  </section>
+
+  <section class="panel" id="results" hidden>
+    <div class="section-head"><div><h2>3. Prediction</h2><p id="predictionSummary"></p></div><button id="downloadBtn">Download receipt</button></div>
+    <div class="metrics" id="metrics"></div>
+    <div class="columns">
+      <article><h3>AI sweet spots</h3><ul id="sweetspots"></ul></article>
+      <article><h3>AI blackspots</h3><ul id="blackspots"></ul></article>
+      <article><h3>Recommended adaptations</h3><ul id="adaptations"></ul></article>
+    </div>
+    <h3>Variable movement</h3>
+    <div id="movement"></div>
+    <details><summary>Prediction assumptions and evidence</summary><pre id="explainability"></pre></details>
+  </section>
+
+  <section class="panel constitutional">
+    <h2>Human constitutional rule</h2>
+    <p>No human is eliminated. AI recommendations must preserve accountable authority, challenge, appeal, dignity, relationships and meaningful human contribution.</p>
+  </section>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>
