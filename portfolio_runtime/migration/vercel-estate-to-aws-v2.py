@@ -22,6 +22,14 @@ def docker_ready() -> bool:
     return p.returncode == 0
 
 
+def parse_aws_count(value: str | None) -> int:
+    """Normalize AWS CLI text output where an empty result may be rendered as None/null."""
+    text = (value or "").strip()
+    if not text or text.lower() in {"none", "null"}:
+        return 0
+    return int(text)
+
+
 def robust_s3_publish(name: str, output: pathlib.Path) -> tuple[str, int, str]:
     bucket = f"t4h-recovery-{base.slug(name)}-{base.ACCOUNT_ID}"[:63]
     head = base.run(["aws", "s3api", "head-bucket", "--bucket", bucket])
@@ -55,7 +63,7 @@ def robust_s3_publish(name: str, output: pathlib.Path) -> tuple[str, int, str]:
     base.run(["aws", "s3", "sync", str(output) + "/", f"s3://{bucket}/", "--delete", "--only-show-errors"], timeout=1800, check=True)
     count_p = base.run(["aws", "s3api", "list-objects-v2", "--bucket", bucket,
                         "--query", "KeyCount", "--output", "text"], check=True)
-    count = int((count_p.stdout or "0").strip() or 0)
+    count = parse_aws_count(count_p.stdout)
     url = f"http://{bucket}.s3-website-{REGION}.amazonaws.com"
     http = base.run(["curl", "-L", "-sS", "-o", "/dev/null", "-w", "%{http_code}", url + "/"], timeout=60)
     if http.stdout.strip() != "200":
@@ -79,7 +87,15 @@ def main() -> int:
     projects = base.list_projects(token, tid)
     projects.sort(key=lambda p: (p.get("name") != "outcome-ready", p.get("name", "")))
     if args.start_at:
-        projects = [p for p in projects if p.get("name", "") >= args.start_at]
+        project_names = [p.get("name", "") for p in projects]
+        try:
+            start_index = project_names.index(args.start_at)
+        except ValueError:
+            raise SystemExit(
+                f"BLOCKED: --start-at project {args.start_at!r} is not in the "
+                f"{len(projects)}-project live Vercel inventory"
+            )
+        projects = projects[start_index:]
     if args.max_projects > 0:
         projects = projects[:args.max_projects]
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -103,6 +119,11 @@ def main() -> int:
             "aws_mode":None,"aws_url":None,"reason":None,"dns_changed":False,"vercel_deleted":False}
         dest=sources/base.slug(name); log=logs/f"{base.slug(name)}.log"
         try:
+            # Failed/deferred attempts may leave a partial checkout that makes both
+            # gh clone and vercel link fail on resume. Receipts and logs are retained;
+            # only the reproducible working copy is rebuilt.
+            if dest.exists():
+                shutil.rmtree(dest)
             source=base.source_from_github(project,dest,log)
             if source:
                 record["source_mode"]="github"
@@ -127,6 +148,12 @@ def main() -> int:
             record["reason"]=f"TIMEOUT: {exc.cmd}"
         except Exception as exc:
             record["reason"]=str(exc)[:2000]
+            if record["reason"] in {
+                "SOURCE_BUILD_FAILED",
+                "VERCEL_SOURCE_RECOVERY_FAILED",
+                "NO_DEPLOYABLE_STATIC_OR_NODE_OUTPUT",
+            }:
+                record["status"]="PARTIAL"
         record["finished_at"]=base.now(); base.write_json(receipt_path,record); summary.append(record)
         print(f"{record['status']} {name} {record.get('aws_url') or record.get('reason')}",flush=True)
     counts={s:sum(r.get("status")==s for r in summary) for s in ["REAL","PARTIAL","BLOCKED"]}
