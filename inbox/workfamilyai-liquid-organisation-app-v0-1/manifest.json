@@ -1,0 +1,30 @@
+{
+  "id": "workfamilyai-liquid-organisation-app-v0-1",
+  "version": "0.1.0",
+  "type": "static-web-application",
+  "entrypoint": "index.html",
+  "build_required": false,
+  "external_dependencies": [],
+  "features": [
+    "ten-variable-assessment",
+    "scenario-simulation",
+    "ai-sweetspot-detection",
+    "ai-blackspot-detection",
+    "explainable-prediction",
+    "prediction-receipt"
+  ],
+  "constitutional_constraints": [
+    "no-human-elimination",
+    "human-authority-preserved",
+    "appeal-and-override-required",
+    "evidence-before-claims"
+  ],
+  "deployment_targets": ["s3-cloudfront", "github-pages", "static-host"],
+  "reality_state": "PARTIAL",
+  "real_when": [
+    "deployed",
+    "bound-to-1000-role-data",
+    "prediction-receipt-persisted",
+    "predicted-vs-observed-telemetry-active"
+  ]
+}
