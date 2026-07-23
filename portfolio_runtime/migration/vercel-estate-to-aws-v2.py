@@ -23,11 +23,14 @@ def docker_ready() -> bool:
 
 
 def parse_aws_count(value: str | None) -> int:
-    """Normalize AWS CLI text output where an empty result may be rendered as None/null."""
-    text = (value or "").strip()
-    if not text or text.lower() in {"none", "null"}:
+    """Normalize scalar or repeated AWS CLI text output."""
+    tokens = [line.strip() for line in (value or "").splitlines() if line.strip()]
+    if not tokens or all(token.lower() in {"none", "null"} for token in tokens):
         return 0
-    return int(text)
+    numeric = [int(token) for token in tokens if token.isdigit()]
+    if numeric and len(numeric) == len(tokens):
+        return sum(numeric)
+    raise ValueError(f"unexpected AWS count output: {value!r}")
 
 
 def cleanup_source_tree(path: pathlib.Path, sources_root: pathlib.Path) -> str | None:
@@ -85,7 +88,17 @@ def robust_s3_publish(name: str, output: pathlib.Path) -> tuple[str, int, str]:
         pathlib.Path(policy_path).unlink(missing_ok=True)
     base.run(["aws", "s3api", "put-bucket-website", "--bucket", bucket,
               "--website-configuration", '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"index.html"}}'], check=True)
-    base.run(["aws", "s3", "sync", str(output) + "/", f"s3://{bucket}/", "--delete", "--only-show-errors"], timeout=1800, check=True)
+    sync_cmd = ["aws", "s3", "sync", str(output) + "/", f"s3://{bucket}/", "--delete", "--only-show-errors"]
+    for attempt in range(5):
+        synced = base.run(sync_cmd, timeout=1800)
+        if synced.returncode == 0:
+            break
+        detail = (synced.stderr or "") + (synced.stdout or "")
+        if "NoSuchBucket" not in detail and "OperationAborted" not in detail:
+            raise RuntimeError(f"S3_SYNC_FAILED: {detail.strip()}")
+        time.sleep(2 ** attempt)
+    else:
+        raise RuntimeError(f"S3_SYNC_RETRY_EXHAUSTED: {detail.strip()}")
     count_p = base.run(["aws", "s3api", "list-objects-v2", "--bucket", bucket,
                         "--query", "KeyCount", "--output", "text"], check=True)
     count = parse_aws_count(count_p.stdout)
