@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "variables": [
+    {
+      "id": "purpose_alignment",
+      "name": "Purpose Alignment",
+      "questions": [
+        "What outcome is this role ultimately responsible for?",
+        "Which stakeholder must experience the value?",
+        "What work is performed mainly because the process exists?",
+        "Which decision would this role stop making if purpose were clearer?",
+        "What evidence shows the role is creating the intended outcome?"
+      ]
+    },
+    {
+      "id": "pressure_load",
+      "name": "Pressure Load",
+      "questions": [
+        "Which demand changes most often?",
+        "What creates the largest queue or delay?",
+        "Which deadline carries the greatest consequence?",
+        "What happens when workload doubles?",
+        "Which external pressure could make current practice fail?"
+      ]
+    },
+    {
+      "id": "human_capacity",
+      "name": "Human Capacity",
+      "questions": [
+        "Which human strengths are essential to this work?",
+        "Where is attention regularly overloaded?",
+        "Which skills are concentrated in one person?",
+        "What work pattern helps this role perform at its best?",
+        "Which tasks create avoidable fatigue or cognitive switching?"
+      ]
+    },
+    {
+      "id": "ai_fit",
+      "name": "AI Fit",
+      "questions": [
+        "Which tasks are repeatable and evidence-rich?",
+        "Which tasks require contextual or ethical judgement?",
+        "How reversible is an incorrect AI-supported decision?",
+        "Where could AI prepare options without making the decision?",
+        "What must always remain under accountable human authority?"
+      ]
+    },
+    {
+      "id": "authority_clarity",
+      "name": "Authority Clarity",
+      "questions": [
+        "Who may approve the output?",
+        "Who is accountable when the recommendation is wrong?",
+        "Who may override or appeal the decision?",
+        "Which authority is assumed but not documented?",
+        "What decision is delayed because ownership is unclear?"
+      ]
+    },
+    {
+      "id": "artefact_integrity",
+      "name": "Artefact Integrity",
+      "questions": [
+        "Which documents or data are required before work can begin?",
+        "Which artefact is most often missing, stale or contradictory?",
+        "Where is provenance recorded?",
+        "Which output becomes an input for another role?",
+        "What evidence must survive onboarding, handover and offboarding?"
+      ]
+    },
+    {
+      "id": "flow_tempo",
+      "name": "Flow and Tempo",
+      "questions": [
+        "How quickly must this role respond?",
+        "Where does work wait rather than progress?",
+        "How many handoffs occur before completion?",
+        "Which interruptions cause the most rework?",
+        "What tempo would be unsafe even if technically possible?"
+      ]
+    },
+    {
+      "id": "dependency_resilience",
+      "name": "Dependency Resilience",
+      "questions": [
+        "Which role, system or supplier can stop this work?",
+        "What substitute exists if that dependency fails?",
+        "Which dependency is poorly understood?",
+        "How quickly can the role recover after interruption?",
+        "Where would one failure cascade across the organisation?"
+      ]
+    },
+    {
+      "id": "learning_memory",
+      "name": "Learning and Memory",
+      "questions": [
+        "How does this role learn whether an action worked?",
+        "Where are failures and exceptions recorded?",
+        "Which knowledge disappears when a person leaves?",
+        "How are successful adaptations selected and reused?",
+        "What feedback arrives too late to improve the next cycle?"
+      ]
+    },
+    {
+      "id": "trust_flourishing",
+      "name": "Trust and Flourishing",
+      "questions": [
+        "Who could be helped or harmed by this work?",
+        "What would make employees or customers distrust the system?",
+        "Does the proposed change improve meaningful human contribution?",
+        "What hidden cost or externality is not in the KPI?",
+        "How will affected people understand and challenge the outcome?"
+      ]
+    }
+  ],
+  "response_scale": {
+    "score": "0-100",
+    "confidence": ["low", "medium", "high"],
+    "evidence_status": ["observed", "reported", "inferred", "unknown"],
+    "freshness": ["current", "aging", "stale", "unknown"]
+  }
+}
