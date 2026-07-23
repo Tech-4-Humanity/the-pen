@@ -120,9 +120,21 @@ def main() -> int:
     base.REGION = REGION
     base.TEAM_SLUG = TEAM_SLUG
     base.ACCOUNT_ID = json.loads(base.run(["aws", "sts", "get-caller-identity"], check=True).stdout)["Account"]
-    token = base.read_vercel_token()
-    tid = base.team_id(token)
-    projects = base.list_projects(token, tid)
+    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    root = pathlib.Path(args.resume_root).expanduser() if args.resume_root else pathlib.Path.home()/"t4h-vercel-estate-to-aws"/run_id
+    inventory_path = root/"vercel-projects-v2.json"
+    if args.resume_root and inventory_path.exists():
+        cached_inventory = json.loads(inventory_path.read_text())
+        projects = cached_inventory.get("projects") or []
+        tid = cached_inventory.get("team_id")
+        inventory_source = "resume-cache"
+        if not projects:
+            raise SystemExit(f"BLOCKED: cached inventory has no projects: {inventory_path}")
+    else:
+        token = base.read_vercel_token()
+        tid = base.team_id(token)
+        projects = base.list_projects(token, tid)
+        inventory_source = "vercel-api"
     projects.sort(key=lambda p: (p.get("name") != "outcome-ready", p.get("name", "")))
     inventory_projects = list(projects)
     if args.start_at:
@@ -137,11 +149,9 @@ def main() -> int:
         projects = projects[start_index:]
     if args.max_projects > 0:
         projects = projects[:args.max_projects]
-    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    root = pathlib.Path(args.resume_root).expanduser() if args.resume_root else pathlib.Path.home()/"t4h-vercel-estate-to-aws"/run_id
     sources, logs, receipts = root/"sources", root/"logs", root/"receipts"
     for p in [sources, logs, receipts]: p.mkdir(parents=True, exist_ok=True)
-    base.write_json(root/"vercel-projects-v2.json", {"team_slug":TEAM_SLUG,"team_id":tid,"count":len(inventory_projects),"processing_count":len(projects),"start_at":args.start_at or None,"docker_ready":docker_ready(),"projects":inventory_projects})
+    base.write_json(root/"vercel-projects-v2.json", {"team_slug":TEAM_SLUG,"team_id":tid,"count":len(inventory_projects),"processing_count":len(projects),"start_at":args.start_at or None,"inventory_source":inventory_source,"docker_ready":docker_ready(),"projects":inventory_projects})
     summary: list[dict[str, Any]] = []
     dynamic_ok = docker_ready()
     for index, project in enumerate(projects, 1):
