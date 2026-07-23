@@ -1,0 +1,67 @@
+name: GitHub Actions Autofix Controller
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply_fixes:
+        description: Apply safe repository hygiene fixes
+        required: false
+        default: false
+        type: boolean
+      retry_failed:
+        description: Retry eligible failed workflow runs
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    - cron: '37 * * * *'
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+
+concurrency:
+  group: github-actions-autofix-controller
+  cancel-in-progress: false
+
+jobs:
+  audit-fix-retry-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run controller
+        env:
+          GH_TOKEN: ${{ secrets.FAILURE_CENSUS_GITHUB_TOKEN || github.token }}
+          APPLY_FIXES: ${{ inputs.apply_fixes || false }}
+          RETRY_FAILED: ${{ inputs.retry_failed || false }}
+        run: |
+          set -euo pipefail
+          python3 tools/github_actions_autofix_controller.py \
+            --owner TML-4PM \
+            --days 365 \
+            --output receipts/github-actions-autofix
+
+      - name: Upload controller report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-actions-autofix-${{ github.run_id }}
+          path: receipts/github-actions-autofix/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit durable receipt
+        if: always() && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add receipts/github-actions-autofix/
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'ledger: update GitHub Actions autofix receipt'
+          git push
