@@ -1,0 +1,22 @@
+{
+  "schema_version": "cbk.execution-receipt.v0.1",
+  "receipt_id": "cbk-proof-static-20260723",
+  "generated_at": "2026-07-23T00:00:00+00:00",
+  "capability": "canonical-bootstrap-kit-v0.1",
+  "classification": "PARTIAL",
+  "execution": {
+    "generator_exit": null,
+    "validator_exit": null,
+    "compiler_exit": null,
+    "tests_exit": null
+  },
+  "generated_project": "research/ai-sweet-spots",
+  "content_hash": null,
+  "manifest_file_count": null,
+  "runtime_readback": {
+    "path": "receipts/cbk-v0.1-proof.json",
+    "readback_ok": false,
+    "sha256": null
+  },
+  "note": "Repository receipt placeholder. prove.py replaces this with runtime evidence after successful execution."
+}
