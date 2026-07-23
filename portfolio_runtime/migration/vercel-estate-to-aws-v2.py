@@ -30,6 +30,31 @@ def parse_aws_count(value: str | None) -> int:
     return int(text)
 
 
+def cleanup_source_tree(path: pathlib.Path, sources_root: pathlib.Path) -> str | None:
+    """Delete only a reproducible per-project worktree, retaining logs and receipts."""
+    if not path.exists():
+        return None
+    resolved = path.resolve(strict=False)
+    root = sources_root.resolve(strict=False)
+    if resolved.parent != root:
+        return f"CLEANUP_REFUSED_OUTSIDE_SOURCES_ROOT: {resolved}"
+    last_error: Exception | None = None
+    for _ in range(3):
+        try:
+            shutil.rmtree(resolved)
+            return None
+        except FileNotFoundError:
+            return None
+        except OSError as exc:
+            last_error = exc
+            base.run(["/bin/chmod", "-R", "u+w", str(resolved)], timeout=120)
+            removed = base.run(["/bin/rm", "-rf", "--", str(resolved)], timeout=300)
+            if removed.returncode == 0 and not resolved.exists():
+                return None
+            time.sleep(1)
+    return f"CLEANUP_FAILED: {last_error}"
+
+
 def robust_s3_publish(name: str, output: pathlib.Path) -> tuple[str, int, str]:
     bucket = f"t4h-recovery-{base.slug(name)}-{base.ACCOUNT_ID}"[:63]
     head = base.run(["aws", "s3api", "head-bucket", "--bucket", bucket])
@@ -123,8 +148,9 @@ def main() -> int:
             # Failed/deferred attempts may leave a partial checkout that makes both
             # gh clone and vercel link fail on resume. Receipts and logs are retained;
             # only the reproducible working copy is rebuilt.
-            if dest.exists():
-                shutil.rmtree(dest)
+            cleanup_error = cleanup_source_tree(dest, sources)
+            if cleanup_error:
+                raise RuntimeError(cleanup_error)
             source=base.source_from_github(project,dest,log)
             if source:
                 record["source_mode"]="github"
@@ -155,6 +181,9 @@ def main() -> int:
                 "NO_DEPLOYABLE_STATIC_OR_NODE_OUTPUT",
             }:
                 record["status"]="PARTIAL"
+        cleanup_warning = cleanup_source_tree(dest, sources)
+        if cleanup_warning:
+            record["cleanup_warning"] = cleanup_warning
         record["finished_at"]=base.now(); base.write_json(receipt_path,record); summary.append(record)
         print(f"{record['status']} {name} {record.get('aws_url') or record.get('reason')}",flush=True)
     # Reconcile the final estate receipt against the complete live inventory, not
