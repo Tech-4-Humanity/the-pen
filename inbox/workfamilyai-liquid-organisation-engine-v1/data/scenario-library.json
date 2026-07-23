@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "scenarios": [
+    {
+      "id": "demand_doubles",
+      "name": "Demand doubles in 30 days",
+      "pressure_variables": ["pressure_load", "flow_tempo", "dependency_resilience"],
+      "questions": ["Which queues grow first?", "Which roles become bottlenecks?", "Which artefacts become stale?", "Where can AI safely increase capacity?", "Which human decisions must remain protected?"],
+      "outputs": ["capacity gap", "queue propagation", "temporary team design", "augmentation recommendations", "recovery plan"]
+    },
+    {
+      "id": "key_person_leaves",
+      "name": "Key person leaves unexpectedly",
+      "pressure_variables": ["human_capacity", "learning_memory", "dependency_resilience"],
+      "questions": ["What tacit knowledge is lost?", "Which authority becomes unclear?", "Which artefacts are incomplete?", "Who can assume temporary stewardship?", "What must be captured before offboarding?"],
+      "outputs": ["knowledge-loss exposure", "authority gaps", "handover pack", "succession options", "role redesign"]
+    },
+    {
+      "id": "ai_adoption_surge",
+      "name": "AI use rises rapidly across the organisation",
+      "pressure_variables": ["ai_fit", "authority_clarity", "artefact_integrity", "trust_flourishing"],
+      "questions": ["Which roles gain most?", "Where do blackspots emerge?", "Which outputs require human review?", "What evidence is missing?", "Where does speed exceed governance?"],
+      "outputs": ["sweet-spot map", "blackspot map", "governance controls", "training needs", "telemetry plan"]
+    },
+    {
+      "id": "critical_ai_error",
+      "name": "Incorrect AI output enters a critical process",
+      "pressure_variables": ["authority_clarity", "artefact_integrity", "trust_flourishing", "learning_memory"],
+      "questions": ["Who detects it?", "Who may stop the process?", "Can the decision be reversed?", "Which stakeholders are affected?", "How is the failure retained as learning?"],
+      "outputs": ["containment path", "impact radius", "appeal and override path", "corrective evidence", "selection rule update"]
+    },
+    {
+      "id": "regulatory_change",
+      "name": "Major regulatory change",
+      "pressure_variables": ["pressure_load", "authority_clarity", "artefact_integrity", "learning_memory"],
+      "questions": ["Which roles and artefacts are affected?", "Which controls must change?", "Which staff need training?", "What evidence must be produced?", "What current automation becomes unsafe?"],
+      "outputs": ["affected-role map", "policy and artefact updates", "training plan", "compliance evidence plan", "transition timeline"]
+    },
+    {
+      "id": "system_outage",
+      "name": "Major system outage",
+      "pressure_variables": ["dependency_resilience", "flow_tempo", "artefact_integrity"],
+      "questions": ["Which work stops immediately?", "What manual fallback exists?", "What data may be lost?", "Which service levels fail first?", "How is recovery proven?"],
+      "outputs": ["dependency cascade", "fallback workflow", "priority restoration order", "communication plan", "recovery receipt"]
+    },
+    {
+      "id": "budget_reduction",
+      "name": "Operating budget reduced",
+      "pressure_variables": ["purpose_alignment", "human_capacity", "flow_tempo", "trust_flourishing"],
+      "questions": ["Which outcomes must be protected?", "Which work creates little value?", "Where can capacity be released without eliminating humans?", "Which risks rise?", "Which investments improve resilience?"],
+      "outputs": ["value-protection map", "low-value work candidates", "augmentation plan", "risk trade-offs", "reinvestment options"]
+    },
+    {
+      "id": "merger_restructure",
+      "name": "Merger or major restructure",
+      "pressure_variables": ["purpose_alignment", "authority_clarity", "artefact_integrity", "dependency_resilience", "trust_flourishing"],
+      "questions": ["Where do roles duplicate?", "Which capabilities are complementary?", "Whose authority conflicts?", "Which systems and artefacts disagree?", "Where could trust collapse?"],
+      "outputs": ["capability overlap map", "authority reconciliation", "artefact harmonisation", "transition teams", "trust interventions"]
+    },
+    {
+      "id": "neurodivergent_performance",
+      "name": "Redesign work for cognitive diversity",
+      "pressure_variables": ["human_capacity", "flow_tempo", "ai_fit", "trust_flourishing"],
+      "questions": ["Which environment enables peak performance?", "Which interruptions create blackspots?", "Where does AI reduce cognitive load?", "Which strengths are underused?", "How should tempo and communication vary?"],
+      "outputs": ["work-pattern options", "AI sweet-spot recommendations", "sensory and communication adjustments", "strength deployment", "wellbeing measures"]
+    },
+    {
+      "id": "ecosystem_partner_failure",
+      "name": "Critical supplier or ecosystem partner fails",
+      "pressure_variables": ["dependency_resilience", "artefact_integrity", "authority_clarity"],
+      "questions": ["Which capabilities rely on the partner?", "What substitute exists?", "Who may activate it?", "Which obligations remain?", "How quickly can service recover?"],
+      "outputs": ["partner dependency map", "substitution plan", "authority actions", "stakeholder communication", "recovery forecast"]
+    }
+  ]
+}
