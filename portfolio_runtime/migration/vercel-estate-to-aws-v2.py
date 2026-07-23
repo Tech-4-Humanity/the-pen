@@ -86,6 +86,7 @@ def main() -> int:
     tid = base.team_id(token)
     projects = base.list_projects(token, tid)
     projects.sort(key=lambda p: (p.get("name") != "outcome-ready", p.get("name", "")))
+    inventory_projects = list(projects)
     if args.start_at:
         project_names = [p.get("name", "") for p in projects]
         try:
@@ -102,7 +103,7 @@ def main() -> int:
     root = pathlib.Path(args.resume_root).expanduser() if args.resume_root else pathlib.Path.home()/"t4h-vercel-estate-to-aws"/run_id
     sources, logs, receipts = root/"sources", root/"logs", root/"receipts"
     for p in [sources, logs, receipts]: p.mkdir(parents=True, exist_ok=True)
-    base.write_json(root/"vercel-projects-v2.json", {"team_slug":TEAM_SLUG,"team_id":tid,"count":len(projects),"docker_ready":docker_ready(),"projects":projects})
+    base.write_json(root/"vercel-projects-v2.json", {"team_slug":TEAM_SLUG,"team_id":tid,"count":len(inventory_projects),"processing_count":len(projects),"start_at":args.start_at or None,"docker_ready":docker_ready(),"projects":inventory_projects})
     summary: list[dict[str, Any]] = []
     dynamic_ok = docker_ready()
     for index, project in enumerate(projects, 1):
@@ -156,9 +157,29 @@ def main() -> int:
                 record["status"]="PARTIAL"
         record["finished_at"]=base.now(); base.write_json(receipt_path,record); summary.append(record)
         print(f"{record['status']} {name} {record.get('aws_url') or record.get('reason')}",flush=True)
+    # Reconcile the final estate receipt against the complete live inventory, not
+    # only the tail selected by --start-at.
+    reconciled: list[dict[str, Any]] = []
+    for project in inventory_projects:
+        receipt_path = receipts/f"{base.slug(project['name'])}.json"
+        if receipt_path.exists():
+            reconciled.append(json.loads(receipt_path.read_text()))
+        else:
+            reconciled.append({
+                "schema":"t4h.vercel_aws_migration.receipt.v2",
+                "run_id":run_id,
+                "project":project["name"],
+                "vercel_project_id":project.get("id"),
+                "status":"BLOCKED",
+                "reason":"NOT_PROCESSED_OR_RECEIPT_MISSING",
+                "dns_changed":False,
+                "vercel_deleted":False,
+            })
+    summary = reconciled
     counts={s:sum(r.get("status")==s for r in summary) for s in ["REAL","PARTIAL","BLOCKED"]}
     final={"schema":"t4h.vercel_aws_migration.estate_receipt.v2","run_id":run_id,"team_slug":TEAM_SLUG,
-           "inventory_count":len(projects),"counts":counts,"classification":"REAL" if summary and counts["PARTIAL"]==0 and counts["BLOCKED"]==0 else "PARTIAL",
+           "inventory_count":len(inventory_projects),"processing_count":len(projects),"start_at":args.start_at or None,
+           "counts":counts,"classification":"REAL" if summary and counts["PARTIAL"]==0 and counts["BLOCKED"]==0 else "PARTIAL",
            "docker_ready":dynamic_ok,"root":str(root),"completed_at":base.now(),"items":summary}
     base.write_json(root/"final-receipt-v2.json",final)
     print(json.dumps({k:final[k] for k in ["run_id","inventory_count","counts","classification","docker_ready","root"]},indent=2))
