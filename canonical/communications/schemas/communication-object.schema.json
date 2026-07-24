@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Canonical Communication Object",
+  "type": "object",
+  "required": ["communication_id", "canonical_name", "category", "channel", "subject_template", "body_template", "required_variables", "version"],
+  "properties": {
+    "communication_id": {"type": "string", "pattern": "^COM-[0-9]{4,}$"},
+    "canonical_name": {"type": "string", "minLength": 3},
+    "category": {"type": "string"},
+    "channel": {"enum": ["email", "sms", "chat", "linkedin", "social", "document", "runtime"]},
+    "subject_template": {"type": "string"},
+    "body_template": {"type": "string"},
+    "required_variables": {"type": "string"},
+    "version": {"type": "string"},
+    "evidence_state": {"enum": ["REAL", "PARTIAL", "BLOCKED", "DEGRADED", "QUARANTINED", "ASPIRATIONAL"]}
+  },
+  "additionalProperties": true
+}
