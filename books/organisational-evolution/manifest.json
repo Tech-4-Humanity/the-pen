@@ -1,0 +1,50 @@
+{
+  "package_id": "organisational-evolution-book-foundation",
+  "title": "The Day the Organisation Learned to Live",
+  "version": "0.9.0",
+  "status": "PARTIAL",
+  "canonical_branch": "book/organisational-evolution-foundation",
+  "publication_destination": "https://ai-era-thinking.lovable.app/",
+  "conceptual_hierarchy": [
+    "Organisational Evolution Theory",
+    "Organisational Evolution Framework",
+    "Organisational Evolution Canon",
+    "OIKOS",
+    "Runtime"
+  ],
+  "evolutionary_engine": [
+    "Purpose",
+    "Pressure",
+    "Adaptation",
+    "Selection",
+    "Capability",
+    "Learning",
+    "Memory",
+    "Evolution",
+    "Flourishing"
+  ],
+  "assets": [
+    "README.md",
+    "manuscript.md",
+    "book-architecture.md",
+    "canonical-glossary.md",
+    "research-propositions.md",
+    "publication-assets.md"
+  ],
+  "validation": {
+    "manuscript_present": true,
+    "architecture_present": true,
+    "glossary_present": true,
+    "research_agenda_present": true,
+    "publication_assets_present": true,
+    "publication_ready": false,
+    "empirically_validated": false
+  },
+  "next_required_outcomes": [
+    "Complete full-length manuscript",
+    "Resolve evidence and literature references",
+    "Add counterarguments and failure modes",
+    "Produce final figures and infographic suite",
+    "Complete copy edit and publication layout"
+  ]
+}
