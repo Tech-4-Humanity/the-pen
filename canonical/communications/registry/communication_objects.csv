@@ -1,0 +1,18 @@
+communication_id,canonical_name,category,communication_type,purpose,intended_outcome,audience,audience_role,channel,trigger,lifecycle_state,evidence_state,owner,version,language,tone,urgency,subject_template,body_template,short_variant,long_variant,required_variables,optional_variables,attachments,call_to_action,follow_up_sequence_id,business_bindings,product_bindings,taxonomy_bindings,workflow_binding,worker_binding,runtime_binding,approval_rule,legal_or_compliance_notes,source_provenance,source_licence,success_metric,last_validated_at,supersedes_id,created_at,updated_at
+COM-0001,Cold introduction,sales,cold-introduction,Provide a reusable cold introduction communication for sales workflows.,Advance the workflow to the documented next action.,Authorised stakeholder,,email,When the workflow requires: cold introduction.,active,PARTIAL,Troy Latter,0.1.0,en-AU,professional-friendly,normal,{{Organisation}} — Cold introduction,"Hi {{FirstName}},
+
+I’m following up regarding {{Context}}. Provide a reusable cold introduction communication for sales workflows. The intended next step is {{CTA}}.
+
+Please let me know what works best, and I’ll make the necessary arrangements.
+
+Kind regards,
+{{SenderName}}
+{{SenderOrganisation}}","Hi {{FirstName}}, following up regarding {{Context}}. {{CTA}}. Regards, {{SenderName}}","Hi {{FirstName}},
+
+I’m following up regarding {{Context}}. Provide a reusable cold introduction communication for sales workflows. The intended next step is {{CTA}}.
+
+Please let me know what works best, and I’ll make the necessary arrangements.
+
+Kind regards,
+{{SenderName}}
+{{SenderOrganisation}}",FirstName|Context|CTA|SenderName,Organisation|PreferredLocation|MeetingDuration|SenderOrganisation,,{{CTA}},,* ,*,,sales,,ccos.render,standard,,original-seed,CC-BY-4.0-internal,next_action_completed,2026-07-24,,2026-07-24,2026-07-24
