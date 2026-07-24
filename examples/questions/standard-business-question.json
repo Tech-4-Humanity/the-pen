@@ -1,0 +1,7 @@
+{
+  "question_id": "standard-business-question-001",
+  "question": "What is the organisation-wide impact of routing implementation work to lower-cost models while retaining an independent architect and verifier?",
+  "context": "technology",
+  "decision_type": "operating-model-change",
+  "affected_tables": ["provider","capability","routing","workflow","person","agent","asset","risk","outcome","communication"]
+}

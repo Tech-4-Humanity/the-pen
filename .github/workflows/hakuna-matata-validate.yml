@@ -1,0 +1,37 @@
+name: Validate Hakuna Matata
+
+on:
+  pull_request:
+    paths:
+      - 'registry/hakuna-matata/**'
+      - 'schemas/hakuna-matata/**'
+      - 'runtime/hakuna_matata/**'
+      - 'examples/questions/**'
+  push:
+    branches: [main]
+    paths:
+      - 'registry/hakuna-matata/**'
+      - 'schemas/hakuna-matata/**'
+      - 'runtime/hakuna_matata/**'
+      - 'examples/questions/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bootstrap
+        run: python3 runtime/hakuna_matata/bootstrap.py
+      - name: Validate registry
+        run: python3 runtime/hakuna_matata/validate.py
+      - name: Generate baseline perspective output
+        run: python3 runtime/hakuna_matata/perspective.py examples/questions/standard-business-question.json > /tmp/perspective.json
+      - name: Verify perspective output
+        run: python3 -m json.tool /tmp/perspective.json >/dev/null

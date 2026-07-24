@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "loops": [
+    {"loop_id":"discover","trigger":"scheduled_or_new_provider_signal","input":"signal","process":["collect provider facts","verify source freshness","normalise capability claims"],"output":"provider","evidence":["source","last_checked"],"next":"benchmark","recovery":["mark stale","retain previous verified record"]},
+    {"loop_id":"benchmark","trigger":"provider_changed_or_benchmark_due","input":"provider","process":["run canonical workloads","capture cost latency tokens build tests","classify result"],"output":"benchmark","evidence":["prompt","response","logs","tests","receipt"],"next":"route","recovery":["retry once","quarantine invalid run"]},
+    {"loop_id":"route","trigger":"capability_request","input":"capability","process":["load candidates","apply policy weights","select provider and fallback"],"output":"routing","evidence":["candidate scores","policy version","benchmark refs"],"next":"execute","recovery":["fallback provider","block on missing authority"]},
+    {"loop_id":"execute","trigger":"validated_routing","input":"routing","process":["create execution contract","invoke implementer","capture telemetry"],"output":"workflow","evidence":["diff","logs","cost","duration"],"next":"verify","recovery":["resume","rollback","reroute"]},
+    {"loop_id":"verify","trigger":"execution_output","input":"workflow","process":["schema validation","independent review","build and test","security checks"],"output":"evidence","evidence":["validator results","test output","review"],"next":"receipt","recovery":["return defects to execute","quarantine unsafe output"]},
+    {"loop_id":"receipt","trigger":"verified_transition","input":"evidence","process":["bind intent result evidence telemetry","assign state classification","write replay reference"],"output":"receipt","evidence":["hash","timestamp","replay ref"],"next":"learn","recovery":["mark PARTIAL when proof incomplete"]},
+    {"loop_id":"learn","trigger":"new_receipt","input":"receipt","process":["compare expected versus actual","update reliability and cost weights","create guardrail after failure"],"output":"policy","evidence":["before weights","after weights","reason"],"next":"discover","recovery":["rollback policy on regression"]},
+    {"loop_id":"perspective","trigger":"business_question_or_decision","input":"decision","process":["evaluate nine executive views","cascade to 729 1000 and 10000 baselines","aggregate consensus conflict and outliers","generate audience communications"],"output":"perspective","evidence":["baseline version","weights","coverage","question"],"next":"decision","recovery":["report uncovered roles","use baseline only when source data missing"]}
+  ]
+}

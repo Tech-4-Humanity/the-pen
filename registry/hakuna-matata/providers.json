@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "providers": [
+    {"provider_id":"anthropic","role_candidates":["architect","reviewer","verifier"],"credential_env":["ANTHROPIC_API_KEY"],"status":"unverified"},
+    {"provider_id":"openai","role_candidates":["architect","implementer","reviewer","verifier"],"credential_env":["OPENAI_API_KEY"],"status":"unverified"},
+    {"provider_id":"xai","role_candidates":["implementer","reviewer"],"credential_env":["XAI_API_KEY"],"status":"unverified"},
+    {"provider_id":"google","role_candidates":["architect","implementer","reviewer"],"credential_env":["GOOGLE_API_KEY","GEMINI_API_KEY"],"status":"unverified"},
+    {"provider_id":"moonshot","role_candidates":["implementer","bulk"],"credential_env":["MOONSHOT_API_KEY"],"status":"unverified"},
+    {"provider_id":"deepseek","role_candidates":["reasoner","implementer","verifier"],"credential_env":["DEEPSEEK_API_KEY"],"status":"unverified"},
+    {"provider_id":"qwen","role_candidates":["implementer","static-analysis","local"],"credential_env":["DASHSCOPE_API_KEY"],"status":"unverified"},
+    {"provider_id":"mistral","role_candidates":["implementer","local"],"credential_env":["MISTRAL_API_KEY"],"status":"unverified"},
+    {"provider_id":"aws-bedrock","role_candidates":["enterprise","fallback"],"credential_env":["AWS_PROFILE","AWS_ACCESS_KEY_ID"],"status":"unverified"},
+    {"provider_id":"ollama","role_candidates":["local","air-gapped","fallback"],"credential_env":[],"status":"unverified"}
+  ],
+  "policies": {
+    "balanced":{"architect":"highest verified judgment score","implementer":"best cost-adjusted implementation score","verifier":"independent provider required","fallback":"next verified candidate"},
+    "cost_first":{"architect":"minimum acceptable verified judgment score","implementer":"lowest expected cost above quality floor","verifier":"test harness plus independent cheap reviewer"},
+    "quality_first":{"architect":"highest judgment score","implementer":"highest implementation score","verifier":"cross-vendor review plus tests and security"},
+    "local_only":{"architect":"best local verified model","implementer":"best local code model","verifier":"different local model plus deterministic tests"}
+  },
+  "minimum_evidence":["model identifier","provider","prompt hash","token usage","latency","cost where available","diff or output hash","build result","test result","receipt"]
+}

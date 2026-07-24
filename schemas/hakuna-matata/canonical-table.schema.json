@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-pen.local/schemas/canonical-table.schema.json",
+  "title": "Canonical Table Contract",
+  "type": "object",
+  "required": ["table_id","name","purpose","owner","lifecycle","schema_version","relationships","validators","producers","consumers","evidence_required","next_valid_states"],
+  "properties": {
+    "table_id": {"type":"string","pattern":"^[a-z0-9][a-z0-9_.-]+$"},
+    "name": {"type":"string","minLength":1},
+    "purpose": {"type":"string","minLength":1},
+    "owner": {"type":"string","minLength":1},
+    "custodian": {"type":"string"},
+    "lifecycle": {"enum":["draft","active","deprecated","archived"]},
+    "schema_version": {"type":"string","pattern":"^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "source_of_truth": {"type":"string"},
+    "attributes": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "relationships": {"type":"array","items":{"$ref":"#/$defs/relationship"}},
+    "validators": {"type":"array","items":{"type":"string"},"minItems":1,"uniqueItems":true},
+    "policies": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "views": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "producers": {"type":"array","items":{"type":"string"},"minItems":1},
+    "consumers": {"type":"array","items":{"type":"string"},"minItems":1},
+    "evidence_required": {"type":"array","items":{"type":"string"},"minItems":1},
+    "next_valid_states": {"type":"array","items":{"type":"string"},"minItems":1},
+    "recovery": {"type":"array","items":{"type":"string"}},
+    "status": {"enum":["REAL","PARTIAL","BLOCKED","DEGRADED","QUARANTINED","ASPIRATIONAL"]}
+  },
+  "$defs": {
+    "relationship": {
+      "type":"object",
+      "required":["type","target_table"],
+      "properties": {
+        "type":{"type":"string"},
+        "target_table":{"type":"string"},
+        "cardinality":{"enum":["1:1","1:N","N:1","N:N"]},
+        "required":{"type":"boolean"}
+      }
+    }
+  }
+}

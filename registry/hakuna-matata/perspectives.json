@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "baseline_id": "organisation-10x10x10000-v1",
+  "executive_views": [
+    {"id":"ceo","name":"Chief Executive","default_weight":0.18,"focus":["strategy","value","timing","reputation"]},
+    {"id":"coo","name":"Chief Operating","default_weight":0.14,"focus":["operations","capacity","service","dependencies"]},
+    {"id":"cfo","name":"Chief Financial","default_weight":0.14,"focus":["cost","cash","return","exposure"]},
+    {"id":"cto","name":"Chief Technology","default_weight":0.14,"focus":["architecture","delivery","integration","technical debt"]},
+    {"id":"ciso","name":"Chief Information Security","default_weight":0.10,"focus":["security","privacy","resilience","control"]},
+    {"id":"chro","name":"Chief People","default_weight":0.10,"focus":["workforce","skills","change","wellbeing"]},
+    {"id":"cmo","name":"Chief Market and Customer","default_weight":0.08,"focus":["customer","market","brand","adoption"]},
+    {"id":"cgo","name":"Chief Governance and Legal","default_weight":0.07,"focus":["authority","legal","compliance","ethics"]},
+    {"id":"cio","name":"Chief Innovation and Outcomes","default_weight":0.05,"focus":["future value","experimentation","learning","outcomes"]}
+  ],
+  "scale_layers": [
+    {"id":"executive-9","count":9,"method":"direct weighted evaluation"},
+    {"id":"role-network-729","count":729,"method":"9x9x9 role-family expansion"},
+    {"id":"agent-catalogue-1000","count":1000,"method":"capability and workflow representatives"},
+    {"id":"workforce-10000","count":10000,"method":"baseline role-persona simulation with delta recomputation"}
+  ],
+  "weighting_rules": {
+    "normalise_to": 1.0,
+    "context_overrides": {
+      "security": {"ciso":0.30,"cto":0.20,"cgo":0.15,"coo":0.10,"ceo":0.10,"cfo":0.05,"chro":0.04,"cmo":0.03,"cio":0.03},
+      "customer": {"cmo":0.25,"ceo":0.18,"coo":0.14,"cfo":0.10,"cto":0.08,"chro":0.08,"cgo":0.07,"cio":0.10},
+      "technology": {"cto":0.25,"ciso":0.15,"coo":0.14,"cfo":0.10,"ceo":0.12,"chro":0.06,"cmo":0.05,"cgo":0.06,"cio":0.07},
+      "people": {"chro":0.28,"coo":0.16,"ceo":0.14,"cfo":0.08,"cto":0.07,"ciso":0.05,"cmo":0.07,"cgo":0.08,"cio":0.07}
+    }
+  },
+  "aggregation": {
+    "outputs":["weighted recommendation","consensus score","conflict map","outlier groups","affected populations","benefits","risks","dependencies","communication variants"],
+    "confidence_floor":0.55,
+    "material_conflict_threshold":0.25
+  }
+}
