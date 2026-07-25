@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.3",
+  "run_id": "fy2425-anz-8406-drive-gmail-20260725",
+  "generated_at": "2026-07-25T19:49:30Z",
+  "repository": "TML-4PM/the-pen",
+  "branch": "agent/fy2425-anz-8406-ledger",
+  "account": {
+    "institution": "ANZ",
+    "product": "Business Essentials",
+    "ending": "8406"
+  },
+  "period": {
+    "start_inclusive": "2024-07-01",
+    "end_exclusive": "2025-07-01"
+  },
+  "source_identity": {
+    "drive_account": "troy@tech4humanity.com.au",
+    "gmail_account": "troy.latter@gmail.com"
+  },
+  "observed_statements": [
+    {
+      "statement_number": 18,
+      "drive_id": "1r9X-vWMVnRQk9AcG1BjuHJXC0Ewm_HYo",
+      "period_start": "2024-08-13",
+      "period_end": "2024-09-13",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "63ec740ce21ce65425f6486aa3bc01b11964d37e7a197da585a571f37516dcd8"
+    },
+    {
+      "statement_number": 21,
+      "drive_id": "1qNFG-SeqHquwoSFm-e2TYPkUfkZT6Q7w",
+      "period_start": "2024-11-13",
+      "period_end": "2024-12-13",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "df79ca6cfaf74144feecc02d9b83b773433934ab491f799a7fe06a39a45183b3"
+    },
+    {
+      "statement_number": 22,
+      "drive_id": "1rlWglA-IXw964LAPEbE4hyHprFpwyHIG",
+      "period_start": "2024-12-13",
+      "period_end": "2025-01-13",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "046207c7182bf8501183bdf405654dbacceec4bcbee0d45a6ea5ba2dbfeafe8c"
+    },
+    {
+      "statement_number": 28,
+      "drive_id": "1regqLLiLdoKuJyMk0iJs1z-CYrtkdRUV",
+      "period_start": "2025-06-13",
+      "period_end": "2025-07-11",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "d45b3bb5cf19c2648817a1ceaaeee9544877b5dfc54e1c54d62ab894e007d3f3"
+    }
+  ],
+  "missing_statement_numbers": [17, 19, 20, 23, 24, 25, 26, 27],
+  "coverage": {
+    "expected_statement_sequence": "17-28 (subject to ANZ cadence confirmation)",
+    "observed_count": 4,
+    "missing_count": 8,
+    "continuous": false
+  },
+  "extraction": {
+    "rows": 260,
+    "debits": "74571.98",
+    "credits": "75527.91"
+  },
+  "statement_reconciliation": [
+    {"statement_number": 18, "start": "2024-08-13", "end": "2024-09-13", "opening": "4847.22", "statement_deposits": "7937.81", "statement_withdrawals": "10555.12", "closing": "2229.91", "arithmetic_closing": "2229.91", "statement_arithmetic_ok": true, "fy_rows_extracted": 67, "fy_debits_extracted": "10555.12", "fy_credits_extracted": "7937.81", "full_statement_within_fy": true, "transaction_sum_comparison": "PASS"},
+    {"statement_number": 21, "start": "2024-11-13", "end": "2024-12-13", "opening": "7437.26", "statement_deposits": "27545.97", "statement_withdrawals": "16306.12", "closing": "18677.11", "arithmetic_closing": "18677.11", "statement_arithmetic_ok": true, "fy_rows_extracted": 85, "fy_debits_extracted": "16306.12", "fy_credits_extracted": "27545.97", "full_statement_within_fy": true, "transaction_sum_comparison": "PASS"},
+    {"statement_number": 22, "start": "2024-12-13", "end": "2025-01-13", "opening": "18677.11", "statement_deposits": "25000.13", "statement_withdrawals": "38109.84", "closing": "5567.40", "arithmetic_closing": "5567.40", "statement_arithmetic_ok": true, "fy_rows_extracted": 78, "fy_debits_extracted": "38109.84", "fy_credits_extracted": "25000.13", "full_statement_within_fy": true, "transaction_sum_comparison": "PASS"},
+    {"statement_number": 28, "start": "2025-06-13", "end": "2025-07-11", "opening": "3792.95", "statement_deposits": "15099.40", "statement_withdrawals": "13889.64", "closing": "5002.71", "arithmetic_closing": "5002.71", "statement_arithmetic_ok": true, "fy_rows_extracted": 30, "fy_debits_extracted": "9600.90", "fy_credits_extracted": "15044.00", "full_statement_within_fy": false, "transaction_sum_comparison": "NOT_COMPARABLE_BOUNDARY_STATEMENT"}
+  ],
+  "source_recovery": {
+    "opaque_drive_workbooks_inspected": 3,
+    "primary_8406_sources_recovered": 0,
+    "unrelated_excluded": 1,
+    "discovery_only": 2,
+    "result": "NO_ADDITIONAL_STATEMENT_SOURCE"
+  },
+  "evidence_linkage": {
+    "ultravolt_transaction_id": "56c2ebd97c884d8b5edcb982",
+    "statement_payment": "1060.00",
+    "gmail_message_id": "1910114904ef83a1",
+    "invoice_number": "INV-1421",
+    "invoice_amount": "21060.00",
+    "status": "SUPPLIER_MATCH_AMOUNT_MISMATCH",
+    "movement_class_correction": "EXTERNAL_EXPENDITURE",
+    "claim_treatment": "EVIDENCE_REQUIRED"
+  },
+  "validation": {
+    "all_observed_statement_arithmetic_ok": true,
+    "all_fully_in_period_statement_transaction_sums_match": true,
+    "all_transactions_extracted": false,
+    "all_statement_periods_present": false,
+    "transfers_identified": true,
+    "amex_repayments_identified": true,
+    "refund_candidates_identified": true,
+    "gmail_candidate_search_completed_for_connected_mailbox": true,
+    "second_mailbox_searched": false,
+    "opaque_drive_workbooks_dispositioned": true
+  },
+  "evidence_limitations": [
+    "Drive text SHA-256 recorded; original PDF byte SHA-256 unavailable from connector.",
+    "Statement 28 extends beyond FY; rows on/after 2025-07-01 excluded.",
+    "Missing statements prevent annual continuity.",
+    "Gmail candidates require exact amount/date linkage.",
+    "Ultravolt invoice amount does not equal the observed statement payment; payment allocation remains unresolved.",
+    "The connected Gmail account is troy.latter@gmail.com; the second mailbox remains unavailable in this run."
+  ],
+  "status": "PARTIAL",
+  "completion_gate": "FAILED",
+  "account_complete": false,
+  "output_sha256": {
+    "ledger": "56353f1d8a47bd0efc47e9cb8c9e4466e55ebbc4b850fca2c30d14c22fdf4e7c",
+    "source_inventory": "410358c9aec52dd8d777507a54a94ff4a131c5d33d810a44502dda1f7c056fd7",
+    "balance_reconciliation": "c8884bea7bcbc249335ec3faef565d301411d74ec2a4a26ffb8b5660070bd960",
+    "gmail_receipt_candidates": "1cf9d33f8c878a97c765882c3802499d0f809c179f728e50d5c711b3208f2249",
+    "evidence_linkage_register": "c02b671a93106c023aaa16f2b318a22db0136f1a81007732e228a9dd48585c81",
+    "source_recovery_register": "12699042ebf34e792df280696a8a48c1687253200edea88f88476458a49b8d53"
+  }
+}
