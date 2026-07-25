@@ -1,0 +1,7 @@
+supplier,gmail_scope,candidate_count,evidence_state,notes
+AWS,2024-07-01..2025-06-30,10,CANDIDATE_EMAIL_FOUND,Monthly AWS billing statement emails
+Anthropic,2024-07-01..2025-06-30,2,CANDIDATE_EMAIL_FOUND,Receipt subjects found for Feb and Mar 2025
+OpenAI,2024-07-01..2025-06-30,1,CANDIDATE_EMAIL_FOUND,API funding email; exact amount match pending
+Uber,2024-07-01..2025-06-30,30,CANDIDATE_EMAIL_FOUND,Trip receipt candidates; exact matches pending
+Lovable,2024-07-01..2025-06-30,0,NO_BILLING_RECEIPT_FOUND,Support/marketing mail excluded
+Supabase,2024-07-01..2025-06-30,0,NO_EMAIL_FOUND,No candidate in connected mailbox
