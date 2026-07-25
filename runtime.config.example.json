@@ -1,0 +1,13 @@
+{
+  "archiveBucket": "t4h-archive-140548542136",
+  "archivePrefix": "fy2425/non-labour/issue-267",
+  "websiteBucket": null,
+  "cloudfrontDistribution": null,
+  "liveUrl": null,
+  "controls": {
+    "refusePublicDeployToArchiveBucket": true,
+    "requireIndependentS3Readback": true,
+    "requireSha256Match": true,
+    "requireLiveEndpointForWebsiteReal": true
+  }
+}
