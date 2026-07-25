@@ -236,6 +236,8 @@ def main() -> int:
             "all_outputs_present": all((output_dir / name).is_file() for name in OUTPUTS),
         },
         "ready_for_publish": (not missing and len(transactions) > 0 and len(sources) > 0 and all((output_dir / name).is_file() for name in OUTPUTS)),
+        "financial_completion": "PARTIAL",
+        "financial_completion_reason": "Statement balance continuity and transaction-to-statement reconciliation are not yet proven by this export",
         "classification": "PARTIAL", "classification_reason": "Awaiting validation-gated S3 upload and independent readback verification"
     }
     receipt_path = output_dir / "fy2425_fresh_export_receipt.json"
