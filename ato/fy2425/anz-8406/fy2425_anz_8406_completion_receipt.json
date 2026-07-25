@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "run_id": "fy2425-anz-8406-drive-gmail-20260725",
   "generated_at": "2026-07-25T00:00:00Z",
   "repository": "TML-4PM/the-pen",
@@ -62,18 +62,85 @@
     27
   ],
   "coverage": {
-    "expected_statement_sequence": "17-28 (subject to ANZ issue cadence confirmation)",
+    "expected_statement_sequence": "17-28 (subject to ANZ cadence confirmation)",
     "observed_count": 4,
     "missing_count": 8,
     "continuous": false
   },
   "extraction": {
-    "rows": 238,
-    "debits": "71975.44",
+    "rows": 253,
+    "debits": "74106.12",
     "credits": "75489.93"
   },
+  "statement_reconciliation": [
+    {
+      "statement_number": 18,
+      "start": "2024-08-13",
+      "end": "2024-09-13",
+      "opening": "4847.22",
+      "statement_deposits": "7937.81",
+      "statement_withdrawals": "10555.12",
+      "closing": "2229.91",
+      "arithmetic_closing": "2229.91",
+      "statement_arithmetic_ok": true,
+      "fy_rows_extracted": 63,
+      "fy_debits_extracted": "10140.77",
+      "fy_credits_extracted": "7900.00",
+      "full_statement_within_fy": true,
+      "transaction_sum_comparison": "FAIL"
+    },
+    {
+      "statement_number": 21,
+      "start": "2024-11-13",
+      "end": "2024-12-13",
+      "opening": "7437.26",
+      "statement_deposits": "27545.97",
+      "statement_withdrawals": "16306.12",
+      "closing": "18677.11",
+      "arithmetic_closing": "18677.11",
+      "statement_arithmetic_ok": true,
+      "fy_rows_extracted": 84,
+      "fy_debits_extracted": "16306.12",
+      "fy_credits_extracted": "27545.93",
+      "full_statement_within_fy": true,
+      "transaction_sum_comparison": "FAIL"
+    },
+    {
+      "statement_number": 22,
+      "start": "2024-12-13",
+      "end": "2025-01-13",
+      "opening": "18677.11",
+      "statement_deposits": "25000.13",
+      "statement_withdrawals": "38109.84",
+      "closing": "5567.40",
+      "arithmetic_closing": "5567.40",
+      "statement_arithmetic_ok": true,
+      "fy_rows_extracted": 76,
+      "fy_debits_extracted": "38058.33",
+      "fy_credits_extracted": "25000.00",
+      "full_statement_within_fy": true,
+      "transaction_sum_comparison": "FAIL"
+    },
+    {
+      "statement_number": 28,
+      "start": "2025-06-13",
+      "end": "2025-07-11",
+      "opening": "3792.95",
+      "statement_deposits": "15099.40",
+      "statement_withdrawals": "13889.64",
+      "closing": "5002.71",
+      "arithmetic_closing": "5002.71",
+      "statement_arithmetic_ok": true,
+      "fy_rows_extracted": 30,
+      "fy_debits_extracted": "9600.90",
+      "fy_credits_extracted": "15044.00",
+      "full_statement_within_fy": false,
+      "transaction_sum_comparison": "NOT_COMPARABLE_BOUNDARY_STATEMENT"
+    }
+  ],
   "validation": {
     "all_observed_statement_arithmetic_ok": true,
+    "all_fully_in_period_statement_transaction_sums_match": false,
     "all_transactions_extracted": false,
     "all_statement_periods_present": false,
     "transfers_identified": true,
@@ -83,18 +150,18 @@
     "second_mailbox_searched": false
   },
   "evidence_limitations": [
-    "Drive text extraction SHA-256 recorded; original PDF byte SHA-256 unavailable from text connector.",
-    "Statement 28 extends beyond FY24/25; rows on/after 2025-07-01 excluded.",
-    "Missing statements prevent annual continuity and complete reconciliation.",
-    "Gmail candidates are not exact receipt matches until amount/date/supplier linkage."
+    "Drive text SHA-256 recorded; original PDF byte SHA-256 unavailable from connector.",
+    "Statement 28 extends beyond FY; rows on/after 2025-07-01 excluded.",
+    "Missing statements prevent annual continuity.",
+    "Gmail candidates require exact amount/date linkage."
   ],
   "status": "PARTIAL",
   "completion_gate": "FAILED",
   "account_complete": false,
   "output_sha256": {
-    "ledger": "075b2457912d62c303a1f5a2f6bd45b8aa604b8fe70da86f94ae0fb9eaf433a2",
+    "ledger": "a0726b1a5893e21261580462de58b9f7138a8c3265f0757aa94d31d7a2dfb195",
     "source_inventory": "410358c9aec52dd8d777507a54a94ff4a131c5d33d810a44502dda1f7c056fd7",
-    "balance_reconciliation": "31c81c8750673a0467bb92b749c6e87ebd1826b8f15507c224ee6031bd8e310f",
+    "balance_reconciliation": "abd3d7760c7564bc44d684fc7f85ba45e77ba846598b5932d8f749327b793aaa",
     "gmail_receipt_candidates": "5c1a058a95c1353cc94d859952fe970da2cc88e0e2bd666fdfc8542110d586b5"
   }
 }
