@@ -1,0 +1,1 @@
+The canonical builder handover has been prepared. This placeholder commit records the engineering handover location. The full markdown handover should be synced from the attached generated artifact in ChatGPT. It includes builder charter, workbook contract, component registry, Theme 1 execution plan, validation, receipts, and decision register.
