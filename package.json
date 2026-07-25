@@ -1,0 +1,15 @@
+{
+  "name": "the-watcher-sessions-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Autonomous manuscript build and deployment bundle for The Watcher Sessions",
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs",
+    "bringup": "node scripts/bringup.mjs",
+    "runtime:auto-advance": "node scripts/runtime-auto-advance.mjs",
+    "bundle": "node scripts/bundle.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
