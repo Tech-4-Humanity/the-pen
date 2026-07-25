@@ -1,0 +1,17 @@
+{
+  "name": "t4h-the-pen-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Self-locating governed runtime bootstrap for TML-4PM/the-pen",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "doctor": "node tools/runtime/doctor.mjs",
+    "bringup": "node tools/runtime/bringup.mjs",
+    "runtime:auto-advance": "node tools/runtime/auto-advance.mjs",
+    "runtime:verify": "node tools/runtime/verify.mjs",
+    "runtime:bundle": "node tools/runtime/bundle.mjs",
+    "test": "node --test tests/runtime/*.test.mjs"
+  }
+}
