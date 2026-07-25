@@ -67,8 +67,14 @@ for obj in m['objects']:
     obj['readback_verified']=True
 r['s3_bucket']=bucket; r['s3_prefix']=prefix
 r['readback_results']=m['objects']
-r['classification']='REAL'
-r['classification_reason']='Live export, SHA-256, S3 upload and independent readback all succeeded'
+r['publication_status']='REAL'
+r['publication_status_reason']='Live export, SHA-256, S3 upload and independent readback all succeeded'
+if r.get('financial_completion') == 'REAL':
+    r['classification']='REAL'
+    r['classification_reason']='Publication and financial reconciliation gates both passed'
+else:
+    r['classification']='PARTIAL'
+    r['classification_reason']='Publication is REAL; financial reconciliation remains incomplete'
 receipt_path.write_text(json.dumps(r,indent=2)+'\n')
 # Rewrite manifest after the receipt changed, then upload/readback receipt and manifest once more.
 manifest_path.write_text(json.dumps(m,indent=2)+'\n')
@@ -86,7 +92,8 @@ import hashlib, json, pathlib, sys
 def digest(path):
     return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
 print(json.dumps({
-    "status": "REAL",
+    "publication_status": "REAL",
+    "financial_status": "PARTIAL",
     "receipt_sha256": digest(sys.argv[1]),
     "manifest_sha256": digest(sys.argv[2]),
     "readback_verified": True,
