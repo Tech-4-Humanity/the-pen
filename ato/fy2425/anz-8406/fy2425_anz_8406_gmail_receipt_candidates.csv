@@ -3,5 +3,6 @@ AWS,2024-07-01..2025-06-30,10,CANDIDATE_EMAIL_FOUND,Monthly AWS billing statemen
 Anthropic,2024-07-01..2025-06-30,2,CANDIDATE_EMAIL_FOUND,Receipt subjects found for Feb and Mar 2025
 OpenAI,2024-07-01..2025-06-30,1,CANDIDATE_EMAIL_FOUND,API funding email; exact amount match pending
 Uber,2024-07-01..2025-06-30,30,CANDIDATE_EMAIL_FOUND,Trip receipt candidates; exact matches pending
+Ultravolt Electrical Services,2024-07-01..2025-06-30,1,INVOICE_FOUND_AMOUNT_MISMATCH,"Invoice INV-1421 is AUD 21,060; statement 18 payment is AUD 1,060. Supplier identity matches but exact payment allocation is unresolved."
 Lovable,2024-07-01..2025-06-30,0,NO_BILLING_RECEIPT_FOUND,Support/marketing mail excluded
 Supabase,2024-07-01..2025-06-30,0,NO_EMAIL_FOUND,No candidate in connected mailbox
