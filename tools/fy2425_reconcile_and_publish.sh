@@ -12,6 +12,17 @@ trap 'rm -rf "$READBACK_DIR"' EXIT
 
 [[ -f "$RECEIPT" ]] || { echo "missing receipt: $RECEIPT" >&2; exit 2; }
 
+python3 - "$RECEIPT" <<'PY'
+import json, pathlib, sys
+receipt = json.loads(pathlib.Path(sys.argv[1]).read_text())
+if receipt.get("ready_for_publish") is not True:
+    raise SystemExit("completion gate failed: export receipt is not ready_for_publish")
+validation = receipt.get("validation") or {}
+failed = sorted(k for k, v in validation.items() if v is not True)
+if failed:
+    raise SystemExit(f"completion gate failed: {failed}")
+PY
+
 python3 - "$OUTPUT_DIR" "$MANIFEST" <<'PY'
 import hashlib, json, pathlib, sys
 out = pathlib.Path(sys.argv[1])
@@ -22,8 +33,7 @@ required = [
 'fy2425_balance_reconciliation.csv','fy2425_transfer_pairs.csv',
 'fy2425_amex_repayment_pairs.csv','fy2425_refund_reversals.csv',
 'fy2425_supplier_normalisation.csv','fy2425_cost_discovery_register.csv',
-'fy2425_director_funded_candidates.csv','fy2425_excluded_movements.csv',
-'fy2425_fresh_export_receipt.json']
+'fy2425_director_funded_candidates.csv','fy2425_excluded_movements.csv']
 objects=[]
 for name in required:
     p=out/name
@@ -43,13 +53,15 @@ while IFS= read -r -d '' file; do
   local_hash="$(sha256sum "$file" | awk '{print $1}')"
   remote_hash="$(sha256sum "$READBACK_DIR/$name" | awk '{print $1}')"
   [[ "$local_hash" == "$remote_hash" ]] || { echo "readback hash mismatch: $name" >&2; exit 3; }
-done < <(find "$OUTPUT_DIR" -maxdepth 1 -type f \( -name 'fy2425_*.csv' -o -name 'fy2425_*.json' \) -print0 | sort -z)
+done < <(find "$OUTPUT_DIR" -maxdepth 1 -type f \( -name 'fy2425_*.csv' -o -name 'fy2425_privacy_safe_manifest.json' \) -print0 | sort -z)
 
 python3 - "$RECEIPT" "$MANIFEST" "$BUCKET" "$PREFIX" <<'PY'
 import json, pathlib, sys
 receipt_path=pathlib.Path(sys.argv[1]); manifest_path=pathlib.Path(sys.argv[2])
 bucket,prefix=sys.argv[3],sys.argv[4]
 r=json.loads(receipt_path.read_text()); m=json.loads(manifest_path.read_text())
+if r.get('ready_for_publish') is not True:
+    raise SystemExit('completion gate failed before REAL promotion')
 for obj in m['objects']:
     obj['s3_uri']=f"s3://{bucket}/{prefix}/{obj['name']}"
     obj['readback_verified']=True
@@ -69,4 +81,14 @@ for file in "$RECEIPT" "$MANIFEST"; do
   cmp -s "$file" "$READBACK_DIR/final-$name" || { echo "final readback mismatch: $name" >&2; exit 4; }
 done
 
-echo "REAL: upload and independent readback succeeded for issue #267"
+python3 - "$RECEIPT" "$MANIFEST" <<'PY'
+import hashlib, json, pathlib, sys
+def digest(path):
+    return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+print(json.dumps({
+    "status": "REAL",
+    "receipt_sha256": digest(sys.argv[1]),
+    "manifest_sha256": digest(sys.argv[2]),
+    "readback_verified": True,
+}, indent=2))
+PY
