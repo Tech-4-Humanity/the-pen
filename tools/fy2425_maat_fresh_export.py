@@ -15,6 +15,7 @@ import csv
 import hashlib
 import json
 import os
+import shlex
 import subprocess
 import sys
 import uuid
@@ -47,7 +48,7 @@ def run_sql(sql: str) -> list[dict[str, Any]]:
     command = os.getenv("MAAT_SQL_EXECUTOR")
     if not command:
         raise RuntimeError("MAAT_SQL_EXECUTOR is not configured in the governed runtime")
-    proc = subprocess.run(command, input=sql, text=True, shell=True,
+    proc = subprocess.run(shlex.split(command), input=sql, text=True, shell=False,
                           capture_output=True, check=False)
     if proc.returncode != 0:
         raise RuntimeError(f"SQL executor failed: {proc.stderr.strip()}")
@@ -85,6 +86,14 @@ def main() -> int:
     parser.add_argument("--issue", required=True, type=int)
     parser.add_argument("--output-dir", required=True)
     args = parser.parse_args()
+
+    try:
+        start_date = datetime.fromisoformat(args.start).date()
+        end_date = datetime.fromisoformat(args.end).date()
+    except ValueError as exc:
+        raise RuntimeError("start and end must be ISO dates (YYYY-MM-DD)") from exc
+    if start_date >= end_date:
+        raise RuntimeError("start must be before end")
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -131,7 +140,7 @@ def main() -> int:
     # Additional accounts needed to reconcile transfers, repayments, refunds or loans.
     additional = run_sql(f"""
       WITH selected AS (
-        SELECT id, posted_at, amount, description, vendor
+        SELECT id, account_id, posted_at, amount, description, vendor
         FROM maat_transactions
         WHERE posted_at >= '{args.start}'::date AND posted_at < '{args.end}'::date
           AND is_estimate=false AND account_id::text IN ({id_list})
@@ -145,7 +154,7 @@ def main() -> int:
       JOIN maat_bank_accounts b ON b.id=t.account_id
       JOIN selected s ON ABS(ABS(t.amount)-ABS(s.amount)) < 0.01
                      AND t.posted_at BETWEEN s.posted_at - INTERVAL '5 day' AND s.posted_at + INTERVAL '5 day'
-                     AND t.account_id <> s.id
+                     AND t.account_id <> s.account_id
       WHERE t.posted_at >= '{args.start}'::date AND t.posted_at < '{args.end}'::date
         AND t.is_estimate=false
       ORDER BY b.institution, b.account_number_last4
@@ -220,7 +229,14 @@ def main() -> int:
         "required_accounts": sorted([{"institution": x[0], "last4": x[1]} for x in REQUIRED_ACCOUNTS], key=lambda x:(x['institution'],x['last4'])),
         "additional_reconciliation_accounts": additional, "row_counts_by_account": counts,
         "outputs": [{"path": str(output_dir / name), "sha256": hashes[name]} for name in OUTPUTS],
-        "classification": "PARTIAL", "classification_reason": "Awaiting S3 upload and independent readback verification"
+        "validation": {
+            "required_accounts_present": not missing,
+            "transaction_rows_present": len(transactions) > 0,
+            "source_rows_present": len(sources) > 0,
+            "all_outputs_present": all((output_dir / name).is_file() for name in OUTPUTS),
+        },
+        "ready_for_publish": (not missing and len(transactions) > 0 and len(sources) > 0 and all((output_dir / name).is_file() for name in OUTPUTS)),
+        "classification": "PARTIAL", "classification_reason": "Awaiting validation-gated S3 upload and independent readback verification"
     }
     receipt_path = output_dir / "fy2425_fresh_export_receipt.json"
     receipt_path.write_text(json.dumps(receipt, indent=2, default=str) + "\n", encoding="utf-8")
