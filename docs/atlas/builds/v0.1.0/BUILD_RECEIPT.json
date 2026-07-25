@@ -1,0 +1,18 @@
+{
+  "build_id": "atlas-v0.1.0-20260725T144923Z",
+  "source_workbook": "T4H_Atlas_HTML_Builder_Handover_Canonical_v3(1).xlsx",
+  "source_workbook_sha256": "1f7d07b312c7045509dc7a4acb1159cd0e3e4bb3167658fa5c3a574a52645b90",
+  "taxonomy_csv": "T4H_Taxonomy_Themes_01_to_08_MASTER_WITH_IP(5)(3).csv",
+  "taxonomy_csv_sha256": "6088e0b59404ebbf3d579c0baa854b0ebb11b9e4aab817bd1513c2040ae9e199",
+  "generated_at": "2026-07-25T14:49:23.316766+00:00",
+  "themes": 8,
+  "topics": 8,
+  "subtopics": 24,
+  "subtopic_brief_pages": 24,
+  "subtopic_evidence_pages": 24,
+  "html_pages": 69,
+  "search_documents": 64,
+  "images_copied": 28,
+  "broken_internal_links": [],
+  "status": "PASS"
+}
