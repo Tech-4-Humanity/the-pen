@@ -1,47 +1,58 @@
 # The Watcher Sessions
 
-Canonical rewrite workspace for the speculative techno-thriller **The Watcher Sessions**.
+Canonical repository workspace for Troy Latter's speculative techno-thriller.
 
-## Status
+## Current status
 
-- Classification: PARTIAL
-- Current public draft quality: below publication threshold
-- Rewrite direction: locked
-- Target publication site: https://ai-era-thinking.lovable.app/
-- Runtime mode: autonomous
-- Human-in-the-loop: not required for drafting, editing, packaging, or deployment preparation
+**Classification: PARTIAL — substantive manuscript execution underway**
 
-## Objective
+Act I has been rebuilt as six continuous chapters rather than the earlier philosophical vignette format.
 
-Replace the vignette-heavy 17-part draft with a coherent, commercially credible story built from the same core premise:
+### Completed first-pass chapters
 
-> A person who believes they are being hacked discovers that forgotten authenticated sessions may have allowed silent observers into their digital life. The investigation exposes a much larger problem: humanity has scattered identity, authority, memory, and trust across devices and systems it barely understands.
+1. Gate 32
+2. Six Devices
+3. Residual Selves
+4. The Excavation
+5. The Wrong Intruder
+6. The Person in the Lounge
 
-The finished work must remain grounded long enough to earn its speculative scale. It must read as a story first and an ideas vehicle second.
+The current manuscript establishes:
 
-## Canonical directories
+- a plausible forgotten airport session;
+- direct evidence of an observer;
+- Alex's six-year AI-in-the-wild research archive;
+- the 380-person cohort as a material plot asset;
+- Maya as a skilled but compromised investigator;
+- a discontinued context-continuity system with an observer channel;
+- a personal link between Maya's missing brother and the original airport pilot.
 
-- `source/` — recovered source material and inspiration notes
-- `manuscript/` — canonical rewritten manuscript
-- `story-bible/` — characters, chronology, rules, motifs, and continuity
-- `editorial/` — reviews, revision ledger, duplicate scan, and quality gates
-- `publishing/` — synopsis, metadata, back-cover copy, author note, and chapter list
-- `site/` — content and integration contract for ai-era-thinking.lovable.app
-- `receipts/` — build, validation, hash, and deployment receipts
+## Canonical files
 
-## Quality gates
+- `manuscript/the-watcher-sessions.md` — active manuscript
+- `story-bible/rewrite-brief.md` — locked narrative and quality standard
+- `site/ai-era-thinking-integration.md` — publication destination contract
 
-The rewrite must:
+## Publication destination
 
-1. Establish a credible near-present thriller before expanding its scope.
-2. Give Alex agency, relationships, risk, and meaningful loss.
-3. Make Maya fallible, costly, and human rather than omniscient.
-4. Keep Atlas ambiguous and avoid turning it into a speaking deity.
-5. Use receipts, notebooks, open sessions, maps, archives, and memory as recurring motifs rather than repeated exposition.
-6. Resolve the Watcher plot enough to satisfy the reader while preserving one defensible ambiguity.
-7. Avoid chapter-sized essays and utopian summary montages.
-8. End decisively.
+The final online reading experience must be deployed into the existing project:
 
-## Completion receipt
+https://ai-era-thinking.lovable.app/
 
-This project becomes REAL only when the rewritten manuscript, editorial evidence, publication pack, site payload, hashes, and a reviewed pull request all exist and the target site has a verifiable deployment receipt.
+Do not create a competing standalone book site.
+
+## Completion gate
+
+The project is not complete until:
+
+- all four parts form a finished narrative;
+- plot, character, technical plausibility, tension, repetition and copyediting passes are complete;
+- publishing metadata and editorial report exist;
+- reproducible DOCX/PDF/EPUB outputs are generated or validated build instructions are committed;
+- hashes and build receipts are present;
+- the AI Era Thinking site is updated and verified;
+- the GitHub PR contains exact evidence and remaining gaps.
+
+## Current gap
+
+Act II, Act III and Act IV remain unwritten. The existing commits prove real progress, not publication readiness.
