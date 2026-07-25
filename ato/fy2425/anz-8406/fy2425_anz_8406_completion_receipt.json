@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "run_id": "fy2425-anz-8406-drive-gmail-20260725",
+  "generated_at": "2026-07-25T00:00:00Z",
+  "repository": "TML-4PM/the-pen",
+  "branch": "agent/fy2425-anz-8406-ledger",
+  "account": {
+    "institution": "ANZ",
+    "product": "Business Essentials",
+    "ending": "8406"
+  },
+  "period": {
+    "start_inclusive": "2024-07-01",
+    "end_exclusive": "2025-07-01"
+  },
+  "source_identity": {
+    "drive_account": "troy@tech4humanity.com.au",
+    "gmail_account": "troy.latter@gmail.com"
+  },
+  "observed_statements": [
+    {
+      "statement_number": 18,
+      "drive_id": "1r9X-vWMVnRQk9AcG1BjuHJXC0Ewm_HYo",
+      "period_start": "2024-08-13",
+      "period_end": "2024-09-13",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "63ec740ce21ce65425f6486aa3bc01b11964d37e7a197da585a571f37516dcd8"
+    },
+    {
+      "statement_number": 21,
+      "drive_id": "1qNFG-SeqHquwoSFm-e2TYPkUfkZT6Q7w",
+      "period_start": "2024-11-13",
+      "period_end": "2024-12-13",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "df79ca6cfaf74144feecc02d9b83b773433934ab491f799a7fe06a39a45183b3"
+    },
+    {
+      "statement_number": 22,
+      "drive_id": "1rlWglA-IXw964LAPEbE4hyHprFpwyHIG",
+      "period_start": "2024-12-13",
+      "period_end": "2025-01-13",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "046207c7182bf8501183bdf405654dbacceec4bcbee0d45a6ea5ba2dbfeafe8c"
+    },
+    {
+      "statement_number": 28,
+      "drive_id": "1regqLLiLdoKuJyMk0iJs1z-CYrtkdRUV",
+      "period_start": "2025-06-13",
+      "period_end": "2025-07-11",
+      "statement_arithmetic_ok": true,
+      "extracted_text_sha256": "d45b3bb5cf19c2648817a1ceaaeee9544877b5dfc54e1c54d62ab894e007d3f3"
+    }
+  ],
+  "missing_statement_numbers": [
+    17,
+    19,
+    20,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "coverage": {
+    "expected_statement_sequence": "17-28 (subject to ANZ issue cadence confirmation)",
+    "observed_count": 4,
+    "missing_count": 8,
+    "continuous": false
+  },
+  "extraction": {
+    "rows": 238,
+    "debits": "71975.44",
+    "credits": "75489.93"
+  },
+  "validation": {
+    "all_observed_statement_arithmetic_ok": true,
+    "all_transactions_extracted": false,
+    "all_statement_periods_present": false,
+    "transfers_identified": true,
+    "amex_repayments_identified": true,
+    "refund_candidates_identified": true,
+    "gmail_candidate_search_completed_for_connected_mailbox": true,
+    "second_mailbox_searched": false
+  },
+  "evidence_limitations": [
+    "Drive text extraction SHA-256 recorded; original PDF byte SHA-256 unavailable from text connector.",
+    "Statement 28 extends beyond FY24/25; rows on/after 2025-07-01 excluded.",
+    "Missing statements prevent annual continuity and complete reconciliation.",
+    "Gmail candidates are not exact receipt matches until amount/date/supplier linkage."
+  ],
+  "status": "PARTIAL",
+  "completion_gate": "FAILED",
+  "account_complete": false,
+  "output_sha256": {
+    "ledger": "075b2457912d62c303a1f5a2f6bd45b8aa604b8fe70da86f94ae0fb9eaf433a2",
+    "source_inventory": "410358c9aec52dd8d777507a54a94ff4a131c5d33d810a44502dda1f7c056fd7",
+    "balance_reconciliation": "31c81c8750673a0467bb92b749c6e87ebd1826b8f15507c224ee6031bd8e310f",
+    "gmail_receipt_candidates": "5c1a058a95c1353cc94d859952fe970da2cc88e0e2bd666fdfc8542110d586b5"
+  }
+}
