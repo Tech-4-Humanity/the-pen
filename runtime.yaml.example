@@ -1,0 +1,26 @@
+repository:
+  name: the-pen
+
+receipts:
+  directory: runtime/receipts
+
+aws:
+  region: ap-southeast-2
+  archive_bucket_patterns:
+    - archive
+    - vault
+    - backup
+  website_bucket_patterns:
+    - website
+    - public
+    - site
+
+safety:
+  block_private_extensions_on_public_buckets:
+    - .csv
+    - .xlsx
+    - .xls
+    - .pdf
+    - .ofx
+    - .qif
+    - .zip

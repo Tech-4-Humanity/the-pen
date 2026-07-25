@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "t4h-runtime-operator"
+version = "0.1.0"
+description = "Governed runtime discovery, deployment, verification and receipts"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+runtime = "runtime_operator.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["runtime_operator*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
