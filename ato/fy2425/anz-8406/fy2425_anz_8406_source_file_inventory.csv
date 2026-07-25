@@ -1,0 +1,5 @@
+drive_id,title,statement_number,period_start,period_end,account_ending,extracted_text_sha256,statement_arithmetic_ok
+1r9X-vWMVnRQk9AcG1BjuHJXC0Ewm_HYo,3d0ef459-21bc-401c-a960-687ed8c92104.pdf,18,2024-08-13,2024-09-13,8406,63ec740ce21ce65425f6486aa3bc01b11964d37e7a197da585a571f37516dcd8,true
+1qNFG-SeqHquwoSFm-e2TYPkUfkZT6Q7w,2dbdd85d-241b-40e3-9a66-092b1de9d4e3.pdf,21,2024-11-13,2024-12-13,8406,df79ca6cfaf74144feecc02d9b83b773433934ab491f799a7fe06a39a45183b3,true
+1rlWglA-IXw964LAPEbE4hyHprFpwyHIG,630b583a-9b62-41fd-850b-46ed35c46ca1.pdf,22,2024-12-13,2025-01-13,8406,046207c7182bf8501183bdf405654dbacceec4bcbee0d45a6ea5ba2dbfeafe8c,true
+1regqLLiLdoKuJyMk0iJs1z-CYrtkdRUV,4194bf19-12c3-4071-8808-1d5c1d793d0c.pdf,28,2025-06-13,2025-07-11,8406,d45b3bb5cf19c2648817a1ceaaeee9544877b5dfc54e1c54d62ab894e007d3f3,true
