@@ -1,0 +1,36 @@
+name: Canonical Bootstrap Kit
+
+on:
+  push:
+    paths:
+      - 'tools/canonical-bootstrap-kit/**'
+      - '.github/workflows/canonical-bootstrap-kit.yml'
+  pull_request:
+    paths:
+      - 'tools/canonical-bootstrap-kit/**'
+      - '.github/workflows/canonical-bootstrap-kit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python3 -m unittest tools/canonical-bootstrap-kit/test_cbk.py
+      - name: End-to-end proof
+        run: python3 tools/canonical-bootstrap-kit/prove.py
+      - name: Upload proof receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-bootstrap-kit-proof-${{ github.run_id }}
+          path: tools/canonical-bootstrap-kit/receipts/cbk-v0.1-proof.json
+          if-no-files-found: error
