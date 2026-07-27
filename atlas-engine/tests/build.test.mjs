@@ -10,14 +10,33 @@ test("builds a reproducible Theme 1 vertical slice", () => {
   assert.equal(result.status, 0, result.stderr);
   const receipt = JSON.parse(fs.readFileSync(path.join(root, "dist/build-receipt.json")));
   assert.equal(receipt.build_status, "PASS");
-  assert.equal(receipt.counts.html_pages, 11);
+  assert.equal(receipt.counts.html_pages, 28);
+  assert.equal(receipt.counts.projection_pages, 10);
+  assert.equal(receipt.counts.story_slots, 1);
   assert.equal(receipt.classification, "PARTIAL");
   for (const route of [
     "index.html",
+    "themes/index.html",
+    "topics/index.html",
     "themes/human-ai-cognition-performance/index.html",
     "themes/human-ai-cognition-performance/topics/cognitive-augmentation/index.html",
     "themes/human-ai-cognition-performance/topics/cognitive-augmentation/decision-quality/index.html",
     "themes/human-ai-cognition-performance/topics/cognitive-augmentation/decision-quality/evidence/index.html",
+    "themes/human-ai-cognition-performance/topics/cognitive-augmentation/decision-quality/story/index.html",
+    "evidence/index.html",
+    "hypotheses/index.html",
+    "findings/index.html",
+    "outcomes/index.html",
+    "problems-solved/index.html",
+    "applications/index.html",
+    "opportunities/index.html",
+    "policy/index.html",
+    "gaps/index.html",
+    "instructions/index.html",
+    "search/index.html",
+    "ip/index.html",
+    "ip/what-is-ip.html",
+    "ip/portfolio-dashboard.html",
     "analytics/index.html",
     "insights/index.html",
     "studies/index.html",
