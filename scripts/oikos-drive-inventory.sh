@@ -25,12 +25,18 @@ RECEIPT="$OUTPUT_DIR/execution-receipt.json"
 
 mkdir -p "$OUTPUT_DIR"
 
-for command_name in rclone jq shasum; do
+for command_name in rclone jq shasum base64; do
   command -v "$command_name" >/dev/null 2>&1 || {
     echo "BLOCKED: missing command: $command_name" >&2
     exit 2
   }
 done
+
+if printf 'dGVzdA==' | base64 --decode >/dev/null 2>&1; then
+  BASE64_DECODE_FLAG="--decode"
+else
+  BASE64_DECODE_FLAG="-D"
+fi
 
 rclone listremotes | sed 's/:$//' | grep -Fx "$REMOTE" >/dev/null || {
   echo "BLOCKED: rclone remote '$REMOTE' is not configured" >&2
@@ -83,7 +89,7 @@ CURRENT=0
 # Stream each object through SHA-256. Bytes are not retained locally.
 while IFS= read -r encoded_path; do
   CURRENT=$((CURRENT + 1))
-  file_path="$(printf '%s' "$encoded_path" | base64 --decode)"
+  file_path="$(printf '%s' "$encoded_path" | base64 "$BASE64_DECODE_FLAG")"
   printf '[%s/%s] SHA256 %s\n' "$CURRENT" "$FILE_COUNT" "$file_path" >&2
   digest="$(rclone cat "$SOURCE_REF/$file_path" | shasum -a 256 | awk '{print $1}')"
   printf '%s\t%s\n' "$digest" "$file_path" >> "$HASH_TSV"
