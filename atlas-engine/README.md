@@ -19,3 +19,8 @@ The canonical workbook remains the editorial ledger. Its normalized export
 must supply stable Theme, Topic, Subtopic, Evidence and Story objects. Missing
 editorial content is reported as a warning and rendered as visibly incomplete;
 it is never fabricated.
+
+The renderer contract lives in `config/pages.json`, the workbook-to-object
+contract in `config/field-map.json`, and component failure behaviour in
+`components/registry.json`. Executed studies, stories and candidate research
+remain distinct object collections and projections.
