@@ -30,6 +30,7 @@ for (const sub of graph.subtopics) {
   if (!themeIds.has(sub.theme_id)) errors.push(`${sub.id}: unknown theme ${sub.theme_id}`);
   if (!topicIds.has(sub.topic_id)) errors.push(`${sub.id}: unknown topic ${sub.topic_id}`);
   if (!sub.findings?.length) warnings.push(`${sub.id}: no verified findings`);
+  if (!graph.stories.some(story => (story.subtopic_ids || []).includes(sub.id))) warnings.push(`${sub.id}: story slot pending`);
 }
 for (const evidence of graph.evidence) {
   if (!graph.subtopics.some(x => x.id === evidence.subtopic_id)) errors.push(`${evidence.id}: unknown subtopic ${evidence.subtopic_id}`);
@@ -93,14 +94,21 @@ for (const sub of graph.subtopics) {
   const topic = graph.topics.find(x => x.id === sub.topic_id);
   const theme = graph.themes.find(x => x.id === sub.theme_id);
   const evidence = graph.evidence.filter(x => x.subtopic_id === sub.id);
+  const stories = graph.stories.filter(x => (x.subtopic_ids || []).includes(sub.id));
+  const story = stories[0];
   const base = `themes/${theme.slug}/topics/${topic.slug}/${sub.slug}`;
   const passport = `<aside class="passport"><h2>Research passport</h2><dl><dt>Status</dt><dd>${esc(sub.status)}</dd><dt>Confidence</dt><dd>${esc(sub.confidence)}</dd><dt>Evidence objects</dt><dd>${evidence.length}</dd><dt>Population</dt><dd>${esc(sub.population)}</dd></dl></aside>`;
-  write(base, shell(sub.title, `${theme.title} · ${topic.title}`, `${passport}<section><h2>Problem</h2><p>${esc(sub.problem)}</p></section><section><h2>Hypothesis</h2><p>${esc(sub.hypothesis)}</p></section>${list("Findings", sub.findings)}${list("Practical implications", sub.practical_implications)}${list("Commercial opportunities", sub.commercial_opportunities)}${list("Policy implications", sub.policy_implications)}<p><a class="button" href="/${base}/evidence/">Open scientific evidence dossier</a></p>`));
+  write(base, shell(sub.title, `${theme.title} · ${topic.title}`, `${passport}<section><h2>Problem</h2><p>${esc(sub.problem)}</p></section><section><h2>Hypothesis</h2><p>${esc(sub.hypothesis)}</p></section>${list("Findings", sub.findings)}${list("Practical implications", sub.practical_implications)}${list("Commercial opportunities", sub.commercial_opportunities)}${list("Policy implications", sub.policy_implications)}<p><a class="button" href="/${base}/evidence/">Open scientific evidence dossier</a><a class="button story" href="/${base}/story/">Read the human story</a></p>`));
   write(`${base}/evidence`, shell(`${sub.title}: Evidence`, `${sub.id} · scientific dossier`, `${passport}${list("Methods", sub.methods)}${list("Variables", sub.variables)}${list("Measures", sub.measures)}${list("Frameworks", sub.frameworks)}${list("Evidence register", evidence)}${list("Research gaps", sub.research_gaps)}<section><h2>Audit trail</h2><p>Rendered from canonical object ${esc(sub.id)}. Missing objects remain visible.</p></section>`));
+  const storyTitle = story?.title || `${sub.title}: Human Story`;
+  const storyStatus = story?.status || "PENDING";
+  const storySummary = story?.summary || "A governed story slot exists for this subtopic. Narrative content is pending editorial delivery.";
+  write(`${base}/story`, shell(storyTitle, `${sub.id} · ${storyStatus}`, `<p class="lede">${esc(storySummary)}</p>${list("Narrative", [story?.narrative].filter(Boolean))}${list("Research connection", [sub.title])}<section><h2>Provenance</h2><p>${esc(story?.source || "Not yet supplied")}</p></section><p><a class="button" href="/${base}/">Return to research brief</a></p>`));
 }
 write("studies", shell("Evidence register", "Evidence compiler", `<div class="metrics"><strong>${graph.evidence.length}</strong> evidence objects</div><div class="grid">${graph.evidence.map(e => card(e.stance || e.status, e.title || e.id, e.findings || e.source, `/studies/${e.slug || slug(e.id)}/`)).join("") || card("Pending", "No evidence objects loaded", "The compiler is ready; content has not arrived.")}</div>`));
 for (const e of graph.evidence) write(`studies/${e.slug || slug(e.id)}`, shell(e.title || e.id, "Evidence object", `<div class="metrics"><strong>${esc(e.confidence)}</strong> confidence <strong>${esc(e.stance || e.status)}</strong> stance</div>${list("Hypothesis", [e.hypothesis].filter(Boolean))}${list("Population", [e.population, e.sample, e.country].filter(Boolean))}${list("Methods", [e.method].filter(Boolean))}${list("Variables", Array.isArray(e.variables) ? e.variables : [e.variables].filter(Boolean))}${list("Findings", [e.findings].filter(Boolean))}${list("Limitations", [e.limitations].filter(Boolean))}${list("Implications", [e.implications].filter(Boolean))}<section><h2>Provenance</h2><p>${esc(e.source)}</p></section>`));
-write("stories", shell("Human stories", "Story layer", `<div class="grid">${graph.stories.map(s => card(s.status, s.title, s.summary, `/stories/${s.slug}/`)).join("") || card("Pending", "Story slots ready", "Stories will render when governed story objects arrive.")}</div>`));
+const storyCards = graph.subtopics.map(sub => { const story = graph.stories.find(s => (s.subtopic_ids || []).includes(sub.id)); const topic = graph.topics.find(t => t.id === sub.topic_id); const theme = graph.themes.find(t => t.id === sub.theme_id); return card(story?.status || "Pending", story?.title || `${sub.title}: Human Story`, story?.summary || "Governed story slot awaiting editorial content.", `/themes/${theme.slug}/topics/${topic.slug}/${sub.slug}/story/`); });
+write("stories", shell("Human stories", "Story layer", `<div class="metrics"><strong>${graph.subtopics.length}</strong> story slots <strong>${graph.stories.length}</strong> completed objects</div><div class="grid">${storyCards.join("")}</div>`));
 for (const s of graph.stories) write(`stories/${s.slug}`, shell(s.title, `${s.id} · ${s.status}`, `<p class="lede">${esc(s.summary)}</p>${list("Narrative", [s.narrative].filter(Boolean))}${list("Related research", s.subtopic_ids || [])}<section><h2>Provenance</h2><p>${esc(s.source || "Not supplied")}</p></section>`));
 write("pipeline", shell("Future research pipeline", "Candidate research", `<div class="metrics"><strong>${graph.candidates.length}</strong> candidates</div><div class="grid">${graph.candidates.map(c => card(c.status, c.title, c.summary, `/pipeline/${c.slug}/`)).join("") || card("Pending", "No candidates loaded", "Candidate research remains separate from executed studies.")}</div>`));
 for (const c of graph.candidates) write(`pipeline/${c.slug}`, shell(c.title, `${c.id} · ${c.status}`, `<p class="lede">${esc(c.summary)}</p>${list("Research questions", c.research_questions || [])}${list("Dependencies", c.dependencies || [])}${list("Next gate", [c.next_gate].filter(Boolean))}`));
@@ -133,7 +141,7 @@ const receipt = {
   deployment_status: "NOT_DEPLOYED",
   source: path.basename(inputPath),
   source_sha256: crypto.createHash("sha256").update(source).digest("hex"),
-  counts: {themes:graph.themes.length, topics:graph.topics.length, subtopics:graph.subtopics.length, evidence:graph.evidence.length, stories:graph.stories.length, candidates:graph.candidates.length, html_pages:htmlFiles.length, relationships:relationships.length},
+  counts: {themes:graph.themes.length, topics:graph.topics.length, subtopics:graph.subtopics.length, evidence:graph.evidence.length, stories:graph.stories.length, story_slots:graph.subtopics.length, candidates:graph.candidates.length, html_pages:htmlFiles.length, relationships:relationships.length},
   warnings, errors, broken_links:brokenLinks, manifest_sha256: crypto.createHash("sha256").update(JSON.stringify(manifest)).digest("hex")
 };
 fs.writeFileSync(path.join(out, "build-receipt.json"), JSON.stringify(receipt, null, 2));
