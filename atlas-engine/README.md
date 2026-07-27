@@ -24,3 +24,15 @@ The renderer contract lives in `config/pages.json`, the workbook-to-object
 contract in `config/field-map.json`, and component failure behaviour in
 `components/registry.json`. Executed studies, stories and candidate research
 remain distinct object collections and projections.
+
+## Normalize workbook content
+
+```bash
+npm run normalize -- workbook.xlsx data/normalized-atlas.json data/normalization-receipt.json
+node compiler/build.mjs data/normalized-atlas.json
+```
+
+The normalizer accepts `.xlsx`, `.csv` and workbook-shaped `.json`, reads all
+matching sheets, preserves supplied identifiers and blocks unresolved or
+duplicate relationships. It emits the canonical graph and a source-hashed
+normalization receipt before rendering begins.
