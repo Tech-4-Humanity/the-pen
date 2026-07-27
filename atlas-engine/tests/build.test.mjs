@@ -10,7 +10,7 @@ test("builds a reproducible Theme 1 vertical slice", () => {
   assert.equal(result.status, 0, result.stderr);
   const receipt = JSON.parse(fs.readFileSync(path.join(root, "dist/build-receipt.json")));
   assert.equal(receipt.build_status, "PASS");
-  assert.equal(receipt.counts.html_pages, 7);
+  assert.equal(receipt.counts.html_pages, 11);
   assert.equal(receipt.classification, "PARTIAL");
   for (const route of [
     "index.html",
@@ -19,6 +19,13 @@ test("builds a reproducible Theme 1 vertical slice", () => {
     "themes/human-ai-cognition-performance/topics/cognitive-augmentation/decision-quality/index.html",
     "themes/human-ai-cognition-performance/topics/cognitive-augmentation/decision-quality/evidence/index.html",
     "analytics/index.html",
-    "insights/index.html"
+    "insights/index.html",
+    "studies/index.html",
+    "stories/index.html",
+    "pipeline/index.html",
+    "status/index.html"
   ]) assert.ok(fs.existsSync(path.join(root, "dist", route)), route);
+  assert.ok(fs.existsSync(path.join(root, "dist", "relationship-graph.json")));
+  assert.ok(fs.existsSync(path.join(root, "dist", "sitemap.xml")));
+  assert.deepEqual(receipt.broken_links, []);
 });
