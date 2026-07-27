@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IP Portfolio Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root,[data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;
+      --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;--color-surface-offset:#f3f0ec;--color-border:#d4d1ca;--color-divider:#dcd9d5;
+      --color-text:#28251d;--color-text-muted:#66655f;--color-text-faint:#9c9a95;--color-text-inverse:#f9f8f4;
+      --color-primary:#01696f;--color-primary-hover:#0c4e54;--color-success:#437a22;--color-warning:#964219;--color-error:#a12c7b;--color-blue:#006494;--color-gold:#d19900;
+      --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--shadow-sm:0 1px 2px rgba(0,0,0,.06);--shadow-md:0 8px 24px rgba(0,0,0,.08);
+      --font-body:'Inter',sans-serif;--font-display:'Inter',sans-serif;
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;--color-surface-offset:#1d1c1a;--color-border:#393836;--color-divider:#262523;
+      --color-text:#cdccca;--color-text-muted:#a3a29f;--color-text-faint:#72716d;--color-text-inverse:#2b2a28;
+      --color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-success:#6daa45;--color-warning:#bb653b;--color-error:#d163a7;--color-blue:#5591c7;--color-gold:#e8af34;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.2);--shadow-md:0 8px 24px rgba(0,0,0,.3);
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:var(--font-body);font-size:var(--text-base);background:var(--color-bg);color:var(--color-text);line-height:1.5}
+    .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+    .sidebar{background:var(--color-surface);border-right:1px solid var(--color-border);padding:var(--space-6);position:sticky;top:0;height:100vh;overflow:auto}
+    .logo{display:flex;align-items:center;gap:12px;margin-bottom:var(--space-8);font-weight:800}
+    .logo svg{width:34px;height:34px;color:var(--color-primary)}
+    .nav a{display:block;padding:12px 14px;border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);font-size:var(--text-sm);margin-bottom:6px}
+    .nav a:hover,.nav a.active{background:var(--color-surface-offset);color:var(--color-primary)}
+    .side-note{margin-top:var(--space-8);padding:var(--space-4);background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:var(--radius-lg);font-size:var(--text-sm);color:var(--color-text-muted)}
+    .main{padding:var(--space-6)}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:var(--space-6)}
+    h1{font-size:var(--text-xl);line-height:1.1;margin:0 0 8px 0} h2{font-size:var(--text-lg);margin:0 0 14px 0} h3{font-size:1rem;margin:0 0 10px 0}
+    .muted{color:var(--color-text-muted)} .small{font-size:var(--text-sm)} .tiny{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .btn{border:none;background:var(--color-primary);color:var(--color-text-inverse);padding:12px 16px;border-radius:999px;font-weight:600;cursor:pointer}
+    .btn.secondary{background:var(--color-surface);color:var(--color-text);border:1px solid var(--color-border)}
+    .grid{display:grid;gap:16px} .kpis{grid-template-columns:repeat(4,minmax(0,1fr))} .two{grid-template-columns:1.35fr .95fr} .three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{background:var(--color-surface);border:1px solid rgba(40,37,29,.12);border-radius:var(--radius-xl);padding:var(--space-5);box-shadow:var(--shadow-sm)}
+    [data-theme="dark"] .card{border-color:rgba(255,255,255,.08)}
+    .kpi-value{font-size:2rem;font-weight:800;letter-spacing:-0.02em}.tag{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--color-surface-offset);font-size:var(--text-xs);color:var(--color-text-muted)}
+    .bar{height:10px;border-radius:999px;background:var(--color-surface-offset);overflow:hidden}.bar > span{display:block;height:100%;background:var(--color-primary);border-radius:999px}
+    table{width:100%;border-collapse:collapse;font-size:var(--text-sm)} th,td{padding:10px 8px;border-bottom:1px solid var(--color-divider);text-align:left;vertical-align:top} th{color:var(--color-text-muted);font-weight:600}
+    .status{padding:4px 8px;border-radius:999px;font-size:12px;font-weight:600;display:inline-block}.ok{background:rgba(67,122,34,.12);color:var(--color-success)}.warn{background:rgba(150,66,25,.12);color:var(--color-warning)}.risk{background:rgba(161,44,123,.12);color:var(--color-error)}
+    .calc label{display:block;font-size:var(--text-sm);margin:10px 0 6px}.calc input,.calc select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--color-border);background:var(--color-surface-2);color:var(--color-text)}
+    .section{margin-bottom:var(--space-6)} .list{display:grid;gap:10px} .list div{padding:12px 14px;border:1px solid var(--color-border);border-radius:12px;background:var(--color-surface-2)}
+    .footer-note{padding:14px 16px;background:var(--color-surface-offset);border-radius:12px;border:1px solid var(--color-border)}
+    @media (max-width: 1100px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--color-border)}.kpis,.two,.three{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" aria-label="IP Ledger logo">
+          <rect x="8" y="10" width="20" height="44" rx="6"></rect>
+          <rect x="36" y="18" width="20" height="36" rx="6"></rect>
+          <path d="M18 22h0M46 30h0"></path>
+        </svg>
+        <div>
+          <div>IP Ledger</div>
+          <div class="tiny">Business + research control plane</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a class="active" href="#overview">Overview</a>
+        <a href="#alignment">Research alignment</a>
+        <a href="#cost">Cost-to-protect</a>
+        <a href="#provisional">Provisional filings</a>
+        <a href="#secrets">Trade secrets</a>
+        <a href="#marks">Trademark rights</a>
+        <a href="#actions">Action plan</a>
+      </nav>
+      <div class="side-note">
+        This dashboard is built around the current evidence picture: a fragmented but real IP estate, a control-plane model already defined, and a need to reconcile counts, ownership, source pointers, and proof status before external reliance.
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar" id="overview">
+        <div>
+          <h1>IP Portfolio Dashboard</h1>
+          <div class="muted">Centralize patents, trademarks, and trade secrets, connect each asset to research and business value, and model 5-year protection cost.</div>
+        </div>
+        <button class="btn secondary" data-theme-toggle>Toggle theme</button>
+      </div>
+
+      <section class="section grid kpis">
+        <div class="card"><div class="tiny">IP assets count in live source tables</div><div class="kpi-value">251</div><div class="small muted">Current highest surfaced total.</div></div>
+        <div class="card"><div class="tiny">Patents surfaced in current brief</div><div class="kpi-value">144</div><div class="small muted">Needs binding to filing status and jurisdictions.</div></div>
+        <div class="card"><div class="tiny">Trademarks surfaced in current brief</div><div class="kpi-value">33</div><div class="small muted">Separate registered vs common-law treatment required.</div></div>
+        <div class="card"><div class="tiny">Evidence state</div><div class="kpi-value">Partial</div><div class="small muted">Discovery saturated; reconciliation next.</div></div>
+      </section>
+
+      <section class="section grid two" id="alignment">
+        <div class="card">
+          <h2>Research ↔ business alignment</h2>
+          <div class="muted small" style="margin-bottom:12px">Use this as the canonical line of sight: every asset should map to a research family, product/commercial path, protection posture, and evidence state.</div>
+          <table>
+            <thead><tr><th>Layer</th><th>What belongs here</th><th>Business meaning</th><th>What to fix</th></tr></thead>
+            <tbody>
+              <tr><td>Patents</td><td>Methods, systems, packaging standards, algorithms, platform mechanics.</td><td>Licensing, defensibility, investor-grade moat.</td><td>Bind each patent to one research stream, one owner, one filing state, one commercial use-case.</td></tr>
+              <tr><td>Trademarks</td><td>Brand, product, program, portal, framework and assessment names.</td><td>Market trust, category control, channel consistency.</td><td>Separate registered marks, filed marks, common-law marks, and names that should be retired.</td></tr>
+              <tr><td>Trade secrets</td><td>Data recipes, scoring logic, prompts, orchestration, workflow configs, partner methods.</td><td>Fast protection without disclosure, especially where patent proof is weak.</td><td>Document access control, secrecy measures, version custody, and employee/contractor obligations.</td></tr>
+              <tr><td>Research outputs</td><td>Papers, protocols, datasets, dashboards, posters, experiment registers.</td><td>Evidence for R&D claims, grant/RDTI support, product credibility.</td><td>Map each output to the IP it supports and its proof status.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2>Portfolio health</h2>
+          <div id="mixChart" style="height:300px"></div>
+          <div class="footer-note small">Current contradiction to manage first: surfaced IP asset counts have varied across sources, while 251 appears in the strongest live-source table reference. Until reconciled, external financial or legal reporting should use “working count” language, not final count.</div>
+        </div>
+      </section>
+
+      <section class="section grid two" id="cost">
+        <div class="card calc">
+          <h2>Cost-to-Protect Model</h2>
+          <div class="muted small">Interactive 5-year estimate for legal, filing, and maintenance cost across a global strategy.</div>
+          <label>Patents to maintain/file</label>
+          <input id="patentCount" type="number" value="144" min="0" />
+          <label>Trademarks to file/maintain</label>
+          <input id="tmCount" type="number" value="33" min="0" />
+          <label>Trade secret programs</label>
+          <input id="tsCount" type="number" value="20" min="0" />
+          <label>Jurisdiction strategy</label>
+          <select id="geo">
+            <option value="1">Core markets only</option>
+            <option value="1.8" selected>Multi-region</option>
+            <option value="2.8">Aggressive global</option>
+          </select>
+          <label>External counsel intensity</label>
+          <select id="counsel">
+            <option value="0.85">Lean</option>
+            <option value="1" selected>Standard</option>
+            <option value="1.35">Heavy</option>
+          </select>
+          <label>Annual enforcement / watching reserve (USD)</label>
+          <input id="reserve" type="number" value="75000" min="0" step="1000" />
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="recalc()">Recalculate</button><span class="tag">Model assumes blended averages, not matter-specific quotes.</span></div>
+        </div>
+        <div class="card">
+          <h2>5-year protection cost</h2>
+          <div id="costChart" style="height:320px"></div>
+          <div class="grid three" style="margin-top:10px">
+            <div><div class="tiny">Patents</div><div id="patCost" class="kpi-value" style="font-size:1.4rem"></div></div>
+            <div><div class="tiny">Trademarks</div><div id="tmCost" class="kpi-value" style="font-size:1.4rem"></div></div>
+            <div><div class="tiny">Trade secrets</div><div id="tsCost" class="kpi-value" style="font-size:1.4rem"></div></div>
+          </div>
+          <div class="footer-note small" style="margin-top:14px">Use this to rank assets into: must protect now, hold and monitor, abandon, or convert to secret/brand protection.</div>
+        </div>
+      </section>
+
+      <section class="section grid two" id="provisional">
+        <div class="card">
+          <h2>Provisional filing analysis</h2>
+          <table>
+            <thead><tr><th>When provisional is good</th><th>When it is bad</th><th>Decision rule</th></tr></thead>
+            <tbody>
+              <tr><td>Research is real but claims are still forming.</td><td>Evidence is weak and filing is mainly for optics.</td><td>File only where a non-provisional path, owner, budget and product thesis already exist.</td></tr>
+              <tr><td>Startup needs an early priority date while validating market fit.</td><td>Team cannot support conversion within 12 months.</td><td>Require a conversion memo by month 9.</td></tr>
+              <tr><td>Disclosure risk is rising through demos, partners or fundraising.</td><td>The secret is better kept confidential than published.</td><td>Run patent vs secret fork before filing.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2>Quick screening logic</h2>
+          <div class="list">
+            <div><strong>Go provisional:</strong> novel, strategically core, disclosure risk rising, conversion budget likely.</div>
+            <div><strong>Delay:</strong> concept exists, but data, inventorship or ownership is still blurry.</div>
+            <div><strong>Do not file:</strong> no product path, no budget, weak novelty, or better kept as a trade secret.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section grid two" id="secrets">
+        <div class="card">
+          <h2>Trade secret steps</h2>
+          <div class="list">
+            <div>1. Identify the secret precisely, what it is, where it lives, who owns it, and why it creates economic value.</div>
+            <div>2. Mark its custody, repositories, access permissions, and every person or vendor with exposure.</div>
+            <div>3. Record secrecy controls: NDAs, employment clauses, contractor terms, least-privilege access, logs, watermarking, segmented storage.</div>
+            <div>4. Maintain version history and evidence of continuous control so the secret can survive discovery and misappropriation disputes.</div>
+            <div>5. Prepare litigation-safe summaries that prove existence and control without disclosing the secret itself unless compelled.</div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Discovery survival checklist</h2>
+          <table>
+            <thead><tr><th>Need</th><th>Minimum proof</th><th>Typical gap</th></tr></thead>
+            <tbody>
+              <tr><td>Existence</td><td>Secret register entry, dates, custodians, business use.</td><td>Only informal references in docs.</td></tr>
+              <tr><td>Secrecy measures</td><td>Access logs, agreements, restricted folders, policy controls.</td><td>No uniform evidence trail.</td></tr>
+              <tr><td>Value</td><td>Linked revenue, cost saving, R&D importance, strategic dependency.</td><td>Not linked to product or budget.</td></tr>
+              <tr><td>Breach readiness</td><td>Playbook for investigation, preservation and injunction support.</td><td>No response protocol.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section grid two" id="marks">
+        <div class="card">
+          <h2>Common law vs registered trademarks</h2>
+          <table>
+            <thead><tr><th>Common law rights</th><th>Registered rights</th></tr></thead>
+            <tbody>
+              <tr><td>Arise from actual market use.</td><td>Arise from formal registration.</td></tr>
+              <tr><td>Usually narrower geographically and harder to prove.</td><td>Usually clearer, stronger, and easier to enforce.</td></tr>
+              <tr><td>Depend on evidence of first use, continuity, and market recognition.</td><td>Depend on prosecution quality, renewal, and class coverage.</td></tr>
+              <tr><td>Useful as an interim shield.</td><td>Better for scaling, fundraising, licensing and disputes.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2>Mark cleanup rules</h2>
+          <div class="list">
+            <div>Keep one canonical brand register with mark, owner, classes, territories, first-use date, filing status, and linked product.</div>
+            <div>Retire duplicate or abandoned names fast; they create false asset inflation.</div>
+            <div>For every active product name, choose one state only: registered, filed, common-law only, or candidate not yet used.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="actions">
+        <div class="card">
+          <h2>Immediate action plan</h2>
+          <table>
+            <thead><tr><th>Priority</th><th>Action</th><th>Owner lane</th><th>Outcome</th></tr></thead>
+            <tbody>
+              <tr><td><span class="status risk">Now</span></td><td>Reconcile the IP count conflict and freeze one working master register.</td><td>Operations + finance + IP counsel</td><td>One defensible portfolio number.</td></tr>
+              <tr><td><span class="status warn">Next</span></td><td>For every patent/trademark/trade secret, add research family, business owner, technical owner, evidence link, and protection state.</td><td>Research ops + product + legal</td><td>True line between research and business.</td></tr>
+              <tr><td><span class="status warn">Next</span></td><td>Stand up the evidence-binding ledger for DIRECT_FILE_FOUND, GENERATED_SOURCE_FOUND, INDEXED_ONLY, SUMMARY_ONLY, and BLOCKED states.</td><td>IP program office</td><td>No more overstatement from generated docs.</td></tr>
+              <tr><td><span class="status ok">Then</span></td><td>Apply the 5-year cost model and rank assets into protect, park, abandon, or convert to trade secret.</td><td>Finance + legal + business leads</td><td>Budget-aligned IP program.</td></tr>
+              <tr><td><span class="status ok">Then</span></td><td>Document trade secrets to litigation grade and clean the trademark register into registered vs common-law buckets.</td><td>Legal + security + HR</td><td>Protection that survives scrutiny.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+<script>
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);drawCharts();});
+})();
+
+function formatUSD(v){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v)}
+
+function recalc(){
+  const p=+document.getElementById('patentCount').value||0;
+  const t=+document.getElementById('tmCount').value||0;
+  const s=+document.getElementById('tsCount').value||0;
+  const g=+document.getElementById('geo').value||1;
+  const c=+document.getElementById('counsel').value||1;
+  const reserve=+document.getElementById('reserve').value||0;
+
+  const patentPer5y=22000*g*c;
+  const tmPer5y=4500*g*c;
+  const tsPer5y=9000*c;
+
+  const patentCost=p*patentPer5y;
+  const tmCost=t*tmPer5y;
+  const tsCost=s*tsPer5y + reserve*5;
+
+  document.getElementById('patCost').textContent=formatUSD(patentCost);
+  document.getElementById('tmCost').textContent=formatUSD(tmCost);
+  document.getElementById('tsCost').textContent=formatUSD(tsCost);
+
+  window.model={patentCost,tmCost,tsCost,reserve};
+  drawCharts();
+}
+
+function drawCharts(){
+  const theme=document.documentElement.getAttribute('data-theme');
+  const text=theme==='dark'?'#cdccca':'#28251d';
+  const paper=theme==='dark'?'#1c1b19':'#f9f8f5';
+  const grid=theme==='dark'?'#393836':'#dcd9d5';
+
+  Plotly.newPlot('mixChart', [{
+    values:[144,33,74],
+    labels:['Patents','Trademarks','Other / secret / unresolved'],
+    type:'pie',
+    hole:.56,
+    marker:{colors:['#01696f','#006494','#d19900']},
+    textinfo:'label+value'
+  }], {
+    margin:{l:10,r:10,t:0,b:0},paper_bgcolor:paper,plot_bgcolor:paper,font:{color:text},showlegend:false
+  }, {displayModeBar:false,responsive:true});
+
+  const m=window.model||{patentCost:0,tmCost:0,tsCost:0,reserve:0};
+  Plotly.newPlot('costChart', [
+    {x:['Patents','Trademarks','Trade secrets'],y:[m.patentCost,m.tmCost,m.tsCost],type:'bar',marker:{color:['#01696f','#006494','#d19900']}}
+  ], {
+    margin:{l:50,r:10,t:10,b:40},paper_bgcolor:paper,plot_bgcolor:paper,font:{color:text},
+    yaxis:{gridcolor:grid,tickprefix:'$'},xaxis:{tickfont:{size:12}}
+  }, {displayModeBar:false,responsive:true});
+}
+recalc();
+</script>
+</body>
+</html>
