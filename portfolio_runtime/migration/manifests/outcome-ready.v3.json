@@ -1,0 +1,96 @@
+{
+  "schema": "t4h.vercel_aws_migration.site_manifest.v3",
+  "site_id": "outcome-ready",
+  "repository": "TML-4PM/outcome-ready",
+  "source_ref": "6464e6161d1da9c3b579da6d35f890bf2fe23ff6",
+  "domain": "outcome-ready.com",
+  "owner": "T4H001 — Troy Latter",
+  "aws": {
+    "account_id": "140548542136",
+    "region": "ap-southeast-2",
+    "bucket": "t4h-recovery-outcome-ready-140548542136"
+  },
+  "routes": [
+    {
+      "path": "/",
+      "classification": "static",
+      "owner": "T4H001 — Troy Latter",
+      "lifecycle": "PROVEN_ON_S3",
+      "evidence": [
+        "scripts/prove-s3-path.sh",
+        "static S3 receipt v3: HTTP 200; 116 files; matching SHA-256"
+      ]
+    },
+    {
+      "path": "/reading-buddy",
+      "classification": "static",
+      "owner": "T4H001 — Troy Latter",
+      "lifecycle": "PROVEN_ON_S3",
+      "evidence": ["Next.js export route table at source_ref"]
+    },
+    {
+      "path": "/api/*",
+      "classification": "dynamic",
+      "owner": "T4H001 — Troy Latter",
+      "lifecycle": "RUNTIME_TARGET_REQUIRED",
+      "reason": "Next.js route handlers cannot execute from S3",
+      "dependency": {
+        "type": "server-runtime",
+        "target": "UNRESOLVED"
+      },
+      "evidence": ["app/api excluded by scripts/prove-s3-path.sh"]
+    },
+    {
+      "path": "/r/[code]",
+      "classification": "dynamic",
+      "owner": "T4H001 — Troy Latter",
+      "lifecycle": "RUNTIME_TARGET_REQUIRED",
+      "reason": "Referral code route is parameterised and not statically enumerated",
+      "dependency": {
+        "type": "data-and-routing-runtime",
+        "target": "UNRESOLVED"
+      },
+      "evidence": ["excluded-routes.txt from the S3 proof"]
+    },
+    {
+      "path": "/cto-in-my-pocket/thanks",
+      "classification": "dynamic",
+      "owner": "T4H001 — Troy Latter",
+      "lifecycle": "RUNTIME_TARGET_REQUIRED",
+      "reason": "Route requires Supabase-backed payment reconciliation",
+      "dependency": {
+        "type": "supabase-and-payment-runtime",
+        "target": "UNRESOLVED"
+      },
+      "evidence": ["S3 proof build failure: supabaseUrl is required"]
+    },
+    {
+      "path": "/cto-in-my-pocket/brief/[id]",
+      "classification": "dynamic",
+      "owner": "T4H001 — Troy Latter",
+      "lifecycle": "RUNTIME_TARGET_REQUIRED",
+      "reason": "Parameterised brief route requires Supabase at runtime",
+      "dependency": {
+        "type": "supabase-runtime",
+        "target": "UNRESOLVED"
+      },
+      "evidence": ["S3 proof build failure: supabaseUrl is required"]
+    }
+  ],
+  "acceptance": {
+    "required_routes": [
+      "/",
+      "/reading-buddy",
+      "/r/[code]",
+      "/cto-in-my-pocket/thanks",
+      "/cto-in-my-pocket/brief/[id]"
+    ],
+    "infrastructure_signoff": "PENDING",
+    "capability_content_signoff": "PENDING"
+  },
+  "rollback": {
+    "retain_previous_runtime": true,
+    "dns_snapshot_required": true,
+    "rollback_test_required": true
+  }
+}
