@@ -1,0 +1,6 @@
+{
+  "identity": ["Theme_ID", "Topic_ID", "Subtopic_ID", "Canonical_Path", "Record_Type", "Lifecycle_Stage", "Status", "Priority"],
+  "research": ["Hypothesis", "Research_Questions", "Variables", "Methods", "Population", "Sample_Size", "Findings", "Evidence_Level", "Confidence", "Limitations"],
+  "value": ["Practical_Implications", "Use_Cases", "Applications", "Products", "Commercialisation", "Policy_Areas", "KPIs", "Outcomes"],
+  "provenance": ["References", "Citations", "DOI", "URLs", "Source", "Owners", "Version", "Updated_Date"]
+}
