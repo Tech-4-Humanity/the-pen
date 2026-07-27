@@ -3,18 +3,21 @@
   "build_status": "PASS",
   "deployment_status": "NOT_DEPLOYED",
   "source": "atlas.json",
-  "source_sha256": "bc0701edf38adc2272d23a3c41a9a3d79558f885a376590ab37f2c0d50bb055c",
+  "source_sha256": "b6e752d05b8557ee1ab7e6413c3b0a565d875ecafbd32a8b06d26433ca7f0c98",
   "counts": {
     "themes": 1,
     "topics": 1,
     "subtopics": 1,
     "evidence": 0,
     "stories": 0,
-    "html_pages": 7
+    "candidates": 0,
+    "html_pages": 11,
+    "relationships": 3
   },
   "warnings": [
     "SUB-0001: no verified findings"
   ],
   "errors": [],
-  "manifest_sha256": "784c9cab28325ad18ca7508c27df80f57da51a2135c741dce50e70c0efa8ae9a"
+  "broken_links": [],
+  "manifest_sha256": "225ec28370f65a395a1a347c265683481c351172ec3cad204e5c0191e85db95e"
 }
