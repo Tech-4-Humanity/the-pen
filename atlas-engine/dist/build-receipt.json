@@ -1,0 +1,20 @@
+{
+  "classification": "PARTIAL",
+  "build_status": "PASS",
+  "deployment_status": "NOT_DEPLOYED",
+  "source": "atlas.json",
+  "source_sha256": "bc0701edf38adc2272d23a3c41a9a3d79558f885a376590ab37f2c0d50bb055c",
+  "counts": {
+    "themes": 1,
+    "topics": 1,
+    "subtopics": 1,
+    "evidence": 0,
+    "stories": 0,
+    "html_pages": 7
+  },
+  "warnings": [
+    "SUB-0001: no verified findings"
+  ],
+  "errors": [],
+  "manifest_sha256": "784c9cab28325ad18ca7508c27df80f57da51a2135c741dce50e70c0efa8ae9a"
+}
