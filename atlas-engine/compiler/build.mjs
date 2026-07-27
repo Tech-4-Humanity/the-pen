@@ -44,8 +44,9 @@ if (errors.length) throw new Error(`Atlas validation failed:\n${errors.join("\n"
 fs.rmSync(out, {recursive: true, force: true});
 fs.mkdirSync(out, {recursive: true});
 fs.cpSync(path.join(root, "styles"), path.join(out, "assets"), {recursive: true});
+if (fs.existsSync(path.join(root, "ip"))) fs.cpSync(path.join(root, "ip"), path.join(out, "ip"), {recursive: true});
 
-const nav = `<nav><a href="/">Atlas</a><a href="/studies/">Evidence</a><a href="/stories/">Stories</a><a href="/pipeline/">Future research</a><a href="/insights/">Insights</a><a href="/analytics/">Analytics</a></nav>`;
+const nav = `<nav><a href="/">Atlas</a><a href="/studies/">Evidence</a><a href="/stories/">Stories</a><a href="/pipeline/">Future research</a><a href="/insights/">Insights</a><a href="/analytics/">Analytics</a><a class="ip-nav" href="/ip/">T4H IP</a></nav>`;
 function shell(title, eyebrow, body) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)} · T4H Atlas</title><link rel="stylesheet" href="/assets/atlas.css"></head><body>${nav}<main><header class="hero"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(title)}</h1></header>${body}</main><footer>Tech4Humanity Research Atlas · governed knowledge objects</footer></body></html>`;
 }
@@ -105,6 +106,7 @@ for (const sub of graph.subtopics) {
   const storySummary = story?.summary || "A governed story slot exists for this subtopic. Narrative content is pending editorial delivery.";
   write(`${base}/story`, shell(storyTitle, `${sub.id} · ${storyStatus}`, `<p class="lede">${esc(storySummary)}</p>${list("Narrative", [story?.narrative].filter(Boolean))}${list("Research connection", [sub.title])}<section><h2>Provenance</h2><p>${esc(story?.source || "Not yet supplied")}</p></section><p><a class="button" href="/${base}/">Return to research brief</a></p>`));
 }
+write("ip", shell("T4H IP", "Intellectual property", `<p class="lede">A separate control surface for understanding, governing and protecting Tech4Humanity intellectual property.</p><div class="metrics"><strong>2</strong> starting tools <strong>1</strong> governed IP section</div><div class="grid">${card("IP catalogue", "What is the IP?", "Every surfaced IP asset in plain language: who it helps, why it matters and its current protection form.", "/ip/what-is-ip.html")}${card("Portfolio control", "IP Portfolio Dashboard", "Research alignment, portfolio health, protection pathways, cost modelling and action priorities.", "/ip/portfolio-dashboard.html")}</div><section><h2>Governance boundary</h2><p>IP objects remain separate from the research taxonomy while retaining links to evidence, products, owners and lifecycle state.</p></section>`));
 write("studies", shell("Evidence register", "Evidence compiler", `<div class="metrics"><strong>${graph.evidence.length}</strong> evidence objects</div><div class="grid">${graph.evidence.map(e => card(e.stance || e.status, e.title || e.id, e.findings || e.source, `/studies/${e.slug || slug(e.id)}/`)).join("") || card("Pending", "No evidence objects loaded", "The compiler is ready; content has not arrived.")}</div>`));
 for (const e of graph.evidence) write(`studies/${e.slug || slug(e.id)}`, shell(e.title || e.id, "Evidence object", `<div class="metrics"><strong>${esc(e.confidence)}</strong> confidence <strong>${esc(e.stance || e.status)}</strong> stance</div>${list("Hypothesis", [e.hypothesis].filter(Boolean))}${list("Population", [e.population, e.sample, e.country].filter(Boolean))}${list("Methods", [e.method].filter(Boolean))}${list("Variables", Array.isArray(e.variables) ? e.variables : [e.variables].filter(Boolean))}${list("Findings", [e.findings].filter(Boolean))}${list("Limitations", [e.limitations].filter(Boolean))}${list("Implications", [e.implications].filter(Boolean))}<section><h2>Provenance</h2><p>${esc(e.source)}</p></section>`));
 const storyCards = graph.subtopics.map(sub => { const story = graph.stories.find(s => (s.subtopic_ids || []).includes(sub.id)); const topic = graph.topics.find(t => t.id === sub.topic_id); const theme = graph.themes.find(t => t.id === sub.theme_id); return card(story?.status || "Pending", story?.title || `${sub.title}: Human Story`, story?.summary || "Governed story slot awaiting editorial content.", `/themes/${theme.slug}/topics/${topic.slug}/${sub.slug}/story/`); });
@@ -141,7 +143,7 @@ const receipt = {
   deployment_status: "NOT_DEPLOYED",
   source: path.basename(inputPath),
   source_sha256: crypto.createHash("sha256").update(source).digest("hex"),
-  counts: {themes:graph.themes.length, topics:graph.topics.length, subtopics:graph.subtopics.length, evidence:graph.evidence.length, stories:graph.stories.length, story_slots:graph.subtopics.length, candidates:graph.candidates.length, html_pages:htmlFiles.length, relationships:relationships.length},
+  counts: {themes:graph.themes.length, topics:graph.topics.length, subtopics:graph.subtopics.length, evidence:graph.evidence.length, stories:graph.stories.length, story_slots:graph.subtopics.length, ip_pages:3, candidates:graph.candidates.length, html_pages:htmlFiles.length, relationships:relationships.length},
   warnings, errors, broken_links:brokenLinks, manifest_sha256: crypto.createHash("sha256").update(JSON.stringify(manifest)).digest("hex")
 };
 fs.writeFileSync(path.join(out, "build-receipt.json"), JSON.stringify(receipt, null, 2));
