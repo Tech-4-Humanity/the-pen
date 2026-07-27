@@ -36,3 +36,16 @@ The normalizer accepts `.xlsx`, `.csv` and workbook-shaped `.json`, reads all
 matching sheets, preserves supplied identifiers and blocks unresolved or
 duplicate relationships. It emits the canonical graph and a source-hashed
 normalization receipt before rendering begins.
+
+## Governed host fallback
+
+If GitHub-hosted runners are unavailable, the identical gate can run on a
+governed host:
+
+```bash
+ATLAS_WORKBOOK=/path/to/workbook.xlsx npm run ci:atlas
+```
+
+It emits runtime metadata, test/normalization/build logs, canonical JSON, the
+complete static output, `SHA256SUMS` and `final-receipt.json` under
+`receipts/<run-id>/`.
