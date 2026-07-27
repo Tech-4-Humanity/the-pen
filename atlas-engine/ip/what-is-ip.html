@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>What is the IP?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--offset:#f0ede8;--border:rgba(40,37,29,.11);--divider:#dcd9d5;
+  --text:#28251d;--muted:#6a6860;--faint:#aaa89f;--inv:#f9f8f4;
+  --primary:#01696f;--ph:#0c4e54;--success:#437a22;--warn:#964219;--error:#a12c7b;--blue:#006494;--gold:#d19900;--purple:#7a39bb;
+  --r:0.75rem;--rl:1rem;--rx:1.25rem;--sh:0 2px 8px rgba(0,0,0,.06);--shh:0 8px 28px rgba(0,0,0,.10);
+  --font:'Inter',sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--offset:#222120;--border:rgba(255,255,255,.08);--divider:#2e2d2b;
+  --text:#cdccca;--muted:#9a9895;--faint:#5a5957;--inv:#2b2a28;
+  --primary:#4f98a3;--ph:#227f8b;--success:#6daa45;--warn:#bb653b;--error:#d163a7;--blue:#5591c7;--gold:#e8af34;--purple:#a86fdf;
+  --sh:0 2px 8px rgba(0,0,0,.2);--shh:0 8px 28px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.55;font-size:16px}
+header{padding:28px 32px 0;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+h1{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:800;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:.95rem;margin-top:6px;max-width:580px}
+.btn{border:none;padding:10px 16px;border-radius:999px;cursor:pointer;font-size:.85rem;font-weight:600;background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.btn.active,.btn:hover{background:var(--primary);color:var(--inv);border-color:var(--primary)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding:20px 32px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:20px 32px 48px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rx);box-shadow:var(--sh);cursor:pointer;transition:box-shadow .2s,transform .15s;overflow:hidden}
+.card:hover{box-shadow:var(--shh);transform:translateY(-2px)}
+.card-head{padding:20px 20px 16px;display:flex;gap:14px;align-items:flex-start}
+.icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.card-title{font-weight:700;font-size:1rem;line-height:1.25}
+.card-tagline{font-size:.82rem;color:var(--muted);margin-top:4px}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:600;margin-top:6px}
+.card-body{padding:0 20px 0;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .2s}
+.card.open .card-body{max-height:600px;padding-bottom:18px}
+.card-body p{font-size:.88rem;color:var(--text);line-height:1.6;margin-bottom:10px}
+.card-body .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.tag{padding:4px 8px;border-radius:6px;font-size:.75rem;background:var(--offset);color:var(--muted)}
+.divider{height:1px;background:var(--divider);margin:10px 0}
+.value-line{font-size:.82rem;display:flex;gap:8px;margin-bottom:5px;align-items:flex-start}
+.value-line span:first-child{font-weight:600;color:var(--muted);flex-shrink:0;width:90px}
+.togglebar{display:flex;align-items:center;justify-content:space-between;padding:0 20px 14px}
+.arrow{font-size:.75rem;color:var(--faint);transition:transform .3s}
+.card.open .arrow{transform:rotate(180deg)}
+.group-label{grid-column:1/-1;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);padding:8px 0 2px}
+footer{text-align:center;padding:16px;font-size:.78rem;color:var(--faint)}
+@media(max-width:600px){.grid{padding:16px}.filters{padding:12px 16px}header{padding:20px 16px 0}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>What is the IP — and why does it matter?</h1>
+    <div class="sub">Every piece of IP in plain language. What it does, who it helps, why it is valuable. Click any card to expand.</div>
+  </div>
+  <button class="btn" onclick="toggleTheme()">Toggle theme</button>
+</header>
+<div class="filters" id="filters"></div>
+<div class="grid" id="grid"></div>
+<footer>Source: IP audit, RDTI generator, research ledger — May 2026</footer>
+
+<script>
+const GROUPS = [
+  {
+    id:"human",label:"🧠 Human performance & AI fit",
+    color:"#01696f",bg:"rgba(1,105,111,.13)",pill:"Core science",
+    items:[
+      {
+        icon:"🎯",name:"AI Sweet Spots",
+        tagline:"Finds the exact level of AI involvement that helps — not harms — each person.",
+        user:"A worker, student, or professional.",
+        world:"Different brains work better with different amounts of AI. Too little: underperformance. Too much: cognitive debt and dependence.",
+        value:"Prevents the blanket rollout of AI that works for some and quietly damages others. Backed by N=11,241 data points.",
+        why:"No one has mapped human–AI fit at this level of precision across neurotypes. This is the core discovery.",
+        form:"Patent candidate + licensable scoring method",tags:["N=11,241","Neurotype","AI dosage"]
+      },
+      {
+        icon:"📊",name:"BRS — Bioreadiness Score",
+        tagline:"A score that tells you how ready a person's brain and body are to engage with AI right now.",
+        user:"Employers, health systems, performance coaches.",
+        world:"Readiness isn't fixed. Stress, sleep, drugs, state — all shift it. BRS captures that in real time.",
+        value:"Turns abstract 'wellbeing' into a measurable, actionable signal for AI deployment decisions.",
+        why:"No existing HR or health tool links biological state to AI task suitability.",
+        form:"Patent candidate + trade secret algorithm",tags:["Signal","Real-time","Biomarker"]
+      },
+      {
+        icon:"🔁",name:"GAIN Framework",
+        tagline:"A 3D model explaining how drugs, context, and neurotype combine to shift AI sweet spots.",
+        user:"Clinicians, researchers, policy makers, harm-reduction practitioners.",
+        world:"People use substances. AI use is growing. Nobody has mapped what happens at the intersection — until now.",
+        value:"71 documented pathways. Clinically and ethically significant. First framework of its kind.",
+        why:"Governments, insurers, and employers will need this as AI enters healthcare and the workplace.",
+        form:"Patent candidate + research paper",tags:["71 pathways","N=44","Drug-AI-neuro"]
+      },
+      {
+        icon:"🧩",name:"SweetSpot Score",
+        tagline:"A 15-question assessment that profiles a person's AI fit score across dimensions.",
+        user:"Anyone being assessed for AI-enabled work or learning.",
+        world:"Gives individuals and organisations a quick, structured read on human–AI compatibility.",
+        value:"Deployable at scale. Already live in assessment format.",
+        why:"Foundation for all profiling, coaching, and matching products built on top.",
+        form:"Trade secret schema + licensable assessment",tags:["15 questions","Assessment","Live"]
+      }
+    ]
+  },
+  {
+    id:"neuro",label:"🔬 Neurotechnology & signal",
+    color:"#006494",bg:"rgba(0,100,148,.13)",pill:"Deep tech",
+    items:[
+      {
+        icon:"📡",name:"NEUROPAK",
+        tagline:"A packaging standard for neurotechnology — how neurotech products are built, validated, and deployed safely.",
+        user:"Neurotech companies, regulators, procurement teams.",
+        world:"Neurotech is exploding but has no common standard for safety, labelling, or interoperability.",
+        value:"Whoever defines the standard controls the category. This is a standards play.",
+        why:"Regulatory frameworks globally are being written now. First-mover advantage is real.",
+        form:"Patent candidate + standards document",tags:["Standards","Neurotech","R10"]
+      },
+      {
+        icon:"🧬",name:"Signal Economy / BCI Signal",
+        tagline:"A framework for how brain-computer interface signals are captured, valued, and exchanged.",
+        user:"BCI developers, data brokers, health platforms, individuals owning their own neural data.",
+        world:"BCI data will be the most personal data that exists. No one has a fair exchange model for it yet.",
+        value:"Defines the rules of a multi-billion-dollar emerging market before it forms.",
+        why:"Neural data rights will be the privacy battleground of the 2030s.",
+        form:"Patent candidate + policy framework",tags:["BCI","Data rights","R05"]
+      },
+      {
+        icon:"🏥",name:"Biometric Insurance (R04)",
+        tagline:"Using biometric and neurotech data to personalise insurance risk models.",
+        user:"Insurers, health funds, actuaries.",
+        world:"Insurance is still based on demographics. Biometric data could make it far more accurate and fair — or far more discriminatory.",
+        value:"Enormous commercial value if ethically anchored. This IP includes the ethical anchoring.",
+        why:"Whoever cracks ethical biometric insurance gets a massive market advantage.",
+        form:"Patent candidate + simulation models",tags:["Insurance","Biometric","R04"]
+      },
+      {
+        icon:"🌐",name:"GC-BAT — Global Cognitive Benchmark",
+        tagline:"A 665,000-item benchmark corpus for measuring cognitive performance across populations.",
+        user:"Researchers, AI developers, education systems, employers.",
+        world:"AI benchmarks exist for machines. Nothing comparable exists for human cognition across diverse populations.",
+        value:"The largest claimed corpus of its kind. Dataset this size has significant licensing and research value.",
+        why:"Sets the standard for what human cognitive performance looks like — globally.",
+        form:"Trade secret corpus + licensable dataset",tags:["665k items","Benchmark","Dataset"]
+      }
+    ]
+  },
+  {
+    id:"platform",label:"⚙️ Platforms & infrastructure",
+    color:"#7a39bb",bg:"rgba(122,57,187,.13)",pill:"Deployed",
+    items:[
+      {
+        icon:"🏗️",name:"MAAT — Money & asset platform",
+        tagline:"A full financial and reporting platform purpose-built for the T4H business.",
+        user:"Internal finance, accountants, ATO.",
+        world:"Generic accounting tools don't handle R&D spend, IP tracking, and RDTI compliance together.",
+        value:"Repo-backed, deployed, live. Processes 6,038 transactions. Directly supports the $929K RDTI claim.",
+        why:"Custom infrastructure that is hard to replicate is a trade secret and a competitive moat.",
+        form:"Trade secret + deployed platform",tags:["Live","6,038 transactions","RDTI"]
+      },
+      {
+        icon:"🌉",name:"Bridge / BridgeRunner",
+        tagline:"The middleware layer connecting agents, data sources, clients, and services.",
+        user:"Internal teams, external clients, data partners.",
+        world:"Orchestrating AI agents across real enterprise systems is a genuinely hard problem.",
+        value:"20 registered bridge capabilities. Already handling intake, reporting, and data flows.",
+        why:"This is the engine underneath everything else. Hard to reverse-engineer, easy to license.",
+        form:"Trade secret + patent candidate",tags:["Middleware","20 capabilities","Agent"]
+      },
+      {
+        icon:"🖥️",name:"MCP Command Centre",
+        tagline:"The operational hub: monitors all deployments, IP, research, agents, and RDTI in one place.",
+        user:"Leadership, finance, compliance, research teams.",
+        world:"Complex organisations running AI at scale have no unified control surface. This is one.",
+        value:"Live, deployed on Vercel. Generates RDTI docs, tracks IP, surfaces security debt in real time.",
+        why:"A live command centre is a product. This one runs a real business and can be licensed.",
+        form:"Trade secret + product candidate",tags:["Live","RDTI generator","Multi-agent"]
+      },
+      {
+        icon:"🔬",name:"Research Hub / ResearchOS",
+        tagline:"A searchable, interactive front-end for all research — 32 experiments, 9 themes, live assessments.",
+        user:"Researchers, partners, funders, public.",
+        world:"Research locked in documents does nothing. A live, navigable research OS makes it usable and credible.",
+        value:"Already deployed. Contains participant data, assessment tools, and evidence-bound experiment records.",
+        why:"The research hub turns outputs into a product and an evidence trail simultaneously.",
+        form:"Trade secret + product",tags:["32 experiments","Live","Vercel"]
+      }
+    ]
+  },
+  {
+    id:"governance",label:"⚖️ Governance & ethics",
+    color:"#964219",bg:"rgba(150,66,25,.13)",pill:"Protective IP",
+    items:[
+      {
+        icon:"🤝",name:"CARE Protocol",
+        tagline:"A community-led AI governance protocol: Benefit, Authority, Responsibility, Ethics.",
+        user:"Indigenous communities, CSOs, governments, AI developers.",
+        world:"AI is being deployed in communities without their consent or governance. CARE is the counter-framework.",
+        value:"Prevents capture. Gives communities sovereignty over AI that affects them.",
+        why:"Increasingly required by funders, regulators, and ethical AI standards bodies globally.",
+        form:"Published protocol + trademark candidate",tags:["Indigenous","CSO","Governance"]
+      },
+      {
+        icon:"📋",name:"AI Intensity Conformance Checklist",
+        tagline:"A structured checklist that determines whether an AI deployment meets safe intensity thresholds.",
+        user:"Employers, regulators, AI safety teams.",
+        world:"AI intensity is not regulated. This checklist provides a framework before the rules catch up.",
+        value:"Operationalises the AI Sweet Spots research into a compliance tool.",
+        why:"Regulation is coming. The tools that define the pre-regulatory standard often become the standard.",
+        form:"Trade secret method + product",tags:["Compliance","Safety","Checklist"]
+      },
+      {
+        icon:"🏢",name:"CSO Governance Index",
+        tagline:"An index scoring how well civil society organisations govern AI within their operations.",
+        user:"CSOs, funders, governments, peak bodies.",
+        world:"CSOs are adopting AI without governance frameworks. This index benchmarks them.",
+        value:"Creates an accountability layer for the sector. Positions T4H as the authority.",
+        why:"Funder requirements around AI governance are tightening globally.",
+        form:"Research output + product candidate",tags:["CSO","Index","V0.2"]
+      },
+      {
+        icon:"🔏",name:"ConsentX",
+        tagline:"A 47-requirement consent and data sovereignty framework for AI and neurotech contexts.",
+        user:"Ethics boards, data controllers, neurotech companies, patients.",
+        world:"Standard consent processes don't account for AI inference, neural data, or algorithmic profiling.",
+        value:"47 requirements across data capture, use, inference, storage, and withdrawal.",
+        why:"Consent is the legal foundation of all personal data use. A neurotech-specific model is a gap no one has filled.",
+        form:"Framework + patent candidate",tags:["Consent","47 requirements","Neurotech"]
+      }
+    ]
+  },
+  {
+    id:"product",label:"🚀 Products & commercial",
+    color:"#d19900",bg:"rgba(209,153,0,.13)",pill:"Revenue path",
+    items:[
+      {
+        icon:"👨‍👩‍👧",name:"Work Family AI",
+        tagline:"A platform helping families navigate AI's impact on work, relationships, and children.",
+        user:"Parents, employers, schools, family support services.",
+        world:"AI is reshaping family dynamics and children's development. No product addresses this holistically.",
+        value:"Live at workfamilyai.org. N=32,000 simulated profiles. Social skills assessment deployed.",
+        why:"Mass-market product sitting on top of proprietary research and profiling infrastructure.",
+        form:"Brand + product + licensable assessment",tags:["Live","N=32k","Family"]
+      },
+      {
+        icon:"📖",name:"Reading Buddy / Thriving Kids",
+        tagline:"An AI reading support tool for children, adult-controlled and ethically anchored.",
+        user:"Children, parents, schools, literacy programs.",
+        world:"AI tutoring for kids is growing fast and mostly unregulated. This is the safe, evidence-based version.",
+        value:"Addresses the largest underserved market in EdTech: neurodiverse and struggling readers.",
+        why:"First-mover in ethical, adult-controlled AI literacy for kids has massive social and commercial value.",
+        form:"Product candidate + patent method",tags:["EdTech","Kids","Ethics"]
+      },
+      {
+        icon:"🎙️",name:"Doolittles",
+        tagline:"A speech and communication service catalogue — sellable, packaged, and canonical.",
+        user:"Communication-impaired individuals, clinicians, enterprises.",
+        world:"Speech AI is commoditising fast. A specialised, ethical, neurodiverse-aware layer has a clear market.",
+        value:"Canonical sellable service pack confirmed. Moves Doolittles from a runtime to a product.",
+        why:"Monetisation path that does not require external fundraising to activate.",
+        form:"Trade secret methods + product",tags:["Speech","Service pack","Canonical"]
+      },
+      {
+        icon:"🌊",name:"HoloOrg",
+        tagline:"An organisational coherence model — how organisations maintain identity and function as AI scales.",
+        user:"Executives, organisational designers, HR leaders.",
+        world:"AI is dissolving traditional org structures. HoloOrg provides the theory and the measurement tool.",
+        value:"Coherence metrics deployed. High consulting and advisory licensing value.",
+        why:"Every large organisation undergoing AI transformation needs this framing.",
+        form:"Framework + patent candidate",tags:["Org design","Coherence","Enterprise"]
+      },
+      {
+        icon:"🦁",name:"Far Cage / RATPAK",
+        tagline:"Advanced neurotech and AI-environment architectures for high-performance contexts.",
+        user:"Defence, elite sport, extreme-environment operators.",
+        world:"Performance in high-stakes environments is increasingly AI-augmented. Far Cage defines the architecture.",
+        value:"FN-001 references confirmed. High-value niche with defence and sports licensing potential.",
+        why:"Niche markets pay premium for domain-specific IP. This one has minimal competition.",
+        form:"Patent candidate + trade secret",tags:["Defence","Performance","R11"]
+      }
+    ]
+  }
+];
+
+const grid = document.getElementById('grid');
+const filtersEl = document.getElementById('filters');
+let activeFilter = 'all';
+
+function renderFilters(){
+  filtersEl.innerHTML = '';
+  const all = document.createElement('button');
+  all.className = 'btn' + (activeFilter==='all'?' active':'');
+  all.textContent = 'All';
+  all.onclick = ()=>{ activeFilter='all'; render(); renderFilters(); };
+  filtersEl.appendChild(all);
+  GROUPS.forEach(g=>{
+    const b = document.createElement('button');
+    b.className = 'btn' + (activeFilter===g.id?' active':'');
+    b.textContent = g.label;
+    b.onclick = ()=>{ activeFilter=g.id; render(); renderFilters(); };
+    filtersEl.appendChild(b);
+  });
+}
+
+function render(){
+  grid.innerHTML = '';
+  const groups = activeFilter==='all' ? GROUPS : GROUPS.filter(g=>g.id===activeFilter);
+  groups.forEach(g=>{
+    const label = document.createElement('div');
+    label.className = 'group-label';
+    label.textContent = g.label;
+    grid.appendChild(label);
+    g.items.forEach(item=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-head">
+          <div class="icon" style="background:${g.bg};color:${g.color}">${item.icon}</div>
+          <div>
+            <div class="card-title">${item.name}</div>
+            <div class="card-tagline">${item.tagline}</div>
+            <span class="pill" style="background:${g.bg};color:${g.color}">${item.form}</span>
+          </div>
+        </div>
+        <div class="togglebar">
+          <span style="font-size:.78rem;color:var(--muted)">Tap for who it helps &amp; why it matters</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="value-line"><span>For</span><span>${item.user}</span></div>
+          <div class="value-line"><span>The problem</span><span>${item.world}</span></div>
+          <div class="value-line"><span>The value</span><span>${item.value}</span></div>
+          <div class="value-line"><span>Why unique</span><span>${item.why}</span></div>
+          <div class="divider"></div>
+          <div class="row">${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>`;
+      card.onclick = ()=>{ card.classList.toggle('open'); };
+      grid.appendChild(card);
+    });
+  });
+}
+
+renderFilters();
+render();
+
+function toggleTheme(){
+  const h = document.documentElement;
+  h.setAttribute('data-theme', h.getAttribute('data-theme')==='dark'?'light':'dark');
+}
+</script>
+</body>
+</html>
