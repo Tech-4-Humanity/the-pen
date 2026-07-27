@@ -1,0 +1,150 @@
+{
+  "evidence": {
+    "title": "Evidence",
+    "eyebrow": "Evidence compiler",
+    "kind": "evidence",
+    "description": "Evidence objects attached to research claims.",
+    "fields": [],
+    "filters": [
+      "theme",
+      "topic",
+      "subtopic",
+      "confidence",
+      "status"
+    ]
+  },
+  "stories": {
+    "title": "Human Stories",
+    "eyebrow": "Story layer",
+    "kind": "story",
+    "description": "A governed human-story slice for every Subtopic.",
+    "fields": [],
+    "filters": [
+      "theme",
+      "topic",
+      "subtopic",
+      "status"
+    ]
+  },
+  "hypotheses": {
+    "title": "Research Hypotheses",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Hypotheses extracted from canonical Subtopic objects.",
+    "fields": [
+      "hypothesis"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  },
+  "findings": {
+    "title": "Research Findings",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Verified and emerging findings across the Atlas.",
+    "fields": [
+      "findings"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  },
+  "outcomes": {
+    "title": "Research Outcomes",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Measured and reported outcomes attached to Subtopics.",
+    "fields": [
+      "outcomes"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  },
+  "problems-solved": {
+    "title": "Problems Solved",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Problems for which research has produced a supported response.",
+    "fields": [
+      "problems_solved"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  },
+  "applications": {
+    "title": "Applications",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Practical applications and implications drawn from research.",
+    "fields": [
+      "applications",
+      "practical_implications"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  },
+  "opportunities": {
+    "title": "Commercial Opportunities",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Commercial pathways attached to research intelligence.",
+    "fields": [
+      "commercial_opportunities"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  },
+  "policy": {
+    "title": "Policy Implications",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Policy implications surfaced across Themes and Topics.",
+    "fields": [
+      "policy_implications"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  },
+  "gaps": {
+    "title": "Research Gaps",
+    "eyebrow": "Cross-Atlas view",
+    "kind": "subtopic",
+    "description": "Known unknowns and evidence gaps requiring future work.",
+    "fields": [
+      "research_gaps"
+    ],
+    "filters": [
+      "theme",
+      "topic",
+      "confidence",
+      "status"
+    ]
+  }
+}
