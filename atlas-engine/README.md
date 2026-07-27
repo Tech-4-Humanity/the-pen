@@ -1,0 +1,21 @@
+# Tech4Humanity Atlas Engine
+
+Executable static research-knowledge compiler. Structured objects own content; renderers create projections.
+
+## Build
+
+```bash
+npm test
+npm run build
+```
+
+The build writes an S3-ready site to `dist/` and an auditable receipt to
+`dist/build-receipt.json`. The included fixture proves the Theme 1 vertical
+slice without presenting seeded material as validated evidence.
+
+## Workbook contract
+
+The canonical workbook remains the editorial ledger. Its normalized export
+must supply stable Theme, Topic, Subtopic, Evidence and Story objects. Missing
+editorial content is reported as a warning and rendered as visibly incomplete;
+it is never fabricated.
