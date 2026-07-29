@@ -16,10 +16,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Compile controller
-        run: python3 -m py_compile portfolio_runtime/migration/vercel-estate-to-aws-v3.py
+      - name: Compile controllers
+        run: |
+          python3 -m py_compile portfolio_runtime/migration/vercel-estate-to-aws-v3.py
+          python3 -m py_compile portfolio_runtime/migration/inventory-next-runtime.py
       - name: Run unit tests
-        run: python3 -m unittest portfolio_runtime/migration/tests/test_vercel_estate_to_aws_v3.py
+        run: |
+          python3 -m unittest portfolio_runtime/migration/tests/test_vercel_estate_to_aws_v3.py
+          python3 -m unittest portfolio_runtime/migration/tests/test_inventory_next_runtime.py
       - name: Plan Outcome Ready
         run: |
           rm -rf /tmp/outcome-ready-migration-v3
