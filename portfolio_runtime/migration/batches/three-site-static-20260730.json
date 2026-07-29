@@ -1,0 +1,59 @@
+{
+  "schema": "t4h.portfolio.aws-migration.batch.v1",
+  "batch_id": "three-site-static-20260730",
+  "account_id": "140548542136",
+  "region": "ap-southeast-2",
+  "classification": "PARTIAL",
+  "sites": [
+    {
+      "site_id": "augmented-humanity-coach",
+      "domain": "augmentedhumanity.coach",
+      "repository": "TML-4PM/augmented-humanity-coach",
+      "branch": "main",
+      "build_type": "vite_spa",
+      "build_command": "npm run build",
+      "output_directory": "dist",
+      "target_bucket": "t4h-augmented-humanity-coach-140548542136",
+      "route_fallback": "/index.html",
+      "runtime_classification": "STATIC_CANDIDATE_PENDING_BUILD_AND_ROUTE_INVENTORY"
+    },
+    {
+      "site_id": "holo-org",
+      "domain": "holo-org.com",
+      "repository": "TML-4PM/holo-org",
+      "branch": "main",
+      "build_type": "vite_spa",
+      "build_command": "npm run build",
+      "output_directory": "dist",
+      "target_bucket": "t4h-holo-org-140548542136",
+      "route_fallback": "/index.html",
+      "runtime_classification": "STATIC_CANDIDATE_PENDING_BUILD_AND_ROUTE_INVENTORY"
+    },
+    {
+      "site_id": "workfamilyai",
+      "domain": "workfamilyai.org",
+      "repository": "TML-4PM/workfamilyai",
+      "branch": "main",
+      "build_type": "static_html",
+      "build_command": null,
+      "output_directory": ".",
+      "target_bucket": "t4h-workfamilyai-140548542136",
+      "route_fallback": "/index.html",
+      "runtime_classification": "STATIC_CANDIDATE_PENDING_ASSET_AND_LINK_INVENTORY"
+    }
+  ],
+  "gates": [
+    "source_refresh",
+    "build",
+    "route_inventory",
+    "s3_publish",
+    "s3_readback",
+    "cloudfront_precutover",
+    "acm",
+    "alias_https_validation",
+    "approved_route53_cutover",
+    "live_https_validation",
+    "rollback_window",
+    "final_receipt"
+  ]
+}
