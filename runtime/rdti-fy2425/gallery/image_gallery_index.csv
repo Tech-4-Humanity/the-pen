@@ -1,0 +1,9 @@
+image_id,title,online_url,study_or_component,depicts,capture_or_creation_date,captured_at_utc,creator,rights_status,original_file_uri,thumbnail_uri,sha256,caption,evidence_role,exhibit_id,review_status,classification,notes
+IMG-001,[GALLERY IMAGE - PLACEHOLDER],,CA1,,,,,UNKNOWN,,,,,[architecture|experiment|runtime|result|chronology],,PENDING,BLOCKED,
+IMG-002,[GALLERY IMAGE - PLACEHOLDER],,Control plane,,,,,UNKNOWN,,,,,technical_exhibit,,PENDING,BLOCKED,
+IMG-003,[GALLERY IMAGE - PLACEHOLDER],,Receipt/evidence chain,,,,,UNKNOWN,,,,,technical_exhibit,,PENDING,BLOCKED,
+IMG-004,[GALLERY IMAGE - PLACEHOLDER],,Registry/cap_store,,,,,UNKNOWN,,,,,technical_exhibit,,PENDING,BLOCKED,
+IMG-005,[GALLERY IMAGE - PLACEHOLDER],,Bridge planes/agent coordination,,,,,UNKNOWN,,,,,technical_exhibit,,PENDING,BLOCKED,
+IMG-006,[GALLERY IMAGE - PLACEHOLDER],,Recovery mechanisms,,,,,UNKNOWN,,,,,technical_exhibit,,PENDING,BLOCKED,
+IMG-007,[ADDITIONAL IMAGE],,,,,,,UNKNOWN,,,,,unclassified,,PENDING,BLOCKED,
+IMG-008,[ADDITIONAL IMAGE],,,,,,,UNKNOWN,,,,,unclassified,,PENDING,BLOCKED,
