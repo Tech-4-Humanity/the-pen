@@ -1,0 +1,9 @@
+research_id,study_or_component,title,url,online_owner,published_or_created_at,captured_at_utc,immutable_capture_uri,sha256,relevance_to_ca1,evidence_role,contemporaneous_status,rights_status,review_status,classification,notes
+RES-001,CA1,[ONLINE MAIN RESEARCH - PLACEHOLDER],,,,,,,,[prior_art|technical_uncertainty|hypothesis|experiment|observation|conclusion],UNKNOWN,UNKNOWN,PENDING,BLOCKED,
+RES-002,Control plane,[ONLINE RESEARCH - PLACEHOLDER],,,,,,,,technical_evidence,UNKNOWN,UNKNOWN,PENDING,BLOCKED,
+RES-003,Receipt/evidence chain,[ONLINE RESEARCH - PLACEHOLDER],,,,,,,,technical_evidence,UNKNOWN,UNKNOWN,PENDING,BLOCKED,
+RES-004,Registry/cap_store,[ONLINE RESEARCH - PLACEHOLDER],,,,,,,,technical_evidence,UNKNOWN,UNKNOWN,PENDING,BLOCKED,
+RES-005,Bridge planes/agent coordination,[ONLINE RESEARCH - PLACEHOLDER],,,,,,,,technical_evidence,UNKNOWN,UNKNOWN,PENDING,BLOCKED,
+RES-006,Recovery mechanisms,[ONLINE RESEARCH - PLACEHOLDER],,,,,,,,technical_evidence,UNKNOWN,UNKNOWN,PENDING,BLOCKED,
+RES-007,[ADDITIONAL STUDY],[PLACEHOLDER],,,,,,,,unclassified,UNKNOWN,UNKNOWN,PENDING,BLOCKED,
+RES-008,[ADDITIONAL STUDY],[PLACEHOLDER],,,,,,,,unclassified,UNKNOWN,UNKNOWN,PENDING,BLOCKED,
