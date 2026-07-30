@@ -1,0 +1,365 @@
+{
+  "schema_version": "routineops.seed.v1",
+  "classification": "PARTIAL",
+  "reason": "Seed data only. Not REAL until loaded into a ledger and exercised by runtime telemetry.",
+  "routines": [
+    {
+      "id": "morning_launch",
+      "display_name": "Morning Launch",
+      "domain": "family",
+      "intent": "leave home prepared",
+      "risk_level": "low",
+      "verification_rule": { "method": "checklist_completion", "confidence": 0.7 },
+      "fallback_rule": { "method": "manual_confirm" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Bag, bottle, lunch, homework", "required": true },
+        { "order": 2, "type": "timer", "label": "Ten-minute launch timer", "payload": { "minutes": 10 }, "required": false },
+        { "order": 3, "type": "points", "label": "Award launch points", "payload": { "value": 10 }, "required": false }
+      ]
+    },
+    {
+      "id": "bedtime_winddown",
+      "display_name": "Bedtime Wind-down",
+      "domain": "family",
+      "intent": "reduce bedtime friction",
+      "risk_level": "low",
+      "verification_rule": { "method": "checklist_completion", "confidence": 0.7 },
+      "fallback_rule": { "method": "manual_confirm" },
+      "steps": [
+        { "order": 1, "type": "speak", "label": "Start bedtime mission", "payload": { "text": "Bedtime wind-down started." }, "required": false },
+        { "order": 2, "type": "checklist", "label": "Teeth, PJs, bag packed", "required": true },
+        { "order": 3, "type": "log", "label": "Record bedtime start", "required": true }
+      ]
+    },
+    {
+      "id": "homework_start",
+      "display_name": "Homework Start",
+      "domain": "family",
+      "intent": "support task activation",
+      "risk_level": "low",
+      "verification_rule": { "method": "start_and_duration", "minimum_minutes": 10 },
+      "fallback_rule": { "method": "parent_prompt" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Desk clear, device ready, first task chosen", "required": true },
+        { "order": 2, "type": "timer", "label": "Focus sprint", "payload": { "minutes": 15 }, "required": false },
+        { "order": 3, "type": "log", "label": "Record homework start", "required": true }
+      ]
+    },
+    {
+      "id": "screen_time_transition",
+      "display_name": "Screen-Time Transition",
+      "domain": "family",
+      "intent": "reduce conflict when changing activity",
+      "risk_level": "low",
+      "verification_rule": { "method": "manual_confirm" },
+      "fallback_rule": { "method": "cooldown_prompt" },
+      "steps": [
+        { "order": 1, "type": "speak", "label": "Five-minute warning", "required": false },
+        { "order": 2, "type": "timer", "label": "Transition timer", "payload": { "minutes": 5 }, "required": false },
+        { "order": 3, "type": "choice", "label": "Choose next activity", "payload": { "options": ["outside", "reading", "dinner", "quiet time"] }, "required": true }
+      ]
+    },
+    {
+      "id": "leave_house_check",
+      "display_name": "Leaving House Check",
+      "domain": "family",
+      "intent": "prevent forgotten items",
+      "risk_level": "low",
+      "verification_rule": { "method": "checklist_completion" },
+      "fallback_rule": { "method": "parent_alert" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Keys, wallet, phone, bag, water", "required": true },
+        { "order": 2, "type": "log", "label": "Record departure readiness", "required": true }
+      ]
+    },
+    {
+      "id": "reading_buddy_start",
+      "display_name": "Reading Buddy Start",
+      "domain": "family",
+      "intent": "start reading with low friction",
+      "risk_level": "low",
+      "verification_rule": { "method": "duration", "minimum_minutes": 10 },
+      "fallback_rule": { "method": "shorter_session" },
+      "steps": [
+        { "order": 1, "type": "open_url", "label": "Open reading activity", "required": false },
+        { "order": 2, "type": "timer", "label": "Reading timer", "payload": { "minutes": 10 }, "required": true },
+        { "order": 3, "type": "reflection", "label": "What happened in the story?", "required": false }
+      ]
+    },
+    {
+      "id": "room_reset_kid",
+      "display_name": "Kid Room Reset",
+      "domain": "family",
+      "intent": "make cleanup concrete and finite",
+      "risk_level": "low",
+      "verification_rule": { "method": "photo_or_manual" },
+      "fallback_rule": { "method": "split_steps" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Floor, desk, clothes, bed", "required": true },
+        { "order": 2, "type": "timer", "label": "Reset sprint", "payload": { "minutes": 12 }, "required": false },
+        { "order": 3, "type": "points", "label": "Award reset points", "payload": { "value": 15 }, "required": false }
+      ]
+    },
+    {
+      "id": "family_dinner_helper",
+      "display_name": "Family Dinner Helper",
+      "domain": "family",
+      "intent": "share household work",
+      "risk_level": "low",
+      "verification_rule": { "method": "manual_confirm" },
+      "fallback_rule": { "method": "assign_smaller_task" },
+      "steps": [
+        { "order": 1, "type": "assignment", "label": "Set table or clear plates", "required": true },
+        { "order": 2, "type": "log", "label": "Record help given", "required": true },
+        { "order": 3, "type": "points", "label": "Award helper points", "payload": { "value": 10 }, "required": false }
+      ]
+    },
+    {
+      "id": "support_visit_start",
+      "display_name": "Support Visit Start",
+      "domain": "support",
+      "intent": "start structured support visit",
+      "risk_level": "medium",
+      "verification_rule": { "method": "worker_confirm_and_task_log" },
+      "fallback_rule": { "method": "manual_case_note" },
+      "steps": [
+        { "order": 1, "type": "log", "label": "Record visit start", "required": true },
+        { "order": 2, "type": "checklist", "label": "Consent, goals, immediate needs", "required": true },
+        { "order": 3, "type": "note", "label": "Capture starting context", "required": false }
+      ]
+    },
+    {
+      "id": "support_visit_end",
+      "display_name": "Support Visit End",
+      "domain": "support",
+      "intent": "close visit with evidence",
+      "risk_level": "medium",
+      "verification_rule": { "method": "worker_confirm_and_summary" },
+      "fallback_rule": { "method": "manual_case_note" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Tasks done, exceptions, next actions", "required": true },
+        { "order": 2, "type": "summary", "label": "Generate visit summary", "required": true },
+        { "order": 3, "type": "log", "label": "Record visit end", "required": true }
+      ]
+    },
+    {
+      "id": "medication_prompt",
+      "display_name": "Medication Prompt",
+      "domain": "support",
+      "intent": "prompt non-clinical medication routine",
+      "risk_level": "medium",
+      "verification_rule": { "method": "manual_confirm", "confidence": 0.6 },
+      "fallback_rule": { "method": "escalate_to_responsible_person" },
+      "steps": [
+        { "order": 1, "type": "prompt", "label": "Medication routine reminder", "required": true },
+        { "order": 2, "type": "confirm", "label": "Confirm prompted, not clinically verified", "required": true },
+        { "order": 3, "type": "log", "label": "Record prompt outcome", "required": true }
+      ]
+    },
+    {
+      "id": "meal_support",
+      "display_name": "Meal Support",
+      "domain": "support",
+      "intent": "support meal preparation and eating routine",
+      "risk_level": "medium",
+      "verification_rule": { "method": "checklist_completion" },
+      "fallback_rule": { "method": "family_or_provider_alert" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Meal ready, drink ready, environment safe", "required": true },
+        { "order": 2, "type": "note", "label": "Preference or issue", "required": false },
+        { "order": 3, "type": "log", "label": "Record meal support", "required": true }
+      ]
+    },
+    {
+      "id": "community_access_prep",
+      "display_name": "Community Access Prep",
+      "domain": "support",
+      "intent": "prepare for supported outing",
+      "risk_level": "medium",
+      "verification_rule": { "method": "checklist_completion" },
+      "fallback_rule": { "method": "delay_or_reschedule" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Destination, transport, wallet, phone, support needs", "required": true },
+        { "order": 2, "type": "log", "label": "Record readiness", "required": true }
+      ]
+    },
+    {
+      "id": "job_start",
+      "display_name": "Job Start",
+      "domain": "work",
+      "intent": "start field job with proof",
+      "risk_level": "medium",
+      "verification_rule": { "method": "location_or_manual_and_checklist" },
+      "fallback_rule": { "method": "manual_timesheet" },
+      "steps": [
+        { "order": 1, "type": "log", "label": "Start job timer", "required": true },
+        { "order": 2, "type": "checklist", "label": "Scope, safety, before photos", "required": true }
+      ]
+    },
+    {
+      "id": "job_complete",
+      "display_name": "Job Complete",
+      "domain": "work",
+      "intent": "finish job with customer-ready evidence",
+      "risk_level": "medium",
+      "verification_rule": { "method": "photos_and_customer_confirm" },
+      "fallback_rule": { "method": "manager_review" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Work done, area clean, photos captured", "required": true },
+        { "order": 2, "type": "confirm", "label": "Customer or manager confirmation", "required": false },
+        { "order": 3, "type": "log", "label": "Stop job timer", "required": true }
+      ]
+    },
+    {
+      "id": "site_safety_check",
+      "display_name": "Site Safety Check",
+      "domain": "work",
+      "intent": "reduce preventable site risk",
+      "risk_level": "high",
+      "verification_rule": { "method": "required_checklist" },
+      "fallback_rule": { "method": "stop_and_escalate" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Hazards, access, PPE, isolations", "required": true },
+        { "order": 2, "type": "confirm", "label": "Safe to proceed", "required": true },
+        { "order": 3, "type": "log", "label": "Record safety check", "required": true }
+      ]
+    },
+    {
+      "id": "van_departure_check",
+      "display_name": "Van Departure Check",
+      "domain": "work",
+      "intent": "avoid missing tools and supplies",
+      "risk_level": "low",
+      "verification_rule": { "method": "checklist_completion" },
+      "fallback_rule": { "method": "stock_alert" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Tools, parts, paperwork, address", "required": true },
+        { "order": 2, "type": "log", "label": "Record departure readiness", "required": true }
+      ]
+    },
+    {
+      "id": "invoice_ready",
+      "display_name": "Invoice Ready",
+      "domain": "work",
+      "intent": "turn completion proof into billing readiness",
+      "risk_level": "medium",
+      "verification_rule": { "method": "evidence_present" },
+      "fallback_rule": { "method": "admin_review" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Time, materials, photos, signoff", "required": true },
+        { "order": 2, "type": "handoff", "label": "Send to invoicing queue", "required": true }
+      ]
+    },
+    {
+      "id": "reading_station_start",
+      "display_name": "Reading Station Start",
+      "domain": "education",
+      "intent": "start independent reading station",
+      "risk_level": "low",
+      "verification_rule": { "method": "duration_and_reflection" },
+      "fallback_rule": { "method": "teacher_prompt" },
+      "steps": [
+        { "order": 1, "type": "timer", "label": "Reading station timer", "payload": { "minutes": 12 }, "required": true },
+        { "order": 2, "type": "reflection", "label": "One thing I understood", "required": false },
+        { "order": 3, "type": "log", "label": "Record station start", "required": true }
+      ]
+    },
+    {
+      "id": "maths_station_start",
+      "display_name": "Maths Station Start",
+      "domain": "education",
+      "intent": "start maths practice without teacher overhead",
+      "risk_level": "low",
+      "verification_rule": { "method": "task_started" },
+      "fallback_rule": { "method": "teacher_prompt" },
+      "steps": [
+        { "order": 1, "type": "open_url", "label": "Open maths activity", "required": false },
+        { "order": 2, "type": "timer", "label": "Maths sprint", "payload": { "minutes": 10 }, "required": true },
+        { "order": 3, "type": "reflection", "label": "Hard, okay or easy?", "required": false }
+      ]
+    },
+    {
+      "id": "sensory_reset",
+      "display_name": "Sensory Reset",
+      "domain": "education",
+      "intent": "support regulation before learning",
+      "risk_level": "low",
+      "verification_rule": { "method": "manual_confirm" },
+      "fallback_rule": { "method": "adult_support" },
+      "steps": [
+        { "order": 1, "type": "prompt", "label": "Choose reset option", "payload": { "options": ["breathing", "movement", "quiet", "water"] }, "required": true },
+        { "order": 2, "type": "timer", "label": "Reset timer", "payload": { "minutes": 3 }, "required": false },
+        { "order": 3, "type": "log", "label": "Record reset", "required": true }
+      ]
+    },
+    {
+      "id": "class_transition",
+      "display_name": "Class Transition",
+      "domain": "education",
+      "intent": "reduce transition friction",
+      "risk_level": "low",
+      "verification_rule": { "method": "teacher_confirm" },
+      "fallback_rule": { "method": "repeat_visual_prompt" },
+      "steps": [
+        { "order": 1, "type": "speak", "label": "Transition cue", "required": false },
+        { "order": 2, "type": "checklist", "label": "Pack up, move, start next station", "required": true },
+        { "order": 3, "type": "log", "label": "Record transition", "required": true }
+      ]
+    },
+    {
+      "id": "room_reset_shared",
+      "display_name": "Shared Room Reset",
+      "domain": "shared_space",
+      "intent": "make room ready for next user",
+      "risk_level": "medium",
+      "verification_rule": { "method": "photo_or_manager_confirm" },
+      "fallback_rule": { "method": "maintenance_ticket" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Clean, supplies, devices, layout", "required": true },
+        { "order": 2, "type": "photo", "label": "Capture reset proof", "required": false },
+        { "order": 3, "type": "log", "label": "Record room ready", "required": true }
+      ]
+    },
+    {
+      "id": "guest_checkin_mode",
+      "display_name": "Guest Check-in Mode",
+      "domain": "shared_space",
+      "intent": "support guest arrival",
+      "risk_level": "low",
+      "verification_rule": { "method": "guest_or_operator_confirm" },
+      "fallback_rule": { "method": "support_message" },
+      "steps": [
+        { "order": 1, "type": "open_url", "label": "Open welcome instructions", "required": true },
+        { "order": 2, "type": "checklist", "label": "Access, Wi-Fi, key items", "required": false },
+        { "order": 3, "type": "log", "label": "Record guest check-in", "required": true }
+      ]
+    },
+    {
+      "id": "clinic_room_ready",
+      "display_name": "Clinic Room Ready",
+      "domain": "shared_space",
+      "intent": "prepare treatment or consult room",
+      "risk_level": "medium",
+      "verification_rule": { "method": "staff_confirm" },
+      "fallback_rule": { "method": "admin_alert" },
+      "steps": [
+        { "order": 1, "type": "checklist", "label": "Clean surface, supplies, privacy, device readiness", "required": true },
+        { "order": 2, "type": "log", "label": "Record room ready", "required": true }
+      ]
+    },
+    {
+      "id": "office_focus_mode",
+      "display_name": "Office Focus Mode",
+      "domain": "shared_space",
+      "intent": "reduce context switching",
+      "risk_level": "low",
+      "verification_rule": { "method": "session_started" },
+      "fallback_rule": { "method": "manual_timer" },
+      "steps": [
+        { "order": 1, "type": "timer", "label": "Focus block", "payload": { "minutes": 25 }, "required": true },
+        { "order": 2, "type": "status", "label": "Set do-not-disturb status", "required": false },
+        { "order": 3, "type": "reflection", "label": "Outcome after focus block", "required": false }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+WORKBOOK_BINARY_PAYLOAD_NOT_COMMITTED
+
+The generated workbook exists in the ChatGPT sandbox as:
+/mnt/data/routineops_canonical_v2_100_sheet_workbook.xlsx
+
+This placeholder file is intentionally retained as a marker only because the GitHub connector contents API path available in this session accepts UTF-8 text and the binary workbook was not safely committed as an .xlsx payload.
+
+Use the adjacent manifest for workbook metadata:
+routineops/workbooks/routineops_canonical_v2_manifest.md
+
+Classification: PARTIAL for GitHub workbook attachment.
+Workbook generation itself: COMPLETE in sandbox.
+Runtime execution: PARTIAL.
