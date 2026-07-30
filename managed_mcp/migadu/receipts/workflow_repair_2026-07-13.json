@@ -1,0 +1,15 @@
+{
+  "run_id": "migadu-workflow-repair-2026-07-13",
+  "work_item": "TML-4PM/the-pen#222",
+  "pull_request": 223,
+  "change_commit": "65f138bab514ed73bd4a7e79f9202cf225cbcd13",
+  "changes": [
+    "added zero-dependency runner diagnostic",
+    "added timeouts and strict shell handling",
+    "preserved scaffold evidence with always upload",
+    "made optional third-party scanners non-blocking",
+    "preserved test and scan artifacts on failure"
+  ],
+  "state": "PARTIAL",
+  "reason": "Repository-controlled workflow defects have been remediated. A fresh GitHub-hosted runner result is required before validation can become REAL."
+}

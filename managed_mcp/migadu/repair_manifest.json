@@ -1,0 +1,28 @@
+{
+  "name": "t4h-github-actions-recovery",
+  "version": "1.1.0",
+  "programme": "Signal System / Managed MCP",
+  "work_item": "TML-4PM/the-pen#222",
+  "pull_request": "TML-4PM/the-pen#223",
+  "canonical_executable": "managed_mcp/migadu/scripts/repair_github_actions_v2.sh",
+  "assets": [
+    "managed_mcp/migadu/scripts/repair_github_actions_v2.sh",
+    "managed_mcp/migadu/scripts/repair_github_actions.sh",
+    "managed_mcp/migadu/docs/GITHUB_ACTIONS_RECOVERY.md",
+    "managed_mcp/migadu/config/github-actions-repair.env.example"
+  ],
+  "intents": [
+    "discover GitHub credentials without exposing them",
+    "install GitHub CLI",
+    "verify authentication and repository authority",
+    "repair GitHub Actions repository settings",
+    "dispatch the validation workflow",
+    "capture logs and workflow artifacts",
+    "emit JSON and Markdown receipts",
+    "append a durable ledger entry",
+    "classify execution as REAL, PARTIAL, or BLOCKED"
+  ],
+  "platforms": ["macOS", "Linux with apt"],
+  "secret_policy": "No token value is written to files, logs, receipts, or ledger entries.",
+  "idempotent": true
+}

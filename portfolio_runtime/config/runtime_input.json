@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "bucket": "t4h-archive-140548542136",
+  "prefix": "portfolio-preservation/runtime-input/current",
+  "ready_object": "portfolio-preservation/runtime-input/current/_READY.json",
+  "expected_source_roots": 228,
+  "required_objects": [
+    "page_inventory.csv",
+    "content_blocks.csv",
+    "asset_inventory.csv",
+    "feature_workflow.csv",
+    "rebuild_manifest.csv"
+  ],
+  "truth_boundary": "The location contract is canonical after bootstrap execution and S3 readback. Source control alone does not prove the objects exist."
+}

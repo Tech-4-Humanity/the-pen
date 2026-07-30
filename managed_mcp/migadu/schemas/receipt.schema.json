@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.com.au/schemas/migadu-managed-mcp-receipt.schema.json",
+  "title": "T4H Managed Migadu MCP Receipt",
+  "type": "object",
+  "required": [
+    "run_id", "started_at", "finished_at", "actor", "intent", "tool",
+    "authority_class", "policy_decision", "execution_status",
+    "verification_status", "final_state", "evidence"
+  ],
+  "properties": {
+    "run_id": {"type": "string", "minLength": 1},
+    "idempotency_key": {"type": ["string", "null"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"},
+    "actor": {"type": "string"},
+    "intent": {"type": "string"},
+    "upstream_repository": {"const": "Michaelzag/migadu-mcp"},
+    "upstream_commit": {"const": "7b61cb83331003335337dbb40a96e821a33765c0"},
+    "tool": {"type": "string"},
+    "authority_class": {"enum": ["READ", "CONTROLLED_WRITE", "DESTRUCTIVE", "CREDENTIAL_SENSITIVE"]},
+    "sanitised_parameters": {"type": "object"},
+    "policy_decision": {"enum": ["allow", "deny", "quarantine"]},
+    "before_state_ref": {"type": ["string", "null"]},
+    "before_state_sha256": {"type": ["string", "null"]},
+    "execution_status": {"enum": ["not_run", "success", "failure", "partial"]},
+    "verification_status": {"enum": ["not_run", "verified", "failed", "partial"]},
+    "after_state_ref": {"type": ["string", "null"]},
+    "after_state_sha256": {"type": ["string", "null"]},
+    "recovery_status": {"enum": ["not_required", "not_run", "success", "failure", "partial"]},
+    "trace_id": {"type": ["string", "null"]},
+    "evidence": {
+      "type": "array",
+      "items": {"type": "object", "required": ["kind", "location"], "properties": {"kind": {"type": "string"}, "location": {"type": "string"}, "sha256": {"type": ["string", "null"]}}}
+    },
+    "final_state": {"enum": ["REAL", "PARTIAL", "BLOCKED"]},
+    "gaps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

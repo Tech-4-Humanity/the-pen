@@ -1,0 +1,39 @@
+{
+  "name": "oikos-mail-operations",
+  "version": "1.0.0",
+  "programme": "OIKOS / Signal System / Mail Operating System",
+  "work_item": "TML-4PM/the-pen#222",
+  "pull_request": "TML-4PM/the-pen#223",
+  "status": "PARTIAL",
+  "assets": [
+    "README.md",
+    "registry.json",
+    "schema.sql",
+    "runtime.py",
+    "test_runtime.py",
+    "deploy.sh",
+    ".github/workflows/oikos-mail-os-validation.yml"
+  ],
+  "capabilities": [
+    "canonical mailbox profile registry",
+    "human executive shared machine catchall notification and no-reply folder templates",
+    "plain and HTML signature templates",
+    "guarded autoresponse templates",
+    "GitHub failure routing and autonomous recovery workflow",
+    "table-of-tables registry schema",
+    "repeatable conformance and idempotency tests",
+    "receipt and ledger emission",
+    "disposable PostgreSQL CI validation"
+  ],
+  "deployment_gates": [
+    "source validation passes",
+    "schema applies and readback succeeds",
+    "Migadu inventory is refreshed",
+    "mailbox profiles are mapped",
+    "folders are applied and read back",
+    "signatures and autoresponses are rendered and verified",
+    "GitHub failure fixture completes or quarantines",
+    "receipt ledger and telemetry correlate"
+  ],
+  "truth_boundary": "Source and CI validation do not prove live mailbox deployment. REAL requires live execution, readback, receipt, ledger, telemetry and recovery evidence."
+}

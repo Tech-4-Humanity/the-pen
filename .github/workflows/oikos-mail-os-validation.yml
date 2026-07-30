@@ -1,0 +1,54 @@
+name: OIKOS Mail Operations Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'managed_mcp/migadu/oikos_mail_os/**'
+      - '.github/workflows/oikos-mail-os-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: oikos_mail_os_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Validate registry and run repeatable tests
+        run: |
+          chmod +x managed_mcp/migadu/oikos_mail_os/deploy.sh
+          RECEIPT_DIR="$RUNNER_TEMP/oikos-mail-os-receipts" \
+            managed_mcp/migadu/oikos_mail_os/deploy.sh --dry-run
+      - name: Apply schema to disposable PostgreSQL
+        run: |
+          psql -h localhost -U postgres -d oikos_mail_os_test -v ON_ERROR_STOP=1 \
+            -f managed_mcp/migadu/oikos_mail_os/schema.sql
+          test "$(psql -h localhost -U postgres -d oikos_mail_os_test -Atc 'select count(*) from mail_registry_tables')" -ge 10
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oikos-mail-os-validation-evidence
+          path: ${{ runner.temp }}/oikos-mail-os-receipts
+          if-no-files-found: warn
