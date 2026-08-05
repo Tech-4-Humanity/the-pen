@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "truth_rule": "A source is REAL only after inventory, ingest, remote readback, receipt and coverage reconciliation.",
+  "waves": [
+    {
+      "wave_id": "WAVE-00-MAC-DAILY-INDEX",
+      "status": "IN_PROGRESS",
+      "source_type": "mac",
+      "roots": [
+        "/Users/troylatter/Desktop/000A - to be indexed - and left - daily"
+      ],
+      "exclusions": [".git/objects", "node_modules", ".next", "venv", ".venv", "credentials", "secrets", ".env"],
+      "expected_content": ["LLM exports", "LinkedIn exports", "project artefacts", "documents", "images"],
+      "completion_gate": ["canonical rows processed", "remote VERIFIED count equals canonical row count", "FAILED=0", "deferred reconciled", "final quality report"]
+    },
+    {
+      "wave_id": "WAVE-01-MAC-REMAINDER",
+      "status": "READY_FOR_INVENTORY",
+      "source_type": "mac",
+      "roots": [
+        "/Users/troylatter/Desktop",
+        "/Users/troylatter/Documents",
+        "/Users/troylatter/Downloads"
+      ],
+      "exclude_roots": [
+        "/Users/troylatter/Desktop/000A - to be indexed - and left - daily",
+        "/Users/troylatter/t4h-canonical-ingest",
+        "/Users/troylatter/t4h-recovery-validation"
+      ],
+      "mode": "INVENTORY_FIRST",
+      "completion_gate": ["root coverage report", "daily-index overlap removed by SHA256", "sensitive-file quarantine", "size forecast", "approved ingest manifest"]
+    },
+    {
+      "wave_id": "WAVE-02-GOOGLE-MY-DRIVE",
+      "status": "READY_FOR_INVENTORY",
+      "source_type": "gdrive",
+      "remote": "gdrive:",
+      "mode": "INVENTORY_FIRST",
+      "completion_gate": ["remote accessible", "native Google files exported deterministically", "manifest", "readback", "receipt"]
+    },
+    {
+      "wave_id": "WAVE-03-GOOGLE-SHARED-DRIVES",
+      "status": "READY_FOR_INVENTORY",
+      "source_type": "shared-drive",
+      "remote_discovery": "rclone backend drives gdrive:",
+      "mode": "ONE_DRIVE_PER_SUBRUN",
+      "completion_gate": ["all shared drives enumerated", "per-drive counts", "per-drive receipts", "cross-drive duplicate reconciliation"]
+    },
+    {
+      "wave_id": "WAVE-04-EXTERNAL-EXPORTS",
+      "status": "PLANNED",
+      "source_type": "exports",
+      "targets": ["LLM exports not found in daily-index", "LinkedIn newest export", "mail exports", "other cloud exports"],
+      "mode": "GAP_ONLY",
+      "completion_gate": ["latest export dates identified", "missing exports acquired", "SHA deduped", "receipted"]
+    }
+  ]
+}
