@@ -1,0 +1,9 @@
+supersession_id,source_id,claim_or_object,old_value_or_assertion,current_control,status,classification,evidence_required,notes
+SUP-001,SRC-004|SRC-005|SRC-006,FY24/25 eligible expenditure,"$2,136,791 or $2,112,591.71",Recalculate from primary evidence,SUPERSEDED,QUARANTINED,full labour and non-labour reconciliation,
+SUP-002,SRC-004|SRC-005|SRC-006,Director labour,"3,184/3,184.5 hours and $1,592,000/$1,592,250",Current control $677,750 modeled,SUPERSEDED,PARTIAL,dated activity corroboration and lawful treatment,
+SUP-003,SRC-004,Contractors,$344500,$0,INVALIDATED,REAL,none unless explicitly re-opened with authority,
+SUP-004,SRC-004,DCC/legal R&D expenditure,legacy included amounts,$0,INVALIDATED,REAL,none unless explicitly re-opened with authority,
+SUP-005,SRC-004|SRC-006,Participant counts,"4,247 / 11,241+ / 66",Not material to CA1 unless evidence-bound,SUPERSEDED,QUARANTINED,participant registry and scope decision,
+SUP-006,SRC-004,All records contemporaneous,asserted,False; modeled and reconstructed records exist,INVALIDATED,REAL,record-level nature classification,
+SUP-007,SRC-006,85-document canonical inventory,12 REAL / 46 PARTIAL / 27 BLOCKED,Historical inventory only,SUPERSEDED,QUARANTINED,current readback and exhibit-level verification,
+SUP-008,SRC-007,[ADDITIONAL SUPERSEDED CLAIM],,Pending review,PLACEHOLDER,BLOCKED,primary evidence,

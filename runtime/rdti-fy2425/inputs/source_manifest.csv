@@ -1,0 +1,10 @@
+source_id,source_name,source_type,role,period,storage_uri,sha256,source_date,received_date,owner,evidence_nature,status,classification,contains_sensitive_data,commit_policy,notes
+SRC-001,T4H_FY24-25_RDTI_Timesheet_V8.xlsx,xlsx,labour_model,FY2024/25,,,,,Troy Latter,reconstructed_model,REGISTERED,PARTIAL,yes,DO_NOT_COMMIT_BINARY,"1,355.5 research hours / $677,750; modeled function and CA1 component allocations require corroboration"
+SRC-002,T4H_Notification_of_Revision_DRAFT.docx,docx,revision_notification_draft,FY2024/25,,,,,Troy Latter,draft,REGISTERED,PARTIAL,yes,DO_NOT_COMMIT_BINARY,"Contains unresolved declarant, process and adjustment questions; do not lodge as-is"
+SRC-003,T4H_CA1_Revised_Submission_DRAFT.docx,docx,ca1_submission_draft,FY2024/25,,,,,Troy Latter,draft,REGISTERED,PARTIAL,yes,DO_NOT_COMMIT_BINARY,"Requires verification of beneficiary, exclusions, prior art, hypothesis, experiment, results, conclusions, evidence and expenditure"
+SRC-004,Contemporaneous Evidence Pack.pdf,pdf,legacy_pack,FY2024/25,,,,,Troy Latter,legacy_reconstructed,PLACEHOLDER,QUARANTINED,yes,DO_NOT_COMMIT_BINARY,"Superseded; retain only for structure, source leads and contradiction tracing"
+SRC-005,T4H ATO Review Pack 2026-05-27.pdf,pdf,legacy_pack,FY2024/25,,,,,Troy Latter,legacy_runtime_assertion,PLACEHOLDER,QUARANTINED,yes,DO_NOT_COMMIT_BINARY,"Superseded financial and labour assertions"
+SRC-006,T4H_ATO_Evidence_Pack_v1.pdf,pdf,legacy_pack,FY2024/25,,,,,Troy Latter,legacy_inventory,PLACEHOLDER,QUARANTINED,yes,DO_NOT_COMMIT_BINARY,"Useful matrix structure; database pointers are not exhibits"
+SRC-007,[ADDITIONAL DOCUMENT],unknown,unclassified,FY2024/25,,,,,,unknown,PLACEHOLDER,BLOCKED,unknown,REVIEW_BEFORE_COMMIT,"Add further documents without renumbering prior sources"
+SRC-008,[ADDITIONAL DOCUMENT],unknown,unclassified,FY2024/25,,,,,,unknown,PLACEHOLDER,BLOCKED,unknown,REVIEW_BEFORE_COMMIT,"Reserved"
+SRC-009,[ADDITIONAL DOCUMENT],unknown,unclassified,FY2024/25,,,,,,unknown,PLACEHOLDER,BLOCKED,unknown,REVIEW_BEFORE_COMMIT,"Reserved"
