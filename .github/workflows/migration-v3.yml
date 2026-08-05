@@ -1,0 +1,52 @@
+name: Migration v3
+
+on:
+  pull_request:
+    paths:
+      - "portfolio_runtime/migration/**"
+      - ".github/workflows/migration-v3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile controllers
+        run: |
+          python3 -m py_compile portfolio_runtime/migration/vercel-estate-to-aws-v3.py
+          python3 -m py_compile portfolio_runtime/migration/inventory-next-runtime.py
+      - name: Run unit tests
+        run: |
+          python3 -m unittest portfolio_runtime/migration/tests/test_vercel_estate_to_aws_v3.py
+          python3 -m unittest portfolio_runtime/migration/tests/test_inventory_next_runtime.py
+      - name: Plan Outcome Ready
+        run: |
+          rm -rf /tmp/outcome-ready-migration-v3
+          python3 portfolio_runtime/migration/vercel-estate-to-aws-v3.py             portfolio_runtime/migration/manifests/outcome-ready.v3.json             --run-root /tmp/outcome-ready-migration-v3             --plan-only
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          plan = json.loads(Path("/tmp/outcome-ready-migration-v3/plan.json").read_text())
+          assert plan["classification"] == "PARTIAL"
+          assert set(plan["unresolved_runtime_routes"]) == {
+              "/api/*",
+              "/r/[code]",
+              "/cto-in-my-pocket/thanks",
+              "/cto-in-my-pocket/brief/[id]",
+          }
+          receipt = json.loads(
+              Path("/tmp/outcome-ready-migration-v3/checkpoints/inventory.json").read_text()
+          )
+          assert receipt["status"] == "SUCCEEDED"
+          assert receipt["classification"] == "PARTIAL"
+          print(json.dumps({
+              "classification": plan["classification"],
+              "unresolved_runtime_routes": plan["unresolved_runtime_routes"],
+              "inventory_receipt_sha256": receipt["evidence_sha256"],
+          }, indent=2))
+          PY
