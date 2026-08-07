@@ -1,8 +1,9 @@
 name: GitHub Ops Report
 
+# Scheduled execution is temporarily removed while GitHub-hosted runners are
+# blocked at the account billing/spend-control layer. Keep manual dispatch for
+# validation after the portable T4H runtime owns the schedule or billing clears.
 on:
-  schedule:
-    - cron: '0 6 * * *'  # Daily 06:00 UTC
   workflow_dispatch:
     inputs:
       target_repos:
