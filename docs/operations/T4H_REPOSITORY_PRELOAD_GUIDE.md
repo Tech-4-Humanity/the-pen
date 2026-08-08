@@ -85,29 +85,41 @@ Connects by SSH to the configured EC2 host and opens the normal `ubuntu` runtime
 ec2b
 ```
 
-Connects by AWS SSM to the same EC2 instance, switches to `ssm-user`, and opens the QM/backup environment at `~/qm-docker`.
+Is the **QM/backup one-word entry point**. It automatically:
+
+1. starts the SSM port-forward from local `localhost:18081` to the EC2 QM service on port `18081`;
+2. opens the QM URL in the Mac browser when available;
+3. connects by AWS SSM to the same EC2 instance;
+4. switches to `ssm-user`; and
+5. opens `~/qm-docker`.
+
+The expected operator experience is therefore simply:
+
+```text
+ec2b
+```
+
+Then use:
+
+```text
+http://localhost:18081/
+```
+
+The tunnel remains alive for the duration of the `ec2b` session and is cleaned up when that session exits. If a tunnel is already listening on port `18081`, `ec2b` reuses the existing tunnel rather than creating a duplicate.
 
 ```text
 qmtunnel
 ```
 
-Starts the SSM port-forward from local `localhost:18081` to the EC2 QM service on port `18081`. Leave this terminal running while using the browser. Open the QM service at:
+Is retained as the **low-level tunnel-only command** for cases where the browser tunnel is wanted without opening the QM SSM shell. It checks whether local port `18081` is already listening before creating another tunnel.
 
-```text
-http://localhost:18081
-```
-
-`qmtunnel` checks whether local port `18081` is already listening before creating another tunnel, reducing duplicate-session errors.
-
-The three shortcuts are deliberately separate:
+The normal operator surface is therefore:
 
 ```text
 ec2       → normal engineering shell
-ec2b      → QM / backup shell
-qmtunnel  → browser tunnel only
+ec2b      → QM / backup shell + browser tunnel
+qmtunnel  → tunnel only, when explicitly needed
 ```
-
-They can be used in separate terminal tabs at the same time.
 
 ### EC2 navigation
 
@@ -161,7 +173,7 @@ Verified EC2 preload receipt:
 ```text
 REAL     runtime-real
 REAL     the-pen
-REAL     t4h-engineering-control-plane
+aREAL     t4h-engineering-control-plane
 REAL     t4h-remote-mcp-server-clean
 REAL     bridge-worker-intake
 ```
@@ -174,19 +186,26 @@ Synal Core is also available through the existing EC2 checkout:
 
 ### QM / backup access — RECEIPTED 2026-08-09
 
-Verified Mac shortcut:
-
-```text
-ec2b
-```
-
-Receipt:
+Verified Mac `ec2b` landing:
 
 ```text
 ssm-user@ip-172-31-44-249:~/qm-docker$
 ```
 
-The QM service was previously verified running through Docker on EC2 with host port `8081`; the current SSM tunnel maps local `18081` to EC2 `18081`, so browser access must follow the currently configured QM port rather than being inferred from historical Docker state.
+Verified direct SSM port-forward:
+
+```text
+Port 18081 opened for session
+Connection accepted
+```
+
+Browser endpoint:
+
+```text
+http://localhost:18081/
+```
+
+The canonical `ec2b` helper now combines these into one operator action: QM SSM shell + tunnel. The low-level `qmtunnel` command remains available separately.
 
 ## Truth and recovery rule
 
@@ -202,7 +221,6 @@ The preferred operator experience is deliberately minimal:
 Mac:
 ec2
 ec2b
-qmtunnel
 
 EC2:
 repo runtime-real
