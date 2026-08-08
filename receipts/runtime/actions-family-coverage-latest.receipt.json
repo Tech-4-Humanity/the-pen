@@ -9,17 +9,17 @@
     "COVERED_PARTIAL": 100
   },
   "families": {
+    "HEALTH_PROOF": 103,
     "RECONCILE_SYNC": 26,
     "GITHUB_CONTROL": 1,
-    "BUILD_TEST_CI": 27,
     "OBSERVE_AUDIT": 49,
+    "BUILD_TEST_CI": 27,
     "SECURITY_COMPLIANCE": 30,
-    "HEALTH_PROOF": 103,
     "DEPLOY_RELEASE": 28,
     "DATA_ETL": 2
   },
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-08T18:30:02.438Z"
+  "generated_at": "2026-08-08T18:40:01.389Z"
 }
