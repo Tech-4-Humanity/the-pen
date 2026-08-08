@@ -1,0 +1,68 @@
+{
+  "schema": "t4h.actions-family-promotion/v2",
+  "timestamp_utc": "2026-08-08T01:33:00Z",
+  "worker_id": "WKR-RECOVER-001",
+  "state": "PARTIAL",
+  "summary": "Portable execution families are proven across GitHub/API reconciliation, Supabase Edge, AWS Lambda and bounded S3 sync/delete semantics. Canonical Supabase remains access-gated.",
+  "promotions": [
+    {
+      "family": "DEPLOY_RELEASE",
+      "adapter": "aws-lambda-deploy-canary",
+      "state": "REAL",
+      "execution_target": "aws-lambda",
+      "evidence": {
+        "region": "ap-southeast-2",
+        "temporary_function": "t4h-portable-deploy-canary",
+        "created_status": 201,
+        "active_state": "Active",
+        "invoke_status": 200,
+        "invoke_state": "REAL",
+        "delete_status": 204,
+        "cleaned_up": true,
+        "code_sha256": "ENxQQOmna3YDPxZuuzPs2KwsPvg4EIOYTrEcFXKvRfc="
+      }
+    },
+    {
+      "family": "DEPLOY_RELEASE",
+      "adapter": "aws-s3-sync-delete-canary",
+      "state": "REAL",
+      "execution_target": "aws-s3",
+      "evidence": {
+        "bucket": "t4h-recovery-outcome-ready-140548542136",
+        "bounded_prefix": "_t4h_proofs/sync-delete-canary",
+        "put_stale": 200,
+        "put_fresh": 200,
+        "delete_stale": 204,
+        "stale_signed_readback": 404,
+        "fresh_signed_readback": 200,
+        "fresh_hash_match": true,
+        "cleanup_delete": 204,
+        "cleanup_signed_readback": 404,
+        "cleanup_complete": true
+      }
+    }
+  ],
+  "remaining": [
+    {
+      "family": "DEPLOY_RELEASE",
+      "adapter": "canonical-supabase-management-probe",
+      "state": "PARTIAL",
+      "reason": "ACCESS_BOUNDARY",
+      "target_project": "jjsycelagfmuquvxryfo",
+      "evidence": {
+        "connected_account_project_visible": false,
+        "management_project_lookup_status": 403,
+        "management_database_query_status": 403,
+        "tracking_issue": "TML-4PM/synapse-prod-control-plane#17"
+      },
+      "required_action": "Connect the Supabase account that owns the canonical project or rotate the server-side management token to one with project access; then execute canonical deployment validation and write runtime.receipts evidence."
+    }
+  ],
+  "safety": {
+    "production_lambda_modified": false,
+    "s3_root_modified": false,
+    "s3_canary_cleaned_up": true,
+    "canonical_supabase_mutated": false,
+    "secret_values_recorded": false
+  }
+}
