@@ -108,28 +108,28 @@ Everything else should be cloned on demand.
 
 ## Current receipted preload
 
-### Mac
+### Mac — RECEIPTED 2026-08-08
 
-**Target preload:**
+Fresh Mac `repo status` receipt:
 
 ```text
-runtime-real
-the-pen
-t4h-engineering-control-plane
-t4h-remote-mcp-server-clean
-bridge-worker-intake
+REAL     runtime-real
+REAL     the-pen
+REAL     t4h-engineering-control-plane
+REAL     t4h-remote-mcp-server-clean
+REAL     bridge-worker-intake
+REAL     mcp-command-centre
+MISSING  t4h-research-hub
 ```
 
-This is a target until a fresh Mac-side runtime inventory receipts each checkout as present and valid.
+The five required core repositories are therefore **REAL on Mac**. `mcp-command-centre` is also present. `t4h-research-hub` remains an optional/conditional repository and is not a core preload gap.
 
-### EC2
-
-**Receipted as REAL on 2026-08-08:**
+### EC2 — RECEIPTED 2026-08-08
 
 ```text
-runtime-real
+REAL     runtime-real
 the-pen
-t4h-engineering-control-plane
+ t4h-engineering-control-plane
 t4h-remote-mcp-server-clean
 bridge-worker-intake
 ```
