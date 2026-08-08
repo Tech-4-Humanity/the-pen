@@ -85,13 +85,18 @@ Connects by SSH to the configured EC2 host and opens the normal `ubuntu` runtime
 ec2b
 ```
 
-Is the **QM/backup one-word entry point**. It automatically:
+Is the **QM/backup one-word entry point**. It performs the complete QM access setup in one shell function:
 
-1. starts the SSM port-forward from local `localhost:18081` to the EC2 QM service on port `18081`;
-2. opens the QM URL in the Mac browser when available;
-3. connects by AWS SSM to the same EC2 instance;
-4. switches to `ssm-user`; and
-5. opens `~/qm-docker`.
+1. checks whether local `localhost:18081` is already listening;
+2. if needed, starts the SSM port-forward as a detached `nohup` process;
+3. waits for the local port to become observable before continuing;
+4. records tunnel startup output in the temporary log file;
+5. opens the QM URL in the Mac browser when available;
+6. connects by AWS SSM to the same EC2 instance;
+7. switches to `ssm-user`; and
+8. opens `~/qm-docker`.
+
+The tunnel is owned by the `ec2b` invocation when it creates one and is cleaned up after the interactive SSM session exits. An already-running tunnel is reused and is not killed by `ec2b`.
 
 The expected operator experience is therefore simply:
 
@@ -99,19 +104,40 @@ The expected operator experience is therefore simply:
 ec2b
 ```
 
-Then use:
+Then QM should be reachable at:
 
 ```text
 http://localhost:18081/
 ```
 
-The tunnel remains alive for the duration of the `ec2b` session and is cleaned up when that session exits. If a tunnel is already listening on port `18081`, `ec2b` reuses the existing tunnel rather than creating a duplicate.
+### QM proof standard
+
+`ec2b` landing successfully is **not** sufficient proof that QM is reachable.
+
+A complete QM acceptance test requires:
+
+```text
+1. ec2b opens the SSM shell.
+2. localhost:18081 has a listening local socket.
+3. curl http://localhost:18081/ receives an HTTP response.
+4. The browser renders the QM application.
+```
+
+The shortest independent network check from a second Mac terminal is:
+
+```bash
+curl -I http://localhost:18081/
+```
+
+`ERR_CONNECTION_REFUSED` or curl exit code `7` means the tunnel is not running and QM is **BLOCKED**, regardless of whether the SSM shell itself is working.
+
+### Low-level tunnel command
 
 ```text
 qmtunnel
 ```
 
-Is retained as the **low-level tunnel-only command** for cases where the browser tunnel is wanted without opening the QM SSM shell. It checks whether local port `18081` is already listening before creating another tunnel.
+Is retained as the **tunnel-only command** for cases where the browser tunnel is wanted without opening the QM SSM shell. It checks whether local port `18081` is already listening before creating another tunnel.
 
 The normal operator surface is therefore:
 
@@ -173,7 +199,7 @@ Verified EC2 preload receipt:
 ```text
 REAL     runtime-real
 REAL     the-pen
-REAL     t4h-engineering-control-plane
+aREAL     t4h-engineering-control-plane
 REAL     t4h-remote-mcp-server-clean
 REAL     bridge-worker-intake
 ```
@@ -184,7 +210,7 @@ Synal Core is also available through the existing EC2 checkout:
 ~/my-project
 ```
 
-### QM / backup access — RECEIPTED 2026-08-09
+### QM / backup access — PARTIAL pending end-to-end browser receipt
 
 Verified Mac `ec2b` landing:
 
@@ -192,20 +218,21 @@ Verified Mac `ec2b` landing:
 ssm-user@ip-172-31-44-249:~/qm-docker$
 ```
 
-Verified direct SSM port-forward:
+Verified direct SSM port-forward previously worked:
 
 ```text
 Port 18081 opened for session
 Connection accepted
 ```
 
-Browser endpoint:
+However, the current automated `ec2b` tunnel has not yet passed the independent localhost acceptance test. The latest observed evidence was:
 
 ```text
-http://localhost:18081/
+curl: (7) Failed to connect to localhost port 18081
+ERR_CONNECTION_REFUSED
 ```
 
-The canonical `ec2b` helper now combines these into one operator action: QM SSM shell + tunnel. The low-level `qmtunnel` command remains available separately.
+Therefore QM browser access remains **PARTIAL**, not REAL, until `ec2b` is retested with a live tunnel and `curl -I http://localhost:18081/` receives an HTTP response.
 
 ## Truth and recovery rule
 
