@@ -13,11 +13,11 @@
     "HEALTH_PROOF": 103,
     "SECURITY_COMPLIANCE": 29,
     "DEPLOY_RELEASE": 28,
-    "BUILD_TEST_CI": 26,
-    "RECONCILE_SYNC": 25
+    "RECONCILE_SYNC": 25,
+    "BUILD_TEST_CI": 26
   },
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-08T03:50:02.008Z"
+  "generated_at": "2026-08-08T04:00:04.905Z"
 }
