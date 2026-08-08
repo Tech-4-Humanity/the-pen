@@ -110,7 +110,7 @@ Everything else should be cloned on demand.
 
 ### Mac
 
-Target preload:
+**Target preload:**
 
 ```text
 runtime-real
@@ -120,9 +120,11 @@ t4h-remote-mcp-server-clean
 bridge-worker-intake
 ```
 
+This is a target until a fresh Mac-side runtime inventory receipts each checkout as present and valid.
+
 ### EC2
 
-Receipted as REAL on 2026-08-08:
+**Receipted as REAL on 2026-08-08:**
 
 ```text
 runtime-real
@@ -141,3 +143,24 @@ Synal Core is also available through the existing EC2 checkout:
 ## Truth and recovery rule
 
 Repository presence is validated from the machine runtime, not from memory. A shortcut is useful only when its target is verified. If a checkout is missing, stale, corrupted or otherwise unresolved, classify it as PARTIAL or BLOCKED and recover by clone, pull, repair or reroute as appropriate.
+
+## Shell navigation standard
+
+The preferred operator experience is deliberately minimal:
+
+```text
+Mac:
+ec2
+
+EC2:
+repo runtime-real
+repo the-pen
+repo control-plane
+repo mcp
+repo bridge
+repo synal-core
+```
+
+Do not require operators to remember EC2 IP addresses, SSH syntax, repository filesystem paths or long `cd` commands for normal navigation.
+
+The `ec2` shortcut is an SSH convenience only; it does not itself prove application health, deployment state or worker readiness. Those states require their own runtime receipts and telemetry.
