@@ -2,6 +2,7 @@
 # T4H shell navigation helpers. Keep this layer small; the-pen is canonical.
 
 T4H_GUIDE_URL="https://github.com/TML-4PM/the-pen/blob/main/docs/operations/T4H_REPOSITORY_PRELOAD_GUIDE.md"
+T4H_QM_URL="http://localhost:18081/"
 T4H_AWS_REGION="ap-southeast-2"
 T4H_EC2_INSTANCE="i-09f18f2e1123a5702"
 
@@ -48,11 +49,40 @@ ec2() {
 }
 
 ec2b() {
+  if command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:18081 -sTCP:LISTEN >/dev/null 2>&1; then
+    printf '%s\n' 'ec2b: QM tunnel already running on localhost:18081.'
+    printf '%s\n' "ec2b: $T4H_QM_URL"
+    aws ssm start-session \
+      --region "$T4H_AWS_REGION" \
+      --target "$T4H_EC2_INSTANCE" \
+      --document-name AWS-StartInteractiveCommand \
+      --parameters 'command=["sudo -iu ssm-user bash -lc '\''cd ~/qm-docker && exec bash -l'\''"]'
+    return
+  fi
+
+  qmtunnel >/tmp/t4h-qm-tunnel.log 2>&1 &
+  tunnel_pid=$!
+  trap 'kill "$tunnel_pid" 2>/dev/null || true' EXIT INT TERM
+  sleep 1
+
+  if ! kill -0 "$tunnel_pid" 2>/dev/null; then
+    printf '%s\n' 'ec2b: QM tunnel failed to start.'
+    cat /tmp/t4h-qm-tunnel.log 2>/dev/null || true
+    trap - EXIT INT TERM
+    return 1
+  fi
+
+  printf '%s\n' "ec2b: QM tunnel ready at $T4H_QM_URL"
+  if command -v open >/dev/null 2>&1; then open "$T4H_QM_URL" >/dev/null 2>&1 & fi
+
   aws ssm start-session \
     --region "$T4H_AWS_REGION" \
     --target "$T4H_EC2_INSTANCE" \
     --document-name AWS-StartInteractiveCommand \
     --parameters 'command=["sudo -iu ssm-user bash -lc '\''cd ~/qm-docker && exec bash -l'\''"]'
+
+  trap - EXIT INT TERM
+  kill "$tunnel_pid" 2>/dev/null || true
 }
 
 qmtunnel() {
