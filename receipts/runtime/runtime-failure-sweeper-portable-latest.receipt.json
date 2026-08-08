@@ -21,6 +21,26 @@
   "failures": [
     {
       "workflow": "Bridge Runner — Heartbeat",
+      "run_id": 31280453290,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31280453290",
+      "created_at": "2026-08-08T21:54:53Z"
+    },
+    {
+      "workflow": "Bridge Runner — Heartbeat",
+      "run_id": 31279328085,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31279328085",
+      "created_at": "2026-08-08T21:26:54Z"
+    },
+    {
+      "workflow": "Bridge Runner — Heartbeat",
       "run_id": 31278108044,
       "event": "schedule",
       "status": "completed",
@@ -38,28 +58,8 @@
       "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
       "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31276667959",
       "created_at": "2026-08-08T20:20:24Z"
-    },
-    {
-      "workflow": "Bridge Runner — Heartbeat",
-      "run_id": 31275525947,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31275525947",
-      "created_at": "2026-08-08T19:52:51Z"
-    },
-    {
-      "workflow": "Bridge Runner — Heartbeat",
-      "run_id": 31274443603,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31274443603",
-      "created_at": "2026-08-08T19:26:46Z"
     }
   ],
-  "generated_at": "2026-08-08T21:17:02.108Z",
-  "duration_ms": 1651
+  "generated_at": "2026-08-08T22:17:04.554Z",
+  "duration_ms": 4095
 }
