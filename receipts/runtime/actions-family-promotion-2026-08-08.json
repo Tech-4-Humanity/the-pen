@@ -1,0 +1,57 @@
+{
+  "worker_id": "WKR-RECOVER-001",
+  "state": "PARTIAL",
+  "generated_at": "2026-08-08T00:57:00Z",
+  "estate": {
+    "repositories": 230,
+    "workflow_repositories": 90,
+    "workflows": 257,
+    "github_hosted_dependencies": 253,
+    "gap_no_adapter": 0
+  },
+  "promotions": [
+    {
+      "family": "BUILD_TEST_CI",
+      "adapter": "vercel-build-proof-adapter",
+      "state": "REAL",
+      "scope": "Vercel-buildable workflows",
+      "source_repo": "TML-4PM/t4h-remote-mcp-server-clean",
+      "source_sha": "eb8bea2b30bea9bdeb4d77712a9bd1b32f9680ec",
+      "github_failed_run": 31229091916,
+      "portable_execution": "dpl_51SecXb8iRFYLXJmXWXYsmML17YK",
+      "validation": "Vercel cloned same SHA, installed dependencies, completed vercel build in 17s, deployment READY"
+    },
+    {
+      "family": "DEPLOY_RELEASE",
+      "adapter": "vercel-deploy-release-adapter",
+      "state": "REAL",
+      "scope": "Vercel deployments",
+      "source_repo": "TML-4PM/t4h-remote-mcp-server-clean",
+      "source_sha": "eb8bea2b30bea9bdeb4d77712a9bd1b32f9680ec",
+      "portable_execution": "dpl_51SecXb8iRFYLXJmXWXYsmML17YK",
+      "validation": "production deployment READY with matching GitHub source SHA"
+    },
+    {
+      "family": "OBSERVE_AUDIT",
+      "adapter": "actions-family-observer",
+      "state": "REAL",
+      "scope": "estate-wide workflow inventory and coverage guard",
+      "validation": "257 workflows inventoried, 253 hosted dependencies, zero unowned adapter gaps",
+      "prior_receipt_commit": "8f43442e97a9b87aef461c20f11498930c253596"
+    }
+  ],
+  "already_real": [
+    "HEALTH_PROOF/standard-runtime-proof-adapter",
+    "HEALTH_PROOF/bridge-runner-heartbeat-portable",
+    "OBSERVE_AUDIT/runtime-failure-sweeper-portable",
+    "RECONCILE_SYNC/runtime-estate-reconcile-portable"
+  ],
+  "remaining_partial_scopes": [
+    "BUILD_TEST_CI workflows requiring explicit test commands beyond provider build",
+    "DEPLOY_RELEASE providers other than Vercel, including AWS/S3/Supabase-specific deployment contracts",
+    "SECURITY_COMPLIANCE family-specific live validation and safe remediation proof",
+    "generic RECONCILE_SYNC variants beyond the proven estate reconciler",
+    "future catch-all families when first observed"
+  ],
+  "next_action": "Promote remaining provider/subtype adapters independently; never promote a whole family based on an unrelated provider proof."
+}
