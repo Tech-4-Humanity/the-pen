@@ -1,0 +1,8 @@
+{
+  "state": "REAL",
+  "adapter": "generic-reconcile-adapter",
+  "execution_provider": "supabase-edge+github-api",
+  "bounded_path": "receipts/runtime/generic-reconcile-portable-proof.json",
+  "timestamp": "2026-08-08T01:06:40.793Z",
+  "worker_id": "WKR-RECOVER-001"
+}
