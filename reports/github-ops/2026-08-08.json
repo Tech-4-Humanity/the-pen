@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-08-08T00:03:38.423Z",
+  "timestamp": "2026-08-08T06:00:02.593Z",
   "owner": "TML-4PM",
   "state": "REAL",
   "execution_provider": "supabase-edge",
   "repos": 230,
   "totals": {
-    "runs": 562,
-    "failed": 540,
+    "runs": 581,
+    "failed": 530,
     "cancelled": 0,
-    "open_items": 746,
+    "open_items": 934,
     "errors": 0
   },
   "reports": [
     {
       "repo": "TML-4PM/mcp-command-centre",
-      "open_items": 73,
+      "open_items": 75,
       "archived": false,
       "disabled": false,
       "runs_24h": 50,
@@ -32,7 +32,25 @@
     },
     {
       "repo": "TML-4PM/symbio-dev-control-plane",
-      "open_items": 16,
+      "open_items": 17,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 50,
+      "runs_failed_24h": 50,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/t4h-engineering-control-plane",
+      "open_items": 34,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 50,
+      "runs_failed_24h": 1,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/t4h-remote-mcp-server-clean",
+      "open_items": 78,
       "archived": false,
       "disabled": false,
       "runs_24h": 50,
@@ -44,588 +62,57 @@
       "open_items": 228,
       "archived": false,
       "disabled": false,
-      "runs_24h": 42,
-      "runs_failed_24h": 42,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/t4h-engineering-control-plane",
-      "open_items": 31,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 25,
-      "runs_failed_24h": 3,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/t4h-remote-mcp-server-clean",
-      "open_items": 75,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 24,
-      "runs_failed_24h": 24,
+      "runs_24h": 45,
+      "runs_failed_24h": 45,
       "runs_cancelled_24h": 0
     },
     {
       "repo": "TML-4PM/ai-era-thinking",
-      "open_items": 19,
+      "open_items": 20,
       "archived": false,
       "disabled": false,
-      "runs_24h": 10,
-      "runs_failed_24h": 10,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/achra-assessment",
-      "open_items": 2,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/agentforce-demo",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/ai-evolution-program",
-      "open_items": 4,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/apac-just-walk-out",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/apex-predator",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/apex-predator-insurance",
-      "open_items": 2,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/APS-Vignettes",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/aquame",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/atlas-aus-pulse",
-      "open_items": 5,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/augmented-memories",
-      "open_items": 1,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/bridge-worker-intake",
-      "open_items": 4,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/calmbound",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/consentx",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
+      "runs_24h": 8,
+      "runs_failed_24h": 8,
       "runs_cancelled_24h": 0
     },
     {
       "repo": "TML-4PM/drug-resilience-atlas",
-      "open_items": 4,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/enter-australia",
-      "open_items": 1,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/far-cage",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/free-agents",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/gain-foundation",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/gc-bat-core",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/gcbat-vignettes-main",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/gemini-bridge-mcp",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/girlmath",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/holo-org",
-      "open_items": 3,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/house-of-biscuits",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/InnovateME",
-      "open_items": 1,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/Jet-1.1",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/kids-visit-mode",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/last-chance-bingo",
-      "open_items": 18,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/living-cells-grid",
-      "open_items": 2,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/LLM-JSON",
-      "open_items": 9,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/making-you-a-star",
-      "open_items": 2,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/medledger",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/myneruralsignal",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/neural-ennead-dashboard",
-      "open_items": 1,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/origin-octave",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/outcome-ready",
-      "open_items": 28,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/platforms",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/portfolio-site",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/ratpak",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/reading-buddy",
-      "open_items": 4,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/readingmate",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/smartpark",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/st-john-bosco-2e-hub",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/t4h-agent-orchestrator",
-      "open_items": 9,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/t4h-comms-hub",
-      "open_items": 2,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/t4h-widget-dock",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/T4HUnsolicitored2HalesRedden",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/tech-for-humanity",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/Tech4Humanity-Domains",
       "open_items": 5,
       "archived": false,
       "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
+      "runs_24h": 7,
+      "runs_failed_24h": 7,
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/ten-day-media-map",
-      "open_items": 0,
+      "repo": "TML-4PM/achra-assessment",
+      "open_items": 3,
       "archived": false,
       "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/virgin-application",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/vuon-troi",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/what-would-you-automate",
+      "repo": "TML-4PM/agentforce-demo",
       "open_items": 1,
       "archived": false,
       "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/workfamilyai",
-      "open_items": 0,
+      "repo": "TML-4PM/ai-evolution-program",
+      "open_items": 5,
       "archived": false,
       "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/workfamilyai-one-click-augmentation",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 5,
-      "runs_failed_24h": 5,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
       "runs_cancelled_24h": 0
     },
     {
       "repo": "TML-4PM/ai-olympics",
-      "open_items": 1,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 4,
-      "runs_failed_24h": 4,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/fantasy-politician-funding-league",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 4,
-      "runs_failed_24h": 4,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/justpoint",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 4,
-      "runs_failed_24h": 4,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/kids-visit-mode-portal",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 4,
-      "runs_failed_24h": 4,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/mission-critical",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 4,
-      "runs_failed_24h": 4,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/own-your-ai",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 4,
-      "runs_failed_24h": 4,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/TML-4PM",
       "open_items": 2,
       "archived": false,
       "disabled": false,
@@ -634,8 +121,53 @@
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/xces",
-      "open_items": 0,
+      "repo": "TML-4PM/apac-just-walk-out",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/apex-predator",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/apex-predator-insurance",
+      "open_items": 3,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/APS-Vignettes",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/aquame",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/atlas-aus-pulse",
+      "open_items": 6,
       "archived": false,
       "disabled": false,
       "runs_24h": 4,
@@ -644,7 +176,493 @@
     },
     {
       "repo": "TML-4PM/augmented-humanity-coach",
+      "open_items": 6,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/augmented-memories",
+      "open_items": 2,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/bridge-worker-intake",
       "open_items": 5,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/calmbound",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/consentx",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/enter-australia",
+      "open_items": 2,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/fantasy-politician-funding-league",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/far-cage",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/free-agents",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/gain-foundation",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/gc-bat-core",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/gcbat-vignettes-main",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/gemini-bridge-mcp",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/girlmath",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/holo-org",
+      "open_items": 4,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/house-of-biscuits",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/InnovateME",
+      "open_items": 2,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/Jet-1.1",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/justpoint",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/kids-visit-mode",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/kids-visit-mode-portal",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/last-chance-bingo",
+      "open_items": 19,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/living-cells-grid",
+      "open_items": 3,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/LLM-JSON",
+      "open_items": 10,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/making-you-a-star",
+      "open_items": 3,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/medledger",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/mission-critical",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/myneruralsignal",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/neural-ennead-dashboard",
+      "open_items": 2,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/origin-octave",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/outcome-ready",
+      "open_items": 29,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/own-your-ai",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/platforms",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/portfolio-site",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/ratpak",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/reading-buddy",
+      "open_items": 5,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/readingmate",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/smartpark",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/st-john-bosco-2e-hub",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/synal-core",
+      "open_items": 2,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 2,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/t4h-agent-orchestrator",
+      "open_items": 10,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/t4h-comms-hub",
+      "open_items": 3,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/t4h-widget-dock",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/T4HUnsolicitored2HalesRedden",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/tech-for-humanity",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/Tech4Humanity-Domains",
+      "open_items": 6,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/ten-day-media-map",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/TML-4PM",
+      "open_items": 3,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/virgin-application",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/vuon-troi",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/what-would-you-automate",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/workfamilyai",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/workfamilyai-one-click-augmentation",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/xces",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 4,
+      "runs_failed_24h": 4,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/park-harmony-ai",
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 3,
@@ -652,8 +670,71 @@
       "runs_cancelled_24h": 0
     },
     {
+      "repo": "TML-4PM/tech4humanity-books",
+      "open_items": 6,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 3,
+      "runs_failed_24h": 3,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/mcp-protocol-standard",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 2,
+      "runs_failed_24h": 2,
+      "runs_cancelled_24h": 0
+    },
+    {
       "repo": "TML-4PM/omnibrain-superpack",
-      "open_items": 0,
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 2,
+      "runs_failed_24h": 2,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/mcp-bridge-invoke-handler",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 1,
+      "runs_failed_24h": 1,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/t4h-brand-guard",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 1,
+      "runs_failed_24h": 1,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/TML-4PM-loop-engineering-runtime",
+      "open_items": 5,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 1,
+      "runs_failed_24h": 1,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/tml-ops-center",
+      "open_items": 3,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 1,
+      "runs_failed_24h": 1,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/troy-grant-engine",
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 1,
@@ -662,7 +743,7 @@
     },
     {
       "repo": "TML-4PM/.github",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -671,7 +752,7 @@
     },
     {
       "repo": "TML-4PM/accountant-channel-ui",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -698,7 +779,7 @@
     },
     {
       "repo": "TML-4PM/agentic-ai-it-is-ok",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -707,7 +788,7 @@
     },
     {
       "repo": "TML-4PM/agentic-ai-its-ok",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -725,51 +806,6 @@
     },
     {
       "repo": "TML-4PM/ai-hq-4-ccr",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/ai-sweet-spots-for-all",
-      "open_items": 6,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/ai4tradies",
-      "open_items": 7,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/aiolympics",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/all-chemists-com",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/allergy-mad-school-fun",
       "open_items": 1,
       "archived": false,
       "disabled": false,
@@ -778,8 +814,53 @@
       "runs_cancelled_24h": 0
     },
     {
+      "repo": "TML-4PM/ai-sweet-spots-for-all",
+      "open_items": 7,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/ai4tradies",
+      "open_items": 8,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/aiolympics",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/all-chemists-com",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/allergy-mad-school-fun",
+      "open_items": 2,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
       "repo": "TML-4PM/amplify-gov-ai",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -833,15 +914,6 @@
     },
     {
       "repo": "TML-4PM/bad-mcp",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/bridge-constitution",
       "open_items": 1,
       "archived": false,
       "disabled": false,
@@ -850,52 +922,7 @@
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/bridge-constitution-troy",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/bridge-runner",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/canberra-consulting-ai-25",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/ccr-exec-rft-value-calculator",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/chalfront-ccr-ai",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/chatter-by-ahc",
+      "repo": "TML-4PM/bridge-constitution",
       "open_items": 2,
       "archived": false,
       "disabled": false,
@@ -904,8 +931,62 @@
       "runs_cancelled_24h": 0
     },
     {
+      "repo": "TML-4PM/bridge-constitution-troy",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/bridge-runner",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/canberra-consulting-ai-25",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/ccr-exec-rft-value-calculator",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/chalfront-ccr-ai",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/chatter-by-ahc",
+      "open_items": 3,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
       "repo": "TML-4PM/claude-outputs",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -923,7 +1004,7 @@
     },
     {
       "repo": "TML-4PM/comet-bridge",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -932,7 +1013,7 @@
     },
     {
       "repo": "TML-4PM/consent-ledger-compass",
-      "open_items": 1,
+      "open_items": 2,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -941,7 +1022,7 @@
     },
     {
       "repo": "TML-4PM/consent-x",
-      "open_items": 1,
+      "open_items": 2,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -950,7 +1031,7 @@
     },
     {
       "repo": "TML-4PM/consentx-westpac-demo1",
-      "open_items": 5,
+      "open_items": 6,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -968,7 +1049,7 @@
     },
     {
       "repo": "TML-4PM/current-scape",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -986,7 +1067,7 @@
     },
     {
       "repo": "TML-4PM/drone-laser-delight",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1022,7 +1103,7 @@
     },
     {
       "repo": "TML-4PM/extreme-spotto",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1040,7 +1121,7 @@
     },
     {
       "repo": "TML-4PM/free-augmentation-agents",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1085,7 +1166,7 @@
     },
     {
       "repo": "TML-4PM/gems",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1103,7 +1184,7 @@
     },
     {
       "repo": "TML-4PM/global-part-ownership",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1112,7 +1193,7 @@
     },
     {
       "repo": "TML-4PM/global-tyre-locator",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1121,7 +1202,7 @@
     },
     {
       "repo": "TML-4PM/global-tyres",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1139,7 +1220,7 @@
     },
     {
       "repo": "TML-4PM/grok-workflow",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1175,7 +1256,7 @@
     },
     {
       "repo": "TML-4PM/holoorg",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1202,7 +1283,7 @@
     },
     {
       "repo": "TML-4PM/Job-application-data",
-      "open_items": 2,
+      "open_items": 3,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1211,7 +1292,7 @@
     },
     {
       "repo": "TML-4PM/knowledge-drop",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1220,7 +1301,7 @@
     },
     {
       "repo": "TML-4PM/laser-soil-whisperer",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1238,7 +1319,7 @@
     },
     {
       "repo": "TML-4PM/lifegraph-plus",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1247,7 +1328,7 @@
     },
     {
       "repo": "TML-4PM/llm-chat-intel",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1256,7 +1337,7 @@
     },
     {
       "repo": "TML-4PM/loveable-legacy-platform",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1265,7 +1346,7 @@
     },
     {
       "repo": "TML-4PM/maat-fiskil-ingest",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1274,7 +1355,7 @@
     },
     {
       "repo": "TML-4PM/maat-money-console",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1283,7 +1364,7 @@
     },
     {
       "repo": "TML-4PM/maat-money-protocol",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1292,7 +1373,7 @@
     },
     {
       "repo": "TML-4PM/maat-money-services",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1301,7 +1382,7 @@
     },
     {
       "repo": "TML-4PM/maat-reports",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1310,7 +1391,7 @@
     },
     {
       "repo": "TML-4PM/mac-cost-insight-calculator",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1319,7 +1400,7 @@
     },
     {
       "repo": "TML-4PM/master-asset-matrix",
-      "open_items": 2,
+      "open_items": 3,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1328,16 +1409,7 @@
     },
     {
       "repo": "TML-4PM/master-dashboard",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/mcp-bridge-invoke-handler",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1354,17 +1426,8 @@
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/mcp-protocol-standard",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
       "repo": "TML-4PM/mcp-scripts",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1391,7 +1454,7 @@
     },
     {
       "repo": "TML-4PM/myneuralsignal",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1400,7 +1463,7 @@
     },
     {
       "repo": "TML-4PM/neural-ennead-family",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1409,7 +1472,7 @@
     },
     {
       "repo": "TML-4PM/neural-market-intelligence",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1418,7 +1481,7 @@
     },
     {
       "repo": "TML-4PM/neuropak",
-      "open_items": 1,
+      "open_items": 2,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1445,7 +1508,7 @@
     },
     {
       "repo": "TML-4PM/oman-australia-strategy",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1463,16 +1526,7 @@
     },
     {
       "repo": "TML-4PM/ops-docs",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/park-harmony-ai",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1517,7 +1571,7 @@
     },
     {
       "repo": "TML-4PM/predator-alert-system",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1526,7 +1580,7 @@
     },
     {
       "repo": "TML-4PM/promoforge",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1535,7 +1589,7 @@
     },
     {
       "repo": "TML-4PM/proof_pot",
-      "open_items": 4,
+      "open_items": 5,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1544,7 +1598,7 @@
     },
     {
       "repo": "TML-4PM/property-decision-pack",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1553,7 +1607,7 @@
     },
     {
       "repo": "TML-4PM/property-decision-pack-web",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1571,7 +1625,7 @@
     },
     {
       "repo": "TML-4PM/rhythm-method",
-      "open_items": 2,
+      "open_items": 3,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1580,51 +1634,6 @@
     },
     {
       "repo": "TML-4PM/rick-website-grow",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/ru-good-at-ai",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/site-automation",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/site-sentinel",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/skills",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/sm-ban-watch",
       "open_items": 1,
       "archived": false,
       "disabled": false,
@@ -1633,8 +1642,53 @@
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/Stubborn_AI_FAILS",
+      "repo": "TML-4PM/ru-good-at-ai",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/site-automation",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/site-sentinel",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/skills",
+      "open_items": 1,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/sm-ban-watch",
       "open_items": 2,
+      "archived": false,
+      "disabled": false,
+      "runs_24h": 0,
+      "runs_failed_24h": 0,
+      "runs_cancelled_24h": 0
+    },
+    {
+      "repo": "TML-4PM/Stubborn_AI_FAILS",
+      "open_items": 3,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1661,15 +1715,6 @@
     },
     {
       "repo": "TML-4PM/symbio-synapse-ops",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/synal-core",
       "open_items": 1,
       "archived": false,
       "disabled": false,
@@ -1679,7 +1724,7 @@
     },
     {
       "repo": "TML-4PM/synapse-prod-control-plane",
-      "open_items": 15,
+      "open_items": 17,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1688,7 +1733,7 @@
     },
     {
       "repo": "TML-4PM/t4h-ai-leadership-ingest",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1697,7 +1742,7 @@
     },
     {
       "repo": "TML-4PM/t4h-ai-toolkit",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1706,7 +1751,7 @@
     },
     {
       "repo": "TML-4PM/t4h-apps",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1715,16 +1760,7 @@
     },
     {
       "repo": "TML-4PM/T4H-Autonomous-Bridge",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/t4h-brand-guard",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1733,7 +1769,7 @@
     },
     {
       "repo": "TML-4PM/t4h-checkout-api",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1751,7 +1787,7 @@
     },
     {
       "repo": "TML-4PM/t4h-financial-sharing-model",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1760,7 +1796,7 @@
     },
     {
       "repo": "TML-4PM/t4h-lead-engine",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1769,7 +1805,7 @@
     },
     {
       "repo": "TML-4PM/t4h-lead-engine-2",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1778,7 +1814,7 @@
     },
     {
       "repo": "TML-4PM/t4h-mos-ndis",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1787,7 +1823,7 @@
     },
     {
       "repo": "TML-4PM/t4h-orchestrator",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1796,7 +1832,7 @@
     },
     {
       "repo": "TML-4PM/t4h-perplexity-mcp-proxy",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1805,7 +1841,7 @@
     },
     {
       "repo": "TML-4PM/t4h-rdti-fy2425-evidence-portal",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1814,7 +1850,7 @@
     },
     {
       "repo": "TML-4PM/t4h-remote-mcp-server",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1823,7 +1859,7 @@
     },
     {
       "repo": "TML-4PM/t4h-research-graph",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1832,7 +1868,7 @@
     },
     {
       "repo": "TML-4PM/t4h-research-hub",
-      "open_items": 23,
+      "open_items": 24,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1841,7 +1877,7 @@
     },
     {
       "repo": "TML-4PM/t4h-site-monitor",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1850,7 +1886,7 @@
     },
     {
       "repo": "TML-4PM/t4h-skills",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1859,7 +1895,7 @@
     },
     {
       "repo": "TML-4PM/t4h-supabase-core",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1868,25 +1904,7 @@
     },
     {
       "repo": "TML-4PM/team-shared-brain",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/tech4humanity-books",
-      "open_items": 5,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/TML-4PM-loop-engineering-runtime",
-      "open_items": 4,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1903,17 +1921,8 @@
       "runs_cancelled_24h": 0
     },
     {
-      "repo": "TML-4PM/tml-ops-center",
-      "open_items": 2,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
       "repo": "TML-4PM/tml-social-content",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1922,7 +1931,7 @@
     },
     {
       "repo": "TML-4PM/trojanoz-lambda-fleet",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1931,7 +1940,7 @@
     },
     {
       "repo": "TML-4PM/troy_ebooks",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1940,7 +1949,7 @@
     },
     {
       "repo": "TML-4PM/troy-console",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1949,7 +1958,7 @@
     },
     {
       "repo": "TML-4PM/troy-console-app",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1958,16 +1967,7 @@
     },
     {
       "repo": "TML-4PM/troy-fire-orchestrator",
-      "open_items": 0,
-      "archived": false,
-      "disabled": false,
-      "runs_24h": 0,
-      "runs_failed_24h": 0,
-      "runs_cancelled_24h": 0
-    },
-    {
-      "repo": "TML-4PM/troy-grant-engine",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1976,7 +1976,7 @@
     },
     {
       "repo": "TML-4PM/troy-latter",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1985,7 +1985,7 @@
     },
     {
       "repo": "TML-4PM/troy-report-generator",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -1994,7 +1994,7 @@
     },
     {
       "repo": "TML-4PM/troy-rip-processor",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -2003,7 +2003,7 @@
     },
     {
       "repo": "TML-4PM/troy-task-orchestrator",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -2021,7 +2021,7 @@
     },
     {
       "repo": "TML-4PM/verified-comms-suite",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -2039,7 +2039,7 @@
     },
     {
       "repo": "TML-4PM/wave10-sweeper",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -2048,7 +2048,7 @@
     },
     {
       "repo": "TML-4PM/westy-tender-smash",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -2057,7 +2057,7 @@
     },
     {
       "repo": "TML-4PM/wfai-email-agent",
-      "open_items": 0,
+      "open_items": 1,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
@@ -2075,7 +2075,7 @@
     },
     {
       "repo": "TML-4PM/xses",
-      "open_items": 2,
+      "open_items": 3,
       "archived": false,
       "disabled": false,
       "runs_24h": 0,
