@@ -5,8 +5,8 @@
   "workflow_count": 263,
   "coverage": {
     "COVERED_PARTIAL": 99,
-    "COVERED_REAL": 154,
-    "COVERED_NO_HOSTED_DEPENDENCY": 10
+    "COVERED_NO_HOSTED_DEPENDENCY": 10,
+    "COVERED_REAL": 154
   },
   "families": {
     "OBSERVE_AUDIT": 49,
@@ -20,5 +20,5 @@
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-08T11:50:01.905Z"
+  "generated_at": "2026-08-08T12:00:05.655Z"
 }
