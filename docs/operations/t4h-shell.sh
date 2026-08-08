@@ -2,6 +2,8 @@
 # T4H shell navigation helpers. Keep this layer small; the-pen is canonical.
 
 T4H_GUIDE_URL="https://github.com/TML-4PM/the-pen/blob/main/docs/operations/T4H_REPOSITORY_PRELOAD_GUIDE.md"
+T4H_AWS_REGION="ap-southeast-2"
+T4H_EC2_INSTANCE="i-09f18f2e1123a5702"
 
 _t4h_path() {
   case "$1" in
@@ -38,6 +40,31 @@ repo() {
       ;;
     *) echo "Unknown repo: $1"; repo help; return 2 ;;
   esac
+}
+
+# Mac entry points. Keep these here so the operator surface has one canonical helper.
+ec2() {
+  ssh t4h-ec2 -t 'cd ~/my-project && exec bash -l'
+}
+
+ec2b() {
+  aws ssm start-session \
+    --region "$T4H_AWS_REGION" \
+    --target "$T4H_EC2_INSTANCE" \
+    --document-name AWS-StartInteractiveCommand \
+    --parameters 'command=["sudo -iu ssm-user bash -lc '\''cd ~/qm-docker && exec bash -l'\''"]'
+}
+
+qmtunnel() {
+  if command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:18081 -sTCP:LISTEN >/dev/null 2>&1; then
+    printf '%s\n' 'qmtunnel: local port 18081 is already in use; existing tunnel may already be running.'
+    return 1
+  fi
+  aws ssm start-session \
+    --region "$T4H_AWS_REGION" \
+    --target "$T4H_EC2_INSTANCE" \
+    --document-name AWS-StartPortForwardingSession \
+    --parameters '{"portNumber":["18081"],"localPortNumber":["18081"]}'
 }
 
 guide() {
