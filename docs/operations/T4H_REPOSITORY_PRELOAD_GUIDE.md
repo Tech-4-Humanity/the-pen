@@ -23,7 +23,8 @@ Define the canonical repository preload and navigation model for Mac and EC2. Gi
 | `repo command-centre` | `TML-4PM/mcp-command-centre` | Operator interface and command/control application | Mac; EC2 only if hosted there |
 | `repo synal-core` | Current Synal Core repository / EC2 checkout | Earlier/broader Synal runtime and integration layer | On demand; EC2 checkout currently at `~/my-project` |
 | `repo loop-runtime` | `T4H001/new-account-loop-engineering-runtime` | Alternate-account GitHub Actions runtime experiment | Mac on demand; not EC2 |
-| `repo research-hub` | `TML-4PM/t4h-research-hub` | Research, Work Intelligence Estate and Atlas-related engineering | Mac; EC2 only for active workers |
+
+`t4h-research-hub` is explicitly out of scope for this preload model and is not a missing repository or operational gap.
 
 ## Worker clarification
 
@@ -32,7 +33,7 @@ Define the canonical repository preload and navigation model for Mac and EC2. Gi
 - `monitoring-repair-worker` → `WKR-RECOVER-001` in `TML-4PM/t4h-engineering-control-plane`
 - `estate-sweep-worker` → `WKR-SWEEP-001` in `TML-4PM/t4h-engineering-control-plane`
 
-They are currently worker definitions/specifications and must not be represented as separate repository preload entries unless a canonical repository is subsequently created and receipted.
+They are worker definitions/specifications and must not be represented as separate repository preload entries unless a canonical repository is subsequently created and receipted.
 
 ## Machine rule
 
@@ -72,13 +73,43 @@ EC2: pull approved revision → execute → validate → receipt
 
 `repo <name>` only navigates to a checkout on the **current machine**. It never connects to another machine.
 
-On the Mac:
+### Mac entry points
 
 ```text
 ec2
 ```
 
-connects to the configured EC2 host and opens the normal runtime shell at `~/my-project`.
+Connects by SSH to the configured EC2 host and opens the normal `ubuntu` runtime shell at `~/my-project`.
+
+```text
+ec2b
+```
+
+Connects by AWS SSM to the same EC2 instance, switches to `ssm-user`, and opens the QM/backup environment at `~/qm-docker`.
+
+```text
+qmtunnel
+```
+
+Starts the SSM port-forward from local `localhost:18081` to the EC2 QM service on port `18081`. Leave this terminal running while using the browser. Open the QM service at:
+
+```text
+http://localhost:18081
+```
+
+`qmtunnel` checks whether local port `18081` is already listening before creating another tunnel, reducing duplicate-session errors.
+
+The three shortcuts are deliberately separate:
+
+```text
+ec2       → normal engineering shell
+ec2b      → QM / backup shell
+qmtunnel  → browser tunnel only
+```
+
+They can be used in separate terminal tabs at the same time.
+
+### EC2 navigation
 
 Once inside EC2:
 
@@ -108,25 +139,24 @@ Everything else should be cloned on demand.
 
 ## Current receipted preload
 
-### Mac — RECEIPTED 2026-08-08
+### Mac — RECEIPTED 2026-08-09
 
-Fresh Mac `repo status` receipt:
+Verified Mac `repo status` receipt:
 
 ```text
 REAL     runtime-real
 REAL     the-pen
-REAL     t4h-engineering-control-plane
-REAL     t4h-remote-mcp-server-clean
-REAL     bridge-worker-intake
-REAL     mcp-command-centre
-MISSING  t4h-research-hub
+REAL     control-plane
+REAL     mcp
+REAL     bridge
+REAL     command-centre
 ```
 
-The five required core repositories are therefore **REAL on Mac**. `mcp-command-centre` is also present. `t4h-research-hub` remains an optional/conditional repository and is not a core preload gap.
+All required Mac preload repositories are **REAL**. `t4h-research-hub` is out of scope and is not counted as a gap.
 
 ### EC2 — RECEIPTED 2026-08-08
 
-Fresh EC2 preload receipt:
+Verified EC2 preload receipt:
 
 ```text
 REAL     runtime-real
@@ -142,9 +172,27 @@ Synal Core is also available through the existing EC2 checkout:
 ~/my-project
 ```
 
+### QM / backup access — RECEIPTED 2026-08-09
+
+Verified Mac shortcut:
+
+```text
+ec2b
+```
+
+Receipt:
+
+```text
+ssm-user@ip-172-31-44-249:~/qm-docker$
+```
+
+The QM service was previously verified running through Docker on EC2 with host port `8081`; the current SSM tunnel maps local `18081` to EC2 `18081`, so browser access must follow the currently configured QM port rather than being inferred from historical Docker state.
+
 ## Truth and recovery rule
 
-Repository presence is validated from the machine runtime, not from memory. A shortcut is useful only when its target is verified. If a checkout is missing, stale, corrupted or otherwise unresolved, classify it as PARTIAL or BLOCKED and recover by clone, pull, repair or reroute as appropriate.
+Repository presence and shortcut operation are validated from machine runtime, not from memory. A shortcut is useful only when its target is verified. If a checkout is missing, stale, corrupted or otherwise unresolved, classify it as PARTIAL or BLOCKED and recover by clone, pull, repair or reroute as appropriate.
+
+A shell helper update in GitHub is not automatically installed on Mac or EC2. Each machine must pull/source the canonical helper before the new command becomes REAL there.
 
 ## Shell navigation standard
 
@@ -153,6 +201,8 @@ The preferred operator experience is deliberately minimal:
 ```text
 Mac:
 ec2
+ec2b
+qmtunnel
 
 EC2:
 repo runtime-real
@@ -163,6 +213,6 @@ repo bridge
 repo synal-core
 ```
 
-Do not require operators to remember EC2 IP addresses, SSH syntax, repository filesystem paths or long `cd` commands for normal navigation.
+Do not require operators to remember EC2 IP addresses, SSH syntax, SSM syntax, repository filesystem paths or long `cd` commands for normal navigation.
 
-The `ec2` shortcut is an SSH convenience only; it does not itself prove application health, deployment state or worker readiness. Those states require their own runtime receipts and telemetry.
+The `ec2`, `ec2b` and `qmtunnel` shortcuts are convenience entry points only; they do not themselves prove application health, deployment state, worker readiness or QM health. Those states require their own runtime receipts and telemetry.
