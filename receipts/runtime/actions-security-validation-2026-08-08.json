@@ -1,0 +1,13 @@
+{
+  "worker_id": "WKR-RECOVER-001",
+  "adapter": "security-validation-adapter",
+  "state": "REAL",
+  "execution_provider": "supabase-edge",
+  "mode": "READ_VALIDATE_ONLY",
+  "workflows_validated": 28,
+  "high_findings": 0,
+  "automatic_remediation": false,
+  "schedule": "*/15 * * * *",
+  "validation": "all currently classified SECURITY_COMPLIANCE workflow definitions were fetched and parsed outside GitHub-hosted runners; high-risk workflow anti-pattern checks returned zero high findings",
+  "generated_at": "2026-08-08T00:59:30Z"
+}
