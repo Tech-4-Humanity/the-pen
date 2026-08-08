@@ -3,24 +3,24 @@
 
 T4H_GUIDE_URL="https://github.com/TML-4PM/the-pen/blob/main/docs/operations/T4H_REPOSITORY_PRELOAD_GUIDE.md"
 
+_t4h_path() {
+  case "$1" in
+    runtime-real) if [ -d "$HOME/projects/runtime-real/.git" ]; then printf '%s' "$HOME/projects/runtime-real"; else printf '%s' "$HOME/runtime-real"; fi ;;
+    the-pen) if [ -d "$HOME/projects/TML-4PM/the-pen/.git" ]; then printf '%s' "$HOME/projects/TML-4PM/the-pen"; elif [ -d "$HOME/projects/the-pen/.git" ]; then printf '%s' "$HOME/projects/the-pen"; else printf '%s' "$HOME/the-pen"; fi ;;
+    control-plane) printf '%s' "$HOME/t4h-engineering-control-plane" ;;
+    mcp) printf '%s' "$HOME/t4h-remote-mcp-server-clean" ;;
+    bridge) printf '%s' "$HOME/bridge-worker-intake" ;;
+    command-centre) printf '%s' "$HOME/mcp-command-centre" ;;
+    synal-core) if [ -d "$HOME/projects/synal-core/.git" ]; then printf '%s' "$HOME/projects/synal-core"; else printf '%s' "$HOME/my-project"; fi ;;
+  esac
+}
+
 repo() {
   case "${1:-}" in
-    runtime-real) cd "$HOME/runtime-real" ;;
-    the-pen) cd "$HOME/the-pen" ;;
-    control-plane) cd "$HOME/t4h-engineering-control-plane" ;;
-    mcp) cd "$HOME/t4h-remote-mcp-server-clean" ;;
-    bridge) cd "$HOME/bridge-worker-intake" ;;
-    command-centre) cd "$HOME/mcp-command-centre" ;;
-    synal-core) cd "$HOME/my-project" ;;
+    runtime-real|the-pen|control-plane|mcp|bridge|command-centre|synal-core) cd "$(_t4h_path "$1")" || return 1 ;;
     status)
-      for pair in \
-        "runtime-real:$HOME/runtime-real" \
-        "the-pen:$HOME/the-pen" \
-        "control-plane:$HOME/t4h-engineering-control-plane" \
-        "mcp:$HOME/t4h-remote-mcp-server-clean" \
-        "bridge:$HOME/bridge-worker-intake" \
-        "command-centre:$HOME/mcp-command-centre"; do
-        name=${pair%%:*}; path=${pair#*:}
+      for name in runtime-real the-pen control-plane mcp bridge command-centre; do
+        path="$(_t4h_path "$name")"
         if [ -d "$path/.git" ]; then printf 'REAL     %s\n' "$name"; else printf 'MISSING  %s\n' "$name"; fi
       done
       ;;
