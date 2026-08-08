@@ -1,0 +1,82 @@
+{
+  "schema": "t4h.actions-family-promotion/v1",
+  "state": "REAL_WITH_TRUTH_BOUNDARIES",
+  "timestamp": "2026-08-08T01:14:00Z",
+  "worker_id": "WKR-RECOVER-001",
+  "proofs": {
+    "build_test_ci": {
+      "adapter": "mcp-registry-validator-portable",
+      "state": "REAL",
+      "repo": "TML-4PM/mcp-protocol-standard",
+      "source_workflow": "Validate Registry Entries",
+      "files_validated": 2,
+      "failures_after_repair": 0,
+      "repair_commit": "7eef6f0a209f22be9a2b25dd7e795d5d2d12cf91"
+    },
+    "deploy_supabase": {
+      "adapter": "supabase-edge-deploy-adapter",
+      "state": "REAL",
+      "project": "lzfgigiyqpuuxslsygjt",
+      "function": "portable-deploy-proof",
+      "function_version": 1,
+      "readback_http_status": 200,
+      "truth_boundary": "Does not prove separate canonical project jjsycelagfmuquvxryfo."
+    },
+    "deploy_aws_lambda_readback": {
+      "adapter": "aws-lambda-readback-adapter",
+      "state": "REAL_READBACK_ONLY",
+      "function": "troy-lambda-deploy",
+      "region": "ap-southeast-2",
+      "runtime": "python3.11",
+      "provider_state": "Active",
+      "version": "$LATEST",
+      "code_sha256": "EjmWZggSQK5geyuZF2GShvnbBZm6DJbribqea14EMHM=",
+      "truth_boundary": "Read-only provider/function proof; no production Lambda mutation was performed merely to obtain evidence."
+    },
+    "deploy_s3_readback": {
+      "adapter": "aws-s3-readback-adapter",
+      "state": "REAL",
+      "bucket": "t4h-recovery-outcome-ready-140548542136",
+      "http_status": 200,
+      "bytes": 129590,
+      "remote_sha256": "9c41417da705f0dc3b030fea6d27da376a68e38fd2febd4d7b18d0e78996f7fa"
+    },
+    "deploy_s3_bounded_write": {
+      "adapter": "aws-s3-bounded-deploy-adapter",
+      "state": "REAL",
+      "bucket": "t4h-recovery-outcome-ready-140548542136",
+      "key": "_t4h_proofs/portable-runtime-proof.json",
+      "put_status": 200,
+      "get_status": 200,
+      "local_sha256": "63cd60fc4b2385a3063d692f5ef6b1cbc3167cb48888498f4424ee3bbb3d018d",
+      "remote_sha256": "63cd60fc4b2385a3063d692f5ef6b1cbc3167cb48888498f4424ee3bbb3d018d",
+      "hashes_match": true,
+      "truth_boundary": "Proves bounded non-destructive S3 object deployment; full website sync/delete remains separately gated."
+    },
+    "reconcile_sync": {
+      "adapter": "generic-reconcile-adapter",
+      "state": "REAL",
+      "repo": "TML-4PM/the-pen",
+      "path": "receipts/runtime/generic-reconcile-portable-proof.json",
+      "commit": "b839d0574e934b0fc21750978ed6abb08aa5a5a3"
+    },
+    "heartbeat": {
+      "adapter": "bridge-runner-heartbeat-portable",
+      "state": "REAL",
+      "storage": "supabase-state",
+      "github_commit_per_heartbeat": false,
+      "schedule": "*/15 * * * *"
+    }
+  },
+  "known_task_failures": [
+    {
+      "repo": "TML-4PM/mcp-command-centre",
+      "issue": 97,
+      "classification": "TASK_FAILED_NOT_PROVIDER_FAILED",
+      "lint_errors": 365,
+      "lint_warnings": 16,
+      "npm_audit_summary": {"moderate": 7, "high": 12, "critical": 1},
+      "production_restored_commit": "0dae5e19a72f48f0ad5c5c92003a2a4d48808688"
+    }
+  ]
+}
