@@ -1,0 +1,18 @@
+{
+  "system": "github_ops_report",
+  "state": "REAL",
+  "execution_provider": "supabase-edge",
+  "timestamp_utc": "2026-08-08T00:00:56.819Z",
+  "repos_scanned": 230,
+  "totals": {
+    "runs": 20,
+    "failed": 20,
+    "cancelled": 0,
+    "open_issues": 7,
+    "open_prs": 5,
+    "errors": 215
+  },
+  "evidence_hash": "b9b94ba8316ac49d18213e7fff8e7e60dd12b79be87ca610614361fe9ea2af08",
+  "duration_ms": 7328,
+  "target_repo": "TML-4PM/the-pen"
+}
