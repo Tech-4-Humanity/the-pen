@@ -173,7 +173,7 @@ Verified EC2 preload receipt:
 ```text
 REAL     runtime-real
 REAL     the-pen
-aREAL     t4h-engineering-control-plane
+REAL     t4h-engineering-control-plane
 REAL     t4h-remote-mcp-server-clean
 REAL     bridge-worker-intake
 ```
