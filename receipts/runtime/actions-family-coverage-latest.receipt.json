@@ -9,15 +9,15 @@
     "COVERED_NO_HOSTED_DEPENDENCY": 4
   },
   "families": {
-    "HEALTH_PROOF": 103,
     "SECURITY_COMPLIANCE": 28,
-    "RECONCILE_SYNC": 25,
     "OBSERVE_AUDIT": 47,
-    "BUILD_TEST_CI": 26,
-    "DEPLOY_RELEASE": 28
+    "HEALTH_PROOF": 103,
+    "DEPLOY_RELEASE": 28,
+    "RECONCILE_SYNC": 25,
+    "BUILD_TEST_CI": 26
   },
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-08T01:10:01.502Z"
+  "generated_at": "2026-08-08T01:20:01.115Z"
 }
