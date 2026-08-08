@@ -5,13 +5,13 @@
   "workflow_count": 259,
   "coverage": {
     "COVERED_PARTIAL": 100,
-    "COVERED_REAL": 154,
-    "COVERED_NO_HOSTED_DEPENDENCY": 5
+    "COVERED_NO_HOSTED_DEPENDENCY": 5,
+    "COVERED_REAL": 154
   },
   "families": {
     "OBSERVE_AUDIT": 47,
-    "SECURITY_COMPLIANCE": 29,
     "HEALTH_PROOF": 103,
+    "SECURITY_COMPLIANCE": 29,
     "RECONCILE_SYNC": 26,
     "DEPLOY_RELEASE": 28,
     "BUILD_TEST_CI": 26
@@ -19,5 +19,5 @@
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-08T09:50:01.097Z"
+  "generated_at": "2026-08-08T10:00:01.488Z"
 }
