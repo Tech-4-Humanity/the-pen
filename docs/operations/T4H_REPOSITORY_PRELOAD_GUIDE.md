@@ -126,12 +126,14 @@ The five required core repositories are therefore **REAL on Mac**. `mcp-command-
 
 ### EC2 — RECEIPTED 2026-08-08
 
+Fresh EC2 preload receipt:
+
 ```text
 REAL     runtime-real
-the-pen
- t4h-engineering-control-plane
-t4h-remote-mcp-server-clean
-bridge-worker-intake
+REAL     the-pen
+REAL     t4h-engineering-control-plane
+REAL     t4h-remote-mcp-server-clean
+REAL     bridge-worker-intake
 ```
 
 Synal Core is also available through the existing EC2 checkout:
