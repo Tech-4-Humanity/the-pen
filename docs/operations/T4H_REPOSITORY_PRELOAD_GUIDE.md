@@ -199,7 +199,7 @@ Verified EC2 preload receipt:
 ```text
 REAL     runtime-real
 REAL     the-pen
-aREAL     t4h-engineering-control-plane
+REAL     t4h-engineering-control-plane
 REAL     t4h-remote-mcp-server-clean
 REAL     bridge-worker-intake
 ```
@@ -223,6 +223,12 @@ Verified direct SSM port-forward previously worked:
 ```text
 Port 18081 opened for session
 Connection accepted
+```
+
+Browser endpoint:
+
+```text
+http://localhost:18081/
 ```
 
 However, the current automated `ec2b` tunnel has not yet passed the independent localhost acceptance test. The latest observed evidence was:
