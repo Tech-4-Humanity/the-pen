@@ -10,9 +10,9 @@
   },
   "families": {
     "HEALTH_PROOF": 103,
+    "BUILD_TEST_CI": 26,
     "OBSERVE_AUDIT": 49,
     "RECONCILE_SYNC": 26,
-    "BUILD_TEST_CI": 26,
     "SECURITY_COMPLIANCE": 29,
     "DEPLOY_RELEASE": 28,
     "DATA_ETL": 2
@@ -20,5 +20,5 @@
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-08T14:30:03.517Z"
+  "generated_at": "2026-08-08T14:40:01.934Z"
 }
