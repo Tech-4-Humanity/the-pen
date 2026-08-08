@@ -5,6 +5,7 @@ T4H_GUIDE_URL="https://github.com/TML-4PM/the-pen/blob/main/docs/operations/T4H_
 T4H_QM_URL="http://localhost:18081/"
 T4H_AWS_REGION="ap-southeast-2"
 T4H_EC2_INSTANCE="i-09f18f2e1123a5702"
+T4H_QM_TUNNEL_LOG="${TMPDIR:-/tmp}/t4h-qm-tunnel.log"
 
 _t4h_path() {
   case "$1" in
@@ -48,45 +49,72 @@ ec2() {
   ssh t4h-ec2 -t 'cd ~/my-project && exec bash -l'
 }
 
+_t4h_qm_tunnel_running() {
+  command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:18081 -sTCP:LISTEN >/dev/null 2>&1
+}
+
+_t4h_start_qm_tunnel() {
+  : >"$T4H_QM_TUNNEL_LOG"
+  nohup aws ssm start-session \
+    --region "$T4H_AWS_REGION" \
+    --target "$T4H_EC2_INSTANCE" \
+    --document-name AWS-StartPortForwardingSession \
+    --parameters '{"portNumber":["18081"],"localPortNumber":["18081"]}' \
+    >"$T4H_QM_TUNNEL_LOG" 2>&1 </dev/null &
+  printf '%s' "$!"
+}
+
+_t4h_wait_for_qm_tunnel() {
+  i=0
+  while [ "$i" -lt 30 ]; do
+    if _t4h_qm_tunnel_running; then return 0; fi
+    if [ -s "$T4H_QM_TUNNEL_LOG" ] && grep -Eq 'failed|error|AccessDenied|TargetNotConnected|Connection refused' "$T4H_QM_TUNNEL_LOG"; then
+      return 1
+    fi
+    sleep 0.5
+    i=$((i + 1))
+  done
+  return 1
+}
+
 ec2b() {
-  if command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:18081 -sTCP:LISTEN >/dev/null 2>&1; then
+  tunnel_pid=""
+  own_tunnel=0
+
+  if _t4h_qm_tunnel_running; then
     printf '%s\n' 'ec2b: QM tunnel already running on localhost:18081.'
-    printf '%s\n' "ec2b: $T4H_QM_URL"
-    aws ssm start-session \
-      --region "$T4H_AWS_REGION" \
-      --target "$T4H_EC2_INSTANCE" \
-      --document-name AWS-StartInteractiveCommand \
-      --parameters 'command=["sudo -iu ssm-user bash -lc '\''cd ~/qm-docker && exec bash -l'\''"]'
-    return
+  else
+    tunnel_pid="$(_t4h_start_qm_tunnel)"
+    own_tunnel=1
+    if ! _t4h_wait_for_qm_tunnel; then
+      printf '%s\n' 'ec2b: QM tunnel did not become ready.'
+      cat "$T4H_QM_TUNNEL_LOG" 2>/dev/null || true
+      kill "$tunnel_pid" 2>/dev/null || true
+      return 1
+    fi
+    printf '%s\n' "ec2b: QM tunnel ready at $T4H_QM_URL"
   fi
 
-  qmtunnel >/tmp/t4h-qm-tunnel.log 2>&1 &
-  tunnel_pid=$!
-  trap 'kill "$tunnel_pid" 2>/dev/null || true' EXIT INT TERM
-  sleep 1
-
-  if ! kill -0 "$tunnel_pid" 2>/dev/null; then
-    printf '%s\n' 'ec2b: QM tunnel failed to start.'
-    cat /tmp/t4h-qm-tunnel.log 2>/dev/null || true
-    trap - EXIT INT TERM
-    return 1
+  if command -v open >/dev/null 2>&1; then
+    open "$T4H_QM_URL" >/dev/null 2>&1 &
   fi
-
-  printf '%s\n' "ec2b: QM tunnel ready at $T4H_QM_URL"
-  if command -v open >/dev/null 2>&1; then open "$T4H_QM_URL" >/dev/null 2>&1 & fi
 
   aws ssm start-session \
     --region "$T4H_AWS_REGION" \
     --target "$T4H_EC2_INSTANCE" \
     --document-name AWS-StartInteractiveCommand \
     --parameters 'command=["sudo -iu ssm-user bash -lc '\''cd ~/qm-docker && exec bash -l'\''"]'
+  session_rc=$?
 
-  trap - EXIT INT TERM
-  kill "$tunnel_pid" 2>/dev/null || true
+  if [ "$own_tunnel" -eq 1 ]; then
+    kill "$tunnel_pid" 2>/dev/null || true
+  fi
+
+  return "$session_rc"
 }
 
 qmtunnel() {
-  if command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:18081 -sTCP:LISTEN >/dev/null 2>&1; then
+  if _t4h_qm_tunnel_running; then
     printf '%s\n' 'qmtunnel: local port 18081 is already in use; existing tunnel may already be running.'
     return 1
   fi
