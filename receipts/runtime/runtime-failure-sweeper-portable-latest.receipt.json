@@ -20,6 +20,16 @@
   "failure_count": 6,
   "failures": [
     {
+      "workflow": "Bridge Runner — Heartbeat",
+      "run_id": 31291785171,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31291785171",
+      "created_at": "2026-08-09T03:07:35Z"
+    },
+    {
       "workflow": "Revenue Engine Gate",
       "run_id": 31288365385,
       "event": "pull_request",
@@ -68,18 +78,8 @@
       "head_sha": "199432a1f9387b3c1566e11a5dd445d6ba8aca89",
       "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31288332644",
       "created_at": "2026-08-09T01:28:21Z"
-    },
-    {
-      "workflow": "Bridge Runner — Heartbeat",
-      "run_id": 31287748650,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31287748650",
-      "created_at": "2026-08-09T01:10:59Z"
     }
   ],
-  "generated_at": "2026-08-09T02:17:02.043Z",
-  "duration_ms": 1607
+  "generated_at": "2026-08-09T03:17:02.261Z",
+  "duration_ms": 1639
 }
