@@ -80,7 +80,8 @@ jobs:
 
       - name: Empty-inbox annotation
         if: steps.inbox.outputs.count == '0'
-        run: echo "PEN Ingest: Empty inbox - no work to do"
+        run: |
+          echo "PEN Ingest: Empty inbox - no work to do"
 
       - name: Setup Node
         if: steps.inbox.outputs.count != '0'
