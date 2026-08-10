@@ -16,7 +16,7 @@
     "Universal Agent Contract Gate"
   ],
   "window_hours": 2,
-  "observed_count": 1,
+  "observed_count": 2,
   "failure_count": 1,
   "failures": [
     {
@@ -30,6 +30,6 @@
       "created_at": "2026-08-10T02:31:51Z"
     }
   ],
-  "generated_at": "2026-08-10T03:17:02.053Z",
-  "duration_ms": 1623
+  "generated_at": "2026-08-10T04:17:02.179Z",
+  "duration_ms": 1632
 }
