@@ -4,8 +4,8 @@
   "scope": "all discovered GitHub Actions workflows and related/similar patterns",
   "workflow_count": 267,
   "coverage": {
-    "COVERED_REAL": 155,
     "COVERED_NO_HOSTED_DEPENDENCY": 11,
+    "COVERED_REAL": 155,
     "COVERED_PARTIAL": 101
   },
   "families": {
@@ -21,5 +21,5 @@
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-10T18:40:01.754Z"
+  "generated_at": "2026-08-10T18:50:01.014Z"
 }
