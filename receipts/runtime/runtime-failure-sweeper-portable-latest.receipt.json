@@ -16,9 +16,19 @@
     "Universal Agent Contract Gate"
   ],
   "window_hours": 2,
-  "observed_count": 33,
-  "failure_count": 33,
+  "observed_count": 32,
+  "failure_count": 32,
   "failures": [
+    {
+      "workflow": "Bridge Runner — Heartbeat",
+      "run_id": 31409227964,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31409227964",
+      "created_at": "2026-08-10T16:29:37Z"
+    },
     {
       "workflow": "Universal Agent Contract Gate",
       "run_id": 31407650335,
@@ -328,28 +338,8 @@
       "head_sha": "970f9000aa30070beab8b6947a70ec7e2f31c9ca",
       "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31406125192",
       "created_at": "2026-08-10T15:54:34Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31406125186,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "970f9000aa30070beab8b6947a70ec7e2f31c9ca",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31406125186",
-      "created_at": "2026-08-10T15:54:34Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31406125184,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "970f9000aa30070beab8b6947a70ec7e2f31c9ca",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31406125184",
-      "created_at": "2026-08-10T15:54:34Z"
     }
   ],
-  "generated_at": "2026-08-10T16:17:02.878Z",
-  "duration_ms": 1703
+  "generated_at": "2026-08-10T17:17:02.247Z",
+  "duration_ms": 1808
 }
