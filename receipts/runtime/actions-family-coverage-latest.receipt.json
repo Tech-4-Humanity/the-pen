@@ -11,15 +11,15 @@
   "families": {
     "HEALTH_PROOF": 103,
     "RECONCILE_SYNC": 26,
-    "GITHUB_CONTROL": 1,
     "BUILD_TEST_CI": 28,
-    "SECURITY_COMPLIANCE": 30,
+    "GITHUB_CONTROL": 1,
     "OBSERVE_AUDIT": 49,
+    "SECURITY_COMPLIANCE": 30,
     "DEPLOY_RELEASE": 28,
     "DATA_ETL": 2
   },
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-10T18:50:01.014Z"
+  "generated_at": "2026-08-10T19:00:02.039Z"
 }
