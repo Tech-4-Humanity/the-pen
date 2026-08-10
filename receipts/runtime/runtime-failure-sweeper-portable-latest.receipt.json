@@ -16,9 +16,29 @@
     "Universal Agent Contract Gate"
   ],
   "window_hours": 2,
-  "observed_count": 32,
-  "failure_count": 32,
+  "observed_count": 3,
+  "failure_count": 3,
   "failures": [
+    {
+      "workflow": "Bridge Runner — Heartbeat",
+      "run_id": 31417939831,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31417939831",
+      "created_at": "2026-08-10T18:12:56Z"
+    },
+    {
+      "workflow": "Bridge Runner — Heartbeat",
+      "run_id": 31414113607,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31414113607",
+      "created_at": "2026-08-10T17:27:28Z"
+    },
     {
       "workflow": "Bridge Runner — Heartbeat",
       "run_id": 31409227964,
@@ -28,318 +48,8 @@
       "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
       "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31409227964",
       "created_at": "2026-08-10T16:29:37Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407650335,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407650335",
-      "created_at": "2026-08-10T16:11:39Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407650334,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407650334",
-      "created_at": "2026-08-10T16:11:39Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407650303,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407650303",
-      "created_at": "2026-08-10T16:11:39Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407621752,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "08e13a64ce56aed4c81684a89c6d2cef4cfd62e9",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407621752",
-      "created_at": "2026-08-10T16:11:18Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407621680,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "08e13a64ce56aed4c81684a89c6d2cef4cfd62e9",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407621680",
-      "created_at": "2026-08-10T16:11:18Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407621646,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "08e13a64ce56aed4c81684a89c6d2cef4cfd62e9",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407621646",
-      "created_at": "2026-08-10T16:11:18Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407574222,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "42843b6d46283cbe69fa4ab8644898aae16191b0",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407574222",
-      "created_at": "2026-08-10T16:10:46Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407574159,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "42843b6d46283cbe69fa4ab8644898aae16191b0",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407574159",
-      "created_at": "2026-08-10T16:10:46Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407574141,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "42843b6d46283cbe69fa4ab8644898aae16191b0",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407574141",
-      "created_at": "2026-08-10T16:10:46Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407525413,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "a6301435e23335b10bfb176c37151c2bb0a33d06",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407525413",
-      "created_at": "2026-08-10T16:10:13Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407525394,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "a6301435e23335b10bfb176c37151c2bb0a33d06",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407525394",
-      "created_at": "2026-08-10T16:10:13Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407525370,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "a6301435e23335b10bfb176c37151c2bb0a33d06",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407525370",
-      "created_at": "2026-08-10T16:10:13Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407452644,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "2559a4e213c1e607b64df3733880d15063a2b259",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407452644",
-      "created_at": "2026-08-10T16:09:24Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407452596,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "2559a4e213c1e607b64df3733880d15063a2b259",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407452596",
-      "created_at": "2026-08-10T16:09:24Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407452426,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "2559a4e213c1e607b64df3733880d15063a2b259",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407452426",
-      "created_at": "2026-08-10T16:09:23Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407417674,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "932da9a04037da409f8985fed08667bdfcff55ce",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407417674",
-      "created_at": "2026-08-10T16:09:01Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407417613,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "932da9a04037da409f8985fed08667bdfcff55ce",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407417613",
-      "created_at": "2026-08-10T16:09:01Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407417512,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "932da9a04037da409f8985fed08667bdfcff55ce",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407417512",
-      "created_at": "2026-08-10T16:09:01Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407368236,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "92554116ef631a750d49182e49ceade01eb88ff7",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407368236",
-      "created_at": "2026-08-10T16:08:29Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407365224,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "92554116ef631a750d49182e49ceade01eb88ff7",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407365224",
-      "created_at": "2026-08-10T16:08:27Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407364655,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "92554116ef631a750d49182e49ceade01eb88ff7",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407364655",
-      "created_at": "2026-08-10T16:08:26Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407344148,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "56db91260653d8e856da172ca7836de5b3973635",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407344148",
-      "created_at": "2026-08-10T16:08:13Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407344131,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "56db91260653d8e856da172ca7836de5b3973635",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407344131",
-      "created_at": "2026-08-10T16:08:13Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407344077,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "56db91260653d8e856da172ca7836de5b3973635",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407344077",
-      "created_at": "2026-08-10T16:08:13Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31407313304,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "e1101b85d68806284205ab16e84f5a31a2c7158e",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407313304",
-      "created_at": "2026-08-10T16:07:53Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31407313202,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "e1101b85d68806284205ab16e84f5a31a2c7158e",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407313202",
-      "created_at": "2026-08-10T16:07:53Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31407313198,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "e1101b85d68806284205ab16e84f5a31a2c7158e",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31407313198",
-      "created_at": "2026-08-10T16:07:53Z"
-    },
-    {
-      "workflow": "Wave20 Enforcement Gate",
-      "run_id": 31406561451,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "68e19305785e58515dfdd6d2458de37802e28b72",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31406561451",
-      "created_at": "2026-08-10T15:59:33Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31406561364,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "68e19305785e58515dfdd6d2458de37802e28b72",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31406561364",
-      "created_at": "2026-08-10T15:59:32Z"
-    },
-    {
-      "workflow": "Universal Agent Contract Gate",
-      "run_id": 31406561253,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "68e19305785e58515dfdd6d2458de37802e28b72",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31406561253",
-      "created_at": "2026-08-10T15:59:32Z"
-    },
-    {
-      "workflow": "Agent Contract CI",
-      "run_id": 31406125192,
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "970f9000aa30070beab8b6947a70ec7e2f31c9ca",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31406125192",
-      "created_at": "2026-08-10T15:54:34Z"
     }
   ],
-  "generated_at": "2026-08-10T17:17:02.247Z",
-  "duration_ms": 1808
+  "generated_at": "2026-08-10T18:17:02.767Z",
+  "duration_ms": 2121
 }
