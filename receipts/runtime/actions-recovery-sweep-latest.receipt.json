@@ -6,83 +6,8 @@
   "trigger": "scheduled-fallback-until-event-gateway-real",
   "scanned_candidates": 25,
   "runner_unallocated": 25,
-  "recovered_count": 21,
+  "recovered_count": 18,
   "recovered": [
-    {
-      "repo": "TML-4PM/mcp-command-centre",
-      "run_id": 31368543700,
-      "run_url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31368543700",
-      "workflow": "Standard Runtime Proof",
-      "event": "schedule",
-      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
-      "created_at": "2026-08-10T08:05:27Z",
-      "job_id": 93392144252,
-      "runner_name": null,
-      "step_count": 0,
-      "actions_state": "RUNNER_UNALLOCATED",
-      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
-      "underlying_task_state": "COMPLETE_VERIFIED",
-      "recovery_state": "RECOVERED",
-      "recovery_action": "REROUTE",
-      "execution_target": "supabase-edge",
-      "validation": "RUNTIME_PASS",
-      "provider_readback": {
-        "evt_id": "cf76afdf-e7fc-47ad-ba40-cb47d0f4731d",
-        "event_type": "work_started",
-        "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.146469+00:00"
-      }
-    },
-    {
-      "repo": "TML-4PM/symbio-dev-control-plane",
-      "run_id": 31368531507,
-      "run_url": "https://github.com/TML-4PM/symbio-dev-control-plane/actions/runs/31368531507",
-      "workflow": "Standard Runtime Proof",
-      "event": "schedule",
-      "head_sha": "9c4f2d51e826a1f3b458ec0facb69c2d424b759a",
-      "created_at": "2026-08-10T08:05:17Z",
-      "job_id": 93392108967,
-      "runner_name": null,
-      "step_count": 0,
-      "actions_state": "RUNNER_UNALLOCATED",
-      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
-      "underlying_task_state": "COMPLETE_VERIFIED",
-      "recovery_state": "RECOVERED",
-      "recovery_action": "REROUTE",
-      "execution_target": "supabase-edge",
-      "validation": "RUNTIME_PASS",
-      "provider_readback": {
-        "evt_id": "3fb6db04-6f9c-4890-bace-c38202bd3345",
-        "event_type": "work_started",
-        "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.227055+00:00"
-      }
-    },
-    {
-      "repo": "TML-4PM/ai-era-thinking",
-      "run_id": 31368454283,
-      "run_url": "https://github.com/TML-4PM/ai-era-thinking/actions/runs/31368454283",
-      "workflow": "Standard Runtime Proof",
-      "event": "schedule",
-      "head_sha": "4ca5094d54efafb85256e297b94448e7a21cfed8",
-      "created_at": "2026-08-10T08:04:12Z",
-      "job_id": 93391871071,
-      "runner_name": null,
-      "step_count": 0,
-      "actions_state": "RUNNER_UNALLOCATED",
-      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
-      "underlying_task_state": "COMPLETE_VERIFIED",
-      "recovery_state": "RECOVERED",
-      "recovery_action": "REROUTE",
-      "execution_target": "supabase-edge",
-      "validation": "RUNTIME_PASS",
-      "provider_readback": {
-        "evt_id": "f9a232cc-5ee4-430d-8b07-6817f5a35cfa",
-        "event_type": "work_started",
-        "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.290023+00:00"
-      }
-    },
     {
       "repo": "TML-4PM/t4h-remote-mcp-server-clean",
       "run_id": 31368688618,
@@ -102,10 +27,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "e7785c5f-f6a2-4474-a3c1-9b5196df9b7d",
+        "evt_id": "163be343-9323-43ed-ad0e-f47200dfdd57",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.355542+00:00"
+        "created_at": "2026-08-10T09:10:19.064131+00:00"
       }
     },
     {
@@ -127,10 +52,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "6e3b76c7-05a7-4d08-9d07-bf064ae471ea",
+        "evt_id": "c56f55c2-f6c0-4a66-945a-1081664a905e",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.41609+00:00"
+        "created_at": "2026-08-10T09:10:19.134533+00:00"
       }
     },
     {
@@ -152,10 +77,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "58461c46-5b5d-4ced-af63-3960478a42df",
+        "evt_id": "46d28fb5-6ad5-4301-b4fc-dfa7f0e48201",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.484864+00:00"
+        "created_at": "2026-08-10T09:10:19.199341+00:00"
       }
     },
     {
@@ -177,10 +102,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "5e38b3fe-c9b9-486e-9b33-e9b6c5ca4ff7",
+        "evt_id": "3fe6dd72-b766-4bdb-93bd-6c70b89dd828",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.530619+00:00"
+        "created_at": "2026-08-10T09:10:19.277676+00:00"
       }
     },
     {
@@ -202,10 +127,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "8ce66776-9632-416f-b282-856405b7b07b",
+        "evt_id": "a820e946-23fd-4bb7-a7dc-e664f2fa2eeb",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.582696+00:00"
+        "created_at": "2026-08-10T09:10:19.335195+00:00"
       }
     },
     {
@@ -227,10 +152,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "5873b5b8-326c-4dd3-afb8-b75bb794f766",
+        "evt_id": "3fc6c1ea-eaa1-4e92-a469-7659a89418ef",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.631209+00:00"
+        "created_at": "2026-08-10T09:10:19.38519+00:00"
       }
     },
     {
@@ -252,10 +177,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "5cc4763d-c18f-48b1-9671-f5fd071f2a2d",
+        "evt_id": "3d0a9e71-2007-4ea9-9770-c267889eb54c",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.688419+00:00"
+        "created_at": "2026-08-10T09:10:19.431851+00:00"
       }
     },
     {
@@ -277,10 +202,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "9cb4868d-d07d-4387-944a-c6f68a36c0fc",
+        "evt_id": "ab0c66ea-5bbf-4b4d-8963-05865650d8fc",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.73897+00:00"
+        "created_at": "2026-08-10T09:10:19.486767+00:00"
       }
     },
     {
@@ -302,10 +227,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "e803a65a-81ca-4998-b081-6f8ea39a894f",
+        "evt_id": "4ff03eb1-7a45-4d40-815e-2bfc3defc937",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.790003+00:00"
+        "created_at": "2026-08-10T09:10:19.544346+00:00"
       }
     },
     {
@@ -327,10 +252,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "4b2a10ae-ce38-4835-afc0-fcc5a7d6a362",
+        "evt_id": "62ce0d92-02d4-4e43-9ce3-ef5d35438448",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.833918+00:00"
+        "created_at": "2026-08-10T09:10:19.591081+00:00"
       }
     },
     {
@@ -352,10 +277,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "3bdb9742-a7a6-49e4-8769-06805a7879e0",
+        "evt_id": "2a218a54-8379-4e19-8bfa-ec9af2958fc9",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.880871+00:00"
+        "created_at": "2026-08-10T09:10:19.633101+00:00"
       }
     },
     {
@@ -377,10 +302,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "f7d04070-f11f-4275-b526-d9bd52a42d87",
+        "evt_id": "35c5f3de-c790-47ba-baf4-88eb93897fa3",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.927805+00:00"
+        "created_at": "2026-08-10T09:10:19.696163+00:00"
       }
     },
     {
@@ -402,10 +327,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "f5e8a277-da74-4305-beb4-ae5beecebbcc",
+        "evt_id": "5ce027f0-d720-41d3-80fa-57ca644a78a0",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:24.977132+00:00"
+        "created_at": "2026-08-10T09:10:19.738169+00:00"
       }
     },
     {
@@ -427,10 +352,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "00be2f5a-5c4c-4936-a30c-304ae80c0348",
+        "evt_id": "a84b7f40-84b7-4e5c-bcb3-b7177bc1da5e",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:25.022647+00:00"
+        "created_at": "2026-08-10T09:10:19.781447+00:00"
       }
     },
     {
@@ -452,10 +377,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "d9292c2d-8145-43de-97c3-dab7c969c0cf",
+        "evt_id": "b111fb4c-eb42-4e8a-b0c8-b6f7bab11836",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:25.08012+00:00"
+        "created_at": "2026-08-10T09:10:19.831406+00:00"
       }
     },
     {
@@ -477,10 +402,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "b5f996e9-c20c-4c57-8bc9-0f69214c8395",
+        "evt_id": "1ba32313-58af-4eb2-aab0-2c045a5db4d8",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:25.131189+00:00"
+        "created_at": "2026-08-10T09:10:19.874022+00:00"
       }
     },
     {
@@ -502,10 +427,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "8c5ad267-d9e6-4339-8c6c-9bc1892b0bab",
+        "evt_id": "14553f84-28ac-425c-a886-76dbcd26e80c",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:25.181998+00:00"
+        "created_at": "2026-08-10T09:10:19.915912+00:00"
       }
     },
     {
@@ -527,24 +452,56 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "e1cfc102-1adb-4866-9e0a-ee6e711f4e4c",
+        "evt_id": "7732bb57-990f-4a50-b8d3-86e373e2abe0",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-10T08:10:25.230827+00:00"
+        "created_at": "2026-08-10T09:10:19.958283+00:00"
       }
     }
   ],
   "attempted_not_recovered": [],
   "unresolved": [
     {
+      "repo": "TML-4PM/mcp-command-centre",
+      "run_id": 31372233727,
+      "run_url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31372233727",
+      "workflow": "Runtime Failure Sweeper",
+      "event": "workflow_run",
+      "head_sha": "9843fc9a30cde5bcdb4d89e4b2965f032a4c3f6b",
+      "created_at": "2026-08-10T08:55:27Z",
+      "job_id": 93403533575,
+      "runner_name": null,
+      "step_count": 0,
+      "actions_state": "RUNNER_UNALLOCATED",
+      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
+      "underlying_task_state": "COMPLETE_UNVERIFIED",
+      "recovery_state": "DETECTED"
+    },
+    {
       "repo": "TML-4PM/runtime-real",
-      "run_id": 31363141063,
-      "run_url": "https://github.com/TML-4PM/runtime-real/actions/runs/31363141063",
+      "run_id": 31372080743,
+      "run_url": "https://github.com/TML-4PM/runtime-real/actions/runs/31372080743",
       "workflow": "Runtime estate bootstrap and reconcile",
       "event": "schedule",
       "head_sha": "477230657a168367d2b28eec0c35467dab1a3bba",
-      "created_at": "2026-08-10T06:44:46Z",
-      "job_id": 93375912957,
+      "created_at": "2026-08-10T08:53:27Z",
+      "job_id": 93403062753,
+      "runner_name": null,
+      "step_count": 0,
+      "actions_state": "RUNNER_UNALLOCATED",
+      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
+      "underlying_task_state": "COMPLETE_UNVERIFIED",
+      "recovery_state": "DETECTED"
+    },
+    {
+      "repo": "TML-4PM/symbio-dev-control-plane",
+      "run_id": 31372299078,
+      "run_url": "https://github.com/TML-4PM/symbio-dev-control-plane/actions/runs/31372299078",
+      "workflow": "Knowledge Spine Runtime Proof",
+      "event": "schedule",
+      "head_sha": "9c4f2d51e826a1f3b458ec0facb69c2d424b759a",
+      "created_at": "2026-08-10T08:56:21Z",
+      "job_id": 93403738692,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -554,13 +511,29 @@
     },
     {
       "repo": "TML-4PM/the-pen",
-      "run_id": 31363674773,
-      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31363674773",
+      "run_id": 31372528967,
+      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31372528967",
       "workflow": "GitHub Actions Autofix Controller",
       "event": "schedule",
-      "head_sha": "7004eaed59f358f63b6fab1b81748d9bbf01742a",
-      "created_at": "2026-08-10T06:53:20Z",
-      "job_id": 93377457178,
+      "head_sha": "34280996a4557b550bde5d0544688ce7d17e1085",
+      "created_at": "2026-08-10T08:59:32Z",
+      "job_id": 93404470091,
+      "runner_name": null,
+      "step_count": 0,
+      "actions_state": "RUNNER_UNALLOCATED",
+      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
+      "underlying_task_state": "COMPLETE_UNVERIFIED",
+      "recovery_state": "DETECTED"
+    },
+    {
+      "repo": "TML-4PM/ai-era-thinking",
+      "run_id": 31368931029,
+      "run_url": "https://github.com/TML-4PM/ai-era-thinking/actions/runs/31368931029",
+      "workflow": "Signal Presence Runtime Proof",
+      "event": "schedule",
+      "head_sha": "4ca5094d54efafb85256e297b94448e7a21cfed8",
+      "created_at": "2026-08-10T08:10:52Z",
+      "job_id": 93393328367,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -606,6 +579,6 @@
     "external event gateway wake still required for REAL worker gate"
   ],
   "next_action": "Build adapters by workflow family: Runtime Failure Sweeper; Runtime estate bootstrap/reconcile; GitHub Actions Autofix Controller.",
-  "generated_at": "2026-08-10T08:10:25.264Z",
-  "duration_ms": 22373
+  "generated_at": "2026-08-10T09:10:19.995Z",
+  "duration_ms": 18176
 }
