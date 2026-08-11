@@ -2,17 +2,17 @@
   "system": "github_ops_report",
   "state": "REAL",
   "execution_provider": "supabase-edge",
-  "timestamp_utc": "2026-08-10T06:00:03.836Z",
+  "timestamp_utc": "2026-08-11T06:00:03.094Z",
   "repos_scanned": 232,
   "totals": {
-    "runs": 532,
-    "failed": 474,
-    "cancelled": 1,
-    "open_items": 984,
+    "runs": 625,
+    "failed": 547,
+    "cancelled": 4,
+    "open_items": 1012,
     "errors": 0
   },
-  "evidence_hash": "4269c0413bd227463120851f5b9a5aa7abd5754ab2c547de7f51a762f814869e",
-  "duration_ms": 14272,
+  "evidence_hash": "3ba3d279e25564cf2d435b92e3bdf656b3d9a46666fcdcfc21133dcc9cb7cf3e",
+  "duration_ms": 14538,
   "target_repo": "TML-4PM/the-pen",
   "schedule": "0 6 * * *"
 }
