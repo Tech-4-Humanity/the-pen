@@ -2,9 +2,11 @@
 set -Eeuo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-WORKBOOK="${ATLAS_WORKBOOK:-$ROOT/../workbooks/atlas/T4H_Atlas_Editorial_Progress_Workbook_v1.xlsx}"
+SOURCE_B64="${ATLAS_SOURCE_B64:-$ROOT/../workbooks/atlas/T4H_Taxonomy_Themes_01_to_08_LOSSLESS_MASTER_FRESH.csv.gz.b64}"
+EXPECTED_SOURCE_SHA256="${ATLAS_SOURCE_SHA256:-5efd321eafc9ef6a51026119593148ac9d85eeb7db64937b18d0da3d63758947}"
 RUN_ID="${ATLAS_RUN_ID:-$(date -u +%Y%m%dT%H%M%SZ)}"
 RUN_DIR="${ATLAS_RUN_DIR:-$ROOT/receipts/$RUN_ID}"
+SOURCE="$RUN_DIR/canonical-taxonomy.csv"
 NORMALIZED="$RUN_DIR/canonical-atlas.json"
 DIST="$RUN_DIR/dist"
 NPM_CACHE="${ATLAS_NPM_CACHE:-${TMPDIR:-/tmp}/t4h-atlas-npm-cache}"
@@ -13,22 +15,30 @@ mkdir -p "$RUN_DIR" "$NPM_CACHE"
 
 {
   echo "run_id=$RUN_ID"
-  echo "workbook=$WORKBOOK"
+  echo "source_b64=$SOURCE_B64"
+  echo "expected_source_sha256=$EXPECTED_SOURCE_SHA256"
   echo "started_at=$(date -u +%FT%TZ)"
   echo "node=$(node --version)"
   echo "npm=$(npm --version)"
 } > "$RUN_DIR/runtime.env"
 
-if [[ ! -f "$WORKBOOK" ]]; then
-  printf '{"classification":"BLOCKED","status":"SOURCE_MISSING","source":"%s"}\n' "$WORKBOOK" > "$RUN_DIR/final-receipt.json"
+if [[ ! -f "$SOURCE_B64" ]]; then
+  printf '{"classification":"BLOCKED","status":"SOURCE_MISSING","source":"%s"}\n' "$SOURCE_B64" > "$RUN_DIR/final-receipt.json"
+  exit 2
+fi
+base64 --decode "$SOURCE_B64" > "$RUN_DIR/canonical-taxonomy.csv.gz"
+gzip --decompress --stdout "$RUN_DIR/canonical-taxonomy.csv.gz" > "$SOURCE"
+ACTUAL_SOURCE_SHA256="$(sha256sum "$SOURCE" | cut -d' ' -f1)"
+if [[ "$ACTUAL_SOURCE_SHA256" != "$EXPECTED_SOURCE_SHA256" ]]; then
+  printf '{"classification":"BLOCKED","status":"SOURCE_HASH_MISMATCH","expected":"%s","actual":"%s"}\n' "$EXPECTED_SOURCE_SHA256" "$ACTUAL_SOURCE_SHA256" > "$RUN_DIR/final-receipt.json"
   exit 2
 fi
 
 cd "$ROOT"
 npm ci --cache "$NPM_CACHE"
 npm test | tee "$RUN_DIR/tests.log"
-node compiler/normalize.mjs "$WORKBOOK" "$NORMALIZED" "$RUN_DIR/normalization-receipt.json" | tee "$RUN_DIR/normalize.log"
-node compiler/build.mjs "$NORMALIZED" "$DIST" | tee "$RUN_DIR/build.log"
+node compiler/normalize.mjs "$SOURCE" "$NORMALIZED" "$RUN_DIR/normalization-receipt.json" | tee "$RUN_DIR/normalize.log"
+ATLAS_EXPECT_COUNTS=8,61,489 node compiler/build.mjs "$NORMALIZED" "$DIST" | tee "$RUN_DIR/build.log"
 
 node --input-type=module - "$RUN_DIR" <<'NODE'
 import fs from "node:fs";
