@@ -1,17 +1,11 @@
 name: PEN Ingest Worker
 
 on:
+  # Do not path-filter this required workflow. A path-filtered required check can
+  # materialise as a skipped/no-step check on otherwise valid pushes/PRs.
   pull_request:
-    paths:
-      - 'inbox/**'
-      - 'tools/pen/**'
-      - '.github/workflows/pen-ingest.yml'
   push:
     branches: [main, dev]
-    paths:
-      - 'inbox/**'
-      - 'tools/pen/**'
-      - '.github/workflows/pen-ingest.yml'
   schedule:
     - cron: '0 * * * *'
   workflow_dispatch:
