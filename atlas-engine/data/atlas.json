@@ -1,0 +1,52 @@
+{
+  "atlas": {
+    "title": "Tech4Humanity Research Atlas",
+    "description": "A living evidence compiler for human-centred research intelligence."
+  },
+  "themes": [
+    {
+      "id": "THE-01",
+      "slug": "human-ai-cognition-performance",
+      "title": "Human–AI Cognition & Performance",
+      "summary": "How people think, decide, learn and perform with intelligent systems.",
+      "status": "SEEDED",
+      "confidence": "UNASSESSED"
+    }
+  ],
+  "topics": [
+    {
+      "id": "TOP-001",
+      "theme_id": "THE-01",
+      "slug": "cognitive-augmentation",
+      "title": "Cognitive Augmentation",
+      "summary": "The conditions under which AI strengthens or weakens human cognition.",
+      "status": "SEEDED"
+    }
+  ],
+  "subtopics": [
+    {
+      "id": "SUB-0001",
+      "theme_id": "THE-01",
+      "topic_id": "TOP-001",
+      "slug": "decision-quality",
+      "title": "Decision Quality",
+      "problem": "AI assistance may improve speed while obscuring whether judgement quality improved.",
+      "hypothesis": "Decision quality improves when assistance exposes uncertainty and preserves human challenge.",
+      "population": "Not yet verified in editorial ledger",
+      "methods": [],
+      "variables": [],
+      "measures": [],
+      "frameworks": [],
+      "findings": [],
+      "practical_implications": [],
+      "commercial_opportunities": [],
+      "policy_implications": [],
+      "research_gaps": ["Population, method and outcome evidence require reconciliation."],
+      "status": "SEEDED",
+      "confidence": "UNASSESSED"
+    }
+  ],
+  "evidence": [],
+  "stories": [],
+  "candidates": []
+}

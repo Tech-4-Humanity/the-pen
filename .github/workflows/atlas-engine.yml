@@ -1,0 +1,127 @@
+name: Atlas Engine
+
+on:
+  pull_request:
+    paths:
+      - "atlas-engine/**"
+      - "workbooks/atlas/**"
+      - ".github/workflows/atlas-engine.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atlas-engine-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  normalize-test-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: atlas-engine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: atlas-engine/package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Test engine and rejection gates
+        run: npm test
+
+      - name: Decode and verify canonical sources
+        id: sources
+        run: |
+          mkdir -p data receipts
+          base64 --decode ../workbooks/atlas/T4H_Taxonomy_Themes_01_to_08_LOSSLESS_MASTER_FRESH.csv.gz.b64 > data/canonical-taxonomy.csv.gz
+          gzip --decompress --stdout data/canonical-taxonomy.csv.gz > data/canonical-taxonomy.csv
+          base64 --decode ../workbooks/atlas/T4H_FOUR_HOUR_ATLAS_LEARNING_GTM_WORKBOOK_v1.xlsx.b64 > data/learning-gtm.xlsx
+          test "$(sha256sum data/canonical-taxonomy.csv | cut -d' ' -f1)" = "5efd321eafc9ef6a51026119593148ac9d85eeb7db64937b18d0da3d63758947"
+          test "$(sha256sum data/learning-gtm.xlsx | cut -d' ' -f1)" = "fe7ad98bb9000d0f9facb6b2c8009c4ba6e488afba9f24f6ae220662483c9efb"
+
+      - name: Normalize canonical taxonomy
+        id: normalize
+        continue-on-error: true
+        run: |
+          npm run normalize -- \
+            data/canonical-taxonomy.csv \
+            data/canonical-atlas.json \
+            receipts/normalization-receipt.json
+
+      - name: Compile canonical Atlas
+        id: build
+        if: steps.normalize.outcome == 'success'
+        continue-on-error: true
+        run: |
+          ATLAS_EXPECT_COUNTS=8,61,489 node compiler/build.mjs data/canonical-atlas.json dist
+          cp dist/build-receipt.json receipts/build-receipt.json
+          cp dist/build-manifest.json receipts/build-manifest.json
+
+      - name: Write CI summary
+        if: always()
+        run: |
+          mkdir -p receipts
+          {
+            echo "# Atlas Engine CI"
+            echo
+            echo "- Tests: completed"
+            echo "- Canonical sources: ${{ steps.sources.outcome }}"
+            echo "- Normalize: ${{ steps.normalize.outcome }}"
+            echo "- Build: ${{ steps.build.outcome }}"
+            echo "- Commit: ${{ github.sha }}"
+            echo
+            if [ -f receipts/normalization-receipt.json ]; then
+              echo "## Normalization receipt"
+              echo '```json'
+              cat receipts/normalization-receipt.json
+              echo '```'
+            fi
+            if [ -f receipts/build-receipt.json ]; then
+              echo "## Build receipt"
+              echo '```json'
+              cat receipts/build-receipt.json
+              echo '```'
+            fi
+          } | tee receipts/CI_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload governed receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-engine-receipts-${{ github.run_id }}
+          path: |
+            atlas-engine/receipts/
+            atlas-engine/dist/build-receipt.json
+            atlas-engine/dist/build-manifest.json
+            atlas-engine/dist/learning-offers.json
+            atlas-engine/dist/relationship-graph.json
+            atlas-engine/dist/search-index.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload staging Atlas
+        if: steps.build.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-staging-${{ github.run_id }}
+          path: atlas-engine/dist/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Enforce canonical gate
+        if: always()
+        run: |
+          test "${{ steps.sources.outcome }}" = "success"
+          test "${{ steps.normalize.outcome }}" = "success"
+          test "${{ steps.build.outcome }}" = "success"

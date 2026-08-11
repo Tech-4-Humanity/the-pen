@@ -1,0 +1,15 @@
+{
+  "name": "t4h-atlas-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node compiler/build.mjs",
+    "ci:atlas": "bash scripts/run-atlas-ci.sh",
+    "normalize": "node compiler/normalize.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "xlsx": "0.18.5"
+  }
+}

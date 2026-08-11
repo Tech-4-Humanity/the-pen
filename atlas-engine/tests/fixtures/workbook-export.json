@@ -1,0 +1,16 @@
+{
+  "sheets": {
+    "Themes": [
+      {"Theme_ID":"THE-01","Theme_Name":"Human–AI Cognition & Performance","Status":"SEEDED"}
+    ],
+    "Topics": [
+      {"Theme_ID":"THE-01","Topic_ID":"TOP-001","Topic_Name":"Cognitive Augmentation","Status":"SEEDED"}
+    ],
+    "Subtopic Progress": [
+      {"Theme_ID":"THE-01","Topic_ID":"TOP-001","Subtopic_ID":"SUB-0001","Subtopic_Name":"Decision Quality","Hypothesis":"Seeded hypothesis","Status":"SEEDED","Confidence":"UNASSESSED"}
+    ],
+    "Story Slots": [],
+    "Study Recovery": [],
+    "Future Research": []
+  }
+}

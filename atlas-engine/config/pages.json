@@ -1,0 +1,130 @@
+{
+  "home": [
+    "hero",
+    "summary_metrics",
+    "themes",
+    "research_surface",
+    "discoveries",
+    "opportunities",
+    "participate"
+  ],
+  "theme": [
+    "hero",
+    "summary_metrics",
+    "research_surface_matrix",
+    "cards_table_toggle",
+    "evidence_maturity",
+    "discoveries",
+    "gaps",
+    "products",
+    "policy",
+    "pipeline"
+  ],
+  "topic": [
+    "hero",
+    "summary_metrics",
+    "cards_table_toggle",
+    "subtopic_surface",
+    "synthesis",
+    "evidence_strength",
+    "consensus",
+    "contradictions",
+    "applications",
+    "related"
+  ],
+  "subtopic_brief": [
+    "hero",
+    "research_passport",
+    "problem",
+    "hypothesis",
+    "story",
+    "findings",
+    "impact",
+    "opportunities",
+    "policy"
+  ],
+  "subtopic_evidence": [
+    "research_passport",
+    "hypotheses",
+    "methods",
+    "variables",
+    "measures",
+    "frameworks",
+    "population",
+    "evidence",
+    "gaps",
+    "contradictions",
+    "limitations",
+    "references",
+    "audit"
+  ],
+  "study": [
+    "hero",
+    "research_passport",
+    "method",
+    "population",
+    "findings",
+    "confidence",
+    "limitations",
+    "implications",
+    "provenance"
+  ],
+  "story": [
+    "hero",
+    "narrative",
+    "provenance",
+    "related_research"
+  ],
+  "insights": [
+    "metrics",
+    "validated",
+    "emerging",
+    "controversies",
+    "unknowns",
+    "opportunities"
+  ],
+  "analytics": [
+    "metrics",
+    "countries",
+    "methods",
+    "frameworks",
+    "variables",
+    "confidence",
+    "maturity"
+  ],
+  "pipeline": [
+    "candidates",
+    "priorities",
+    "dependencies",
+    "lifecycle"
+  ],
+  "status": [
+    "source",
+    "counts",
+    "warnings",
+    "errors",
+    "manifest"
+  ],
+  "projection": [
+    "hero",
+    "summary_metrics",
+    "search_filter",
+    "cards_table_toggle",
+    "items",
+    "source_links"
+  ],
+  "instructions": [
+    "hierarchy",
+    "methodology",
+    "confidence",
+    "editorial_contract",
+    "view_instructions",
+    "audit"
+  ],
+  "footer": [
+    "research_projections",
+    "guidance",
+    "t4h_ip",
+    "future_research"
+  ]
+}

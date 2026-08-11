@@ -1,0 +1,46 @@
+[
+  {
+    "path": "analytics/index.html",
+    "sha256": "fc2833caaa6ef456d93d6d56ea6262686e498a5434fa75599bc2a9af2a7ab0c1"
+  },
+  {
+    "path": "index.html",
+    "sha256": "22bb0e1590f150b9c4bf0d3264ee996abaa336e4c5ce1a6c58624e34774ab0a8"
+  },
+  {
+    "path": "insights/index.html",
+    "sha256": "f60f8959ced8d0d8a106f2f473b453d767c49d242892c509736fdcd4707d1f1b"
+  },
+  {
+    "path": "pipeline/index.html",
+    "sha256": "ee93cf210c2337e4753faf0cd515d1c83afec23d76c76daad86ade55bf729dd9"
+  },
+  {
+    "path": "status/index.html",
+    "sha256": "6b63fc1b57ad3ca4d17919ea30b43a62cc306fef12208e39be7f1bb35936f5ad"
+  },
+  {
+    "path": "stories/index.html",
+    "sha256": "b943755e7f9f0baf2020ba01c5659a8510bda4be279164016402065054894566"
+  },
+  {
+    "path": "studies/index.html",
+    "sha256": "92a8966378fda0e9eed435b740e61ce2f7b065abedff732a8aaafe0c3efd5429"
+  },
+  {
+    "path": "themes/human-ai-cognition-performance/index.html",
+    "sha256": "7ad6006facef2ab9c50d5d08747115a07d61dcba5e3c7223cb7998cd15a61ced"
+  },
+  {
+    "path": "themes/human-ai-cognition-performance/topics/cognitive-augmentation/decision-quality/evidence/index.html",
+    "sha256": "78849894a673623b194dd79c9e82871ccb106393a020b1296b9b5d49eb56fbfd"
+  },
+  {
+    "path": "themes/human-ai-cognition-performance/topics/cognitive-augmentation/decision-quality/index.html",
+    "sha256": "a6492a49e4d590d204e209a81575b4b5623665a69645dec5967a1913a2cf52e6"
+  },
+  {
+    "path": "themes/human-ai-cognition-performance/topics/cognitive-augmentation/index.html",
+    "sha256": "7e8c11cb4e361586983f513b25908d7333dbbb27fd43f591706b6ca323b785c3"
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tech4Humanity Atlas canonical graph",
+  "type": "object",
+  "required": ["atlas", "themes", "topics", "subtopics", "evidence", "stories", "candidates"],
+  "properties": {
+    "atlas": {"type": "object", "required": ["title"]},
+    "themes": {"type": "array", "items": {"$ref": "#/$defs/theme"}},
+    "topics": {"type": "array", "items": {"$ref": "#/$defs/topic"}},
+    "subtopics": {"type": "array", "items": {"$ref": "#/$defs/subtopic"}},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "stories": {"type": "array", "items": {"$ref": "#/$defs/story"}},
+    "candidates": {"type": "array", "items": {"$ref": "#/$defs/candidate"}}
+  },
+  "$defs": {
+    "theme": {
+      "type": "object",
+      "required": ["id", "slug", "title", "status"],
+      "properties": {"id": {"pattern": "^THE-[0-9]{2}$"}, "slug": {"type": "string"}, "title": {"type": "string"}, "status": {"type": "string"}}
+    },
+    "topic": {
+      "type": "object",
+      "required": ["id", "theme_id", "slug", "title", "status"],
+      "properties": {"id": {"pattern": "^TOP-[0-9]{3}$"}, "theme_id": {"type": "string"}, "slug": {"type": "string"}, "title": {"type": "string"}, "status": {"type": "string"}}
+    },
+    "subtopic": {
+      "type": "object",
+      "required": ["id", "theme_id", "topic_id", "slug", "title", "status", "confidence"],
+      "properties": {"id": {"pattern": "^SUB-[0-9]{4}$"}, "theme_id": {"type": "string"}, "topic_id": {"type": "string"}, "slug": {"type": "string"}, "title": {"type": "string"}, "status": {"type": "string"}, "confidence": {"type": "string"}}
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["id", "subtopic_id", "source", "confidence", "status"],
+      "properties": {"id": {"type": "string"}, "subtopic_id": {"type": "string"}, "source": {"type": "string"}, "confidence": {"type": "string"}, "status": {"type": "string"}}
+    },
+    "story": {
+      "type": "object",
+      "required": ["id", "slug", "title", "status"],
+      "properties": {"id": {"type": "string"}, "slug": {"type": "string"}, "title": {"type": "string"}, "status": {"type": "string"}}
+    },
+    "candidate": {
+      "type": "object",
+      "required": ["id", "slug", "title", "status"],
+      "properties": {"id": {"type": "string"}, "slug": {"type": "string"}, "title": {"type": "string"}, "status": {"type": "string"}}
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "hero": {"required": ["title"], "fallback": "visible_missing"},
+  "research_passport": {"required": ["id", "status", "confidence"], "fallback": "visible_missing"},
+  "evidence_card": {"required": ["id", "status", "confidence"], "fallback": "omit_with_warning"},
+  "insight_card": {"required": ["title", "truth_state"], "fallback": "omit_with_warning"},
+  "metrics_panel": {"required": [], "fallback": "zero"},
+  "related_content": {"required": [], "fallback": "empty"},
+  "story_card": {"required": ["id", "title", "status"], "fallback": "omit_with_warning"},
+  "audit_trail": {"required": ["id", "status"], "fallback": "visible_missing"}
+}
