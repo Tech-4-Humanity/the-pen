@@ -32,3 +32,22 @@ test("blocks unresolved relationship drift",()=>{
   assert.equal(proof.classification,"BLOCKED");
   assert.match(proof.errors.join("\n"),/unresolved topic TOP-999/);
 });
+
+
+test("derives hierarchy from flat canonical CSV and scopes repeated Topic IDs by Theme",()=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),"atlas-normalize-flat-"));
+  const output=path.join(dir,"atlas.json");
+  const receipt=path.join(dir,"receipt.json");
+  const run=spawnSync(process.execPath,["compiler/normalize.mjs","tests/fixtures/flat-taxonomy.csv",output,receipt],{cwd:root,encoding:"utf8"});
+  assert.equal(run.status,0,run.stderr);
+  const graph=JSON.parse(fs.readFileSync(output));
+  const proof=JSON.parse(fs.readFileSync(receipt));
+  assert.deepEqual(proof.counts,{themes:2,topics:2,subtopics:2,evidence:0,stories:0,candidates:0});
+  assert.equal(proof.source_mode,"FLAT_CANONICAL_TAXONOMY");
+  assert.equal(proof.identity_rules.topic,"Theme_ID + Topic_ID");
+  assert.deepEqual(graph.topics.map(x=>x.key),["THE-01::TOP-01","THE-02::TOP-01"]);
+  assert.equal(graph.subtopics[0].title,"Learning Foundations");
+  assert.equal(graph.subtopics[0].hypothesis,"Practice improves recall");
+  assert.deepEqual(graph.subtopics[0].frameworks,["Learning science"]);
+  assert.equal(graph.subtopics[0].credential.learning_hours,4);
+});
