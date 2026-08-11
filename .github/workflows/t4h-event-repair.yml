@@ -62,6 +62,19 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python3 tools/ops/event_repair_worker.py
 
+      - name: Commit clean-scan receipt
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- receipts/runtime; then
+            echo "receipt already committed or no receipt change"
+            exit 0
+          fi
+          git config user.name "t4h-event-repair-worker"
+          git config user.email "t4h-event-repair-worker@users.noreply.github.com"
+          git add receipts/runtime/event-repair-*.json
+          git commit -m "receipt: workflow repair scan [skip ci]"
+          git push
+
       - name: Publish repair receipt
         if: always()
         run: |
