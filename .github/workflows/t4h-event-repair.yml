@@ -1,0 +1,70 @@
+name: T4H Event Repair Worker
+
+on:
+  workflow_run:
+    workflows:
+      - PEN Ingest Worker
+    types: [completed]
+  push:
+    paths:
+      - '.github/workflows/**'
+      - '.github/actions/**'
+      - 'tools/ops/event_repair_worker.py'
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: t4h-event-repair-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    name: Scan and repair workflow defects
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Validate worker source
+        run: python3 -m py_compile tools/ops/event_repair_worker.py
+
+      - name: Inspect triggering event
+        env:
+          EVENT_PATH: ${{ github.event_path }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          with open(os.environ["EVENT_PATH"], encoding="utf-8") as f:
+              event = json.load(f)
+          run = event.get("workflow_run", {})
+          print("event=" + os.environ.get("GITHUB_EVENT_NAME", ""))
+          print("workflow=" + str(run.get("name", "")))
+          print("conclusion=" + str(run.get("conclusion", "")))
+          print("run_id=" + str(run.get("id", "")))
+          PY
+
+      - name: Run event repair worker
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 tools/ops/event_repair_worker.py
+
+      - name: Publish repair receipt
+        if: always()
+        run: |
+          set -euo pipefail
+          git status --short
+          find receipts/runtime -maxdepth 1 -name 'event-repair-*.json' -print | sort | tail -n 5 2>/dev/null || true
