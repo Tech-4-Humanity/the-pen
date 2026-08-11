@@ -214,12 +214,20 @@ const searchable = [...graph.themes, ...graph.topics, ...graph.subtopics, ...gra
 fs.writeFileSync(path.join(out, "search-index.json"), JSON.stringify(searchable.map(x => ({id:x.id,title:x.title || x.id,text:[x.summary,x.problem,x.hypothesis,x.findings].filter(Boolean).join(" ")})), null, 2));
 fs.writeFileSync(path.join(out, "build-manifest.json"), JSON.stringify(manifest, null, 2));
 const relationships = [
-  ...graph.topics.map(x => ({from:x.theme_id,to:x.id,type:"CONTAINS"})),
-  ...graph.subtopics.flatMap(x => [{from:x.theme_id,to:x.id,type:"CONTAINS"},{from:x.topic_id,to:x.id,type:"CONTAINS"}]),
+  ...graph.topics.map(x => ({from:x.theme_id,to:topicKey(x.theme_id,x.id),canonical_to:x.id,type:"CONTAINS"})),
+  ...graph.subtopics.flatMap(x => [{from:x.theme_id,to:x.id,type:"CONTAINS"},{from:topicKey(x.theme_id,x.topic_id),canonical_from:x.topic_id,to:x.id,type:"CONTAINS"}]),
   ...graph.evidence.map(x => ({from:x.subtopic_id,to:x.id,type:"SUPPORTED_BY"})),
   ...graph.stories.flatMap(x => (x.subtopic_ids || []).map(id => ({from:id,to:x.id,type:"ILLUSTRATED_BY"})))
 ];
-fs.writeFileSync(path.join(out, "relationship-graph.json"), JSON.stringify({nodes:searchable.map(x => ({id:x.id,type:x.id?.split("-")[0] || "OBJECT"})),edges:relationships}, null, 2));
+const relationshipNodes = [
+  ...graph.themes.map(x => ({id:x.id,canonical_id:x.id,type:"THEME"})),
+  ...graph.topics.map(x => ({id:topicKey(x.theme_id,x.id),canonical_id:x.id,theme_id:x.theme_id,type:"TOPIC"})),
+  ...graph.subtopics.map(x => ({id:x.id,canonical_id:x.id,type:"SUBTOPIC"})),
+  ...graph.evidence.map(x => ({id:x.id,canonical_id:x.id,type:"EVIDENCE"})),
+  ...graph.stories.map(x => ({id:x.id,canonical_id:x.id,type:"STORY"})),
+  ...graph.candidates.map(x => ({id:x.id,canonical_id:x.id,type:"CANDIDATE"}))
+];
+fs.writeFileSync(path.join(out, "relationship-graph.json"), JSON.stringify({identity_rule:"Topic nodes use Theme_ID::Topic_ID; canonical Topic_ID is retained.",nodes:relationshipNodes,edges:relationships}, null, 2));
 fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${manifest.map(x => `<url><loc>/${x.path.replace(/index\.html$/,"")}</loc></url>`).join("")}</urlset>`);
 const linked = htmlFiles.flatMap(file => [...fs.readFileSync(file,"utf8").matchAll(/href="(\/[^"#?]*)"/g)].map(match => ({file:path.relative(out,file),href:match[1]})));
 const brokenLinks = linked.filter(({href}) => !fs.existsSync(path.join(out, href, "index.html")) && !fs.existsSync(path.join(out, href))).map(({file,href}) => `${file} -> ${href}`);
