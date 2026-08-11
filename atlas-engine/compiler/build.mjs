@@ -16,20 +16,24 @@ const esc = (value = "") => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;"
 const slug = value => String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 const warnings = [];
 const errors = [];
-const ids = new Set();
+const topicKey = (themeId, topicId) => `${themeId}::${topicId}`;
+const idsByKind = new Map();
 
 for (const [kind, rows] of Object.entries({theme: graph.themes, topic: graph.topics, subtopic: graph.subtopics, evidence: graph.evidence})) {
+  const seen = new Set();
+  idsByKind.set(kind, seen);
   for (const row of rows) {
-    if (!row.id || ids.has(row.id)) errors.push(`${kind}: missing or duplicate id ${row.id || "(blank)"}`);
-    ids.add(row.id);
+    const identity = kind === "topic" ? topicKey(row.theme_id, row.id) : row.id;
+    if (!identity || seen.has(identity)) errors.push(`${kind}: missing or duplicate identity ${identity || "(blank)"}`);
+    seen.add(identity);
   }
 }
 const themeIds = new Set(graph.themes.map(x => x.id));
-const topicIds = new Set(graph.topics.map(x => x.id));
+const topicIds = new Set(graph.topics.map(x => topicKey(x.theme_id, x.id)));
 for (const topic of graph.topics) if (!themeIds.has(topic.theme_id)) errors.push(`${topic.id}: unknown theme ${topic.theme_id}`);
 for (const sub of graph.subtopics) {
   if (!themeIds.has(sub.theme_id)) errors.push(`${sub.id}: unknown theme ${sub.theme_id}`);
-  if (!topicIds.has(sub.topic_id)) errors.push(`${sub.id}: unknown topic ${sub.topic_id}`);
+  if (!topicIds.has(topicKey(sub.theme_id, sub.topic_id))) errors.push(`${sub.id}: unknown topic ${sub.topic_id} under ${sub.theme_id}`);
   if (!sub.findings?.length) warnings.push(`${sub.id}: no verified findings`);
   if (!graph.stories.some(story => (story.subtopic_ids || []).includes(sub.id))) warnings.push(`${sub.id}: story slot pending`);
 }
@@ -65,8 +69,9 @@ function list(title, values) {
   return `<section><h2>${esc(title)}</h2>${values?.length ? `<ul>${values.map(x => `<li>${esc(typeof x === "string" ? x : x.title || x.id)}</li>`).join("")}</ul>` : `<p class="missing">No verified objects attached.</p>`}</section>`;
 }
 const values = value => value == null || value === "" ? [] : Array.isArray(value) ? value.filter(Boolean) : [value];
+const topicFor = sub => graph.topics.find(x => x.id === sub.topic_id && x.theme_id === sub.theme_id);
 const subRoute = sub => {
-  const topic = graph.topics.find(x => x.id === sub.topic_id);
+  const topic = topicFor(sub);
   const theme = graph.themes.find(x => x.id === sub.theme_id);
   return `/themes/${theme.slug}/topics/${topic.slug}/${sub.slug}/`;
 };
@@ -81,11 +86,11 @@ function viewToggle(id) {
 }
 function subtopicSurface(subs, id = "surface") {
   const cards = subs.map(sub => {
-    const topic = graph.topics.find(x => x.id === sub.topic_id);
+    const topic = topicFor(sub);
     return `<a class="oct-card ${maturity(sub)}" href="${subRoute(sub)}"><div class="oct-image"><span>${esc(sub.id)}</span></div><div class="oct-body"><div class="oct-meta">${esc(topic?.title || "")}<span>${esc(sub.status || "PENDING")}</span></div><h3>${esc(sub.title)}</h3><p>${esc(sub.problem || "Research summary pending.")}</p><div class="chips">${[...values(sub.findings).slice(0,2),...values(sub.research_gaps).slice(0,2)].map(x=>`<b>${esc(x)}</b>`).join("") || "<b>Content pending</b>"}</div><div class="hook"><strong>Research entry</strong> ${esc(sub.hypothesis || "Hypothesis pending.")}</div></div></a>`;
   }).join("");
   const rows = subs.map(sub => {
-    const topic = graph.topics.find(x => x.id === sub.topic_id);
+    const topic = topicFor(sub);
     const evidence = graph.evidence.filter(x => x.subtopic_id === sub.id).length;
     const stories = graph.stories.filter(x => (x.subtopic_ids || []).includes(sub.id)).length;
     return `<tr><td><a href="${subRoute(sub)}">${esc(sub.title)}</a><small>${esc(sub.id)}</small></td><td>${esc(topic?.title || "")}</td><td><span class="state ${maturity(sub)}">${esc(sub.confidence || sub.status)}</span></td><td>${evidence}</td><td>${stories || "Slot"}</td></tr>`;
@@ -104,6 +109,11 @@ function themeMatrix(topics, subs) {
     return `<tr><th><small>${esc(topic.id)}</small>${esc(topic.title)}</th>${cells}</tr>`;
   }).join("");
   return `<section class="matrix"><div class="surface-bar"><span>Theme research surface</span><div class="legend"><i class="dot validated"></i>Validated <i class="dot emerging"></i>Emerging <i class="dot exploratory"></i>Exploration</div></div><div class="matrix-scroll"><table><thead><tr><th>Topic</th>${heads}</tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+function learningOffer(sub) {
+  const credentialId = sub.credential?.id || `T4H-MC-${sub.id}`;
+  const outcome = sub.learning?.outcome || "Apply this Subtopic to an executive decision, implementation plan or governed research brief.";
+  return `<aside class="learning-offer" data-atlas-event="learning_offer_view" data-subtopic-id="${esc(sub.id)}" data-credential-id="${esc(credentialId)}"><p class="eyebrow">Four-hour Atlas module</p><h2>Turn this executive brief into applied capability</h2><p>${esc(outcome)}</p><dl><dt>Duration</dt><dd>4 hours</dd><dt>Credential</dt><dd>${esc(credentialId)}</dd><dt>Assessment</dt><dd>Knowledge check and applied executive scenario</dd></dl><p><a class="button" href="/learning/?subtopic=${encodeURIComponent(sub.id)}" data-atlas-event="learning_offer_open">Open learning pathway</a><a class="button story" href="/credentials/?credential=${encodeURIComponent(credentialId)}" data-atlas-event="credential_requirements_open">View credential requirements</a></p></aside>`;
 }
 function sliceFooter(sub) {
   const q = `?subtopic=${encodeURIComponent(sub.id)}`;
@@ -158,14 +168,14 @@ for (const topic of graph.topics) {
   write(`themes/${theme.slug}/topics/${topic.slug}`, shell(topic.title, `${theme.title} · ${topic.id}`, `<p class="lede">${esc(topic.summary)}</p><div class="metrics editorial"><strong>${synthesis.subtopics}</strong> Subtopics <strong>${synthesis.evidence}</strong> Evidence objects <strong>${subs.length}</strong> Story slots</div>${subtopicSurface(subs,`topic-${topic.id}`)}${list("Synthesis: gaps", synthesis.gaps)}${list("Synthesis: contradictions", synthesis.contradictions)}${list("Variables", synthesis.variables)}${list("Measures", synthesis.measures)}`));
 }
 for (const sub of graph.subtopics) {
-  const topic = graph.topics.find(x => x.id === sub.topic_id);
+  const topic = topicFor(sub);
   const theme = graph.themes.find(x => x.id === sub.theme_id);
   const evidence = graph.evidence.filter(x => x.subtopic_id === sub.id);
   const stories = graph.stories.filter(x => (x.subtopic_ids || []).includes(sub.id));
   const story = stories[0];
   const base = `themes/${theme.slug}/topics/${topic.slug}/${sub.slug}`;
   const passport = `<aside class="passport"><h2>Research passport</h2><dl><dt>Status</dt><dd>${esc(sub.status)}</dd><dt>Confidence</dt><dd>${esc(sub.confidence)}</dd><dt>Evidence objects</dt><dd>${evidence.length}</dd><dt>Population</dt><dd>${esc(sub.population)}</dd></dl></aside>`;
-  write(base, shell(sub.title, `${theme.title} · ${topic.title}`, `${passport}<section><h2>Problem</h2><p>${esc(sub.problem)}</p></section><section><h2>Hypothesis</h2><p>${esc(sub.hypothesis)}</p></section>${list("Findings", sub.findings)}${list("Practical implications", sub.practical_implications)}${list("Commercial opportunities", sub.commercial_opportunities)}${list("Policy implications", sub.policy_implications)}<p><a class="button" href="/${base}/evidence/">Open scientific evidence dossier</a><a class="button story" href="/${base}/story/">Read the human story</a></p>${sliceFooter(sub)}`));
+  write(base, shell(sub.title, `${theme.title} · ${topic.title}`, `${passport}<section><h2>Problem</h2><p>${esc(sub.problem)}</p></section><section><h2>Hypothesis</h2><p>${esc(sub.hypothesis)}</p></section>${list("Findings", sub.findings)}${list("Practical implications", sub.practical_implications)}${list("Commercial opportunities", sub.commercial_opportunities)}${list("Policy implications", sub.policy_implications)}<p><a class="button" href="/${base}/evidence/">Open scientific evidence dossier</a><a class="button story" href="/${base}/story/">Read the human story</a></p>${learningOffer(sub)}${sliceFooter(sub)}`));
   write(`${base}/evidence`, shell(`${sub.title}: Evidence`, `${sub.id} · scientific dossier`, `${passport}${list("Methods", sub.methods)}${list("Variables", sub.variables)}${list("Measures", sub.measures)}${list("Frameworks", sub.frameworks)}${list("Evidence register", evidence)}${list("Research gaps", sub.research_gaps)}<section><h2>Audit trail</h2><p>Rendered from canonical object ${esc(sub.id)}. Missing objects remain visible.</p></section>`));
   const storyTitle = story?.title || `${sub.title}: Human Story`;
   const storyStatus = story?.status || "PENDING";
@@ -175,7 +185,7 @@ for (const sub of graph.subtopics) {
 write("ip", shell("T4H IP", "Intellectual property", `<p class="lede">A separate control surface for understanding, governing and protecting Tech4Humanity intellectual property.</p><div class="metrics"><strong>2</strong> starting tools <strong>1</strong> governed IP section</div><div class="grid">${card("IP catalogue", "What is the IP?", "Every surfaced IP asset in plain language: who it helps, why it matters and its current protection form.", "/ip/what-is-ip.html")}${card("Portfolio control", "IP Portfolio Dashboard", "Research alignment, portfolio health, protection pathways, cost modelling and action priorities.", "/ip/portfolio-dashboard.html")}</div><section><h2>Governance boundary</h2><p>IP objects remain separate from the research taxonomy while retaining links to evidence, products, owners and lifecycle state.</p></section>`));
 write("studies", shell("Evidence register", "Evidence compiler", `<div class="metrics"><strong>${graph.evidence.length}</strong> evidence objects</div><div class="grid">${graph.evidence.map(e => card(e.stance || e.status, e.title || e.id, e.findings || e.source, `/studies/${e.slug || slug(e.id)}/`)).join("") || card("Pending", "No evidence objects loaded", "The compiler is ready; content has not arrived.")}</div>`));
 for (const e of graph.evidence) write(`studies/${e.slug || slug(e.id)}`, shell(e.title || e.id, "Evidence object", `<div class="metrics"><strong>${esc(e.confidence)}</strong> confidence <strong>${esc(e.stance || e.status)}</strong> stance</div>${list("Hypothesis", [e.hypothesis].filter(Boolean))}${list("Population", [e.population, e.sample, e.country].filter(Boolean))}${list("Methods", [e.method].filter(Boolean))}${list("Variables", Array.isArray(e.variables) ? e.variables : [e.variables].filter(Boolean))}${list("Findings", [e.findings].filter(Boolean))}${list("Limitations", [e.limitations].filter(Boolean))}${list("Implications", [e.implications].filter(Boolean))}<section><h2>Provenance</h2><p>${esc(e.source)}</p></section>`));
-const storyCards = graph.subtopics.map(sub => { const story = graph.stories.find(s => (s.subtopic_ids || []).includes(sub.id)); const topic = graph.topics.find(t => t.id === sub.topic_id); const theme = graph.themes.find(t => t.id === sub.theme_id); return card(story?.status || "Pending", story?.title || `${sub.title}: Human Story`, story?.summary || "Governed story slot awaiting editorial content.", `/themes/${theme.slug}/topics/${topic.slug}/${sub.slug}/story/`); });
+const storyCards = graph.subtopics.map(sub => { const story = graph.stories.find(s => (s.subtopic_ids || []).includes(sub.id)); const topic = topicFor(sub); const theme = graph.themes.find(t => t.id === sub.theme_id); return card(story?.status || "Pending", story?.title || `${sub.title}: Human Story`, story?.summary || "Governed story slot awaiting editorial content.", `/themes/${theme.slug}/topics/${topic.slug}/${sub.slug}/story/`); });
 write("stories", shell("Human stories", "Story layer", `<div class="metrics"><strong>${graph.subtopics.length}</strong> story slots <strong>${graph.stories.length}</strong> completed objects</div><div class="grid">${storyCards.join("")}</div>`));
 for (const s of graph.stories) write(`stories/${s.slug}`, shell(s.title, `${s.id} · ${s.status}`, `<p class="lede">${esc(s.summary)}</p>${list("Narrative", [s.narrative].filter(Boolean))}${list("Related research", s.subtopic_ids || [])}<section><h2>Provenance</h2><p>${esc(s.source || "Not supplied")}</p></section>`));
 for (const [key,def] of Object.entries(projections)) write(key, shell(def.title, def.eyebrow, projectionPage(key,def)));
@@ -187,6 +197,14 @@ write("analytics", shell("Global Research View", "Analytics", `<div class="metri
 write("insights", shell("Atlas Intelligence", "Synthesis", `<p class="lede">Generated knowledge-strength and gap signals.</p>${list("Known gaps", graph.subtopics.flatMap(s => s.research_gaps || []))}${list("Contradictions", graph.subtopics.flatMap(s => s.contradictions || []))}${list("Opportunities", graph.subtopics.flatMap(s => s.commercial_opportunities || []))}`));
 write("search", shell("Search the Atlas", "Discovery", `<p class="lede">Search is generated from every governed object.</p><input class="search-box" id="atlasSearch" placeholder="Search Themes, Topics, Subtopics and evidence"><div id="searchResults" class="projection-cards"></div><script>fetch("/search-index.json").then(r=>r.json()).then(rows=>{const q=document.getElementById("atlasSearch"),out=document.getElementById("searchResults");function draw(){const term=q.value.toLowerCase();out.innerHTML=term?rows.filter(x=>(x.title+" "+x.text).toLowerCase().includes(term)).slice(0,50).map(x=>"<article class=\"projection-card\"><small>"+x.id+"</small><h3>"+x.title+"</h3><p>"+x.text+"</p></article>").join(""):"";}q.addEventListener("input",draw);});</script>`));
 write("status", shell("Compiler status", "Build telemetry", `<div class="metrics"><strong>${errors.length ? "FAIL" : "PASS"}</strong> validation <strong>${warnings.length}</strong> warnings</div><p>This page is generated inside the enumerated build and is therefore covered by the manifest.</p>${list("Warnings", warnings)}${list("Errors", errors)}`));
+
+const expectedCounts = String(process.env.ATLAS_EXPECT_COUNTS || "").split(",").map(Number);
+if (expectedCounts.length === 3 && expectedCounts.every(Number.isFinite)) {
+  const actual = [graph.themes.length, graph.topics.length, graph.subtopics.length];
+  if (actual.some((n,i) => n !== expectedCounts[i])) errors.push(`canonical count gate failed: expected ${expectedCounts.join("/")} but received ${actual.join("/")}`);
+}
+write("learning", shell("Four-hour Atlas", "Applied learning", `<p class="lede">Every Subtopic becomes a curated four-hour module: executive brief, guided learning, applied scenario, assessment and portfolio evidence.</p><div class="metrics"><strong>${graph.subtopics.length}</strong> modules <strong>4</strong> hours each</div><div class="grid">${graph.subtopics.map(sub => card(sub.credential?.id || `T4H-MC-${sub.id}`, sub.title, sub.summary || sub.problem, subRoute(sub))).join("")}</div>`));
+write("credentials", shell("Micro-credentials", "Stackable capability evidence", `<p class="lede">Subtopic credentials stack into Topic, Theme and cross-Theme qualifications. Issuance remains blocked until assessment, moderation and identity gates pass.</p><div class="metrics"><strong>${graph.subtopics.length}</strong> Subtopic credentials <strong>0</strong> issued by this build</div>${list("Issuance gates",["Required learning completed","Assessment threshold met","Evidence artifact submitted","Assessor decision recorded","Moderation and identity checks passed"]) }`));
 
 const htmlFiles = [];
 const walk = dir => fs.readdirSync(dir, {withFileTypes:true}).flatMap(e => e.isDirectory() ? walk(path.join(dir,e.name)) : [path.join(dir,e.name)]);
@@ -203,17 +221,22 @@ const relationships = [
 ];
 fs.writeFileSync(path.join(out, "relationship-graph.json"), JSON.stringify({nodes:searchable.map(x => ({id:x.id,type:x.id?.split("-")[0] || "OBJECT"})),edges:relationships}, null, 2));
 fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${manifest.map(x => `<url><loc>/${x.path.replace(/index\.html$/,"")}</loc></url>`).join("")}</urlset>`);
-const linked = [...fs.readFileSync(path.join(out,"index.html"),"utf8").matchAll(/href="(\/[^"#?]*)"/g)].map(x => x[1]);
-const brokenLinks = linked.filter(href => !fs.existsSync(path.join(out, href, "index.html")) && !fs.existsSync(path.join(out, href)));
+const linked = htmlFiles.flatMap(file => [...fs.readFileSync(file,"utf8").matchAll(/href="(\/[^"#?]*)"/g)].map(match => ({file:path.relative(out,file),href:match[1]})));
+const brokenLinks = linked.filter(({href}) => !fs.existsSync(path.join(out, href, "index.html")) && !fs.existsSync(path.join(out, href))).map(({file,href}) => `${file} -> ${href}`);
 if (brokenLinks.length) errors.push(...brokenLinks.map(x => `broken link ${x}`));
 const receipt = {
-  classification: warnings.length ? "PARTIAL" : "REAL",
-  build_status: "PASS",
+  classification: errors.length ? "BLOCKED" : warnings.length ? "PARTIAL" : "REAL",
+  build_status: errors.length ? "FAIL" : "PASS",
   deployment_status: "NOT_DEPLOYED",
   source: path.basename(inputPath),
   source_sha256: crypto.createHash("sha256").update(source).digest("hex"),
+  identity_rules: graph.atlas?.identity_rules || {theme:"Theme_ID",topic:"Theme_ID + Topic_ID",subtopic:"Subtopic_ID"},
+  count_gate: expectedCounts.length === 3 ? {expected:expectedCounts,actual:[graph.themes.length,graph.topics.length,graph.subtopics.length],status:errors.some(x=>x.startsWith("canonical count gate failed"))?"FAIL":"PASS"} : {status:"NOT_CONFIGURED"},
+  learning_product: {module_hours:4,offers:graph.subtopics.length,credentials_issued:0,issuance_state:"NOT_ISSUED"},
   counts: {themes:graph.themes.length, topics:graph.topics.length, subtopics:graph.subtopics.length, evidence:graph.evidence.length, stories:graph.stories.length, story_slots:graph.subtopics.length, ip_pages:3, projection_pages:Object.keys(projections).length, candidates:graph.candidates.length, html_pages:htmlFiles.length, relationships:relationships.length},
   warnings, errors, broken_links:brokenLinks, manifest_sha256: crypto.createHash("sha256").update(JSON.stringify(manifest)).digest("hex")
 };
+fs.writeFileSync(path.join(out, "learning-offers.json"), JSON.stringify(graph.subtopics.map(sub => ({subtopic_id:sub.id,topic_key:topicKey(sub.theme_id,sub.topic_id),credential_id:sub.credential?.id || `T4H-MC-${sub.id}`,duration_minutes:240,issue_state:"NOT_ISSUED",events:["learning_offer_view","learning_offer_open","credential_requirements_open"]})), null, 2));
 fs.writeFileSync(path.join(out, "build-receipt.json"), JSON.stringify(receipt, null, 2));
 console.log(JSON.stringify(receipt, null, 2));
+if (errors.length) process.exitCode=2;
