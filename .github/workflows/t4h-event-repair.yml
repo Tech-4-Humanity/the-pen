@@ -65,7 +65,7 @@ jobs:
       - name: Commit clean-scan receipt
         run: |
           set -euo pipefail
-          if git diff --quiet -- receipts/runtime; then
+          if ! git status --porcelain -- receipts/runtime | grep -q .; then
             echo "receipt already committed or no receipt change"
             exit 0
           fi
