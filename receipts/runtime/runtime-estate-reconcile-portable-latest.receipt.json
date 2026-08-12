@@ -6,197 +6,185 @@
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 0,
-  "next_offset": 20,
+  "offset": 20,
+  "next_offset": 40,
   "total_repositories": 232,
   "summary": {
-    "PR_OPEN": 17,
-    "SKIPPED": 3
+    "SKIPPED": 5,
+    "PR_OPEN": 15
   },
   "results": [
     {
-      "repository": "TML-4PM/.github",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/.github/pull/1"
-    },
-    {
-      "repository": "TML-4PM/accountant-channel-ui",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/accountant-channel-ui/pull/1"
-    },
-    {
-      "repository": "TML-4PM/achra-assessment",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/achra-assessment/pull/3"
-    },
-    {
-      "repository": "TML-4PM/activity-intelligence-platform",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/activity-intelligence-platform/pull/2"
-    },
-    {
-      "repository": "TML-4PM/agent-job-match",
+      "repository": "TML-4PM/ANZ_Retail",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/agent-smart-match-engine",
+      "repository": "TML-4PM/apac-just-walk-out",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/apac-just-walk-out/pull/1"
+    },
+    {
+      "repository": "TML-4PM/apex-predator",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/apex-predator/pull/1"
+    },
+    {
+      "repository": "TML-4PM/apex-predator-insurance",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/apex-predator-insurance/pull/3"
+    },
+    {
+      "repository": "TML-4PM/APS-Vignettes",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/APS-Vignettes/pull/1"
+    },
+    {
+      "repository": "TML-4PM/aquame",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/aquame/pull/1"
+    },
+    {
+      "repository": "TML-4PM/atlas-aus-pulse",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/atlas-aus-pulse/pull/8"
+    },
+    {
+      "repository": "TML-4PM/augmentation-ace-automator",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/agentforce-demo",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/agentforce-demo/pull/1"
-    },
-    {
-      "repository": "TML-4PM/agentic-ai-it-is-ok",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/agentic-ai-it-is-ok/pull/1"
-    },
-    {
-      "repository": "TML-4PM/agentic-ai-its-ok",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/agentic-ai-its-ok/pull/1"
-    },
-    {
-      "repository": "TML-4PM/ai-at-chalfont",
+      "repository": "TML-4PM/Augmented-Humanity",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/ai-era-thinking",
+      "repository": "TML-4PM/augmented-humanity-coach",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/ai-era-thinking/pull/24"
+      "pull_request": "https://github.com/TML-4PM/augmented-humanity-coach/pull/11"
     },
     {
-      "repository": "TML-4PM/ai-evolution-program",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/ai-evolution-program/pull/5"
+      "repository": "TML-4PM/augmented-humanity-coach-plus",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/ai-hq-4-ccr",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/ai-hq-4-ccr/pull/1"
+      "repository": "TML-4PM/augmented-humanity-guide-rebuild",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/ai-olympics",
+      "repository": "TML-4PM/augmented-memories",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/ai-olympics/pull/2"
+      "pull_request": "https://github.com/TML-4PM/augmented-memories/pull/2"
     },
     {
-      "repository": "TML-4PM/ai-sweet-spots-for-all",
+      "repository": "TML-4PM/bad-mcp",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/ai-sweet-spots-for-all/pull/10"
+      "pull_request": "https://github.com/TML-4PM/bad-mcp/pull/1"
     },
     {
-      "repository": "TML-4PM/ai4tradies",
+      "repository": "TML-4PM/bridge-constitution",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/ai4tradies/pull/11"
+      "pull_request": "https://github.com/TML-4PM/bridge-constitution/pull/2"
     },
     {
-      "repository": "TML-4PM/aiolympics",
+      "repository": "TML-4PM/bridge-constitution-troy",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/aiolympics/pull/1"
+      "pull_request": "https://github.com/TML-4PM/bridge-constitution-troy/pull/1"
     },
     {
-      "repository": "TML-4PM/all-chemists-com",
+      "repository": "TML-4PM/bridge-runner",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/all-chemists-com/pull/1"
+      "pull_request": "https://github.com/TML-4PM/bridge-runner/pull/2"
     },
     {
-      "repository": "TML-4PM/allergy-mad-school-fun",
+      "repository": "TML-4PM/bridge-worker-intake",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/allergy-mad-school-fun/pull/2"
+      "pull_request": "https://github.com/TML-4PM/bridge-worker-intake/pull/5"
     },
     {
-      "repository": "TML-4PM/amplify-gov-ai",
+      "repository": "TML-4PM/calmbound",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/amplify-gov-ai/pull/1"
+      "pull_request": "https://github.com/TML-4PM/calmbound/pull/1"
+    },
+    {
+      "repository": "TML-4PM/canberra-consulting-ai-25",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/canberra-consulting-ai-25/pull/1"
     }
   ],
-  "generated_at": "2026-08-12T16:51:14.193Z",
-  "duration_ms": 55909
+  "generated_at": "2026-08-12T17:01:29.646Z",
+  "duration_ms": 54269
 }
