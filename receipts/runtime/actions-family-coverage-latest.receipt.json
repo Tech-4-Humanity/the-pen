@@ -2,9 +2,9 @@
   "worker_id": "WKR-ACTIONS-FAMILY-001",
   "state": "REAL",
   "scope": "all discovered GitHub Actions workflows and related/similar patterns",
-  "workflow_count": 275,
+  "workflow_count": 276,
   "coverage": {
-    "COVERED_NO_HOSTED_DEPENDENCY": 19,
+    "COVERED_NO_HOSTED_DEPENDENCY": 20,
     "COVERED_REAL": 154,
     "COVERED_PARTIAL": 102
   },
@@ -15,11 +15,12 @@
     "OBSERVE_AUDIT": 51,
     "RECONCILE_SYNC": 27,
     "SECURITY_COMPLIANCE": 34,
+    "EVENT_ROUTING": 1,
     "DEPLOY_RELEASE": 29,
     "DATA_ETL": 1
   },
   "gap_count": 0,
   "gaps": [],
   "rule": "new workflow family without adapter is a defect and must not remain silent",
-  "generated_at": "2026-08-12T23:20:02.892Z"
+  "generated_at": "2026-08-12T23:30:01.686Z"
 }
