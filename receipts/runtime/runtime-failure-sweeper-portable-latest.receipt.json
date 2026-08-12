@@ -20,6 +20,16 @@
   "failure_count": 13,
   "failures": [
     {
+      "workflow": "Bridge Runner — Heartbeat",
+      "run_id": 31577797967,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "a3e75846b0722901aa08d42ccc6cb2d6f94e8262",
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31577797967",
+      "created_at": "2026-08-12T08:19:13Z"
+    },
+    {
       "workflow": "Agent Contract CI",
       "run_id": 31576927424,
       "event": "push",
@@ -138,18 +148,8 @@
       "head_sha": "46d1ae092cf428a86fad57231a288bfcffc7a516",
       "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31575361314",
       "created_at": "2026-08-12T07:46:01Z"
-    },
-    {
-      "workflow": "Bridge Runner — Heartbeat",
-      "run_id": 31572056888,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "dc7f9c81aabec2f10e03d68cd66da6159127503f",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31572056888",
-      "created_at": "2026-08-12T06:58:22Z"
     }
   ],
-  "generated_at": "2026-08-12T08:17:02.987Z",
-  "duration_ms": 1665
+  "generated_at": "2026-08-12T09:17:02.141Z",
+  "duration_ms": 1618
 }
