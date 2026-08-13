@@ -21,15 +21,15 @@
   "failures": [
     {
       "workflow": "Bridge Runner — Heartbeat",
-      "run_id": 31657441861,
+      "run_id": 31664493891,
       "event": "schedule",
       "status": "completed",
       "conclusion": "failure",
       "head_sha": "4ca79888c8e82ad13f340eae8686b05b1cd40cbe",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31657441861",
-      "created_at": "2026-08-13T01:21:26Z"
+      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31664493891",
+      "created_at": "2026-08-13T03:37:37Z"
     }
   ],
-  "generated_at": "2026-08-13T03:17:02.267Z",
-  "duration_ms": 1815
+  "generated_at": "2026-08-13T04:17:02.260Z",
+  "duration_ms": 1602
 }
