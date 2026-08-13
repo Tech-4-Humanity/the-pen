@@ -6,179 +6,209 @@
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 80,
-  "next_offset": 100,
+  "offset": 100,
+  "next_offset": 120,
   "total_repositories": 232,
   "summary": {
-    "PR_OPEN": 14,
-    "SKIPPED": 6
+    "PR_OPEN": 19,
+    "SKIPPED": 1
   },
   "results": [
     {
-      "repository": "TML-4PM/grok-workflow",
+      "repository": "TML-4PM/living-cells-grid",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/grok-workflow/pull/1"
+      "pull_request": "https://github.com/TML-4PM/living-cells-grid/pull/3"
     },
     {
-      "repository": "TML-4PM/holo-org",
+      "repository": "TML-4PM/llm-chat-intel",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/holo-org/pull/8"
+      "pull_request": "https://github.com/TML-4PM/llm-chat-intel/pull/1"
     },
     {
-      "repository": "TML-4PM/holo-org-plus",
+      "repository": "TML-4PM/LLM-JSON",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/LLM-JSON/pull/17"
+    },
+    {
+      "repository": "TML-4PM/loveable-legacy-platform",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/loveable-legacy-platform/pull/1"
+    },
+    {
+      "repository": "TML-4PM/maat-fiskil-ingest",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/maat-fiskil-ingest/pull/1"
+    },
+    {
+      "repository": "TML-4PM/maat-money-console",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/maat-money-console/pull/1"
+    },
+    {
+      "repository": "TML-4PM/maat-money-protocol",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/maat-money-protocol/pull/1"
+    },
+    {
+      "repository": "TML-4PM/maat-money-services",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/maat-money-services/pull/1"
+    },
+    {
+      "repository": "TML-4PM/maat-reports",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/maat-reports/pull/1"
+    },
+    {
+      "repository": "TML-4PM/mac-cost-insight-calculator",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/mac-cost-insight-calculator/pull/1"
+    },
+    {
+      "repository": "TML-4PM/making-you-a-star",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/making-you-a-star/pull/3"
+    },
+    {
+      "repository": "TML-4PM/master-asset-matrix",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/master-asset-matrix/pull/3"
+    },
+    {
+      "repository": "TML-4PM/master-dashboard",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/master-dashboard/pull/1"
+    },
+    {
+      "repository": "TML-4PM/mcp-bridge-invoke-handler",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/mcp-bridge-invoke-handler/pull/1"
+    },
+    {
+      "repository": "TML-4PM/mcp-command-centre",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/mcp-command-centre/pull/98"
+    },
+    {
+      "repository": "TML-4PM/mcp-native.com",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/holo-org-vignette-showcase",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/holo-org-vision-aps",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/holoorg",
+      "repository": "TML-4PM/mcp-protocol-standard",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/holoorg/pull/1"
+      "pull_request": "https://github.com/TML-4PM/mcp-protocol-standard/pull/2"
     },
     {
-      "repository": "TML-4PM/holoorg-agent-factory",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/holoverse-nexus-hub",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/house-of-biscuits",
+      "repository": "TML-4PM/mcp-scripts",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/house-of-biscuits/pull/1"
+      "pull_request": "https://github.com/TML-4PM/mcp-scripts/pull/1"
     },
     {
-      "repository": "TML-4PM/InnovateME",
+      "repository": "TML-4PM/medledger",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/InnovateME/pull/3"
+      "pull_request": "https://github.com/TML-4PM/medledger/pull/1"
     },
     {
-      "repository": "TML-4PM/Jet-1.1",
+      "repository": "TML-4PM/mission-critical",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/Jet-1.1/pull/1"
-    },
-    {
-      "repository": "TML-4PM/Job-application-data",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/Job-application-data/pull/5"
-    },
-    {
-      "repository": "TML-4PM/justpoint",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/justpoint/pull/1"
-    },
-    {
-      "repository": "TML-4PM/kids-visit-mode",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/kids-visit-mode/pull/1"
-    },
-    {
-      "repository": "TML-4PM/kids-visit-mode-portal",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/kids-visit-mode-portal/pull/1"
-    },
-    {
-      "repository": "TML-4PM/knowledge-drop",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/knowledge-drop/pull/1"
-    },
-    {
-      "repository": "TML-4PM/laser-soil-whisperer",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/laser-soil-whisperer/pull/1"
-    },
-    {
-      "repository": "TML-4PM/last-chance-bingo",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/last-chance-bingo/pull/27"
-    },
-    {
-      "repository": "TML-4PM/LI_Repo",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/lifegraph-plus",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/lifegraph-plus/pull/1"
+      "pull_request": "https://github.com/TML-4PM/mission-critical/pull/1"
     }
   ],
-  "generated_at": "2026-08-13T03:40:42.559Z",
-  "duration_ms": 40461
+  "generated_at": "2026-08-13T03:50:57.331Z",
+  "duration_ms": 54098
 }
