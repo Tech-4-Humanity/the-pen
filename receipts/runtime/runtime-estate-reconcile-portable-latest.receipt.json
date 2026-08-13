@@ -1,196 +1,204 @@
 {
   "worker_id": "WKR-RECOVER-001",
   "adapter": "Runtime estate bootstrap and reconcile",
-  "state": "REAL",
+  "state": "DEGRADED",
   "execution_provider": "supabase-edge",
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 140,
-  "next_offset": 160,
+  "offset": 160,
+  "next_offset": 180,
   "total_repositories": 232,
   "summary": {
-    "SKIPPED": 4,
-    "PR_OPEN": 16
+    "PR_OPEN": 17,
+    "SKIPPED": 2,
+    "ERROR": 1
   },
   "results": [
     {
-      "repository": "TML-4PM/Partner-Viewer",
+      "repository": "TML-4PM/skills",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/skills/pull/1"
+    },
+    {
+      "repository": "TML-4PM/sm-ban-watch",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/sm-ban-watch/pull/3"
+    },
+    {
+      "repository": "TML-4PM/smartpark",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/smartpark/pull/1"
+    },
+    {
+      "repository": "TML-4PM/st-john-bosco-2e-hub",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/st-john-bosco-2e-hub/pull/1"
+    },
+    {
+      "repository": "TML-4PM/Stubborn_AI_FAILS",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/Stubborn_AI_FAILS/pull/3"
+    },
+    {
+      "repository": "TML-4PM/studio",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/platforms",
+      "repository": "TML-4PM/supabase-audit",
+      "status": "ERROR",
+      "error": "GitHub 409: {\"message\":\"Git Repository is empty.\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"409\"}"
+    },
+    {
+      "repository": "TML-4PM/symbio-dev-control-plane",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/platforms/pull/1"
+      "pull_request": "https://github.com/TML-4PM/symbio-dev-control-plane/pull/29"
     },
     {
-      "repository": "TML-4PM/plus.holo-org.com",
+      "repository": "TML-4PM/symbio-synapse-ops",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/symbio-synapse-ops/pull/2"
+    },
+    {
+      "repository": "TML-4PM/synal-core",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/synal-core/pull/2"
+    },
+    {
+      "repository": "TML-4PM/synapse-prod-control-plane",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/synapse-prod-control-plane/pull/18"
+    },
+    {
+      "repository": "TML-4PM/t4h-agent-orchestrator",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/t4h-agent-orchestrator/pull/12"
+    },
+    {
+      "repository": "TML-4PM/t4h-ai-leadership-ingest",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/t4h-ai-leadership-ingest/pull/1"
+    },
+    {
+      "repository": "TML-4PM/t4h-ai-toolkit",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/t4h-ai-toolkit/pull/1"
+    },
+    {
+      "repository": "TML-4PM/t4h-apps",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/t4h-apps/pull/1"
+    },
+    {
+      "repository": "TML-4PM/T4H-Autonomous-Bridge",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/T4H-Autonomous-Bridge/pull/1"
+    },
+    {
+      "repository": "TML-4PM/t4h-brand-guard",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/t4h-brand-guard/pull/1"
+    },
+    {
+      "repository": "TML-4PM/t4h-checkout-api",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/t4h-checkout-api/pull/1"
+    },
+    {
+      "repository": "TML-4PM/t4h-comms-hub",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/t4h-comms-hub/pull/3"
+    },
+    {
+      "repository": "TML-4PM/t4h-ecosystem-explainer",
       "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/portfolio-site",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/portfolio-site/pull/1"
-    },
-    {
-      "repository": "TML-4PM/predator-alert-system",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/predator-alert-system/pull/1"
-    },
-    {
-      "repository": "TML-4PM/promoforge",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/promoforge/pull/1"
-    },
-    {
-      "repository": "TML-4PM/proof_pot",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/proof_pot/pull/5"
-    },
-    {
-      "repository": "TML-4PM/property-decision-pack",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/property-decision-pack/pull/1"
-    },
-    {
-      "repository": "TML-4PM/property-decision-pack-web",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/property-decision-pack-web/pull/1"
-    },
-    {
-      "repository": "TML-4PM/quantum-native",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/qwen-agent-control-plane",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/qwen-agent-control-plane/pull/1"
-    },
-    {
-      "repository": "TML-4PM/ratpak",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/ratpak/pull/1"
-    },
-    {
-      "repository": "TML-4PM/reading-buddy",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/reading-buddy/pull/5"
-    },
-    {
-      "repository": "TML-4PM/readingmate",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/readingmate/pull/1"
-    },
-    {
-      "repository": "TML-4PM/rhythm-method",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/rhythm-method/pull/3"
-    },
-    {
-      "repository": "TML-4PM/rick-website-grow",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/rick-website-grow/pull/1"
-    },
-    {
-      "repository": "TML-4PM/ru-good-at-ai",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/ru-good-at-ai/pull/1"
-    },
-    {
-      "repository": "TML-4PM/runtime-real",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/site-automation",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/site-automation/pull/1"
-    },
-    {
-      "repository": "TML-4PM/site-sentinel",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/site-sentinel/pull/1"
     }
   ],
-  "generated_at": "2026-08-13T10:20:57.413Z",
-  "duration_ms": 53570
+  "generated_at": "2026-08-13T10:31:01.171Z",
+  "duration_ms": 56111
 }
