@@ -1,8 +1,15 @@
 # Execution Bar: No Silent Death
 
 **Effective date:** 2026-04-28  
+**Updated:** 2026-08-14 — mandatory agent-prompt completion preamble added.  
 **Scope:** All future PEN / Bridge / Dev handoffs unless explicitly downgraded.  
 **Doctrine:** A handoff is not complete when it is merely posted. It is complete only when it is accepted into an execution surface with watchdog, proof gates, recovery route, and final receipt.
+
+## Mandatory prompt prefix
+
+Every agent, worker, sub-agent, delegated, recovery, event-driven or scheduled execution prompt MUST begin verbatim with `global/AGENT_PROMPT_COMPLETION_PREAMBLE.md`.
+
+A prompt missing that prefix is **NON-COMPLIANT** and must not be treated as a canonical execution handoff.
 
 ## Default rule
 
@@ -34,6 +41,9 @@ Every future execution handoff must include:
 
 9. **Receipt closure**
    - Close only after terminal tail, commit/PR/job URL, or equivalent machine-verifiable evidence is stored.
+
+10. **Continuous-stride closure**
+   - Partial wins are temporary. Continue safe autonomous retry, validation, repair and readback until the stride is REAL or a genuine evidenced blocker remains.
 
 ## Required handoff template
 
@@ -82,7 +92,7 @@ Post task → hope someone runs it → silence
 New bar:
 
 ```text
-Post task → monitor → detect silence → escalate → recover → prove → close
+Prompt with mandatory completion preamble → post task → monitor → detect silence → retry/escalate → recover → prove → read back → close
 ```
 
 ## Application
