@@ -46,13 +46,13 @@
     },
     {
       "repo": "TML-4PM/the-pen",
-      "run_id": 31719203727,
-      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31719203727",
-      "workflow": "GitHub Actions Failure Census",
+      "run_id": 31720877219,
+      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31720877219",
+      "workflow": "GitHub Actions Autofix Controller",
       "event": "schedule",
-      "head_sha": "0f1eed7b99d5c88431f27cf05c5864987078199d",
-      "created_at": "2026-08-13T16:09:07Z",
-      "job_id": 94511583261,
+      "head_sha": "cab320b032230db0941ed72bbe9b179e9580ba9c",
+      "created_at": "2026-08-13T16:28:48Z",
+      "job_id": 94517262545,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -186,6 +186,6 @@
     "external event gateway wake still required for REAL worker gate"
   ],
   "next_action": "Build adapters by workflow family: Runtime Failure Sweeper; Runtime estate bootstrap/reconcile; GitHub Actions Autofix Controller.",
-  "generated_at": "2026-08-13T16:10:07.585Z",
-  "duration_ms": 4897
+  "generated_at": "2026-08-13T17:10:12.488Z",
+  "duration_ms": 9594
 }
