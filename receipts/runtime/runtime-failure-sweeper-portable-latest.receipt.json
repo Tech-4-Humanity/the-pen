@@ -16,8 +16,8 @@
     "Universal Agent Contract Gate"
   ],
   "window_hours": 2,
-  "observed_count": 23,
-  "failure_count": 23,
+  "observed_count": 22,
+  "failure_count": 22,
   "failures": [
     {
       "workflow": "Bridge Runner — Heartbeat",
@@ -238,18 +238,8 @@
       "head_sha": "1d76ca64042eceec251e2b9e3af50a6a4196d022",
       "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31678209994",
       "created_at": "2026-08-13T07:32:52Z"
-    },
-    {
-      "workflow": "Bridge Runner — Heartbeat",
-      "run_id": 31675592601,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_sha": "4ca79888c8e82ad13f340eae8686b05b1cd40cbe",
-      "url": "https://github.com/TML-4PM/mcp-command-centre/actions/runs/31675592601",
-      "created_at": "2026-08-13T06:54:03Z"
     }
   ],
-  "generated_at": "2026-08-13T08:17:02.341Z",
-  "duration_ms": 1846
+  "generated_at": "2026-08-13T09:17:03.525Z",
+  "duration_ms": 1879
 }
