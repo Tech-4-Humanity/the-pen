@@ -6,173 +6,179 @@
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 60,
-  "next_offset": 80,
+  "offset": 80,
+  "next_offset": 100,
   "total_repositories": 232,
   "summary": {
-    "PR_OPEN": 13,
-    "SKIPPED": 7
+    "PR_OPEN": 14,
+    "SKIPPED": 6
   },
   "results": [
     {
-      "repository": "TML-4PM/fantasy-politician-funding-league",
+      "repository": "TML-4PM/grok-workflow",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/fantasy-politician-funding-league/pull/1"
+      "pull_request": "https://github.com/TML-4PM/grok-workflow/pull/1"
     },
     {
-      "repository": "TML-4PM/far-cage",
+      "repository": "TML-4PM/holo-org",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/far-cage/pull/1"
+      "pull_request": "https://github.com/TML-4PM/holo-org/pull/8"
     },
     {
-      "repository": "TML-4PM/free-agents",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/free-agents/pull/1"
-    },
-    {
-      "repository": "TML-4PM/free-agents-via-AHC",
+      "repository": "TML-4PM/holo-org-plus",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/free-augmentation-agents",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/free-augmentation-agents/pull/1"
-    },
-    {
-      "repository": "TML-4PM/g2u-dashboard-target",
+      "repository": "TML-4PM/holo-org-vignette-showcase",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/gain-foundation",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/gain-foundation/pull/1"
-    },
-    {
-      "repository": "TML-4PM/gc-bat-core",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/gc-bat-core/pull/1"
-    },
-    {
-      "repository": "TML-4PM/gcbat-vignettes-main",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/gcbat-vignettes-main/pull/1"
-    },
-    {
-      "repository": "TML-4PM/geeks2u-calculator",
+      "repository": "TML-4PM/holo-org-vision-aps",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/geeks2u-calculator-killedme",
+      "repository": "TML-4PM/holoorg",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/holoorg/pull/1"
+    },
+    {
+      "repository": "TML-4PM/holoorg-agent-factory",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/geeks2u-take-50",
+      "repository": "TML-4PM/holoverse-nexus-hub",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/gemini-bridge-mcp",
+      "repository": "TML-4PM/house-of-biscuits",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/gemini-bridge-mcp/pull/1"
+      "pull_request": "https://github.com/TML-4PM/house-of-biscuits/pull/1"
     },
     {
-      "repository": "TML-4PM/gems",
+      "repository": "TML-4PM/InnovateME",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/gems/pull/1"
+      "pull_request": "https://github.com/TML-4PM/InnovateME/pull/3"
     },
     {
-      "repository": "TML-4PM/GenAI---ITOPs",
+      "repository": "TML-4PM/Jet-1.1",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/Jet-1.1/pull/1"
+    },
+    {
+      "repository": "TML-4PM/Job-application-data",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/Job-application-data/pull/5"
+    },
+    {
+      "repository": "TML-4PM/justpoint",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/justpoint/pull/1"
+    },
+    {
+      "repository": "TML-4PM/kids-visit-mode",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/kids-visit-mode/pull/1"
+    },
+    {
+      "repository": "TML-4PM/kids-visit-mode-portal",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/kids-visit-mode-portal/pull/1"
+    },
+    {
+      "repository": "TML-4PM/knowledge-drop",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/knowledge-drop/pull/1"
+    },
+    {
+      "repository": "TML-4PM/laser-soil-whisperer",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/laser-soil-whisperer/pull/1"
+    },
+    {
+      "repository": "TML-4PM/last-chance-bingo",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/last-chance-bingo/pull/27"
+    },
+    {
+      "repository": "TML-4PM/LI_Repo",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/girlmath",
+      "repository": "TML-4PM/lifegraph-plus",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/girlmath/pull/1"
-    },
-    {
-      "repository": "TML-4PM/global-part-ownership",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/global-part-ownership/pull/1"
-    },
-    {
-      "repository": "TML-4PM/global-tyre-locator",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/global-tyre-locator/pull/1"
-    },
-    {
-      "repository": "TML-4PM/global-tyres",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/global-tyres/pull/1"
-    },
-    {
-      "repository": "TML-4PM/GPT-reports--T4H",
-      "status": "SKIPPED"
+      "pull_request": "https://github.com/TML-4PM/lifegraph-plus/pull/1"
     }
   ],
-  "generated_at": "2026-08-13T03:30:44.760Z",
-  "duration_ms": 41340
+  "generated_at": "2026-08-13T03:40:42.559Z",
+  "duration_ms": 40461
 }
