@@ -1,39 +1,13 @@
 {
   "worker_id": "WKR-RECOVER-001",
   "work_key": "github:TML-4PM:actions-recovery:2026-08-13",
-  "state": "PARTIAL",
+  "state": "DEGRADED",
   "execution_provider": "supabase-edge",
   "trigger": "scheduled-fallback-until-event-gateway-real",
   "scanned_candidates": 25,
   "runner_unallocated": 2,
-  "recovered_count": 1,
-  "recovered": [
-    {
-      "repo": "TML-4PM/t4h-remote-mcp-server-clean",
-      "run_id": 31707040476,
-      "run_url": "https://github.com/TML-4PM/t4h-remote-mcp-server-clean/actions/runs/31707040476",
-      "workflow": "Standard Runtime Proof",
-      "event": "schedule",
-      "head_sha": "a02c316e1636116ec8c4e3b7ada4da80b746f152",
-      "created_at": "2026-08-13T13:51:02Z",
-      "job_id": 94470091953,
-      "runner_name": null,
-      "step_count": 0,
-      "actions_state": "RUNNER_UNALLOCATED",
-      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
-      "underlying_task_state": "COMPLETE_VERIFIED",
-      "recovery_state": "RECOVERED",
-      "recovery_action": "REROUTE",
-      "execution_target": "supabase-edge",
-      "validation": "RUNTIME_PASS",
-      "provider_readback": {
-        "evt_id": "ff1f3c43-0c3e-4130-b21a-563bebd00316",
-        "event_type": "work_started",
-        "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-13T14:10:07.690486+00:00"
-      }
-    }
-  ],
+  "recovered_count": 0,
+  "recovered": [],
   "attempted_not_recovered": [],
   "unresolved": [
     {
@@ -41,6 +15,22 @@
       "actions_state": "UNKNOWN",
       "recovery_state": "BLOCKED",
       "error": "Error: GitHub 404 https://api.github.com/repos/TML-4PM/mcp-command-centre/actions/runs?status=failure&per_page=5: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest\",\"status\":\"404\"}"
+    },
+    {
+      "repo": "TML-4PM/t4h-remote-mcp-server-clean",
+      "run_id": 31713934273,
+      "run_url": "https://github.com/TML-4PM/t4h-remote-mcp-server-clean/actions/runs/31713934273",
+      "workflow": ".github/workflows/mcp-check.yml",
+      "event": "push",
+      "head_sha": "24d0e1dbec8918fe120bec4681e1083119144b9f",
+      "created_at": "2026-08-13T15:10:00Z",
+      "job_id": null,
+      "runner_name": null,
+      "step_count": 0,
+      "actions_state": "RUNNER_UNALLOCATED",
+      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
+      "underlying_task_state": "COMPLETE_UNVERIFIED",
+      "recovery_state": "DETECTED"
     },
     {
       "repo": "TML-4PM/symbio-dev-control-plane",
@@ -196,6 +186,6 @@
     "external event gateway wake still required for REAL worker gate"
   ],
   "next_action": "Build adapters by workflow family: Runtime Failure Sweeper; Runtime estate bootstrap/reconcile; GitHub Actions Autofix Controller.",
-  "generated_at": "2026-08-13T14:10:07.778Z",
-  "duration_ms": 5021
+  "generated_at": "2026-08-13T15:10:07.975Z",
+  "duration_ms": 4721
 }
