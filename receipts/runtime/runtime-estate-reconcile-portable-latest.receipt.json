@@ -6,179 +6,173 @@
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 40,
-  "next_offset": 60,
+  "offset": 60,
+  "next_offset": 80,
   "total_repositories": 232,
   "summary": {
-    "PR_OPEN": 14,
-    "SKIPPED": 6
+    "PR_OPEN": 13,
+    "SKIPPED": 7
   },
   "results": [
     {
-      "repository": "TML-4PM/ccr-exec-rft-value-calculator",
+      "repository": "TML-4PM/fantasy-politician-funding-league",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/ccr-exec-rft-value-calculator/pull/1"
+      "pull_request": "https://github.com/TML-4PM/fantasy-politician-funding-league/pull/1"
     },
     {
-      "repository": "TML-4PM/chalfront-ccr-ai",
+      "repository": "TML-4PM/far-cage",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/chalfront-ccr-ai/pull/1"
+      "pull_request": "https://github.com/TML-4PM/far-cage/pull/1"
     },
     {
-      "repository": "TML-4PM/chatter-by-ahc",
+      "repository": "TML-4PM/free-agents",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/chatter-by-ahc/pull/3"
+      "pull_request": "https://github.com/TML-4PM/free-agents/pull/1"
     },
     {
-      "repository": "TML-4PM/claude-outputs",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/claude-outputs/pull/1"
-    },
-    {
-      "repository": "TML-4PM/come-in-spinner",
+      "repository": "TML-4PM/free-agents-via-AHC",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/comet-bridge",
+      "repository": "TML-4PM/free-augmentation-agents",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/comet-bridge/pull/1"
+      "pull_request": "https://github.com/TML-4PM/free-augmentation-agents/pull/1"
     },
     {
-      "repository": "TML-4PM/consent-ledger-compass",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/consent-ledger-compass/pull/2"
-    },
-    {
-      "repository": "TML-4PM/consent-x",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/consent-x/pull/2"
-    },
-    {
-      "repository": "TML-4PM/consentx",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/consentx/pull/1"
-    },
-    {
-      "repository": "TML-4PM/consentx-westpac-demo1",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/consentx-westpac-demo1/pull/6"
-    },
-    {
-      "repository": "TML-4PM/content-pulled-from-socials",
+      "repository": "TML-4PM/g2u-dashboard-target",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/current-scape",
+      "repository": "TML-4PM/gain-foundation",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/current-scape/pull/1"
+      "pull_request": "https://github.com/TML-4PM/gain-foundation/pull/1"
     },
     {
-      "repository": "TML-4PM/digital-legacy-hub",
+      "repository": "TML-4PM/gc-bat-core",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/gc-bat-core/pull/1"
+    },
+    {
+      "repository": "TML-4PM/gcbat-vignettes-main",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/gcbat-vignettes-main/pull/1"
+    },
+    {
+      "repository": "TML-4PM/geeks2u-calculator",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/drone-laser-delight",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/drone-laser-delight/pull/1"
-    },
-    {
-      "repository": "TML-4PM/drug-resilience-atlas",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/drug-resilience-atlas/pull/21"
-    },
-    {
-      "repository": "TML-4PM/enter-australia",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/enter-australia/pull/2"
-    },
-    {
-      "repository": "TML-4PM/euc-calculator",
+      "repository": "TML-4PM/geeks2u-calculator-killedme",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/euc-job-pricing-calculator",
+      "repository": "TML-4PM/geeks2u-take-50",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/EUC2",
-      "status": "SKIPPED"
-    },
-    {
-      "repository": "TML-4PM/extreme-spotto",
+      "repository": "TML-4PM/gemini-bridge-mcp",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/extreme-spotto/pull/1"
+      "pull_request": "https://github.com/TML-4PM/gemini-bridge-mcp/pull/1"
+    },
+    {
+      "repository": "TML-4PM/gems",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/gems/pull/1"
+    },
+    {
+      "repository": "TML-4PM/GenAI---ITOPs",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/girlmath",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/girlmath/pull/1"
+    },
+    {
+      "repository": "TML-4PM/global-part-ownership",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/global-part-ownership/pull/1"
+    },
+    {
+      "repository": "TML-4PM/global-tyre-locator",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/global-tyre-locator/pull/1"
+    },
+    {
+      "repository": "TML-4PM/global-tyres",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/global-tyres/pull/1"
+    },
+    {
+      "repository": "TML-4PM/GPT-reports--T4H",
+      "status": "SKIPPED"
     }
   ],
-  "generated_at": "2026-08-13T11:30:50.843Z",
-  "duration_ms": 47304
+  "generated_at": "2026-08-13T11:40:46.560Z",
+  "duration_ms": 44753
 }
