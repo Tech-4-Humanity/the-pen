@@ -1,214 +1,180 @@
 {
   "worker_id": "WKR-RECOVER-001",
   "adapter": "Runtime estate bootstrap and reconcile",
-  "state": "REAL",
+  "state": "DEGRADED",
   "execution_provider": "supabase-edge",
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 100,
-  "next_offset": 120,
+  "offset": 120,
+  "next_offset": 140,
   "total_repositories": 232,
   "summary": {
-    "PR_OPEN": 19,
-    "SKIPPED": 1
+    "SKIPPED": 6,
+    "PR_OPEN": 13,
+    "ERROR": 1
   },
   "results": [
     {
-      "repository": "TML-4PM/living-cells-grid",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/living-cells-grid/pull/3"
-    },
-    {
-      "repository": "TML-4PM/llm-chat-intel",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/llm-chat-intel/pull/1"
-    },
-    {
-      "repository": "TML-4PM/LLM-JSON",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/LLM-JSON/pull/17"
-    },
-    {
-      "repository": "TML-4PM/loveable-legacy-platform",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/loveable-legacy-platform/pull/1"
-    },
-    {
-      "repository": "TML-4PM/maat-fiskil-ingest",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/maat-fiskil-ingest/pull/1"
-    },
-    {
-      "repository": "TML-4PM/maat-money-console",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/maat-money-console/pull/1"
-    },
-    {
-      "repository": "TML-4PM/maat-money-protocol",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/maat-money-protocol/pull/1"
-    },
-    {
-      "repository": "TML-4PM/maat-money-services",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/maat-money-services/pull/1"
-    },
-    {
-      "repository": "TML-4PM/maat-reports",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/maat-reports/pull/1"
-    },
-    {
-      "repository": "TML-4PM/mac-cost-insight-calculator",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/mac-cost-insight-calculator/pull/1"
-    },
-    {
-      "repository": "TML-4PM/making-you-a-star",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/making-you-a-star/pull/3"
-    },
-    {
-      "repository": "TML-4PM/master-asset-matrix",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/master-asset-matrix/pull/3"
-    },
-    {
-      "repository": "TML-4PM/master-dashboard",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/master-dashboard/pull/1"
-    },
-    {
-      "repository": "TML-4PM/mcp-bridge-invoke-handler",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/mcp-bridge-invoke-handler/pull/1"
-    },
-    {
-      "repository": "TML-4PM/mcp-command-centre",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/mcp-command-centre/pull/98"
-    },
-    {
-      "repository": "TML-4PM/mcp-native.com",
+      "repository": "TML-4PM/More-Free-Agents",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/mcp-protocol-standard",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/mcp-protocol-standard/pull/2"
+      "repository": "TML-4PM/multi-brand-ai-portal",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/mcp-scripts",
+      "repository": "TML-4PM/myneruralsignal",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/mcp-scripts/pull/1"
+      "pull_request": "https://github.com/TML-4PM/myneruralsignal/pull/1"
     },
     {
-      "repository": "TML-4PM/medledger",
+      "repository": "TML-4PM/myneuralsignal",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/medledger/pull/1"
+      "pull_request": "https://github.com/TML-4PM/myneuralsignal/pull/1"
     },
     {
-      "repository": "TML-4PM/mission-critical",
+      "repository": "TML-4PM/neural-ennead-dashboard",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/mission-critical/pull/1"
+      "pull_request": "https://github.com/TML-4PM/neural-ennead-dashboard/pull/3"
+    },
+    {
+      "repository": "TML-4PM/neural-ennead-family",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/neural-ennead-family/pull/1"
+    },
+    {
+      "repository": "TML-4PM/neural-market-intelligence",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/neural-market-intelligence/pull/1"
+    },
+    {
+      "repository": "TML-4PM/neuropak",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/neuropak/pull/2"
+    },
+    {
+      "repository": "TML-4PM/ok-agent-pilot-build",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/oldbecomesnew",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/oman-australia-strategy",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/oman-australia-strategy/pull/1"
+    },
+    {
+      "repository": "TML-4PM/omnibrain-superpack",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/omnibrain-superpack/pull/1"
+    },
+    {
+      "repository": "TML-4PM/ops-dashboard",
+      "status": "ERROR",
+      "error": "GitHub 409: {\"message\":\"Git Repository is empty.\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"409\"}"
+    },
+    {
+      "repository": "TML-4PM/ops-docs",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/ops-docs/pull/1"
+    },
+    {
+      "repository": "TML-4PM/origin-octave",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/origin-octave/pull/1"
+    },
+    {
+      "repository": "TML-4PM/outcome-ready",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/outcome-ready/pull/55"
+    },
+    {
+      "repository": "TML-4PM/own-your-ai",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/own-your-ai/pull/1"
+    },
+    {
+      "repository": "TML-4PM/park-harmony-ai",
+      "status": "PR_OPEN",
+      "changes": [
+        "runtime/runtime.yaml",
+        "runtime/capabilities.yaml",
+        ".github/workflows/t4h-runtime.yml"
+      ],
+      "pull_request": "https://github.com/TML-4PM/park-harmony-ai/pull/1"
+    },
+    {
+      "repository": "TML-4PM/partner-ecosystem",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/Partner-Portal",
+      "status": "SKIPPED"
     }
   ],
-  "generated_at": "2026-08-13T08:01:35.205Z",
-  "duration_ms": 58328
+  "generated_at": "2026-08-13T08:10:42.868Z",
+  "duration_ms": 41138
 }
