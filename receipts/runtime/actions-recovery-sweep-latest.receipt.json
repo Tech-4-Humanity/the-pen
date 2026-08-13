@@ -27,10 +27,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "342c73db-7b17-4e8e-9a51-aad03e87c28f",
+        "evt_id": "2d5e62ec-e6d2-4b9d-adfa-cfea3877c812",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-13T22:10:06.40859+00:00"
+        "created_at": "2026-08-13T23:10:06.838513+00:00"
       }
     }
   ],
@@ -56,13 +56,13 @@
     },
     {
       "repo": "TML-4PM/the-pen",
-      "run_id": 31748215601,
-      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31748215601",
+      "run_id": 31752255266,
+      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31752255266",
       "workflow": "GitHub Actions Failure Census",
       "event": "schedule",
-      "head_sha": "2f809ac75892ca05b88f287df7629e385282bc94",
-      "created_at": "2026-08-13T22:01:38Z",
-      "job_id": 94607708563,
+      "head_sha": "f0ebc2876241b522ee79742aa8dc9542812f2880",
+      "created_at": "2026-08-13T23:01:09Z",
+      "job_id": 94620356477,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -196,6 +196,6 @@
     "external event gateway wake still required for REAL worker gate"
   ],
   "next_action": "Build adapters by workflow family: Runtime Failure Sweeper; Runtime estate bootstrap/reconcile; GitHub Actions Autofix Controller.",
-  "generated_at": "2026-08-13T22:10:06.497Z",
-  "duration_ms": 4601
+  "generated_at": "2026-08-13T23:10:06.906Z",
+  "duration_ms": 4636
 }
