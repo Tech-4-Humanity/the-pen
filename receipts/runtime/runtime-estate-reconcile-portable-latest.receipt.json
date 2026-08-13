@@ -6,214 +6,203 @@
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 40,
-  "next_offset": 60,
+  "offset": 60,
+  "next_offset": 80,
   "total_repositories": 91,
   "summary": {
-    "PR_OPEN": 20
+    "PR_OPEN": 18,
+    "SKIPPED": 2
   },
   "results": [
     {
-      "repository": "TML-4PM/t4h-financial-sharing-model",
+      "repository": "TML-4PM/ten-day-media-map",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-financial-sharing-model/pull/1"
+      "pull_request": "https://github.com/TML-4PM/ten-day-media-map/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-lead-engine",
+      "repository": "TML-4PM/the-pen",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-lead-engine/pull/1"
+      "pull_request": "https://github.com/TML-4PM/the-pen/pull/313"
     },
     {
-      "repository": "TML-4PM/t4h-lead-engine-2",
+      "repository": "TML-4PM/TML-4PM",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-lead-engine-2/pull/1"
+      "pull_request": "https://github.com/TML-4PM/TML-4PM/pull/4"
     },
     {
-      "repository": "TML-4PM/t4h-mos-ndis",
+      "repository": "TML-4PM/TML-4PM-loop-engineering-runtime",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-mos-ndis/pull/1"
+      "pull_request": "https://github.com/TML-4PM/TML-4PM-loop-engineering-runtime/pull/7"
     },
     {
-      "repository": "TML-4PM/t4h-orchestrator",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/t4h-orchestrator/pull/4"
+      "repository": "TML-4PM/TML-G2U-50",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/t4h-perplexity-mcp-proxy",
+      "repository": "TML-4PM/tml-ops-center",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-perplexity-mcp-proxy/pull/1"
+      "pull_request": "https://github.com/TML-4PM/tml-ops-center/pull/3"
     },
     {
-      "repository": "TML-4PM/t4h-rdti-fy2425-evidence-portal",
+      "repository": "TML-4PM/tml-social-content",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-rdti-fy2425-evidence-portal/pull/1"
+      "pull_request": "https://github.com/TML-4PM/tml-social-content/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-remote-mcp-server",
+      "repository": "TML-4PM/trojanoz-lambda-fleet",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-remote-mcp-server/pull/1"
+      "pull_request": "https://github.com/TML-4PM/trojanoz-lambda-fleet/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-remote-mcp-server-clean",
+      "repository": "TML-4PM/troy_ebooks",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-remote-mcp-server-clean/pull/146"
+      "pull_request": "https://github.com/TML-4PM/troy_ebooks/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-research-graph",
+      "repository": "TML-4PM/troy-console",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-research-graph/pull/1"
+      "pull_request": "https://github.com/TML-4PM/troy-console/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-research-hub",
+      "repository": "TML-4PM/troy-console-app",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-research-hub/pull/29"
+      "pull_request": "https://github.com/TML-4PM/troy-console-app/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-site-monitor",
+      "repository": "TML-4PM/troy-fire-orchestrator",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-site-monitor/pull/1"
+      "pull_request": "https://github.com/TML-4PM/troy-fire-orchestrator/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-skills",
+      "repository": "TML-4PM/troy-grant-engine",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-skills/pull/1"
+      "pull_request": "https://github.com/TML-4PM/troy-grant-engine/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-supabase-core",
+      "repository": "TML-4PM/troy-latter",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-supabase-core/pull/1"
+      "pull_request": "https://github.com/TML-4PM/troy-latter/pull/1"
     },
     {
-      "repository": "TML-4PM/t4h-widget-dock",
+      "repository": "TML-4PM/troy-report-generator",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/t4h-widget-dock/pull/1"
+      "pull_request": "https://github.com/TML-4PM/troy-report-generator/pull/1"
     },
     {
-      "repository": "TML-4PM/T4HUnsolicitored2HalesRedden",
+      "repository": "TML-4PM/troy-rip-processor",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/T4HUnsolicitored2HalesRedden/pull/1"
+      "pull_request": "https://github.com/TML-4PM/troy-rip-processor/pull/1"
     },
     {
-      "repository": "TML-4PM/team-shared-brain",
+      "repository": "TML-4PM/troy-task-orchestrator",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/team-shared-brain/pull/1"
+      "pull_request": "https://github.com/TML-4PM/troy-task-orchestrator/pull/1"
     },
     {
-      "repository": "TML-4PM/tech-for-humanity",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/tech-for-humanity/pull/1"
+      "repository": "TML-4PM/Vendor-Contract-Agent",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/tech4humanity-books",
+      "repository": "TML-4PM/verified-comms-suite",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/tech4humanity-books/pull/6"
+      "pull_request": "https://github.com/TML-4PM/verified-comms-suite/pull/1"
     },
     {
-      "repository": "TML-4PM/Tech4Humanity-Domains",
+      "repository": "TML-4PM/virgin-application",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/Tech4Humanity-Domains/pull/9"
+      "pull_request": "https://github.com/TML-4PM/virgin-application/pull/1"
     }
   ],
-  "generated_at": "2026-08-13T16:01:44.615Z",
-  "duration_ms": 73725
+  "generated_at": "2026-08-13T16:11:07.357Z",
+  "duration_ms": 65379
 }
