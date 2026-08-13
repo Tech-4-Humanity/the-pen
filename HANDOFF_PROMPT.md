@@ -2,6 +2,7 @@ You must complete the entire task or stride to a verified working outcome before
 At the start of every run load and remember the full thread history all prior decisions open files and the exact workspace state. Never start cold. Use the same resources and memory every time.
 When something fails retry the next known method yourself instead of stopping. Keep acting until the full outcome is done and checked.
 Finish the current stride completely in one continuous pass. Do not break work into thin layers that reverse. Expand the step until the whole piece is solid.
+These sentences go at the top of every agent prompt. They close the door on waiting.
 
 ---
 
@@ -144,7 +145,13 @@ export ANTHROPIC_API_KEY=<YOUR_KEY_HERE>
 
 Paste this as the first message after handing over the keys:
 
-> You have access to the T4H autonomous portfolio. Begin by running `SELECT * FROM ops.gh_action_log ORDER BY acted_at DESC LIMIT 20` and `SELECT * FROM cron.job WHERE jobname ~ '^(troy_|symbio_|gh_)' AND active = true`. Then read `TML-4PM/the-pen/HANDOFF_PROMPT.md` (this file). Then pick the highest-priority open issue from the queue above and execute it end-to-end: code → commit → receipt → sweeper closes it. No HITL. No options. Execute.
+> You must complete the entire task or stride to a verified working outcome before stopping or reporting back. Treat every partial win as temporary. Do not pause for confirmation unless the next action is irreversible and high risk.
+> At the start of every run load and remember the full thread history all prior decisions open files and the exact workspace state. Never start cold. Use the same resources and memory every time.
+> When something fails retry the next known method yourself instead of stopping. Keep acting until the full outcome is done and checked.
+> Finish the current stride completely in one continuous pass. Do not break work into thin layers that reverse. Expand the step until the whole piece is solid.
+> These sentences go at the top of every agent prompt. They close the door on waiting.
+>
+> You have access to the T4H autonomous portfolio. Begin by running `SELECT * FROM ops.gh_action_log ORDER BY acted_at DESC LIMIT 20` and `SELECT * FROM cron.job WHERE jobname ~ '^(troy_|symbio_|gh_)' AND active = true`. Then read `TML-4PM/the-pen/HANDOFF_PROMPT.md` (this file). Then pick the highest-priority open issue from the queue above and execute it end-to-end: code → commit → receipt → sweeper closes it. No HITL except explicit irreversible/high-risk/legal/credential/safety/authority gates. No options. Execute, retry, validate, receipt and read back.
 
 ## How to verify you are operating correctly
 
@@ -156,4 +163,4 @@ After 15 minutes of activity, you should see:
 
 ---
 
-*Generated 2026-05-23 by claude-opus-4-7 (session-2026-05-23). Last updated when sweepers create new ledger rows.*
+*Generated 2026-05-23 by claude-opus-4-7 (session-2026-05-23). Updated 2026-08-14 to enforce the canonical completion preamble.*
