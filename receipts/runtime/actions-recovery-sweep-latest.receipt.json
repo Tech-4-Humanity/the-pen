@@ -1,13 +1,39 @@
 {
   "worker_id": "WKR-RECOVER-001",
   "work_key": "github:TML-4PM:actions-recovery:2026-08-13",
-  "state": "DEGRADED",
+  "state": "PARTIAL",
   "execution_provider": "supabase-edge",
   "trigger": "scheduled-fallback-until-event-gateway-real",
   "scanned_candidates": 25,
   "runner_unallocated": 2,
-  "recovered_count": 0,
-  "recovered": [],
+  "recovered_count": 1,
+  "recovered": [
+    {
+      "repo": "TML-4PM/t4h-remote-mcp-server-clean",
+      "run_id": 31735974612,
+      "run_url": "https://github.com/TML-4PM/t4h-remote-mcp-server-clean/actions/runs/31735974612",
+      "workflow": "Standard Runtime Proof",
+      "event": "schedule",
+      "head_sha": "4bb7f5ccea3b0f85acebf3ebc3f102912d7b8b6e",
+      "created_at": "2026-08-13T19:28:00Z",
+      "job_id": 94567578341,
+      "runner_name": null,
+      "step_count": 0,
+      "actions_state": "RUNNER_UNALLOCATED",
+      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
+      "underlying_task_state": "COMPLETE_VERIFIED",
+      "recovery_state": "RECOVERED",
+      "recovery_action": "REROUTE",
+      "execution_target": "supabase-edge",
+      "validation": "RUNTIME_PASS",
+      "provider_readback": {
+        "evt_id": "da750a0b-dca9-42c1-a54d-c3f6cb0db112",
+        "event_type": "work_started",
+        "actor": "symbio-verifier-heartbeat",
+        "created_at": "2026-08-13T20:10:06.860729+00:00"
+      }
+    }
+  ],
   "attempted_not_recovered": [],
   "unresolved": [
     {
@@ -15,22 +41,6 @@
       "actions_state": "UNKNOWN",
       "recovery_state": "BLOCKED",
       "error": "Error: GitHub 404 https://api.github.com/repos/TML-4PM/mcp-command-centre/actions/runs?status=failure&per_page=5: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest\",\"status\":\"404\"}"
-    },
-    {
-      "repo": "TML-4PM/t4h-remote-mcp-server-clean",
-      "run_id": 31733300288,
-      "run_url": "https://github.com/TML-4PM/t4h-remote-mcp-server-clean/actions/runs/31733300288",
-      "workflow": ".github/workflows/pen-worker-self-hosted.yml",
-      "event": "push",
-      "head_sha": "4bb7f5ccea3b0f85acebf3ebc3f102912d7b8b6e",
-      "created_at": "2026-08-13T18:56:11Z",
-      "job_id": null,
-      "runner_name": null,
-      "step_count": 0,
-      "actions_state": "RUNNER_UNALLOCATED",
-      "provider_failure": "LIKELY_PROVIDER_OR_BILLING_FAILURE",
-      "underlying_task_state": "COMPLETE_UNVERIFIED",
-      "recovery_state": "DETECTED"
     },
     {
       "repo": "TML-4PM/symbio-dev-control-plane",
@@ -46,13 +56,13 @@
     },
     {
       "repo": "TML-4PM/the-pen",
-      "run_id": 31731108966,
-      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31731108966",
+      "run_id": 31736791452,
+      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31736791452",
       "workflow": "GitHub Actions Autofix Controller",
       "event": "schedule",
-      "head_sha": "e3b524e9b20090b426e2e85503ca890b31cf28d0",
-      "created_at": "2026-08-13T18:30:48Z",
-      "job_id": 94551581772,
+      "head_sha": "19002dbb99d05a5793c8c4de9370f21ae3ff761a",
+      "created_at": "2026-08-13T19:37:45Z",
+      "job_id": 94570252322,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -186,6 +196,6 @@
     "external event gateway wake still required for REAL worker gate"
   ],
   "next_action": "Build adapters by workflow family: Runtime Failure Sweeper; Runtime estate bootstrap/reconcile; GitHub Actions Autofix Controller.",
-  "generated_at": "2026-08-13T19:10:07.995Z",
-  "duration_ms": 4554
+  "generated_at": "2026-08-13T20:10:06.938Z",
+  "duration_ms": 5183
 }
