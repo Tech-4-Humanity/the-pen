@@ -1,0 +1,44 @@
+{
+  "schema": "t4h.release-receipt.v1",
+  "status": "REAL",
+  "product": "T4H Agent OS",
+  "version": "1.0.0",
+  "artifact": {
+    "name": "t4h-agent-os-v1.zip",
+    "sha256": "2316e924f04fcdc2b782533a2c3b4125fa07e0b21fa9db1bbcccf6e99a86e983",
+    "size_bytes": 160031,
+    "files": 162
+  },
+  "registry": {
+    "schema": "t4h.agent-os.v1",
+    "agents": 39,
+    "arenas": 26,
+    "playbooks": 6,
+    "definitions": 71
+  },
+  "validation": {
+    "registry": "PASS",
+    "unit_tests": {"status": "PASS", "passed": 9, "failed": 0},
+    "lifecycle": ["QUEUED", "CLAIMED", "COMPLETED"],
+    "html_parse": "PASS",
+    "project_site_build": "PASS",
+    "project_site_interaction": "PASS",
+    "migration_safety": "PASS",
+    "brand_scan": "PASS"
+  },
+  "project_site": {
+    "status": "succeeded",
+    "url": "https://t4h-agent-os.trojan-oz.chatgpt.site"
+  },
+  "supersedes": {
+    "name": "Qwen Agent OS preview",
+    "artifact": "qwen-agent-os-complete-v5.zip",
+    "policy": "retained as historical provenance; not canonical"
+  },
+  "truth_boundary": {
+    "release_artifact": "REAL",
+    "target_mac_provider_canary": "PENDING",
+    "production_external_workflows": "ASPIRATIONAL"
+  },
+  "created_at": "2026-08-14T08:10:21Z"
+}

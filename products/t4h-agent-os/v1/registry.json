@@ -1,0 +1,1753 @@
+{
+  "schema": "t4h.agent-os.v1",
+  "product": "T4H Agent OS",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "00",
+      "name": "orchestrator",
+      "role": "Route work, control dependencies, and synthesize evidence-backed outcomes.",
+      "model_profile": "reasoning",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "orchestrator",
+        "orchestrator"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "01",
+      "name": "researcher",
+      "role": "Own researcher work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "researcher",
+        "researcher"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "02",
+      "name": "architect",
+      "role": "Own architect work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "architect",
+        "architect"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "03",
+      "name": "repository-intelligence",
+      "role": "Own repository intelligence work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "repository-intelligence",
+        "repository intelligence"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "04",
+      "name": "builder",
+      "role": "Implement scoped changes with tests and leave verifiable receipts.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": true,
+        "deploy": false
+      },
+      "triggers": [
+        "builder",
+        "builder"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "05",
+      "name": "debugger",
+      "role": "Own debugger work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": true,
+        "deploy": false
+      },
+      "triggers": [
+        "debugger",
+        "debugger"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "06",
+      "name": "github",
+      "role": "Own github work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": true,
+        "deploy": false
+      },
+      "triggers": [
+        "github",
+        "github"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "07",
+      "name": "vercel",
+      "role": "Own vercel work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "vercel",
+        "vercel"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "08",
+      "name": "deployment",
+      "role": "Own deployment work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "deployment",
+        "deployment"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "09",
+      "name": "release-manager",
+      "role": "Own release manager work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "release-manager",
+        "release manager"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "10",
+      "name": "frontend",
+      "role": "Own frontend work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "frontend",
+        "frontend"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "11",
+      "name": "backend",
+      "role": "Own backend work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "backend",
+        "backend"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "12",
+      "name": "python",
+      "role": "Build typed, tested Python applications, automation, and data tooling.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "python",
+        "python"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "13",
+      "name": "ai-systems",
+      "role": "Own ai systems work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "ai-systems",
+        "ai systems"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "14",
+      "name": "mcp-specialist",
+      "role": "Own mcp specialist work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "mcp-specialist",
+        "mcp specialist"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "15",
+      "name": "tester",
+      "role": "Own tester work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": true,
+        "deploy": false
+      },
+      "triggers": [
+        "tester",
+        "tester"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "16",
+      "name": "browser-verifier",
+      "role": "Own browser verifier work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "browser-verifier",
+        "browser verifier"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "17",
+      "name": "reviewer",
+      "role": "Own reviewer work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "reviewer",
+        "reviewer"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "18",
+      "name": "security",
+      "role": "Own security work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "security",
+        "security"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "19",
+      "name": "dependency-security",
+      "role": "Own dependency security work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "dependency-security",
+        "dependency security"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "20",
+      "name": "performance",
+      "role": "Own performance work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "performance",
+        "performance"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "21",
+      "name": "data-engineer",
+      "role": "Own data engineer work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "data-engineer",
+        "data engineer"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "22",
+      "name": "data-analyst",
+      "role": "Own data analyst work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "data-analyst",
+        "data analyst"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "23",
+      "name": "market-intelligence",
+      "role": "Own market intelligence work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "market-intelligence",
+        "market intelligence"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "24",
+      "name": "knowledge-analyst",
+      "role": "Own knowledge analyst work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "knowledge-analyst",
+        "knowledge analyst"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "25",
+      "name": "evidence-auditor",
+      "role": "Own evidence auditor work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "evidence-auditor",
+        "evidence auditor"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "26",
+      "name": "financial-reconciler",
+      "role": "Own financial reconciler work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "financial-reconciler",
+        "financial reconciler"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "27",
+      "name": "rdti-analyst",
+      "role": "Own rdti analyst work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "rdti-analyst",
+        "rdti analyst"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "28",
+      "name": "documenter",
+      "role": "Own documenter work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "confirm",
+      "tools": {
+        "read": true,
+        "edit": true,
+        "shell": true,
+        "github": true,
+        "deploy": false
+      },
+      "triggers": [
+        "documenter",
+        "documenter"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "29",
+      "name": "technical-writer",
+      "role": "Own technical writer work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "technical-writer",
+        "technical writer"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "30",
+      "name": "fact-checker",
+      "role": "Own fact checker work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "fact-checker",
+        "fact checker"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "31",
+      "name": "qa-auditor",
+      "role": "Own qa auditor work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "qa-auditor",
+        "qa auditor"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "32",
+      "name": "change-auditor",
+      "role": "Own change auditor work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "change-auditor",
+        "change auditor"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "33",
+      "name": "cost-optimizer",
+      "role": "Own cost optimizer work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "cost-optimizer",
+        "cost optimizer"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "34",
+      "name": "sre",
+      "role": "Own production reliability, SLOs, incidents, observability, and recovery.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "sre",
+        "sre"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "35",
+      "name": "api-designer",
+      "role": "Own api designer work within a narrow specialist boundary.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "api-designer",
+        "api designer"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "36",
+      "name": "compliance",
+      "role": "Own compliance work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "compliance",
+        "compliance"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "37",
+      "name": "product",
+      "role": "Own product work within a narrow specialist boundary.",
+      "model_profile": "reasoning",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "product",
+        "product"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    },
+    {
+      "id": "38",
+      "name": "system-librarian",
+      "role": "Govern the agent registry, lifecycle, duplication, and prompt drift.",
+      "model_profile": "coding",
+      "approval_mode": "auto",
+      "tools": {
+        "read": true,
+        "edit": false,
+        "shell": false,
+        "github": false,
+        "deploy": false
+      },
+      "triggers": [
+        "system-librarian",
+        "system librarian"
+      ],
+      "memory": "Task-local evidence plus receipt references; mutable facts must be refreshed.",
+      "context": "Receive intent, constraints, relevant files, dependencies, and explicit success criteria.",
+      "outputs": [
+        "result",
+        "evidence",
+        "gaps",
+        "next_action",
+        "confidence"
+      ]
+    }
+  ],
+  "arenas": [
+    {
+      "id": "T1",
+      "name": "architecture",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T2",
+      "name": "code-implementation",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T3",
+      "name": "debugging",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T4",
+      "name": "security",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T5",
+      "name": "dependency-cve",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T6",
+      "name": "frontend-ui",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T7",
+      "name": "test-strategy",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T8",
+      "name": "performance",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T9",
+      "name": "deployment-infrastructure",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T10",
+      "name": "ai-agent-architecture",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T11",
+      "name": "prompt",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "T12",
+      "name": "schema",
+      "category": "technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N1",
+      "name": "research",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N2",
+      "name": "strategic-analysis",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N3",
+      "name": "critical-thinking",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N4",
+      "name": "evidence-fact-checking",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N5",
+      "name": "policy",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N6",
+      "name": "economics",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N7",
+      "name": "writing",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N8",
+      "name": "editorial",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N9",
+      "name": "communication",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "N10",
+      "name": "decision",
+      "category": "non-technical",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "name": "devils-advocate",
+      "category": "meta",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "name": "red-team",
+      "category": "meta",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "name": "independent-expert",
+      "category": "meta",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "name": "jury",
+      "category": "meta",
+      "models": 3,
+      "criteria": [
+        {
+          "name": "correctness",
+          "weight": 35
+        },
+        {
+          "name": "evidence",
+          "weight": 25
+        },
+        {
+          "name": "risk",
+          "weight": 20
+        },
+        {
+          "name": "actionability",
+          "weight": 20
+        }
+      ]
+    }
+  ],
+  "playbooks": [
+    {
+      "id": "P1",
+      "name": "incident-response",
+      "steps": [
+        "sre",
+        "debugger",
+        "security",
+        "tester",
+        "deployment"
+      ]
+    },
+    {
+      "id": "P2",
+      "name": "new-feature",
+      "steps": [
+        "product",
+        "architect",
+        "builder",
+        "tester",
+        "reviewer",
+        "qa-auditor"
+      ]
+    },
+    {
+      "id": "P3",
+      "name": "dependency-cve",
+      "steps": [
+        "dependency-security",
+        "security",
+        "builder",
+        "tester",
+        "reviewer"
+      ]
+    },
+    {
+      "id": "P4",
+      "name": "rdti-submission",
+      "steps": [
+        "rdti-analyst",
+        "financial-reconciler",
+        "evidence-auditor",
+        "fact-checker"
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "release",
+      "steps": [
+        "release-manager",
+        "tester",
+        "security",
+        "deployment",
+        "qa-auditor"
+      ]
+    },
+    {
+      "id": "P6",
+      "name": "research-to-decision",
+      "steps": [
+        "researcher",
+        "knowledge-analyst",
+        "fact-checker",
+        "orchestrator"
+      ]
+    }
+  ]
+}
