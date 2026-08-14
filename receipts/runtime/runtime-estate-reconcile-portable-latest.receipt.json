@@ -6,101 +6,94 @@
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 0,
-  "next_offset": 20,
+  "offset": 20,
+  "next_offset": 40,
   "total_repositories": 91,
   "summary": {
-    "SKIPPED": 19,
-    "PR_OPEN": 1
+    "SKIPPED": 20
   },
   "results": [
     {
-      "repository": "TML-4PM/agent-job-match",
+      "repository": "TML-4PM/GenAI---ITOPs",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/agent-smart-match-engine",
+      "repository": "TML-4PM/GPT-reports--T4H",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/ai-at-chalfont",
+      "repository": "TML-4PM/holo-org-plus",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/ANZ_Retail",
+      "repository": "TML-4PM/holo-org-vignette-showcase",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/augmentation-ace-automator",
+      "repository": "TML-4PM/holo-org-vision-aps",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/Augmented-Humanity",
+      "repository": "TML-4PM/holoorg-agent-factory",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/augmented-humanity-coach-plus",
+      "repository": "TML-4PM/holoverse-nexus-hub",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/augmented-humanity-guide-rebuild",
+      "repository": "TML-4PM/LI_Repo",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/come-in-spinner",
+      "repository": "TML-4PM/mcp-native.com",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/content-pulled-from-socials",
+      "repository": "TML-4PM/More-Free-Agents",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/digital-legacy-hub",
+      "repository": "TML-4PM/multi-brand-ai-portal",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/euc-calculator",
+      "repository": "TML-4PM/ok-agent-pilot-build",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/euc-job-pricing-calculator",
+      "repository": "TML-4PM/oldbecomesnew",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/EUC2",
+      "repository": "TML-4PM/partner-ecosystem",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/free-agents",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/free-agents/pull/1"
-    },
-    {
-      "repository": "TML-4PM/free-agents-via-AHC",
+      "repository": "TML-4PM/Partner-Portal",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/g2u-dashboard-target",
+      "repository": "TML-4PM/Partner-Viewer",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/geeks2u-calculator",
+      "repository": "TML-4PM/plus.holo-org.com",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/geeks2u-calculator-killedme",
+      "repository": "TML-4PM/quantum-native",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/geeks2u-take-50",
+      "repository": "TML-4PM/studio",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/t4h-ecosystem-explainer",
       "status": "SKIPPED"
     }
   ],
-  "generated_at": "2026-08-14T03:30:34.454Z",
-  "duration_ms": 3590
+  "generated_at": "2026-08-14T03:40:04.543Z",
+  "duration_ms": 583
 }
