@@ -6,113 +6,101 @@
   "source_workflow": "TML-4PM/runtime-real/.github/workflows/runtime-estate-reconcile.yml",
   "mode": "apply",
   "write_mode": "pr",
-  "offset": 80,
-  "next_offset": 0,
+  "offset": 0,
+  "next_offset": 20,
   "total_repositories": 91,
   "summary": {
-    "PR_OPEN": 9,
-    "SKIPPED": 2
+    "SKIPPED": 19,
+    "PR_OPEN": 1
   },
   "results": [
     {
-      "repository": "TML-4PM/vuon-troi",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/vuon-troi/pull/1"
-    },
-    {
-      "repository": "TML-4PM/vuon-troi-is-reach-the-sky",
+      "repository": "TML-4PM/agent-job-match",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/wave10-sweeper",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/wave10-sweeper/pull/1"
-    },
-    {
-      "repository": "TML-4PM/westy-tender-smash",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/westy-tender-smash/pull/1"
-    },
-    {
-      "repository": "TML-4PM/wfai-email-agent",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/wfai-email-agent/pull/1"
-    },
-    {
-      "repository": "TML-4PM/what-would-you-automate",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/what-would-you-automate/pull/2"
-    },
-    {
-      "repository": "TML-4PM/whydididothis",
+      "repository": "TML-4PM/agent-smart-match-engine",
       "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/workfamilyai",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/workfamilyai/pull/1"
+      "repository": "TML-4PM/ai-at-chalfont",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/workfamilyai-one-click-augmentation",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/workfamilyai-one-click-augmentation/pull/1"
+      "repository": "TML-4PM/ANZ_Retail",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/xces",
-      "status": "PR_OPEN",
-      "changes": [
-        "runtime/runtime.yaml",
-        "runtime/capabilities.yaml",
-        ".github/workflows/t4h-runtime.yml"
-      ],
-      "pull_request": "https://github.com/TML-4PM/xces/pull/1"
+      "repository": "TML-4PM/augmentation-ace-automator",
+      "status": "SKIPPED"
     },
     {
-      "repository": "TML-4PM/xses",
+      "repository": "TML-4PM/Augmented-Humanity",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/augmented-humanity-coach-plus",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/augmented-humanity-guide-rebuild",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/come-in-spinner",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/content-pulled-from-socials",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/digital-legacy-hub",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/euc-calculator",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/euc-job-pricing-calculator",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/EUC2",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/free-agents",
       "status": "PR_OPEN",
       "changes": [
         "runtime/runtime.yaml",
         "runtime/capabilities.yaml",
         ".github/workflows/t4h-runtime.yml"
       ],
-      "pull_request": "https://github.com/TML-4PM/xses/pull/3"
+      "pull_request": "https://github.com/TML-4PM/free-agents/pull/1"
+    },
+    {
+      "repository": "TML-4PM/free-agents-via-AHC",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/g2u-dashboard-target",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/geeks2u-calculator",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/geeks2u-calculator-killedme",
+      "status": "SKIPPED"
+    },
+    {
+      "repository": "TML-4PM/geeks2u-take-50",
+      "status": "SKIPPED"
     }
   ],
-  "generated_at": "2026-08-14T07:50:32.134Z",
-  "duration_ms": 29085
+  "generated_at": "2026-08-14T08:00:06.765Z",
+  "duration_ms": 4037
 }
