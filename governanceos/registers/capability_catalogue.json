@@ -1,0 +1,1 @@
+{"register_name": "capability_catalogue", "version": "1.0.0", "entries": [{"catalogue_id": "cat-001", "name": "Estate Intelligence Curator", "type": "worker", "version": "1.0.0", "lifecycle": "active", "health_score": 0.95, "discovery_tags": ["curator", "intelligence"]}]}
