@@ -10,13 +10,13 @@
   "recovered": [
     {
       "repo": "TML-4PM/t4h-remote-mcp-server-clean",
-      "run_id": 31857664143,
-      "run_url": "https://github.com/TML-4PM/t4h-remote-mcp-server-clean/actions/runs/31857664143",
+      "run_id": 31870826570,
+      "run_url": "https://github.com/TML-4PM/t4h-remote-mcp-server-clean/actions/runs/31870826570",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "158b7d8b5ecd7109334471ff7c1d4deefab30655",
-      "created_at": "2026-08-15T01:52:02Z",
-      "job_id": 94945344048,
+      "created_at": "2026-08-15T07:00:00Z",
+      "job_id": 94979065205,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -27,21 +27,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "b1b98890-9fbd-43e9-a2c9-56e2eacf49e0",
+        "evt_id": "4be80900-0ae8-4c25-a36e-3a09a1c107dc",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:12.705567+00:00"
+        "created_at": "2026-08-15T07:10:12.985938+00:00"
       }
     },
     {
       "repo": "TML-4PM/free-agents",
-      "run_id": 31857477640,
-      "run_url": "https://github.com/TML-4PM/free-agents/actions/runs/31857477640",
+      "run_id": 31870665004,
+      "run_url": "https://github.com/TML-4PM/free-agents/actions/runs/31870665004",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "93234e14f2c23495ae40ad9ad93ec81d3a3c9d14",
-      "created_at": "2026-08-15T01:47:59Z",
-      "job_id": 94944861387,
+      "created_at": "2026-08-15T06:56:02Z",
+      "job_id": 94978682557,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -52,21 +52,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "7100ebaa-4c93-46c2-b8c1-12df25ece9de",
+        "evt_id": "91ea2720-e50f-4605-8f0e-66b504cdde6b",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:12.863089+00:00"
+        "created_at": "2026-08-15T07:10:13.07705+00:00"
       }
     },
     {
       "repo": "TML-4PM/t4h-widget-dock",
-      "run_id": 31857518949,
-      "run_url": "https://github.com/TML-4PM/t4h-widget-dock/actions/runs/31857518949",
+      "run_id": 31870689296,
+      "run_url": "https://github.com/TML-4PM/t4h-widget-dock/actions/runs/31870689296",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "158b9fa6dde86f80289aad05422a4deaa56fa4fc",
-      "created_at": "2026-08-15T01:48:53Z",
-      "job_id": 94944971660,
+      "created_at": "2026-08-15T06:56:36Z",
+      "job_id": 94978738630,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -77,21 +77,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "86545d2d-8d91-4f85-8a58-fc81f805b456",
+        "evt_id": "f6bab7d3-8648-4e5e-be12-27e29d58473d",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.068554+00:00"
+        "created_at": "2026-08-15T07:10:13.143352+00:00"
       }
     },
     {
       "repo": "TML-4PM/T4HUnsolicitored2HalesRedden",
-      "run_id": 31857576862,
-      "run_url": "https://github.com/TML-4PM/T4HUnsolicitored2HalesRedden/actions/runs/31857576862",
+      "run_id": 31870746399,
+      "run_url": "https://github.com/TML-4PM/T4HUnsolicitored2HalesRedden/actions/runs/31870746399",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "f0bd95315827392a1915f4dc442fec3eeeddb5cb",
-      "created_at": "2026-08-15T01:50:09Z",
-      "job_id": 94945121837,
+      "created_at": "2026-08-15T06:57:58Z",
+      "job_id": 94978874740,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -102,21 +102,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "dac4aeca-e543-453a-a84f-a26e40bb20e6",
+        "evt_id": "82be1720-fe18-4867-845d-a8f23f4e3725",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.203653+00:00"
+        "created_at": "2026-08-15T07:10:13.221284+00:00"
       }
     },
     {
       "repo": "TML-4PM/tech-for-humanity",
-      "run_id": 31857558816,
-      "run_url": "https://github.com/TML-4PM/tech-for-humanity/actions/runs/31857558816",
+      "run_id": 31870739838,
+      "run_url": "https://github.com/TML-4PM/tech-for-humanity/actions/runs/31870739838",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "b3e2529d6ecf16c5290d849f4f757ae7b64122c7",
-      "created_at": "2026-08-15T01:49:45Z",
-      "job_id": 94945075321,
+      "created_at": "2026-08-15T06:57:51Z",
+      "job_id": 94978860268,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -127,21 +127,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "e01b963e-01db-4814-b088-1cfa1fff11d5",
+        "evt_id": "c3e5cca4-04d6-4f9a-bf7d-336b2d8f8e01",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.312681+00:00"
+        "created_at": "2026-08-15T07:10:13.299259+00:00"
       }
     },
     {
       "repo": "TML-4PM/Tech4Humanity-Domains",
-      "run_id": 31857522598,
-      "run_url": "https://github.com/TML-4PM/Tech4Humanity-Domains/actions/runs/31857522598",
+      "run_id": 31870733800,
+      "run_url": "https://github.com/TML-4PM/Tech4Humanity-Domains/actions/runs/31870733800",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "0e5e2b71114417f2534b3fd1aa5dbf2c34cdbd55",
-      "created_at": "2026-08-15T01:48:58Z",
-      "job_id": 94944982019,
+      "created_at": "2026-08-15T06:57:43Z",
+      "job_id": 94978847095,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -152,21 +152,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "3b5187f3-6c6e-421b-8ae8-6241529e03bd",
+        "evt_id": "cb473a98-532d-4a66-a4c8-905fe34f4dcc",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.402891+00:00"
+        "created_at": "2026-08-15T07:10:13.372084+00:00"
       }
     },
     {
       "repo": "TML-4PM/ten-day-media-map",
-      "run_id": 31857523773,
-      "run_url": "https://github.com/TML-4PM/ten-day-media-map/actions/runs/31857523773",
+      "run_id": 31870685465,
+      "run_url": "https://github.com/TML-4PM/ten-day-media-map/actions/runs/31870685465",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "1e860f0d556cf0824372c4647fb19603c42f3d72",
-      "created_at": "2026-08-15T01:49:00Z",
-      "job_id": 94944984857,
+      "created_at": "2026-08-15T06:56:32Z",
+      "job_id": 94978730659,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -177,21 +177,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "bd79a5ad-964f-4285-899f-272bf71b6b1c",
+        "evt_id": "98eaa145-5800-43dd-a173-e396c8b44f55",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.518976+00:00"
+        "created_at": "2026-08-15T07:10:13.43967+00:00"
       }
     },
     {
       "repo": "TML-4PM/TML-4PM",
-      "run_id": 31857658874,
-      "run_url": "https://github.com/TML-4PM/TML-4PM/actions/runs/31857658874",
+      "run_id": 31870833484,
+      "run_url": "https://github.com/TML-4PM/TML-4PM/actions/runs/31870833484",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "4da35c311cf54bb9b4ba9a13490441c9aae322c6",
-      "created_at": "2026-08-15T01:51:56Z",
-      "job_id": 94945331823,
+      "created_at": "2026-08-15T07:00:07Z",
+      "job_id": 94979079522,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -202,21 +202,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "626a7c89-64d3-47aa-9100-f9e26818977d",
+        "evt_id": "a3c2c545-72f9-4eb7-aa5f-90d6e7fe979e",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.609845+00:00"
+        "created_at": "2026-08-15T07:10:13.545437+00:00"
       }
     },
     {
       "repo": "TML-4PM/virgin-application",
-      "run_id": 31857586036,
-      "run_url": "https://github.com/TML-4PM/virgin-application/actions/runs/31857586036",
+      "run_id": 31870738397,
+      "run_url": "https://github.com/TML-4PM/virgin-application/actions/runs/31870738397",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "2dc2a5496054bdac27462bf10ec5fe12d8289b3d",
-      "created_at": "2026-08-15T01:50:21Z",
-      "job_id": 94945145275,
+      "created_at": "2026-08-15T06:57:49Z",
+      "job_id": 94978857056,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -227,21 +227,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "9853c6f0-9022-4982-9cc2-177b9850007b",
+        "evt_id": "a3f4ddd1-2749-40c9-b806-9a0b62ac831f",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.685945+00:00"
+        "created_at": "2026-08-15T07:10:13.616446+00:00"
       }
     },
     {
       "repo": "TML-4PM/vuon-troi",
-      "run_id": 31857459338,
-      "run_url": "https://github.com/TML-4PM/vuon-troi/actions/runs/31857459338",
+      "run_id": 31870641774,
+      "run_url": "https://github.com/TML-4PM/vuon-troi/actions/runs/31870641774",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "19b627591c0292642832574cdfeca4976c026204",
-      "created_at": "2026-08-15T01:47:33Z",
-      "job_id": 94944810943,
+      "created_at": "2026-08-15T06:55:24Z",
+      "job_id": 94978622171,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -252,21 +252,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "32ee167c-4ed3-4062-88da-a6a2066a07f3",
+        "evt_id": "5085ce5c-d1e9-4f07-8731-4e08e320afdb",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.760856+00:00"
+        "created_at": "2026-08-15T07:10:13.673392+00:00"
       }
     },
     {
       "repo": "TML-4PM/what-would-you-automate",
-      "run_id": 31857510567,
-      "run_url": "https://github.com/TML-4PM/what-would-you-automate/actions/runs/31857510567",
+      "run_id": 31870677202,
+      "run_url": "https://github.com/TML-4PM/what-would-you-automate/actions/runs/31870677202",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "fc2b12fc62b2608cb552bda4792dd5a3493ba7f0",
-      "created_at": "2026-08-15T01:48:41Z",
-      "job_id": 94944948671,
+      "created_at": "2026-08-15T06:56:21Z",
+      "job_id": 94978712336,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -277,21 +277,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "25eff32f-4c31-4e8f-95f7-85cba1d87afc",
+        "evt_id": "6d695f16-b2d0-4cce-bf8e-5211b57991d7",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.842251+00:00"
+        "created_at": "2026-08-15T07:10:13.729295+00:00"
       }
     },
     {
       "repo": "TML-4PM/workfamilyai",
-      "run_id": 31857474568,
-      "run_url": "https://github.com/TML-4PM/workfamilyai/actions/runs/31857474568",
+      "run_id": 31870666317,
+      "run_url": "https://github.com/TML-4PM/workfamilyai/actions/runs/31870666317",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "fc3d45c6084cb881647b99a46d67537c61d8145f",
-      "created_at": "2026-08-15T01:47:55Z",
-      "job_id": 94944852795,
+      "created_at": "2026-08-15T06:56:04Z",
+      "job_id": 94978686223,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -302,21 +302,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "88ed9174-f0b3-41fc-98be-c95d35efbc55",
+        "evt_id": "07ead203-79d6-457f-8b12-d676092cae01",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.921521+00:00"
+        "created_at": "2026-08-15T07:10:13.79542+00:00"
       }
     },
     {
       "repo": "TML-4PM/workfamilyai-one-click-augmentation",
-      "run_id": 31857632314,
-      "run_url": "https://github.com/TML-4PM/workfamilyai-one-click-augmentation/actions/runs/31857632314",
+      "run_id": 31870802605,
+      "run_url": "https://github.com/TML-4PM/workfamilyai-one-click-augmentation/actions/runs/31870802605",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "dc37f604b0834be27d33ae0765564d52aca70ef6",
-      "created_at": "2026-08-15T01:51:20Z",
-      "job_id": 94945262830,
+      "created_at": "2026-08-15T06:59:23Z",
+      "job_id": 94979007506,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -327,21 +327,21 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "9d6a47ff-6887-4306-aab4-a50047ee246b",
+        "evt_id": "f5505419-1d32-44c0-bc21-a8963f7bb0e7",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:13.98003+00:00"
+        "created_at": "2026-08-15T07:10:13.849055+00:00"
       }
     },
     {
       "repo": "TML-4PM/xces",
-      "run_id": 31857658989,
-      "run_url": "https://github.com/TML-4PM/xces/actions/runs/31857658989",
+      "run_id": 31870833879,
+      "run_url": "https://github.com/TML-4PM/xces/actions/runs/31870833879",
       "workflow": "Standard Runtime Proof",
       "event": "schedule",
       "head_sha": "578eb9878bed2d7bbcd06188ceb58fb036c2d896",
-      "created_at": "2026-08-15T01:51:56Z",
-      "job_id": 94945332018,
+      "created_at": "2026-08-15T07:00:07Z",
+      "job_id": 94979080391,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -352,10 +352,10 @@
       "execution_target": "supabase-edge",
       "validation": "RUNTIME_PASS",
       "provider_readback": {
-        "evt_id": "a96ab81a-747b-4f3d-8192-d344614783db",
+        "evt_id": "94ca8cbf-3f0d-4fc5-b07a-3a6446ff3292",
         "event_type": "work_started",
         "actor": "symbio-verifier-heartbeat",
-        "created_at": "2026-08-15T06:10:14.030266+00:00"
+        "created_at": "2026-08-15T07:10:13.899072+00:00"
       }
     }
   ],
@@ -363,13 +363,13 @@
   "unresolved": [
     {
       "repo": "TML-4PM/the-pen",
-      "run_id": 31868106395,
-      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31868106395",
+      "run_id": 31871173855,
+      "run_url": "https://github.com/TML-4PM/the-pen/actions/runs/31871173855",
       "workflow": "GitHub Actions Autofix Controller",
       "event": "schedule",
-      "head_sha": "3ceaf93bd4558a8c49ee070b70d2ae9bec116e6c",
-      "created_at": "2026-08-15T05:54:29Z",
-      "job_id": 94972247212,
+      "head_sha": "88178dd7527b1b48f3df707a675ad14532a520bd",
+      "created_at": "2026-08-15T07:07:57Z",
+      "job_id": 94979916324,
       "runner_name": null,
       "step_count": 0,
       "actions_state": "RUNNER_UNALLOCATED",
@@ -399,6 +399,6 @@
     "external event gateway wake still required for REAL worker gate"
   ],
   "next_action": "Build adapters by workflow family: Runtime Failure Sweeper; Runtime estate bootstrap/reconcile; GitHub Actions Autofix Controller.",
-  "generated_at": "2026-08-15T06:10:14.071Z",
-  "duration_ms": 11683
+  "generated_at": "2026-08-15T07:10:13.934Z",
+  "duration_ms": 10692
 }
