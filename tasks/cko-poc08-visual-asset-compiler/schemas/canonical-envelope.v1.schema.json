@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech4humanity.com.au/schemas/t4h.canonical-envelope.v1.schema.json",
+  "title": "T4H Canonical Data Envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "envelope_id",
+    "object_id",
+    "object_type",
+    "payload_type",
+    "state",
+    "source",
+    "payload",
+    "integrity",
+    "facts",
+    "derivations",
+    "relationships",
+    "timeline",
+    "classification",
+    "confidence",
+    "evidence",
+    "lineage",
+    "policy",
+    "telemetry",
+    "receipt_refs",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "t4h.canonical-envelope.v1"},
+    "envelope_id": {"type": "string", "minLength": 1},
+    "object_id": {"type": "string", "minLength": 1},
+    "object_type": {
+      "type": "string",
+      "enum": ["asset", "knowledge_object", "relationship", "timeline_event", "plan", "publication", "receipt"]
+    },
+    "payload_type": {"type": "string", "minLength": 1},
+    "state": {
+      "type": "string",
+      "enum": ["discovered", "extracted", "compiled", "validated", "planned", "published", "rejected"]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "source_id", "source_uri", "parent_ids"],
+      "properties": {
+        "provider": {"type": "string"},
+        "source_id": {"type": "string"},
+        "source_uri": {"type": ["string", "null"]},
+        "parent_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["data", "binary_ref"],
+      "properties": {
+        "data": {"type": "object"},
+        "binary_ref": {"type": ["string", "null"]}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_sha256", "byte_size", "mime_declared", "mime_detected"],
+      "properties": {
+        "content_sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+        "byte_size": {"type": ["integer", "null"], "minimum": 0},
+        "mime_declared": {"type": ["string", "null"]},
+        "mime_detected": {"type": ["string", "null"]}
+      }
+    },
+    "facts": {"type": "array", "items": {"$ref": "#/$defs/assertion"}},
+    "derivations": {"type": "array", "items": {"$ref": "#/$defs/assertion"}},
+    "relationships": {"type": "array", "items": {"type": ["object", "string"]}},
+    "timeline": {"type": "array", "items": {"type": ["object", "string"]}},
+    "classification": {"type": "object"},
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall", "fields"],
+      "properties": {
+        "overall": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "fields": {"type": "object"}
+      }
+    },
+    "evidence": {"type": "array", "items": {"type": ["object", "string"]}},
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parents", "compiler_runs"],
+      "properties": {
+        "parents": {"type": "array", "items": {"type": "string"}},
+        "compiler_runs": {"type": "array", "items": {"type": ["object", "string"]}}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decisions", "review_required"],
+      "properties": {
+        "decisions": {"type": "array", "items": {"type": ["object", "string"]}},
+        "review_required": {"type": "boolean"}
+      }
+    },
+    "telemetry": {"type": "object"},
+    "receipt_refs": {"type": "array", "items": {"type": "string"}},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "assertion": {
+      "type": "object",
+      "required": ["field", "value", "evidence_refs"],
+      "properties": {
+        "field": {"type": "string"},
+        "value": {},
+        "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  }
+}
